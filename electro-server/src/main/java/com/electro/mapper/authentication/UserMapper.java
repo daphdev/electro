@@ -27,7 +27,7 @@ public abstract class UserMapper implements GenericMapper<User, UserRequest, Use
     private RoleRepository roleRepository;
 
     @AfterMapping
-    User attachRolesToPersistenceContext(@MappingTarget User user) {
+    protected User attachRolesToPersistenceContext(@MappingTarget User user) {
         Set<Role> roles = Optional.ofNullable(user.getRoles()).orElseGet(HashSet::new);
         Set<Role> attachedRoles = new HashSet<>();
 
