@@ -1,15 +1,36 @@
 import React from "react";
-import {Link} from "react-router-dom";
-import {NavbarNested} from "../components/NavbarNested/NavbarNested";
+import {AppShell} from "@mantine/core";
+import {HeaderSearch} from "../components/HeaderSearch/HeaderSearch";
+import {NavbarSimple} from "../components/NavbarSimple/NavbarSimple";
 
 export default function Test() {
+    const links = [
+        {
+            link: "/",
+            label: "Client",
+        },
+        {
+            link: "/admin",
+            label: "Admin",
+        },
+        {
+            link: "/test",
+            label: "Test",
+        },
+    ]
+
     return (
         <div>
-            <nav>
-                <Link to="/">Client</Link> | <Link to="/admin">Admin</Link> | <Link to="/test">Test</Link>
-            </nav>
-            <h1>Test Side</h1>
-            <NavbarNested/>
+            <AppShell
+                padding="md"
+                navbar={<NavbarSimple/>}
+                header={<HeaderSearch links={links}/>}
+                styles={(theme) => ({
+                    main: {backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0]},
+                })}
+            >
+                {"Electro Application"}
+            </AppShell>
         </div>
     )
 }
