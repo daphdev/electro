@@ -1,15 +1,27 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Button } from "@mantine/core";
+import React from 'react';
+import { AppShell } from '@mantine/core';
+import { DefaultHeader } from '../components/DefaultHeader/DefaultHeader';
+import { DefaultNavbar } from '../components/DefaultNavbar/DefaultNavbar';
+import { useToggleNavbarStore } from '../stores/ToggleNavbarStore';
 
-export default function App() {
+export default function Admin() {
+  const { opened } = useToggleNavbarStore();
+
   return (
-    <div>
-      <nav>
-        <Link to="/">Client</Link> | <Link to="/admin">Admin</Link> | <Link to="/test">Test</Link>
-      </nav>
-      <h1>Admin Side</h1>
-      <p><Button>Hello world!</Button></p>
-    </div>
+    <AppShell
+      header={<DefaultHeader/>}
+      navbar={!opened ? <DefaultNavbar/> : <div/>}
+      styles={theme => ({
+        body: {
+          flexDirection: 'column',
+          [theme.fn.largerThan('sm')]: {
+            flexDirection: 'row',
+          }
+        },
+        main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
+      })}
+    >
+      {'Electro Application'}
+    </AppShell>
   )
 }

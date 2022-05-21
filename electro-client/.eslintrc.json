@@ -5,7 +5,7 @@
     "jest": true
   },
   "rules": {
-    "no-console": "error",
+    "no-console": "warn",
     "import/first": "error",
     "react/prop-types": "off",
     "object-curly-spacing": [
@@ -15,6 +15,10 @@
     "indent": [
       "error",
       2
+    ],
+    "quotes": [
+      "error",
+      "single"
     ]
   },
   "extends": [
