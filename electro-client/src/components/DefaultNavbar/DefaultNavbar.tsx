@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { createStyles, Menu, Navbar } from '@mantine/core';
 import {
   AddressBook,
-  BellRinging, Box, Building, BuildingWarehouse,
+  Box,
+  Building,
+  BuildingWarehouse,
   Car,
   CurrencyDollar,
-  DatabaseImport, FileBarcode,
+  FileBarcode,
   Fingerprint,
   Home,
   Icon,
-  Key,
-  Settings,
-  TwoFA,
   Users
 } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
@@ -59,6 +58,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
             ? theme.fn.rgba(theme.colors[theme.primaryColor][8], 0.25)
             : theme.colors[theme.primaryColor][0],
         color: theme.colorScheme === 'dark' ? theme.white : theme.colors[theme.primaryColor][7],
+
         [`& .${icon}`]: {
           color: theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 5 : 7],
         },
@@ -81,7 +81,7 @@ interface NavbarLink {
 
 const navbarLinks: NavbarLink[] = [
   {
-    link: '',
+    link: '/admin',
     label: 'Trang chủ',
     icon: Home
   },
@@ -180,7 +180,7 @@ const navbarLinks: NavbarLink[] = [
     childLinks: [
       {
         link: '/admin/category',
-        label: 'Quản lý danh mục',
+        label: 'Quản lý danh mục sản phẩm',
       },
       {
         link: '/admin/product',
@@ -309,9 +309,9 @@ export function DefaultNavbar() {
   const navbarLinksFragment = navbarLinks.map(navbarLink => {
     const navbarLinkFragment = (
       <Link
-        className={cx(classes.link, { [classes.linkActive]: navbarLink.label === active })}
-        to={navbarLink.link}
         key={navbarLink.label}
+        to={navbarLink.link}
+        className={cx(classes.link, { [classes.linkActive]: navbarLink.label === active })}
         onClick={() => setActive(navbarLink.label)}
       >
         <navbarLink.icon className={classes.linkIcon}/>
