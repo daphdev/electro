@@ -39,7 +39,8 @@ export async function getAll<T>(url: string, requestParams?: RequestParams): Pro
  */
 const concatParams = (url: string, requestParams?: RequestParams) => {
   if (requestParams) {
-    const filteredRequestParams = Object.fromEntries(Object.entries(requestParams).filter(([, v]) => v != null));
+    const filteredRequestParams = Object.fromEntries(Object.entries(requestParams)
+      .filter(([, v]) => v != null && String(v).trim() !== ''));
     if (Object.keys(filteredRequestParams).length === 0) {
       return url;
     }
