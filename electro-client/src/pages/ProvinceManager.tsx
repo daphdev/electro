@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActionIcon,
   Button,
+  Center,
   Checkbox,
   createStyles,
   Group,
+  LoadingOverlay,
   Menu,
   Pagination,
   Paper,
@@ -16,9 +18,11 @@ import {
   Title,
   Tooltip
 } from '@mantine/core';
-import { AdjustmentsHorizontal, Edit, Eye, Filter, Hash, Plus, Search, Trash } from 'tabler-icons-react';
+import { AdjustmentsHorizontal, Edit, Eraser, Eye, Filter, Hash, Plus, Search, Trash } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
-import dayjs from 'dayjs';
+import { getAll, RequestParams, ResponseData } from '../utils/FetchUtils';
+import { ResourceURL } from '../constants/ResourceURL';
+import { isoDateToString } from '../utils/DateUtils';
 
 interface TitleLink {
   link: string,
@@ -44,75 +48,48 @@ const useStyles = createStyles((theme) => ({
   rowSelected: {
     backgroundColor:
       theme.colorScheme === 'dark'
-        ? theme.fn.rgba(theme.colors[theme.primaryColor][7], 0.2)
-        : theme.colors[theme.primaryColor][0],
+        ? theme.fn.rgba(theme.colors[theme.primaryColor][7], 0.2) + '!important'
+        : theme.colors[theme.primaryColor][0] + '!important',
   },
 }));
 
+interface Province {
+  id: number,
+  createdAt: string,
+  updatedAt: string,
+  name: string,
+  code: string
+}
+
+const initialResponseData: ResponseData<Province> = {
+  content: [],
+  page: 1,
+  size: 5,
+  totalElements: 0,
+  totalPages: 0,
+  last: false
+}
+
 export default function ProvinceManager() {
   const { classes, cx } = useStyles();
+
+  const [responseData, setResponseData] = useState<ResponseData<Province>>(initialResponseData);
+  const [activePage, setActivePage] = useState<number>(responseData.page);
+  const [activePageSize, setActivePageSize] = useState<number>(responseData.size);
   const [selection, setSelection] = useState<number[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const titleLinksFragment = titleLinks.map(titleLink => (
-    <Menu.Item key={titleLink.label} component={Link} to={titleLink.link}>
-      {titleLink.label}
-    </Menu.Item>
-  ))
-
-  const rawData = `{
-    "content": [
-      {
-        "id": 10,
-        "createdAt": "2022-04-11T13:14:28Z",
-        "updatedAt": "2021-10-03T08:28:38Z",
-        "name": "Illinois",
-        "code": "60158"
-      },
-      {
-        "id": 9,
-        "createdAt": "2022-04-14T13:12:37Z",
-        "updatedAt": "2021-07-27T17:15:46Z",
-        "name": "Connecticut",
-        "code": "06127"
-      },
-      {
-        "id": 8,
-        "createdAt": "2022-05-08T01:21:42Z",
-        "updatedAt": "2021-12-18T21:51:37Z",
-        "name": "Texas",
-        "code": "79105"
-      },
-      {
-        "id": 7,
-        "createdAt": "2021-09-28T10:42:31Z",
-        "updatedAt": "2022-01-05T17:19:36Z",
-        "name": "Pennsylvania",
-        "code": "19136"
-      },
-      {
-        "id": 6,
-        "createdAt": "2021-10-22T15:40:25Z",
-        "updatedAt": "2021-08-30T11:12:08Z",
-        "name": "New Jersey",
-        "code": "08638"
-      }
-    ],
-    "page": 1,
-    "size": 5,
-    "totalElements": 10,
-    "totalPages": 2,
-    "last": false
-  }`;
-
-  const data = JSON.parse(rawData);
-
-  const [activePage, setActivePage] = useState<number>(data.page);
-  const [activePageSize, setActivePageSize] = useState<number>(data.size);
-
-  const elements = data.content;
-
-  const convertDate = (date: string) => dayjs(date).format('HH:mm:ss DD/MM/YYYY').toString();
-
+  useEffect(() => {
+    const requestParams: RequestParams = {
+      page: activePage,
+      size: activePageSize,
+    };
+    const responseData = getAll<Province>(ResourceURL.PROVINCE, requestParams);
+    responseData.then((data) => {
+      setResponseData(data);
+      setLoading(false);
+    });
+  }, [activePage, activePageSize]);
 
   const toggleRow = (id: number) =>
     setSelection((current) =>
@@ -120,24 +97,66 @@ export default function ProvinceManager() {
     );
 
   const toggleAll = () =>
-    setSelection((current) => (current.length === data.size ? [] : data.content.map((item: any) => item.id)));
+    setSelection((current) =>
+      current.length === responseData.size ? [] : responseData.content.map((item) => item.id)
+    );
 
-  const rows = elements.map((element: any) => {
-    const selected = selection.includes(element.id);
+  const setActivePageAndLoading = (page: number) => {
+    if (page !== activePage) {
+      setLoading(true);
+      setActivePage(page);
+    }
+  }
+
+  const setActivePageSizeAndLoading = (size: number) => {
+    if (size !== activePageSize) {
+      setLoading(true);
+      setActivePage(1);
+      setActivePageSize(size);
+    }
+  }
+
+  const titleLinksFragment = titleLinks.map(titleLink => (
+    <Menu.Item key={titleLink.label} component={Link} to={titleLink.link}>
+      {titleLink.label}
+    </Menu.Item>
+  ));
+
+  const ths = (
+    <tr>
+      <th style={{ width: 40 }}>
+        <Checkbox
+          onChange={toggleAll}
+          checked={selection.length === responseData.size}
+          indeterminate={selection.length > 0 && selection.length !== responseData.size}
+          transitionDuration={0}
+        />
+      </th>
+      <th>ID</th>
+      <th>Ngày tạo</th>
+      <th>Ngày cập nhật</th>
+      <th>Tên tỉnh thành</th>
+      <th>Mã tỉnh thành</th>
+      <th style={{ width: 120 }}>Thao tác</th>
+    </tr>
+  );
+
+  const rows = responseData.content.map((item) => {
+    const selected = selection.includes(item.id);
     return (
-      <tr key={element.id} className={cx({ [classes.rowSelected]: selected })}>
+      <tr key={item.id} className={cx({ [classes.rowSelected]: selected })}>
         <td>
           <Checkbox
-            checked={selection.includes(element.id)}
-            onChange={() => toggleRow(element.id)}
+            checked={selection.includes(item.id)}
+            onChange={() => toggleRow(item.id)}
             transitionDuration={0}
           />
         </td>
-        <td>{element.id}</td>
-        <td>{convertDate(element.createdAt)}</td>
-        <td>{convertDate(element.updatedAt)}</td>
-        <td>{element.name}</td>
-        <td>{element.code}</td>
+        <td>{item.id}</td>
+        <td>{isoDateToString(item.createdAt)}</td>
+        <td>{isoDateToString(item.updatedAt)}</td>
+        <td>{item.name}</td>
+        <td>{item.code}</td>
         <td>
           <Group spacing="xs">
             <ActionIcon color="blue" variant="outline" size={24} title="Xem">
@@ -155,27 +174,11 @@ export default function ProvinceManager() {
     );
   });
 
-  const ths = (
-    <tr>
-      <th style={{ width: 40 }}>
-        <Checkbox
-          onChange={toggleAll}
-          checked={selection.length === data.size}
-          indeterminate={selection.length > 0 && selection.length !== data.size}
-          transitionDuration={0}
-        />
-      </th>
-      <th>ID</th>
-      <th>Ngày tạo</th>
-      <th>Ngày cập nhật</th>
-      <th>Tên tỉnh thành</th>
-      <th>Mã tỉnh thành</th>
-      <th style={{ width: 115 }}>Thao tác</th>
-    </tr>
-  );
+  // console.log('re-render: ', responseData, { activePage, activePageSize, selection, loading });
 
   return (
     <Stack>
+
       <Group position="apart">
         <Group spacing="xs">
           <Menu
@@ -189,6 +192,7 @@ export default function ProvinceManager() {
           </Menu>
           <Title order={3}>Quản lý tỉnh thành</Title>
         </Group>
+
         <Group spacing="xs">
           <Button variant="outline" leftIcon={<Plus/>}>
             Thêm mới
@@ -198,6 +202,7 @@ export default function ProvinceManager() {
           </Button>
         </Group>
       </Group>
+
       <Paper shadow="xs" p="sm">
         <Group position="apart">
           <Group spacing="sm">
@@ -210,12 +215,9 @@ export default function ProvinceManager() {
               placeholder="Chọn bộ lọc"
               icon={<AdjustmentsHorizontal size={14}/>}
               clearable
-              data={['React', 'Angular', 'Svelte', 'Vue']}
+              data={['Bộ lọc 1', 'Bộ lọc 2', 'Bộ lọc 3']}
             />
-            <Tooltip
-              label="Sửa bộ lọc"
-              withArrow
-            >
+            <Tooltip label="Sửa bộ lọc" withArrow>
               <ActionIcon color="teal" variant="light" size={36}>
                 <Edit/>
               </ActionIcon>
@@ -224,7 +226,12 @@ export default function ProvinceManager() {
               Thêm bộ lọc
             </Button>
           </Group>
-          <Group>
+
+          <Group spacing="sm">
+            <Tooltip label="Đặt mặc định" withArrow>
+              <ActionIcon color="red" variant="filled" size={36}>
+                <Eraser/>
+              </ActionIcon></Tooltip>
             <Button>
               Tìm kiếm
             </Button>
@@ -232,27 +239,53 @@ export default function ProvinceManager() {
         </Group>
       </Paper>
 
-      <Paper shadow="xs" p="0 12px 12px">
-        <Table verticalSpacing="sm" highlightOnHover>
-          <thead>{ths}</thead>
-          <tbody>{rows}</tbody>
-        </Table>
+      <Paper shadow="xs" style={{
+        position: 'relative',
+        height: responseData.totalElements === 0 ? '250px' : 'auto'
+      }}
+      >
+        <LoadingOverlay visible={loading}/>
+        {responseData.totalElements === 0 ? (
+          <Center sx={{ height: '100%' }}>
+            <Text color="dimmed">Không có gì hết :)</Text>
+          </Center>
+        ) : (
+          <Table
+            horizontalSpacing="sm"
+            verticalSpacing="sm"
+            highlightOnHover
+            striped
+            sx={(theme) => ({
+              borderRadius: theme.radius.sm,
+              overflow: 'hidden'
+            })}
+          >
+            <thead>{ths}</thead>
+            <tbody>{rows}</tbody>
+          </Table>
+        )}
       </Paper>
 
-      <Group position="apart">
-        <Text><Text weight={500} component="span">Trang {activePage}</Text> / {data.totalPages}</Text>
-        <Pagination page={activePage} onChange={setActivePage} total={data.totalPages}/>
-        <Group>
-          <Text size="sm">Số hàng trên trang</Text>
-          <Select
-            styles={{ root: { width: '72px' } }}
-            variant="filled"
-            data={['5', '10', '25', '50']}
-            value={String(activePageSize)}
-            onChange={(pageSize) => setActivePageSize(Number(pageSize))}
-          />
+      {responseData.totalElements !== 0 && (
+        <Group position="apart">
+          <Text>
+            <Text component="span" weight={500}>Trang {activePage}</Text>
+            <span> / {responseData.totalPages} </span>
+            <Text component="span" color="gray" size="sm">({responseData.totalElements})</Text>
+          </Text>
+          <Pagination page={activePage} onChange={setActivePageAndLoading} total={responseData.totalPages}/>
+          <Group>
+            <Text size="sm">Số hàng trên trang</Text>
+            <Select
+              styles={{ root: { width: 72 } }}
+              variant="filled"
+              data={['5', '10', '25', '50']}
+              value={String(activePageSize)}
+              onChange={(pageSize) => setActivePageSizeAndLoading(Number(pageSize))}
+            />
+          </Group>
         </Group>
-      </Group>
+      )}
 
     </Stack>
   );
