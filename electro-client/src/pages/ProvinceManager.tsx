@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ActionIcon,
   Button,
@@ -73,23 +73,29 @@ const initialResponseData: ResponseData<Province> = {
 export default function ProvinceManager() {
   const { classes, cx } = useStyles();
 
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
+
   const [responseData, setResponseData] = useState<ResponseData<Province>>(initialResponseData);
   const [activePage, setActivePage] = useState<number>(responseData.page);
   const [activePageSize, setActivePageSize] = useState<number>(responseData.size);
   const [selection, setSelection] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchToken, setSearchToken] = useState<string | undefined>('');
 
   useEffect(() => {
     const requestParams: RequestParams = {
       page: activePage,
       size: activePageSize,
+      search: searchToken,
     };
     const responseData = getAll<Province>(ResourceURL.PROVINCE, requestParams);
-    responseData.then((data) => {
-      setResponseData(data);
-      setLoading(false);
-    });
-  }, [activePage, activePageSize]);
+    setTimeout(() => {
+      responseData.then((data) => {
+        setResponseData(data);
+        setLoading(false);
+      });
+    }, 100)
+  }, [activePage, activePageSize, searchToken]);
 
   const toggleRow = (id: number) =>
     setSelection((current) =>
@@ -113,6 +119,26 @@ export default function ProvinceManager() {
       setLoading(true);
       setActivePage(1);
       setActivePageSize(size);
+    }
+  }
+
+  const handleSearchButton = () => {
+    if (searchInputRef.current?.value !== searchToken) {
+      setLoading(true);
+      setActivePage(1);
+      setSearchToken(searchInputRef.current?.value);
+    }
+  }
+
+  const handleSearchInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearchButton();
+    }
+  }
+
+  const handleResetButton = () => {
+    if (searchInputRef.current?.value) {
+      searchInputRef.current.value = '';
     }
   }
 
@@ -174,7 +200,7 @@ export default function ProvinceManager() {
     );
   });
 
-  // console.log('re-render: ', responseData, { activePage, activePageSize, selection, loading });
+  console.log('re-render: ', responseData, { activePage, activePageSize, selection, loading });
 
   return (
     <Stack>
@@ -210,6 +236,8 @@ export default function ProvinceManager() {
               placeholder="Từ khóa"
               icon={<Search size={14}/>}
               styles={{ root: { width: 250 } }}
+              ref={searchInputRef}
+              onKeyDown={handleSearchInput}
             />
             <Select
               placeholder="Chọn bộ lọc"
@@ -229,10 +257,10 @@ export default function ProvinceManager() {
 
           <Group spacing="sm">
             <Tooltip label="Đặt mặc định" withArrow>
-              <ActionIcon color="red" variant="filled" size={36}>
+              <ActionIcon color="red" variant="filled" size={36} onClick={handleResetButton}>
                 <Eraser/>
               </ActionIcon></Tooltip>
-            <Button>
+            <Button onClick={handleSearchButton}>
               Tìm kiếm
             </Button>
           </Group>
