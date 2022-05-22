@@ -335,9 +335,7 @@ export function DefaultNavbar() {
           withArrow
           sx={{ width: '100%' }}
           control={navbarLinkFragment}
-          styles={{
-            body: { width: 225 }
-          }}
+          size={225}
         >
           {navbarChildLinksFragment}
         </Menu>
