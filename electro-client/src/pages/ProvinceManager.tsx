@@ -1,11 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   ActionIcon,
+  Box,
   Button,
   Center,
   Checkbox,
+  Code,
   createStyles,
+  Divider,
+  Grid,
   Group,
+  Highlight,
   LoadingOverlay,
   Menu,
   Pagination,
@@ -18,7 +23,23 @@ import {
   Title,
   Tooltip
 } from '@mantine/core';
-import { AdjustmentsHorizontal, Edit, Eraser, Eye, Filter, Hash, Plus, Search, Trash } from 'tabler-icons-react';
+import {
+  AB,
+  AdjustmentsHorizontal,
+  ArrowsDownUp,
+  CircleX,
+  DragDrop,
+  Edit,
+  Eraser,
+  Eye,
+  Filter,
+  FilterOff,
+  Hash,
+  Keyboard,
+  Plus,
+  Search,
+  Trash
+} from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
 import { getAll, RequestParams, ResponseData } from '../utils/FetchUtils';
 import { ResourceURL } from '../constants/ResourceURL';
@@ -51,6 +72,13 @@ const useStyles = createStyles((theme) => ({
         ? theme.fn.rgba(theme.colors[theme.primaryColor][7], 0.2) + '!important'
         : theme.colors[theme.primaryColor][0] + '!important',
   },
+
+  titleFilterPanel: {
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+    textAlign: 'center',
+    padding: theme.spacing.xs,
+    borderRadius: theme.radius.md,
+  },
 }));
 
 interface Province {
@@ -80,7 +108,8 @@ export default function ProvinceManager() {
   const [activePageSize, setActivePageSize] = useState<number>(responseData.size);
   const [selection, setSelection] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchToken, setSearchToken] = useState<string | undefined>('');
+  const [searchToken, setSearchToken] = useState('');
+  const [activeFilterPanel, setActiveFilterPanel] = useState(true);
 
   useEffect(() => {
     const requestParams: RequestParams = {
@@ -107,26 +136,30 @@ export default function ProvinceManager() {
       current.length === responseData.size ? [] : responseData.content.map((item) => item.id)
     );
 
-  const setActivePageAndLoading = (page: number) => {
+  const handlePaginationButton = (page: number) => {
     if (page !== activePage) {
       setLoading(true);
+      setSelection([]);
       setActivePage(page);
     }
   }
 
-  const setActivePageSizeAndLoading = (size: number) => {
-    if (size !== activePageSize) {
+  const handlePageSizeSelect = (size: string) => {
+    const pageSize = Number(size);
+    if (pageSize !== activePageSize) {
       setLoading(true);
+      setSelection([]);
       setActivePage(1);
-      setActivePageSize(size);
+      setActivePageSize(pageSize);
     }
   }
 
   const handleSearchButton = () => {
-    if (searchInputRef.current?.value !== searchToken) {
+    const currentSearchToken = String(searchInputRef.current?.value);
+    if (currentSearchToken !== searchToken) {
       setLoading(true);
       setActivePage(1);
-      setSearchToken(searchInputRef.current?.value);
+      setSearchToken(currentSearchToken);
     }
   }
 
@@ -142,13 +175,25 @@ export default function ProvinceManager() {
     }
   }
 
+  const handleCreateFilterButton = () => {
+    if (!activeFilterPanel) {
+      setActiveFilterPanel(true);
+    }
+  }
+
+  const handleCancelCreateFilterButton = () => {
+    if (activeFilterPanel) {
+      setActiveFilterPanel(false);
+    }
+  }
+
   const titleLinksFragment = titleLinks.map(titleLink => (
     <Menu.Item key={titleLink.label} component={Link} to={titleLink.link}>
       {titleLink.label}
     </Menu.Item>
   ));
 
-  const ths = (
+  const tableHeadsFragment = (
     <tr>
       <th style={{ width: 40 }}>
         <Checkbox
@@ -167,7 +212,7 @@ export default function ProvinceManager() {
     </tr>
   );
 
-  const rows = responseData.content.map((item) => {
+  const tableRowsFragment = responseData.content.map((item) => {
     const selected = selection.includes(item.id);
     return (
       <tr key={item.id} className={cx({ [classes.rowSelected]: selected })}>
@@ -181,8 +226,16 @@ export default function ProvinceManager() {
         <td>{item.id}</td>
         <td>{isoDateToString(item.createdAt)}</td>
         <td>{isoDateToString(item.updatedAt)}</td>
-        <td>{item.name}</td>
-        <td>{item.code}</td>
+        <td>
+          <Highlight highlight={searchToken} highlightColor="blue">
+            {item.name}
+          </Highlight>
+        </td>
+        <td>
+          <Highlight highlight={searchToken} highlightColor="blue">
+            {item.code}
+          </Highlight>
+        </td>
         <td>
           <Group spacing="xs">
             <ActionIcon color="blue" variant="outline" size={24} title="Xem">
@@ -250,7 +303,7 @@ export default function ProvinceManager() {
                 <Edit/>
               </ActionIcon>
             </Tooltip>
-            <Button variant="light" leftIcon={<Filter/>}>
+            <Button variant="light" leftIcon={<Filter/>} onClick={handleCreateFilterButton}>
               Thêm bộ lọc
             </Button>
           </Group>
@@ -259,13 +312,120 @@ export default function ProvinceManager() {
             <Tooltip label="Đặt mặc định" withArrow>
               <ActionIcon color="red" variant="filled" size={36} onClick={handleResetButton}>
                 <Eraser/>
-              </ActionIcon></Tooltip>
+              </ActionIcon>
+            </Tooltip>
             <Button onClick={handleSearchButton}>
               Tìm kiếm
             </Button>
           </Group>
         </Group>
       </Paper>
+
+      {activeFilterPanel && (
+        <Paper shadow="xs">
+          <Stack spacing={0}>
+            <Group position="apart" p="sm">
+              <Group>
+                <TextInput
+                  placeholder="Bộ lọc 1"
+                  icon={<Filter size={14}/>}
+                  styles={{ root: { width: 250 } }}
+                />
+                <Text size="sm">Ngày tạo: <Code color="blue">__/__/____</Code></Text>
+                <Text size="sm">Ngày sửa: <Code color="blue">__/__/____</Code></Text>
+              </Group>
+              <Group spacing="sm">
+                <Tooltip label="Hủy tạo bộ lọc" withArrow>
+                  <ActionIcon color="red" variant="light" size={36} onClick={handleCancelCreateFilterButton}>
+                    <FilterOff/>
+                  </ActionIcon>
+                </Tooltip>
+                <Button variant="light">
+                  Tạo bộ lọc
+                </Button>
+              </Group>
+            </Group>
+
+            <Divider/>
+
+            <Grid grow p="sm" gutter="sm">
+              <Grid.Col span={1}>
+                <Stack spacing="sm">
+                  <Box className={classes.titleFilterPanel}>
+                    Sắp xếp
+                  </Box>
+                  <Group spacing="sm" sx={{ flexWrap: 'nowrap', justifyContent: 'space-between' }}>
+                    <ActionIcon color="blue" variant="hover" size={36} title="Di chuyển tiêu chí sắp xếp">
+                      <DragDrop/>
+                    </ActionIcon>
+                    <Select
+                      sx={{ width: '100%' }}
+                      placeholder="Chọn thuộc tính"
+                      icon={<AB size={14}/>}
+                      clearable
+                      data={['ID', 'Ngày tạo', 'Ngày cập nhật', 'Tên tỉnh thành', 'Mã tỉnh thành']}
+                    />
+                    <Select
+                      sx={{ width: '100%' }}
+                      placeholder="Chọn thứ tự sắp xếp"
+                      icon={<ArrowsDownUp size={14}/>}
+                      clearable
+                      data={['Tăng dần', 'Giảm dần']}
+                    />
+                    <ActionIcon color="red" variant="hover" size={36} title="Xóa tiêu chí sắp xếp">
+                      <CircleX/>
+                    </ActionIcon>
+                  </Group>
+                  <Button variant="outline">
+                    Thêm tiêu chí sắp xếp
+                  </Button>
+                </Stack>
+              </Grid.Col>
+              <Grid.Col span={3}>
+                <Stack spacing="sm">
+                  <Box className={classes.titleFilterPanel}>
+                    Lọc
+                  </Box>
+                  <Group spacing="sm" sx={{ flexWrap: 'nowrap', justifyContent: 'space-between' }}>
+                    <ActionIcon color="blue" variant="hover" size={36} title="Di chuyển tiêu chí lọc">
+                      <DragDrop/>
+                    </ActionIcon>
+                    <Select
+                      sx={{ width: '100%' }}
+                      placeholder="Chọn thuộc tính"
+                      icon={<AB size={14}/>}
+                      clearable
+                      data={['ID', 'Ngày tạo', 'Ngày cập nhật', 'Tên tỉnh thành', 'Mã tỉnh thành']}
+                    />
+                    <Select
+                      sx={{ width: '100%' }}
+                      placeholder="Chọn cách lọc"
+                      icon={<Filter size={14}/>}
+                      clearable
+                      data={[
+                        'Bằng với', 'Không bằng với', 'Chứa chuỗi',
+                        'Không chứa chuỗi', 'Bắt đầu với', 'Kết thúc với',
+                        'Có trong', 'Không có trong', 'Là rỗng', 'Không là rỗng'
+                      ]}
+                    />
+                    <TextInput
+                      sx={{ width: '120%' }}
+                      placeholder="Nhập giá trị"
+                      icon={<Keyboard size={14}/>}
+                    />
+                    <ActionIcon color="red" variant="hover" size={36} title="Xóa tiêu chí lọc">
+                      <CircleX/>
+                    </ActionIcon>
+                  </Group>
+                  <Button variant="outline">
+                    Thêm tiêu chí lọc
+                  </Button>
+                </Stack>
+              </Grid.Col>
+            </Grid>
+          </Stack>
+        </Paper>
+      )}
 
       <Paper shadow="xs" style={{
         position: 'relative',
@@ -288,8 +448,8 @@ export default function ProvinceManager() {
               overflow: 'hidden'
             })}
           >
-            <thead>{ths}</thead>
-            <tbody>{rows}</tbody>
+            <thead>{tableHeadsFragment}</thead>
+            <tbody>{tableRowsFragment}</tbody>
           </Table>
         )}
       </Paper>
@@ -301,7 +461,7 @@ export default function ProvinceManager() {
             <span> / {responseData.totalPages} </span>
             <Text component="span" color="gray" size="sm">({responseData.totalElements})</Text>
           </Text>
-          <Pagination page={activePage} onChange={setActivePageAndLoading} total={responseData.totalPages}/>
+          <Pagination page={activePage} onChange={handlePaginationButton} total={responseData.totalPages}/>
           <Group>
             <Text size="sm">Số hàng trên trang</Text>
             <Select
@@ -309,7 +469,7 @@ export default function ProvinceManager() {
               variant="filled"
               data={['5', '10', '25', '50']}
               value={String(activePageSize)}
-              onChange={(pageSize) => setActivePageSizeAndLoading(Number(pageSize))}
+              onChange={handlePageSizeSelect}
             />
           </Group>
         </Group>
