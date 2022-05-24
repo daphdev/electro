@@ -44,6 +44,7 @@ import { Link } from 'react-router-dom';
 import { getAll, RequestParams, ResponseData } from '../utils/FetchUtils';
 import { ResourceURL } from '../constants/ResourceURL';
 import { isoDateToString } from '../utils/DateUtils';
+import { SortCriteria } from '../utils/FilterUtils';
 
 interface TitleLink {
   link: string,
@@ -98,10 +99,51 @@ const initialResponseData: ResponseData<Province> = {
   last: false
 }
 
+interface SelectOption {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
+
+const initialSortPropertySelectList: SelectOption[] = [
+  {
+    value: 'id',
+    label: 'ID',
+  },
+  {
+    value: 'createdAt',
+    label: 'Ngày tạo',
+  },
+  {
+    value: 'updatedAt',
+    label: 'Ngày cập nhật',
+  },
+  {
+    value: 'name',
+    label: 'Tên tỉnh thành',
+  },
+  {
+    value: 'code',
+    label: 'Mã tỉnh thành',
+  },
+];
+
+const sortOrderSelectList: SelectOption[] = [
+  {
+    value: 'asc',
+    label: 'Tăng dần',
+  },
+  {
+    value: 'desc',
+    label: 'Giảm dần',
+  },
+];
+
 export default function ProvinceManager() {
   const { classes, cx } = useStyles();
 
   const searchInputRef = useRef<HTMLInputElement | null>(null);
+  const filterNameInputRef = useRef<HTMLInputElement | null>(null);
 
   const [responseData, setResponseData] = useState<ResponseData<Province>>(initialResponseData);
   const [activePage, setActivePage] = useState<number>(responseData.page);
@@ -111,10 +153,15 @@ export default function ProvinceManager() {
   const [searchToken, setSearchToken] = useState('');
   const [activeFilterPanel, setActiveFilterPanel] = useState(true);
 
+  const [sortCriteriaList, setSortCriteriaList] = useState<SortCriteria[]>([]);
+  const [sortPropertySelectList, setSortPropertySelectList] = useState(initialSortPropertySelectList);
+
   useEffect(() => {
     const requestParams: RequestParams = {
       page: activePage,
       size: activePageSize,
+      sort: '',
+      filter: '',
       search: searchToken,
     };
     const responseData = getAll<Province>(ResourceURL.PROVINCE, requestParams);
@@ -187,6 +234,50 @@ export default function ProvinceManager() {
     }
   }
 
+  const handleCreateSortCriteriaButton = () => {
+    if (sortCriteriaList.length < sortPropertySelectList.length) {
+      const sortCriteria: SortCriteria = {
+        property: '',
+        order: 'asc',
+      };
+      setSortCriteriaList(prevState => [...prevState, sortCriteria]);
+    }
+  }
+
+  const handleSortOrderSelect = (order: string, sortCriteriaIndex: number) => {
+    const currentSortCriteriaList = [...sortCriteriaList];
+    currentSortCriteriaList[sortCriteriaIndex] = {
+      ...currentSortCriteriaList[sortCriteriaIndex],
+      order: order as 'asc' | 'desc'
+    };
+    setSortCriteriaList(currentSortCriteriaList);
+  }
+
+  const handleDeleteSortCriteriaButton = (sortCriteriaIndex: number) => {
+    setSortCriteriaList(sortCriteriaList.filter((_, index) => index !== sortCriteriaIndex));
+    setSortPropertySelectList(sortPropertySelectList.map(option => {
+      if (option.disabled === true && option.value === sortCriteriaList[sortCriteriaIndex].property) {
+        return { ...option, disabled: false };
+      }
+      return option;
+    }));
+  }
+
+  const handleSortPropertySelect = (property: string, sortCriteriaIndex: number) => {
+    const currentSortCriteriaList = [...sortCriteriaList];
+    currentSortCriteriaList[sortCriteriaIndex] = { ...currentSortCriteriaList[sortCriteriaIndex], property: property };
+    setSortCriteriaList(currentSortCriteriaList);
+    setSortPropertySelectList(sortPropertySelectList.map(option => {
+      if (option.disabled === true && !currentSortCriteriaList.map(sc => sc.property).includes(option.value)) {
+        return { ...option, disabled: false };
+      }
+      if (option.value === property) {
+        return { ...option, disabled: true };
+      }
+      return option;
+    }));
+  }
+
   const titleLinksFragment = titleLinks.map(titleLink => (
     <Menu.Item key={titleLink.label} component={Link} to={titleLink.link}>
       {titleLink.label}
@@ -253,7 +344,49 @@ export default function ProvinceManager() {
     );
   });
 
-  console.log('re-render: ', responseData, { activePage, activePageSize, selection, loading });
+  const sortCriteriaListFragment = sortCriteriaList.map((sortCriteria, index) => (
+    <Group key={index} spacing="sm" sx={{ flexWrap: 'nowrap', justifyContent: 'space-between' }}>
+      <ActionIcon color="blue" variant="hover" size={36} title="Di chuyển tiêu chí sắp xếp">
+        <DragDrop/>
+      </ActionIcon>
+      <Select
+        sx={{ width: '100%' }}
+        placeholder="Chọn thuộc tính"
+        icon={<AB size={14}/>}
+        clearable
+        value={sortCriteria.property}
+        data={sortPropertySelectList}
+        onChange={property => handleSortPropertySelect(String(property), index)}
+      />
+      <Select
+        sx={{ width: '100%' }}
+        placeholder="Chọn thứ tự sắp xếp"
+        icon={<ArrowsDownUp size={14}/>}
+        clearable
+        value={sortCriteria.order}
+        onChange={order => handleSortOrderSelect(String(order), index)}
+        data={sortOrderSelectList}
+      />
+      <ActionIcon
+        color="red"
+        variant="hover"
+        size={36}
+        title="Xóa tiêu chí sắp xếp"
+        onClick={() => handleDeleteSortCriteriaButton(index)}
+      >
+        <CircleX/>
+      </ActionIcon>
+    </Group>
+  ));
+
+  console.log('re-render: ', responseData, {
+    sortCriteriaList,
+    sortPropertySelectList,
+    activePage,
+    activePageSize,
+    selection,
+    loading
+  });
 
   return (
     <Stack>
@@ -330,6 +463,7 @@ export default function ProvinceManager() {
                   placeholder="Bộ lọc 1"
                   icon={<Filter size={14}/>}
                   styles={{ root: { width: 250 } }}
+                  ref={filterNameInputRef}
                 />
                 <Text size="sm">Ngày tạo: <Code color="blue">__/__/____</Code></Text>
                 <Text size="sm">Ngày sửa: <Code color="blue">__/__/____</Code></Text>
@@ -354,29 +488,12 @@ export default function ProvinceManager() {
                   <Box className={classes.titleFilterPanel}>
                     Sắp xếp
                   </Box>
-                  <Group spacing="sm" sx={{ flexWrap: 'nowrap', justifyContent: 'space-between' }}>
-                    <ActionIcon color="blue" variant="hover" size={36} title="Di chuyển tiêu chí sắp xếp">
-                      <DragDrop/>
-                    </ActionIcon>
-                    <Select
-                      sx={{ width: '100%' }}
-                      placeholder="Chọn thuộc tính"
-                      icon={<AB size={14}/>}
-                      clearable
-                      data={['ID', 'Ngày tạo', 'Ngày cập nhật', 'Tên tỉnh thành', 'Mã tỉnh thành']}
-                    />
-                    <Select
-                      sx={{ width: '100%' }}
-                      placeholder="Chọn thứ tự sắp xếp"
-                      icon={<ArrowsDownUp size={14}/>}
-                      clearable
-                      data={['Tăng dần', 'Giảm dần']}
-                    />
-                    <ActionIcon color="red" variant="hover" size={36} title="Xóa tiêu chí sắp xếp">
-                      <CircleX/>
-                    </ActionIcon>
-                  </Group>
-                  <Button variant="outline">
+                  {sortCriteriaListFragment}
+                  <Button
+                    variant="outline"
+                    onClick={handleCreateSortCriteriaButton}
+                    disabled={sortCriteriaList.length === sortPropertySelectList.length}
+                  >
                     Thêm tiêu chí sắp xếp
                   </Button>
                 </Stack>

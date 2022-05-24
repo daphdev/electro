@@ -1,4 +1,4 @@
-enum StringOperator {
+export enum StringOperator {
   EQUALS,
   NOT_EQUALS,
   CONTAINS,
@@ -11,7 +11,7 @@ enum StringOperator {
   IS_NOT_NULL,
 }
 
-enum NumberOperator {
+export enum NumberOperator {
   EQUALS,
   NOT_EQUALS,
   LESS_THAN,
@@ -24,14 +24,14 @@ enum NumberOperator {
   IS_NOT_NULL,
 }
 
-enum BooleanOperator {
+export enum BooleanOperator {
   EQUALS,
   NOT_EQUALS,
   IS_NULL,
   IS_NOT_NULL,
 }
 
-enum DateOperator {
+export enum DateOperator {
   EQUALS,
   NOT_EQUALS,
   BEFORE,
@@ -42,12 +42,12 @@ enum DateOperator {
   IS_NOT_NULL,
 }
 
-interface SortCriteria {
+export interface SortCriteria {
   property: string;
   order: 'asc' | 'desc';
 }
 
-interface FilterCriteria {
+export interface FilterCriteria {
   property: string;
   type: 'string' | 'number' | 'boolean' | 'date';
   operator: StringOperator | NumberOperator | BooleanOperator | DateOperator;
@@ -60,6 +60,7 @@ export interface Filter {
   updatedAt: string;
   createdBy: number;
   updatedBy: number;
+  name: string;
   sortCriteriaList: SortCriteria[];
   filterCriteriaList: FilterCriteria[];
 }
