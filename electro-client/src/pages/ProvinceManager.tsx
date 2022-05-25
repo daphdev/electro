@@ -41,10 +41,18 @@ import {
   Trash
 } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
-import { getAll, RequestParams, ResponseData } from '../utils/FetchUtils';
-import { ResourceURL } from '../constants/ResourceURL';
-import { isoDateToString } from '../utils/DateUtils';
-import { SortCriteria } from '../utils/FilterUtils';
+import ResourceURL from '../constants/ResourceURL';
+import FetchUtils, { RequestParams, ResponseData } from '../utils/FetchUtils';
+import DateUtils from '../utils/DateUtils';
+import FilterUtils, {
+  FilterCriteria,
+  FilterObject,
+  FilterPropertyType,
+  FilterPropertyTypes,
+  OrderType,
+  SortCriteria,
+  StringOperator
+} from '../utils/FilterUtils';
 
 interface TitleLink {
   link: string,
@@ -105,7 +113,7 @@ interface SelectOption {
   disabled?: boolean;
 }
 
-const initialSortPropertySelectList: SelectOption[] = [
+const initialPropertySelectList: SelectOption[] = [
   {
     value: 'id',
     label: 'ID',
@@ -139,48 +147,74 @@ const sortOrderSelectList: SelectOption[] = [
   },
 ];
 
+const filterPropertyTypes: FilterPropertyTypes = {
+  id: FilterPropertyType.NUMBER,
+  createdAt: FilterPropertyType.DATE,
+  updatedAt: FilterPropertyType.DATE,
+  name: FilterPropertyType.STRING,
+  code: FilterPropertyType.STRING,
+}
+
+const filterStringOperatorSelectList: SelectOption[] = [
+  {
+    value: StringOperator.EQUALS,
+    label: 'Bằng với',
+  },
+  {
+    value: StringOperator.NOT_EQUALS,
+    label: 'Không bằng với',
+  },
+];
+
+const MAX_FILTER_CRITERIA_NUMBER = 10;
+const CURRENT_USER_ID = 1;
+
 export default function ProvinceManager() {
   const { classes, cx } = useStyles();
 
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const filterNameInputRef = useRef<HTMLInputElement | null>(null);
+  const filterCriteriaValueInputRefs = useRef<WeakMap<FilterCriteria, HTMLInputElement | null>>(new WeakMap());
 
   const [responseData, setResponseData] = useState<ResponseData<Province>>(initialResponseData);
-  const [activePage, setActivePage] = useState<number>(responseData.page);
-  const [activePageSize, setActivePageSize] = useState<number>(responseData.size);
+  const [activePage, setActivePage] = useState(responseData.page);
+  const [activePageSize, setActivePageSize] = useState(responseData.size);
   const [selection, setSelection] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchToken, setSearchToken] = useState('');
   const [activeFilterPanel, setActiveFilterPanel] = useState(true);
 
   const [sortCriteriaList, setSortCriteriaList] = useState<SortCriteria[]>([]);
-  const [sortPropertySelectList, setSortPropertySelectList] = useState(initialSortPropertySelectList);
+  const [sortPropertySelectList, setSortPropertySelectList] = useState(initialPropertySelectList);
+
+  const [filterCriteriaList, setFilterCriteriaList] = useState<FilterCriteria[]>([]);
+  const [filterPropertySelectList, setFilterPropertySelectList] = useState(initialPropertySelectList);
+  const [filters, setFilters] = useState<FilterObject[]>([]);
+  const [activeFilter, setActiveFilter] = useState<FilterObject | null>(null)
+  const [prevActiveFilter, setPrevActiveFilter] = useState<FilterObject | null>(null);
 
   useEffect(() => {
-    const requestParams: RequestParams = {
-      page: activePage,
-      size: activePageSize,
-      sort: '',
-      filter: '',
-      search: searchToken,
-    };
-    const responseData = getAll<Province>(ResourceURL.PROVINCE, requestParams);
-    setTimeout(() => {
-      responseData.then((data) => {
-        setResponseData(data);
-        setLoading(false);
-      });
-    }, 100)
-  }, [activePage, activePageSize, searchToken]);
+    if (loading) {
+      const requestParams: RequestParams = {
+        page: activePage,
+        size: activePageSize,
+        sort: FilterUtils.convertToSortRSQL(activeFilter),
+        filter: FilterUtils.convertToFilterRSQL(activeFilter),
+        search: searchToken,
+      };
+      const responseDataPromise = FetchUtils.getAll<Province>(ResourceURL.PROVINCE, requestParams);
+      setTimeout(() => responseDataPromise.then(setResponseData).then(() => setLoading(false)), 100);
+    }
+  }, [activePage, activePageSize, activeFilter, searchToken, loading]);
 
   const toggleRow = (id: number) =>
-    setSelection((current) =>
-      current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
+    setSelection(current =>
+      current.includes(id) ? current.filter(item => item !== id) : [...current, id]
     );
 
   const toggleAll = () =>
-    setSelection((current) =>
-      current.length === responseData.size ? [] : responseData.content.map((item) => item.id)
+    setSelection(current =>
+      current.length === responseData.size ? [] : responseData.content.map(item => item.id)
     );
 
   const handlePaginationButton = (page: number) => {
@@ -202,11 +236,12 @@ export default function ProvinceManager() {
   }
 
   const handleSearchButton = () => {
-    const currentSearchToken = String(searchInputRef.current?.value);
-    if (currentSearchToken !== searchToken) {
+    const currentSearchToken = searchInputRef.current?.value ?? '';
+    if (currentSearchToken !== searchToken || activeFilter?.id !== prevActiveFilter?.id) {
       setLoading(true);
       setActivePage(1);
       setSearchToken(currentSearchToken);
+      setPrevActiveFilter(activeFilter);
     }
   }
 
@@ -222,7 +257,7 @@ export default function ProvinceManager() {
     }
   }
 
-  const handleCreateFilterButton = () => {
+  const handleAddFilterButton = () => {
     if (!activeFilterPanel) {
       setActiveFilterPanel(true);
     }
@@ -230,27 +265,45 @@ export default function ProvinceManager() {
 
   const handleCancelCreateFilterButton = () => {
     if (activeFilterPanel) {
+      setSortCriteriaList([]);
+      setSortPropertySelectList(initialPropertySelectList);
+      setFilterCriteriaList([]);
       setActiveFilterPanel(false);
     }
   }
 
   const handleCreateSortCriteriaButton = () => {
     if (sortCriteriaList.length < sortPropertySelectList.length) {
-      const sortCriteria: SortCriteria = {
-        property: '',
-        order: 'asc',
-      };
-      setSortCriteriaList(prevState => [...prevState, sortCriteria]);
+      setSortCriteriaList(prevState => [...prevState, { property: null, order: OrderType.ASC }]);
     }
   }
 
-  const handleSortOrderSelect = (order: string, sortCriteriaIndex: number) => {
-    const currentSortCriteriaList = [...sortCriteriaList];
-    currentSortCriteriaList[sortCriteriaIndex] = {
-      ...currentSortCriteriaList[sortCriteriaIndex],
-      order: order as 'asc' | 'desc'
-    };
+  const handleSortPropertySelect = (propertyValue: string | null, sortCriteriaIndex: number) => {
+    const currentSortCriteriaList = sortCriteriaList.map((item, index) => {
+      return (index === sortCriteriaIndex) ? { ...item, property: propertyValue } : item;
+    })
+
     setSortCriteriaList(currentSortCriteriaList);
+
+    const isIncludeInSortCriteriaPropertyList = (propertyValue: string) => {
+      return currentSortCriteriaList.map(item => item.property).includes(propertyValue);
+    }
+
+    setSortPropertySelectList(sortPropertySelectList.map(option => {
+      if (option.disabled === true && !isIncludeInSortCriteriaPropertyList(option.value)) {
+        return { ...option, disabled: false };
+      }
+      if (option.value === propertyValue) {
+        return { ...option, disabled: true };
+      }
+      return option;
+    }));
+  }
+
+  const handleSortOrderSelect = (orderValue: string | null, sortCriteriaIndex: number) => {
+    setSortCriteriaList(sortCriteriaList.map((item, index) => {
+      return (index === sortCriteriaIndex) ? { ...item, order: orderValue as OrderType } : item;
+    }));
   }
 
   const handleDeleteSortCriteriaButton = (sortCriteriaIndex: number) => {
@@ -263,19 +316,83 @@ export default function ProvinceManager() {
     }));
   }
 
-  const handleSortPropertySelect = (property: string, sortCriteriaIndex: number) => {
-    const currentSortCriteriaList = [...sortCriteriaList];
-    currentSortCriteriaList[sortCriteriaIndex] = { ...currentSortCriteriaList[sortCriteriaIndex], property: property };
-    setSortCriteriaList(currentSortCriteriaList);
-    setSortPropertySelectList(sortPropertySelectList.map(option => {
-      if (option.disabled === true && !currentSortCriteriaList.map(sc => sc.property).includes(option.value)) {
-        return { ...option, disabled: false };
-      }
-      if (option.value === property) {
-        return { ...option, disabled: true };
-      }
-      return option;
-    }));
+  const handleCreateFilterCriteriaButton = () => {
+    if (filterCriteriaList.length < MAX_FILTER_CRITERIA_NUMBER) {
+      setFilterCriteriaList(prevState => [...prevState, {
+        property: null,
+        type: null,
+        operator: null,
+        value: null,
+      }]);
+    }
+  }
+
+  const handleFilterPropertySelect = (propertyValue: string | null, filterCriteriaIndex: number) => {
+    const currentFilterCriteriaList = filterCriteriaList.map((item, index) => {
+      return (index === filterCriteriaIndex) ? {
+        ...item,
+        property: propertyValue,
+        type: propertyValue ? filterPropertyTypes[propertyValue] : null
+      } : item;
+    });
+
+    setFilterCriteriaList(currentFilterCriteriaList);
+  }
+
+  const handleFilterOperatorSelect = (operatorValue: string | null, filterCriteriaIndex: number) => {
+    const currentFilterCriteriaList = filterCriteriaList.map((item, index) => {
+      return (index === filterCriteriaIndex) ? { ...item, operator: operatorValue as StringOperator } : item;
+    });
+
+    setFilterCriteriaList(currentFilterCriteriaList);
+  }
+
+  const handleDeleteFilterCriteriaButton = (filterCriteriaIndex: number) => {
+    setFilterCriteriaList(filterCriteriaList.filter((_, index) => index !== filterCriteriaIndex));
+  }
+
+  const handleCreateFilterButton = () => {
+    const randomNumber = Math.floor(Math.random() * 10000) + 1;
+    const filterId = 'filter-' + randomNumber;
+    const filterName = filterNameInputRef.current?.value || 'Bộ lọc ' + randomNumber;
+
+    const assignValueForFilterCriteria = (filterCriteriaList: FilterCriteria[]) => {
+      return filterCriteriaList.map(item => {
+        const filterCriteriaValueInputRefValue = filterCriteriaValueInputRefs.current.get(item)?.value;
+        return filterCriteriaValueInputRefValue ? { ...item, value: filterCriteriaValueInputRefValue } : item;
+      });
+    }
+
+    const filter: FilterObject = {
+      id: filterId,
+      createdAt: DateUtils.nowIso(),
+      updatedAt: DateUtils.nowIso(),
+      createdBy: CURRENT_USER_ID,
+      updatedBy: CURRENT_USER_ID,
+      name: filterName,
+      sortCriteriaList: sortCriteriaList,
+      filterCriteriaList: assignValueForFilterCriteria(filterCriteriaList),
+    }
+
+    setFilters(prevState => [...prevState, filter]);
+
+    // reset filter panel
+
+    setSortCriteriaList([]);
+    setSortPropertySelectList(initialPropertySelectList);
+    setFilterCriteriaList([]);
+    setActiveFilterPanel(false);
+
+    // console.log(filter)
+  }
+
+  const filterSelectList: SelectOption[] = filters.map(item => ({ value: item.id, label: item.name }));
+
+  const handleFilterSelect = (filterIdValue: string | null) => {
+    setActiveFilter(prevState => {
+      setPrevActiveFilter(prevState ?? null);
+      return filters.find(item => item.id === filterIdValue) ?? null;
+    });
   }
 
   const titleLinksFragment = titleLinks.map(titleLink => (
@@ -315,8 +432,8 @@ export default function ProvinceManager() {
           />
         </td>
         <td>{item.id}</td>
-        <td>{isoDateToString(item.createdAt)}</td>
-        <td>{isoDateToString(item.updatedAt)}</td>
+        <td>{DateUtils.isoDateToString(item.createdAt)}</td>
+        <td>{DateUtils.isoDateToString(item.updatedAt)}</td>
         <td>
           <Highlight highlight={searchToken} highlightColor="blue">
             {item.name}
@@ -356,7 +473,7 @@ export default function ProvinceManager() {
         clearable
         value={sortCriteria.property}
         data={sortPropertySelectList}
-        onChange={property => handleSortPropertySelect(String(property), index)}
+        onChange={propertyValue => handleSortPropertySelect(propertyValue, index)}
       />
       <Select
         sx={{ width: '100%' }}
@@ -364,8 +481,8 @@ export default function ProvinceManager() {
         icon={<ArrowsDownUp size={14}/>}
         clearable
         value={sortCriteria.order}
-        onChange={order => handleSortOrderSelect(String(order), index)}
         data={sortOrderSelectList}
+        onChange={orderValue => handleSortOrderSelect(orderValue, index)}
       />
       <ActionIcon
         color="red"
@@ -379,13 +496,59 @@ export default function ProvinceManager() {
     </Group>
   ));
 
+  const filterCriteriaListFragment = filterCriteriaList.map((filterCriteria, index) => (
+    <Group key={index} spacing="sm" sx={{ flexWrap: 'nowrap', justifyContent: 'space-between' }}>
+      <ActionIcon color="blue" variant="hover" size={36} title="Di chuyển tiêu chí lọc">
+        <DragDrop/>
+      </ActionIcon>
+      <Select
+        sx={{ width: '100%' }}
+        placeholder="Chọn thuộc tính"
+        icon={<AB size={14}/>}
+        clearable
+        value={filterCriteria.property}
+        data={filterPropertySelectList}
+        onChange={propertyValue => handleFilterPropertySelect(propertyValue, index)}
+      />
+      <Select
+        sx={{ width: '100%' }}
+        placeholder="Chọn cách lọc"
+        icon={<Filter size={14}/>}
+        clearable
+        value={filterCriteria.operator}
+        data={filterStringOperatorSelectList}
+        onChange={operatorValue => handleFilterOperatorSelect(operatorValue, index)}
+      />
+      <TextInput
+        sx={{ width: '120%' }}
+        placeholder="Nhập giá trị"
+        icon={<Keyboard size={14}/>}
+        ref={inputRef => filterCriteriaValueInputRefs.current.set(filterCriteria, inputRef)}
+      />
+      <ActionIcon
+        color="red"
+        variant="hover"
+        size={36}
+        title="Xóa tiêu chí lọc"
+        onClick={() => handleDeleteFilterCriteriaButton(index)}
+      >
+        <CircleX/>
+      </ActionIcon>
+    </Group>
+  ));
+
   console.log('re-render: ', responseData, {
-    sortCriteriaList,
-    sortPropertySelectList,
-    activePage,
-    activePageSize,
-    selection,
-    loading
+    // filterCriteriaList,
+    // sortCriteriaList,
+    // filters,
+    // sortPropertySelectList,
+    // activePage,
+    // activePageSize,
+    // selection,
+    loading,
+    searchToken,
+    activeFilter,
+    prevActiveFilter,
   });
 
   return (
@@ -429,14 +592,15 @@ export default function ProvinceManager() {
               placeholder="Chọn bộ lọc"
               icon={<AdjustmentsHorizontal size={14}/>}
               clearable
-              data={['Bộ lọc 1', 'Bộ lọc 2', 'Bộ lọc 3']}
+              data={filterSelectList}
+              onChange={handleFilterSelect}
             />
             <Tooltip label="Sửa bộ lọc" withArrow>
               <ActionIcon color="teal" variant="light" size={36}>
                 <Edit/>
               </ActionIcon>
             </Tooltip>
-            <Button variant="light" leftIcon={<Filter/>} onClick={handleCreateFilterButton}>
+            <Button variant="light" leftIcon={<Filter/>} onClick={handleAddFilterButton}>
               Thêm bộ lọc
             </Button>
           </Group>
@@ -474,7 +638,7 @@ export default function ProvinceManager() {
                     <FilterOff/>
                   </ActionIcon>
                 </Tooltip>
-                <Button variant="light">
+                <Button variant="light" onClick={handleCreateFilterButton}>
                   Tạo bộ lọc
                 </Button>
               </Group>
@@ -503,38 +667,12 @@ export default function ProvinceManager() {
                   <Box className={classes.titleFilterPanel}>
                     Lọc
                   </Box>
-                  <Group spacing="sm" sx={{ flexWrap: 'nowrap', justifyContent: 'space-between' }}>
-                    <ActionIcon color="blue" variant="hover" size={36} title="Di chuyển tiêu chí lọc">
-                      <DragDrop/>
-                    </ActionIcon>
-                    <Select
-                      sx={{ width: '100%' }}
-                      placeholder="Chọn thuộc tính"
-                      icon={<AB size={14}/>}
-                      clearable
-                      data={['ID', 'Ngày tạo', 'Ngày cập nhật', 'Tên tỉnh thành', 'Mã tỉnh thành']}
-                    />
-                    <Select
-                      sx={{ width: '100%' }}
-                      placeholder="Chọn cách lọc"
-                      icon={<Filter size={14}/>}
-                      clearable
-                      data={[
-                        'Bằng với', 'Không bằng với', 'Chứa chuỗi',
-                        'Không chứa chuỗi', 'Bắt đầu với', 'Kết thúc với',
-                        'Có trong', 'Không có trong', 'Là rỗng', 'Không là rỗng'
-                      ]}
-                    />
-                    <TextInput
-                      sx={{ width: '120%' }}
-                      placeholder="Nhập giá trị"
-                      icon={<Keyboard size={14}/>}
-                    />
-                    <ActionIcon color="red" variant="hover" size={36} title="Xóa tiêu chí lọc">
-                      <CircleX/>
-                    </ActionIcon>
-                  </Group>
-                  <Button variant="outline">
+                  {filterCriteriaListFragment}
+                  <Button
+                    variant="outline"
+                    onClick={handleCreateFilterCriteriaButton}
+                    disabled={filterCriteriaList.length === MAX_FILTER_CRITERIA_NUMBER}
+                  >
                     Thêm tiêu chí lọc
                   </Button>
                 </Stack>

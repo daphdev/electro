@@ -1,3 +1,6 @@
 import dayjs from 'dayjs';
 
-export const isoDateToString = (isoDate: string) => dayjs(isoDate).format('HH:mm:ss DD/MM/YYYY').toString();
+export default class DateUtils {
+  static nowIso = () => dayjs().toISOString();
+  static isoDateToString = (isoDate: string) => dayjs(isoDate).format('HH:mm:ss DD/MM/YYYY').toString();
+}

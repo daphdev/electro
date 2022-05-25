@@ -1,14 +1,14 @@
 export enum StringOperator {
-  EQUALS,
-  NOT_EQUALS,
-  CONTAINS,
-  NOT_CONTAINS,
-  STARTS_WITH,
-  ENDS_WITH,
-  IN,
-  NOT_IN,
-  IS_NULL,
-  IS_NOT_NULL,
+  EQUALS = 'str_eq',
+  NOT_EQUALS = 'str_neq',
+  CONTAINS = 'str_ct',
+  NOT_CONTAINS = 'str_nct',
+  STARTS_WITH = 'str_sw',
+  ENDS_WITH = 'str_ew',
+  IN = 'str_in',
+  NOT_IN = 'str_nin',
+  IS_NULL = 'str_n',
+  IS_NOT_NULL = 'str_nn',
 }
 
 export enum NumberOperator {
@@ -42,19 +42,35 @@ export enum DateOperator {
   IS_NOT_NULL,
 }
 
+export enum FilterPropertyType {
+  STRING = 'string',
+  NUMBER = 'number',
+  BOOLEAN = 'boolean',
+  DATE = 'date',
+}
+
+export enum OrderType {
+  ASC = 'asc',
+  DESC = 'desc',
+}
+
+export interface FilterPropertyTypes {
+  [property: string]: FilterPropertyType
+}
+
 export interface SortCriteria {
-  property: string;
-  order: 'asc' | 'desc';
+  property: string | null;
+  order: OrderType | null;
 }
 
 export interface FilterCriteria {
-  property: string;
-  type: 'string' | 'number' | 'boolean' | 'date';
-  operator: StringOperator | NumberOperator | BooleanOperator | DateOperator;
-  value: string;
+  property: string | null;
+  type: FilterPropertyType | null;
+  operator: StringOperator | null;
+  value: string | null;
 }
 
-export interface Filter {
+export interface FilterObject {
   id: string;
   createdAt: string;
   updatedAt: string;
@@ -63,4 +79,23 @@ export interface Filter {
   name: string;
   sortCriteriaList: SortCriteria[];
   filterCriteriaList: FilterCriteria[];
+}
+
+export default class FilterUtils {
+  static convertToSortRSQL = (filter: FilterObject | null) => {
+    if (filter) {
+      return filter.sortCriteriaList
+        .filter(item => item.property !== null && item.order !== null)
+        .map(item => item.property + ',' + item.order)
+        .join(';');
+    }
+    return '';
+  };
+
+  static convertToFilterRSQL = (filter: FilterObject | null) => {
+    if (filter) {
+      return '';
+    }
+    return '';
+  };
 }
