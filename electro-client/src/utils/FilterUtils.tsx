@@ -1,3 +1,5 @@
+import { SelectOption } from './MantineUtils';
+
 export enum StringOperator {
   EQUALS = 'str_eq',
   NOT_EQUALS = 'str_neq',
@@ -12,35 +14,37 @@ export enum StringOperator {
 }
 
 export enum NumberOperator {
-  EQUALS,
-  NOT_EQUALS,
-  LESS_THAN,
-  LESS_THAN_OR_EQUAL_TO,
-  GREATER_THAN,
-  GREATER_THAN_OR_EQUAL_TO,
-  BETWEEN,
-  NOT_BETWEEN,
-  IS_NULL,
-  IS_NOT_NULL,
+  EQUALS = 'num_eq',
+  NOT_EQUALS = 'num_neq',
+  LESS_THAN = 'num_lt',
+  LESS_THAN_OR_EQUAL_TO = 'num_lte',
+  GREATER_THAN = 'num_gt',
+  GREATER_THAN_OR_EQUAL_TO = 'num_gte',
+  BETWEEN = 'num_bw',
+  NOT_BETWEEN = 'num_nbw',
+  IS_NULL = 'num_n',
+  IS_NOT_NULL = 'num_nn',
 }
 
 export enum BooleanOperator {
-  EQUALS,
-  NOT_EQUALS,
-  IS_NULL,
-  IS_NOT_NULL,
+  EQUALS = 'bool_eq',
+  NOT_EQUALS = 'bool_neq',
+  IS_NULL = 'bool_n',
+  IS_NOT_NULL = 'bool_nn',
 }
 
 export enum DateOperator {
-  EQUALS,
-  NOT_EQUALS,
-  BEFORE,
-  AFTER,
-  BETWEEN,
-  NOT_BETWEEN,
-  IS_NULL,
-  IS_NOT_NULL,
+  EQUALS = 'date_eq',
+  NOT_EQUALS = 'date_neq',
+  BEFORE = 'date_bf',
+  AFTER = 'date_af',
+  BETWEEN = 'date_bw',
+  NOT_BETWEEN = 'date_nbw',
+  IS_NULL = 'date_n',
+  IS_NOT_NULL = 'date_nn',
 }
+
+export type FilterOperator = StringOperator | NumberOperator | BooleanOperator | DateOperator;
 
 export enum FilterPropertyType {
   STRING = 'string',
@@ -49,13 +53,13 @@ export enum FilterPropertyType {
   DATE = 'date',
 }
 
+export interface FilterPropertyTypes {
+  [property: string]: FilterPropertyType
+}
+
 export enum OrderType {
   ASC = 'asc',
   DESC = 'desc',
-}
-
-export interface FilterPropertyTypes {
-  [property: string]: FilterPropertyType
 }
 
 export interface SortCriteria {
@@ -66,7 +70,7 @@ export interface SortCriteria {
 export interface FilterCriteria {
   property: string | null;
   type: FilterPropertyType | null;
-  operator: StringOperator | null;
+  operator: FilterOperator | null;
   value: string | null;
 }
 
@@ -82,6 +86,123 @@ export interface FilterObject {
 }
 
 export default class FilterUtils {
+  static sortOrderSelectList: SelectOption[] = [
+    {
+      value: 'asc',
+      label: 'Tăng dần',
+    },
+    {
+      value: 'desc',
+      label: 'Giảm dần',
+    },
+  ];
+
+  static filterStringOperatorSelectList: SelectOption[] = [
+    {
+      value: StringOperator.EQUALS,
+      label: 'Bằng với',
+    },
+    {
+      value: StringOperator.NOT_EQUALS,
+      label: 'Không bằng với',
+    },
+    {
+      value: StringOperator.CONTAINS,
+      label: 'Chứa chuỗi',
+    },
+    {
+      value: StringOperator.NOT_CONTAINS,
+      label: 'Không chứa chuỗi',
+    },
+    {
+      value: StringOperator.STARTS_WITH,
+      label: 'Bắt đầu với',
+    },
+    {
+      value: StringOperator.ENDS_WITH,
+      label: 'Kết thúc với',
+    },
+    {
+      value: StringOperator.IS_NULL,
+      label: 'Là rỗng',
+    },
+    {
+      value: StringOperator.IS_NOT_NULL,
+      label: 'Là không rỗng',
+    },
+  ];
+
+  static filterNumberOperatorSelectList: SelectOption[] = [
+    {
+      value: NumberOperator.EQUALS,
+      label: 'Bằng với',
+    },
+    {
+      value: NumberOperator.NOT_EQUALS,
+      label: 'Không bằng với',
+    },
+    {
+      value: NumberOperator.LESS_THAN,
+      label: 'Nhỏ hơn',
+    },
+    {
+      value: NumberOperator.LESS_THAN_OR_EQUAL_TO,
+      label: 'Nhỏ hơn hoặc bằng',
+    },
+    {
+      value: NumberOperator.GREATER_THAN,
+      label: 'Lớn hơn',
+    },
+    {
+      value: NumberOperator.GREATER_THAN_OR_EQUAL_TO,
+      label: 'Lớn hơn hoặc bằng',
+    },
+    {
+      value: NumberOperator.IS_NULL,
+      label: 'Là rỗng',
+    },
+    {
+      value: NumberOperator.IS_NOT_NULL,
+      label: 'Là không rỗng',
+    },
+  ];
+
+  static filterDateOperatorSelectList: SelectOption[] = [
+    {
+      value: DateOperator.EQUALS,
+      label: 'Bằng với',
+    },
+    {
+      value: DateOperator.NOT_EQUALS,
+      label: 'Không bằng với',
+    },
+    {
+      value: DateOperator.BEFORE,
+      label: 'Trước ngày',
+    },
+    {
+      value: DateOperator.AFTER,
+      label: 'Sau ngày',
+    },
+    {
+      value: DateOperator.IS_NULL,
+      label: 'Là rỗng',
+    },
+    {
+      value: DateOperator.IS_NOT_NULL,
+      label: 'Là không rỗng',
+    },
+  ];
+
+  static filterOperatorIsNullAndIsNotNullList: FilterOperator[] = [
+    StringOperator.IS_NULL,
+    StringOperator.IS_NOT_NULL,
+    NumberOperator.IS_NULL,
+    NumberOperator.IS_NOT_NULL,
+    DateOperator.IS_NULL,
+    DateOperator.IS_NOT_NULL,
+  ];
+
   static convertToSortRSQL = (filter: FilterObject | null) => {
     if (filter) {
       return filter.sortCriteriaList
@@ -94,8 +215,59 @@ export default class FilterUtils {
 
   static convertToFilterRSQL = (filter: FilterObject | null) => {
     if (filter) {
-      return '';
+      return filter.filterCriteriaList
+        .map(this.convertFilterCriteriaToRSQL)
+        .filter(Boolean)
+        .join(';');
     }
     return '';
   };
+
+  private static convertFilterCriteriaToRSQL = (filterCriteria: FilterCriteria) => {
+    if (filterCriteria.property && filterCriteria.operator) {
+      if (filterCriteria.value) {
+        switch (filterCriteria.operator) {
+        case StringOperator.EQUALS:
+          return filterCriteria.property + '==\'' + filterCriteria.value + '\'';
+        case StringOperator.NOT_EQUALS:
+          return filterCriteria.property + '!=\'' + filterCriteria.value + '\'';
+        case StringOperator.CONTAINS:
+          return filterCriteria.property + '=like=\'' + filterCriteria.value + '\'';
+        case StringOperator.NOT_CONTAINS:
+          return filterCriteria.property + '=notlike=\'' + filterCriteria.value + '\'';
+        case StringOperator.STARTS_WITH:
+          return filterCriteria.property + '==\'' + filterCriteria.value + '*\'';
+        case StringOperator.ENDS_WITH:
+          return filterCriteria.property + '==\'*' + filterCriteria.value + '\'';
+
+        case NumberOperator.EQUALS:
+          return filterCriteria.property + '==' + filterCriteria.value;
+        case NumberOperator.NOT_EQUALS:
+          return filterCriteria.property + '!=' + filterCriteria.value;
+        case NumberOperator.LESS_THAN:
+          return filterCriteria.property + '=lt=' + filterCriteria.value;
+        case NumberOperator.LESS_THAN_OR_EQUAL_TO:
+          return filterCriteria.property + '=le=' + filterCriteria.value;
+        case NumberOperator.GREATER_THAN:
+          return filterCriteria.property + '=gt=' + filterCriteria.value;
+        case NumberOperator.GREATER_THAN_OR_EQUAL_TO:
+          return filterCriteria.property + '=ge=' + filterCriteria.value;
+        }
+      } else {
+        switch (filterCriteria.operator) {
+        case StringOperator.IS_NULL:
+        case NumberOperator.IS_NULL:
+        case DateOperator.IS_NULL:
+          return filterCriteria.property + '=isnull=\'\'';
+        case StringOperator.IS_NOT_NULL:
+        case NumberOperator.IS_NOT_NULL:
+        case DateOperator.IS_NOT_NULL:
+          return filterCriteria.property + '=isnotnull=\'\'';
+        default:
+          return '';
+        }
+      }
+    }
+    return '';
+  }
 }

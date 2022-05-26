@@ -1,4 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
+import 'dayjs/locale/vi';
+import { Link } from 'react-router-dom';
+import { DatePicker } from '@mantine/dates';
 import {
   ActionIcon,
   Box,
@@ -11,8 +14,10 @@ import {
   Grid,
   Group,
   Highlight,
+  Input,
   LoadingOverlay,
   Menu,
+  NumberInput,
   Pagination,
   Paper,
   Select,
@@ -40,18 +45,18 @@ import {
   Search,
   Trash
 } from 'tabler-icons-react';
-import { Link } from 'react-router-dom';
 import ResourceURL from '../constants/ResourceURL';
+import { SelectOption } from '../utils/MantineUtils';
 import FetchUtils, { RequestParams, ResponseData } from '../utils/FetchUtils';
 import DateUtils from '../utils/DateUtils';
 import FilterUtils, {
   FilterCriteria,
   FilterObject,
+  FilterOperator,
   FilterPropertyType,
   FilterPropertyTypes,
   OrderType,
-  SortCriteria,
-  StringOperator
+  SortCriteria
 } from '../utils/FilterUtils';
 
 interface TitleLink {
@@ -107,12 +112,6 @@ const initialResponseData: ResponseData<Province> = {
   last: false
 }
 
-interface SelectOption {
-  value: string;
-  label: string;
-  disabled?: boolean;
-}
-
 const initialPropertySelectList: SelectOption[] = [
   {
     value: 'id',
@@ -136,17 +135,6 @@ const initialPropertySelectList: SelectOption[] = [
   },
 ];
 
-const sortOrderSelectList: SelectOption[] = [
-  {
-    value: 'asc',
-    label: 'Tăng dần',
-  },
-  {
-    value: 'desc',
-    label: 'Giảm dần',
-  },
-];
-
 const filterPropertyTypes: FilterPropertyTypes = {
   id: FilterPropertyType.NUMBER,
   createdAt: FilterPropertyType.DATE,
@@ -154,17 +142,6 @@ const filterPropertyTypes: FilterPropertyTypes = {
   name: FilterPropertyType.STRING,
   code: FilterPropertyType.STRING,
 }
-
-const filterStringOperatorSelectList: SelectOption[] = [
-  {
-    value: StringOperator.EQUALS,
-    label: 'Bằng với',
-  },
-  {
-    value: StringOperator.NOT_EQUALS,
-    label: 'Không bằng với',
-  },
-];
 
 const MAX_FILTER_CRITERIA_NUMBER = 10;
 const CURRENT_USER_ID = 1;
@@ -174,7 +151,7 @@ export default function ProvinceManager() {
 
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const filterNameInputRef = useRef<HTMLInputElement | null>(null);
-  const filterCriteriaValueInputRefs = useRef<WeakMap<FilterCriteria, HTMLInputElement | null>>(new WeakMap());
+  const filterCriteriaValueInputRefs = useRef<WeakMap<FilterCriteria, HTMLInputElement | HTMLButtonElement | null>>(new WeakMap());
 
   const [responseData, setResponseData] = useState<ResponseData<Province>>(initialResponseData);
   const [activePage, setActivePage] = useState(responseData.page);
@@ -207,12 +184,12 @@ export default function ProvinceManager() {
     }
   }, [activePage, activePageSize, activeFilter, searchToken, loading]);
 
-  const toggleRow = (id: number) =>
+  const handleToggleRowCheckbox = (id: number) =>
     setSelection(current =>
       current.includes(id) ? current.filter(item => item !== id) : [...current, id]
     );
 
-  const toggleAll = () =>
+  const handleToggleAllRowCheckbox = () =>
     setSelection(current =>
       current.length === responseData.size ? [] : responseData.content.map(item => item.id)
     );
@@ -254,6 +231,9 @@ export default function ProvinceManager() {
   const handleResetButton = () => {
     if (searchInputRef.current?.value) {
       searchInputRef.current.value = '';
+    }
+    if (activeFilter !== null) {
+      setActiveFilter(null);
     }
   }
 
@@ -329,10 +309,13 @@ export default function ProvinceManager() {
 
   const handleFilterPropertySelect = (propertyValue: string | null, filterCriteriaIndex: number) => {
     const currentFilterCriteriaList = filterCriteriaList.map((item, index) => {
+      const currentFilterPropertyType = propertyValue ? filterPropertyTypes[propertyValue] : null;
+      const currentFilterOperator = (propertyValue !== null && currentFilterPropertyType === item.type) ? item.operator : null;
       return (index === filterCriteriaIndex) ? {
         ...item,
         property: propertyValue,
-        type: propertyValue ? filterPropertyTypes[propertyValue] : null
+        type: currentFilterPropertyType,
+        operator: currentFilterOperator,
       } : item;
     });
 
@@ -341,7 +324,7 @@ export default function ProvinceManager() {
 
   const handleFilterOperatorSelect = (operatorValue: string | null, filterCriteriaIndex: number) => {
     const currentFilterCriteriaList = filterCriteriaList.map((item, index) => {
-      return (index === filterCriteriaIndex) ? { ...item, operator: operatorValue as StringOperator } : item;
+      return (index === filterCriteriaIndex) ? { ...item, operator: operatorValue as FilterOperator } : item;
     });
 
     setFilterCriteriaList(currentFilterCriteriaList);
@@ -375,15 +358,10 @@ export default function ProvinceManager() {
     }
 
     setFilters(prevState => [...prevState, filter]);
-
-    // reset filter panel
-
     setSortCriteriaList([]);
     setSortPropertySelectList(initialPropertySelectList);
     setFilterCriteriaList([]);
     setActiveFilterPanel(false);
-
-    // console.log(filter)
   }
 
   const filterSelectList: SelectOption[] = filters.map(item => ({ value: item.id, label: item.name }));
@@ -405,7 +383,7 @@ export default function ProvinceManager() {
     <tr>
       <th style={{ width: 40 }}>
         <Checkbox
-          onChange={toggleAll}
+          onChange={handleToggleAllRowCheckbox}
           checked={selection.length === responseData.size}
           indeterminate={selection.length > 0 && selection.length !== responseData.size}
           transitionDuration={0}
@@ -427,7 +405,7 @@ export default function ProvinceManager() {
         <td>
           <Checkbox
             checked={selection.includes(item.id)}
-            onChange={() => toggleRow(item.id)}
+            onChange={() => handleToggleRowCheckbox(item.id)}
             transitionDuration={0}
           />
         </td>
@@ -481,7 +459,7 @@ export default function ProvinceManager() {
         icon={<ArrowsDownUp size={14}/>}
         clearable
         value={sortCriteria.order}
-        data={sortOrderSelectList}
+        data={FilterUtils.sortOrderSelectList}
         onChange={orderValue => handleSortOrderSelect(orderValue, index)}
       />
       <ActionIcon
@@ -496,55 +474,113 @@ export default function ProvinceManager() {
     </Group>
   ));
 
-  const filterCriteriaListFragment = filterCriteriaList.map((filterCriteria, index) => (
-    <Group key={index} spacing="sm" sx={{ flexWrap: 'nowrap', justifyContent: 'space-between' }}>
-      <ActionIcon color="blue" variant="hover" size={36} title="Di chuyển tiêu chí lọc">
-        <DragDrop/>
-      </ActionIcon>
-      <Select
-        sx={{ width: '100%' }}
-        placeholder="Chọn thuộc tính"
-        icon={<AB size={14}/>}
-        clearable
-        value={filterCriteria.property}
-        data={filterPropertySelectList}
-        onChange={propertyValue => handleFilterPropertySelect(propertyValue, index)}
-      />
-      <Select
-        sx={{ width: '100%' }}
-        placeholder="Chọn cách lọc"
-        icon={<Filter size={14}/>}
-        clearable
-        value={filterCriteria.operator}
-        data={filterStringOperatorSelectList}
-        onChange={operatorValue => handleFilterOperatorSelect(operatorValue, index)}
-      />
-      <TextInput
-        sx={{ width: '120%' }}
-        placeholder="Nhập giá trị"
-        icon={<Keyboard size={14}/>}
-        ref={inputRef => filterCriteriaValueInputRefs.current.set(filterCriteria, inputRef)}
-      />
-      <ActionIcon
-        color="red"
-        variant="hover"
-        size={36}
-        title="Xóa tiêu chí lọc"
-        onClick={() => handleDeleteFilterCriteriaButton(index)}
-      >
-        <CircleX/>
-      </ActionIcon>
-    </Group>
-  ));
+  const filterCriteriaListFragment = filterCriteriaList.map((filterCriteria, index) => {
+    const isSelectedFilterProperty = filterCriteria.property && filterCriteria.type;
+
+    const disabledFilterValueInput = !(isSelectedFilterProperty && filterCriteria.operator)
+      || FilterUtils.filterOperatorIsNullAndIsNotNullList.includes(filterCriteria.operator);
+
+    let filterOperatorSelectList: SelectOption[];
+    let filterValueInputFragment;
+
+    switch (filterCriteria.type) {
+    case FilterPropertyType.STRING:
+      filterOperatorSelectList = FilterUtils.filterStringOperatorSelectList;
+      filterValueInputFragment = (
+        <TextInput
+          sx={{ width: '100%' }}
+          placeholder="Nhập giá trị"
+          icon={<Keyboard size={14}/>}
+          ref={inputRef => filterCriteriaValueInputRefs.current.set(filterCriteria, inputRef)}
+          disabled={disabledFilterValueInput}
+        />
+      );
+      break;
+    case FilterPropertyType.NUMBER:
+      filterOperatorSelectList = FilterUtils.filterNumberOperatorSelectList;
+      filterValueInputFragment = (
+        <NumberInput
+          sx={{ width: '100%' }}
+          placeholder="Nhập giá trị"
+          icon={<Keyboard size={14}/>}
+          ref={inputRef => filterCriteriaValueInputRefs.current.set(filterCriteria, inputRef)}
+          disabled={disabledFilterValueInput}
+        />
+      );
+      break;
+    case FilterPropertyType.DATE:
+      filterOperatorSelectList = FilterUtils.filterDateOperatorSelectList;
+      filterValueInputFragment = (
+        <DatePicker
+          sx={{ width: '100%' }}
+          placeholder="Nhập giá trị"
+          icon={<Keyboard size={14}/>}
+          ref={inputRef => filterCriteriaValueInputRefs.current.set(filterCriteria, inputRef)}
+          disabled={disabledFilterValueInput}
+          locale="vi"
+          inputFormat="DD/MM/YYYY"
+        />
+      );
+      break;
+    default:
+      filterOperatorSelectList = [];
+      filterValueInputFragment = (
+        <Input
+          sx={{ width: '100%' }}
+          placeholder="Nhập giá trị"
+          icon={<Keyboard size={14}/>}
+          disabled={disabledFilterValueInput}
+        />
+      );
+    }
+
+    return (
+      <Group key={index} spacing="sm" sx={{ flexWrap: 'nowrap', justifyContent: 'space-between' }}>
+        <ActionIcon color="blue" variant="hover" size={36} title="Di chuyển tiêu chí lọc">
+          <DragDrop/>
+        </ActionIcon>
+        <Select
+          sx={{ width: '100%' }}
+          placeholder="Chọn thuộc tính"
+          icon={<AB size={14}/>}
+          clearable
+          value={filterCriteria.property}
+          data={filterPropertySelectList}
+          onChange={propertyValue => handleFilterPropertySelect(propertyValue, index)}
+        />
+        <Select
+          sx={{ width: '100%' }}
+          placeholder="Chọn cách lọc"
+          icon={<Filter size={14}/>}
+          clearable
+          value={filterCriteria.operator}
+          data={filterOperatorSelectList}
+          onChange={operatorValue => handleFilterOperatorSelect(operatorValue, index)}
+          disabled={!isSelectedFilterProperty}
+        />
+        {filterValueInputFragment}
+        <ActionIcon
+          color="red"
+          variant="hover"
+          size={36}
+          title="Xóa tiêu chí lọc"
+          onClick={() => handleDeleteFilterCriteriaButton(index)}
+        >
+          <CircleX/>
+        </ActionIcon>
+      </Group>
+    );
+  });
 
   console.log('re-render: ', responseData, {
-    // filterCriteriaList,
+    filterCriteriaList,
     // sortCriteriaList,
     // filters,
     // sortPropertySelectList,
     // activePage,
     // activePageSize,
     // selection,
+    filters,
     loading,
     searchToken,
     activeFilter,
@@ -593,6 +629,7 @@ export default function ProvinceManager() {
               icon={<AdjustmentsHorizontal size={14}/>}
               clearable
               data={filterSelectList}
+              value={activeFilter ? activeFilter.id : null}
               onChange={handleFilterSelect}
             />
             <Tooltip label="Sửa bộ lọc" withArrow>
