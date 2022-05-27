@@ -7,19 +7,29 @@ export interface RequestParams {
   sort?: string;
   filter?: string;
   search?: string;
-  all?: number
+  all?: number;
 }
 
 /**
  * ResponseData dùng để thể hiện đối tượng trả về sau lệnh getAll
  */
 export interface ResponseData<T> {
-  content: T[],
-  page: number,
-  size: number,
-  totalElements: number,
-  totalPages: number,
-  last: boolean
+  content: T[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  last: boolean;
+}
+
+/**
+ * ErrorMessage dùng để thể hiện đối tượng lỗi trả về sau lệnh fetch
+ */
+export interface ErrorMessage {
+  statusCode: number;
+  timestamp: string;
+  message: string;
+  description: string;
 }
 
 export default class FetchUtils {
@@ -28,9 +38,43 @@ export default class FetchUtils {
    * @param url
    * @param requestParams
    */
-  static async getAll<T>(url: string, requestParams?: RequestParams): Promise<ResponseData<T>> {
+  static async getAll<T>(url: string, requestParams?: RequestParams): Promise<[number, ResponseData<T> | ErrorMessage]> {
     const response = await fetch(this.concatParams(url, requestParams));
-    return await response.json();
+    return [response.status, await response.json()];
+  }
+
+  /**
+   * Hàm getById dùng để lấy entity có id cho trước
+   * @param url
+   * @param entityId
+   */
+  static async getById<T>(url: string, entityId: number): Promise<[number, T | ErrorMessage]> {
+    const response = await fetch(url + '/' + entityId);
+    return [response.status, await response.json()];
+  }
+
+  /**
+   * Hàm deleteById xóa entity theo id nhận được và trả về response status (thành công: 204, thất bại: 500)
+   * @param url
+   * @param entityId
+   */
+  static async deleteById(url: string, entityId: number) {
+    const response = await fetch(url + '/' + entityId, { method: 'DELETE' });
+    return response.status;
+  }
+
+  /**
+   * Hàm deleteByIds xóa hàng loạt entity theo mảng id nhận được và trả về response status (204, 500)
+   * @param url
+   * @param entityIds
+   */
+  static async deleteByIds(url: string, entityIds: number[]) {
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(entityIds),
+    });
+    return response.status;
   }
 
   /**

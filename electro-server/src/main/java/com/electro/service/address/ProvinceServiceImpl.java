@@ -47,7 +47,7 @@ public class ProvinceServiceImpl implements ProvinceService {
 
     @Override
     public void delete(List<Long> ids) {
-        ids.forEach(provinceRepository::deleteById);
+        provinceRepository.deleteAllById(ids);
     }
 
 }

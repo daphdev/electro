@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import 'dayjs/locale/vi';
 import { Link } from 'react-router-dom';
 import { DatePicker } from '@mantine/dates';
+import { showNotification } from '@mantine/notifications';
 import {
   ActionIcon,
   Box,
@@ -17,6 +18,7 @@ import {
   Input,
   LoadingOverlay,
   Menu,
+  Modal,
   NumberInput,
   Pagination,
   Paper,
@@ -26,12 +28,14 @@ import {
   Text,
   TextInput,
   Title,
-  Tooltip
+  Tooltip,
+  useMantineTheme
 } from '@mantine/core';
 import {
   AB,
   AdjustmentsHorizontal,
   ArrowsDownUp,
+  Check,
   CircleX,
   DragDrop,
   Edit,
@@ -43,12 +47,13 @@ import {
   Keyboard,
   Plus,
   Search,
-  Trash
+  Trash,
+  X
 } from 'tabler-icons-react';
-import ResourceURL from '../constants/ResourceURL';
-import { SelectOption } from '../utils/MantineUtils';
-import FetchUtils, { RequestParams, ResponseData } from '../utils/FetchUtils';
-import DateUtils from '../utils/DateUtils';
+import ResourceURL from '../../constants/ResourceURL';
+import { SelectOption } from '../../utils/MantineUtils';
+import FetchUtils, { RequestParams, ResponseData } from '../../utils/FetchUtils';
+import DateUtils from '../../utils/DateUtils';
 import FilterUtils, {
   FilterCriteria,
   FilterObject,
@@ -57,7 +62,7 @@ import FilterUtils, {
   FilterPropertyTypes,
   OrderType,
   SortCriteria
-} from '../utils/FilterUtils';
+} from '../../utils/FilterUtils';
 
 interface TitleLink {
   link: string,
@@ -143,10 +148,67 @@ const filterPropertyTypes: FilterPropertyTypes = {
   code: FilterPropertyType.STRING,
 }
 
+enum EntityPropertyType {
+  STRING = 'string',
+  NUMBER = 'number',
+  BOOLEAN = 'boolean',
+  DATE = 'date',
+}
+
+interface EntityPropertyNames {
+  [propertyName: string]: {
+    label: string,
+    type: EntityPropertyType,
+  };
+}
+
+const entityPropertyNames: EntityPropertyNames = {
+  id: {
+    label: 'ID',
+    type: EntityPropertyType.NUMBER,
+  },
+  createdAt: {
+    label: 'Ngày tạo',
+    type: EntityPropertyType.DATE,
+  },
+  updatedAt: {
+    label: 'Ngày cập nhật',
+    type: EntityPropertyType.DATE,
+  },
+  name: {
+    label: 'Tên tỉnh thành',
+    type: EntityPropertyType.STRING,
+  },
+  code: {
+    label: 'Mã tỉnh thành',
+    type: EntityPropertyType.STRING,
+  },
+}
+
 const MAX_FILTER_CRITERIA_NUMBER = 10;
 const CURRENT_USER_ID = 1;
 
+const initialPageSizeSelectList: SelectOption[] = [
+  {
+    value: '5',
+    label: '5',
+  },
+  {
+    value: '10',
+    label: '10'
+  },
+  {
+    value: '25',
+    label: '25'
+  },
+  {
+    value: '50',
+    label: '50'
+  }
+];
+
 export default function ProvinceManager() {
+  const theme = useMantineTheme();
   const { classes, cx } = useStyles();
 
   const searchInputRef = useRef<HTMLInputElement | null>(null);
@@ -159,7 +221,7 @@ export default function ProvinceManager() {
   const [selection, setSelection] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchToken, setSearchToken] = useState('');
-  const [activeFilterPanel, setActiveFilterPanel] = useState(true);
+  const [activeFilterPanel, setActiveFilterPanel] = useState(false);
 
   const [sortCriteriaList, setSortCriteriaList] = useState<SortCriteria[]>([]);
   const [sortPropertySelectList, setSortPropertySelectList] = useState(initialPropertySelectList);
@@ -170,6 +232,15 @@ export default function ProvinceManager() {
   const [activeFilter, setActiveFilter] = useState<FilterObject | null>(null)
   const [prevActiveFilter, setPrevActiveFilter] = useState<FilterObject | null>(null);
 
+  const [openedDeleteEntityModal, setOpenedDeleteEntityModal] = useState(false);
+  const [activeEntityIdToDelete, setActiveEntityIdToDelete] = useState<number | null>(null);
+
+  const [openedDeleteBatchEntitiesModal, setOpenedDeleteBatchEntitiesModal] = useState(false);
+  const [activeEntityIdsToDelete, setActiveEntityIdsToDelete] = useState<number[]>([]);
+
+  const [openedViewEntityModal, setOpenedViewEntityModal] = useState(false);
+  const [activeEntityToView, setActiveEntityToView] = useState<Province | null>(null);
+
   useEffect(() => {
     if (loading) {
       const requestParams: RequestParams = {
@@ -179,19 +250,29 @@ export default function ProvinceManager() {
         filter: FilterUtils.convertToFilterRSQL(activeFilter),
         search: searchToken,
       };
-      const responseDataPromise = FetchUtils.getAll<Province>(ResourceURL.PROVINCE, requestParams);
-      setTimeout(() => responseDataPromise.then(setResponseData).then(() => setLoading(false)), 100);
+      FetchUtils.getAll<Province>(ResourceURL.PROVINCE, requestParams)
+        .then(([responseStatus, responseBody]) => {
+          if (responseStatus === 200) {
+            setTimeout(() => {
+              setResponseData(responseBody as ResponseData<Province>);
+              setLoading(false);
+            }, 100);
+          }
+          if (responseStatus === 500) {
+            console.error(responseStatus, responseBody);
+          }
+        });
     }
   }, [activePage, activePageSize, activeFilter, searchToken, loading]);
 
-  const handleToggleRowCheckbox = (id: number) =>
+  const handleToggleRowCheckbox = (entityId: number) =>
     setSelection(current =>
-      current.includes(id) ? current.filter(item => item !== id) : [...current, id]
+      current.includes(entityId) ? current.filter(item => item !== entityId) : [...current, entityId]
     );
 
-  const handleToggleAllRowCheckbox = () =>
+  const handleToggleAllRowsCheckbox = () =>
     setSelection(current =>
-      current.length === responseData.size ? [] : responseData.content.map(item => item.id)
+      current.length === responseData.content.length ? [] : responseData.content.map(entity => entity.id)
     );
 
   const handlePaginationButton = (page: number) => {
@@ -373,19 +454,125 @@ export default function ProvinceManager() {
     });
   }
 
+  const handleDeleteEntityButton = (entityId: number) => {
+    setActiveEntityIdToDelete(entityId);
+    setOpenedDeleteEntityModal(true);
+  }
+
+  const handleCancelDeleteEntityButton = () => {
+    setOpenedDeleteEntityModal(false);
+  }
+
+  const handleConfirmedDeleteEntityButton = () => {
+    if (activeEntityIdToDelete) {
+      FetchUtils.deleteById(ResourceURL.PROVINCE, activeEntityIdToDelete)
+        .then((responseStatus) => {
+          if (responseStatus === 204) {
+            showNotification({
+              title: 'Thông báo',
+              message: 'Xóa thành công',
+              autoClose: 5000,
+              icon: <Check size={18}/>,
+              color: 'teal',
+            });
+            if (responseData.content.length === 1) {
+              setActivePage(activePage - 1 || 1);
+            }
+            setLoading(true);
+          }
+          if (responseStatus === 500) {
+            showNotification({
+              title: 'Thông báo',
+              message: 'Xóa không thành công',
+              autoClose: 5000,
+              icon: <X size={18}/>,
+              color: 'red',
+            });
+          }
+        });
+    }
+    setOpenedDeleteEntityModal(false);
+  }
+
+  const handleDeleteBatchEntitiesButton = () => {
+    if (selection.length > 0) {
+      setActiveEntityIdsToDelete(selection);
+      setOpenedDeleteBatchEntitiesModal(true);
+    } else {
+      showNotification({
+        title: 'Thông báo',
+        message: 'Vui lòng chọn ít nhất một phần tử để xóa',
+        autoClose: 5000,
+      })
+    }
+  }
+
+  const handleCancelDeleteBatchEntitiesButton = () => {
+    setOpenedDeleteBatchEntitiesModal(false);
+  }
+
+  const handleConfirmedDeleteBatchEntitiesButton = () => {
+    if (activeEntityIdsToDelete.length > 0) {
+      FetchUtils.deleteByIds(ResourceURL.PROVINCE, activeEntityIdsToDelete)
+        .then((responseStatus) => {
+          if (responseStatus === 204) {
+            showNotification({
+              title: 'Thông báo',
+              message: 'Xóa thành công',
+              autoClose: 5000,
+              icon: <Check size={18}/>,
+              color: 'teal',
+            });
+            if (responseData.content.length === selection.length) {
+              setActivePage(activePage - 1 || 1);
+            }
+            setSelection([]);
+            setLoading(true);
+          }
+          if (responseStatus === 500) {
+            showNotification({
+              title: 'Thông báo',
+              message: 'Xóa không thành công',
+              autoClose: 5000,
+              icon: <X size={18}/>,
+              color: 'red',
+            });
+          }
+        });
+    }
+    setOpenedDeleteBatchEntitiesModal(false);
+  }
+
+  const handleViewEntityButton = (entityId: number) => {
+    FetchUtils.getById<Province>(ResourceURL.PROVINCE, entityId)
+      .then(([responseStatus, responseBody]) => {
+        if (responseStatus === 200) {
+          setActiveEntityToView(responseBody as Province);
+          setOpenedViewEntityModal(true);
+        }
+        if (responseStatus === 404) {
+          console.error(responseStatus, responseBody);
+        }
+      });
+  }
+
+  const handleCancelViewEntityButton = () => {
+    setOpenedViewEntityModal(false);
+  }
+
   const titleLinksFragment = titleLinks.map(titleLink => (
     <Menu.Item key={titleLink.label} component={Link} to={titleLink.link}>
       {titleLink.label}
     </Menu.Item>
   ));
 
-  const tableHeadsFragment = (
+  const entitiesTableHeadsFragment = (
     <tr>
       <th style={{ width: 40 }}>
         <Checkbox
-          onChange={handleToggleAllRowCheckbox}
-          checked={selection.length === responseData.size}
-          indeterminate={selection.length > 0 && selection.length !== responseData.size}
+          onChange={handleToggleAllRowsCheckbox}
+          checked={selection.length === responseData.content.length}
+          indeterminate={selection.length > 0 && selection.length !== responseData.content.length}
           transitionDuration={0}
         />
       </th>
@@ -398,39 +585,51 @@ export default function ProvinceManager() {
     </tr>
   );
 
-  const tableRowsFragment = responseData.content.map((item) => {
-    const selected = selection.includes(item.id);
+  const entitiesTableRowsFragment = responseData.content.map((entity) => {
+    const selected = selection.includes(entity.id);
     return (
-      <tr key={item.id} className={cx({ [classes.rowSelected]: selected })}>
+      <tr key={entity.id} className={cx({ [classes.rowSelected]: selected })}>
         <td>
           <Checkbox
-            checked={selection.includes(item.id)}
-            onChange={() => handleToggleRowCheckbox(item.id)}
+            checked={selection.includes(entity.id)}
+            onChange={() => handleToggleRowCheckbox(entity.id)}
             transitionDuration={0}
           />
         </td>
-        <td>{item.id}</td>
-        <td>{DateUtils.isoDateToString(item.createdAt)}</td>
-        <td>{DateUtils.isoDateToString(item.updatedAt)}</td>
+        <td>{entity.id}</td>
+        <td>{DateUtils.isoDateToString(entity.createdAt)}</td>
+        <td>{DateUtils.isoDateToString(entity.updatedAt)}</td>
         <td>
           <Highlight highlight={searchToken} highlightColor="blue">
-            {item.name}
+            {entity.name}
           </Highlight>
         </td>
         <td>
           <Highlight highlight={searchToken} highlightColor="blue">
-            {item.code}
+            {entity.code}
           </Highlight>
         </td>
         <td>
           <Group spacing="xs">
-            <ActionIcon color="blue" variant="outline" size={24} title="Xem">
+            <ActionIcon
+              color="blue"
+              variant="outline"
+              size={24}
+              title="Xem"
+              onClick={() => handleViewEntityButton(entity.id)}
+            >
               <Eye size={16}/>
             </ActionIcon>
             <ActionIcon color="teal" variant="outline" size={24} title="Sửa">
               <Edit size={16}/>
             </ActionIcon>
-            <ActionIcon color="red" variant="outline" size={24} title="Xóa">
+            <ActionIcon
+              color="red"
+              variant="outline"
+              size={24}
+              title="Xóa"
+              onClick={() => handleDeleteEntityButton(entity.id)}
+            >
               <Trash size={16}/>
             </ActionIcon>
           </Group>
@@ -572,6 +771,29 @@ export default function ProvinceManager() {
     );
   });
 
+  const entityDetailsTableHeadsFragment = (
+    <tr>
+      <th>Thuộc tính</th>
+      <th>Giá trị</th>
+    </tr>
+  );
+
+  const entityDetailsTableRowsFragment = activeEntityToView &&
+    Object.entries(activeEntityToView).map(([propertyName, propertyValue]) => (
+      <tr key={propertyName}>
+        <td>{entityPropertyNames[propertyName].label}</td>
+        <td>
+          {entityPropertyNames[propertyName].type === EntityPropertyType.DATE
+            ? DateUtils.isoDateToString(propertyValue)
+            : propertyValue}
+        </td>
+      </tr>
+    ));
+
+  const pageSizeSelectList = initialPageSizeSelectList.map(pageSize =>
+    (Number(pageSize.value) > responseData.totalElements) ? { ...pageSize, disabled: true } : pageSize
+  );
+
   console.log('re-render: ', responseData, {
     filterCriteriaList,
     // sortCriteriaList,
@@ -580,16 +802,19 @@ export default function ProvinceManager() {
     // activePage,
     // activePageSize,
     // selection,
-    filters,
+    // filters,
     loading,
-    searchToken,
-    activeFilter,
-    prevActiveFilter,
+    // activeEntityIdToDelete,
+    // openedDeleteEntityModal,
+    activeEntityIdsToDelete,
+    openedDeleteBatchEntitiesModal,
+    // searchToken,
+    // activeFilter,
+    // prevActiveFilter,
   });
 
   return (
     <Stack>
-
       <Group position="apart">
         <Group spacing="xs">
           <Menu
@@ -605,10 +830,20 @@ export default function ProvinceManager() {
         </Group>
 
         <Group spacing="xs">
-          <Button variant="outline" leftIcon={<Plus/>}>
+          <Button
+            component={Link}
+            to="create"
+            variant="outline"
+            leftIcon={<Plus/>}
+          >
             Thêm mới
           </Button>
-          <Button variant="outline" color="red" leftIcon={<Trash/>}>
+          <Button
+            variant="outline"
+            color="red"
+            leftIcon={<Trash/>}
+            onClick={handleDeleteBatchEntitiesButton}
+          >
             Xóa hàng loạt
           </Button>
         </Group>
@@ -719,6 +954,59 @@ export default function ProvinceManager() {
         </Paper>
       )}
 
+      <Modal
+        size="xs"
+        overlayColor={theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2]}
+        overlayOpacity={0.55}
+        overlayBlur={3}
+        closeOnClickOutside={false}
+        opened={openedDeleteEntityModal}
+        onClose={handleCancelDeleteEntityButton}
+        title={<strong>Xác nhận xóa</strong>}
+      >
+        <Stack>
+          <Text>Xóa phần tử có ID {activeEntityIdToDelete} ?</Text>
+          <Group grow>
+            <Button variant="default" onClick={handleCancelDeleteEntityButton}>Không xóa</Button>
+            <Button color="red" onClick={handleConfirmedDeleteEntityButton}>Xóa</Button>
+          </Group>
+        </Stack>
+      </Modal>
+
+      <Modal
+        size="xs"
+        overlayColor={theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2]}
+        overlayOpacity={0.55}
+        overlayBlur={3}
+        closeOnClickOutside={false}
+        opened={openedDeleteBatchEntitiesModal}
+        onClose={handleCancelDeleteBatchEntitiesButton}
+        title={<strong>Xác nhận xóa</strong>}
+      >
+        <Stack>
+          <Text>Xóa (các) phần tử có ID {activeEntityIdsToDelete.join(', ')} ?</Text>
+          <Group grow>
+            <Button variant="default" onClick={handleCancelDeleteBatchEntitiesButton}>Không xóa</Button>
+            <Button color="red" onClick={handleConfirmedDeleteBatchEntitiesButton}>Xóa</Button>
+          </Group>
+        </Stack>
+      </Modal>
+
+      <Modal
+        size="md"
+        overlayColor={theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2]}
+        overlayOpacity={0.55}
+        overlayBlur={3}
+        opened={openedViewEntityModal}
+        onClose={handleCancelViewEntityButton}
+        title={<strong>Thông tin chi tiết</strong>}
+      >
+        <Table striped highlightOnHover>
+          <thead>{entityDetailsTableHeadsFragment}</thead>
+          <tbody>{entityDetailsTableRowsFragment}</tbody>
+        </Table>
+      </Modal>
+
       <Paper shadow="xs" style={{
         position: 'relative',
         height: responseData.totalElements === 0 ? '250px' : 'auto'
@@ -740,8 +1028,8 @@ export default function ProvinceManager() {
               overflow: 'hidden'
             })}
           >
-            <thead>{tableHeadsFragment}</thead>
-            <tbody>{tableRowsFragment}</tbody>
+            <thead>{entitiesTableHeadsFragment}</thead>
+            <tbody>{entitiesTableRowsFragment}</tbody>
           </Table>
         )}
       </Paper>
@@ -759,7 +1047,7 @@ export default function ProvinceManager() {
             <Select
               styles={{ root: { width: 72 } }}
               variant="filled"
-              data={['5', '10', '25', '50']}
+              data={pageSizeSelectList}
               value={String(activePageSize)}
               onChange={handlePageSizeSelect}
             />

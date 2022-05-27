@@ -61,7 +61,7 @@ public class GenericService<E, I, O> implements CrudService<I, O> {
 
     @Override
     public void delete(List<Long> ids) {
-        ids.forEach(repository::deleteById);
+        repository.deleteAllById(ids);
     }
 
 }
