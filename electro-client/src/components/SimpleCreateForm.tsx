@@ -43,7 +43,7 @@ export default function SimpleCreateForm<F, I, O>({ form, resourceUrl, children 
         <Stack spacing={0}>
           {children}
 
-          <Divider/>
+          <Divider mt="xs"/>
 
           <Group position="apart" p="sm">
             <Button variant="default" onClick={form.reset}>Tẩy trống</Button>

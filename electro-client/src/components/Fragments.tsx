@@ -5,9 +5,8 @@ export default function Fragments({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-
 const FormRow2Col = ({ children }: { children: React.ReactNode }) => (
-  <SimpleGrid p="sm" mb="xs" spacing="md" breakpoints={[{ minWidth: 'xs', cols: 2 }]}>
+  <SimpleGrid p="sm" spacing="md" breakpoints={[{ minWidth: 'xs', cols: 2 }]}>
     {children}
   </SimpleGrid>
 );

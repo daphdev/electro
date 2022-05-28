@@ -44,7 +44,7 @@ export default function SimpleUpdateForm<F, I, O>({ form, resourceUrl, entityId,
         <Stack spacing={0}>
           {children}
 
-          <Divider/>
+          <Divider mt="xs"/>
 
           <Group position="apart" p="sm">
             <Button variant="default" onClick={form.reset}>Tẩy trống</Button>
