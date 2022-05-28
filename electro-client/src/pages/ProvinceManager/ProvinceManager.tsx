@@ -63,7 +63,8 @@ import FilterUtils, {
   OrderType,
   SortCriteria
 } from '../../utils/FilterUtils';
-import { ProvinceResponse } from './Configs';
+import Configs, { ProvinceResponse } from './Configs';
+import { EntityPropertyType } from '../../utils/EntityUtils';
 
 interface TitleLink {
   link: string,
@@ -139,43 +140,6 @@ const filterPropertyTypes: FilterPropertyTypes = {
   updatedAt: FilterPropertyType.DATE,
   name: FilterPropertyType.STRING,
   code: FilterPropertyType.STRING,
-}
-
-enum EntityPropertyType {
-  STRING = 'string',
-  NUMBER = 'number',
-  BOOLEAN = 'boolean',
-  DATE = 'date',
-}
-
-interface EntityPropertyNames {
-  [propertyName: string]: {
-    label: string,
-    type: EntityPropertyType,
-  };
-}
-
-const entityPropertyNames: EntityPropertyNames = {
-  id: {
-    label: 'ID',
-    type: EntityPropertyType.NUMBER,
-  },
-  createdAt: {
-    label: 'Ngày tạo',
-    type: EntityPropertyType.DATE,
-  },
-  updatedAt: {
-    label: 'Ngày cập nhật',
-    type: EntityPropertyType.DATE,
-  },
-  name: {
-    label: 'Tên tỉnh thành',
-    type: EntityPropertyType.STRING,
-  },
-  code: {
-    label: 'Mã tỉnh thành',
-    type: EntityPropertyType.STRING,
-  },
 }
 
 const MAX_FILTER_CRITERIA_NUMBER = 10;
@@ -781,9 +745,9 @@ export default function ProvinceManager() {
   const entityDetailsTableRowsFragment = activeEntityToView &&
     Object.entries(activeEntityToView).map(([propertyName, propertyValue]) => (
       <tr key={propertyName}>
-        <td>{entityPropertyNames[propertyName].label}</td>
+        <td>{Configs.properties[propertyName].label}</td>
         <td>
-          {entityPropertyNames[propertyName].type === EntityPropertyType.DATE
+          {Configs.properties[propertyName].type === EntityPropertyType.DATE
             ? DateUtils.isoDateToString(propertyValue)
             : propertyValue}
         </td>
