@@ -11,10 +11,10 @@ export interface RequestParams {
 }
 
 /**
- * ResponseData dùng để thể hiện đối tượng trả về sau lệnh getAll
+ * ListResponse dùng để thể hiện đối tượng trả về sau lệnh getAll
  */
-export interface ResponseData<T> {
-  content: T[];
+export interface ListResponse<O> {
+  content: O[];
   page: number;
   size: number;
   totalElements: number;
@@ -38,7 +38,7 @@ export default class FetchUtils {
    * @param url
    * @param requestParams
    */
-  static async getAll<T>(url: string, requestParams?: RequestParams): Promise<[number, ResponseData<T> | ErrorMessage]> {
+  static async getAll<O>(url: string, requestParams?: RequestParams): Promise<[number, ListResponse<O> | ErrorMessage]> {
     const response = await fetch(this.concatParams(url, requestParams));
     return [response.status, await response.json()];
   }
@@ -48,8 +48,43 @@ export default class FetchUtils {
    * @param url
    * @param entityId
    */
-  static async getById<T>(url: string, entityId: number): Promise<[number, T | ErrorMessage]> {
+  static async getById<O>(url: string, entityId: number): Promise<[number, O | ErrorMessage]> {
     const response = await fetch(url + '/' + entityId);
+    return [response.status, await response.json()];
+  }
+
+  /**
+   * Hàm create dùng để tạo entity từ requestBody
+   * @param url
+   * @param requestBody
+   */
+  static async create<I, O>(url: string, requestBody: I): Promise<[number, O | ErrorMessage]> {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestBody),
+    });
+    return [response.status, await response.json()];
+  }
+
+  /**
+   * Hàm update dùng để cập nhật entity theo id và requestBody nhận được
+   * @param url
+   * @param entityId
+   * @param requestBody
+   */
+  static async update<I, O>(url: string, entityId: number, requestBody: I): Promise<[number, O | ErrorMessage]> {
+    const response = await fetch(url + '/' + entityId, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestBody),
+    });
     return [response.status, await response.json()];
   }
 

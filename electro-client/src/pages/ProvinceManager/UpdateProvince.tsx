@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActionIcon,
   Button,
@@ -15,10 +15,11 @@ import {
 import { useForm, zodResolver } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 import { Check, ChevronLeft, X } from 'tabler-icons-react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { z } from 'zod';
 import ResourceURL from '../../constants/ResourceURL';
 import FetchUtils from '../../utils/FetchUtils';
+import DateUtils from '../../utils/DateUtils';
 import { ProvinceRequest, ProvinceResponse } from './Configs';
 
 const formSchema = z.object({
@@ -28,22 +29,47 @@ const formSchema = z.object({
 
 const initialFormValues = {
   name: '',
-  code: ''
+  code: '',
 }
 
-export default function CreateProvince() {
+export default function UpdateProvince() {
+  const { entityId } = useParams();
+  const [entity, setEntity] = useState<ProvinceResponse>();
   const form = useForm({
     schema: zodResolver(formSchema),
     initialValues: initialFormValues,
   });
 
+  useEffect(() => {
+    if (!entity) {
+      FetchUtils.getById<ProvinceResponse>(ResourceURL.PROVINCE, Number(entityId))
+        .then(([responseStatus, responseBody]) => {
+          if (responseStatus === 200) {
+            const castedResponseBody = responseBody as ProvinceResponse;
+            setEntity(castedResponseBody);
+            form.setValues({
+              name: castedResponseBody.name,
+              code: castedResponseBody.code,
+            });
+          }
+          if (responseStatus === 404) {
+            console.error(responseStatus, responseBody);
+          }
+        });
+    }
+  }, [entity, entityId, form]);
+
+  if (entity === undefined) {
+    return <></>;
+  }
+
   const handleFormSubmit = form.onSubmit(requestBody => {
-    FetchUtils.create<ProvinceRequest, ProvinceResponse>(ResourceURL.PROVINCE, requestBody)
+    FetchUtils.update<ProvinceRequest, ProvinceResponse>(ResourceURL.PROVINCE, Number(entityId), requestBody)
       .then(([responseStatus, responseBody]) => {
-        if (responseStatus === 201) {
+        if (responseStatus === 200) {
           showNotification({
             title: 'Thông báo',
-            message: 'Tạo thành công',
+            message: 'Cập nhật thành công',
             autoClose: 5000,
             icon: <Check size={18}/>,
             color: 'teal',
@@ -52,7 +78,7 @@ export default function CreateProvince() {
         if (responseStatus === 500) {
           showNotification({
             title: 'Thông báo',
-            message: 'Tạo không thành công',
+            message: 'Cập nhật không thành công',
             autoClose: 5000,
             icon: <X size={18}/>,
             color: 'red',
@@ -72,22 +98,22 @@ export default function CreateProvince() {
         >
           <ChevronLeft/>
         </ActionIcon>
-        <Title order={3}>Thêm tỉnh thành</Title>
+        <Title order={3}>Cập nhật tỉnh thành</Title>
       </Group>
 
       <Paper shadow="xs" p="sm">
         <Group spacing="xl">
           <Stack spacing={5}>
             <Text>ID</Text>
-            <Text><Code color="blue">__</Code></Text>
+            <Text><Code color="blue">{entityId}</Code></Text>
           </Stack>
           <Stack spacing={5}>
             <Text>Ngày tạo</Text>
-            <Text><Code color="blue">__/__/____</Code></Text>
+            <Text><Code color="blue">{DateUtils.isoDateToString(entity.createdAt)}</Code></Text>
           </Stack>
           <Stack spacing={5}>
             <Text>Ngày cập nhật</Text>
-            <Text><Code color="blue">__/__/____</Code></Text>
+            <Text><Code color="blue">{DateUtils.isoDateToString(entity.updatedAt)}</Code></Text>
           </Stack>
           <Stack spacing={5}>
             <Text>Người tạo</Text>
@@ -119,8 +145,8 @@ export default function CreateProvince() {
             <Divider/>
 
             <Group position="apart" p="sm">
-              <Button variant="default" onClick={() => form.reset()}>Tẩy trống</Button>
-              <Button type="submit">Thêm</Button>
+              <Button variant="default" onClick={form.reset}>Tẩy trống</Button>
+              <Button type="submit">Cập nhật</Button>
             </Group>
           </Stack>
         </Paper>

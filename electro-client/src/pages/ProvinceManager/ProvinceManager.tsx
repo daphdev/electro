@@ -52,7 +52,7 @@ import {
 } from 'tabler-icons-react';
 import ResourceURL from '../../constants/ResourceURL';
 import { SelectOption } from '../../utils/MantineUtils';
-import FetchUtils, { RequestParams, ResponseData } from '../../utils/FetchUtils';
+import FetchUtils, { ListResponse, RequestParams } from '../../utils/FetchUtils';
 import DateUtils from '../../utils/DateUtils';
 import FilterUtils, {
   FilterCriteria,
@@ -63,6 +63,7 @@ import FilterUtils, {
   OrderType,
   SortCriteria
 } from '../../utils/FilterUtils';
+import { ProvinceResponse } from './Configs';
 
 interface TitleLink {
   link: string,
@@ -100,15 +101,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface Province {
-  id: number,
-  createdAt: string,
-  updatedAt: string,
-  name: string,
-  code: string
-}
-
-const initialResponseData: ResponseData<Province> = {
+const initialListResponse: ListResponse<ProvinceResponse> = {
   content: [],
   page: 1,
   size: 5,
@@ -215,9 +208,9 @@ export default function ProvinceManager() {
   const filterNameInputRef = useRef<HTMLInputElement | null>(null);
   const filterCriteriaValueInputRefs = useRef<WeakMap<FilterCriteria, HTMLInputElement | HTMLButtonElement | null>>(new WeakMap());
 
-  const [responseData, setResponseData] = useState<ResponseData<Province>>(initialResponseData);
-  const [activePage, setActivePage] = useState(responseData.page);
-  const [activePageSize, setActivePageSize] = useState(responseData.size);
+  const [listResponse, setListResponse] = useState<ListResponse<ProvinceResponse>>(initialListResponse);
+  const [activePage, setActivePage] = useState(listResponse.page);
+  const [activePageSize, setActivePageSize] = useState(listResponse.size);
   const [selection, setSelection] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchToken, setSearchToken] = useState('');
@@ -239,7 +232,7 @@ export default function ProvinceManager() {
   const [activeEntityIdsToDelete, setActiveEntityIdsToDelete] = useState<number[]>([]);
 
   const [openedViewEntityModal, setOpenedViewEntityModal] = useState(false);
-  const [activeEntityToView, setActiveEntityToView] = useState<Province | null>(null);
+  const [activeEntityToView, setActiveEntityToView] = useState<ProvinceResponse | null>(null);
 
   useEffect(() => {
     if (loading) {
@@ -250,11 +243,11 @@ export default function ProvinceManager() {
         filter: FilterUtils.convertToFilterRSQL(activeFilter),
         search: searchToken,
       };
-      FetchUtils.getAll<Province>(ResourceURL.PROVINCE, requestParams)
+      FetchUtils.getAll<ProvinceResponse>(ResourceURL.PROVINCE, requestParams)
         .then(([responseStatus, responseBody]) => {
           if (responseStatus === 200) {
             setTimeout(() => {
-              setResponseData(responseBody as ResponseData<Province>);
+              setListResponse(responseBody as ListResponse<ProvinceResponse>);
               setLoading(false);
             }, 100);
           }
@@ -272,7 +265,7 @@ export default function ProvinceManager() {
 
   const handleToggleAllRowsCheckbox = () =>
     setSelection(current =>
-      current.length === responseData.content.length ? [] : responseData.content.map(entity => entity.id)
+      current.length === listResponse.content.length ? [] : listResponse.content.map(entity => entity.id)
     );
 
   const handlePaginationButton = (page: number) => {
@@ -475,7 +468,7 @@ export default function ProvinceManager() {
               icon: <Check size={18}/>,
               color: 'teal',
             });
-            if (responseData.content.length === 1) {
+            if (listResponse.content.length === 1) {
               setActivePage(activePage - 1 || 1);
             }
             setLoading(true);
@@ -523,7 +516,7 @@ export default function ProvinceManager() {
               icon: <Check size={18}/>,
               color: 'teal',
             });
-            if (responseData.content.length === selection.length) {
+            if (listResponse.content.length === selection.length) {
               setActivePage(activePage - 1 || 1);
             }
             setSelection([]);
@@ -544,10 +537,10 @@ export default function ProvinceManager() {
   }
 
   const handleViewEntityButton = (entityId: number) => {
-    FetchUtils.getById<Province>(ResourceURL.PROVINCE, entityId)
+    FetchUtils.getById<ProvinceResponse>(ResourceURL.PROVINCE, entityId)
       .then(([responseStatus, responseBody]) => {
         if (responseStatus === 200) {
-          setActiveEntityToView(responseBody as Province);
+          setActiveEntityToView(responseBody as ProvinceResponse);
           setOpenedViewEntityModal(true);
         }
         if (responseStatus === 404) {
@@ -571,8 +564,8 @@ export default function ProvinceManager() {
       <th style={{ width: 40 }}>
         <Checkbox
           onChange={handleToggleAllRowsCheckbox}
-          checked={selection.length === responseData.content.length}
-          indeterminate={selection.length > 0 && selection.length !== responseData.content.length}
+          checked={selection.length === listResponse.content.length}
+          indeterminate={selection.length > 0 && selection.length !== listResponse.content.length}
           transitionDuration={0}
         />
       </th>
@@ -585,7 +578,7 @@ export default function ProvinceManager() {
     </tr>
   );
 
-  const entitiesTableRowsFragment = responseData.content.map((entity) => {
+  const entitiesTableRowsFragment = listResponse.content.map((entity) => {
     const selected = selection.includes(entity.id);
     return (
       <tr key={entity.id} className={cx({ [classes.rowSelected]: selected })}>
@@ -620,7 +613,14 @@ export default function ProvinceManager() {
             >
               <Eye size={16}/>
             </ActionIcon>
-            <ActionIcon color="teal" variant="outline" size={24} title="Sửa">
+            <ActionIcon
+              component={Link}
+              to={'update/' + entity.id}
+              color="teal"
+              variant="outline"
+              size={24}
+              title="Cập nhật"
+            >
               <Edit size={16}/>
             </ActionIcon>
             <ActionIcon
@@ -791,10 +791,10 @@ export default function ProvinceManager() {
     ));
 
   const pageSizeSelectList = initialPageSizeSelectList.map(pageSize =>
-    (Number(pageSize.value) > responseData.totalElements) ? { ...pageSize, disabled: true } : pageSize
+    (Number(pageSize.value) > listResponse.totalElements) ? { ...pageSize, disabled: true } : pageSize
   );
 
-  console.log('re-render: ', responseData, {
+  console.log('re-render: ', listResponse, {
     filterCriteriaList,
     // sortCriteriaList,
     // filters,
@@ -965,7 +965,7 @@ export default function ProvinceManager() {
         title={<strong>Xác nhận xóa</strong>}
       >
         <Stack>
-          <Text>Xóa phần tử có ID {activeEntityIdToDelete} ?</Text>
+          <Text>Xóa phần tử có ID {activeEntityIdToDelete}?</Text>
           <Group grow>
             <Button variant="default" onClick={handleCancelDeleteEntityButton}>Không xóa</Button>
             <Button color="red" onClick={handleConfirmedDeleteEntityButton}>Xóa</Button>
@@ -984,7 +984,7 @@ export default function ProvinceManager() {
         title={<strong>Xác nhận xóa</strong>}
       >
         <Stack>
-          <Text>Xóa (các) phần tử có ID {activeEntityIdsToDelete.join(', ')} ?</Text>
+          <Text>Xóa (các) phần tử có ID {activeEntityIdsToDelete.join(', ')}?</Text>
           <Group grow>
             <Button variant="default" onClick={handleCancelDeleteBatchEntitiesButton}>Không xóa</Button>
             <Button color="red" onClick={handleConfirmedDeleteBatchEntitiesButton}>Xóa</Button>
@@ -1009,11 +1009,11 @@ export default function ProvinceManager() {
 
       <Paper shadow="xs" style={{
         position: 'relative',
-        height: responseData.totalElements === 0 ? '250px' : 'auto'
+        height: listResponse.totalElements === 0 ? '250px' : 'auto'
       }}
       >
         <LoadingOverlay visible={loading}/>
-        {responseData.totalElements === 0 ? (
+        {listResponse.totalElements === 0 ? (
           <Center sx={{ height: '100%' }}>
             <Text color="dimmed">Không có gì hết :)</Text>
           </Center>
@@ -1034,14 +1034,14 @@ export default function ProvinceManager() {
         )}
       </Paper>
 
-      {responseData.totalElements !== 0 && (
+      {listResponse.totalElements !== 0 && (
         <Group position="apart">
           <Text>
             <Text component="span" weight={500}>Trang {activePage}</Text>
-            <span> / {responseData.totalPages} </span>
-            <Text component="span" color="gray" size="sm">({responseData.totalElements})</Text>
+            <span> / {listResponse.totalPages} </span>
+            <Text component="span" color="gray" size="sm">({listResponse.totalElements})</Text>
           </Text>
-          <Pagination page={activePage} onChange={handlePaginationButton} total={responseData.totalPages}/>
+          <Pagination page={activePage} onChange={handlePaginationButton} total={listResponse.totalPages}/>
           <Group>
             <Text size="sm">Số hàng trên trang</Text>
             <Select
