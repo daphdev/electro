@@ -3,23 +3,24 @@ import { Button, Divider, Group, Paper, Stack } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { UseFormReturnType } from '@mantine/form/lib/use-form';
 import { Check, X } from 'tabler-icons-react';
-import FetchUtils from '../utils/FetchUtils';
+import FetchUtils from '../../utils/FetchUtils';
 
-interface SimpleCreateFormProps<F> {
+interface SimpleUpdateFormProps<F> {
   form: UseFormReturnType<F>;
   resourceUrl: string;
+  entityId: number;
   children: React.ReactNode;
 }
 
-export default function SimpleCreateForm<F, I, O>({ form, resourceUrl, children }: SimpleCreateFormProps<F>) {
+export default function SimpleUpdateForm<F, I, O>({ form, resourceUrl, entityId, children }: SimpleUpdateFormProps<F>) {
 
   const handleFormSubmit = form.onSubmit(requestBody => {
-    FetchUtils.create<I, O>(resourceUrl, requestBody as unknown as I)
+    FetchUtils.update<I, O>(resourceUrl, entityId, requestBody as unknown as I)
       .then(([responseStatus, responseBody]) => {
-        if (responseStatus === 201) {
+        if (responseStatus === 200) {
           showNotification({
             title: 'Thông báo',
-            message: 'Tạo thành công',
+            message: 'Cập nhật thành công',
             autoClose: 5000,
             icon: <Check size={18}/>,
             color: 'teal',
@@ -28,7 +29,7 @@ export default function SimpleCreateForm<F, I, O>({ form, resourceUrl, children 
         if (responseStatus === 500) {
           showNotification({
             title: 'Thông báo',
-            message: 'Tạo không thành công',
+            message: 'Cập nhật không thành công',
             autoClose: 5000,
             icon: <X size={18}/>,
             color: 'red',
@@ -47,7 +48,7 @@ export default function SimpleCreateForm<F, I, O>({ form, resourceUrl, children 
 
           <Group position="apart" p="sm">
             <Button variant="default" onClick={form.reset}>Tẩy trống</Button>
-            <Button type="submit">Thêm</Button>
+            <Button type="submit">Cập nhật</Button>
           </Group>
         </Stack>
       </Paper>

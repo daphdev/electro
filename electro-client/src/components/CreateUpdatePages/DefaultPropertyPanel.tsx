@@ -1,6 +1,6 @@
 import React from 'react';
 import { Code, Group, Paper, Stack, Text } from '@mantine/core';
-import DateUtils from '../utils/DateUtils';
+import DateUtils from '../../utils/DateUtils';
 
 interface DefaultPropertyPanelProps {
   id?: string | number;

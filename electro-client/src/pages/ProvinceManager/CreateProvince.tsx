@@ -2,9 +2,7 @@ import React from 'react';
 import { Stack, TextInput } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import Configs, { ProvinceRequest, ProvinceResponse } from './Configs';
-import CreateUpdateTitle from '../../components/CreateUpdateTitle';
-import DefaultPropertyPanel from '../../components/DefaultPropertyPanel';
-import SimpleCreateForm from '../../components/SimpleCreateForm';
+import { CreateUpdateTitle, DefaultPropertyPanel, SimpleCreateForm } from '../../components/CreateUpdatePages';
 import Fragments from '../../components/Fragments';
 
 export default function CreateProvince() {
