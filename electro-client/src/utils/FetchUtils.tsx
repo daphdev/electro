@@ -127,5 +127,5 @@ export default class FetchUtils {
       return url + '?' + new URLSearchParams(filteredRequestParams).toString();
     }
     return url;
-  }
+  };
 }

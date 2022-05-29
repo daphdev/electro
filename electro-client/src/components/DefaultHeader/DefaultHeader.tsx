@@ -83,7 +83,7 @@ const headerLinks: HeaderLink[] = [
     icon: Browser,
     target: '_blank',
   },
-]
+];
 
 export function DefaultHeader() {
   const { classes } = useStyles();

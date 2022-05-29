@@ -9,5 +9,5 @@ export default function Client() {
       </nav>
       <h1>Client Side</h1>
     </div>
-  )
+  );
 }

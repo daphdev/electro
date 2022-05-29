@@ -52,5 +52,5 @@ export default function SimpleCreateForm<F, I, O>({ form, resourceUrl, children 
         </Stack>
       </Paper>
     </form>
-  )
+  );
 }

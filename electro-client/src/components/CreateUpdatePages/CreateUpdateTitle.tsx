@@ -21,5 +21,5 @@ export default function CreateUpdateTitle({ managerPath, title }: CreateUpdateTi
       </ActionIcon>
       <Title order={3}>{title}</Title>
     </Group>
-  )
+  );
 }

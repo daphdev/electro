@@ -53,5 +53,5 @@ export default function SimpleUpdateForm<F, I, O>({ form, resourceUrl, entityId,
         </Stack>
       </Paper>
     </form>
-  )
+  );
 }

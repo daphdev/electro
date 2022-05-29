@@ -42,5 +42,5 @@ export default function DefaultPropertyPanel({
         </Stack>
       </Group>
     </Paper>
-  )
+  );
 }

@@ -339,7 +339,7 @@ export function DefaultNavbar() {
         >
           {navbarChildLinksFragment}
         </Menu>
-      )
+      );
     }
 
     return navbarLinkFragment;

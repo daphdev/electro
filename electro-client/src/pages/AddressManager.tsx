@@ -5,5 +5,5 @@ export default function AddressManager() {
     <div>
       AddressManager
     </div>
-  )
+  );
 }

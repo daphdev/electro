@@ -5,5 +5,5 @@ export default class DateUtils {
   static isoDateToString = (isoDate: string) => {
     const date = dayjs(isoDate);
     return date.isValid() ? date.format('HH:mm:ss DD/MM/YYYY').toString() : isoDate;
-  }
+  };
 }

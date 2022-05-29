@@ -269,5 +269,5 @@ export default class FilterUtils {
       }
     }
     return '';
-  }
+  };
 }

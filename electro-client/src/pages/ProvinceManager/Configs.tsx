@@ -43,12 +43,12 @@ export default class Configs {
       label: 'Mã tỉnh thành',
       type: EntityPropertyType.STRING,
     },
-  }
+  };
 
   static initialCreateUpdateFormValues = {
     name: '',
     code: '',
-  }
+  };
 
   static createUpdateFormSchema = z.object({
     name: z.string().min(2, MessageUtils.min(Configs.properties.name.label, 2)),

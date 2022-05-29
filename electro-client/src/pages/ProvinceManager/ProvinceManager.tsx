@@ -84,7 +84,7 @@ const titleLinks: TitleLink[] = [
     link: '/admin/address/district',
     label: 'Quản lý quận huyện',
   }
-]
+];
 
 const useStyles = createStyles((theme) => ({
   rowSelected: {
@@ -109,7 +109,7 @@ const initialListResponse: ListResponse<ProvinceResponse> = {
   totalElements: 0,
   totalPages: 0,
   last: false
-}
+};
 
 const initialPropertySelectList: SelectOption[] = [
   {
@@ -140,7 +140,7 @@ const filterPropertyTypes: FilterPropertyTypes = {
   updatedAt: FilterPropertyType.DATE,
   name: FilterPropertyType.STRING,
   code: FilterPropertyType.STRING,
-}
+};
 
 const MAX_FILTER_CRITERIA_NUMBER = 10;
 const CURRENT_USER_ID = 1;
@@ -186,7 +186,7 @@ export default function ProvinceManager() {
   const [filterCriteriaList, setFilterCriteriaList] = useState<FilterCriteria[]>([]);
   const [filterPropertySelectList, setFilterPropertySelectList] = useState(initialPropertySelectList);
   const [filters, setFilters] = useState<FilterObject[]>([]);
-  const [activeFilter, setActiveFilter] = useState<FilterObject | null>(null)
+  const [activeFilter, setActiveFilter] = useState<FilterObject | null>(null);
   const [prevActiveFilter, setPrevActiveFilter] = useState<FilterObject | null>(null);
 
   const [openedDeleteEntityModal, setOpenedDeleteEntityModal] = useState(false);
@@ -238,7 +238,7 @@ export default function ProvinceManager() {
       setSelection([]);
       setActivePage(page);
     }
-  }
+  };
 
   const handlePageSizeSelect = (size: string) => {
     const pageSize = Number(size);
@@ -248,7 +248,7 @@ export default function ProvinceManager() {
       setActivePage(1);
       setActivePageSize(pageSize);
     }
-  }
+  };
 
   const handleSearchButton = () => {
     const currentSearchToken = searchInputRef.current?.value ?? '';
@@ -258,13 +258,13 @@ export default function ProvinceManager() {
       setSearchToken(currentSearchToken);
       setPrevActiveFilter(activeFilter);
     }
-  }
+  };
 
   const handleSearchInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       handleSearchButton();
     }
-  }
+  };
 
   const handleResetButton = () => {
     if (searchInputRef.current?.value) {
@@ -273,13 +273,13 @@ export default function ProvinceManager() {
     if (activeFilter !== null) {
       setActiveFilter(null);
     }
-  }
+  };
 
   const handleAddFilterButton = () => {
     if (!activeFilterPanel) {
       setActiveFilterPanel(true);
     }
-  }
+  };
 
   const handleCancelCreateFilterButton = () => {
     if (activeFilterPanel) {
@@ -288,24 +288,24 @@ export default function ProvinceManager() {
       setFilterCriteriaList([]);
       setActiveFilterPanel(false);
     }
-  }
+  };
 
   const handleCreateSortCriteriaButton = () => {
     if (sortCriteriaList.length < sortPropertySelectList.length) {
       setSortCriteriaList(prevState => [...prevState, { property: null, order: OrderType.ASC }]);
     }
-  }
+  };
 
   const handleSortPropertySelect = (propertyValue: string | null, sortCriteriaIndex: number) => {
     const currentSortCriteriaList = sortCriteriaList.map((item, index) => {
       return (index === sortCriteriaIndex) ? { ...item, property: propertyValue } : item;
-    })
+    });
 
     setSortCriteriaList(currentSortCriteriaList);
 
     const isIncludeInSortCriteriaPropertyList = (propertyValue: string) => {
       return currentSortCriteriaList.map(item => item.property).includes(propertyValue);
-    }
+    };
 
     setSortPropertySelectList(sortPropertySelectList.map(option => {
       if (option.disabled === true && !isIncludeInSortCriteriaPropertyList(option.value)) {
@@ -316,13 +316,13 @@ export default function ProvinceManager() {
       }
       return option;
     }));
-  }
+  };
 
   const handleSortOrderSelect = (orderValue: string | null, sortCriteriaIndex: number) => {
     setSortCriteriaList(sortCriteriaList.map((item, index) => {
       return (index === sortCriteriaIndex) ? { ...item, order: orderValue as OrderType } : item;
     }));
-  }
+  };
 
   const handleDeleteSortCriteriaButton = (sortCriteriaIndex: number) => {
     setSortCriteriaList(sortCriteriaList.filter((_, index) => index !== sortCriteriaIndex));
@@ -332,7 +332,7 @@ export default function ProvinceManager() {
       }
       return option;
     }));
-  }
+  };
 
   const handleCreateFilterCriteriaButton = () => {
     if (filterCriteriaList.length < MAX_FILTER_CRITERIA_NUMBER) {
@@ -343,7 +343,7 @@ export default function ProvinceManager() {
         value: null,
       }]);
     }
-  }
+  };
 
   const handleFilterPropertySelect = (propertyValue: string | null, filterCriteriaIndex: number) => {
     const currentFilterCriteriaList = filterCriteriaList.map((item, index) => {
@@ -358,7 +358,7 @@ export default function ProvinceManager() {
     });
 
     setFilterCriteriaList(currentFilterCriteriaList);
-  }
+  };
 
   const handleFilterOperatorSelect = (operatorValue: string | null, filterCriteriaIndex: number) => {
     const currentFilterCriteriaList = filterCriteriaList.map((item, index) => {
@@ -366,11 +366,11 @@ export default function ProvinceManager() {
     });
 
     setFilterCriteriaList(currentFilterCriteriaList);
-  }
+  };
 
   const handleDeleteFilterCriteriaButton = (filterCriteriaIndex: number) => {
     setFilterCriteriaList(filterCriteriaList.filter((_, index) => index !== filterCriteriaIndex));
-  }
+  };
 
   const handleCreateFilterButton = () => {
     const randomNumber = Math.floor(Math.random() * 10000) + 1;
@@ -382,7 +382,7 @@ export default function ProvinceManager() {
         const filterCriteriaValueInputRefValue = filterCriteriaValueInputRefs.current.get(item)?.value;
         return filterCriteriaValueInputRefValue ? { ...item, value: filterCriteriaValueInputRefValue } : item;
       });
-    }
+    };
 
     const filter: FilterObject = {
       id: filterId,
@@ -393,14 +393,14 @@ export default function ProvinceManager() {
       name: filterName,
       sortCriteriaList: sortCriteriaList,
       filterCriteriaList: assignValueForFilterCriteria(filterCriteriaList),
-    }
+    };
 
     setFilters(prevState => [...prevState, filter]);
     setSortCriteriaList([]);
     setSortPropertySelectList(initialPropertySelectList);
     setFilterCriteriaList([]);
     setActiveFilterPanel(false);
-  }
+  };
 
   const filterSelectList: SelectOption[] = filters.map(item => ({ value: item.id, label: item.name }));
 
@@ -409,16 +409,16 @@ export default function ProvinceManager() {
       setPrevActiveFilter(prevState ?? null);
       return filters.find(item => item.id === filterIdValue) ?? null;
     });
-  }
+  };
 
   const handleDeleteEntityButton = (entityId: number) => {
     setActiveEntityIdToDelete(entityId);
     setOpenedDeleteEntityModal(true);
-  }
+  };
 
   const handleCancelDeleteEntityButton = () => {
     setOpenedDeleteEntityModal(false);
-  }
+  };
 
   const handleConfirmedDeleteEntityButton = () => {
     if (activeEntityIdToDelete) {
@@ -449,7 +449,7 @@ export default function ProvinceManager() {
         });
     }
     setOpenedDeleteEntityModal(false);
-  }
+  };
 
   const handleDeleteBatchEntitiesButton = () => {
     if (selection.length > 0) {
@@ -460,13 +460,13 @@ export default function ProvinceManager() {
         title: 'Thông báo',
         message: 'Vui lòng chọn ít nhất một phần tử để xóa',
         autoClose: 5000,
-      })
+      });
     }
-  }
+  };
 
   const handleCancelDeleteBatchEntitiesButton = () => {
     setOpenedDeleteBatchEntitiesModal(false);
-  }
+  };
 
   const handleConfirmedDeleteBatchEntitiesButton = () => {
     if (activeEntityIdsToDelete.length > 0) {
@@ -498,7 +498,7 @@ export default function ProvinceManager() {
         });
     }
     setOpenedDeleteBatchEntitiesModal(false);
-  }
+  };
 
   const handleViewEntityButton = (entityId: number) => {
     FetchUtils.getById<ProvinceResponse>(ResourceURL.PROVINCE, entityId)
@@ -511,11 +511,11 @@ export default function ProvinceManager() {
           console.error(responseStatus, responseBody);
         }
       });
-  }
+  };
 
   const handleCancelViewEntityButton = () => {
     setOpenedViewEntityModal(false);
-  }
+  };
 
   const titleLinksFragment = titleLinks.map(titleLink => (
     <Menu.Item key={titleLink.label} component={Link} to={titleLink.link}>

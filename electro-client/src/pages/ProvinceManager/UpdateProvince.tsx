@@ -62,5 +62,5 @@ export default function UpdateProvince() {
         </Fragments.FormRow2Col>
       </SimpleUpdateForm>
     </Stack>
-  )
+  );
 }

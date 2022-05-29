@@ -27,5 +27,5 @@ export default function CreateProvince() {
         </Fragments.FormRow2Col>
       </SimpleCreateForm>
     </Stack>
-  )
+  );
 }
