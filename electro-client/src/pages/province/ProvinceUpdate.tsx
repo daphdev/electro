@@ -10,10 +10,8 @@ export default function ProvinceUpdate() {
   const { province, getProvince, form, handleFormSubmit } = useProvinceUpdateViewModel();
 
   useEffect(() => {
-    if (id && !province) {
-      void getProvince(Number(id));
-    }
-  }, [id, province, getProvince]);
+    void getProvince(id);
+  }, [getProvince, id]);
 
   if (!province) {
     return null;
@@ -21,7 +19,7 @@ export default function ProvinceUpdate() {
 
   return (
     <Stack sx={{ maxWidth: 800 }}>
-      <CreateUpdateTitle managerPath={ProvinceConfigs.managerPath} title={ProvinceConfigs.updateLabel}/>
+      <CreateUpdateTitle managerPath={ProvinceConfigs.managerPath} title={ProvinceConfigs.updateTitle}/>
 
       <DefaultPropertyPanel
         id={province.id}

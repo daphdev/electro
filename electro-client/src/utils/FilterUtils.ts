@@ -1,4 +1,4 @@
-import { SelectOption } from 'utils/MantineUtils';
+import { SelectOption } from 'types/SelectOption';
 
 export enum StringOperator {
   EQUALS = 'str_eq',

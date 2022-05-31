@@ -9,7 +9,7 @@ export default function ProvinceCreate() {
 
   return (
     <Stack sx={{ maxWidth: 800 }}>
-      <CreateUpdateTitle managerPath={ProvinceConfigs.managerPath} title={ProvinceConfigs.createLabel}/>
+      <CreateUpdateTitle managerPath={ProvinceConfigs.managerPath} title={ProvinceConfigs.createTitle}/>
 
       <DefaultPropertyPanel/>
 

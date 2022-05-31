@@ -15,15 +15,17 @@ export default function useProvinceUpdateViewModel() {
   const [province, setProvince] = useState<ProvinceResponse>();
   const [_prevFormValues, setPrevFormValues] = useState<typeof form.values>();
 
-  const getProvince = async (id: number) => {
-    const { result } = await provinceService.getById(ProvinceConfigs.resourceUrl, id);
-    if (result) {
-      setProvince(result);
-      const formValues = {
-        name: result.name,
-        code: result.code,
-      };
-      form.setValues(formValues);
+  const getProvince = async (id?: string) => {
+    if (id && !province) {
+      const { result } = await provinceService.getById(ProvinceConfigs.resourceUrl, Number(id));
+      if (result) {
+        setProvince(result);
+        const formValues = {
+          name: result.name,
+          code: result.code,
+        };
+        form.setValues(formValues);
+      }
     }
   };
 
