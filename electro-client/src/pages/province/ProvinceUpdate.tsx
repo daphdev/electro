@@ -3,30 +3,30 @@ import { Stack, TextInput } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { useParams } from 'react-router-dom';
 import FetchUtils from '../../utils/FetchUtils';
-import Configs, { ProvinceRequest, ProvinceResponse } from './Configs';
-import { CreateUpdateTitle, DefaultPropertyPanel, SimpleUpdateForm } from '../../components/CreateUpdatePages';
-import Fragments from '../../components/Fragments';
+import ProvinceConfigs from 'pages/province/ProvinceConfigs';
+import { CreateUpdateTitle, DefaultPropertyPanel, SimpleUpdateForm, Fragments } from 'components';
 import NotifyUtils from '../../utils/NotifyUtils';
 import MiscUtils from '../../utils/MiscUtils';
+import { ProvinceRequest, ProvinceResponse } from 'models/province';
 
-export default function UpdateProvince() {
+export default function ProvinceUpdate() {
   const { entityId } = useParams();
   const [entity, setEntity] = useState<ProvinceResponse>();
   const form = useForm({
-    initialValues: Configs.initialCreateUpdateFormValues,
-    schema: zodResolver(Configs.createUpdateFormSchema),
+    initialValues: ProvinceConfigs.initialCreateUpdateFormValues,
+    schema: zodResolver(ProvinceConfigs.createUpdateFormSchema),
   });
 
   useEffect(() => {
     if (!entity) {
-      FetchUtils.getById<ProvinceResponse>(Configs.resourceUrl, Number(entityId))
+      FetchUtils.getById<ProvinceResponse>(ProvinceConfigs.resourceUrl, Number(entityId))
         .then(([responseStatus, responseBody]) => {
           if (responseStatus === 200) {
             const castedResponseBody = responseBody as ProvinceResponse;
             setEntity(castedResponseBody);
             form.setValues(MiscUtils.pick<ProvinceResponse>(castedResponseBody,
-              Object.keys(Configs.initialCreateUpdateFormValues)
-            ) as typeof Configs.initialCreateUpdateFormValues);
+              Object.keys(ProvinceConfigs.initialCreateUpdateFormValues)
+            ) as typeof ProvinceConfigs.initialCreateUpdateFormValues);
           }
           if (responseStatus === 404) {
             NotifyUtils.error(responseStatus);
@@ -41,7 +41,7 @@ export default function UpdateProvince() {
 
   return (
     <Stack sx={{ maxWidth: 800 }}>
-      <CreateUpdateTitle managerPath={Configs.managerPath} title={Configs.updateLabel}/>
+      <CreateUpdateTitle managerPath={ProvinceConfigs.managerPath} title={ProvinceConfigs.updateLabel}/>
 
       <DefaultPropertyPanel
         id={entity.id}
@@ -51,14 +51,14 @@ export default function UpdateProvince() {
         updatedBy="1"
       />
 
-      <SimpleUpdateForm<typeof Configs.initialCreateUpdateFormValues, ProvinceRequest, ProvinceResponse>
+      <SimpleUpdateForm<typeof ProvinceConfigs.initialCreateUpdateFormValues, ProvinceRequest, ProvinceResponse>
         form={form}
-        resourceUrl={Configs.resourceUrl}
+        resourceUrl={ProvinceConfigs.resourceUrl}
         entityId={entity.id}
       >
         <Fragments.FormRow2Col>
-          <TextInput required label={Configs.properties.name.label} {...form.getInputProps('name')}/>
-          <TextInput required label={Configs.properties.code.label} {...form.getInputProps('code')}/>
+          <TextInput required label={ProvinceConfigs.properties.name.label} {...form.getInputProps('name')}/>
+          <TextInput required label={ProvinceConfigs.properties.code.label} {...form.getInputProps('code')}/>
         </Fragments.FormRow2Col>
       </SimpleUpdateForm>
     </Stack>

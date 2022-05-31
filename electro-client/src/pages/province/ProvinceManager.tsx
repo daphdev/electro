@@ -63,8 +63,9 @@ import FilterUtils, {
   OrderType,
   SortCriteria
 } from '../../utils/FilterUtils';
-import Configs, { ProvinceResponse } from './Configs';
-import { EntityPropertyType } from '../../utils/EntityUtils';
+import ProvinceConfigs from 'pages/province/ProvinceConfigs';
+import { ProvinceResponse } from 'models/province';
+import { EntityPropertyType } from 'models/entity-property';
 
 interface TitleLink {
   link: string,
@@ -745,9 +746,9 @@ export default function ProvinceManager() {
   const entityDetailsTableRowsFragment = activeEntityToView &&
     Object.entries(activeEntityToView).map(([propertyName, propertyValue]) => (
       <tr key={propertyName}>
-        <td>{Configs.properties[propertyName].label}</td>
+        <td>{ProvinceConfigs.properties[propertyName].label}</td>
         <td>
-          {Configs.properties[propertyName].type === EntityPropertyType.DATE
+          {ProvinceConfigs.properties[propertyName].type === EntityPropertyType.DATE
             ? DateUtils.isoDateToString(propertyValue)
             : propertyValue}
         </td>
