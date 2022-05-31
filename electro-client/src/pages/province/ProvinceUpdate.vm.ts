@@ -13,7 +13,7 @@ export default function useProvinceUpdateViewModel() {
   });
 
   const [province, setProvince] = useState<ProvinceResponse>();
-  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
+  const [_prevFormValues, setPrevFormValues] = useState<typeof form.values>();
 
   const getProvince = async (id: number) => {
     const { result } = await provinceService.getById(ProvinceConfigs.resourceUrl, id);
@@ -29,10 +29,14 @@ export default function useProvinceUpdateViewModel() {
 
   const handleFormSubmit = form.onSubmit(formValues => {
     setPrevFormValues(formValues);
-    if (province && prevFormValues && JSON.stringify(prevFormValues) !== JSON.stringify(formValues)) {
+    if (province && _prevFormValues && !_isEquals(_prevFormValues, formValues)) {
       void provinceService.update(ProvinceConfigs.resourceUrl, province.id, formValues);
     }
   });
+
+  const _isEquals = (_prevFormValues: typeof form.values, formValues: typeof form.values) => {
+    return JSON.stringify(_prevFormValues) === JSON.stringify(formValues);
+  };
 
   return { province, getProvince, form, handleFormSubmit };
 }
