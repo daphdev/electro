@@ -11,8 +11,8 @@ export default function useProvinceCreateViewModel() {
     schema: zodResolver(ProvinceConfigs.createUpdateFormSchema),
   });
 
-  const handleFormSubmit = form.onSubmit(requestBody => {
-    void provinceService.create(ProvinceConfigs.resourceUrl, requestBody);
+  const handleFormSubmit = form.onSubmit(formValues => {
+    void provinceService.create(ProvinceConfigs.resourceUrl, formValues);
   });
 
   return { form, handleFormSubmit };

@@ -13,21 +13,24 @@ export default function useProvinceUpdateViewModel() {
   });
 
   const [province, setProvince] = useState<ProvinceResponse>();
+  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
 
   const getProvince = async (id: number) => {
     const { result } = await provinceService.getById(ProvinceConfigs.resourceUrl, id);
     if (result) {
       setProvince(result);
-      form.setValues({
+      const formValues = {
         name: result.name,
         code: result.code,
-      });
+      };
+      form.setValues(formValues);
     }
   };
 
-  const handleFormSubmit = form.onSubmit(requestBody => {
-    if (province) {
-      void provinceService.update(ProvinceConfigs.resourceUrl, province.id, requestBody);
+  const handleFormSubmit = form.onSubmit(formValues => {
+    setPrevFormValues(formValues);
+    if (province && prevFormValues && JSON.stringify(prevFormValues) !== JSON.stringify(formValues)) {
+      void provinceService.update(ProvinceConfigs.resourceUrl, province.id, formValues);
     }
   });
 
