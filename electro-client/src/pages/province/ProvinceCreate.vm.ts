@@ -12,7 +12,7 @@ export default function useProvinceCreateViewModel() {
   });
 
   const handleFormSubmit = form.onSubmit(requestBody => {
-    return provinceService.create(ProvinceConfigs.resourceUrl, requestBody);
+    void provinceService.create(ProvinceConfigs.resourceUrl, requestBody);
   });
 
   return { form, handleFormSubmit };

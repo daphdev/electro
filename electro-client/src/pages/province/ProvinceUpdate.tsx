@@ -1,42 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { Stack, TextInput } from '@mantine/core';
-import { useForm, zodResolver } from '@mantine/form';
+import React, { useEffect } from 'react';
+import { Button, Divider, Group, Paper, SimpleGrid, Stack, TextInput } from '@mantine/core';
 import { useParams } from 'react-router-dom';
-import FetchUtils from '../../utils/FetchUtils';
+import { CreateUpdateTitle, DefaultPropertyPanel } from 'components';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
-import { CreateUpdateTitle, DefaultPropertyPanel, SimpleUpdateForm, Fragments } from 'components';
-import NotifyUtils from '../../utils/NotifyUtils';
-import MiscUtils from '../../utils/MiscUtils';
-import { ProvinceRequest, ProvinceResponse } from 'models/province';
+import useProvinceUpdateViewModel from 'pages/province/ProvinceUpdate.vm';
 
 export default function ProvinceUpdate() {
-  const { entityId } = useParams();
-  const [entity, setEntity] = useState<ProvinceResponse>();
-  const form = useForm({
-    initialValues: ProvinceConfigs.initialCreateUpdateFormValues,
-    schema: zodResolver(ProvinceConfigs.createUpdateFormSchema),
-  });
+  const { id } = useParams();
+  const { form, province, getProvince, handleFormSubmit } = useProvinceUpdateViewModel();
 
   useEffect(() => {
-    if (!entity) {
-      FetchUtils.getById<ProvinceResponse>(ProvinceConfigs.resourceUrl, Number(entityId))
-        .then(([responseStatus, responseBody]) => {
-          if (responseStatus === 200) {
-            const castedResponseBody = responseBody as ProvinceResponse;
-            setEntity(castedResponseBody);
-            form.setValues(MiscUtils.pick<ProvinceResponse>(castedResponseBody,
-              Object.keys(ProvinceConfigs.initialCreateUpdateFormValues)
-            ) as typeof ProvinceConfigs.initialCreateUpdateFormValues);
-          }
-          if (responseStatus === 404) {
-            NotifyUtils.error(responseStatus);
-          }
-        });
+    if (!province) {
+      void getProvince(Number(id));
     }
-  }, [entity, entityId, form]);
+  }, [getProvince, id, province]);
 
-  if (entity === undefined) {
-    return <></>;
+  if (!province) {
+    return null;
   }
 
   return (
@@ -44,23 +24,38 @@ export default function ProvinceUpdate() {
       <CreateUpdateTitle managerPath={ProvinceConfigs.managerPath} title={ProvinceConfigs.updateLabel}/>
 
       <DefaultPropertyPanel
-        id={entity.id}
-        createdAt={entity.createdAt}
-        updatedAt={entity.updatedAt}
+        id={province.id}
+        createdAt={province.createdAt}
+        updatedAt={province.updatedAt}
         createdBy="1"
         updatedBy="1"
       />
 
-      <SimpleUpdateForm<typeof ProvinceConfigs.initialCreateUpdateFormValues, ProvinceRequest, ProvinceResponse>
-        form={form}
-        resourceUrl={ProvinceConfigs.resourceUrl}
-        entityId={entity.id}
-      >
-        <Fragments.FormRow2Col>
-          <TextInput required label={ProvinceConfigs.properties.name.label} {...form.getInputProps('name')}/>
-          <TextInput required label={ProvinceConfigs.properties.code.label} {...form.getInputProps('code')}/>
-        </Fragments.FormRow2Col>
-      </SimpleUpdateForm>
+      <form onSubmit={handleFormSubmit}>
+        <Paper shadow="xs">
+          <Stack spacing={0}>
+            <SimpleGrid p="sm" spacing="md" breakpoints={[{ minWidth: 'xs', cols: 2 }]}>
+              <TextInput
+                required
+                label={ProvinceConfigs.properties.name.label}
+                {...form.getInputProps('name')}
+              />
+              <TextInput
+                required
+                label={ProvinceConfigs.properties.code.label}
+                {...form.getInputProps('code')}
+              />
+            </SimpleGrid>
+
+            <Divider mt="xs"/>
+
+            <Group position="apart" p="sm">
+              <Button variant="default" onClick={form.reset}>Tẩy trống</Button>
+              <Button type="submit">Cập nhật</Button>
+            </Group>
+          </Stack>
+        </Paper>
+      </form>
     </Stack>
   );
 }

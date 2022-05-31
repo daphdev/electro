@@ -25,7 +25,7 @@ export default function App() {
               <Route path="address" element={<AddressManager/>}/>
               <Route path="address/province" element={<ProvinceManager/>}/>
               <Route path="address/province/create" element={<ProvinceCreate/>}/>
-              <Route path="address/province/update/:entityId" element={<ProvinceUpdate/>}/>
+              <Route path="address/province/update/:id" element={<ProvinceUpdate/>}/>
             </Route>
           </Routes>
         </NotificationsProvider>

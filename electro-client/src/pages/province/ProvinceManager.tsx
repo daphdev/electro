@@ -50,10 +50,10 @@ import {
   Trash,
   X
 } from 'tabler-icons-react';
-import ResourceURL from '../../constants/ResourceURL';
-import { SelectOption } from '../../utils/MantineUtils';
-import FetchUtils, { ListResponse, RequestParams } from '../../utils/FetchUtils';
-import DateUtils from '../../utils/DateUtils';
+import ResourceURL from 'constants/ResourceURL';
+import { SelectOption } from 'utils/MantineUtils';
+import FetchUtils, { ListResponse, RequestParams } from 'utils/FetchUtils';
+import DateUtils from 'utils/DateUtils';
 import FilterUtils, {
   FilterCriteria,
   FilterObject,
@@ -62,7 +62,7 @@ import FilterUtils, {
   FilterPropertyTypes,
   OrderType,
   SortCriteria
-} from '../../utils/FilterUtils';
+} from 'utils/FilterUtils';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 import { ProvinceResponse } from 'models/province';
 import { EntityPropertyType } from 'models/entity-property';

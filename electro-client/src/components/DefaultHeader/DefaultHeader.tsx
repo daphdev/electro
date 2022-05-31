@@ -3,7 +3,7 @@ import { ActionIcon, Autocomplete, Burger, createStyles, Group, Header, useManti
 import { Bell, Browser, Icon, Messages, MoonStars, Search, Sun, User } from 'tabler-icons-react';
 import { MantineLogo } from './MantineLogo';
 import { Link } from 'react-router-dom';
-import { useToggleNavbarStore } from '../../stores/ToggleNavbarStore';
+import { useToggleNavbarStore } from 'stores/ToggleNavbarStore';
 
 const useStyles = createStyles((theme) => ({
   header: {
