@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import ResourceURL from 'constants/ResourceURL';
 import MessageUtils from 'utils/MessageUtils';
-import { EntityPropertyNames, EntityPropertyType } from 'models/entity-property';
+import { EntityPropertyNames, EntityPropertyType } from 'models/EntityProperty';
 
 export default class ProvinceConfigs {
   static managerPath = 'address/province';

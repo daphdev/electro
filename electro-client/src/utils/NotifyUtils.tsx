@@ -3,8 +3,6 @@ import { Check, X } from 'tabler-icons-react';
 import React from 'react';
 
 export default class NotifyUtils {
-  static error = (...params: any[]) => console.log(params);
-
   static simpleSuccess = (message: string) => {
     showNotification({
       title: 'Thông báo',

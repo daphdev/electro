@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm, zodResolver } from '@mantine/form';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 import useGenericService from 'services/use-generic-service';
-import { ProvinceRequest, ProvinceResponse } from 'models/province';
+import { ProvinceRequest, ProvinceResponse } from 'models/Province';
 
 export default function useProvinceUpdateViewModel() {
   const provinceService = useGenericService<ProvinceRequest, ProvinceResponse>();
@@ -27,9 +27,9 @@ export default function useProvinceUpdateViewModel() {
 
   const handleFormSubmit = form.onSubmit(requestBody => {
     if (province) {
-      void provinceService.update(ProvinceConfigs.resourceUrl, Number(province.id), requestBody);
+      void provinceService.update(ProvinceConfigs.resourceUrl, province.id, requestBody);
     }
   });
 
-  return { form, province, getProvince, handleFormSubmit };
+  return { province, getProvince, form, handleFormSubmit };
 }

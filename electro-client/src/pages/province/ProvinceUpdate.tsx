@@ -7,13 +7,13 @@ import useProvinceUpdateViewModel from 'pages/province/ProvinceUpdate.vm';
 
 export default function ProvinceUpdate() {
   const { id } = useParams();
-  const { form, province, getProvince, handleFormSubmit } = useProvinceUpdateViewModel();
+  const { province, getProvince, form, handleFormSubmit } = useProvinceUpdateViewModel();
 
   useEffect(() => {
-    if (!province) {
+    if (id && !province) {
       void getProvince(Number(id));
     }
-  }, [getProvince, id, province]);
+  }, [id, province, getProvince]);
 
   if (!province) {
     return null;

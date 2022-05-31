@@ -3,6 +3,19 @@ import NotifyUtils from 'utils/NotifyUtils';
 
 export default function useGenericService<I, O>() {
 
+  const getById = async (resourceUrl: string, entityId: number) => {
+    const [responseStatus, responseBody] = await FetchUtils.getById<O>(resourceUrl, entityId);
+    const ret = { result: null, error: null, status: responseStatus };
+    if (responseStatus === 200) {
+      return { ...ret, result: responseBody as O };
+    }
+    if (responseStatus === 404) {
+      NotifyUtils.simpleFailed('Lấy dữ liệu không thành công');
+      return { ...ret, error: responseBody as ErrorMessage };
+    }
+    return ret;
+  };
+
   const create = async (resourceUrl: string, requestBody: I) => {
     const [responseStatus] = await FetchUtils.create<I, O>(resourceUrl, requestBody);
     if (responseStatus === 201) {
@@ -21,18 +34,6 @@ export default function useGenericService<I, O>() {
     if (responseStatus === 500) {
       NotifyUtils.simpleFailed('Cập nhật không thành công');
     }
-  };
-
-  const getById = async (resourceUrl: string, entityId: number) => {
-    const [responseStatus, responseBody] = await FetchUtils.getById<O>(resourceUrl, entityId);
-    if (responseStatus === 200) {
-      return { result: responseBody as O, error: null, status: responseStatus };
-    }
-    if (responseStatus === 404) {
-      NotifyUtils.simpleFailed('Lấy dữ liệu không thành công');
-      return { result: null, error: responseBody as ErrorMessage, status: responseStatus };
-    }
-    return { result: null, error: null, status: responseStatus };
   };
 
   return { create, update, getById };

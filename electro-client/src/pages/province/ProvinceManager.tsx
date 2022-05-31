@@ -64,8 +64,8 @@ import FilterUtils, {
   SortCriteria
 } from 'utils/FilterUtils';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
-import { ProvinceResponse } from 'models/province';
-import { EntityPropertyType } from 'models/entity-property';
+import { ProvinceResponse } from 'models/Province';
+import { EntityPropertyType } from 'models/EntityProperty';
 
 interface TitleLink {
   link: string,
