@@ -334,7 +334,7 @@ export default function useProvinceManageViewModel() {
     (Number(pageSize.value) > listResponse.totalElements) ? { ...pageSize, disabled: true } : pageSize
   );
 
-  const getProvinces = useCallback(() => {
+  const getProvinces = useCallback(async () => {
     if (loading) {
       const requestParams: RequestParams = {
         page: activePage,
@@ -343,18 +343,16 @@ export default function useProvinceManageViewModel() {
         filter: FilterUtils.convertToFilterRSQL(activeFilter),
         search: searchToken,
       };
-      FetchUtils.getAll<ProvinceResponse>(ResourceURL.PROVINCE, requestParams)
-        .then(([responseStatus, responseBody]) => {
-          if (responseStatus === 200) {
-            setTimeout(() => {
-              setListResponse(responseBody as ListResponse<ProvinceResponse>);
-              setLoading(false);
-            }, 100);
-          }
-          if (responseStatus === 500) {
-            console.error(responseStatus, responseBody);
-          }
-        });
+      const [responseStatus, responseBody] = await FetchUtils.getAll<ProvinceResponse>(ResourceURL.PROVINCE, requestParams);
+      if (responseStatus === 200) {
+        setTimeout(() => {
+          setListResponse(responseBody as ListResponse<ProvinceResponse>);
+          setLoading(false);
+        }, 100);
+      }
+      if (responseStatus === 500) {
+        NotifyUtils.simpleFailed('Lấy dữ liệu không thành công');
+      }
     }
   }, [loading, activePage, activePageSize, activeFilter, searchToken]);
 
@@ -403,7 +401,8 @@ export default function useProvinceManageViewModel() {
     handleDeleteEntityButton,
     handleCancelDeleteEntityButton,
     handleConfirmedDeleteEntityButton,
-    handleDeleteBatchEntitiesButton,
+    handleDeleteBatchEntitiesButton: useCallback(handleDeleteBatchEntitiesButton, [selection]),
+    // handleDeleteBatchEntitiesButton,
     handleCancelDeleteBatchEntitiesButton,
     handleConfirmedDeleteBatchEntitiesButton,
     handleViewEntityButton,

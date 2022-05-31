@@ -1,6 +1,6 @@
 import CreateUpdateTitle from './CreateUpdateTitle/CreateUpdateTitle';
 import DefaultPropertyPanel from './DefaultPropertyPanel/DefaultPropertyPanel';
-import ManageTitle from 'components/ManagerTitle/ManageTitle';
+import ManageHeader from 'components/ManageHeader/ManageHeader';
 import SearchPanel from 'components/SearchPanel/SearchPanel';
 import FilterPanel from 'components/FilterPanel/FilterPanel';
 import ManageTable from 'components/ManageTable/ManageTable';
@@ -10,7 +10,7 @@ import EntityDetailsTable from 'components/EntityDetailsTable/EntityDetailsTable
 export {
   CreateUpdateTitle,
   DefaultPropertyPanel,
-  ManageTitle,
+  ManageHeader,
   SearchPanel,
   FilterPanel,
   ManageTable,

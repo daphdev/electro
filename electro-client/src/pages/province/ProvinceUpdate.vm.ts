@@ -17,12 +17,12 @@ export default function useProvinceUpdateViewModel() {
 
   const getProvince = async (id?: string) => {
     if (id && !province) {
-      const { result } = await provinceService.getById(ProvinceConfigs.resourceUrl, Number(id));
-      if (result) {
-        setProvince(result);
+      const { data } = await provinceService.getById(ProvinceConfigs.resourceUrl, Number(id));
+      if (data) {
+        setProvince(data);
         const formValues = {
-          name: result.name,
-          code: result.code,
+          name: data.name,
+          code: data.code,
         };
         form.setValues(formValues);
       }

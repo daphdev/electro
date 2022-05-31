@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react';
-import 'dayjs/locale/vi';
-import { Link } from 'react-router-dom';
 import { Button, Center, Group, LoadingOverlay, Modal, Paper, Stack, Text, useMantineTheme } from '@mantine/core';
-import { Plus, Trash } from 'tabler-icons-react';
+import 'dayjs/locale/vi';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 import {
   EntityDetailsTable,
   FilterPanel,
+  ManageHeader,
   ManageTable,
   ManageTablePagination,
-  ManageTitle,
   SearchPanel
 } from 'components';
 import useProvinceManageViewModel from 'pages/province/ProvinceManage.vm';
@@ -71,7 +69,7 @@ export default function ProvinceManage() {
   } = useProvinceManageViewModel();
 
   useEffect(() => {
-    getProvinces();
+    void getProvinces();
   }, [getProvinces]);
 
   console.log('re-render: ', listResponse, {
@@ -95,28 +93,11 @@ export default function ProvinceManage() {
 
   return (
     <Stack>
-      <Group position="apart">
-        <ManageTitle titleLinks={ProvinceConfigs.manageTitleLinks} title={ProvinceConfigs.manageTitle}/>
-
-        <Group spacing="xs">
-          <Button
-            component={Link}
-            to="create"
-            variant="outline"
-            leftIcon={<Plus/>}
-          >
-            Thêm mới
-          </Button>
-          <Button
-            variant="outline"
-            color="red"
-            leftIcon={<Trash/>}
-            onClick={handleDeleteBatchEntitiesButton}
-          >
-            Xóa hàng loạt
-          </Button>
-        </Group>
-      </Group>
+      <ManageHeader
+        titleLinks={ProvinceConfigs.manageTitleLinks}
+        title={ProvinceConfigs.manageTitle}
+        handleDeleteBatchEntitiesButton={handleDeleteBatchEntitiesButton}
+      />
 
       <SearchPanel
         filterSelectList={filterSelectList}

@@ -10,7 +10,7 @@ interface DefaultPropertyPanelProps {
   updatedBy?: string;
 }
 
-export default function DefaultPropertyPanel({
+function DefaultPropertyPanel({
   id = '__',
   createdAt = '__/__/____',
   updatedAt = '__/__/____',
@@ -44,3 +44,5 @@ export default function DefaultPropertyPanel({
     </Paper>
   );
 }
+
+export default React.memo(DefaultPropertyPanel);
