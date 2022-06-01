@@ -18,6 +18,7 @@ import { useFilterPanelStyles } from 'components/FilterPanel/FilterPanel.styles'
 import FilterUtils, { FilterCriteria, FilterPropertyType, SortCriteria } from 'utils/FilterUtils';
 import { SelectOption } from 'types';
 import { DatePicker } from '@mantine/dates';
+import 'dayjs/locale/vi';
 
 interface FilterPanelProps {
   activeFilterPanel: boolean;

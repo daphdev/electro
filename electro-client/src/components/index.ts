@@ -1,5 +1,5 @@
-import CreateUpdateTitle from './CreateUpdateTitle/CreateUpdateTitle';
-import DefaultPropertyPanel from './DefaultPropertyPanel/DefaultPropertyPanel';
+import CreateUpdateTitle from 'components/CreateUpdateTitle/CreateUpdateTitle';
+import DefaultPropertyPanel from 'components/DefaultPropertyPanel/DefaultPropertyPanel';
 import ManageHeader from 'components/ManageHeader/ManageHeader';
 import SearchPanel from 'components/SearchPanel/SearchPanel';
 import FilterPanel from 'components/FilterPanel/FilterPanel';

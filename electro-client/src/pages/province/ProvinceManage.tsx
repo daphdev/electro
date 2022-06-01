@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Button, Center, Group, LoadingOverlay, Modal, Paper, Stack, Text, useMantineTheme } from '@mantine/core';
-import 'dayjs/locale/vi';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
+import useProvinceManageViewModel from 'pages/province/ProvinceManage.vm';
 import {
   EntityDetailsTable,
   FilterPanel,
@@ -10,7 +10,6 @@ import {
   ManageTablePagination,
   SearchPanel
 } from 'components';
-import useProvinceManageViewModel from 'pages/province/ProvinceManage.vm';
 
 export default function ProvinceManage() {
   const theme = useMantineTheme();

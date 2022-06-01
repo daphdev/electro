@@ -2,11 +2,11 @@ import React from 'react';
 import { AppShell } from '@mantine/core';
 import { DefaultHeader } from '../components/DefaultHeader/DefaultHeader';
 import { DefaultNavbar } from '../components/DefaultNavbar/DefaultNavbar';
-import { useToggleNavbarStore } from 'stores/ToggleNavbarStore';
+import { useAdminSiteStore } from 'stores/use-admin-site-store';
 import { Outlet } from 'react-router-dom';
 
 export default function Admin() {
-  const { opened } = useToggleNavbarStore();
+  const { opened } = useAdminSiteStore();
 
   return (
     <AppShell
