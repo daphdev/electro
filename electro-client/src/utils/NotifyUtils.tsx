@@ -1,8 +1,16 @@
+import React from 'react';
 import { showNotification } from '@mantine/notifications';
 import { Check, X } from 'tabler-icons-react';
-import React from 'react';
 
 export default class NotifyUtils {
+  static simple = (message: string) => {
+    showNotification({
+      title: 'Thông báo',
+      message: message,
+      autoClose: 5000,
+    });
+  };
+
   static simpleSuccess = (message: string) => {
     showNotification({
       title: 'Thông báo',

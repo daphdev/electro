@@ -5,7 +5,7 @@ import useProvinceManageViewModel from 'pages/province/ProvinceManage.vm';
 import {
   EntityDetailsTable,
   FilterPanel,
-  ManageHeader,
+  ManageHeader, ManageHeaderButtons, ManageHeaderTitle,
   ManageTable,
   ManageTablePagination,
   SearchPanel
@@ -18,7 +18,7 @@ export default function ProvinceManage() {
     listResponse, setListResponse,
     activePage, setActivePage,
     activePageSize, setActivePageSize,
-    selection, setSelection,
+    selection,
     loading, setLoading,
     searchToken, setSearchToken,
     activeFilterPanel, setActiveFilterPanel,
@@ -58,7 +58,7 @@ export default function ProvinceManage() {
     handleDeleteEntityButton,
     handleCancelDeleteEntityButton,
     handleConfirmedDeleteEntityButton,
-    handleDeleteBatchEntitiesButton,
+    // handleDeleteBatchEntitiesButton,
     handleCancelDeleteBatchEntitiesButton,
     handleConfirmedDeleteBatchEntitiesButton,
     handleViewEntityButton,
@@ -92,11 +92,13 @@ export default function ProvinceManage() {
 
   return (
     <Stack>
-      <ManageHeader
-        titleLinks={ProvinceConfigs.manageTitleLinks}
-        title={ProvinceConfigs.manageTitle}
-        handleDeleteBatchEntitiesButton={handleDeleteBatchEntitiesButton}
-      />
+      <ManageHeader>
+        <ManageHeaderTitle
+          titleLinks={ProvinceConfigs.manageTitleLinks}
+          title={ProvinceConfigs.manageTitle}
+        />
+        <ManageHeaderButtons/>
+      </ManageHeader>
 
       <SearchPanel
         filterSelectList={filterSelectList}

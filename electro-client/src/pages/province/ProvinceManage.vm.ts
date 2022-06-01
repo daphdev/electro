@@ -14,8 +14,8 @@ import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 import DateUtils from 'utils/DateUtils';
 import { SelectOption } from 'types';
 import ResourceURL from 'constants/ResourceURL';
-import { showNotification } from '@mantine/notifications';
 import NotifyUtils from 'utils/NotifyUtils';
+import useStore from 'stores/use-store';
 
 const MAX_FILTER_CRITERIA_NUMBER = 10;
 const CURRENT_USER_ID = 1;
@@ -29,6 +29,12 @@ const filterPropertyTypes: FilterPropertyTypes = {
 };
 
 export default function useProvinceManageViewModel() {
+  const {
+    selection, setSelection,
+    activeEntityIdsToDelete, setActiveEntityIdsToDelete,
+    openedDeleteBatchEntitiesModal, setOpenedDeleteBatchEntitiesModal,
+  } = useStore();
+
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const filterNameInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -36,7 +42,7 @@ export default function useProvinceManageViewModel() {
   const [listResponse, setListResponse] = useState<ListResponse<ProvinceResponse>>(ProvinceConfigs.initialListResponse);
   const [activePage, setActivePage] = useState(listResponse.page);
   const [activePageSize, setActivePageSize] = useState(listResponse.size);
-  const [selection, setSelection] = useState<number[]>([]);
+  // const [selection, setSelection] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchToken, setSearchToken] = useState('');
   const [activeFilterPanel, setActiveFilterPanel] = useState(false);
@@ -53,8 +59,8 @@ export default function useProvinceManageViewModel() {
   const [openedDeleteEntityModal, setOpenedDeleteEntityModal] = useState(false);
   const [activeEntityIdToDelete, setActiveEntityIdToDelete] = useState<number | null>(null);
 
-  const [openedDeleteBatchEntitiesModal, setOpenedDeleteBatchEntitiesModal] = useState(false);
-  const [activeEntityIdsToDelete, setActiveEntityIdsToDelete] = useState<number[]>([]);
+  // const [openedDeleteBatchEntitiesModal, setOpenedDeleteBatchEntitiesModal] = useState(false);
+  // const [activeEntityIdsToDelete, setActiveEntityIdsToDelete] = useState<number[]>([]);
 
   const [openedViewEntityModal, setOpenedViewEntityModal] = useState(false);
   const [activeEntityToView, setActiveEntityToView] = useState<ProvinceResponse | null>(null);
@@ -276,18 +282,18 @@ export default function useProvinceManageViewModel() {
     setOpenedDeleteEntityModal(false);
   };
 
-  const handleDeleteBatchEntitiesButton = () => {
-    if (selection.length > 0) {
-      setActiveEntityIdsToDelete(selection);
-      setOpenedDeleteBatchEntitiesModal(true);
-    } else {
-      showNotification({
-        title: 'Thông báo',
-        message: 'Vui lòng chọn ít nhất một phần tử để xóa',
-        autoClose: 5000,
-      });
-    }
-  };
+  // const handleDeleteBatchEntitiesButton = () => {
+  //   if (selection.length > 0) {
+  //     setActiveEntityIdsToDelete(selection);
+  //     setOpenedDeleteBatchEntitiesModal(true);
+  //   } else {
+  //     showNotification({
+  //       title: 'Thông báo',
+  //       message: 'Vui lòng chọn ít nhất một phần tử để xóa',
+  //       autoClose: 5000,
+  //     });
+  //   }
+  // };
 
   const handleCancelDeleteBatchEntitiesButton = () => {
     setOpenedDeleteBatchEntitiesModal(false);
@@ -361,7 +367,7 @@ export default function useProvinceManageViewModel() {
     listResponse, setListResponse,
     activePage, setActivePage,
     activePageSize, setActivePageSize,
-    selection, setSelection,
+    selection,
     loading, setLoading,
     searchToken, setSearchToken,
     activeFilterPanel, setActiveFilterPanel,
@@ -401,7 +407,7 @@ export default function useProvinceManageViewModel() {
     handleDeleteEntityButton,
     handleCancelDeleteEntityButton,
     handleConfirmedDeleteEntityButton,
-    handleDeleteBatchEntitiesButton: useCallback(handleDeleteBatchEntitiesButton, [selection]),
+    // handleDeleteBatchEntitiesButton: useCallback(handleDeleteBatchEntitiesButton, [selection]),
     // handleDeleteBatchEntitiesButton,
     handleCancelDeleteBatchEntitiesButton,
     handleConfirmedDeleteBatchEntitiesButton,
