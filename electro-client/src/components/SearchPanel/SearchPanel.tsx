@@ -6,9 +6,9 @@ import useSearchPanelViewModel from 'components/SearchPanel/SearchPanel.vm';
 function SearchPanel() {
   const {
     searchInputRef,
-    handleSearchInput,
     filterSelectList,
     activeFilterId,
+    handleSearchInput,
     handleFilterSelect,
     handleAddFilterButton,
     handleResetButton,

@@ -60,9 +60,9 @@ function useSearchPanelViewModel() {
 
   return {
     searchInputRef,
-    handleSearchInput,
     filterSelectList,
     activeFilterId,
+    handleSearchInput,
     handleFilterSelect,
     handleAddFilterButton,
     handleResetButton,
