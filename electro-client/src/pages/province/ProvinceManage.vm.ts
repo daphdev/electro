@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import FilterUtils, {
   FilterCriteria,
   FilterObject,
@@ -15,6 +15,7 @@ import DateUtils from 'utils/DateUtils';
 import ResourceURL from 'constants/ResourceURL';
 import NotifyUtils from 'utils/NotifyUtils';
 import useStore from 'stores/use-store';
+import { useLocation } from 'react-router-dom';
 
 const MAX_FILTER_CRITERIA_NUMBER = 10;
 const CURRENT_USER_ID = 1;
@@ -69,6 +70,12 @@ function useProvinceManageViewModel() {
 
   const [openedViewEntityModal, setOpenedViewEntityModal] = useState(false);
   const [activeEntityToView, setActiveEntityToView] = useState<ProvinceResponse | null>(null);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    setLoading(true);
+  }, [location, setLoading]);
 
   const handleToggleRowCheckbox = (entityId: number) =>
     setSelection(current =>
@@ -365,7 +372,7 @@ function useProvinceManageViewModel() {
         NotifyUtils.simpleFailed('Lấy dữ liệu không thành công');
       }
     }
-  }, [loading, activePage, activePageSize, activeFilter, searchToken]);
+  }, [loading, activePage, activePageSize, activeFilter, searchToken, setLoading]);
 
   return {
     // searchInputRef,

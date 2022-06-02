@@ -5,7 +5,9 @@ import useProvinceManageViewModel from 'pages/province/ProvinceManage.vm';
 import {
   EntityDetailsTable,
   FilterPanel,
-  ManageHeader, ManageHeaderButtons, ManageHeaderTitle,
+  ManageHeader,
+  ManageHeaderButtons,
+  ManageHeaderTitle,
   ManageTable,
   ManageTablePagination,
   SearchPanel
