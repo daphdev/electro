@@ -46,6 +46,7 @@ public abstract class UserMapper implements GenericMapper<User, UserRequest, Use
     @Override
     @Mapping(source = "address.provinceId", target = "address.province", qualifiedByName = "mapProvinceIdToProvince")
     @Mapping(source = "address.districtId", target = "address.district", qualifiedByName = "mapDistrictIdToDistrict")
+    @Mapping(source = "password", target = "password", qualifiedByName = "hashPassword")
     public abstract User requestToEntity(UserRequest request);
 
     @Override
