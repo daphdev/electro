@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
-import { SliceCreator } from 'stores/use-store';
+import { SetState } from 'zustand';
+import { AppState, SliceCreator } from 'stores/use-store';
 
 export interface ManagePageState {
   selection: number[];
@@ -16,25 +17,23 @@ const initialManagePageState = {
   openedDeleteBatchEntitiesModal: false,
 };
 
+const setState = <T>(set: SetState<AppState>, value: SetStateAction<T>, key: string) => {
+  set(
+    (state) => ({
+      [key]: typeof value === 'function'
+        ? (value as (prevState: T) => T)(state[key as keyof AppState] as unknown as T)
+        : value,
+    })
+  );
+};
+
 const createManagePageSlice: SliceCreator<ManagePageState> = (set) => ({
   selection: initialManagePageState.selection,
-  setSelection: (value) => set((state) => ({
-    selection: typeof value === 'function'
-      ? value(state.selection)
-      : value,
-  })),
+  setSelection: (value) => setState(set, value, 'selection'),
   activeEntityIdsToDelete: initialManagePageState.activeEntityIdsToDelete,
-  setActiveEntityIdsToDelete: (value) => set((state) => ({
-    activeEntityIdsToDelete: typeof value === 'function'
-      ? value(state.activeEntityIdsToDelete)
-      : value,
-  })),
+  setActiveEntityIdsToDelete: (value) => setState(set, value, 'activeEntityIdsToDelete'),
   openedDeleteBatchEntitiesModal: initialManagePageState.openedDeleteBatchEntitiesModal,
-  setOpenedDeleteBatchEntitiesModal: (value) => set((state) => ({
-    openedDeleteBatchEntitiesModal: typeof value === 'function'
-      ? value(state.openedDeleteBatchEntitiesModal)
-      : value,
-  })),
+  setOpenedDeleteBatchEntitiesModal: (value) => setState(set, value, 'openedDeleteBatchEntitiesModal'),
 });
 
 export default createManagePageSlice;

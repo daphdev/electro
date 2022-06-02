@@ -9,11 +9,9 @@ const initialAdminSiteState = {
   opened: false,
 };
 
-const toggleOpened = (state: AdminSiteState) => ({ opened: !state.opened });
-
 const createAdminSiteSlice: SliceCreator<AdminSiteState> = (set) => ({
   opened: initialAdminSiteState.opened,
-  toggleOpened: () => set(toggleOpened),
+  toggleOpened: () => set((state) => ({ opened: !state.opened })),
 });
 
 export default createAdminSiteSlice;

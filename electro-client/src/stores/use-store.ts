@@ -4,7 +4,7 @@ import { State } from 'zustand/vanilla';
 import createAdminSiteSlice, { AdminSiteState } from 'stores/create-admin-site-slice';
 import createManagePageSlice, { ManagePageState } from 'stores/create-manage-page-slice';
 
-type AppState = AdminSiteState & ManagePageState;
+export type AppState = AdminSiteState & ManagePageState;
 
 export type SliceCreator<T extends State> = StateCreator<AppState, [
   ['zustand/devtools', never]
