@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import FilterUtils, {
   FilterCriteria,
   FilterObject,
@@ -12,7 +12,6 @@ import FetchUtils, { ListResponse, RequestParams } from 'utils/FetchUtils';
 import { ProvinceResponse } from 'models/Province';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 import DateUtils from 'utils/DateUtils';
-import { SelectOption } from 'types';
 import ResourceURL from 'constants/ResourceURL';
 import NotifyUtils from 'utils/NotifyUtils';
 import useStore from 'stores/use-store';
@@ -33,28 +32,34 @@ export default function useProvinceManageViewModel() {
     selection, setSelection,
     activeEntityIdsToDelete, setActiveEntityIdsToDelete,
     openedDeleteBatchEntitiesModal, setOpenedDeleteBatchEntitiesModal,
+    filters, setFilters,
+    activeFilter, setActiveFilter,
+    searchToken, setSearchToken,
+    loading, setLoading,
+    activePage, setActivePage,
+    activeFilterPanel, setActiveFilterPanel,
   } = useStore();
 
-  const searchInputRef = useRef<HTMLInputElement | null>(null);
+  // const searchInputRef = useRef<HTMLInputElement | null>(null);
   const filterNameInputRef = useRef<HTMLInputElement | null>(null);
 
   const filterCriteriaValueInputRefs = useRef<WeakMap<FilterCriteria, HTMLInputElement | HTMLButtonElement | null>>(new WeakMap());
   const [listResponse, setListResponse] = useState<ListResponse<ProvinceResponse>>(ProvinceConfigs.initialListResponse);
-  const [activePage, setActivePage] = useState(listResponse.page);
+  // const [activePage, setActivePage] = useState(listResponse.page);
   const [activePageSize, setActivePageSize] = useState(listResponse.size);
   // const [selection, setSelection] = useState<number[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [searchToken, setSearchToken] = useState('');
-  const [activeFilterPanel, setActiveFilterPanel] = useState(false);
+  // const [loading, setLoading] = useState(true);
+  // const [searchToken, setSearchToken] = useState('');
+  // const [activeFilterPanel, setActiveFilterPanel] = useState(false);
 
   const [sortCriteriaList, setSortCriteriaList] = useState<SortCriteria[]>([]);
   const [sortPropertySelectList, setSortPropertySelectList] = useState(ProvinceConfigs.initialPropertySelectList);
 
   const [filterCriteriaList, setFilterCriteriaList] = useState<FilterCriteria[]>([]);
   const [filterPropertySelectList, setFilterPropertySelectList] = useState(ProvinceConfigs.initialPropertySelectList);
-  const [filters, setFilters] = useState<FilterObject[]>([]);
-  const [activeFilter, setActiveFilter] = useState<FilterObject | null>(null);
-  const [prevActiveFilter, setPrevActiveFilter] = useState<FilterObject | null>(null);
+  // const [filters, setFilters] = useState<FilterObject[]>([]);
+  // const [activeFilter, setActiveFilter] = useState<FilterObject | null>(null);
+  // const [prevActiveFilter, setPrevActiveFilter] = useState<FilterObject | null>(null);
 
   const [openedDeleteEntityModal, setOpenedDeleteEntityModal] = useState(false);
   const [activeEntityIdToDelete, setActiveEntityIdToDelete] = useState<number | null>(null);
@@ -93,36 +98,36 @@ export default function useProvinceManageViewModel() {
     }
   };
 
-  const handleSearchButton = () => {
-    const currentSearchToken = searchInputRef.current?.value ?? '';
-    if (currentSearchToken !== searchToken || activeFilter?.id !== prevActiveFilter?.id) {
-      setLoading(true);
-      setActivePage(1);
-      setSearchToken(currentSearchToken);
-      setPrevActiveFilter(activeFilter);
-    }
-  };
+  // const handleSearchButton = () => {
+  //   const currentSearchToken = searchInputRef.current?.value ?? '';
+  //   if (currentSearchToken !== searchToken || activeFilter?.id !== prevActiveFilter?.id) {
+  //     setLoading(true);
+  //     setActivePage(1);
+  //     setSearchToken(currentSearchToken);
+  //     setPrevActiveFilter(activeFilter);
+  //   }
+  // };
 
-  const handleSearchInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      handleSearchButton();
-    }
-  };
+  // const handleSearchInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (event.key === 'Enter') {
+  //     handleSearchButton();
+  //   }
+  // };
 
-  const handleResetButton = () => {
-    if (searchInputRef.current?.value) {
-      searchInputRef.current.value = '';
-    }
-    if (activeFilter !== null) {
-      setActiveFilter(null);
-    }
-  };
+  // const handleResetButton = () => {
+  //   if (searchInputRef.current?.value) {
+  //     searchInputRef.current.value = '';
+  //   }
+  //   if (activeFilter !== null) {
+  //     setActiveFilter(null);
+  //   }
+  // };
 
-  const handleAddFilterButton = () => {
-    if (!activeFilterPanel) {
-      setActiveFilterPanel(true);
-    }
-  };
+  // const handleAddFilterButton = () => {
+  //   if (!activeFilterPanel) {
+  //     setActiveFilterPanel(true);
+  //   }
+  // };
 
   const handleCancelCreateFilterButton = () => {
     if (activeFilterPanel) {
@@ -245,14 +250,14 @@ export default function useProvinceManageViewModel() {
     setActiveFilterPanel(false);
   };
 
-  const filterSelectList: SelectOption[] = filters.map(item => ({ value: item.id, label: item.name }));
+  // const filterSelectList: SelectOption[] = filters.map(item => ({ value: item.id, label: item.name }));
 
-  const handleFilterSelect = (filterIdValue: string | null) => {
-    setActiveFilter(prevState => {
-      setPrevActiveFilter(prevState ?? null);
-      return filters.find(item => item.id === filterIdValue) ?? null;
-    });
-  };
+  // const handleFilterSelect = (filterIdValue: string | null) => {
+  //   setActiveFilter(prevState => {
+  //     setPrevActiveFilter(prevState ?? null);
+  //     return filters.find(item => item.id === filterIdValue) ?? null;
+  //   });
+  // };
 
   const handleDeleteEntityButton = (entityId: number) => {
     setActiveEntityIdToDelete(entityId);
@@ -363,7 +368,9 @@ export default function useProvinceManageViewModel() {
   }, [loading, activePage, activePageSize, activeFilter, searchToken]);
 
   return {
-    searchInputRef, filterNameInputRef, filterCriteriaValueInputRefs,
+    // searchInputRef,
+    filterNameInputRef,
+    filterCriteriaValueInputRefs,
     listResponse, setListResponse,
     activePage, setActivePage,
     activePageSize, setActivePageSize,
@@ -376,8 +383,8 @@ export default function useProvinceManageViewModel() {
     filterCriteriaList, setFilterCriteriaList,
     filterPropertySelectList, setFilterPropertySelectList,
     filters, setFilters,
-    activeFilter, setActiveFilter,
-    prevActiveFilter, setPrevActiveFilter,
+    // activeFilter, setActiveFilter,
+    // prevActiveFilter, setPrevActiveFilter,
     openedDeleteEntityModal, setOpenedDeleteEntityModal,
     activeEntityIdToDelete, setActiveEntityIdToDelete,
     openedDeleteBatchEntitiesModal, setOpenedDeleteBatchEntitiesModal,
@@ -388,10 +395,10 @@ export default function useProvinceManageViewModel() {
     handleToggleAllRowsCheckbox,
     handlePaginationButton,
     handlePageSizeSelect,
-    handleSearchButton,
-    handleSearchInput,
-    handleResetButton,
-    handleAddFilterButton,
+    // handleSearchButton,
+    // handleSearchInput,
+    // handleResetButton,
+    // handleAddFilterButton,
     handleCancelCreateFilterButton,
     handleCreateSortCriteriaButton,
     handleSortPropertySelect,
@@ -402,8 +409,8 @@ export default function useProvinceManageViewModel() {
     handleFilterOperatorSelect,
     handleDeleteFilterCriteriaButton,
     handleCreateFilterButton,
-    filterSelectList,
-    handleFilterSelect,
+    // filterSelectList,
+    // handleFilterSelect,
     handleDeleteEntityButton,
     handleCancelDeleteEntityButton,
     handleConfirmedDeleteEntityButton,

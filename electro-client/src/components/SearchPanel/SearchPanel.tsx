@@ -1,30 +1,20 @@
 import React from 'react';
 import { ActionIcon, Button, Group, Paper, Select, TextInput, Tooltip } from '@mantine/core';
 import { AdjustmentsHorizontal, Edit, Eraser, Filter, Search } from 'tabler-icons-react';
-import { SelectOption } from 'types';
-import { FilterObject } from 'utils/FilterUtils';
+import useSearchPanelViewModel from 'components/SearchPanel/SearchPanel.vm';
 
-interface SearchPanelProps {
-  filterSelectList: SelectOption[];
-  activeFilter: FilterObject | null;
-  searchInputRef: React.MutableRefObject<HTMLInputElement | null>;
-  handleSearchInput: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  handleFilterSelect: (filterIdValue: string | null) => void;
-  handleAddFilterButton: () => void;
-  handleResetButton: () => void;
-  handleSearchButton: () => void;
-}
+function SearchPanel() {
+  const {
+    filterSelectList,
+    activeFilter,
+    handleSearchButton,
+    handleSearchInput,
+    handleFilterSelect,
+    handleAddFilterButton,
+    handleResetButton,
+    searchInputRef,
+  } = useSearchPanelViewModel();
 
-export default function SearchPanel({
-  filterSelectList,
-  activeFilter,
-  searchInputRef,
-  handleSearchInput,
-  handleFilterSelect,
-  handleAddFilterButton,
-  handleResetButton,
-  handleSearchButton,
-}: SearchPanelProps) {
   return (
     <Paper shadow="xs" p="sm">
       <Group position="apart">
@@ -68,3 +58,5 @@ export default function SearchPanel({
     </Paper>
   );
 }
+
+export default React.memo(SearchPanel);

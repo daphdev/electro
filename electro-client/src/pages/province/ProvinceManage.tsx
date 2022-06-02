@@ -14,7 +14,9 @@ import {
 export default function ProvinceManage() {
   const theme = useMantineTheme();
   const {
-    searchInputRef, filterNameInputRef, filterCriteriaValueInputRefs,
+    // searchInputRef,
+    filterNameInputRef,
+    filterCriteriaValueInputRefs,
     listResponse, setListResponse,
     activePage, setActivePage,
     activePageSize, setActivePageSize,
@@ -27,8 +29,8 @@ export default function ProvinceManage() {
     filterCriteriaList, setFilterCriteriaList,
     filterPropertySelectList, setFilterPropertySelectList,
     filters, setFilters,
-    activeFilter, setActiveFilter,
-    prevActiveFilter, setPrevActiveFilter,
+    // activeFilter, setActiveFilter,
+    // prevActiveFilter, setPrevActiveFilter,
     openedDeleteEntityModal, setOpenedDeleteEntityModal,
     activeEntityIdToDelete, setActiveEntityIdToDelete,
     openedDeleteBatchEntitiesModal, setOpenedDeleteBatchEntitiesModal,
@@ -39,10 +41,10 @@ export default function ProvinceManage() {
     handleToggleAllRowsCheckbox,
     handlePaginationButton,
     handlePageSizeSelect,
-    handleSearchButton,
-    handleSearchInput,
-    handleResetButton,
-    handleAddFilterButton,
+    // handleSearchButton,
+    // handleSearchInput,
+    // handleResetButton,
+    // handleAddFilterButton,
     handleCancelCreateFilterButton,
     handleCreateSortCriteriaButton,
     handleSortPropertySelect,
@@ -53,8 +55,8 @@ export default function ProvinceManage() {
     handleFilterOperatorSelect,
     handleDeleteFilterCriteriaButton,
     handleCreateFilterButton,
-    filterSelectList,
-    handleFilterSelect,
+    // filterSelectList,
+    // handleFilterSelect,
     handleDeleteEntityButton,
     handleCancelDeleteEntityButton,
     handleConfirmedDeleteEntityButton,
@@ -100,16 +102,7 @@ export default function ProvinceManage() {
         <ManageHeaderButtons/>
       </ManageHeader>
 
-      <SearchPanel
-        filterSelectList={filterSelectList}
-        activeFilter={activeFilter}
-        searchInputRef={searchInputRef}
-        handleSearchInput={handleSearchInput}
-        handleFilterSelect={handleFilterSelect}
-        handleAddFilterButton={handleAddFilterButton}
-        handleResetButton={handleResetButton}
-        handleSearchButton={handleSearchButton}
-      />
+      <SearchPanel/>
 
       <FilterPanel
         activeFilterPanel={activeFilterPanel}
