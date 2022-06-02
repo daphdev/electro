@@ -1,7 +1,7 @@
 import FetchUtils, { ErrorMessage } from 'utils/FetchUtils';
 import NotifyUtils from 'utils/NotifyUtils';
 
-export default function useGenericService<I, O>() {
+function useGenericService<I, O>() {
 
   const getById = async (resourceUrl: string, entityId: number) => {
     const [responseStatus, responseBody] = await FetchUtils.getById<O>(resourceUrl, entityId);
@@ -38,3 +38,5 @@ export default function useGenericService<I, O>() {
 
   return { create, update, getById };
 }
+
+export default useGenericService;

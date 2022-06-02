@@ -42,7 +42,7 @@ interface FilterPanelProps {
 
 const MAX_FILTER_CRITERIA_NUMBER = 10;
 
-export default function FilterPanel({
+function FilterPanel({
   activeFilterPanel,
   filterNameInputRef,
   handleCancelCreateFilterButton,
@@ -264,3 +264,5 @@ export default function FilterPanel({
     </Paper>
   );
 }
+
+export default FilterPanel;

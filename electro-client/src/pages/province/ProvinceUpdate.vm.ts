@@ -4,7 +4,7 @@ import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 import useGenericService from 'services/use-generic-service';
 import { ProvinceRequest, ProvinceResponse } from 'models/Province';
 
-export default function useProvinceUpdateViewModel() {
+function useProvinceUpdateViewModel() {
   const provinceService = useGenericService<ProvinceRequest, ProvinceResponse>();
 
   const form = useForm({
@@ -42,3 +42,5 @@ export default function useProvinceUpdateViewModel() {
 
   return { province, getProvince, form, handleFormSubmit };
 }
+
+export default useProvinceUpdateViewModel;

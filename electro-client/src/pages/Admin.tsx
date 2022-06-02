@@ -5,7 +5,7 @@ import { DefaultNavbar } from 'components/DefaultNavbar/DefaultNavbar';
 import { Outlet } from 'react-router-dom';
 import useStore from 'stores/use-store';
 
-export default function Admin() {
+function Admin() {
   const { opened } = useStore();
 
   return (
@@ -26,3 +26,5 @@ export default function Admin() {
     </AppShell>
   );
 }
+
+export default Admin;

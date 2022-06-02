@@ -17,7 +17,7 @@ interface ManageTableProps {
   handleDeleteEntityButton: (entityId: number) => void;
 }
 
-export default function ManageTable({
+function ManageTable({
   handleToggleAllRowsCheckbox,
   selection,
   listResponse,
@@ -123,3 +123,5 @@ export default function ManageTable({
     </Table>
   );
 }
+
+export default ManageTable;

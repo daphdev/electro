@@ -11,7 +11,7 @@ import {
   SearchPanel
 } from 'components';
 
-export default function ProvinceManage() {
+function ProvinceManage() {
   const theme = useMantineTheme();
   const {
     // searchInputRef,
@@ -209,3 +209,5 @@ export default function ProvinceManage() {
     </Stack>
   );
 }
+
+export default ProvinceManage;

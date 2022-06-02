@@ -2,6 +2,7 @@ import { SetStateAction } from 'react';
 import create, { SetState, StateCreator } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { State } from 'zustand/vanilla';
+import { createTrackedSelector } from 'react-tracked';
 import createAdminSiteSlice, { AdminSiteState } from 'stores/create-admin-site-slice';
 import createManagePageSlice, { ManagePageState } from 'stores/create-manage-page-slice';
 
@@ -30,4 +31,4 @@ const useStore = create<AppState>()(
   )
 );
 
-export default useStore;
+export default createTrackedSelector(useStore);

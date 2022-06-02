@@ -13,7 +13,7 @@ interface ManageTablePaginationProps {
   handlePageSizeSelect: (size: string) => void;
 }
 
-export default function ManageTablePagination({
+function ManageTablePagination({
   listResponse,
   activePage,
   handlePaginationButton,
@@ -47,3 +47,5 @@ export default function ManageTablePagination({
     </Group>
   );
 }
+
+export default ManageTablePagination;

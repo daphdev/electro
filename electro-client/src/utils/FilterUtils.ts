@@ -85,7 +85,7 @@ export interface FilterObject {
   filterCriteriaList: FilterCriteria[];
 }
 
-export default class FilterUtils {
+class FilterUtils {
   static sortOrderSelectList: SelectOption[] = [
     {
       value: 'asc',
@@ -271,3 +271,5 @@ export default class FilterUtils {
     return '';
   };
 }
+
+export default FilterUtils;

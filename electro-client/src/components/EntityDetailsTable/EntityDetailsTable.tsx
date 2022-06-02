@@ -9,7 +9,7 @@ interface EntityDetailsTableProps {
   activeEntityToView: ProvinceResponse | null;
 }
 
-export default function EntityDetailsTable({
+function EntityDetailsTable({
   activeEntityToView,
 }: EntityDetailsTableProps) {
 
@@ -39,3 +39,5 @@ export default function EntityDetailsTable({
     </Table>
   );
 }
+
+export default EntityDetailsTable;

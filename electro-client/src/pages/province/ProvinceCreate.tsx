@@ -4,7 +4,7 @@ import { CreateUpdateTitle, DefaultPropertyPanel } from 'components';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 import useProvinceCreateViewModel from 'pages/province/ProvinceCreate.vm';
 
-export default function ProvinceCreate() {
+function ProvinceCreate() {
   const { form, handleFormSubmit } = useProvinceCreateViewModel();
 
   return (
@@ -41,3 +41,5 @@ export default function ProvinceCreate() {
     </Stack>
   );
 }
+
+export default ProvinceCreate;

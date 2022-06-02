@@ -32,7 +32,7 @@ export interface ErrorMessage {
   description: string;
 }
 
-export default class FetchUtils {
+class FetchUtils {
   /**
    * Hàm getAll dùng để lấy danh sách tất cả đối tượng (có thể theo một số tiêu chí, cài đặt trong requestParams)
    * @param url
@@ -129,3 +129,5 @@ export default class FetchUtils {
     return url;
   };
 }
+
+export default FetchUtils;

@@ -9,7 +9,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import AddressManager from './pages/AddressManager';
 import ProvinceManager, { ProvinceCreate, ProvinceUpdate } from 'pages/province';
 
-export default function App() {
+function App() {
   const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
@@ -33,3 +33,5 @@ export default function App() {
     </ColorSchemeProvider>
   );
 }
+
+export default App;

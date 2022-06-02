@@ -7,10 +7,10 @@ function useSearchPanelViewModel() {
   const {
     filters,
     activeFilter, setActiveFilter,
-    searchToken, setSearchToken,
+    activeFilterPanel, setActiveFilterPanel,
     setLoading,
     setActivePage,
-    activeFilterPanel, setActiveFilterPanel,
+    searchToken, setSearchToken,
   } = useStore();
 
   const [prevActiveFilter, setPrevActiveFilter] = useState<FilterObject | null>(null);
@@ -18,16 +18,7 @@ function useSearchPanelViewModel() {
   const searchInputRef = useRef<HTMLInputElement | null>(null);
 
   const filterSelectList: SelectOption[] = filters.map(item => ({ value: item.id, label: item.name }));
-
-  const handleSearchButton = () => {
-    const currentSearchToken = searchInputRef.current?.value ?? '';
-    if (currentSearchToken !== searchToken || activeFilter?.id !== prevActiveFilter?.id) {
-      setLoading(true);
-      setActivePage(1);
-      setSearchToken(currentSearchToken);
-      setPrevActiveFilter(activeFilter);
-    }
-  };
+  const activeFilterId = activeFilter ? activeFilter.id : null;
 
   const handleSearchInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -37,7 +28,7 @@ function useSearchPanelViewModel() {
 
   const handleFilterSelect = (filterIdValue: string | null) => {
     setActiveFilter(prevState => {
-      setPrevActiveFilter(prevState ?? null);
+      setPrevActiveFilter(prevState);
       return filters.find(item => item.id === filterIdValue) ?? null;
     });
   };
@@ -49,23 +40,33 @@ function useSearchPanelViewModel() {
   };
 
   const handleResetButton = () => {
-    if (searchInputRef.current?.value) {
+    if (searchInputRef.current) {
       searchInputRef.current.value = '';
     }
-    if (activeFilter !== null) {
+    if (activeFilter) {
       setActiveFilter(null);
     }
   };
 
+  const handleSearchButton = () => {
+    const currentSearchToken = searchInputRef.current ? searchInputRef.current.value : '';
+    if (currentSearchToken !== searchToken || activeFilter !== prevActiveFilter) {
+      setLoading(true);
+      setActivePage(1);
+      setSearchToken(currentSearchToken);
+      setPrevActiveFilter(activeFilter);
+    }
+  };
+
   return {
-    filterSelectList,
-    activeFilter,
-    handleSearchButton,
+    searchInputRef,
     handleSearchInput,
+    filterSelectList,
+    activeFilterId,
     handleFilterSelect,
     handleAddFilterButton,
     handleResetButton,
-    searchInputRef,
+    handleSearchButton,
   };
 }
 

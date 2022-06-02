@@ -27,7 +27,7 @@ const filterPropertyTypes: FilterPropertyTypes = {
   code: FilterPropertyType.STRING,
 };
 
-export default function useProvinceManageViewModel() {
+function useProvinceManageViewModel() {
   const {
     selection, setSelection,
     activeEntityIdsToDelete, setActiveEntityIdsToDelete,
@@ -424,3 +424,5 @@ export default function useProvinceManageViewModel() {
     getProvinces,
   };
 }
+
+export default useProvinceManageViewModel;

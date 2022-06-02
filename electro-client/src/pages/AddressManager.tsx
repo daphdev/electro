@@ -1,9 +1,11 @@
 import React from 'react';
 
-export default function AddressManager() {
+function AddressManager() {
   return (
     <div>
       AddressManager
     </div>
   );
 }
+
+export default AddressManager;

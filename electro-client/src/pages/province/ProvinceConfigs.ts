@@ -7,7 +7,7 @@ import { ListResponse } from 'utils/FetchUtils';
 import { ProvinceResponse } from 'models/Province';
 import { SelectOption } from 'types/SelectOption';
 
-export default class ProvinceConfigs {
+class ProvinceConfigs {
   static managerPath = 'address/province';
   static createTitle = 'Thêm tỉnh thành';
   static updateTitle = 'Cập nhật tỉnh thành';
@@ -113,3 +113,5 @@ export default class ProvinceConfigs {
     code: z.string().max(35, MessageUtils.max(ProvinceConfigs.properties.code.label, 35)),
   });
 }
+
+export default ProvinceConfigs;

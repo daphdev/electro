@@ -5,7 +5,7 @@ import { CreateUpdateTitle, DefaultPropertyPanel } from 'components';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 import useProvinceUpdateViewModel from 'pages/province/ProvinceUpdate.vm';
 
-export default function ProvinceUpdate() {
+function ProvinceUpdate() {
   const { id } = useParams();
   const { province, getProvince, form, handleFormSubmit } = useProvinceUpdateViewModel();
 
@@ -57,3 +57,5 @@ export default function ProvinceUpdate() {
     </Stack>
   );
 }
+
+export default ProvinceUpdate;

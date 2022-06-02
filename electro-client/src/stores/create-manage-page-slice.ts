@@ -44,9 +44,9 @@ const createManagePageSlice: SliceCreator<ManagePageState> = (set) => ({
   setFilters: (value) => setState(set, value, 'filters'),
   setActiveFilter: (value) => setState(set, value, 'activeFilter'),
   setSearchToken: (value) => setState(set, value, 'searchToken'),
-  setLoading: value => setState(set, value, 'loading'),
-  setActivePage: value => setState(set, value, 'activePage'),
-  setActiveFilterPanel: value => setState(set, value, 'activeFilterPanel'),
+  setLoading: (value) => setState(set, value, 'loading'),
+  setActivePage: (value) => setState(set, value, 'activePage'),
+  setActiveFilterPanel: (value) => setState(set, value, 'activeFilterPanel'),
 });
 
 export default createManagePageSlice;
