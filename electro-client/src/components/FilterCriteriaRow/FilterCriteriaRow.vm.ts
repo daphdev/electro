@@ -18,7 +18,7 @@ function useFilterCriteriaRowViewModel() {
   const handleFilterPropertySelect = (propertyValue: string | null, filterCriteriaIndex: number) => {
     const currentFilterCriteriaList = filterCriteriaList.map((item, index) => {
       const currentFilterPropertyType = propertyValue ? filterPropertyTypes[propertyValue] : null;
-      const currentFilterOperator = (propertyValue !== null && currentFilterPropertyType === item.type) ? item.operator : null;
+      const currentFilterOperator = (propertyValue && currentFilterPropertyType === item.type) ? item.operator : null;
       return (index === filterCriteriaIndex) ? {
         ...item,
         property: propertyValue,
