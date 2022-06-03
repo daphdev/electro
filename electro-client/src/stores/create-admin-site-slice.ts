@@ -1,4 +1,4 @@
-import { SliceCreator } from 'stores/use-store';
+import { SliceCreator } from 'stores/use-app-store';
 
 export interface AdminSiteState {
   opened: boolean;

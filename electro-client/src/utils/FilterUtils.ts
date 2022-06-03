@@ -54,7 +54,7 @@ export enum FilterPropertyType {
 }
 
 export interface FilterPropertyTypes {
-  [property: string]: FilterPropertyType
+  [property: string]: FilterPropertyType;
 }
 
 export enum OrderType {
@@ -74,7 +74,7 @@ export interface FilterCriteria {
   value: string | null;
 }
 
-export interface FilterObject {
+export interface Filter {
   id: string;
   createdAt: string;
   updatedAt: string;
@@ -203,7 +203,7 @@ class FilterUtils {
     DateOperator.IS_NOT_NULL,
   ];
 
-  static convertToSortRSQL = (filter: FilterObject | null) => {
+  static convertToSortRSQL = (filter: Filter | null) => {
     if (filter) {
       return filter.sortCriteriaList
         .filter(item => item.property !== null && item.order !== null)
@@ -213,7 +213,7 @@ class FilterUtils {
     return '';
   };
 
-  static convertToFilterRSQL = (filter: FilterObject | null) => {
+  static convertToFilterRSQL = (filter: Filter | null) => {
     if (filter) {
       return filter.filterCriteriaList
         .map(this.convertFilterCriteriaToRSQL)

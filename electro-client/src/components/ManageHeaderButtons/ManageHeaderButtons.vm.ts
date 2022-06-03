@@ -1,4 +1,4 @@
-import useStore from 'stores/use-store';
+import useAppStore from 'stores/use-app-store';
 import NotifyUtils from 'utils/NotifyUtils';
 
 function useManageHeaderButtonsViewModel() {
@@ -6,7 +6,7 @@ function useManageHeaderButtonsViewModel() {
     selection,
     setActiveEntityIdsToDelete,
     setOpenedDeleteBatchEntitiesModal,
-  } = useStore();
+  } = useAppStore();
 
   const handleDeleteBatchEntitiesButton = () => {
     if (selection.length > 0) {

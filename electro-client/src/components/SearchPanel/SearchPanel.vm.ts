@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
-import useStore from 'stores/use-store';
-import { FilterObject } from 'utils/FilterUtils';
+import useAppStore from 'stores/use-app-store';
+import { Filter } from 'utils/FilterUtils';
 import { SelectOption } from 'types';
 
 function useSearchPanelViewModel() {
@@ -11,9 +11,9 @@ function useSearchPanelViewModel() {
     setLoading,
     setActivePage,
     searchToken, setSearchToken,
-  } = useStore();
+  } = useAppStore();
 
-  const [prevActiveFilter, setPrevActiveFilter] = useState<FilterObject | null>(null);
+  const [prevActiveFilter, setPrevActiveFilter] = useState<Filter | null>(null);
 
   const searchInputRef = useRef<HTMLInputElement | null>(null);
 

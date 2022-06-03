@@ -35,7 +35,7 @@ class ProvinceConfigs {
     size: 5,
     totalElements: 0,
     totalPages: 0,
-    last: false
+    last: false,
   };
 
   static initialPropertySelectList: SelectOption[] = [
@@ -58,7 +58,7 @@ class ProvinceConfigs {
     {
       value: 'code',
       label: 'Mã tỉnh thành',
-    },
+    }
   ];
 
   static initialPageSizeSelectList: SelectOption[] = [
@@ -68,15 +68,15 @@ class ProvinceConfigs {
     },
     {
       value: '10',
-      label: '10'
+      label: '10',
     },
     {
       value: '25',
-      label: '25'
+      label: '25',
     },
     {
       value: '50',
-      label: '50'
+      label: '50',
     }
   ];
 

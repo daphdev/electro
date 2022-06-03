@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import './App.css';
+import 'dayjs/locale/vi';
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
+import './App.css';
 import Client from './pages/Client';
 import Admin from './pages/Admin';
 import AdminDashboard from './pages/AdminDashboard';

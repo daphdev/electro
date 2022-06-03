@@ -16,23 +16,12 @@ import {
 function ProvinceManage() {
   const theme = useMantineTheme();
   const {
-    // searchInputRef,
-    filterNameInputRef,
-    filterCriteriaValueInputRefs,
     listResponse, setListResponse,
     activePage, setActivePage,
     activePageSize, setActivePageSize,
     selection,
     loading, setLoading,
     searchToken, setSearchToken,
-    activeFilterPanel, setActiveFilterPanel,
-    sortCriteriaList, setSortCriteriaList,
-    sortPropertySelectList, setSortPropertySelectList,
-    filterCriteriaList, setFilterCriteriaList,
-    filterPropertySelectList, setFilterPropertySelectList,
-    filters, setFilters,
-    // activeFilter, setActiveFilter,
-    // prevActiveFilter, setPrevActiveFilter,
     openedDeleteEntityModal, setOpenedDeleteEntityModal,
     activeEntityIdToDelete, setActiveEntityIdToDelete,
     openedDeleteBatchEntitiesModal, setOpenedDeleteBatchEntitiesModal,
@@ -43,26 +32,9 @@ function ProvinceManage() {
     handleToggleAllRowsCheckbox,
     handlePaginationButton,
     handlePageSizeSelect,
-    // handleSearchButton,
-    // handleSearchInput,
-    // handleResetButton,
-    // handleAddFilterButton,
-    handleCancelCreateFilterButton,
-    handleCreateSortCriteriaButton,
-    handleSortPropertySelect,
-    handleSortOrderSelect,
-    handleDeleteSortCriteriaButton,
-    handleCreateFilterCriteriaButton,
-    handleFilterPropertySelect,
-    handleFilterOperatorSelect,
-    handleDeleteFilterCriteriaButton,
-    handleCreateFilterButton,
-    // filterSelectList,
-    // handleFilterSelect,
     handleDeleteEntityButton,
     handleCancelDeleteEntityButton,
     handleConfirmedDeleteEntityButton,
-    // handleDeleteBatchEntitiesButton,
     handleCancelDeleteBatchEntitiesButton,
     handleConfirmedDeleteBatchEntitiesButton,
     handleViewEntityButton,
@@ -76,7 +48,7 @@ function ProvinceManage() {
   }, [getProvinces]);
 
   console.log('re-render: ', listResponse, {
-    filterCriteriaList,
+    // filterCriteriaList,
     // sortCriteriaList,
     // filters,
     // sortPropertySelectList,
@@ -106,25 +78,7 @@ function ProvinceManage() {
 
       <SearchPanel/>
 
-      <FilterPanel
-        activeFilterPanel={activeFilterPanel}
-        filterNameInputRef={filterNameInputRef}
-        handleCancelCreateFilterButton={handleCancelCreateFilterButton}
-        handleCreateFilterButton={handleCreateFilterButton}
-        sortCriteriaList={sortCriteriaList}
-        sortPropertySelectList={sortPropertySelectList}
-        handleSortPropertySelect={handleSortPropertySelect}
-        handleSortOrderSelect={handleSortOrderSelect}
-        handleDeleteSortCriteriaButton={handleDeleteSortCriteriaButton}
-        handleCreateSortCriteriaButton={handleCreateSortCriteriaButton}
-        filterCriteriaList={filterCriteriaList}
-        filterCriteriaValueInputRefs={filterCriteriaValueInputRefs}
-        filterPropertySelectList={filterPropertySelectList}
-        handleFilterPropertySelect={handleFilterPropertySelect}
-        handleFilterOperatorSelect={handleFilterOperatorSelect}
-        handleDeleteFilterCriteriaButton={handleDeleteFilterCriteriaButton}
-        handleCreateFilterCriteriaButton={handleCreateFilterCriteriaButton}
-      />
+      <FilterPanel/>
 
       <Modal
         size="xs"

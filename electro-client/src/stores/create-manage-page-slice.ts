@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
-import { setState, SliceCreator } from 'stores/use-store';
-import { FilterObject } from 'utils/FilterUtils';
+import { setState, SliceCreator } from 'stores/use-app-store';
+import { Filter } from 'utils/FilterUtils';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 
 export interface ManagePageState {
@@ -10,10 +10,10 @@ export interface ManagePageState {
   setActiveEntityIdsToDelete: Dispatch<SetStateAction<number[]>>;
   openedDeleteBatchEntitiesModal: boolean;
   setOpenedDeleteBatchEntitiesModal: Dispatch<SetStateAction<boolean>>;
-  filters: FilterObject[];
-  setFilters: Dispatch<SetStateAction<FilterObject[]>>;
-  activeFilter: FilterObject | null;
-  setActiveFilter: Dispatch<SetStateAction<FilterObject | null>>;
+  filters: Filter[];
+  setFilters: Dispatch<SetStateAction<Filter[]>>;
+  activeFilter: Filter | null;
+  setActiveFilter: Dispatch<SetStateAction<Filter | null>>;
   searchToken: string;
   setSearchToken: Dispatch<SetStateAction<string>>;
   loading: boolean;
@@ -33,7 +33,7 @@ const initialManagePageState = {
   searchToken: '',
   loading: true,
   activePage: ProvinceConfigs.initialListResponse.page,
-  activeFilterPanel: false,
+  activeFilterPanel: true,
 };
 
 const createManagePageSlice: SliceCreator<ManagePageState> = (set) => ({

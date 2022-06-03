@@ -3,10 +3,10 @@ import { AppShell } from '@mantine/core';
 import { DefaultHeader } from 'components/DefaultHeader/DefaultHeader';
 import { DefaultNavbar } from 'components/DefaultNavbar/DefaultNavbar';
 import { Outlet } from 'react-router-dom';
-import useStore from 'stores/use-store';
+import useAppStore from 'stores/use-app-store';
 
 function Admin() {
-  const { opened } = useStore();
+  const { opened } = useAppStore();
 
   return (
     <AppShell
@@ -17,7 +17,7 @@ function Admin() {
           flexDirection: 'column',
           [theme.fn.largerThan('sm')]: {
             flexDirection: 'row',
-          }
+          },
         },
         main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
       })}
