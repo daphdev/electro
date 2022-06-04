@@ -1,12 +1,14 @@
+// Create/Update
 import CreateUpdateTitle from 'components/CreateUpdateTitle/CreateUpdateTitle';
 import DefaultPropertyPanel from 'components/DefaultPropertyPanel/DefaultPropertyPanel';
+
+// ManageHeader
 import ManageHeader from 'components/ManageHeader/ManageHeader';
 import ManageHeaderTitle from 'components/ManageHeaderTitle/ManageHeaderTitle';
 import ManageHeaderButtons from 'components/ManageHeaderButtons/ManageHeaderButtons';
+
+// SearchPanel
 import SearchPanel from 'components/SearchPanel/SearchPanel';
-import ManageTable from 'components/ManageTable/ManageTable';
-import ManageTablePagination from 'components/ManageTablePagination/ManageTablePagination';
-import EntityDetailsTable from 'components/EntityDetailsTable/EntityDetailsTable';
 
 // FilterPanel
 import FilterPanel from 'components/FilterPanel/FilterPanel';
@@ -19,16 +21,24 @@ import SortCriteriaRow from 'components/SortCriteriaRow/SortCriteriaRow';
 import FilterPanelMainRight from 'components/FilterPanelMainRight/FilterPanelMainRight';
 import FilterCriteriaRow from 'components/FilterCriteriaRow/FilterCriteriaRow';
 
+// ManageMain
+import ManageMain from 'components/ManageMain/ManageMain';
+import ManageTable from 'components/ManageTable/ManageTable';
+import EntityDetailsTable from 'components/EntityDetailsTable/EntityDetailsTable';
+
+// ManagePagination
+import ManagePagination from 'components/ManagePagination/ManagePagination';
+
 export {
   CreateUpdateTitle,
   DefaultPropertyPanel,
+
   ManageHeader,
   ManageHeaderTitle,
   ManageHeaderButtons,
+
   SearchPanel,
-  ManageTable,
-  ManageTablePagination,
-  EntityDetailsTable,
+
   FilterPanel,
   FilterPanelHeader,
   FilterPanelHeaderLeft,
@@ -38,4 +48,10 @@ export {
   SortCriteriaRow,
   FilterPanelMainRight,
   FilterCriteriaRow,
+
+  ManageMain,
+  ManageTable,
+  EntityDetailsTable,
+
+  ManagePagination,
 };

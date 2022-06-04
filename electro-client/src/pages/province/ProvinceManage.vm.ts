@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import FilterUtils from 'utils/FilterUtils';
 import FetchUtils, { ListResponse, RequestParams } from 'utils/FetchUtils';
 import { ProvinceResponse } from 'models/Province';
-import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 import ResourceURL from 'constants/ResourceURL';
 import NotifyUtils from 'utils/NotifyUtils';
 import useAppStore from 'stores/use-app-store';
@@ -19,55 +18,21 @@ function useProvinceManageViewModel() {
     loading, setLoading,
     activePage, setActivePage,
     activeFilterPanel, setActiveFilterPanel,
+    listResponse, setListResponse,
+    setOpenedDeleteEntityModal,
+    activeEntityIdToDelete,
+    setOpenedViewEntityModal,
+    openedDeleteEntityModal,
+    openedViewEntityModal,
+    activeEntityToView,
+    activePageSize,
   } = useAppStore();
-
-  const [listResponse, setListResponse] = useState<ListResponse<ProvinceResponse>>(ProvinceConfigs.initialListResponse);
-  const [activePageSize, setActivePageSize] = useState(listResponse.size);
-
-  const [openedDeleteEntityModal, setOpenedDeleteEntityModal] = useState(false);
-  const [activeEntityIdToDelete, setActiveEntityIdToDelete] = useState<number | null>(null);
-
-  const [openedViewEntityModal, setOpenedViewEntityModal] = useState(false);
-  const [activeEntityToView, setActiveEntityToView] = useState<ProvinceResponse | null>(null);
-
+  
   const location = useLocation();
 
   useEffect(() => {
     setLoading(true);
   }, [location, setLoading]);
-
-  const handleToggleRowCheckbox = (entityId: number) =>
-    setSelection(current =>
-      current.includes(entityId) ? current.filter(item => item !== entityId) : [...current, entityId]
-    );
-
-  const handleToggleAllRowsCheckbox = () =>
-    setSelection(current =>
-      current.length === listResponse.content.length ? [] : listResponse.content.map(entity => entity.id)
-    );
-
-  const handlePaginationButton = (page: number) => {
-    if (page !== activePage) {
-      setLoading(true);
-      setSelection([]);
-      setActivePage(page);
-    }
-  };
-
-  const handlePageSizeSelect = (size: string) => {
-    const pageSize = Number(size);
-    if (pageSize !== activePageSize) {
-      setLoading(true);
-      setSelection([]);
-      setActivePage(1);
-      setActivePageSize(pageSize);
-    }
-  };
-
-  const handleDeleteEntityButton = (entityId: number) => {
-    setActiveEntityIdToDelete(entityId);
-    setOpenedDeleteEntityModal(true);
-  };
 
   const handleCancelDeleteEntityButton = () => {
     setOpenedDeleteEntityModal(false);
@@ -116,26 +81,10 @@ function useProvinceManageViewModel() {
     setOpenedDeleteBatchEntitiesModal(false);
   };
 
-  const handleViewEntityButton = (entityId: number) => {
-    FetchUtils.getById<ProvinceResponse>(ResourceURL.PROVINCE, entityId)
-      .then(([responseStatus, responseBody]) => {
-        if (responseStatus === 200) {
-          setActiveEntityToView(responseBody as ProvinceResponse);
-          setOpenedViewEntityModal(true);
-        }
-        if (responseStatus === 404) {
-          console.error(responseStatus, responseBody);
-        }
-      });
-  };
-
   const handleCancelViewEntityButton = () => {
     setOpenedViewEntityModal(false);
   };
 
-  const pageSizeSelectList = ProvinceConfigs.initialPageSizeSelectList.map(pageSize =>
-    (Number(pageSize.value) > listResponse.totalElements) ? { ...pageSize, disabled: true } : pageSize
-  );
 
   const getProvinces = useCallback(async () => {
     if (loading) {
@@ -157,36 +106,31 @@ function useProvinceManageViewModel() {
         NotifyUtils.simpleFailed('Lấy dữ liệu không thành công');
       }
     }
-  }, [loading, activePage, activePageSize, activeFilter, searchToken, setLoading]);
+  }, [loading, activePage, activePageSize, activeFilter, searchToken, setListResponse, setLoading]);
 
   return {
     listResponse, setListResponse,
     activePage, setActivePage,
-    activePageSize, setActivePageSize,
+    activePageSize,
     selection,
     loading, setLoading,
     searchToken, setSearchToken,
     activeFilterPanel, setActiveFilterPanel,
     filters, setFilters,
-    openedDeleteEntityModal, setOpenedDeleteEntityModal,
-    activeEntityIdToDelete, setActiveEntityIdToDelete,
+    setOpenedDeleteEntityModal,
+    activeEntityIdToDelete,
     openedDeleteBatchEntitiesModal, setOpenedDeleteBatchEntitiesModal,
     activeEntityIdsToDelete, setActiveEntityIdsToDelete,
-    openedViewEntityModal, setOpenedViewEntityModal,
-    activeEntityToView, setActiveEntityToView,
-    handleToggleRowCheckbox,
-    handleToggleAllRowsCheckbox,
-    handlePaginationButton,
-    handlePageSizeSelect,
-    handleDeleteEntityButton,
+    setOpenedViewEntityModal,
     handleCancelDeleteEntityButton,
     handleConfirmedDeleteEntityButton,
     handleCancelDeleteBatchEntitiesButton,
     handleConfirmedDeleteBatchEntitiesButton,
-    handleViewEntityButton,
     handleCancelViewEntityButton,
-    pageSizeSelectList,
     getProvinces,
+    openedDeleteEntityModal,
+    openedViewEntityModal,
+    activeEntityToView,
   };
 }
 

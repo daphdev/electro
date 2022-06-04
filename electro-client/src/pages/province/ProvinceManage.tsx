@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Center, Group, LoadingOverlay, Modal, Paper, Stack, Text, useMantineTheme } from '@mantine/core';
+import { Button, Group, Modal, Stack, Text, useMantineTheme } from '@mantine/core';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 import useProvinceManageViewModel from 'pages/province/ProvinceManage.vm';
 import {
@@ -8,39 +8,27 @@ import {
   ManageHeader,
   ManageHeaderButtons,
   ManageHeaderTitle,
-  ManageTable,
-  ManageTablePagination,
+  ManageMain,
+  ManagePagination,
   SearchPanel
 } from 'components';
 
 function ProvinceManage() {
   const theme = useMantineTheme();
   const {
-    listResponse, setListResponse,
-    activePage, setActivePage,
-    activePageSize, setActivePageSize,
-    selection,
-    loading, setLoading,
-    searchToken, setSearchToken,
-    openedDeleteEntityModal, setOpenedDeleteEntityModal,
-    activeEntityIdToDelete, setActiveEntityIdToDelete,
-    openedDeleteBatchEntitiesModal, setOpenedDeleteBatchEntitiesModal,
-    activeEntityIdsToDelete, setActiveEntityIdsToDelete,
-    openedViewEntityModal, setOpenedViewEntityModal,
-    activeEntityToView, setActiveEntityToView,
-    handleToggleRowCheckbox,
-    handleToggleAllRowsCheckbox,
-    handlePaginationButton,
-    handlePageSizeSelect,
-    handleDeleteEntityButton,
+    listResponse,
+    loading,
+    activeEntityIdToDelete,
+    openedDeleteBatchEntitiesModal,
+    activeEntityIdsToDelete,
     handleCancelDeleteEntityButton,
     handleConfirmedDeleteEntityButton,
     handleCancelDeleteBatchEntitiesButton,
     handleConfirmedDeleteBatchEntitiesButton,
-    handleViewEntityButton,
     handleCancelViewEntityButton,
-    pageSizeSelectList,
     getProvinces,
+    openedDeleteEntityModal,
+    openedViewEntityModal, activeEntityToView,
   } = useProvinceManageViewModel();
 
   useEffect(() => {
@@ -48,22 +36,9 @@ function ProvinceManage() {
   }, [getProvinces]);
 
   console.log('re-render: ', listResponse, {
-    // filterCriteriaList,
-    // sortCriteriaList,
-    // filters,
-    // sortPropertySelectList,
-    // activePage,
-    // activePageSize,
-    // selection,
-    // filters,
     loading,
-    // activeEntityIdToDelete,
-    // openedDeleteEntityModal,
     activeEntityIdsToDelete,
     openedDeleteBatchEntitiesModal,
-    // searchToken,
-    // activeFilter,
-    // prevActiveFilter,
   });
 
   return (
@@ -79,6 +54,10 @@ function ProvinceManage() {
       <SearchPanel/>
 
       <FilterPanel/>
+
+      <ManageMain/>
+
+      <ManagePagination/>
 
       <Modal
         size="xs"
@@ -129,39 +108,6 @@ function ProvinceManage() {
       >
         <EntityDetailsTable activeEntityToView={activeEntityToView}/>
       </Modal>
-
-      <Paper shadow="xs" style={{
-        position: 'relative',
-        height: listResponse.totalElements === 0 ? '250px' : 'auto'
-      }}
-      >
-        <LoadingOverlay visible={loading}/>
-        {listResponse.totalElements === 0 ? (
-          <Center sx={{ height: '100%' }}>
-            <Text color="dimmed">Không có gì hết :)</Text>
-          </Center>
-        ) : (
-          <ManageTable
-            handleToggleAllRowsCheckbox={handleToggleAllRowsCheckbox}
-            selection={selection}
-            listResponse={listResponse}
-            handleToggleRowCheckbox={handleToggleRowCheckbox}
-            searchToken={searchToken}
-            handleViewEntityButton={handleViewEntityButton}
-            handleDeleteEntityButton={handleDeleteEntityButton}
-          />
-        )}
-      </Paper>
-
-      <ManageTablePagination
-        listResponse={listResponse}
-        activePage={activePage}
-        handlePaginationButton={handlePaginationButton}
-        pageSizeSelectList={pageSizeSelectList}
-        activePageSize={activePageSize}
-        handlePageSizeSelect={handlePageSizeSelect}
-      />
-
     </Stack>
   );
 }

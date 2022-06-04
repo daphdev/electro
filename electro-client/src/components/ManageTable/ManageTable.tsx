@@ -1,32 +1,23 @@
-import { ActionIcon, Checkbox, Group, Highlight, Table } from '@mantine/core';
 import React from 'react';
-import { ListResponse } from 'utils/FetchUtils';
-import { ProvinceResponse } from 'models/Province';
-import DateUtils from 'utils/DateUtils';
-import { Edit, Eye, Trash } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
-import { useManageTableStyles } from 'components/ManageTable/ManageTable.styles';
+import { ActionIcon, Checkbox, Group, Highlight, Table } from '@mantine/core';
+import { Edit, Eye, Trash } from 'tabler-icons-react';
+import DateUtils from 'utils/DateUtils';
+import useManageTableStyles from 'components/ManageTable/ManageTable.styles';
+import useManageTableViewModel from 'components/ManageTable/ManageTable.vm';
 
-interface ManageTableProps {
-  handleToggleAllRowsCheckbox: () => void;
-  selection: number[];
-  listResponse: ListResponse<ProvinceResponse>;
-  handleToggleRowCheckbox: (entityId: number) => void;
-  searchToken: string;
-  handleViewEntityButton: (entityId: number) => void;
-  handleDeleteEntityButton: (entityId: number) => void;
-}
-
-function ManageTable({
-  handleToggleAllRowsCheckbox,
-  selection,
-  listResponse,
-  handleToggleRowCheckbox,
-  searchToken,
-  handleViewEntityButton,
-  handleDeleteEntityButton,
-}: ManageTableProps) {
+function ManageTable() {
   const { classes, cx } = useManageTableStyles();
+
+  const {
+    selection,
+    listResponse,
+    searchToken,
+    handleToggleAllRowsCheckbox,
+    handleToggleRowCheckbox,
+    handleViewEntityButton,
+    handleDeleteEntityButton,
+  } = useManageTableViewModel();
 
   const entitiesTableHeadsFragment = (
     <tr>
@@ -49,8 +40,14 @@ function ManageTable({
 
   const entitiesTableRowsFragment = listResponse.content.map((entity) => {
     const selected = selection.includes(entity.id);
+
     return (
-      <tr key={entity.id} className={cx({ [classes.rowSelected]: selected })}>
+      <tr
+        key={entity.id}
+        className={cx({
+          [classes.rowSelected]: selected,
+        })}
+      >
         <td>
           <Checkbox
             checked={selection.includes(entity.id)}
@@ -115,7 +112,7 @@ function ManageTable({
       striped
       sx={(theme) => ({
         borderRadius: theme.radius.sm,
-        overflow: 'hidden'
+        overflow: 'hidden',
       })}
     >
       <thead>{entitiesTableHeadsFragment}</thead>
