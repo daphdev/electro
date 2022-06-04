@@ -7,6 +7,7 @@ import FilterUtils, { FilterCriteria, FilterPropertyType } from 'utils/FilterUti
 import { FilterCriteriaRow } from 'components/index';
 import useFilterPanelStyles from 'components/FilterPanel/FilterPanel.styles';
 import useFilterPanelMainRightViewModel from 'components/FilterPanelMainRight/FilterPanelMainRight.vm';
+import { getUntrackedObject } from 'react-tracked';
 
 interface FilterPanelMainRightProps {
   filterCriteriaValueInputRefs: React.MutableRefObject<WeakMap<FilterCriteria, HTMLInputElement | HTMLButtonElement | null>>;
@@ -40,7 +41,7 @@ function FilterPanelMainRight({
           sx={{ width: '100%' }}
           placeholder="Nhập giá trị"
           icon={<Keyboard size={14}/>}
-          ref={inputRef => filterCriteriaValueInputRefs.current.set(filterCriteria, inputRef)}
+          ref={inputRef => filterCriteriaValueInputRefs.current.set(getUntrackedObject(filterCriteria) as FilterCriteria, inputRef)}
           disabled={disabledFilterValueInput}
         />
       );
@@ -52,7 +53,7 @@ function FilterPanelMainRight({
           sx={{ width: '100%' }}
           placeholder="Nhập giá trị"
           icon={<Keyboard size={14}/>}
-          ref={inputRef => filterCriteriaValueInputRefs.current.set(filterCriteria, inputRef)}
+          ref={inputRef => filterCriteriaValueInputRefs.current.set(getUntrackedObject(filterCriteria) as FilterCriteria, inputRef)}
           disabled={disabledFilterValueInput}
         />
       );
@@ -64,7 +65,7 @@ function FilterPanelMainRight({
           sx={{ width: '100%' }}
           placeholder="Nhập giá trị"
           icon={<Keyboard size={14}/>}
-          ref={inputRef => filterCriteriaValueInputRefs.current.set(filterCriteria, inputRef)}
+          ref={inputRef => filterCriteriaValueInputRefs.current.set(getUntrackedObject(filterCriteria) as FilterCriteria, inputRef)}
           disabled={disabledFilterValueInput}
           locale="vi"
           inputFormat="DD/MM/YYYY"

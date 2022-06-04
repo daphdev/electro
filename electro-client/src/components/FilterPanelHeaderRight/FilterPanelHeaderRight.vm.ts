@@ -4,6 +4,7 @@ import useAppStore from 'stores/use-app-store';
 import useFilterPanelStore from 'components/FilterPanel/use-filter-panel-store';
 import { FilterPanelHeaderRightProps } from 'components/FilterPanelHeaderRight/FilterPanelHeaderRight';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
+import { getUntrackedObject } from 'react-tracked';
 
 const CURRENT_USER_ID = 1;
 
@@ -38,7 +39,7 @@ function useFilterPanelHeaderRightViewModel({
 
     const assignValueForFilterCriteria = (filterCriteriaList: FilterCriteria[]) => {
       return filterCriteriaList.map(item => {
-        const filterCriteriaValueInputRefValue = filterCriteriaValueInputRefs.current.get(item)?.value;
+        const filterCriteriaValueInputRefValue = filterCriteriaValueInputRefs.current.get(getUntrackedObject(item) as FilterCriteria)?.value;
         return filterCriteriaValueInputRefValue ? { ...item, value: filterCriteriaValueInputRefValue } : item;
       });
     };
