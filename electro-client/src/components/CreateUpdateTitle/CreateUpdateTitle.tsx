@@ -8,7 +8,10 @@ interface CreateUpdateTitleProps {
   title: string;
 }
 
-function CreateUpdateTitle({ managerPath, title }: CreateUpdateTitleProps) {
+function CreateUpdateTitle({
+  managerPath,
+  title,
+}: CreateUpdateTitleProps) {
   return (
     <Group spacing="xs">
       <ActionIcon

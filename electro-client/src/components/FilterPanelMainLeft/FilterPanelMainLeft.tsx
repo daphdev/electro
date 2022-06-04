@@ -14,7 +14,11 @@ function FilterPanelMainLeft() {
   } = useFilterPanelMainLeftViewModel();
 
   const sortCriteriaListFragment = sortCriteriaList.map((sortCriteria, index) => (
-    <SortCriteriaRow key={index} sortCriteria={sortCriteria} index={index}/>
+    <SortCriteriaRow
+      key={index}
+      sortCriteria={sortCriteria}
+      index={index}
+    />
   ));
 
   return (

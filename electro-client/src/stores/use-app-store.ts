@@ -13,6 +13,9 @@ export type SliceCreator<T extends State> = StateCreator<AppState, [
   ['zustand/devtools', never]
 ], [], T>;
 
+/**
+ * !!! TEMPORARY SOLUTION TO TRANSIT useState TO zustand !!!
+ */
 type TotalState = AppState & FilterPanelState;
 
 export const setState = <T>(set: SetState<TotalState>, value: SetStateAction<T>, key: string) => {

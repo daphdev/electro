@@ -26,7 +26,7 @@ class ProvinceConfigs {
     {
       link: '/admin/address/district',
       label: 'Quản lý quận huyện',
-    }
+    },
   ];
 
   static initialListResponse: ListResponse<ProvinceResponse> = {
@@ -58,7 +58,7 @@ class ProvinceConfigs {
     {
       value: 'code',
       label: 'Mã tỉnh thành',
-    }
+    },
   ];
 
   static initialPageSizeSelectList: SelectOption[] = [
@@ -77,7 +77,7 @@ class ProvinceConfigs {
     {
       value: '50',
       label: '50',
-    }
+    },
   ];
 
   static properties: EntityPropertyNames = {

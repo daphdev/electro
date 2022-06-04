@@ -40,7 +40,12 @@ function useProvinceUpdateViewModel() {
     return JSON.stringify(prevFormValues) === JSON.stringify(formValues);
   };
 
-  return { province, getProvince, form, handleFormSubmit };
+  return {
+    province,
+    getProvince,
+    form,
+    handleFormSubmit,
+  };
 }
 
 export default useProvinceUpdateViewModel;

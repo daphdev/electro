@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { Divider, Paper, Stack } from '@mantine/core';
-import { FilterCriteria } from 'utils/FilterUtils';
 import {
   FilterPanelHeader,
   FilterPanelHeaderLeft,
@@ -15,7 +14,6 @@ function FilterPanel() {
   const { activeFilterPanel } = useAppStore();
 
   const filterNameInputRef = useRef<HTMLInputElement | null>(null);
-  const filterCriteriaValueInputRefs = useRef<WeakMap<FilterCriteria, HTMLInputElement | HTMLButtonElement | null>>(new WeakMap());
 
   if (!activeFilterPanel) {
     return null;
@@ -30,7 +28,6 @@ function FilterPanel() {
           />
           <FilterPanelHeaderRight
             filterNameInputRef={filterNameInputRef}
-            filterCriteriaValueInputRefs={filterCriteriaValueInputRefs}
           />
         </FilterPanelHeader>
 
@@ -38,9 +35,7 @@ function FilterPanel() {
 
         <FilterPanelMain>
           <FilterPanelMainLeft/>
-          <FilterPanelMainRight
-            filterCriteriaValueInputRefs={filterCriteriaValueInputRefs}
-          />
+          <FilterPanelMainRight/>
         </FilterPanelMain>
       </Stack>
     </Paper>

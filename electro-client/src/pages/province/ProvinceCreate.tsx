@@ -5,18 +5,28 @@ import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 import useProvinceCreateViewModel from 'pages/province/ProvinceCreate.vm';
 
 function ProvinceCreate() {
-  const { form, handleFormSubmit } = useProvinceCreateViewModel();
+  const {
+    form,
+    handleFormSubmit,
+  } = useProvinceCreateViewModel();
 
   return (
     <Stack sx={{ maxWidth: 800 }}>
-      <CreateUpdateTitle managerPath={ProvinceConfigs.managerPath} title={ProvinceConfigs.createTitle}/>
+      <CreateUpdateTitle
+        managerPath={ProvinceConfigs.managerPath}
+        title={ProvinceConfigs.createTitle}
+      />
 
       <DefaultPropertyPanel/>
 
       <form onSubmit={handleFormSubmit}>
         <Paper shadow="xs">
           <Stack spacing={0}>
-            <SimpleGrid p="sm" spacing="md" breakpoints={[{ minWidth: 'xs', cols: 2 }]}>
+            <SimpleGrid
+              p="sm"
+              spacing="md"
+              breakpoints={[{ minWidth: 'xs', cols: 2 }]}
+            >
               <TextInput
                 required
                 label={ProvinceConfigs.properties.name.label}

@@ -15,7 +15,10 @@ function useProvinceCreateViewModel() {
     void provinceService.create(ProvinceConfigs.resourceUrl, formValues);
   });
 
-  return { form, handleFormSubmit };
+  return {
+    form,
+    handleFormSubmit,
+  };
 }
 
 export default useProvinceCreateViewModel;

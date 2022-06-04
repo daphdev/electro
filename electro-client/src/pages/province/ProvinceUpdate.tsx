@@ -7,7 +7,12 @@ import useProvinceUpdateViewModel from 'pages/province/ProvinceUpdate.vm';
 
 function ProvinceUpdate() {
   const { id } = useParams();
-  const { province, getProvince, form, handleFormSubmit } = useProvinceUpdateViewModel();
+  const {
+    province,
+    getProvince,
+    form,
+    handleFormSubmit,
+  } = useProvinceUpdateViewModel();
 
   useEffect(() => {
     void getProvince(id);
@@ -19,7 +24,10 @@ function ProvinceUpdate() {
 
   return (
     <Stack sx={{ maxWidth: 800 }}>
-      <CreateUpdateTitle managerPath={ProvinceConfigs.managerPath} title={ProvinceConfigs.updateTitle}/>
+      <CreateUpdateTitle
+        managerPath={ProvinceConfigs.managerPath}
+        title={ProvinceConfigs.updateTitle}
+      />
 
       <DefaultPropertyPanel
         id={province.id}
@@ -32,7 +40,11 @@ function ProvinceUpdate() {
       <form onSubmit={handleFormSubmit}>
         <Paper shadow="xs">
           <Stack spacing={0}>
-            <SimpleGrid p="sm" spacing="md" breakpoints={[{ minWidth: 'xs', cols: 2 }]}>
+            <SimpleGrid
+              p="sm"
+              spacing="md"
+              breakpoints={[{ minWidth: 'xs', cols: 2 }]}
+            >
               <TextInput
                 required
                 label={ProvinceConfigs.properties.name.label}
