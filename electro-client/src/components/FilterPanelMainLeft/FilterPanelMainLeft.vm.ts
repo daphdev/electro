@@ -1,5 +1,5 @@
 import { OrderType } from 'utils/FilterUtils';
-import useFilterPanelStore from 'components/FilterPanel/use-filter-panel-store';
+import useFilterPanelStore from 'stores/use-filter-panel-store';
 
 function useFilterPanelMainLeftViewModel() {
   const {

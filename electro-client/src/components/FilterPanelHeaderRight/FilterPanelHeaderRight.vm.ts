@@ -1,7 +1,7 @@
 import DateUtils from 'utils/DateUtils';
 import { Filter } from 'utils/FilterUtils';
 import useAppStore from 'stores/use-app-store';
-import useFilterPanelStore from 'components/FilterPanel/use-filter-panel-store';
+import useFilterPanelStore from 'stores/use-filter-panel-store';
 import { FilterPanelHeaderRightProps } from 'components/FilterPanelHeaderRight/FilterPanelHeaderRight';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 

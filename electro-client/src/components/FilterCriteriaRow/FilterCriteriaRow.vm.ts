@@ -1,7 +1,7 @@
 import React from 'react';
 import DateUtils from 'utils/DateUtils';
 import { FilterOperator, FilterPropertyType, FilterPropertyTypes } from 'utils/FilterUtils';
-import useFilterPanelStore from 'components/FilterPanel/use-filter-panel-store';
+import useFilterPanelStore from 'stores/use-filter-panel-store';
 
 const filterPropertyTypes: FilterPropertyTypes = {
   id: FilterPropertyType.NUMBER,

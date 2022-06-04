@@ -5,7 +5,7 @@ import { State } from 'zustand/vanilla';
 import { createTrackedSelector } from 'react-tracked';
 import createAdminSiteSlice, { AdminSiteState } from 'stores/create-admin-site-slice';
 import createManagePageSlice, { ManagePageState } from 'stores/create-manage-page-slice';
-import { FilterPanelState } from 'components/FilterPanel/use-filter-panel-store';
+import { FilterPanelState } from 'stores/use-filter-panel-store';
 
 export type AppState = AdminSiteState & ManagePageState;
 

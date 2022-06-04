@@ -1,4 +1,4 @@
-import useFilterPanelStore from 'components/FilterPanel/use-filter-panel-store';
+import useFilterPanelStore from 'stores/use-filter-panel-store';
 
 const MAX_FILTER_CRITERIA_NUMBER = 10;
 
