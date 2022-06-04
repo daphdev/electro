@@ -10,7 +10,7 @@ interface DefaultPropertyPanelProps {
   updatedBy?: string;
 }
 
-export default function DefaultPropertyPanel({
+function DefaultPropertyPanel({
   id = '__',
   createdAt = '__/__/____',
   updatedAt = '__/__/____',
@@ -26,21 +26,31 @@ export default function DefaultPropertyPanel({
         </Stack>
         <Stack spacing={5}>
           <Text>Ngày tạo</Text>
-          <Text><Code color="blue">{DateUtils.isoDateToString(createdAt)}</Code></Text>
+          <Text>
+            <Code color="blue">{DateUtils.isoDateToString(createdAt)}</Code>
+          </Text>
         </Stack>
         <Stack spacing={5}>
           <Text>Ngày cập nhật</Text>
-          <Text><Code color="blue">{DateUtils.isoDateToString(updatedAt)}</Code></Text>
+          <Text>
+            <Code color="blue">{DateUtils.isoDateToString(updatedAt)}</Code>
+          </Text>
         </Stack>
         <Stack spacing={5}>
           <Text>Người tạo</Text>
-          <Text><Code color="blue">{createdBy}</Code></Text>
+          <Text>
+            <Code color="blue">{createdBy}</Code>
+          </Text>
         </Stack>
         <Stack spacing={5}>
           <Text>Người cập nhật</Text>
-          <Text><Code color="blue">{updatedBy}</Code></Text>
+          <Text>
+            <Code color="blue">{updatedBy}</Code>
+          </Text>
         </Stack>
       </Group>
     </Paper>
   );
 }
+
+export default React.memo(DefaultPropertyPanel);

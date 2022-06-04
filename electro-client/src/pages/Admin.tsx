@@ -1,12 +1,12 @@
 import React from 'react';
 import { AppShell } from '@mantine/core';
-import { DefaultHeader } from '../components/DefaultHeader/DefaultHeader';
-import { DefaultNavbar } from '../components/DefaultNavbar/DefaultNavbar';
-import { useToggleNavbarStore } from 'stores/ToggleNavbarStore';
+import { DefaultHeader } from 'components/DefaultHeader/DefaultHeader';
+import { DefaultNavbar } from 'components/DefaultNavbar/DefaultNavbar';
 import { Outlet } from 'react-router-dom';
+import useAppStore from 'stores/use-app-store';
 
-export default function Admin() {
-  const { opened } = useToggleNavbarStore();
+function Admin() {
+  const { opened } = useAppStore();
 
   return (
     <AppShell
@@ -17,7 +17,7 @@ export default function Admin() {
           flexDirection: 'column',
           [theme.fn.largerThan('sm')]: {
             flexDirection: 'row',
-          }
+          },
         },
         main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
       })}
@@ -26,3 +26,5 @@ export default function Admin() {
     </AppShell>
   );
 }
+
+export default Admin;

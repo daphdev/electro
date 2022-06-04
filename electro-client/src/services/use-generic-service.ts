@@ -1,13 +1,13 @@
 import FetchUtils, { ErrorMessage } from 'utils/FetchUtils';
 import NotifyUtils from 'utils/NotifyUtils';
 
-export default function useGenericService<I, O>() {
+function useGenericService<I, O>() {
 
   const getById = async (resourceUrl: string, entityId: number) => {
     const [responseStatus, responseBody] = await FetchUtils.getById<O>(resourceUrl, entityId);
-    const ret = { result: null, error: null, status: responseStatus };
+    const ret = { data: null, error: null, status: responseStatus };
     if (responseStatus === 200) {
-      return { ...ret, result: responseBody as O };
+      return { ...ret, data: responseBody as O };
     }
     if (responseStatus === 404) {
       NotifyUtils.simpleFailed('Lấy dữ liệu không thành công');
@@ -38,3 +38,5 @@ export default function useGenericService<I, O>() {
 
   return { create, update, getById };
 }
+
+export default useGenericService;

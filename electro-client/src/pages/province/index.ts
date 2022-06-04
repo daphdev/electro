@@ -1,5 +1,5 @@
-import ProvinceManager from './ProvinceManager';
+import ProvinceManage from 'pages/province/ProvinceManage';
 import ProvinceCreate from './ProvinceCreate';
 import ProvinceUpdate from './ProvinceUpdate';
 
-export { ProvinceManager as default, ProvinceCreate, ProvinceUpdate };
+export { ProvinceManage as default, ProvinceCreate, ProvinceUpdate };

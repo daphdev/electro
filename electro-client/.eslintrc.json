@@ -23,6 +23,16 @@
     "semi": [
       2,
       "always"
+    ],
+    "comma-dangle": [
+      "warn",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "never",
+        "exports": "always-multiline",
+        "functions": "never"
+      }
     ]
   },
   "extends": [

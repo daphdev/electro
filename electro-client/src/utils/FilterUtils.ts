@@ -1,4 +1,4 @@
-import { SelectOption } from 'utils/MantineUtils';
+import { SelectOption } from 'types/SelectOption';
 
 export enum StringOperator {
   EQUALS = 'str_eq',
@@ -54,7 +54,7 @@ export enum FilterPropertyType {
 }
 
 export interface FilterPropertyTypes {
-  [property: string]: FilterPropertyType
+  [property: string]: FilterPropertyType;
 }
 
 export enum OrderType {
@@ -74,7 +74,7 @@ export interface FilterCriteria {
   value: string | null;
 }
 
-export interface FilterObject {
+export interface Filter {
   id: string;
   createdAt: string;
   updatedAt: string;
@@ -85,7 +85,7 @@ export interface FilterObject {
   filterCriteriaList: FilterCriteria[];
 }
 
-export default class FilterUtils {
+class FilterUtils {
   static sortOrderSelectList: SelectOption[] = [
     {
       value: 'asc',
@@ -203,7 +203,7 @@ export default class FilterUtils {
     DateOperator.IS_NOT_NULL,
   ];
 
-  static convertToSortRSQL = (filter: FilterObject | null) => {
+  static convertToSortRSQL = (filter: Filter | null) => {
     if (filter) {
       return filter.sortCriteriaList
         .filter(item => item.property !== null && item.order !== null)
@@ -213,7 +213,7 @@ export default class FilterUtils {
     return '';
   };
 
-  static convertToFilterRSQL = (filter: FilterObject | null) => {
+  static convertToFilterRSQL = (filter: Filter | null) => {
     if (filter) {
       return filter.filterCriteriaList
         .map(this.convertFilterCriteriaToRSQL)
@@ -271,3 +271,5 @@ export default class FilterUtils {
     return '';
   };
 }
+
+export default FilterUtils;

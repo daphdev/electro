@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Client() {
+function Client() {
   return (
     <div>
       <nav>
@@ -11,3 +11,5 @@ export default function Client() {
     </div>
   );
 }
+
+export default Client;

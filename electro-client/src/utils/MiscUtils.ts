@@ -1,4 +1,4 @@
-export default class MiscUtils {
+class MiscUtils {
   static pick<T>(o: T, arr: string[]) {
     const result = {};
 
@@ -11,3 +11,5 @@ export default class MiscUtils {
     return result;
   }
 }
+
+export default MiscUtils;

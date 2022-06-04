@@ -1,5 +1,7 @@
 const server = 'http://localhost:8085/api';
 
-export default class ResourceURL {
+class ResourceURL {
   static PROVINCE = server + '/provinces';
 }
+
+export default ResourceURL;

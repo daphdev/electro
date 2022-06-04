@@ -3,7 +3,7 @@ import { ActionIcon, Autocomplete, Burger, createStyles, Group, Header, useManti
 import { Bell, Browser, Icon, Messages, MoonStars, Search, Sun, User } from 'tabler-icons-react';
 import { MantineLogo } from './MantineLogo';
 import { Link } from 'react-router-dom';
-import { useToggleNavbarStore } from 'stores/ToggleNavbarStore';
+import useAppStore from 'stores/use-app-store';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -88,7 +88,7 @@ const headerLinks: HeaderLink[] = [
 export function DefaultHeader() {
   const { classes } = useStyles();
 
-  const { opened, toggleOpened } = useToggleNavbarStore();
+  const { opened, toggleOpened } = useAppStore();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
   const dark = colorScheme === 'dark';

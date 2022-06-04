@@ -8,7 +8,10 @@ interface CreateUpdateTitleProps {
   title: string;
 }
 
-export default function CreateUpdateTitle({ managerPath, title }: CreateUpdateTitleProps) {
+function CreateUpdateTitle({
+  managerPath,
+  title,
+}: CreateUpdateTitleProps) {
   return (
     <Group spacing="xs">
       <ActionIcon
@@ -23,3 +26,5 @@ export default function CreateUpdateTitle({ managerPath, title }: CreateUpdateTi
     </Group>
   );
 }
+
+export default React.memo(CreateUpdateTitle);

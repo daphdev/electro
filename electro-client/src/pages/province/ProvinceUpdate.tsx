@@ -5,15 +5,18 @@ import { CreateUpdateTitle, DefaultPropertyPanel } from 'components';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 import useProvinceUpdateViewModel from 'pages/province/ProvinceUpdate.vm';
 
-export default function ProvinceUpdate() {
+function ProvinceUpdate() {
   const { id } = useParams();
-  const { province, getProvince, form, handleFormSubmit } = useProvinceUpdateViewModel();
+  const {
+    province,
+    getProvince,
+    form,
+    handleFormSubmit,
+  } = useProvinceUpdateViewModel();
 
   useEffect(() => {
-    if (id && !province) {
-      void getProvince(Number(id));
-    }
-  }, [id, province, getProvince]);
+    void getProvince(id);
+  }, [getProvince, id]);
 
   if (!province) {
     return null;
@@ -21,7 +24,10 @@ export default function ProvinceUpdate() {
 
   return (
     <Stack sx={{ maxWidth: 800 }}>
-      <CreateUpdateTitle managerPath={ProvinceConfigs.managerPath} title={ProvinceConfigs.updateLabel}/>
+      <CreateUpdateTitle
+        managerPath={ProvinceConfigs.managerPath}
+        title={ProvinceConfigs.updateTitle}
+      />
 
       <DefaultPropertyPanel
         id={province.id}
@@ -34,7 +40,11 @@ export default function ProvinceUpdate() {
       <form onSubmit={handleFormSubmit}>
         <Paper shadow="xs">
           <Stack spacing={0}>
-            <SimpleGrid p="sm" spacing="md" breakpoints={[{ minWidth: 'xs', cols: 2 }]}>
+            <SimpleGrid
+              p="sm"
+              spacing="md"
+              breakpoints={[{ minWidth: 'xs', cols: 2 }]}
+            >
               <TextInput
                 required
                 label={ProvinceConfigs.properties.name.label}
@@ -59,3 +69,5 @@ export default function ProvinceUpdate() {
     </Stack>
   );
 }
+
+export default ProvinceUpdate;
