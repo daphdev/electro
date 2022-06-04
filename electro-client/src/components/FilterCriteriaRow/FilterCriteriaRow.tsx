@@ -56,6 +56,7 @@ function FilterCriteriaRow({
         onChange={value => handleFilterValueInput(value, index)}
         disabled={isDisabledFilterValueInput}
         min={0}
+        max={1000}
       />
     );
     break;

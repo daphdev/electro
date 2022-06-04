@@ -9,6 +9,7 @@ import Admin from './pages/Admin';
 import AdminDashboard from './pages/AdminDashboard';
 import AddressManager from './pages/AddressManager';
 import ProvinceManager, { ProvinceCreate, ProvinceUpdate } from 'pages/province';
+import { ModalsProvider } from '@mantine/modals';
 
 function App() {
   const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
@@ -19,16 +20,18 @@ function App() {
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
       <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
         <NotificationsProvider>
-          <Routes>
-            <Route path="/" element={<Client/>}/>
-            <Route path="/admin" element={<Admin/>}>
-              <Route index element={<AdminDashboard/>}/>
-              <Route path="address" element={<AddressManager/>}/>
-              <Route path="address/province" element={<ProvinceManager/>}/>
-              <Route path="address/province/create" element={<ProvinceCreate/>}/>
-              <Route path="address/province/update/:id" element={<ProvinceUpdate/>}/>
-            </Route>
-          </Routes>
+          <ModalsProvider>
+            <Routes>
+              <Route path="/" element={<Client/>}/>
+              <Route path="/admin" element={<Admin/>}>
+                <Route index element={<AdminDashboard/>}/>
+                <Route path="address" element={<AddressManager/>}/>
+                <Route path="address/province" element={<ProvinceManager/>}/>
+                <Route path="address/province/create" element={<ProvinceCreate/>}/>
+                <Route path="address/province/update/:id" element={<ProvinceUpdate/>}/>
+              </Route>
+            </Routes>
+          </ModalsProvider>
         </NotificationsProvider>
       </MantineProvider>
     </ColorSchemeProvider>

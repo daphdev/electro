@@ -1,16 +1,16 @@
-import { Table } from '@mantine/core';
 import React from 'react';
-import ProvinceConfigs from 'pages/province/ProvinceConfigs';
+import { Table } from '@mantine/core';
+import { ProvinceResponse } from 'models/Province';
 import { EntityPropertyType } from 'models/EntityProperty';
 import DateUtils from 'utils/DateUtils';
-import { ProvinceResponse } from 'models/Province';
+import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 
 interface EntityDetailsTableProps {
-  activeEntityToView: ProvinceResponse | null;
+  entityData: ProvinceResponse;
 }
 
 function EntityDetailsTable({
-  activeEntityToView,
+  entityData,
 }: EntityDetailsTableProps) {
 
   const entityDetailsTableHeadsFragment = (
@@ -20,8 +20,8 @@ function EntityDetailsTable({
     </tr>
   );
 
-  const entityDetailsTableRowsFragment = activeEntityToView &&
-    Object.entries(activeEntityToView).map(([propertyName, propertyValue]) => (
+  const entityDetailsTableRowsFragment = entityData &&
+    Object.entries(entityData).map(([propertyName, propertyValue]) => (
       <tr key={propertyName}>
         <td>{ProvinceConfigs.properties[propertyName].label}</td>
         <td>

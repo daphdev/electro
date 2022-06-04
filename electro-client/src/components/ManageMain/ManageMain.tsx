@@ -33,4 +33,4 @@ function ManageMain() {
   );
 }
 
-export default ManageMain;
+export default React.memo(ManageMain);

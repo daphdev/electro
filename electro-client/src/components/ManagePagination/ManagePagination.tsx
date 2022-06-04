@@ -53,4 +53,4 @@ function ManagePagination() {
   );
 }
 
-export default ManagePagination;
+export default React.memo(ManagePagination);
