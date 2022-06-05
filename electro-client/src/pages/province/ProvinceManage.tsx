@@ -26,7 +26,9 @@ function ProvinceManage() {
           titleLinks={ProvinceConfigs.manageTitleLinks}
           title={ProvinceConfigs.manageTitle}
         />
-        <ManageHeaderButtons/>
+        <ManageHeaderButtons
+          resourceUrl={ProvinceConfigs.resourceUrl}
+        />
       </ManageHeader>
 
       <SearchPanel/>

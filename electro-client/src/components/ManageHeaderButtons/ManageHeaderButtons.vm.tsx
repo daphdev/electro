@@ -1,20 +1,24 @@
 import React from 'react';
 import { Text, useMantineTheme } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import useAppStore from 'stores/use-app-store';
 import NotifyUtils from 'utils/NotifyUtils';
-import FetchUtils from 'utils/FetchUtils';
-import ProvinceConfigs from 'pages/province/ProvinceConfigs';
+import useAppStore from 'stores/use-app-store';
+import useGenericService from 'services/use-generic-service';
+import { ManageHeaderButtonsProps } from 'components/ManageHeaderButtons/ManageHeaderButtons';
 
-function useManageHeaderButtonsViewModel() {
+function useManageHeaderButtonsViewModel({
+  resourceUrl,
+}: ManageHeaderButtonsProps) {
+  const service = useGenericService();
+
   const theme = useMantineTheme();
   const modals = useModals();
 
   const {
-    setLoading,
-    listResponse,
     selection, setSelection,
+    listResponse,
     activePage, setActivePage,
+    setLoading,
   } = useAppStore();
 
   const handleDeleteBatchEntitiesButton = () => {
@@ -41,17 +45,13 @@ function useManageHeaderButtonsViewModel() {
 
   const handleConfirmedDeleteBatchEntitiesButton = async (entityIds: number[]) => {
     if (entityIds.length > 0) {
-      const status = await FetchUtils.deleteByIds(ProvinceConfigs.resourceUrl, entityIds);
+      const { status } = await service.deleteByIds(resourceUrl, entityIds);
       if (status === 204) {
-        NotifyUtils.simpleSuccess('Xóa thành công');
         if (listResponse.content.length === selection.length) {
           setActivePage(activePage - 1 || 1);
         }
         setSelection([]);
         setLoading(true);
-      }
-      if (status === 500) {
-        NotifyUtils.simpleFailed('Xóa không thành công');
       }
     }
   };

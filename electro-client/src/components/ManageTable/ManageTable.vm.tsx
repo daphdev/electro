@@ -4,7 +4,7 @@ import { useModals } from '@mantine/modals';
 import { ProvinceRequest, ProvinceResponse } from 'models/Province';
 import useGenericService from 'services/use-generic-service';
 import useAppStore from 'stores/use-app-store';
-import FetchUtils from 'utils/FetchUtils';
+import FetchUtils, { ListResponse } from 'utils/FetchUtils';
 import NotifyUtils from 'utils/NotifyUtils';
 import { EntityDetailsTable } from 'components/index';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
@@ -18,10 +18,12 @@ function useManageTableViewModel() {
   const {
     setLoading,
     selection, setSelection,
-    listResponse,
+    listResponse: rawListResponse,
     searchToken,
     activePage, setActivePage,
   } = useAppStore();
+
+  const listResponse = rawListResponse as ListResponse<ProvinceResponse>;
 
   const handleToggleAllRowsCheckbox = () => {
     setSelection((current) => {

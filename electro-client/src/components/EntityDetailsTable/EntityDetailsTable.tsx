@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table } from '@mantine/core';
 import { ProvinceResponse } from 'models/Province';
-import { EntityPropertyType } from 'models/EntityProperty';
+import { EntityPropertyType } from 'types';
 import DateUtils from 'utils/DateUtils';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 

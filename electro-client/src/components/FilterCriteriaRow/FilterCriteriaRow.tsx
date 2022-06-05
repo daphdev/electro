@@ -2,8 +2,8 @@ import React from 'react';
 import { ActionIcon, Group, Input, NumberInput, Select, TextInput } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { AB, CircleX, DragDrop, Filter, Keyboard } from 'tabler-icons-react';
-import { SelectOption } from 'types';
-import FilterUtils, { FilterCriteria, FilterPropertyType } from 'utils/FilterUtils';
+import { EntityPropertyType, SelectOption } from 'types';
+import FilterUtils, { FilterCriteria } from 'utils/FilterUtils';
 import useFilterCriteriaRowViewModel from 'components/FilterCriteriaRow/FilterCriteriaRow.vm';
 
 interface FilterCriteriaRowProps {
@@ -32,7 +32,7 @@ function FilterCriteriaRow({
   let filterValueInputFragment;
 
   switch (filterCriteria.type) {
-  case FilterPropertyType.STRING:
+  case EntityPropertyType.STRING:
     filterOperatorSelectList = FilterUtils.filterStringOperatorSelectList;
     filterValueInputFragment = (
       <TextInput
@@ -45,7 +45,7 @@ function FilterCriteriaRow({
       />
     );
     break;
-  case FilterPropertyType.NUMBER:
+  case EntityPropertyType.NUMBER:
     filterOperatorSelectList = FilterUtils.filterNumberOperatorSelectList;
     filterValueInputFragment = (
       <NumberInput
@@ -60,7 +60,7 @@ function FilterCriteriaRow({
       />
     );
     break;
-  case FilterPropertyType.DATE:
+  case EntityPropertyType.DATE:
     filterOperatorSelectList = FilterUtils.filterDateOperatorSelectList;
     filterValueInputFragment = (
       <DatePicker

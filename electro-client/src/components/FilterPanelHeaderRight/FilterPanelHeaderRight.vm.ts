@@ -3,7 +3,6 @@ import { Filter } from 'utils/FilterUtils';
 import useAppStore from 'stores/use-app-store';
 import useFilterPanelStore from 'stores/use-filter-panel-store';
 import { FilterPanelHeaderRightProps } from 'components/FilterPanelHeaderRight/FilterPanelHeaderRight';
-import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 
 const CURRENT_USER_ID = 1;
 
@@ -16,6 +15,7 @@ function useFilterPanelHeaderRightViewModel({
   } = useAppStore();
 
   const {
+    initialPropertySelectList,
     sortCriteriaList, setSortCriteriaList,
     setSortPropertySelectList,
     filterCriteriaList, setFilterCriteriaList,
@@ -24,7 +24,7 @@ function useFilterPanelHeaderRightViewModel({
   const handleCancelCreateFilterButton = () => {
     if (activeFilterPanel) {
       setSortCriteriaList([]);
-      setSortPropertySelectList(ProvinceConfigs.initialPropertySelectList);
+      setSortPropertySelectList(initialPropertySelectList);
       setFilterCriteriaList([]);
       setActiveFilterPanel(false);
     }
@@ -48,7 +48,7 @@ function useFilterPanelHeaderRightViewModel({
 
     setFilters(prevState => [...prevState, filter]);
     setSortCriteriaList([]);
-    setSortPropertySelectList(ProvinceConfigs.initialPropertySelectList);
+    setSortPropertySelectList(initialPropertySelectList);
     setFilterCriteriaList([]);
     setActiveFilterPanel(false);
   };

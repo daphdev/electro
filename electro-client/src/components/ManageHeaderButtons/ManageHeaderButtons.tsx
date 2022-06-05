@@ -4,8 +4,12 @@ import { Button, Group } from '@mantine/core';
 import { Plus, Trash } from 'tabler-icons-react';
 import useManageHeaderButtonsViewModel from 'components/ManageHeaderButtons/ManageHeaderButtons.vm';
 
-function ManageHeaderButtons() {
-  const { handleDeleteBatchEntitiesButton } = useManageHeaderButtonsViewModel();
+export interface ManageHeaderButtonsProps {
+  resourceUrl: string;
+}
+
+function ManageHeaderButtons(props: ManageHeaderButtonsProps) {
+  const { handleDeleteBatchEntitiesButton } = useManageHeaderButtonsViewModel(props);
 
   return (
     <Group spacing="xs">
