@@ -9,5 +9,6 @@ export interface EntityPropertyNames {
   [propertyName: string]: {
     label: string,
     type: EntityPropertyType,
+    isShowInTable?: boolean,
   };
 }

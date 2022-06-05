@@ -40,6 +40,14 @@ class PageConfigs {
     },
   };
 
+  static getProperties = (...isShowInTable: boolean[]): EntityPropertyNames => {
+    const properties = JSON.parse(JSON.stringify(PageConfigs.properties)) as EntityPropertyNames;
+    Object.values(properties).forEach(
+      (value, index) => isShowInTable[index] && (value.isShowInTable = isShowInTable[index])
+    );
+    return properties;
+  };
+
   static initialListResponse: ListResponse<unknown> = {
     content: [],
     page: 1,

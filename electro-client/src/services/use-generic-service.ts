@@ -78,4 +78,6 @@ function useGenericService<I, O>() {
   return { getAll, getById, create, update, deleteByIds };
 }
 
+type GenericService = ReturnType<typeof useGenericService>;
+
 export default useGenericService;

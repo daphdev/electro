@@ -27,14 +27,16 @@ class ProvinceConfigs {
   ];
 
   static properties: EntityPropertyNames = {
-    ...PageConfigs.properties,
+    ...PageConfigs.getProperties(true, true, true),
     name: {
       label: 'Tên tỉnh thành',
       type: EntityPropertyType.STRING,
+      isShowInTable: true,
     },
     code: {
       label: 'Mã tỉnh thành',
       type: EntityPropertyType.STRING,
+      isShowInTable: true,
     },
   };
 
