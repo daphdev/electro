@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { setState, SliceCreator } from 'stores/use-app-store';
+import { extractValue, SliceCreator } from 'stores/use-app-store';
 import { Filter } from 'utils/FilterUtils';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 import { ListResponse } from 'utils/FetchUtils';
@@ -40,15 +40,15 @@ const initialManagePageState = {
 
 const createManagePageSlice: SliceCreator<ManagePageState> = (set) => ({
   ...initialManagePageState,
-  setSelection: (value) => setState(set, value, 'selection'),
-  setFilters: (value) => setState(set, value, 'filters'),
-  setActiveFilter: (value) => setState(set, value, 'activeFilter'),
-  setSearchToken: (value) => setState(set, value, 'searchToken'),
-  setLoading: (value) => setState(set, value, 'loading'),
-  setActivePage: (value) => setState(set, value, 'activePage'),
-  setActivePageSize: (value) => setState(set, value, 'activePageSize'),
-  setActiveFilterPanel: (value) => setState(set, value, 'activeFilterPanel'),
-  setListResponse: (value) => setState(set, value, 'listResponse'),
+  setSelection: (value) => set((state) => extractValue(state, value, 'selection'), false, 'AppStore/selection'),
+  setFilters: (value) => set((state) => extractValue(state, value, 'filters'), false, 'AppStore/filters'),
+  setActiveFilter: (value) => set((state) => extractValue(state, value, 'activeFilter'), false, 'AppStore/activeFilter'),
+  setSearchToken: (value) => set((state) => extractValue(state, value, 'searchToken'), false, 'AppStore/searchToken'),
+  setLoading: (value) => set((state) => extractValue(state, value, 'loading'), false, 'AppStore/loading'),
+  setActivePage: (value) => set((state) => extractValue(state, value, 'activePage'), false, 'AppStore/activePage'),
+  setActivePageSize: (value) => set((state) => extractValue(state, value, 'activePageSize'), false, 'AppStore/activePageSize'),
+  setActiveFilterPanel: (value) => set((state) => extractValue(state, value, 'activeFilterPanel'), false, 'AppStore/activeFilterPanel'),
+  setListResponse: (value) => set((state) => extractValue(state, value, 'listResponse'), false, 'AppStore/listResponse'),
 });
 
 export default createManagePageSlice;

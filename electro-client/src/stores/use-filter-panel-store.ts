@@ -4,10 +4,10 @@ import { devtools } from 'zustand/middleware';
 import { createTrackedSelector } from 'react-tracked';
 import { SelectOption } from 'types';
 import { FilterCriteria, SortCriteria } from 'utils/FilterUtils';
-import { setState } from 'stores/use-app-store';
+import { extractValue } from 'stores/use-app-store';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 
-export interface FilterPanelState {
+interface FilterPanelState {
   sortCriteriaList: SortCriteria[];
   setSortCriteriaList: Dispatch<SetStateAction<SortCriteria[]>>;
   sortPropertySelectList: SelectOption[];
@@ -32,10 +32,10 @@ const useFilterPanelStore = create<FilterPanelState>()(
   devtools(
     (set) => ({
       ...initialFilterPanelState,
-      setSortCriteriaList: (value) => setState(set, value, 'sortCriteriaList'),
-      setSortPropertySelectList: (value) => setState(set, value, 'sortPropertySelectList'),
-      setFilterCriteriaList: (value) => setState(set, value, 'filterCriteriaList'),
-      setFilterPropertySelectList: (value) => setState(set, value, 'filterPropertySelectList'),
+      setSortCriteriaList: (value) => set((state) => extractValue(state, value, 'sortCriteriaList'), false, 'FilterPanelStore/sortCriteriaList'),
+      setSortPropertySelectList: (value) => set((state) => extractValue(state, value, 'sortPropertySelectList'), false, 'FilterPanelStore/sortPropertySelectList'),
+      setFilterCriteriaList: (value) => set((state) => extractValue(state, value, 'filterCriteriaList'), false, 'FilterPanelStore/filterCriteriaList'),
+      setFilterPropertySelectList: (value) => set((state) => extractValue(state, value, 'filterPropertySelectList'), false, 'FilterPanelStore/filterPropertySelectList'),
 
       counter: 0,
       increment: () => set((state) => ({ counter: state.counter + 1 })),
