@@ -2,15 +2,14 @@ import { Dispatch, SetStateAction } from 'react';
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { createTrackedSelector } from 'react-tracked';
-import { SelectOption } from 'types';
+import { EntityPropertyNames, SelectOption } from 'types';
 import { FilterCriteria, FilterPropertyTypes, SortCriteria } from 'utils/FilterUtils';
 import { extractValue } from 'stores/use-app-store';
 
 interface FilterPanelState {
+  initFilterPanelState: (properties: EntityPropertyNames) => void;
   initialPropertySelectList: SelectOption[];
-  setInitialPropertySelectList: Dispatch<SetStateAction<SelectOption[]>>;
   initialFilterPropertyTypes: FilterPropertyTypes;
-  setInitialFilterPropertyTypes: Dispatch<SetStateAction<FilterPropertyTypes>>;
   sortCriteriaList: SortCriteria[];
   setSortCriteriaList: Dispatch<SetStateAction<SortCriteria[]>>;
   sortPropertySelectList: SelectOption[];
@@ -34,8 +33,25 @@ const useFilterPanelStore = create<FilterPanelState>()(
   devtools(
     (set) => ({
       ...initialFilterPanelState,
-      setInitialPropertySelectList: (value) => set((state) => extractValue(state, value, 'initialPropertySelectList'), false, 'FilterPanelStore/initialPropertySelectList'),
-      setInitialFilterPropertyTypes: (value) => set((state) => extractValue(state, value, 'initialFilterPropertyTypes'), false, 'FilterPanelStore/initialFilterPropertyTypes'),
+      initFilterPanelState: (properties) => set(() => {
+        const initialPropertySelectList: SelectOption[] = Object.keys(properties).map((property) => ({
+          value: property,
+          label: properties[property].label,
+        }));
+
+        const initialFilterPropertyTypes: FilterPropertyTypes = Object.assign({},
+          ...Object.keys(properties).map((property) => ({
+            [property]: properties[property].type,
+          }))
+        );
+
+        return {
+          initialPropertySelectList: initialPropertySelectList,
+          initialFilterPropertyTypes: initialFilterPropertyTypes,
+          sortPropertySelectList: initialPropertySelectList,
+          filterPropertySelectList: initialPropertySelectList,
+        };
+      }),
       setSortCriteriaList: (value) => set((state) => extractValue(state, value, 'sortCriteriaList'), false, 'FilterPanelStore/sortCriteriaList'),
       setSortPropertySelectList: (value) => set((state) => extractValue(state, value, 'sortPropertySelectList'), false, 'FilterPanelStore/sortPropertySelectList'),
       setFilterCriteriaList: (value) => set((state) => extractValue(state, value, 'filterCriteriaList'), false, 'FilterPanelStore/filterCriteriaList'),

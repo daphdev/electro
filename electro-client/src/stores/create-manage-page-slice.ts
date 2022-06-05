@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { extractValue, SliceCreator } from 'stores/use-app-store';
-import { Filter } from 'utils/FilterUtils';
-import { ListResponse } from 'utils/FetchUtils';
+import FilterUtils, { Filter } from 'utils/FilterUtils';
+import { ListResponse, RequestParams } from 'utils/FetchUtils';
 import PageConfigs from 'pages/PageConfigs';
 
 export interface ManagePageState {
@@ -23,6 +23,7 @@ export interface ManagePageState {
   setFilters: Dispatch<SetStateAction<Filter[]>>;
   activeFilterPanel: boolean;
   setActiveFilterPanel: Dispatch<SetStateAction<boolean>>;
+  getRequestParams: () => RequestParams;
 }
 
 const initialManagePageState = {
@@ -37,7 +38,7 @@ const initialManagePageState = {
   activeFilterPanel: false,
 };
 
-const createManagePageSlice: SliceCreator<ManagePageState> = (set) => ({
+const createManagePageSlice: SliceCreator<ManagePageState> = (set, get) => ({
   ...initialManagePageState,
   setLoading: (value) => set((state) => extractValue(state, value, 'loading'), false, 'AppStore/loading'),
   setActivePage: (value) => set((state) => extractValue(state, value, 'activePage'), false, 'AppStore/activePage'),
@@ -48,6 +49,13 @@ const createManagePageSlice: SliceCreator<ManagePageState> = (set) => ({
   setSelection: (value) => set((state) => extractValue(state, value, 'selection'), false, 'AppStore/selection'),
   setFilters: (value) => set((state) => extractValue(state, value, 'filters'), false, 'AppStore/filters'),
   setActiveFilterPanel: (value) => set((state) => extractValue(state, value, 'activeFilterPanel'), false, 'AppStore/activeFilterPanel'),
+  getRequestParams: () => ({
+    page: get().activePage,
+    size: get().activePageSize,
+    sort: FilterUtils.convertToSortRSQL(get().activeFilter),
+    filter: FilterUtils.convertToFilterRSQL(get().activeFilter),
+    search: get().searchToken,
+  }),
 });
 
 export default createManagePageSlice;

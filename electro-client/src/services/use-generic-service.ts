@@ -1,6 +1,20 @@
 import FetchUtils, { ErrorMessage, ListResponse, RequestParams } from 'utils/FetchUtils';
 import NotifyUtils from 'utils/NotifyUtils';
 
+// interface ReturnData {
+//   data: unknown | null;
+//   error: ErrorMessage | null;
+//   status: number;
+// }
+//
+// export interface GenericService<I, O> {
+//   getAll: (resourceUrl: string, requestParams: RequestParams) => Promise<ReturnData>;
+//   getById: (resourceUrl: string, entityId: number) => Promise<ReturnData>;
+//   create: (resourceUrl: string, requestBody: I) => void;
+//   update: (resourceUrl: string, entityId: number, requestBody: I) => void;
+//   deleteByIds: (resourceUrl: string, entityIds: number[]) => Promise<ReturnData>;
+// }
+
 function useGenericService<I, O>() {
 
   const getAll = async (resourceUrl: string, requestParams: RequestParams) => {

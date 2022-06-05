@@ -1,9 +1,8 @@
 import { z } from 'zod';
+import { EntityPropertyNames, EntityPropertyType, TitleLink } from 'types';
 import ResourceURL from 'constants/ResourceURL';
 import MessageUtils from 'utils/MessageUtils';
-import { EntityPropertyNames, EntityPropertyType, SelectOption, TitleLink } from 'types';
 import PageConfigs from 'pages/PageConfigs';
-import { FilterPropertyTypes } from 'utils/FilterUtils';
 
 class ProvinceConfigs {
   static managerPath = 'address/province';
@@ -48,17 +47,6 @@ class ProvinceConfigs {
     name: z.string().min(2, MessageUtils.min(ProvinceConfigs.properties.name.label, 2)),
     code: z.string().max(35, MessageUtils.max(ProvinceConfigs.properties.code.label, 35)),
   });
-
-  static initialPropertySelectList: SelectOption[] = Object.keys(ProvinceConfigs.properties).map((property) => ({
-    value: property,
-    label: ProvinceConfigs.properties[property].label,
-  }));
-
-  static initialFilterPropertyTypes: FilterPropertyTypes = Object.assign({},
-    ...Object.keys(ProvinceConfigs.properties).map((property) => ({
-      [property]: ProvinceConfigs.properties[property].type,
-    }))
-  );
 }
 
 export default ProvinceConfigs;
