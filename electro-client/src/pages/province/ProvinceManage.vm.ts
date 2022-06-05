@@ -1,5 +1,4 @@
-import { useCallback, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useCallback } from 'react';
 import { ProvinceResponse } from 'models/Province';
 import FilterUtils from 'utils/FilterUtils';
 import NotifyUtils from 'utils/NotifyUtils';
@@ -8,8 +7,6 @@ import useAppStore from 'stores/use-app-store';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 
 function useProvinceManageViewModel() {
-  const location = useLocation();
-
   const {
     loading, setLoading,
     activePage,
@@ -18,10 +15,6 @@ function useProvinceManageViewModel() {
     searchToken,
     setListResponse,
   } = useAppStore();
-
-  useEffect(() => {
-    setLoading(true);
-  }, [location, setLoading]);
 
   const getProvinces = useCallback(async () => {
     if (loading) {
