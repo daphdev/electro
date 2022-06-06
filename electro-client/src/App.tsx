@@ -8,8 +8,9 @@ import Client from './pages/Client';
 import Admin from './pages/Admin';
 import AdminDashboard from './pages/AdminDashboard';
 import AddressManage from 'pages/address/AddressManage';
-import ProvinceManager, { ProvinceCreate, ProvinceUpdate } from 'pages/province';
+import ProvinceManage, { ProvinceCreate, ProvinceUpdate } from 'pages/province';
 import { ModalsProvider } from '@mantine/modals';
+import ManagerPath from 'constants/ManagerPath';
 
 function App() {
   const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
@@ -25,10 +26,10 @@ function App() {
               <Route path="/" element={<Client/>}/>
               <Route path="/admin" element={<Admin/>}>
                 <Route index element={<AdminDashboard/>}/>
-                <Route path="address" element={<AddressManage/>}/>
-                <Route path="address/province" element={<ProvinceManager/>}/>
-                <Route path="address/province/create" element={<ProvinceCreate/>}/>
-                <Route path="address/province/update/:id" element={<ProvinceUpdate/>}/>
+                <Route path={ManagerPath.ADDRESS} element={<AddressManage/>}/>
+                <Route path={ManagerPath.PROVINCE} element={<ProvinceManage/>}/>
+                <Route path={ManagerPath.PROVINCE + '/create'} element={<ProvinceCreate/>}/>
+                <Route path={ManagerPath.PROVINCE + '/update/:id'} element={<ProvinceUpdate/>}/>
               </Route>
             </Routes>
           </ModalsProvider>

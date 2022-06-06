@@ -3,9 +3,10 @@ import { Configs, EntityPropertySchema, EntityPropertyType, TitleLink } from 'ty
 import ResourceURL from 'constants/ResourceURL';
 import MessageUtils from 'utils/MessageUtils';
 import PageConfigs from 'pages/PageConfigs';
+import ManagerPath from 'constants/ManagerPath';
 
 class ProvinceConfigs extends Configs {
-  static managerPath = 'address/province';
+  static managerPath = ManagerPath.PROVINCE;
   static resourceUrl = ResourceURL.PROVINCE;
   static createTitle = 'Thêm tỉnh thành';
   static updateTitle = 'Cập nhật tỉnh thành';
@@ -13,15 +14,15 @@ class ProvinceConfigs extends Configs {
 
   static manageTitleLinks: TitleLink[] = [
     {
-      link: '/admin/address',
+      link: ManagerPath.ADDRESS,
       label: 'Quản lý địa chỉ',
     },
     {
-      link: '/admin/address/province',
+      link: ManagerPath.PROVINCE,
       label: 'Quản lý tỉnh thành',
     },
     {
-      link: '/admin/address/district',
+      link: ManagerPath.DISTRICT,
       label: 'Quản lý quận huyện',
     },
   ];

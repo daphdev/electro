@@ -16,7 +16,7 @@ function CreateUpdateTitle({
     <Group spacing="xs">
       <ActionIcon
         component={Link}
-        to={'../' + managerPath}
+        to={managerPath}
         color="blue"
         variant="filled"
       >
