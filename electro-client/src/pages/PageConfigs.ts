@@ -1,8 +1,8 @@
-import { EntityPropertyNames, EntityPropertyType, SelectOption } from 'types';
+import { EntityPropertySchema, EntityPropertyType, SelectOption } from 'types';
 import { ListResponse } from 'utils/FetchUtils';
 
 class PageConfigs {
-  static properties: EntityPropertyNames = {
+  static properties: EntityPropertySchema = {
     id: {
       label: 'ID',
       type: EntityPropertyType.NUMBER,
@@ -25,8 +25,8 @@ class PageConfigs {
     },
   };
 
-  static getProperties = (...isShowInTable: boolean[]): EntityPropertyNames => {
-    const properties = JSON.parse(JSON.stringify(PageConfigs.properties)) as EntityPropertyNames;
+  static getProperties = (...isShowInTable: boolean[]): EntityPropertySchema => {
+    const properties = JSON.parse(JSON.stringify(PageConfigs.properties)) as EntityPropertySchema;
     Object.values(properties).forEach(
       (value, index) => isShowInTable[index] && (value.isShowInTable = isShowInTable[index])
     );

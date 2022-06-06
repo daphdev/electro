@@ -1,5 +1,5 @@
 import { TitleLink } from 'types/TitleLink';
-import { EntityPropertyNames } from 'types/EntityProperty';
+import { EntityPropertySchema } from 'types/EntityProperty';
 
 export abstract class Configs {
   static managerPath: string;
@@ -8,7 +8,7 @@ export abstract class Configs {
   static updateTitle: string;
   static manageTitle: string;
   static manageTitleLinks: TitleLink[];
-  static properties: EntityPropertyNames;
+  static properties: EntityPropertySchema;
   static initialCreateUpdateFormValues: object;
   static createUpdateFormSchema: object;
 }

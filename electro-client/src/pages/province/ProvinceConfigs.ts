@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { Configs, EntityPropertyNames, EntityPropertyType, TitleLink } from 'types';
+import { Configs, EntityPropertySchema, EntityPropertyType, TitleLink } from 'types';
 import ResourceURL from 'constants/ResourceURL';
 import MessageUtils from 'utils/MessageUtils';
 import PageConfigs from 'pages/PageConfigs';
@@ -26,7 +26,7 @@ class ProvinceConfigs extends Configs {
     },
   ];
 
-  static properties: EntityPropertyNames = {
+  static properties: EntityPropertySchema = {
     ...PageConfigs.getProperties(true, true, true),
     name: {
       label: 'Tên tỉnh thành',

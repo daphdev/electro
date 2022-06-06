@@ -2,12 +2,12 @@ import { Dispatch, SetStateAction } from 'react';
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { createTrackedSelector } from 'react-tracked';
-import { EntityPropertyNames, SelectOption } from 'types';
+import { EntityPropertySchema, SelectOption } from 'types';
 import { FilterCriteria, FilterPropertyTypes, SortCriteria } from 'utils/FilterUtils';
 import { extractValue } from 'stores/use-app-store';
 
 interface FilterPanelState {
-  initFilterPanelState: (properties: EntityPropertyNames) => void;
+  initFilterPanelState: (properties: EntityPropertySchema) => void;
   initialPropertySelectList: SelectOption[];
   initialFilterPropertyTypes: FilterPropertyTypes;
   sortCriteriaList: SortCriteria[];

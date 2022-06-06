@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { ActionIcon, Checkbox, Group, Table } from '@mantine/core';
 import { Edit, Eye, Trash } from 'tabler-icons-react';
 import BaseResponse from 'models/BaseResponse';
-import { EntityPropertyNames } from 'types';
+import { EntityPropertySchema } from 'types';
 import useManageTableStyles from 'components/ManageTable/ManageTable.styles';
 import useManageTableViewModel from 'components/ManageTable/ManageTable.vm';
 
 export interface ManageTableProps<T> {
-  properties: EntityPropertyNames;
+  properties: EntityPropertySchema;
   resourceUrl: string;
   showedPropertiesFragment: (entity: T) => React.ReactNode;
   entityDetailsTableRowsFragment: (entity: T) => React.ReactNode;

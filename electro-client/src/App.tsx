@@ -7,7 +7,7 @@ import './App.css';
 import Client from './pages/Client';
 import Admin from './pages/Admin';
 import AdminDashboard from './pages/AdminDashboard';
-import AddressManager from './pages/AddressManager';
+import AddressManage from 'pages/address/AddressManage';
 import ProvinceManager, { ProvinceCreate, ProvinceUpdate } from 'pages/province';
 import { ModalsProvider } from '@mantine/modals';
 
@@ -25,7 +25,7 @@ function App() {
               <Route path="/" element={<Client/>}/>
               <Route path="/admin" element={<Admin/>}>
                 <Route index element={<AdminDashboard/>}/>
-                <Route path="address" element={<AddressManager/>}/>
+                <Route path="address" element={<AddressManage/>}/>
                 <Route path="address/province" element={<ProvinceManager/>}/>
                 <Route path="address/province/create" element={<ProvinceCreate/>}/>
                 <Route path="address/province/update/:id" element={<ProvinceUpdate/>}/>
