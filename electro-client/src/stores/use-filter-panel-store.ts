@@ -51,7 +51,7 @@ const useFilterPanelStore = create<FilterPanelState>()(
           sortPropertySelectList: initialPropertySelectList,
           filterPropertySelectList: initialPropertySelectList,
         };
-      }),
+      }, false, 'FilterPanelStore/initFilterPanelState'),
       setSortCriteriaList: (value) => set((state) => extractValue(state, value, 'sortCriteriaList'), false, 'FilterPanelStore/sortCriteriaList'),
       setSortPropertySelectList: (value) => set((state) => extractValue(state, value, 'sortPropertySelectList'), false, 'FilterPanelStore/sortPropertySelectList'),
       setFilterCriteriaList: (value) => set((state) => extractValue(state, value, 'filterCriteriaList'), false, 'FilterPanelStore/filterCriteriaList'),
