@@ -10,6 +10,7 @@ function useProvinceManageViewModel() {
 
   const {
     loading, setLoading,
+    searchToken,
     setListResponse,
     getRequestParams,
   } = useAppStore();
@@ -32,7 +33,10 @@ function useProvinceManageViewModel() {
     }
   };
 
-  return { getProvinces };
+  return {
+    searchToken,
+    getProvinces,
+  };
 }
 
 export default useProvinceManageViewModel;

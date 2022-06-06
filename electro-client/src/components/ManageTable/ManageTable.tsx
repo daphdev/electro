@@ -1,23 +1,31 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ActionIcon, Checkbox, Group, Highlight, Table } from '@mantine/core';
+import { ActionIcon, Checkbox, Group, Table } from '@mantine/core';
 import { Edit, Eye, Trash } from 'tabler-icons-react';
-import DateUtils from 'utils/DateUtils';
+import BaseResponse from 'models/BaseResponse';
+import { EntityPropertyNames } from 'types';
 import useManageTableStyles from 'components/ManageTable/ManageTable.styles';
 import useManageTableViewModel from 'components/ManageTable/ManageTable.vm';
 
-function ManageTable() {
+export interface ManageTableProps<T> {
+  properties: EntityPropertyNames;
+  resourceUrl: string;
+  showedPropertiesFragment: (entity: T) => React.ReactNode;
+  entityDetailsTableRowsFragment: (entity: T) => React.ReactNode;
+}
+
+function ManageTable<T extends BaseResponse>(props: ManageTableProps<T>) {
   const { classes, cx } = useManageTableStyles();
 
   const {
     selection,
     listResponse,
-    searchToken,
+    tableHeads,
     handleToggleAllRowsCheckbox,
     handleToggleRowCheckbox,
     handleViewEntityButton,
     handleDeleteEntityButton,
-  } = useManageTableViewModel();
+  } = useManageTableViewModel<T>(props);
 
   const entitiesTableHeadsFragment = (
     <tr>
@@ -29,11 +37,7 @@ function ManageTable() {
           transitionDuration={0}
         />
       </th>
-      <th>ID</th>
-      <th>Ngày tạo</th>
-      <th>Ngày cập nhật</th>
-      <th>Tên tỉnh thành</th>
-      <th>Mã tỉnh thành</th>
+      {tableHeads.map((item) => <th key={String(item)}>{item}</th>)}
       <th style={{ width: 120 }}>Thao tác</th>
     </tr>
   );
@@ -55,19 +59,7 @@ function ManageTable() {
             transitionDuration={0}
           />
         </td>
-        <td>{entity.id}</td>
-        <td>{DateUtils.isoDateToString(entity.createdAt)}</td>
-        <td>{DateUtils.isoDateToString(entity.updatedAt)}</td>
-        <td>
-          <Highlight highlight={searchToken} highlightColor="blue">
-            {entity.name}
-          </Highlight>
-        </td>
-        <td>
-          <Highlight highlight={searchToken} highlightColor="blue">
-            {entity.code}
-          </Highlight>
-        </td>
+        {props.showedPropertiesFragment(entity as T)}
         <td>
           <Group spacing="xs">
             <ActionIcon

@@ -1,20 +1,6 @@
 import FetchUtils, { ErrorMessage, ListResponse, RequestParams } from 'utils/FetchUtils';
 import NotifyUtils from 'utils/NotifyUtils';
 
-// interface ReturnData {
-//   data: unknown | null;
-//   error: ErrorMessage | null;
-//   status: number;
-// }
-//
-// export interface GenericService<I, O> {
-//   getAll: (resourceUrl: string, requestParams: RequestParams) => Promise<ReturnData>;
-//   getById: (resourceUrl: string, entityId: number) => Promise<ReturnData>;
-//   create: (resourceUrl: string, requestBody: I) => void;
-//   update: (resourceUrl: string, entityId: number, requestBody: I) => void;
-//   deleteByIds: (resourceUrl: string, entityIds: number[]) => Promise<ReturnData>;
-// }
-
 function useGenericService<I, O>() {
 
   const getAll = async (resourceUrl: string, requestParams: RequestParams) => {
@@ -63,6 +49,18 @@ function useGenericService<I, O>() {
     }
   };
 
+  const deleteById = async (resourceUrl: string, entityId: number) => {
+    const responseStatus = await FetchUtils.deleteById(resourceUrl, entityId);
+    const ret = { data: null, error: null, status: responseStatus };
+    if (responseStatus === 204) {
+      NotifyUtils.simpleSuccess('Xóa thành công');
+    }
+    if (responseStatus === 500) {
+      NotifyUtils.simpleFailed('Xóa không thành công');
+    }
+    return ret;
+  };
+
   const deleteByIds = async (resourceUrl: string, entityIds: number[]) => {
     const responseStatus = await FetchUtils.deleteByIds(resourceUrl, entityIds);
     const ret = { data: null, error: null, status: responseStatus };
@@ -75,9 +73,7 @@ function useGenericService<I, O>() {
     return ret;
   };
 
-  return { getAll, getById, create, update, deleteByIds };
+  return { getAll, getById, create, update, deleteById, deleteByIds };
 }
-
-type GenericService = ReturnType<typeof useGenericService>;
 
 export default useGenericService;

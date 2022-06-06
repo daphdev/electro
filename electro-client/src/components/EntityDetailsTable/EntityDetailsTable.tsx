@@ -1,16 +1,12 @@
 import React from 'react';
 import { Table } from '@mantine/core';
-import { ProvinceResponse } from 'models/Province';
-import { EntityPropertyType } from 'types';
-import DateUtils from 'utils/DateUtils';
-import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 
 interface EntityDetailsTableProps {
-  entityData: ProvinceResponse;
+  entityDetailsTableRowsFragment: React.ReactNode;
 }
 
 function EntityDetailsTable({
-  entityData,
+  entityDetailsTableRowsFragment,
 }: EntityDetailsTableProps) {
 
   const entityDetailsTableHeadsFragment = (
@@ -19,18 +15,6 @@ function EntityDetailsTable({
       <th>Giá trị</th>
     </tr>
   );
-
-  const entityDetailsTableRowsFragment = entityData &&
-    Object.entries(entityData).map(([propertyName, propertyValue]) => (
-      <tr key={propertyName}>
-        <td>{ProvinceConfigs.properties[propertyName].label}</td>
-        <td>
-          {ProvinceConfigs.properties[propertyName].type === EntityPropertyType.DATE
-            ? DateUtils.isoDateToString(propertyValue)
-            : propertyValue}
-        </td>
-      </tr>
-    ));
 
   return (
     <Table striped highlightOnHover>

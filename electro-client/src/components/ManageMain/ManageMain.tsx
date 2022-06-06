@@ -1,15 +1,20 @@
 import React from 'react';
 import { Center, LoadingOverlay, Paper, Text } from '@mantine/core';
 import useAppStore from 'stores/use-app-store';
-import { ManageTable } from 'components/index';
 
-function ManageMain() {
+interface ManageMainProps {
+  children: React.ReactNode;
+}
+
+function ManageMain({
+  children,
+}: ManageMainProps) {
   const {
     loading,
     listResponse,
   } = useAppStore();
 
-  let manageMainInnerFragment = <ManageTable/>;
+  let manageMainInnerFragment = <>{children}</>;
 
   if (listResponse.totalElements === 0) {
     manageMainInnerFragment = (
