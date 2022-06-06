@@ -25,19 +25,20 @@ function useProvinceUpdateViewModel() {
           code: data.code,
         };
         form.setValues(formValues);
+        setPrevFormValues(formValues);
       }
     }
   };
 
   const handleFormSubmit = form.onSubmit(formValues => {
     setPrevFormValues(formValues);
-    if (province && prevFormValues && !isEquals(prevFormValues, formValues)) {
+    if (province && !isEquals(formValues, prevFormValues)) {
       void provinceService.update(ProvinceConfigs.resourceUrl, province.id, formValues);
     }
   });
 
-  const isEquals = (prevFormValues: typeof form.values, formValues: typeof form.values) => {
-    return JSON.stringify(prevFormValues) === JSON.stringify(formValues);
+  const isEquals = (formValues: typeof form.values, prevFormValues?: typeof form.values) => {
+    return JSON.stringify(formValues) === JSON.stringify(prevFormValues);
   };
 
   return {

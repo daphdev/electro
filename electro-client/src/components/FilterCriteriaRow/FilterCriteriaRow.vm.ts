@@ -1,25 +1,18 @@
 import React from 'react';
 import DateUtils from 'utils/DateUtils';
-import { FilterOperator, FilterPropertyType, FilterPropertyTypes } from 'utils/FilterUtils';
+import { FilterOperator } from 'utils/FilterUtils';
 import useFilterPanelStore from 'stores/use-filter-panel-store';
-
-const filterPropertyTypes: FilterPropertyTypes = {
-  id: FilterPropertyType.NUMBER,
-  createdAt: FilterPropertyType.DATE,
-  updatedAt: FilterPropertyType.DATE,
-  name: FilterPropertyType.STRING,
-  code: FilterPropertyType.STRING,
-};
 
 function useFilterCriteriaRowViewModel() {
   const {
+    initialFilterPropertyTypes,
     filterCriteriaList, setFilterCriteriaList,
     filterPropertySelectList,
   } = useFilterPanelStore();
 
   const handleFilterPropertySelect = (propertyValue: string | null, filterCriteriaIndex: number) => {
     const currentFilterCriteriaList = filterCriteriaList.map((item, index) => {
-      const currentFilterPropertyType = propertyValue ? filterPropertyTypes[propertyValue] : null;
+      const currentFilterPropertyType = propertyValue ? initialFilterPropertyTypes[propertyValue] : null;
       const currentFilterOperator = (propertyValue && currentFilterPropertyType === item.type) ? item.operator : null;
       const currentFilterValue = (propertyValue && currentFilterPropertyType === item.type) ? item.value : null;
       return (index === filterCriteriaIndex) ? {

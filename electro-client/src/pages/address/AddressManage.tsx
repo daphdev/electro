@@ -38,7 +38,7 @@ const ButtonChild = () => {
   );
 };
 
-function AddressManager() {
+function AddressManage() {
   return (
     <div>
       AddressManager
@@ -48,4 +48,4 @@ function AddressManager() {
   );
 }
 
-export default AddressManager;
+export default AddressManage;

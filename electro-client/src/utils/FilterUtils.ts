@@ -1,4 +1,4 @@
-import { SelectOption } from 'types/SelectOption';
+import { EntityPropertyType, SelectOption } from 'types';
 
 export enum StringOperator {
   EQUALS = 'str_eq',
@@ -46,15 +46,8 @@ export enum DateOperator {
 
 export type FilterOperator = StringOperator | NumberOperator | BooleanOperator | DateOperator;
 
-export enum FilterPropertyType {
-  STRING = 'string',
-  NUMBER = 'number',
-  BOOLEAN = 'boolean',
-  DATE = 'date',
-}
-
 export interface FilterPropertyTypes {
-  [property: string]: FilterPropertyType;
+  [property: string]: EntityPropertyType;
 }
 
 export enum OrderType {
@@ -69,7 +62,7 @@ export interface SortCriteria {
 
 export interface FilterCriteria {
   property: string | null;
-  type: FilterPropertyType | null;
+  type: EntityPropertyType | null;
   operator: FilterOperator | null;
   value: string | null;
 }

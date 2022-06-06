@@ -1,5 +1,5 @@
 import useAppStore from 'stores/use-app-store';
-import ProvinceConfigs from 'pages/province/ProvinceConfigs';
+import PageConfigs from 'pages/PageConfigs';
 
 function useManagePaginationViewModel() {
   const {
@@ -10,7 +10,7 @@ function useManagePaginationViewModel() {
     activePageSize, setActivePageSize,
   } = useAppStore();
 
-  const pageSizeSelectList = ProvinceConfigs.initialPageSizeSelectList.map((pageSize) =>
+  const pageSizeSelectList = PageConfigs.initialPageSizeSelectList.map((pageSize) =>
     (Number(pageSize.value) > listResponse.totalElements) ? { ...pageSize, disabled: true } : pageSize
   );
 

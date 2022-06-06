@@ -1,7 +1,6 @@
-export interface ProvinceResponse {
-  id: number,
-  createdAt: string,
-  updatedAt: string,
+import BaseResponse from 'models/BaseResponse';
+
+export interface ProvinceResponse extends BaseResponse {
   name: string,
   code: string,
 }

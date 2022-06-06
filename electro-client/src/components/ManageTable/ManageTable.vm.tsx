@@ -1,27 +1,34 @@
 import React from 'react';
 import { Text, useMantineTheme } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { ProvinceRequest, ProvinceResponse } from 'models/Province';
-import useGenericService from 'services/use-generic-service';
 import useAppStore from 'stores/use-app-store';
-import FetchUtils from 'utils/FetchUtils';
-import NotifyUtils from 'utils/NotifyUtils';
+import { ListResponse } from 'utils/FetchUtils';
 import { EntityDetailsTable } from 'components/index';
-import ProvinceConfigs from 'pages/province/ProvinceConfigs';
+import BaseResponse from 'models/BaseResponse';
+import useGenericService from 'services/use-generic-service';
+import { ManageTableProps } from 'components/ManageTable/ManageTable';
 
-function useManageTableViewModel() {
+function useManageTableViewModel<T extends BaseResponse>({
+  properties,
+  resourceUrl,
+  entityDetailsTableRowsFragment,
+}: ManageTableProps<T>) {
   const theme = useMantineTheme();
   const modals = useModals();
 
-  const provinceService = useGenericService<ProvinceRequest, ProvinceResponse>();
+  const service = useGenericService();
 
   const {
     setLoading,
     selection, setSelection,
-    listResponse,
-    searchToken,
+    listResponse: rawListResponse,
     activePage, setActivePage,
   } = useAppStore();
+
+  const listResponse = rawListResponse as ListResponse<BaseResponse>;
+
+  const tableHeads = Object.values(properties)
+    .flatMap((propertySpec) => !propertySpec.isShowInTable ? [] : propertySpec.label);
 
   const handleToggleAllRowsCheckbox = () => {
     setSelection((current) => {
@@ -36,7 +43,7 @@ function useManageTableViewModel() {
   };
 
   const handleViewEntityButton = async (entityId: number) => {
-    const { data } = await provinceService.getById(ProvinceConfigs.resourceUrl, entityId);
+    const { data } = await service.getById(resourceUrl, entityId);
     if (data) {
       modals.openModal({
         size: 'md',
@@ -44,7 +51,7 @@ function useManageTableViewModel() {
         overlayOpacity: 0.55,
         overlayBlur: 3,
         title: <strong>Thông tin chi tiết</strong>,
-        children: <EntityDetailsTable entityData={data}/>,
+        children: <EntityDetailsTable entityDetailsTableRowsFragment={entityDetailsTableRowsFragment(data as T)}/>,
       });
     }
   };
@@ -68,23 +75,19 @@ function useManageTableViewModel() {
   };
 
   const handleConfirmedDeleteEntityButton = async (entityId: number) => {
-    const status = await FetchUtils.deleteById(ProvinceConfigs.resourceUrl, entityId);
+    const { status } = await service.deleteById(resourceUrl, entityId);
     if (status === 204) {
-      NotifyUtils.simpleSuccess('Xóa thành công');
       if (listResponse.content.length === 1) {
         setActivePage(activePage - 1 || 1);
       }
       setLoading(true);
-    }
-    if (status === 500) {
-      NotifyUtils.simpleFailed('Xóa không thành công');
     }
   };
 
   return {
     selection,
     listResponse,
-    searchToken,
+    tableHeads,
     handleToggleAllRowsCheckbox,
     handleToggleRowCheckbox,
     handleViewEntityButton,

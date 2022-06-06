@@ -1,18 +1,15 @@
 import { z } from 'zod';
+import { Configs, EntityPropertySchema, EntityPropertyType, TitleLink } from 'types';
 import ResourceURL from 'constants/ResourceURL';
 import MessageUtils from 'utils/MessageUtils';
-import { EntityPropertyNames, EntityPropertyType } from 'models/EntityProperty';
-import { TitleLink } from 'types';
-import { ListResponse } from 'utils/FetchUtils';
-import { ProvinceResponse } from 'models/Province';
-import { SelectOption } from 'types/SelectOption';
+import PageConfigs from 'pages/PageConfigs';
 
-class ProvinceConfigs {
+class ProvinceConfigs extends Configs {
   static managerPath = 'address/province';
+  static resourceUrl = ResourceURL.PROVINCE;
   static createTitle = 'Thêm tỉnh thành';
   static updateTitle = 'Cập nhật tỉnh thành';
   static manageTitle = 'Quản lý tỉnh thành';
-  static resourceUrl = ResourceURL.PROVINCE;
 
   static manageTitleLinks: TitleLink[] = [
     {
@@ -29,77 +26,17 @@ class ProvinceConfigs {
     },
   ];
 
-  static initialListResponse: ListResponse<ProvinceResponse> = {
-    content: [],
-    page: 1,
-    size: 5,
-    totalElements: 0,
-    totalPages: 0,
-    last: false,
-  };
-
-  static initialPropertySelectList: SelectOption[] = [
-    {
-      value: 'id',
-      label: 'ID',
-    },
-    {
-      value: 'createdAt',
-      label: 'Ngày tạo',
-    },
-    {
-      value: 'updatedAt',
-      label: 'Ngày cập nhật',
-    },
-    {
-      value: 'name',
-      label: 'Tên tỉnh thành',
-    },
-    {
-      value: 'code',
-      label: 'Mã tỉnh thành',
-    },
-  ];
-
-  static initialPageSizeSelectList: SelectOption[] = [
-    {
-      value: '5',
-      label: '5',
-    },
-    {
-      value: '10',
-      label: '10',
-    },
-    {
-      value: '25',
-      label: '25',
-    },
-    {
-      value: '50',
-      label: '50',
-    },
-  ];
-
-  static properties: EntityPropertyNames = {
-    id: {
-      label: 'ID',
-      type: EntityPropertyType.NUMBER,
-    },
-    createdAt: {
-      label: 'Ngày tạo',
-      type: EntityPropertyType.DATE,
-    },
-    updatedAt: {
-      label: 'Ngày cập nhật',
-      type: EntityPropertyType.DATE,
-    },
+  static properties: EntityPropertySchema = {
+    ...PageConfigs.getProperties(true, true, true),
     name: {
       label: 'Tên tỉnh thành',
       type: EntityPropertyType.STRING,
+      isShowInTable: true,
     },
     code: {
       label: 'Mã tỉnh thành',
       type: EntityPropertyType.STRING,
+      isShowInTable: true,
     },
   };
 

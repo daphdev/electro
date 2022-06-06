@@ -5,9 +5,10 @@ export enum EntityPropertyType {
   DATE = 'date',
 }
 
-export interface EntityPropertyNames {
+export interface EntityPropertySchema {
   [propertyName: string]: {
     label: string,
     type: EntityPropertyType,
+    isShowInTable?: boolean,
   };
 }

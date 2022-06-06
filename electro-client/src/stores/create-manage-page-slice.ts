@@ -1,54 +1,61 @@
 import { Dispatch, SetStateAction } from 'react';
-import { setState, SliceCreator } from 'stores/use-app-store';
-import { Filter } from 'utils/FilterUtils';
-import ProvinceConfigs from 'pages/province/ProvinceConfigs';
-import { ListResponse } from 'utils/FetchUtils';
-import { ProvinceResponse } from 'models/Province';
+import { extractValue, SliceCreator } from 'stores/use-app-store';
+import FilterUtils, { Filter } from 'utils/FilterUtils';
+import { ListResponse, RequestParams } from 'utils/FetchUtils';
+import PageConfigs from 'pages/PageConfigs';
 
 export interface ManagePageState {
-  selection: number[];
-  setSelection: Dispatch<SetStateAction<number[]>>;
-  filters: Filter[];
-  setFilters: Dispatch<SetStateAction<Filter[]>>;
-  activeFilter: Filter | null;
-  setActiveFilter: Dispatch<SetStateAction<Filter | null>>;
-  searchToken: string;
-  setSearchToken: Dispatch<SetStateAction<string>>;
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
   activePage: number;
   setActivePage: Dispatch<SetStateAction<number>>;
   activePageSize: number;
   setActivePageSize: Dispatch<SetStateAction<number>>;
+  activeFilter: Filter | null;
+  setActiveFilter: Dispatch<SetStateAction<Filter | null>>;
+  searchToken: string;
+  setSearchToken: Dispatch<SetStateAction<string>>;
+  listResponse: ListResponse<unknown>;
+  setListResponse: Dispatch<SetStateAction<ListResponse<unknown>>>;
+  selection: number[];
+  setSelection: Dispatch<SetStateAction<number[]>>;
+  filters: Filter[];
+  setFilters: Dispatch<SetStateAction<Filter[]>>;
   activeFilterPanel: boolean;
   setActiveFilterPanel: Dispatch<SetStateAction<boolean>>;
-  listResponse: ListResponse<ProvinceResponse>;
-  setListResponse: Dispatch<SetStateAction<ListResponse<ProvinceResponse>>>;
+  getRequestParams: () => RequestParams;
 }
 
 const initialManagePageState = {
-  selection: [],
-  filters: [],
+  loading: true,
+  activePage: PageConfigs.initialListResponse.page,
+  activePageSize: PageConfigs.initialListResponse.size,
   activeFilter: null,
   searchToken: '',
-  loading: true,
-  activePage: ProvinceConfigs.initialListResponse.page,
-  activePageSize: ProvinceConfigs.initialListResponse.size,
+  listResponse: PageConfigs.initialListResponse,
+  selection: [],
+  filters: [],
   activeFilterPanel: false,
-  listResponse: ProvinceConfigs.initialListResponse,
 };
 
-const createManagePageSlice: SliceCreator<ManagePageState> = (set) => ({
+const createManagePageSlice: SliceCreator<ManagePageState> = (set, get) => ({
   ...initialManagePageState,
-  setSelection: (value) => setState(set, value, 'selection'),
-  setFilters: (value) => setState(set, value, 'filters'),
-  setActiveFilter: (value) => setState(set, value, 'activeFilter'),
-  setSearchToken: (value) => setState(set, value, 'searchToken'),
-  setLoading: (value) => setState(set, value, 'loading'),
-  setActivePage: (value) => setState(set, value, 'activePage'),
-  setActivePageSize: (value) => setState(set, value, 'activePageSize'),
-  setActiveFilterPanel: (value) => setState(set, value, 'activeFilterPanel'),
-  setListResponse: (value) => setState(set, value, 'listResponse'),
+  setLoading: (value) => set((state) => extractValue(state, value, 'loading'), false, 'AppStore/loading'),
+  setActivePage: (value) => set((state) => extractValue(state, value, 'activePage'), false, 'AppStore/activePage'),
+  setActivePageSize: (value) => set((state) => extractValue(state, value, 'activePageSize'), false, 'AppStore/activePageSize'),
+  setActiveFilter: (value) => set((state) => extractValue(state, value, 'activeFilter'), false, 'AppStore/activeFilter'),
+  setSearchToken: (value) => set((state) => extractValue(state, value, 'searchToken'), false, 'AppStore/searchToken'),
+  setListResponse: (value) => set((state) => extractValue(state, value, 'listResponse'), false, 'AppStore/listResponse'),
+  setSelection: (value) => set((state) => extractValue(state, value, 'selection'), false, 'AppStore/selection'),
+  setFilters: (value) => set((state) => extractValue(state, value, 'filters'), false, 'AppStore/filters'),
+  setActiveFilterPanel: (value) => set((state) => extractValue(state, value, 'activeFilterPanel'), false, 'AppStore/activeFilterPanel'),
+  getRequestParams: () => ({
+    page: get().activePage,
+    size: get().activePageSize,
+    sort: FilterUtils.convertToSortRSQL(get().activeFilter),
+    filter: FilterUtils.convertToFilterRSQL(get().activeFilter),
+    search: get().searchToken,
+  }),
 });
 
 export default createManagePageSlice;

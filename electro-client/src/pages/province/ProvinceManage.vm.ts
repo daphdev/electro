@@ -1,51 +1,42 @@
-import { useCallback, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { ProvinceResponse } from 'models/Province';
-import FilterUtils from 'utils/FilterUtils';
-import NotifyUtils from 'utils/NotifyUtils';
-import FetchUtils, { ListResponse, RequestParams } from 'utils/FetchUtils';
+import { useEffect } from 'react';
 import useAppStore from 'stores/use-app-store';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
+import useGenericService from 'services/use-generic-service';
+import useFilterPanelStore from 'stores/use-filter-panel-store';
+import { ProvinceRequest, ProvinceResponse } from 'models/Province';
 
 function useProvinceManageViewModel() {
-  const location = useLocation();
+  const provinceService = useGenericService<ProvinceRequest, ProvinceResponse>();
 
   const {
     loading, setLoading,
-    activePage,
-    activePageSize,
-    activeFilter,
     searchToken,
     setListResponse,
+    getRequestParams,
   } = useAppStore();
 
-  useEffect(() => {
-    setLoading(true);
-  }, [location, setLoading]);
+  const { initFilterPanelState } = useFilterPanelStore();
 
-  const getProvinces = useCallback(async () => {
+  useEffect(() => {
+    initFilterPanelState(ProvinceConfigs.properties);
+  }, [initFilterPanelState]);
+
+  const getProvinces = async () => {
     if (loading) {
-      const requestParams: RequestParams = {
-        page: activePage,
-        size: activePageSize,
-        sort: FilterUtils.convertToSortRSQL(activeFilter),
-        filter: FilterUtils.convertToFilterRSQL(activeFilter),
-        search: searchToken,
-      };
-      const [responseStatus, responseBody] = await FetchUtils.getAll<ProvinceResponse>(ProvinceConfigs.resourceUrl, requestParams);
-      if (responseStatus === 200) {
+      const { data } = await provinceService.getAll(ProvinceConfigs.resourceUrl, getRequestParams());
+      if (data) {
         setTimeout(() => {
-          setListResponse(responseBody as ListResponse<ProvinceResponse>);
+          setListResponse(data);
           setLoading(false);
         }, 100);
       }
-      if (responseStatus === 500) {
-        NotifyUtils.simpleFailed('Lấy dữ liệu không thành công');
-      }
     }
-  }, [loading, activePage, activePageSize, activeFilter, searchToken, setListResponse, setLoading]);
+  };
 
-  return { getProvinces };
+  return {
+    searchToken,
+    getProvinces,
+  };
 }
 
 export default useProvinceManageViewModel;
