@@ -37,7 +37,7 @@ function ManageTable<T extends BaseResponse>(props: ManageTableProps<T>) {
           transitionDuration={0}
         />
       </th>
-      {tableHeads.map((item) => <th key={String(item)}>{item}</th>)}
+      {tableHeads.map((item) => <th key={item}>{item}</th>)}
       <th style={{ width: 120 }}>Thao tác</th>
     </tr>
   );
