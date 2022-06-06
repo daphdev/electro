@@ -2,7 +2,7 @@ import { EntityPropertySchema, EntityPropertyType, SelectOption } from 'types';
 import { ListResponse } from 'utils/FetchUtils';
 
 class PageConfigs {
-  static properties: EntityPropertySchema = {
+  static properties = {
     id: {
       label: 'ID',
       type: EntityPropertyType.NUMBER,

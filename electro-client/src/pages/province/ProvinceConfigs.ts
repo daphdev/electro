@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { Configs, EntityPropertySchema, EntityPropertyType, TitleLink } from 'types';
+import { Configs, EntityPropertySpec, EntityPropertyType, TitleLink } from 'types';
 import ResourceURL from 'constants/ResourceURL';
 import MessageUtils from 'utils/MessageUtils';
 import PageConfigs from 'pages/PageConfigs';
@@ -27,7 +27,7 @@ class ProvinceConfigs extends Configs {
     },
   ];
 
-  static properties: EntityPropertySchema = {
+  private static _rawProperties = {
     ...PageConfigs.getProperties(true, true, true),
     name: {
       label: 'Tên tỉnh thành',
@@ -40,6 +40,10 @@ class ProvinceConfigs extends Configs {
       isShowInTable: true,
     },
   };
+
+  static properties = ProvinceConfigs._rawProperties as
+    Record<keyof typeof ProvinceConfigs._rawProperties
+      | keyof typeof PageConfigs.properties, EntityPropertySpec>;
 
   static initialCreateUpdateFormValues = {
     name: '',
