@@ -27,7 +27,7 @@ class ProvinceConfigs extends Configs {
     },
   ];
 
-  private static _rawProperties = {
+  protected static _rawProperties = {
     ...PageConfigs.getProperties(true, true, true),
     name: {
       label: 'Tên tỉnh thành',
