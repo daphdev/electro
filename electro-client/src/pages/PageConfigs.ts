@@ -1,20 +1,5 @@
-import { EntityPropertyNames, EntityPropertyType, SelectOption, TitleLink } from 'types';
+import { EntityPropertyNames, EntityPropertyType, SelectOption } from 'types';
 import { ListResponse } from 'utils/FetchUtils';
-import { FilterPropertyTypes } from 'utils/FilterUtils';
-
-export interface Configs {
-  managerPath: string;
-  resourceUrl: string;
-  createTitle: string;
-  updateTitle: string;
-  manageTitle: string;
-  manageTitleLinks: TitleLink[];
-  properties: EntityPropertyNames;
-  initialCreateUpdateFormValues: object;
-  createUpdateFormSchema: object;
-  initialPropertySelectList: SelectOption[];
-  initialFilterPropertyTypes: FilterPropertyTypes;
-}
 
 class PageConfigs {
   static properties: EntityPropertyNames = {

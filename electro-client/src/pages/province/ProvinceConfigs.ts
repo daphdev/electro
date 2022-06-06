@@ -1,10 +1,10 @@
 import { z } from 'zod';
-import { EntityPropertyNames, EntityPropertyType, TitleLink } from 'types';
+import { Configs, EntityPropertyNames, EntityPropertyType, TitleLink } from 'types';
 import ResourceURL from 'constants/ResourceURL';
 import MessageUtils from 'utils/MessageUtils';
 import PageConfigs from 'pages/PageConfigs';
 
-class ProvinceConfigs {
+class ProvinceConfigs extends Configs {
   static managerPath = 'address/province';
   static resourceUrl = ResourceURL.PROVINCE;
   static createTitle = 'Thêm tỉnh thành';
