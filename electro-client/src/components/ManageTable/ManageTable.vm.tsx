@@ -12,6 +12,7 @@ function useManageTableViewModel<T extends BaseResponse>({
   properties,
   resourceUrl,
   entityDetailsTableRowsFragment,
+  listResponse,
 }: ManageTableProps<T>) {
   const theme = useMantineTheme();
   const modals = useModals();
@@ -21,11 +22,11 @@ function useManageTableViewModel<T extends BaseResponse>({
   const {
     setLoading,
     selection, setSelection,
-    listResponse: rawListResponse,
+    // listResponse: rawListResponse,
     activePage, setActivePage,
   } = useAppStore();
 
-  const listResponse = rawListResponse as ListResponse<BaseResponse>;
+  // const listResponse = rawListResponse as ListResponse<BaseResponse>;
 
   const tableHeads = Object.values(properties)
     .flatMap((propertySpec) => !propertySpec.isShowInTable ? [] : propertySpec.label);

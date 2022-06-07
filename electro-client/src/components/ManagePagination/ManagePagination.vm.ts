@@ -1,13 +1,18 @@
 import useAppStore from 'stores/use-app-store';
 import PageConfigs from 'pages/PageConfigs';
+import { ManagePaginationProps } from 'components/ManagePagination/ManagePagination';
 
-function useManagePaginationViewModel() {
+function useManagePaginationViewModel({
+  listResponse,
+}: ManagePaginationProps) {
   const {
     setLoading,
     setSelection,
-    listResponse,
+    // listResponse,
     activePage, setActivePage,
     activePageSize, setActivePageSize,
+
+    setTriggerRefetchList,
   } = useAppStore();
 
   const pageSizeSelectList = PageConfigs.initialPageSizeSelectList.map((pageSize) =>
@@ -16,7 +21,9 @@ function useManagePaginationViewModel() {
 
   const handlePaginationButton = (page: number) => {
     if (page !== activePage) {
-      setLoading(true);
+      // setTriggerRefetchList(true);
+
+      // setLoading(true);
       setSelection([]);
       setActivePage(page);
     }
@@ -25,7 +32,7 @@ function useManagePaginationViewModel() {
   const handlePageSizeSelect = (size: string) => {
     const pageSize = Number(size);
     if (pageSize !== activePageSize) {
-      setLoading(true);
+      // setLoading(true);
       setSelection([]);
       setActivePage(1);
       setActivePageSize(pageSize);
@@ -33,7 +40,7 @@ function useManagePaginationViewModel() {
   };
 
   return {
-    listResponse,
+    // listResponse,
     activePage,
     activePageSize,
     pageSizeSelectList,

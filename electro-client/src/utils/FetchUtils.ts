@@ -13,7 +13,7 @@ export interface RequestParams {
 /**
  * ListResponse dùng để thể hiện đối tượng trả về sau lệnh getAll
  */
-export interface ListResponse<O> {
+export interface ListResponse<O = unknown> {
   content: O[];
   page: number;
   size: number;
@@ -117,7 +117,7 @@ class FetchUtils {
    * @param url
    * @param requestParams
    */
-  private static concatParams = (url: string, requestParams?: RequestParams) => {
+  static concatParams = (url: string, requestParams?: RequestParams) => {
     if (requestParams) {
       const filteredRequestParams = Object.fromEntries(Object.entries(requestParams)
         .filter(([, v]) => v != null && String(v).trim() !== ''));

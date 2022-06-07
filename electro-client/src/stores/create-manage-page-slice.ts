@@ -24,6 +24,8 @@ export interface ManagePageState {
   activeFilterPanel: boolean;
   setActiveFilterPanel: Dispatch<SetStateAction<boolean>>;
   getRequestParams: () => RequestParams;
+  triggerRefetchList: boolean;
+  setTriggerRefetchList: Dispatch<SetStateAction<boolean>>;
 }
 
 const initialManagePageState = {
@@ -36,6 +38,7 @@ const initialManagePageState = {
   selection: [],
   filters: [],
   activeFilterPanel: false,
+  triggerRefetchList: false,
 };
 
 const createManagePageSlice: SliceCreator<ManagePageState> = (set, get) => ({
@@ -56,6 +59,7 @@ const createManagePageSlice: SliceCreator<ManagePageState> = (set, get) => ({
     filter: FilterUtils.convertToFilterRSQL(get().activeFilter),
     search: get().searchToken,
   }),
+  setTriggerRefetchList: (value) => set((state) => extractValue(state, value, 'triggerRefetchList'), false, 'AppStore/triggerRefetchList'),
 });
 
 export default createManagePageSlice;

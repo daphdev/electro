@@ -13,12 +13,13 @@ function useSearchPanelViewModel() {
     searchToken, setSearchToken,
   } = useAppStore();
 
+  const [localActiveFilter, setLocalActiveFilter] = useState<Filter | null>(null);
   const [prevActiveFilter, setPrevActiveFilter] = useState<Filter | null>(null);
 
   const searchInputRef = useRef<HTMLInputElement | null>(null);
 
   const filterSelectList: SelectOption[] = filters.map(item => ({ value: item.id, label: item.name }));
-  const activeFilterId = activeFilter ? activeFilter.id : null;
+  const localActiveFilterId = localActiveFilter ? localActiveFilter.id : null;
 
   const handleSearchInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -27,7 +28,7 @@ function useSearchPanelViewModel() {
   };
 
   const handleFilterSelect = (filterIdValue: string | null) => {
-    setActiveFilter(prevState => {
+    setLocalActiveFilter(prevState => {
       setPrevActiveFilter(prevState);
       return filters.find(item => item.id === filterIdValue) ?? null;
     });
@@ -43,25 +44,26 @@ function useSearchPanelViewModel() {
     if (searchInputRef.current) {
       searchInputRef.current.value = '';
     }
-    if (activeFilter) {
-      setActiveFilter(null);
+    if (localActiveFilter) {
+      setLocalActiveFilter(null);
     }
   };
 
   const handleSearchButton = () => {
     const currentSearchToken = searchInputRef.current ? searchInputRef.current.value : '';
-    if (currentSearchToken !== searchToken || activeFilter !== prevActiveFilter) {
+    if (currentSearchToken !== searchToken || localActiveFilter !== prevActiveFilter) {
       setLoading(true);
       setActivePage(1);
+      setActiveFilter(localActiveFilter);
       setSearchToken(currentSearchToken);
-      setPrevActiveFilter(activeFilter);
+      setPrevActiveFilter(localActiveFilter);
     }
   };
 
   return {
     searchInputRef,
     filterSelectList,
-    activeFilterId,
+    localActiveFilterId,
     handleSearchInput,
     handleFilterSelect,
     handleAddFilterButton,

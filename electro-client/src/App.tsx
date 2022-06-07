@@ -12,6 +12,10 @@ import ProvinceManage, { ProvinceCreate, ProvinceUpdate } from 'pages/province';
 import { ModalsProvider } from '@mantine/modals';
 import ManagerPath from 'constants/ManagerPath';
 import { DistrictCreate } from 'pages/district';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+
+const queryClient = new QueryClient();
 
 function App() {
   const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
@@ -19,26 +23,29 @@ function App() {
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
   return (
-    <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-      <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-        <NotificationsProvider>
-          <ModalsProvider>
-            <Routes>
-              <Route path="/" element={<Client/>}/>
-              <Route path="/admin" element={<Admin/>}>
-                <Route index element={<AdminDashboard/>}/>
-                <Route path={ManagerPath.ADDRESS} element={<AddressManage/>}/>
-                <Route path={ManagerPath.PROVINCE} element={<ProvinceManage/>}/>
-                <Route path={ManagerPath.PROVINCE + '/create'} element={<ProvinceCreate/>}/>
-                <Route path={ManagerPath.PROVINCE + '/update/:id'} element={<ProvinceUpdate/>}/>
+    <QueryClientProvider client={queryClient}>
+      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+        <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+          <NotificationsProvider>
+            <ModalsProvider>
+              <Routes>
+                <Route path="/" element={<Client/>}/>
+                <Route path="/admin" element={<Admin/>}>
+                  <Route index element={<AdminDashboard/>}/>
+                  <Route path={ManagerPath.ADDRESS} element={<AddressManage/>}/>
+                  <Route path={ManagerPath.PROVINCE} element={<ProvinceManage/>}/>
+                  <Route path={ManagerPath.PROVINCE + '/create'} element={<ProvinceCreate/>}/>
+                  <Route path={ManagerPath.PROVINCE + '/update/:id'} element={<ProvinceUpdate/>}/>
 
-                <Route path={ManagerPath.DISTRICT + '/create'} element={<DistrictCreate/>}/>
-              </Route>
-            </Routes>
-          </ModalsProvider>
-        </NotificationsProvider>
-      </MantineProvider>
-    </ColorSchemeProvider>
+                  <Route path={ManagerPath.DISTRICT + '/create'} element={<DistrictCreate/>}/>
+                </Route>
+              </Routes>
+            </ModalsProvider>
+          </NotificationsProvider>
+        </MantineProvider>
+      </ColorSchemeProvider>
+      <ReactQueryDevtools initialIsOpen={false}/>
+    </QueryClientProvider>
   );
 }
 

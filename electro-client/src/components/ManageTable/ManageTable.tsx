@@ -6,20 +6,24 @@ import BaseResponse from 'models/BaseResponse';
 import { EntityPropertySchema } from 'types';
 import useManageTableStyles from 'components/ManageTable/ManageTable.styles';
 import useManageTableViewModel from 'components/ManageTable/ManageTable.vm';
+import { ListResponse } from 'utils/FetchUtils';
 
 export interface ManageTableProps<T> {
   properties: EntityPropertySchema;
   resourceUrl: string;
   showedPropertiesFragment: (entity: T) => React.ReactNode;
   entityDetailsTableRowsFragment: (entity: T) => React.ReactNode;
+  listResponse: ListResponse<T>;
 }
 
 function ManageTable<T extends BaseResponse>(props: ManageTableProps<T>) {
   const { classes, cx } = useManageTableStyles();
 
+  const listResponse = props.listResponse;
+
   const {
     selection,
-    listResponse,
+    // listResponse,
     tableHeads,
     handleToggleAllRowsCheckbox,
     handleToggleRowCheckbox,
