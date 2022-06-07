@@ -11,4 +11,4 @@ export interface EntityPropertySpec {
   isShowInTable?: boolean,
 }
 
-export type EntityPropertySchema = Record<string, EntityPropertySpec>;
+export type EntityPropertySchema<T = unknown> = Record<string | keyof T, EntityPropertySpec>;

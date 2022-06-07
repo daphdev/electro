@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { Configs, EntityPropertySpec, EntityPropertyType, TitleLink } from 'types';
+import { Configs, EntityPropertySchema, EntityPropertyType, TitleLink } from 'types';
 import ResourceURL from 'constants/ResourceURL';
 import MessageUtils from 'utils/MessageUtils';
 import PageConfigs from 'pages/PageConfigs';
@@ -42,8 +42,7 @@ class ProvinceConfigs extends Configs {
   };
 
   static properties = ProvinceConfigs._rawProperties as
-    Record<keyof typeof ProvinceConfigs._rawProperties
-      | keyof typeof PageConfigs.properties, EntityPropertySpec>;
+    EntityPropertySchema<typeof ProvinceConfigs._rawProperties & typeof PageConfigs.properties>;
 
   static initialCreateUpdateFormValues = {
     name: '',
