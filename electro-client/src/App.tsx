@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import 'dayjs/locale/vi';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
+import { ModalsProvider } from '@mantine/modals';
 import './App.css';
+import ManagerPath from 'constants/ManagerPath';
 import Client from './pages/Client';
 import Admin from './pages/Admin';
 import AdminDashboard from './pages/AdminDashboard';
 import AddressManage from 'pages/address/AddressManage';
 import ProvinceManage, { ProvinceCreate, ProvinceUpdate } from 'pages/province';
-import { ModalsProvider } from '@mantine/modals';
-import ManagerPath from 'constants/ManagerPath';
 import { DistrictCreate } from 'pages/district';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 
 const queryClient = new QueryClient();
 

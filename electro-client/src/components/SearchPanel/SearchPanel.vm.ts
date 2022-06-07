@@ -8,18 +8,16 @@ function useSearchPanelViewModel() {
     filters,
     activeFilter, setActiveFilter,
     activeFilterPanel, setActiveFilterPanel,
-    setLoading,
     setActivePage,
     searchToken, setSearchToken,
   } = useAppStore();
 
-  const [localActiveFilter, setLocalActiveFilter] = useState<Filter | null>(null);
   const [prevActiveFilter, setPrevActiveFilter] = useState<Filter | null>(null);
 
   const searchInputRef = useRef<HTMLInputElement | null>(null);
 
   const filterSelectList: SelectOption[] = filters.map(item => ({ value: item.id, label: item.name }));
-  const localActiveFilterId = localActiveFilter ? localActiveFilter.id : null;
+  const activeFilterId = activeFilter ? activeFilter.id : null;
 
   const handleSearchInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -28,7 +26,7 @@ function useSearchPanelViewModel() {
   };
 
   const handleFilterSelect = (filterIdValue: string | null) => {
-    setLocalActiveFilter(prevState => {
+    setActiveFilter(prevState => {
       setPrevActiveFilter(prevState);
       return filters.find(item => item.id === filterIdValue) ?? null;
     });
@@ -44,26 +42,26 @@ function useSearchPanelViewModel() {
     if (searchInputRef.current) {
       searchInputRef.current.value = '';
     }
-    if (localActiveFilter) {
-      setLocalActiveFilter(null);
+    if (activeFilter) {
+      setActiveFilter(null);
     }
+    setSearchToken('');
   };
 
   const handleSearchButton = () => {
     const currentSearchToken = searchInputRef.current ? searchInputRef.current.value : '';
-    if (currentSearchToken !== searchToken || localActiveFilter !== prevActiveFilter) {
-      setLoading(true);
+    if (currentSearchToken !== searchToken || activeFilter !== prevActiveFilter) {
       setActivePage(1);
-      setActiveFilter(localActiveFilter);
+      setActiveFilter(activeFilter);
       setSearchToken(currentSearchToken);
-      setPrevActiveFilter(localActiveFilter);
+      setPrevActiveFilter(activeFilter);
     }
   };
 
   return {
     searchInputRef,
     filterSelectList,
-    localActiveFilterId,
+    activeFilterId,
     handleSearchInput,
     handleFilterSelect,
     handleAddFilterButton,

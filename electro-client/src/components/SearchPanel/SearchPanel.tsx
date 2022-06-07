@@ -7,7 +7,7 @@ function SearchPanel() {
   const {
     searchInputRef,
     filterSelectList,
-    localActiveFilterId,
+    activeFilterId,
     handleSearchInput,
     handleFilterSelect,
     handleAddFilterButton,
@@ -31,7 +31,7 @@ function SearchPanel() {
             icon={<AdjustmentsHorizontal size={14}/>}
             clearable
             data={filterSelectList}
-            value={localActiveFilterId}
+            value={activeFilterId}
             onChange={handleFilterSelect}
           />
           <Tooltip label="Sửa bộ lọc" withArrow>

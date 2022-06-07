@@ -5,6 +5,7 @@ import NotifyUtils from 'utils/NotifyUtils';
 import useAppStore from 'stores/use-app-store';
 import useGenericService from 'services/use-generic-service';
 import { ManageHeaderButtonsProps } from 'components/ManageHeaderButtons/ManageHeaderButtons';
+import useListResponse from 'hooks/use-list-response';
 
 function useManageHeaderButtonsViewModel({
   resourceUrl,
@@ -16,10 +17,10 @@ function useManageHeaderButtonsViewModel({
 
   const {
     selection, setSelection,
-    listResponse,
     activePage, setActivePage,
-    setLoading,
   } = useAppStore();
+
+  const { listResponse } = useListResponse();
 
   const handleDeleteBatchEntitiesButton = () => {
     if (selection.length > 0) {
@@ -51,7 +52,6 @@ function useManageHeaderButtonsViewModel({
           setActivePage(activePage - 1 || 1);
         }
         setSelection([]);
-        setLoading(true);
       }
     }
   };

@@ -33,7 +33,7 @@ class PageConfigs {
     return properties;
   };
 
-  static initialListResponse: ListResponse<unknown> = {
+  static initialListResponse: ListResponse = {
     content: [],
     page: 1,
     size: 5,

@@ -2,31 +2,27 @@ import React from 'react';
 import { Text, useMantineTheme } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import useAppStore from 'stores/use-app-store';
-import { ListResponse } from 'utils/FetchUtils';
 import { EntityDetailsTable } from 'components/index';
 import BaseResponse from 'models/BaseResponse';
 import useGenericService from 'services/use-generic-service';
 import { ManageTableProps } from 'components/ManageTable/ManageTable';
+import useListResponse from 'hooks/use-list-response';
 
 function useManageTableViewModel<T extends BaseResponse>({
   properties,
   resourceUrl,
   entityDetailsTableRowsFragment,
-  listResponse,
 }: ManageTableProps<T>) {
   const theme = useMantineTheme();
   const modals = useModals();
 
   const service = useGenericService();
+  const { listResponse } = useListResponse<T>();
 
   const {
-    setLoading,
     selection, setSelection,
-    // listResponse: rawListResponse,
     activePage, setActivePage,
   } = useAppStore();
-
-  // const listResponse = rawListResponse as ListResponse<BaseResponse>;
 
   const tableHeads = Object.values(properties)
     .flatMap((propertySpec) => !propertySpec.isShowInTable ? [] : propertySpec.label);
@@ -81,13 +77,12 @@ function useManageTableViewModel<T extends BaseResponse>({
       if (listResponse.content.length === 1) {
         setActivePage(activePage - 1 || 1);
       }
-      setLoading(true);
     }
   };
 
   return {
-    selection,
     listResponse,
+    selection,
     tableHeads,
     handleToggleAllRowsCheckbox,
     handleToggleRowCheckbox,

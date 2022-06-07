@@ -8,6 +8,7 @@ import ManagerPath from 'constants/ManagerPath';
 class ProvinceConfigs extends Configs {
   static managerPath = ManagerPath.PROVINCE;
   static resourceUrl = ResourceURL.PROVINCE;
+  static resourceKey = 'provinces';
   static createTitle = 'Thêm tỉnh thành';
   static updateTitle = 'Cập nhật tỉnh thành';
   static manageTitle = 'Quản lý tỉnh thành';

@@ -9,6 +9,7 @@ import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 class DistrictConfigs extends Configs {
   static managerPath = ManagerPath.DISTRICT;
   static resourceUrl = ResourceURL.DISTRICT;
+  static resourceKey = 'districts';
   static createTitle = 'Thêm quận huyện';
   static updateTitle = 'Cập nhật quận huyện';
   static manageTitle = 'Quản lý quận huyện';

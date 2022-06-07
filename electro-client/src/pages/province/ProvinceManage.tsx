@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Highlight, Stack } from '@mantine/core';
 import {
   FilterPanel,
@@ -14,62 +14,12 @@ import DateUtils from 'utils/DateUtils';
 import { ProvinceResponse } from 'models/Province';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 import useProvinceManageViewModel from 'pages/province/ProvinceManage.vm';
-import { useQuery } from 'react-query';
-import FetchUtils, { ErrorMessage, ListResponse, RequestParams } from 'utils/FetchUtils';
-import PageConfigs from 'pages/PageConfigs';
 import useAppStore from 'stores/use-app-store';
-import FilterUtils from 'utils/FilterUtils';
-
 
 function ProvinceManage() {
-  const {
-    // searchToken,
-    getProvinces,
-  } = useProvinceManageViewModel();
-  console.log('re-render ProvinceManager' + Math.random());
-  // useEffect(() => {
-  //   void getProvinces();
-  // }, [getProvinces]);
+  useProvinceManageViewModel();
 
-  const {
-    triggerRefetchList,
-    setTriggerRefetchList,
-    getRequestParams,
-    activePage,
-    activePageSize,
-    searchToken,
-    activeFilter,
-    loading,
-    setLoading,
-  } = useAppStore();
-
-  async function getAll<O>(url: string, requestParams?: RequestParams): Promise<ListResponse<O>> {
-    const response = await fetch(url);
-    // setTriggerRefetchList(false);
-    return await response.json();
-  }
-
-  const requestParams = {
-    page: activePage,
-    size: activePageSize,
-    sort: FilterUtils.convertToSortRSQL(activeFilter),
-    filter: FilterUtils.convertToFilterRSQL(activeFilter),
-    search: searchToken,
-  };
-  // let loading = true;
-  const queryResult = useQuery<ListResponse<ProvinceResponse>, ErrorMessage>(
-    ['provinces', 'getAll', requestParams],
-    () => getAll<ProvinceResponse>(FetchUtils.concatParams(ProvinceConfigs.resourceUrl, requestParams)),
-    {
-      // onSettled: () => setTimeout(() => {
-      //   setLoading(false);
-      // }, 100),
-      keepPreviousData: true,
-    }
-  );
-
-
-  // setTimeout(() => (loading = queryResult.isLoading), 1200);
+  const { searchToken } = useAppStore();
 
   const showedPropertiesFragment = (entity: ProvinceResponse) => (
     <>
@@ -114,6 +64,8 @@ function ProvinceManage() {
     </>
   );
 
+  console.log('re-render ProvinceManager ' + Math.random());
+
   return (
     <Stack>
       <ManageHeader>
@@ -130,22 +82,16 @@ function ProvinceManage() {
 
       <FilterPanel/>
 
-      <ManageMain
-        isLoading={queryResult.isLoading}
-        listResponse={queryResult.data || PageConfigs.initialListResponse}
-      >
+      <ManageMain>
         <ManageTable
           properties={ProvinceConfigs.properties}
           resourceUrl={ProvinceConfigs.resourceUrl}
           showedPropertiesFragment={showedPropertiesFragment}
           entityDetailsTableRowsFragment={entityDetailsTableRowsFragment}
-          listResponse={queryResult.data || PageConfigs.initialListResponse as ListResponse<ProvinceResponse>}
         />
       </ManageMain>
 
-      <ManagePagination
-        listResponse={queryResult.data || PageConfigs.initialListResponse}
-      />
+      <ManagePagination/>
     </Stack>
   );
 }
