@@ -30,7 +30,7 @@ function useProvinceUpdateViewModel() {
     }
   };
 
-  const handleFormSubmit = form.onSubmit(formValues => {
+  const handleFormSubmit = form.onSubmit((formValues) => {
     setPrevFormValues(formValues);
     if (province && !isEquals(formValues, prevFormValues)) {
       void provinceService.update(ProvinceConfigs.resourceUrl, province.id, formValues);

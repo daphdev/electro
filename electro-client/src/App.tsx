@@ -11,6 +11,7 @@ import AddressManage from 'pages/address/AddressManage';
 import ProvinceManage, { ProvinceCreate, ProvinceUpdate } from 'pages/province';
 import { ModalsProvider } from '@mantine/modals';
 import ManagerPath from 'constants/ManagerPath';
+import { DistrictCreate } from 'pages/district';
 
 function App() {
   const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
@@ -30,6 +31,8 @@ function App() {
                 <Route path={ManagerPath.PROVINCE} element={<ProvinceManage/>}/>
                 <Route path={ManagerPath.PROVINCE + '/create'} element={<ProvinceCreate/>}/>
                 <Route path={ManagerPath.PROVINCE + '/update/:id'} element={<ProvinceUpdate/>}/>
+
+                <Route path={ManagerPath.DISTRICT + '/create'} element={<DistrictCreate/>}/>
               </Route>
             </Routes>
           </ModalsProvider>

@@ -11,7 +11,7 @@ function useProvinceCreateViewModel() {
     schema: zodResolver(ProvinceConfigs.createUpdateFormSchema),
   });
 
-  const handleFormSubmit = form.onSubmit(formValues => {
+  const handleFormSubmit = form.onSubmit((formValues) => {
     void provinceService.create(ProvinceConfigs.resourceUrl, formValues);
   });
 
