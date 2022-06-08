@@ -1,6 +1,8 @@
 
     drop table if exists prod.address;
 
+    drop table if exists prod.brand;
+
     drop table if exists prod.district;
 
     drop table if exists prod.province;
@@ -20,6 +22,19 @@
         line varchar(255) not null,
         district_id bigint not null,
         province_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.brand (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(35) not null,
+        description varchar(255) not null,
+        name varchar(255) not null,
+        status TINYINT not null,
         primary key (id)
     ) engine=MyISAM;
 

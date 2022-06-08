@@ -12,18 +12,23 @@ import com.electro.dto.authentication.RoleRequest;
 import com.electro.dto.authentication.RoleResponse;
 import com.electro.dto.authentication.UserRequest;
 import com.electro.dto.authentication.UserResponse;
+import com.electro.dto.product.BrandRequest;
+import com.electro.dto.product.BrandResponse;
 import com.electro.entity.address.Address;
 import com.electro.entity.address.District;
 import com.electro.entity.authentication.Role;
 import com.electro.entity.authentication.User;
+import com.electro.entity.product.Brand;
 import com.electro.mapper.address.AddressMapper;
 import com.electro.mapper.address.DistrictMapper;
 import com.electro.mapper.authentication.RoleMapper;
 import com.electro.mapper.authentication.UserMapper;
+import com.electro.mapper.product.BrandMapper;
 import com.electro.repository.address.AddressRepository;
 import com.electro.repository.address.DistrictRepository;
 import com.electro.repository.authentication.RoleRepository;
 import com.electro.repository.authentication.UserRepository;
+import com.electro.repository.product.BrandRepository;
 import com.electro.service.CrudService;
 import com.electro.service.GenericService;
 import com.electro.service.address.ProvinceService;
@@ -53,12 +58,14 @@ public class GenericMappingRegister {
     private GenericController<AddressRequest, AddressResponse> addressController;
     private GenericController<UserRequest, UserResponse> userController;
     private GenericController<RoleRequest, RoleResponse> roleController;
+    private GenericController<BrandRequest, BrandResponse> brandController;
 
     // Services
     private GenericService<District, DistrictRequest, DistrictResponse> districtService;
     private GenericService<Address, AddressRequest, AddressResponse> addressService;
     private GenericService<User, UserRequest, UserResponse> userService;
     private GenericService<Role, RoleRequest, RoleResponse> roleService;
+    private GenericService<Brand, BrandRequest, BrandResponse> brandService;
 
     @PostConstruct
     public void registerControllers() throws NoSuchMethodException {
@@ -96,6 +103,14 @@ public class GenericMappingRegister {
                 SearchFields.ROLE,
                 ResourceName.ROLE
         ), RoleRequest.class);
+
+        register("brands", brandController, brandService.init(
+                context.getBean(BrandRepository.class),
+                context.getBean(BrandRepository.class),
+                context.getBean(BrandMapper.class),
+                SearchFields.BRAND,
+                ResourceName.BRAND
+        ), BrandRequest.class);
 
     }
 
