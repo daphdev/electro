@@ -9,4 +9,5 @@ public interface SearchFields {
     List<String> USER = List.of("username", "fullname", "email", "phone",
             "address.province.name", "address.province.code", "address.district.name", "address.district.code");
     List<String> ROLE = List.of("code", "name");
+    List<String> BRAND = List.of("name", "code", "description");
 }

@@ -2,7 +2,7 @@ USE electro;
 
 -- DROP TABLES
 
-DROP TABLE IF EXISTS province, district, address, user, role, user_role;
+DROP TABLE IF EXISTS province, district, address, user, role, user_role, brand;
 
 -- CREATE TABLES
 
@@ -103,3 +103,17 @@ ALTER TABLE user_role
 
 ALTER TABLE user_role
     ADD CONSTRAINT FK_USER_ROLE_ON_ROLE FOREIGN KEY (role_id) REFERENCES role (id);
+
+CREATE TABLE brand
+(
+    id            BIGINT AUTO_INCREMENT NOT NULL,
+    created_at    datetime              NOT NULL,
+    updated_at    datetime              NOT NULL,
+    created_by    BIGINT                NULL,
+    updated_by    BIGINT                NULL,
+    name          VARCHAR(255)          NOT NULL,
+    code          VARCHAR(35)           NOT NULL,
+    `description` VARCHAR(255)          NOT NULL,
+    status        TINYINT               NOT NULL,
+    CONSTRAINT pk_brand PRIMARY KEY (id)
+);
