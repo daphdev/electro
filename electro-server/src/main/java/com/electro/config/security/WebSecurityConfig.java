@@ -1,6 +1,5 @@
 package com.electro.config.security;
 
-import com.electro.constant.SecurityConstants;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-              .antMatchers(SecurityConstants.ADMIN_API_PATHS.toArray(String[]::new)).hasAnyAuthority("ADMIN")
+                //  .antMatchers(SecurityConstants.ADMIN_API_PATHS.toArray(String[]::new)).hasAnyAuthority("ADMIN", "EMPLOYEE")
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwAuthTokenFilter(), UsernamePasswordAuthenticationFilter.class);

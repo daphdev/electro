@@ -2,7 +2,7 @@ USE electro;
 
 -- DROP TABLES
 
-DROP TABLE IF EXISTS province, district, address, user, role, user_role;
+DROP TABLE IF EXISTS province, district, office, address, user, role, user_role, department, job_level, job_title, job_type, employee;
 
 -- CREATE TABLES
 
@@ -103,3 +103,93 @@ ALTER TABLE user_role
 
 ALTER TABLE user_role
     ADD CONSTRAINT FK_USER_ROLE_ON_ROLE FOREIGN KEY (role_id) REFERENCES role (id);
+
+
+CREATE TABLE office (
+   id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   name VARCHAR(255) NOT NULL,
+   address_id BIGINT NOT NULL,
+   status INT NOT NULL,
+   CONSTRAINT pk_office PRIMARY KEY (id)
+);
+
+ALTER TABLE office ADD CONSTRAINT uc_office_address UNIQUE (address_id);
+
+ALTER TABLE office ADD CONSTRAINT FK_OFFICE_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES address (id);
+
+CREATE TABLE department (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   name VARCHAR(255) NOT NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT pk_department PRIMARY KEY (id)
+);
+
+CREATE TABLE job_level (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   name VARCHAR(255) NOT NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT pk_job_lever PRIMARY KEY (id)
+);
+
+CREATE TABLE job_title (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   name VARCHAR(255) NOT NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT pk_job_title PRIMARY KEY (id)
+);
+
+CREATE TABLE job_type (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   name VARCHAR(255) NOT NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT pk_job_type PRIMARY KEY (id)
+);
+
+CREATE TABLE employee (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   user_id BIGINT NOT NULL,
+   office_id BIGINT NOT NULL,
+   department_id BIGINT NOT NULL,
+   job_type_id BIGINT NOT NULL,
+   job_level_id BIGINT NOT NULL,
+   job_title_id BIGINT NOT NULL,
+   CONSTRAINT pk_employee PRIMARY KEY (id)
+);
+
+ALTER TABLE employee ADD CONSTRAINT uc_employee_user UNIQUE (user_id);
+
+ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_DEPARTMENT FOREIGN KEY (department_id) REFERENCES department (id);
+
+ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_JOBLEVEL FOREIGN KEY (job_level_id) REFERENCES job_level (id);
+
+ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_JOBTITLE FOREIGN KEY (job_title_id) REFERENCES job_title (id);
+
+ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_JOBTYPE FOREIGN KEY (job_type_id) REFERENCES job_type (id);
+
+ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_OFFICE FOREIGN KEY (office_id) REFERENCES office (id);
+
+ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);

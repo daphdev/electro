@@ -113,3 +113,44 @@ insert into user_role (user_id, role_id) values (1, 2);
 insert into user_role (user_id, role_id) values (2, 1);
 insert into user_role (user_id, role_id) values (3, 2);
 insert into user_role (user_id, role_id) values (4, 3);
+
+
+-- office table: 5 records
+insert into office (created_at, updated_at, name, address_id, status) values ('2021-09-21 07:19:24', '2021-08-26 17:40:14', 'Talane', 1, 3);
+insert into office (created_at, updated_at, name, address_id, status) values ('2021-07-09 08:07:20', '2021-10-23 08:36:12', 'Skyndu', 2, 1);
+insert into office (created_at, updated_at, name, address_id, status) values ('2021-06-29 10:10:15', '2021-09-21 22:05:41', 'Yadel', 3, 2);
+insert into office (created_at, updated_at, name, address_id, status) values ('2021-09-14 21:49:48', '2022-02-11 03:03:22', 'BlogXS', 4, 1);
+insert into office (created_at, updated_at, name, address_id, status) values ('2021-08-18 11:44:50', '2021-07-19 19:33:23', 'BlogXS', 5, 3);
+
+--department: 5 record
+insert into department (created_at, updated_at, name, status) values ('2022-06-02 00:50:54', '2021-09-28 15:01:05', 'Legal', 1);
+insert into department (created_at, updated_at, name, status) values ('2022-05-21 23:55:27', '2022-01-06 07:26:20', 'Training', 2);
+insert into department (created_at, updated_at, name, status) values ('2021-11-02 02:55:33', '2021-11-28 21:13:39', 'Human Resources', 3);
+insert into department (created_at, updated_at, name, status) values ('2021-08-07 23:28:26', '2021-11-20 15:29:28', 'Support', 3);
+insert into department (created_at, updated_at, name, status) values ('2021-10-21 01:50:28', '2021-08-01 01:58:22', 'Human Resources', 2);
+
+
+-- job lever: 2 record
+insert into job_type (created_at, updated_at, name, status) values ('2021-09-11 23:37:21', '2021-08-20 10:54:26', 'Full time', 1);
+insert into job_type (created_at, updated_at, name, status) values ('2021-12-08 16:13:12', '2022-03-26 19:37:23', 'part time', 1);
+
+-- job lever: 4 record
+insert into job_level (created_at, updated_at, name, status) values ('2021-09-11 23:37:21', '2021-08-20 10:54:26', 'Senior', 1);
+insert into job_level (created_at, updated_at, name, status) values ('2021-12-08 16:13:12', '2022-03-26 19:37:23', 'Master', 2);
+insert into job_level (created_at, updated_at, name, status) values ('2022-01-20 12:14:44', '2021-08-30 12:29:20', 'Intern', 3);
+insert into job_level (created_at, updated_at, name, status) values ('2022-02-08 19:12:42', '2021-09-16 21:32:18', 'Fresher', 1);
+
+--job title: 5 record
+insert into job_title (created_at, updated_at, name, status) values ('2021-09-11 23:37:21', '2021-08-20 10:54:26', 'Marketing Manager', 1);
+insert into job_title (created_at, updated_at, name, status) values ('2021-12-08 16:13:12', '2022-03-26 19:37:23', 'Librarian', 1);
+insert into job_title (created_at, updated_at, name, status) values ('2022-01-20 12:14:44', '2021-08-30 12:29:20', 'Chemical Engineer', 3);
+insert into job_title (created_at, updated_at, name, status) values ('2022-02-08 19:12:42', '2021-09-16 21:32:18', 'Paralegal', 1);
+insert into job_title (created_at, updated_at, name, status) values ('2022-03-29 23:30:36', '2022-01-15 11:44:18', 'Compensation Analyst', 3);
+
+--employee: 5 record
+insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2021-09-04 07:46:15', '2021-11-10 11:49:52', 1, 4, 5, 2, 3, 4);
+insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2022-02-14 23:37:02', '2021-11-28 11:18:18', 2, 5, 3, 1, 1, 3);
+insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2021-08-18 01:02:24', '2021-11-25 18:57:42', 3, 5, 4, 1, 4, 3);
+insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2022-03-28 13:25:39', '2022-03-14 23:44:50', 4, 1, 1, 1, 2, 5);
+insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2021-07-12 15:21:18', '2021-06-29 17:12:00', 5, 3, 3, 2, 1, 5);
+
