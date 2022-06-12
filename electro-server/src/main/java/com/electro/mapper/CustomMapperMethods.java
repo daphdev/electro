@@ -2,6 +2,9 @@ package com.electro.mapper;
 
 import com.electro.entity.address.District;
 import com.electro.entity.address.Province;
+import com.electro.entity.customer.CustomerGroup;
+import com.electro.entity.customer.CustomerResource;
+import com.electro.entity.customer.CustomerStatus;
 import com.electro.entity.employee.Department;
 import com.electro.entity.employee.JobLevel;
 import com.electro.entity.employee.JobTitle;
@@ -50,6 +53,21 @@ public interface CustomMapperMethods {
     @Named("mapJobTitleIdToJobTitle")
     default JobTitle mapJobTitleIdToJobTitle(Long id) {
         return (JobTitle) new JobTitle().setId(id);
+    }
+
+    @Named("mapCustomerGroupIdToCustomerGroup")
+    default CustomerGroup mapCustomerGroupIdToCustomerGroup(Long id) {
+        return (CustomerGroup) new CustomerGroup().setId(id);
+    }
+
+    @Named("mapCustomerResourceIdToCustomerResource")
+    default CustomerResource mapCustomerResourceIdToCustomerResource(Long id) {
+        return (CustomerResource) new CustomerResource().setId(id);
+    }
+
+    @Named("mapCustomerStatusIdToCustomerStatus")
+    default CustomerStatus mapCustomerStatusIdToCustomerStatus(Long id) {
+        return (CustomerStatus) new CustomerStatus().setId(id);
     }
 
 }

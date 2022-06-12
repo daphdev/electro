@@ -154,3 +154,28 @@ insert into employee (created_at, updated_at, user_id, office_id, department_id,
 insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2022-03-28 13:25:39', '2022-03-14 23:44:50', 4, 1, 1, 1, 2, 5);
 insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2021-07-12 15:21:18', '2021-06-29 17:12:00', 5, 3, 3, 2, 1, 5);
 
+--customer-group: 5 record
+insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2022-01-23 14:14:28', '2021-12-24 07:08:47', '52270-001', 'Facebook', 'Other and unspecified malignant neoplasms of lymphoid and histiocytic tissue, lymph nodes of multiple sites', 'Blue', 2);
+insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2022-03-29 19:59:34', '2021-08-26 07:05:04', '0904-6089', 'Google', 'Amphetamine and other psychostimulant dependence, unspecified', 'Pink', 3);
+insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2022-01-20 11:21:17', '2022-02-05 17:55:09', '65162-539', 'Instagram', 'Salmonella osteomyelitis', 'Red', 1);
+insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2021-10-20 17:12:24', '2022-02-28 19:00:00', '63304-551', 'Potential', 'Unspecified disorder of carbohydrate transport and metabolism', 'Orange', 2);
+insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2021-10-29 00:20:18', '2021-12-10 20:31:28', '76436-202', 'VIP', 'Common ventricle', 'Green', 3);
+
+--customer-resource: 5 record
+insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2021-08-26 01:48:14', '2021-10-19 04:58:04', '53499-5971', 'Facebook', 'Congenital mitral insufficiency', 'Blue', 1);
+insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2022-01-11 08:53:09', '2022-05-16 19:00:07', '76358-195', 'Google', 'Blisters, epidermal loss [second degree] of hand, unspecified site', 'Violet', 3);
+insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2022-04-24 06:46:43', '2021-10-21 19:59:04', '64616-082', 'Instagram', 'Sedative, hypnotic or anxiolytic dependence, continuous', 'Crimson', 2);
+insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2022-03-19 16:57:29', '2021-11-28 11:50:59', '11559-724', 'Normal', 'Unspecified failure in dosage', 'Green', 1);
+insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2022-02-13 10:28:33', '2022-05-11 03:36:22', '13537-455', 'AVD', 'Other testicular hypofunction', 'Orange', 1);
+
+--customer-status: 3 record
+insert into customer_status (created_at, updated_at, code, name, description, color, status) values ('2022-03-06 12:54:55', '2022-03-01 01:22:53', '55045-3602', 'Active', 'Miliary tuberculosis, unspecified, unspecified', 'Mauv', 3);
+insert into customer_status (created_at, updated_at, code, name, description, color, status) values ('2021-11-04 19:46:58', '2022-01-06 21:22:50', '60429-239', 'Disable', 'Screening for malignant neoplasms of skin', 'Aquamarine', 1);
+insert into customer_status (created_at, updated_at, code, name, description, color, status) values ('2022-03-27 06:15:17', '2021-09-29 17:49:37', '49281-395', 'None', 'Other lymphedema', 'Maroon', 2);
+
+--customer: 5 record
+insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 10, 4, 5, 3);
+insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-22 12:52:55', '2022-03-05 09:30:21', 6, 2, 4, 2);
+insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-16 21:25:31', '2021-09-13 07:36:37', 8, 5, 2, 2);
+insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-07-05 20:51:32', '2022-01-24 03:31:41', 7, 5, 4, 1);
+insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-03 13:27:34', '2022-01-17 05:56:02', 11, 5, 5, 1);

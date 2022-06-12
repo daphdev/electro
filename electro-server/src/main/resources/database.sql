@@ -1,6 +1,14 @@
 
     drop table if exists prod.address;
 
+    drop table if exists prod.customer;
+
+    drop table if exists prod.customer_group;
+
+    drop table if exists prod.customer_resource;
+
+    drop table if exists prod.customer_status;
+
     drop table if exists prod.department;
 
     drop table if exists prod.district;
@@ -32,6 +40,61 @@
         line varchar(255) not null,
         district_id bigint not null,
         province_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.customer (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        customer_group_id bigint not null,
+        customer_resource_id bigint not null,
+        customer_status_id bigint not null,
+        user_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.customer_group (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255) not null,
+        color varchar(255) not null,
+        description varchar(255) not null,
+        name varchar(255) not null,
+        status TINYINT not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.customer_resource (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255) not null,
+        color varchar(255) not null,
+        description varchar(255) not null,
+        name varchar(255) not null,
+        status TINYINT not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.customer_status (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255) not null,
+        color varchar(255) not null,
+        description varchar(255) not null,
+        name varchar(255) not null,
+        status TINYINT not null,
         primary key (id)
     ) engine=MyISAM;
 
@@ -165,6 +228,9 @@
         primary key (user_id, role_id)
     ) engine=MyISAM;
 
+    alter table prod.customer 
+       add constraint UK_j7ja2xvrxudhvssosd4nu1o92 unique (user_id);
+
     alter table prod.employee 
        add constraint UK_mpps3d3r9pdvyjx3iqixi96fi unique (user_id);
 
@@ -183,6 +249,26 @@
        add constraint FKf8x0jfwoo94op8u88og1ohdcn 
        foreign key (province_id) 
        references prod.province (id);
+
+    alter table prod.customer 
+       add constraint FK9ogndo8hll7edx5iloyu2uegy 
+       foreign key (customer_group_id) 
+       references prod.customer_group (id);
+
+    alter table prod.customer 
+       add constraint FKp8952xfwntg9alu1r6b4vhsuj 
+       foreign key (customer_resource_id) 
+       references prod.customer_resource (id);
+
+    alter table prod.customer 
+       add constraint FK2r41502dbwehta0hpw1h1iml0 
+       foreign key (customer_status_id) 
+       references prod.customer_status (id);
+
+    alter table prod.customer 
+       add constraint FKj8dlm21j202cadsbfkoem0s58 
+       foreign key (user_id) 
+       references prod.user (id);
 
     alter table prod.district 
        add constraint FK276utu38g5lgqeth6pwfm3rw2 

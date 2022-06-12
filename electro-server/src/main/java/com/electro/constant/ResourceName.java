@@ -12,4 +12,8 @@ public interface ResourceName {
     String JOB_LEVEL = "JobLever";
     String JOB_TYPE = "JobType";
     String EMPLOYEE = "Employee";
+    String CUSTOMER_GROUP = "CustomerGroup";
+    String CUSTOMER_RESOURCE = "CustomerResource";
+    String CUSTOMER_STATUS = "CustomerStatus";
+    String CUSTOMER = "Customer";
 }

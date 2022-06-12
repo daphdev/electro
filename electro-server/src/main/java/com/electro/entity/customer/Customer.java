@@ -1,8 +1,9 @@
-package com.electro.entity.employee;
+package com.electro.entity.customer;
 
 import com.electro.entity.BaseEntity;
 import com.electro.entity.authentication.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,41 +17,31 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Accessors(chain = true)
 @Entity
-@Table(name = "employee")
-public class Employee extends BaseEntity {
+@Table(name = "customer")
+public class Customer extends BaseEntity {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, unique = true )
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "office_id", nullable = false)
+    @JoinColumn(name = "customer_group_id", nullable = false)
     @JsonBackReference
-    private Office office;
+    private CustomerGroup customerGroup;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id", nullable = false)
+    @JoinColumn(name = "customer_resource_id", nullable = false)
     @JsonBackReference
-    private Department department;
+    private CustomerResource customerResource;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_type_id", nullable = false)
+    @JoinColumn(name = "customer_status_id", nullable = false)
     @JsonBackReference
-    private JobType jobType;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_level_id", nullable = false)
-    @JsonBackReference
-    private JobLevel jobLevel;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_title_id", nullable = false)
-    @JsonBackReference
-    private JobTitle jobTitle;
-
+    private CustomerStatus customerStatus;
 }

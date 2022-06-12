@@ -2,7 +2,9 @@ USE electro;
 
 -- DROP TABLES
 
-DROP TABLE IF EXISTS province, district, office, address, user, role, user_role, department, job_level, job_title, job_type, employee;
+DROP TABLE IF EXISTS province, district, office, address, user,
+        role, user_role, department, job_level, job_title, job_type, employee,
+        customer_group, customer_resource, customer_status, customer;
 
 -- CREATE TABLES
 
@@ -193,3 +195,68 @@ ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_JOBTYPE FOREIGN KEY (job_type
 ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_OFFICE FOREIGN KEY (office_id) REFERENCES office (id);
 
 ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE `customer_group` (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   code VARCHAR(255) NOT NULL,
+   name VARCHAR(255) NOT NULL,
+   `description` VARCHAR(255) NOT NULL,
+   color VARCHAR(255) NOT NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT `pk_customer-group` PRIMARY KEY (id)
+);
+
+CREATE TABLE `customer_resource` (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   code VARCHAR(255) NOT NULL,
+   name VARCHAR(255) NOT NULL,
+   `description` VARCHAR(255) NOT NULL,
+   color VARCHAR(255) NOT NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT `pk_customer-resource` PRIMARY KEY (id)
+);
+
+CREATE TABLE `customer_status` (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   code VARCHAR(255) NOT NULL,
+   name VARCHAR(255) NOT NULL,
+   `description` VARCHAR(255) NOT NULL,
+   color VARCHAR(255) NOT NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT `pk_customer-status` PRIMARY KEY (id)
+);
+
+CREATE TABLE customer (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   user_id BIGINT NOT NULL,
+   customer_group_id BIGINT NOT NULL,
+   customer_resource_id BIGINT NOT NULL,
+   customer_status_id BIGINT NOT NULL,
+   CONSTRAINT pk_customer PRIMARY KEY (id)
+);
+
+ALTER TABLE customer ADD CONSTRAINT uc_customer_user UNIQUE (user_id);
+
+ALTER TABLE customer ADD CONSTRAINT FK_CUSTOMER_ON_CUSTOMER_GROUP FOREIGN KEY (customer_group_id) REFERENCES customer_group (id);
+
+ALTER TABLE customer ADD CONSTRAINT FK_CUSTOMER_ON_CUSTOMER_RESOURCE FOREIGN KEY (customer_resource_id) REFERENCES customer_resource (id);
+
+ALTER TABLE customer ADD CONSTRAINT FK_CUSTOMER_ON_CUSTOMER_STATUS FOREIGN KEY (customer_status_id) REFERENCES customer_status (id);
+
+ALTER TABLE customer ADD CONSTRAINT FK_CUSTOMER_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);

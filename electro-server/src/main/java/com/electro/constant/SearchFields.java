@@ -17,4 +17,12 @@ public interface SearchFields {
     List<String> EMPLOYEE = List.of("user.username", "user.fullname", "user.email", "user.phone",
             "user.address.province.name", "user.address.province.code", "user.address.district.name",
             "user.address.district.code", "office.name");
+
+    List<String> CUSTOMER_GROUP = List.of("name","code","description", "color", "status");
+    List<String> CUSTOMER_RESOURCE = List.of("name","code","description", "color", "status");
+    List<String> CUSTOMER_STATUS = List.of("name","code","description", "color", "status");
+
+    List<String> CUSTOMER = List.of("user.id","user.username", "user.fullname", "user.email", "user.phone",
+            "user.address.province.name", "user.address.province.code", "user.address.district.name",
+            "user.address.district.code");
 }
