@@ -101,7 +101,7 @@ class FetchUtils {
   }
 
   /**
-   * Hàm deleteById xóa entity theo id nhận được và trả về response status (thành công: 204, thất bại: 500)
+   * Hàm deleteById xóa entity theo id nhận được
    * @param resourceUrl
    * @param entityId
    */
@@ -113,7 +113,7 @@ class FetchUtils {
   }
 
   /**
-   * Hàm deleteByIds xóa hàng loạt entity theo mảng id nhận được và trả về response status (204, 500)
+   * Hàm deleteByIds xóa hàng loạt entity theo mảng id nhận được
    * @param resourceUrl
    * @param entityIds
    */
