@@ -15,11 +15,13 @@ import { DistrictResponse } from 'models/District';
 import { ListResponse } from 'utils/FetchUtils';
 import PageConfigs from 'pages/PageConfigs';
 import DistrictConfigs from 'pages/district/DistrictConfigs';
+import useResetManagePageState from 'hooks/use-reset-manage-page-state';
 import useInitFilterPanelState from 'hooks/use-init-filter-panel-state';
 import useGetAllApi from 'hooks/use-get-all-api';
 import useAppStore from 'stores/use-app-store';
 
 function DistrictManage() {
+  useResetManagePageState();
   useInitFilterPanelState(DistrictConfigs.properties);
 
   const {
@@ -89,8 +91,6 @@ function DistrictManage() {
       </tr>
     </>
   );
-
-  console.log('re-render DistrictManager ' + Math.random());
 
   return (
     <Stack>

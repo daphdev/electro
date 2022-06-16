@@ -15,11 +15,13 @@ import { ProvinceResponse } from 'models/Province';
 import { ListResponse } from 'utils/FetchUtils';
 import PageConfigs from 'pages/PageConfigs';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
+import useResetManagePageState from 'hooks/use-reset-manage-page-state';
 import useInitFilterPanelState from 'hooks/use-init-filter-panel-state';
 import useGetAllApi from 'hooks/use-get-all-api';
 import useAppStore from 'stores/use-app-store';
 
 function ProvinceManage() {
+  useResetManagePageState();
   useInitFilterPanelState(ProvinceConfigs.properties);
 
   const {
@@ -71,8 +73,6 @@ function ProvinceManage() {
       </tr>
     </>
   );
-
-  console.log('re-render ProvinceManager ' + Math.random());
 
   return (
     <Stack>

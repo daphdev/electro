@@ -20,6 +20,7 @@ export interface ManagePageState {
   activeFilterPanel: boolean;
   setActiveFilterPanel: Dispatch<SetStateAction<boolean>>;
   getRequestParams: () => RequestParams;
+  reset: () => void;
 }
 
 const initialManagePageState = {
@@ -48,6 +49,7 @@ const createManagePageSlice: SliceCreator<ManagePageState> = (set, get) => ({
     filter: FilterUtils.convertToFilterRSQL(get().activeFilter),
     search: get().searchToken,
   }),
+  reset: () => set(initialManagePageState),
 });
 
 export default createManagePageSlice;

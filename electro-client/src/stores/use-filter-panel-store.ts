@@ -50,6 +50,7 @@ const useFilterPanelStore = create<FilterPanelState>()(
         );
 
         return {
+          ...initialFilterPanelState,
           initialPropertySelectList: initialPropertySelectList,
           initialFilterPropertyTypes: initialFilterPropertyTypes,
           sortPropertySelectList: initialPropertySelectList,
