@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button, Divider, Group, Paper, SimpleGrid, Stack, TextInput } from '@mantine/core';
 import { useParams } from 'react-router-dom';
 import { CreateUpdateTitle, DefaultPropertyPanel } from 'components';
@@ -9,14 +9,9 @@ function ProvinceUpdate() {
   const { id } = useParams();
   const {
     province,
-    getProvince,
     form,
     handleFormSubmit,
-  } = useProvinceUpdateViewModel();
-
-  useEffect(() => {
-    void getProvince(id);
-  }, [getProvince, id]);
+  } = useProvinceUpdateViewModel(Number(id));
 
   if (!province) {
     return null;
