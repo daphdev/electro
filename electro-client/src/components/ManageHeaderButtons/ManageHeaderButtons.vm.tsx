@@ -3,17 +3,17 @@ import { Text, useMantineTheme } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import NotifyUtils from 'utils/NotifyUtils';
 import useAppStore from 'stores/use-app-store';
-import useGenericService from 'services/use-generic-service';
 import { ManageHeaderButtonsProps } from 'components/ManageHeaderButtons/ManageHeaderButtons';
 import useListResponse from 'hooks/use-list-response';
+import useDeleteByIdsApi from 'hooks/use-delete-by-ids-api';
 
 function useManageHeaderButtonsViewModel({
   resourceUrl,
 }: ManageHeaderButtonsProps) {
-  const service = useGenericService();
-
   const theme = useMantineTheme();
   const modals = useModals();
+
+  const deleteByIdsApi = useDeleteByIdsApi(resourceUrl);
 
   const {
     selection, setSelection,
@@ -44,15 +44,16 @@ function useManageHeaderButtonsViewModel({
     }
   };
 
-  const handleConfirmedDeleteBatchEntitiesButton = async (entityIds: number[]) => {
+  const handleConfirmedDeleteBatchEntitiesButton = (entityIds: number[]) => {
     if (entityIds.length > 0) {
-      const { status } = await service.deleteByIds(resourceUrl, entityIds);
-      if (status === 204) {
-        if (listResponse.content.length === selection.length) {
-          setActivePage(activePage - 1 || 1);
-        }
-        setSelection([]);
-      }
+      deleteByIdsApi.mutate(entityIds, {
+        onSuccess: () => {
+          if (listResponse.content.length === selection.length) {
+            setActivePage(activePage - 1 || 1);
+          }
+          setSelection([]);
+        },
+      });
     }
   };
 

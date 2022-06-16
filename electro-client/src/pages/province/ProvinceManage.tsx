@@ -39,7 +39,7 @@ function ProvinceManage() {
     </>
   );
 
-  const entityDetailsTableRowsFragment = (entity: ProvinceResponse) => (
+  const entityDetailTableRowsFragment = (entity: ProvinceResponse) => (
     <>
       <tr>
         <td>{ProvinceConfigs.properties.id.label}</td>
@@ -86,8 +86,9 @@ function ProvinceManage() {
         <ManageTable
           properties={ProvinceConfigs.properties}
           resourceUrl={ProvinceConfigs.resourceUrl}
+          resourceKey={ProvinceConfigs.resourceKey}
           showedPropertiesFragment={showedPropertiesFragment}
-          entityDetailsTableRowsFragment={entityDetailsTableRowsFragment}
+          entityDetailTableRowsFragment={entityDetailTableRowsFragment}
         />
       </ManageMain>
 

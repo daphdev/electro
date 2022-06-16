@@ -10,7 +10,7 @@ function useProvinceUpdateViewModel(id: number) {
   const [province, setProvince] = useState<ProvinceResponse>();
   const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
 
-  const { data } = useGetByIdApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey, id);
+  const { data: provinceResponse } = useGetByIdApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey, id);
   const updateApi = useUpdateApi<ProvinceRequest, ProvinceResponse>(ProvinceConfigs.resourceUrl, id);
 
   const form = useForm({
@@ -18,11 +18,11 @@ function useProvinceUpdateViewModel(id: number) {
     schema: zodResolver(ProvinceConfigs.createUpdateFormSchema),
   });
 
-  if (!province && data) {
-    setProvince(data);
+  if (!province && provinceResponse) {
+    setProvince(provinceResponse);
     const formValues = {
-      name: data.name,
-      code: data.code,
+      name: provinceResponse.name,
+      code: provinceResponse.code,
     };
     form.setValues(formValues);
     setPrevFormValues(formValues);

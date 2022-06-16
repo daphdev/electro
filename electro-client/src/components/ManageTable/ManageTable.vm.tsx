@@ -2,22 +2,23 @@ import React from 'react';
 import { Text, useMantineTheme } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import useAppStore from 'stores/use-app-store';
-import { EntityDetailsTable } from 'components/index';
+import { EntityDetailTable } from 'components/index';
 import BaseResponse from 'models/BaseResponse';
-import useGenericService from 'services/use-generic-service';
 import { ManageTableProps } from 'components/ManageTable/ManageTable';
 import useListResponse from 'hooks/use-list-response';
+import useDeleteByIdApi from 'hooks/use-delete-by-id-api';
 
 function useManageTableViewModel<T extends BaseResponse>({
   properties,
   resourceUrl,
-  entityDetailsTableRowsFragment,
+  resourceKey,
+  entityDetailTableRowsFragment,
 }: ManageTableProps<T>) {
   const theme = useMantineTheme();
   const modals = useModals();
 
-  const service = useGenericService();
   const { listResponse } = useListResponse<T>();
+  const deleteByIdApi = useDeleteByIdApi(resourceUrl);
 
   const {
     selection, setSelection,
@@ -39,18 +40,22 @@ function useManageTableViewModel<T extends BaseResponse>({
     });
   };
 
-  const handleViewEntityButton = async (entityId: number) => {
-    const { data } = await service.getById(resourceUrl, entityId);
-    if (data) {
-      modals.openModal({
-        size: 'md',
-        overlayColor: theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2],
-        overlayOpacity: 0.55,
-        overlayBlur: 3,
-        title: <strong>Thông tin chi tiết</strong>,
-        children: <EntityDetailsTable entityDetailsTableRowsFragment={entityDetailsTableRowsFragment(data as T)}/>,
-      });
-    }
+  const handleViewEntityButton = (entityId: number) => {
+    modals.openModal({
+      size: 'md',
+      overlayColor: theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2],
+      overlayOpacity: 0.55,
+      overlayBlur: 3,
+      title: <strong>Thông tin chi tiết</strong>,
+      children: (
+        <EntityDetailTable
+          entityDetailTableRowsFragment={entityDetailTableRowsFragment}
+          resourceUrl={resourceUrl}
+          resourceKey={resourceKey}
+          entityId={entityId}
+        />
+      ),
+    });
   };
 
   const handleDeleteEntityButton = (entityId: number) => {
@@ -71,13 +76,14 @@ function useManageTableViewModel<T extends BaseResponse>({
     });
   };
 
-  const handleConfirmedDeleteEntityButton = async (entityId: number) => {
-    const { status } = await service.deleteById(resourceUrl, entityId);
-    if (status === 204) {
-      if (listResponse.content.length === 1) {
-        setActivePage(activePage - 1 || 1);
-      }
-    }
+  const handleConfirmedDeleteEntityButton = (entityId: number) => {
+    deleteByIdApi.mutate(entityId, {
+      onSuccess: () => {
+        if (listResponse.content.length === 1) {
+          setActivePage(activePage - 1 || 1);
+        }
+      },
+    });
   };
 
   return {

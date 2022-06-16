@@ -10,8 +10,9 @@ import useManageTableViewModel from 'components/ManageTable/ManageTable.vm';
 export interface ManageTableProps<T> {
   properties: EntityPropertySchema;
   resourceUrl: string;
+  resourceKey: string;
   showedPropertiesFragment: (entity: T) => React.ReactNode;
-  entityDetailsTableRowsFragment: (entity: T) => React.ReactNode;
+  entityDetailTableRowsFragment: (entity: T) => React.ReactNode;
 }
 
 function ManageTable<T extends BaseResponse>(props: ManageTableProps<T>) {

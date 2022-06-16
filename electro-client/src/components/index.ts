@@ -24,7 +24,7 @@ import FilterCriteriaRow from 'components/FilterCriteriaRow/FilterCriteriaRow';
 // ManageMain
 import ManageMain from 'components/ManageMain/ManageMain';
 import ManageTable from 'components/ManageTable/ManageTable';
-import EntityDetailsTable from 'components/EntityDetailsTable/EntityDetailsTable';
+import EntityDetailTable from 'components/EntityDetailTable/EntityDetailTable';
 
 // ManagePagination
 import ManagePagination from 'components/ManagePagination/ManagePagination';
@@ -51,7 +51,7 @@ export {
 
   ManageMain,
   ManageTable,
-  EntityDetailsTable,
+  EntityDetailTable,
 
   ManagePagination,
 };
