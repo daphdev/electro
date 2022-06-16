@@ -1,10 +1,10 @@
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 import { ProvinceResponse } from 'models/Province';
-import useGetAll from 'hooks/use-get-all';
+import useGetAllApi from 'hooks/use-get-all-api';
 import useInitFilterPanelState from 'hooks/use-init-filter-panel-state';
 
 function useProvinceManageViewModel() {
-  useGetAll<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey);
+  useGetAllApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey);
   useInitFilterPanelState(ProvinceConfigs.properties);
 
   return {};

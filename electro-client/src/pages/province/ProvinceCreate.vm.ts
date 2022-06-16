@@ -1,10 +1,10 @@
 import { useForm, zodResolver } from '@mantine/form';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
-import useGenericService from 'services/use-generic-service';
 import { ProvinceRequest, ProvinceResponse } from 'models/Province';
+import useCreateApi from 'hooks/use-create-api';
 
 function useProvinceCreateViewModel() {
-  const provinceService = useGenericService<ProvinceRequest, ProvinceResponse>();
+  const createApi = useCreateApi<ProvinceRequest, ProvinceResponse>(ProvinceConfigs.resourceUrl);
 
   const form = useForm({
     initialValues: ProvinceConfigs.initialCreateUpdateFormValues,
@@ -12,7 +12,7 @@ function useProvinceCreateViewModel() {
   });
 
   const handleFormSubmit = form.onSubmit((formValues) => {
-    void provinceService.create(ProvinceConfigs.resourceUrl, formValues);
+    createApi.mutate(formValues);
   });
 
   return {

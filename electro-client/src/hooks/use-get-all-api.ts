@@ -4,7 +4,7 @@ import FilterUtils from 'utils/FilterUtils';
 import FetchUtils, { ErrorMessage, ListResponse, RequestParams } from 'utils/FetchUtils';
 import NotifyUtils from 'utils/NotifyUtils';
 
-function useGetAll<O>(resourceUrl: string, resourceKey: string) {
+function useGetAllApi<O>(resourceUrl: string, resourceKey: string) {
   const {
     activePage,
     activePageSize,
@@ -21,7 +21,7 @@ function useGetAll<O>(resourceUrl: string, resourceKey: string) {
     search: searchToken,
   };
 
-  const queryKey = ['getAll', resourceKey, requestParams];
+  const queryKey = [resourceKey, 'getAll', requestParams];
 
   return useQuery<ListResponse<O>, ErrorMessage>(
     queryKey,
@@ -42,4 +42,4 @@ async function getAll<O>(resourceUrl: string, requestParams?: RequestParams): Pr
   return await response.json();
 }
 
-export default useGetAll;
+export default useGetAllApi;
