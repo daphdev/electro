@@ -11,19 +11,19 @@ import {
   SearchPanel
 } from 'components';
 import DateUtils from 'utils/DateUtils';
-import { ProvinceResponse } from 'models/Province';
-import ProvinceConfigs from 'pages/province/ProvinceConfigs';
+import { DistrictResponse } from 'models/District';
+import DistrictConfigs from 'pages/district/DistrictConfigs';
 import useGetAllApi from 'hooks/use-get-all-api';
 import useInitFilterPanelState from 'hooks/use-init-filter-panel-state';
 import useAppStore from 'stores/use-app-store';
 
-function ProvinceManage() {
-  useGetAllApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey);
-  useInitFilterPanelState(ProvinceConfigs.properties);
+function DistrictManage() {
+  useGetAllApi<DistrictResponse>(DistrictConfigs.resourceUrl, DistrictConfigs.resourceKey);
+  useInitFilterPanelState(DistrictConfigs.properties);
 
   const { searchToken } = useAppStore();
 
-  const showedPropertiesFragment = (entity: ProvinceResponse) => (
+  const showedPropertiesFragment = (entity: DistrictResponse) => (
     <>
       <td>{entity.id}</td>
       <td>{DateUtils.isoDateToString(entity.createdAt)}</td>
@@ -38,45 +38,63 @@ function ProvinceManage() {
           {entity.code}
         </Highlight>
       </td>
+      <td>
+        <Highlight highlight={searchToken} highlightColor="blue">
+          {entity.province.name}
+        </Highlight>
+      </td>
+      <td>
+        <Highlight highlight={searchToken} highlightColor="blue">
+          {entity.province.code}
+        </Highlight>
+      </td>
     </>
   );
 
-  const entityDetailTableRowsFragment = (entity: ProvinceResponse) => (
+  const entityDetailTableRowsFragment = (entity: DistrictResponse) => (
     <>
       <tr>
-        <td>{ProvinceConfigs.properties.id.label}</td>
+        <td>{DistrictConfigs.properties.id.label}</td>
         <td>{entity.id}</td>
       </tr>
       <tr>
-        <td>{ProvinceConfigs.properties.createdAt.label}</td>
+        <td>{DistrictConfigs.properties.createdAt.label}</td>
         <td>{DateUtils.isoDateToString(entity.createdAt)}</td>
       </tr>
       <tr>
-        <td>{ProvinceConfigs.properties.updatedAt.label}</td>
+        <td>{DistrictConfigs.properties.updatedAt.label}</td>
         <td>{DateUtils.isoDateToString(entity.updatedAt)}</td>
       </tr>
       <tr>
-        <td>{ProvinceConfigs.properties.name.label}</td>
+        <td>{DistrictConfigs.properties.name.label}</td>
         <td>{entity.name}</td>
       </tr>
       <tr>
-        <td>{ProvinceConfigs.properties.code.label}</td>
+        <td>{DistrictConfigs.properties.code.label}</td>
         <td>{entity.code}</td>
+      </tr>
+      <tr>
+        <td>{DistrictConfigs.properties['province.name'].label}</td>
+        <td>{entity.province.name}</td>
+      </tr>
+      <tr>
+        <td>{DistrictConfigs.properties['province.code'].label}</td>
+        <td>{entity.province.code}</td>
       </tr>
     </>
   );
 
-  console.log('re-render ProvinceManager ' + Math.random());
+  console.log('re-render DistrictManager ' + Math.random());
 
   return (
     <Stack>
       <ManageHeader>
         <ManageHeaderTitle
-          titleLinks={ProvinceConfigs.manageTitleLinks}
-          title={ProvinceConfigs.manageTitle}
+          titleLinks={DistrictConfigs.manageTitleLinks}
+          title={DistrictConfigs.manageTitle}
         />
         <ManageHeaderButtons
-          resourceUrl={ProvinceConfigs.resourceUrl}
+          resourceUrl={DistrictConfigs.resourceUrl}
         />
       </ManageHeader>
 
@@ -86,9 +104,9 @@ function ProvinceManage() {
 
       <ManageMain>
         <ManageTable
-          properties={ProvinceConfigs.properties}
-          resourceUrl={ProvinceConfigs.resourceUrl}
-          resourceKey={ProvinceConfigs.resourceKey}
+          properties={DistrictConfigs.properties}
+          resourceUrl={DistrictConfigs.resourceUrl}
+          resourceKey={DistrictConfigs.resourceKey}
           showedPropertiesFragment={showedPropertiesFragment}
           entityDetailTableRowsFragment={entityDetailTableRowsFragment}
         />
@@ -99,4 +117,4 @@ function ProvinceManage() {
   );
 }
 
-export default ProvinceManage;
+export default DistrictManage;

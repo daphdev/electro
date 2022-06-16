@@ -18,6 +18,11 @@ function useDistrictCreateViewModel() {
 
   const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>();
 
+  const form = useForm({
+    initialValues: DistrictConfigs.initialCreateUpdateFormValues,
+    schema: zodResolver(DistrictConfigs.createUpdateFormSchema),
+  });
+
   if (!provinceSelectList && provinceListResponse) {
     const selectList: SelectOption[] = provinceListResponse.content.map((item) => ({
       value: String(item.id),
@@ -25,11 +30,6 @@ function useDistrictCreateViewModel() {
     }));
     setProvinceSelectList(selectList);
   }
-
-  const form = useForm({
-    initialValues: DistrictConfigs.initialCreateUpdateFormValues,
-    schema: zodResolver(DistrictConfigs.createUpdateFormSchema),
-  });
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     const requestBody: DistrictRequest = {

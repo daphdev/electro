@@ -7,11 +7,11 @@ import useUpdateApi from 'hooks/use-update-api';
 import MiscUtils from 'utils/MiscUtils';
 
 function useProvinceUpdateViewModel(id: number) {
+  const updateApi = useUpdateApi<ProvinceRequest, ProvinceResponse>(ProvinceConfigs.resourceUrl, id);
+  const { data: provinceResponse } = useGetByIdApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey, id);
+
   const [province, setProvince] = useState<ProvinceResponse>();
   const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
-
-  const { data: provinceResponse } = useGetByIdApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey, id);
-  const updateApi = useUpdateApi<ProvinceRequest, ProvinceResponse>(ProvinceConfigs.resourceUrl, id);
 
   const form = useForm({
     initialValues: ProvinceConfigs.initialCreateUpdateFormValues,
