@@ -34,15 +34,19 @@ const useFilterPanelStore = create<FilterPanelState>()(
     (set) => ({
       ...initialFilterPanelState,
       initFilterPanelState: (properties) => set(() => {
-        const initialPropertySelectList: SelectOption[] = Object.keys(properties).map((property) => ({
-          value: property,
-          label: properties[property].label,
-        }));
+        const initialPropertySelectList: SelectOption[] = Object.keys(properties)
+          .filter((property) => !properties[property].isNotAddToSortCriteria && !properties[property].isNotAddToFilterCriteria)
+          .map((property) => ({
+            value: property,
+            label: properties[property].label,
+          }));
 
         const initialFilterPropertyTypes: FilterPropertyTypes = Object.assign({},
-          ...Object.keys(properties).map((property) => ({
-            [property]: properties[property].type,
-          }))
+          ...Object.keys(properties)
+            .filter((property) => !properties[property].isNotAddToFilterCriteria)
+            .map((property) => ({
+              [property]: properties[property].type,
+            }))
         );
 
         return {

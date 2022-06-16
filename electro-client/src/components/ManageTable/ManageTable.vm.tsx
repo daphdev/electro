@@ -25,7 +25,7 @@ function useManageTableViewModel<T extends BaseResponse>({
   } = useAppStore();
 
   const tableHeads = Object.values(properties)
-    .flatMap((propertySpec) => !propertySpec.isShowInTable ? [] : propertySpec.label);
+    .flatMap((propertySpec) => propertySpec.isShowInTable ? propertySpec.label : []);
 
   const handleToggleAllRowsCheckbox = () => {
     setSelection((current) => {

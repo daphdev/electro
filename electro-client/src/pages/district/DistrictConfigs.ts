@@ -41,6 +41,8 @@ class DistrictConfigs extends Configs {
     provinceId: {
       label: 'Tỉnh thành',
       type: EntityPropertyType.NUMBER,
+      isNotAddToSortCriteria: true,
+      isNotAddToFilterCriteria: true,
     },
   };
 
