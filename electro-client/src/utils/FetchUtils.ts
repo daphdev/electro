@@ -35,31 +35,37 @@ export interface ErrorMessage {
 class FetchUtils {
   /**
    * Hàm getAll dùng để lấy danh sách tất cả đối tượng (có thể theo một số tiêu chí, cài đặt trong requestParams)
-   * @param url
+   * @param resourceUrl
    * @param requestParams
    */
-  static async getAll<O>(url: string, requestParams?: RequestParams): Promise<[number, ListResponse<O> | ErrorMessage]> {
-    const response = await fetch(this.concatParams(url, requestParams));
-    return [response.status, await response.json()];
+  static async getAll<O>(resourceUrl: string, requestParams?: RequestParams): Promise<ListResponse<O>> {
+    const response = await fetch(FetchUtils.concatParams(resourceUrl, requestParams));
+    if (!response.ok) {
+      throw await response.json();
+    }
+    return await response.json();
   }
 
   /**
    * Hàm getById dùng để lấy entity có id cho trước
-   * @param url
+   * @param resourceUrl
    * @param entityId
    */
-  static async getById<O>(url: string, entityId: number): Promise<[number, O | ErrorMessage]> {
-    const response = await fetch(url + '/' + entityId);
-    return [response.status, await response.json()];
+  static async getById<O>(resourceUrl: string, entityId: number): Promise<O> {
+    const response = await fetch(resourceUrl + '/' + entityId);
+    if (!response.ok) {
+      throw await response.json();
+    }
+    return await response.json();
   }
 
   /**
    * Hàm create dùng để tạo entity từ requestBody
-   * @param url
+   * @param resourceUrl
    * @param requestBody
    */
-  static async create<I, O>(url: string, requestBody: I): Promise<[number, O | ErrorMessage]> {
-    const response = await fetch(url, {
+  static async create<I, O>(resourceUrl: string, requestBody: I): Promise<O> {
+    const response = await fetch(resourceUrl, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -67,17 +73,20 @@ class FetchUtils {
       },
       body: JSON.stringify(requestBody),
     });
-    return [response.status, await response.json()];
+    if (!response.ok) {
+      throw await response.json();
+    }
+    return await response.json();
   }
 
   /**
    * Hàm update dùng để cập nhật entity theo id và requestBody nhận được
-   * @param url
+   * @param resourceUrl
    * @param entityId
    * @param requestBody
    */
-  static async update<I, O>(url: string, entityId: number, requestBody: I): Promise<[number, O | ErrorMessage]> {
-    const response = await fetch(url + '/' + entityId, {
+  static async update<I, O>(resourceUrl: string, entityId: number, requestBody: I): Promise<O> {
+    const response = await fetch(resourceUrl + '/' + entityId, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -85,31 +94,38 @@ class FetchUtils {
       },
       body: JSON.stringify(requestBody),
     });
-    return [response.status, await response.json()];
+    if (!response.ok) {
+      throw await response.json();
+    }
+    return await response.json();
   }
 
   /**
    * Hàm deleteById xóa entity theo id nhận được và trả về response status (thành công: 204, thất bại: 500)
-   * @param url
+   * @param resourceUrl
    * @param entityId
    */
-  static async deleteById(url: string, entityId: number) {
-    const response = await fetch(url + '/' + entityId, { method: 'DELETE' });
-    return response.status;
+  static async deleteById(resourceUrl: string, entityId: number) {
+    const response = await fetch(resourceUrl + '/' + entityId, { method: 'DELETE' });
+    if (!response.ok) {
+      throw await response.json();
+    }
   }
 
   /**
    * Hàm deleteByIds xóa hàng loạt entity theo mảng id nhận được và trả về response status (204, 500)
-   * @param url
+   * @param resourceUrl
    * @param entityIds
    */
-  static async deleteByIds(url: string, entityIds: number[]) {
-    const response = await fetch(url, {
+  static async deleteByIds(resourceUrl: string, entityIds: number[]) {
+    const response = await fetch(resourceUrl, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(entityIds),
     });
-    return response.status;
+    if (!response.ok) {
+      throw await response.json();
+    }
   }
 
   /**
@@ -117,7 +133,7 @@ class FetchUtils {
    * @param url
    * @param requestParams
    */
-  static concatParams = (url: string, requestParams?: RequestParams) => {
+  private static concatParams = (url: string, requestParams?: RequestParams) => {
     if (requestParams) {
       const filteredRequestParams = Object.fromEntries(Object.entries(requestParams)
         .filter(([, v]) => v != null && String(v).trim() !== ''));

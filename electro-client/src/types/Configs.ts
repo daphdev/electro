@@ -11,7 +11,6 @@ export abstract class Configs {
   static manageTitleLinks: TitleLink[];
   protected static _rawProperties: EntityPropertySchema;
   static properties: EntityPropertySchema;
-  protected static additionalProperties?: EntityPropertySchema;
   static initialCreateUpdateFormValues: object;
   static createUpdateFormSchema: object;
 }

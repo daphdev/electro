@@ -38,17 +38,14 @@ class DistrictConfigs extends Configs {
       type: EntityPropertyType.STRING,
       isShowInTable: true,
     },
-  };
-
-  static properties = DistrictConfigs._rawProperties as
-    EntityPropertySchema<typeof DistrictConfigs._rawProperties & typeof PageConfigs.properties>;
-
-  static additionalProperties = {
     provinceId: {
       label: 'Tỉnh thành',
       type: EntityPropertyType.NUMBER,
     },
   };
+
+  static properties = DistrictConfigs._rawProperties as
+    EntityPropertySchema<typeof DistrictConfigs._rawProperties & typeof PageConfigs.properties>;
 
   static initialCreateUpdateFormValues = {
     name: '',

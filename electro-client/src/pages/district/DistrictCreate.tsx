@@ -40,7 +40,7 @@ function DistrictCreate() {
               />
               <Select
                 required
-                label={DistrictConfigs.additionalProperties.provinceId.label}
+                label={DistrictConfigs.properties.provinceId.label}
                 placeholder="--"
                 clearable
                 searchable

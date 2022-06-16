@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { ErrorMessage } from 'utils/FetchUtils';
+import FetchUtils, { ErrorMessage } from 'utils/FetchUtils';
 import NotifyUtils from 'utils/NotifyUtils';
 import useAppStore from 'stores/use-app-store';
 
@@ -8,7 +8,7 @@ function useDeleteByIdApi(resourceUrl: string) {
   const { queryKey } = useAppStore();
 
   return useMutation<void, ErrorMessage, number>(
-    (entityId) => deleteById(resourceUrl, entityId),
+    (entityId) => FetchUtils.deleteById(resourceUrl, entityId),
     {
       onSuccess: () => {
         NotifyUtils.simpleSuccess('Xóa thành công');
@@ -16,13 +16,6 @@ function useDeleteByIdApi(resourceUrl: string) {
       },
       onError: () => NotifyUtils.simpleFailed('Xóa không thành công'),
     });
-}
-
-async function deleteById(resourceUrl: string, entityId: number) {
-  const response = await fetch(resourceUrl + '/' + entityId, { method: 'DELETE' });
-  if (!response.ok) {
-    throw await response.json();
-  }
 }
 
 export default useDeleteByIdApi;

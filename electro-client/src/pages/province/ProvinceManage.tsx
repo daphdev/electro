@@ -13,11 +13,13 @@ import {
 import DateUtils from 'utils/DateUtils';
 import { ProvinceResponse } from 'models/Province';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
-import useProvinceManageViewModel from 'pages/province/ProvinceManage.vm';
 import useAppStore from 'stores/use-app-store';
+import useGetAllApi from 'hooks/use-get-all-api';
+import useInitFilterPanelState from 'hooks/use-init-filter-panel-state';
 
 function ProvinceManage() {
-  useProvinceManageViewModel();
+  useGetAllApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey);
+  useInitFilterPanelState(ProvinceConfigs.properties);
 
   const { searchToken } = useAppStore();
 
