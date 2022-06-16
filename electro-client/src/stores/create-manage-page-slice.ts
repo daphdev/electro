@@ -20,8 +20,6 @@ export interface ManagePageState {
   activeFilterPanel: boolean;
   setActiveFilterPanel: Dispatch<SetStateAction<boolean>>;
   getRequestParams: () => RequestParams;
-  queryKey: unknown[];
-  setQueryKey: Dispatch<SetStateAction<unknown[]>>;
 }
 
 const initialManagePageState = {
@@ -32,7 +30,6 @@ const initialManagePageState = {
   selection: [],
   filters: [],
   activeFilterPanel: false,
-  queryKey: [],
 };
 
 const createManagePageSlice: SliceCreator<ManagePageState> = (set, get) => ({
@@ -51,7 +48,6 @@ const createManagePageSlice: SliceCreator<ManagePageState> = (set, get) => ({
     filter: FilterUtils.convertToFilterRSQL(get().activeFilter),
     search: get().searchToken,
   }),
-  setQueryKey: (value) => set((state) => extractValue(state, value, 'queryKey'), false, 'AppStore/queryKey'),
 });
 
 export default createManagePageSlice;

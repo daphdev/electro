@@ -12,14 +12,20 @@ import {
 } from 'components';
 import DateUtils from 'utils/DateUtils';
 import { DistrictResponse } from 'models/District';
+import { ListResponse } from 'utils/FetchUtils';
+import PageConfigs from 'pages/PageConfigs';
 import DistrictConfigs from 'pages/district/DistrictConfigs';
-import useGetAllApi from 'hooks/use-get-all-api';
 import useInitFilterPanelState from 'hooks/use-init-filter-panel-state';
+import useGetAllApi from 'hooks/use-get-all-api';
 import useAppStore from 'stores/use-app-store';
 
 function DistrictManage() {
-  useGetAllApi<DistrictResponse>(DistrictConfigs.resourceUrl, DistrictConfigs.resourceKey);
   useInitFilterPanelState(DistrictConfigs.properties);
+
+  const {
+    isLoading,
+    data: listResponse = PageConfigs.initialListResponse as ListResponse<DistrictResponse>,
+  } = useGetAllApi<DistrictResponse>(DistrictConfigs.resourceUrl, DistrictConfigs.resourceKey);
 
   const { searchToken } = useAppStore();
 
@@ -94,7 +100,9 @@ function DistrictManage() {
           title={DistrictConfigs.manageTitle}
         />
         <ManageHeaderButtons
+          listResponse={listResponse}
           resourceUrl={DistrictConfigs.resourceUrl}
+          resourceKey={DistrictConfigs.resourceKey}
         />
       </ManageHeader>
 
@@ -102,8 +110,12 @@ function DistrictManage() {
 
       <FilterPanel/>
 
-      <ManageMain>
+      <ManageMain
+        listResponse={listResponse}
+        isLoading={isLoading}
+      >
         <ManageTable
+          listResponse={listResponse}
           properties={DistrictConfigs.properties}
           resourceUrl={DistrictConfigs.resourceUrl}
           resourceKey={DistrictConfigs.resourceKey}
@@ -112,7 +124,7 @@ function DistrictManage() {
         />
       </ManageMain>
 
-      <ManagePagination/>
+      <ManagePagination listResponse={listResponse}/>
     </Stack>
   );
 }

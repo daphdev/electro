@@ -10,7 +10,6 @@ function useGetAllApi<O>(resourceUrl: string, resourceKey: string, requestParams
     activePageSize,
     activeFilter,
     searchToken,
-    setQueryKey,
   } = useAppStore();
 
   if (!requestParams) {
@@ -30,7 +29,6 @@ function useGetAllApi<O>(resourceUrl: string, resourceKey: string, requestParams
     () => FetchUtils.getAll<O>(resourceUrl, requestParams),
     {
       keepPreviousData: true,
-      onSuccess: () => setQueryKey(queryKey),
       onError: (error) => NotifyUtils.simpleFailed(`Lỗi ${error.statusCode || 404}: Lấy dữ liệu không thành công`),
     }
   );

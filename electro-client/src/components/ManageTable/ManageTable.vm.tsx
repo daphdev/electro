@@ -5,10 +5,10 @@ import useAppStore from 'stores/use-app-store';
 import { EntityDetailTable } from 'components/index';
 import BaseResponse from 'models/BaseResponse';
 import { ManageTableProps } from 'components/ManageTable/ManageTable';
-import useListResponse from 'hooks/use-list-response';
 import useDeleteByIdApi from 'hooks/use-delete-by-id-api';
 
 function useManageTableViewModel<T extends BaseResponse>({
+  listResponse,
   properties,
   resourceUrl,
   resourceKey,
@@ -17,8 +17,7 @@ function useManageTableViewModel<T extends BaseResponse>({
   const theme = useMantineTheme();
   const modals = useModals();
 
-  const { listResponse } = useListResponse<T>();
-  const deleteByIdApi = useDeleteByIdApi(resourceUrl);
+  const deleteByIdApi = useDeleteByIdApi(resourceUrl, resourceKey);
 
   const {
     selection, setSelection,

@@ -4,23 +4,22 @@ import { useModals } from '@mantine/modals';
 import NotifyUtils from 'utils/NotifyUtils';
 import useAppStore from 'stores/use-app-store';
 import { ManageHeaderButtonsProps } from 'components/ManageHeaderButtons/ManageHeaderButtons';
-import useListResponse from 'hooks/use-list-response';
 import useDeleteByIdsApi from 'hooks/use-delete-by-ids-api';
 
 function useManageHeaderButtonsViewModel({
+  listResponse,
   resourceUrl,
+  resourceKey,
 }: ManageHeaderButtonsProps) {
   const theme = useMantineTheme();
   const modals = useModals();
 
-  const deleteByIdsApi = useDeleteByIdsApi(resourceUrl);
+  const deleteByIdsApi = useDeleteByIdsApi(resourceUrl, resourceKey);
 
   const {
     selection, setSelection,
     activePage, setActivePage,
   } = useAppStore();
-
-  const { listResponse } = useListResponse();
 
   const handleDeleteBatchEntitiesButton = () => {
     if (selection.length > 0) {

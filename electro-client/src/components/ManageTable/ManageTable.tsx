@@ -4,10 +4,12 @@ import { ActionIcon, Checkbox, Group, Table } from '@mantine/core';
 import { Edit, Eye, Trash } from 'tabler-icons-react';
 import BaseResponse from 'models/BaseResponse';
 import { EntityPropertySchema } from 'types';
+import { ListResponse } from 'utils/FetchUtils';
 import useManageTableStyles from 'components/ManageTable/ManageTable.styles';
 import useManageTableViewModel from 'components/ManageTable/ManageTable.vm';
 
 export interface ManageTableProps<T> {
+  listResponse: ListResponse<T>;
   properties: EntityPropertySchema;
   resourceUrl: string;
   resourceKey: string;

@@ -3,6 +3,9 @@ import { useQueryClient } from 'react-query';
 import { ErrorMessage, ListResponse } from 'utils/FetchUtils';
 import PageConfigs from 'pages/PageConfigs';
 
+/**
+ * @deprecated
+ */
 function useListResponse<O>() {
   const { queryKey } = useAppStore();
 

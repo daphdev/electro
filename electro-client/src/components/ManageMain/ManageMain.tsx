@@ -1,16 +1,18 @@
 import React from 'react';
 import { Center, LoadingOverlay, Paper, Text } from '@mantine/core';
-import useListResponse from 'hooks/use-list-response';
+import { ListResponse } from 'utils/FetchUtils';
 
 interface ManageMainProps {
+  listResponse: ListResponse;
+  isLoading: boolean;
   children: React.ReactNode;
 }
 
 function ManageMain({
+  listResponse,
+  isLoading,
   children,
 }: ManageMainProps) {
-  const { listResponse, isLoading } = useListResponse();
-
   let manageMainInnerFragment = <>{children}</>;
 
   if (listResponse.totalElements === 0) {

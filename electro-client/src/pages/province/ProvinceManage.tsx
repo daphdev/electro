@@ -12,14 +12,20 @@ import {
 } from 'components';
 import DateUtils from 'utils/DateUtils';
 import { ProvinceResponse } from 'models/Province';
+import { ListResponse } from 'utils/FetchUtils';
+import PageConfigs from 'pages/PageConfigs';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
-import useGetAllApi from 'hooks/use-get-all-api';
 import useInitFilterPanelState from 'hooks/use-init-filter-panel-state';
+import useGetAllApi from 'hooks/use-get-all-api';
 import useAppStore from 'stores/use-app-store';
 
 function ProvinceManage() {
-  useGetAllApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey);
   useInitFilterPanelState(ProvinceConfigs.properties);
+
+  const {
+    isLoading,
+    data: listResponse = PageConfigs.initialListResponse as ListResponse<ProvinceResponse>,
+  } = useGetAllApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey);
 
   const { searchToken } = useAppStore();
 
@@ -76,7 +82,9 @@ function ProvinceManage() {
           title={ProvinceConfigs.manageTitle}
         />
         <ManageHeaderButtons
+          listResponse={listResponse}
           resourceUrl={ProvinceConfigs.resourceUrl}
+          resourceKey={ProvinceConfigs.resourceKey}
         />
       </ManageHeader>
 
@@ -84,8 +92,12 @@ function ProvinceManage() {
 
       <FilterPanel/>
 
-      <ManageMain>
+      <ManageMain
+        listResponse={listResponse}
+        isLoading={isLoading}
+      >
         <ManageTable
+          listResponse={listResponse}
           properties={ProvinceConfigs.properties}
           resourceUrl={ProvinceConfigs.resourceUrl}
           resourceKey={ProvinceConfigs.resourceKey}
@@ -94,7 +106,7 @@ function ProvinceManage() {
         />
       </ManageMain>
 
-      <ManagePagination/>
+      <ManagePagination listResponse={listResponse}/>
     </Stack>
   );
 }

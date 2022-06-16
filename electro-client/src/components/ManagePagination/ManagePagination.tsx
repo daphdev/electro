@@ -2,17 +2,21 @@ import React from 'react';
 import { Group, Pagination, Select, Text } from '@mantine/core';
 import useManagePaginationViewModel from 'components/ManagePagination/ManagePagination.vm';
 import PageConfigs from 'pages/PageConfigs';
-import useListResponse from 'hooks/use-list-response';
+import { ListResponse } from 'utils/FetchUtils';
 
-function ManagePagination() {
+interface ManagePaginationProps {
+  listResponse: ListResponse;
+}
+
+function ManagePagination({
+  listResponse,
+}: ManagePaginationProps) {
   const {
     activePage,
     activePageSize,
     handlePaginationButton,
     handlePageSizeSelect,
   } = useManagePaginationViewModel();
-
-  const { listResponse } = useListResponse();
 
   const pageSizeSelectList = PageConfigs.initialPageSizeSelectList.map((pageSize) =>
     (Number(pageSize.value) > listResponse.totalElements) ? { ...pageSize, disabled: true } : pageSize
