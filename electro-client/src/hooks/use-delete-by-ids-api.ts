@@ -13,7 +13,8 @@ function useDeleteByIdsApi(resourceUrl: string, resourceKey: string) {
         void queryClient.invalidateQueries([resourceKey, 'getAll']);
       },
       onError: () => NotifyUtils.simpleFailed('Xóa không thành công'),
-    });
+    }
+  );
 }
 
 export default useDeleteByIdsApi;

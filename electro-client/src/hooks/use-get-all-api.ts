@@ -29,7 +29,7 @@ function useGetAllApi<O>(resourceUrl: string, resourceKey: string, requestParams
     () => FetchUtils.getAll<O>(resourceUrl, requestParams),
     {
       keepPreviousData: true,
-      onError: (error) => NotifyUtils.simpleFailed(`Lỗi ${error.statusCode || 404}: Lấy dữ liệu không thành công`),
+      onError: (error) => NotifyUtils.simpleFailed(`Lỗi ${error.statusCode || 'chưa biết'}: Lấy dữ liệu không thành công`),
     }
   );
 }

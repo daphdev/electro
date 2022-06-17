@@ -8,7 +8,8 @@ function useCreateApi<I, O>(resourceUrl: string) {
     {
       onSuccess: () => NotifyUtils.simpleSuccess('Tạo thành công'),
       onError: () => NotifyUtils.simpleFailed('Tạo không thành công'),
-    });
+    }
+  );
 }
 
 export default useCreateApi;

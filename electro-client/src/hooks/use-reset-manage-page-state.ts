@@ -2,11 +2,11 @@ import useAppStore from 'stores/use-app-store';
 import { useEffect } from 'react';
 
 function useResetManagePageState() {
-  const { reset } = useAppStore();
+  const { resetManagePageState } = useAppStore();
 
   useEffect(() => {
-    reset();
-  }, [reset]);
+    resetManagePageState();
+  }, [resetManagePageState]);
 }
 
 export default useResetManagePageState;
