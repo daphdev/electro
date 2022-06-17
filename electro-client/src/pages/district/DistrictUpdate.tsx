@@ -65,7 +65,7 @@ function DistrictUpdate() {
             <Divider mt="xs"/>
 
             <Group position="apart" p="sm">
-              <Button variant="default" onClick={form.reset}>Tẩy trống</Button>
+              <Button variant="default" onClick={form.reset}>Mặc định</Button>
               <Button type="submit">Cập nhật</Button>
             </Group>
           </Stack>

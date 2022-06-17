@@ -14,6 +14,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import AddressManage from 'pages/address/AddressManage';
 import ProvinceManage, { ProvinceCreate, ProvinceUpdate } from 'pages/province';
 import DistrictManage, { DistrictCreate, DistrictUpdate } from 'pages/district';
+import UserManage, { UserCreate, UserUpdate } from 'pages/user';
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,10 @@ function App() {
                   <Route path={ManagerPath.DISTRICT} element={<DistrictManage/>}/>
                   <Route path={ManagerPath.DISTRICT + '/create'} element={<DistrictCreate/>}/>
                   <Route path={ManagerPath.DISTRICT + '/update/:id'} element={<DistrictUpdate/>}/>
+                  {/* USER */}
+                  <Route path={ManagerPath.USER} element={<UserManage/>}/>
+                  <Route path={ManagerPath.USER + '/create'} element={<UserCreate/>}/>
+                  <Route path={ManagerPath.USER + '/update/:id'} element={<UserUpdate/>}/>
                 </Route>
               </Routes>
             </ModalsProvider>

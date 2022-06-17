@@ -3,10 +3,13 @@ export enum EntityPropertyType {
   NUMBER = 'number',
   BOOLEAN = 'boolean',
   DATE = 'date',
+  ARRAY = 'array',
+  OPTION = 'option',
 }
 
 export interface EntityPropertySpec {
   label: string,
+  tableLabel?: string,
   type: EntityPropertyType,
   isShowInTable?: boolean,
   isNotAddToSortCriteria?: boolean,
