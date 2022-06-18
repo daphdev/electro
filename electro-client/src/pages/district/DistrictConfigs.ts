@@ -4,7 +4,7 @@ import ResourceURL from 'constants/ResourceURL';
 import MessageUtils from 'utils/MessageUtils';
 import PageConfigs from 'pages/PageConfigs';
 import ManagerPath from 'constants/ManagerPath';
-import ProvinceConfigs from 'pages/province/ProvinceConfigs';
+import AddressConfigs from 'pages/address/AddressConfigs';
 
 class DistrictConfigs extends Configs {
   static managerPath = ManagerPath.DISTRICT;
@@ -14,7 +14,7 @@ class DistrictConfigs extends Configs {
   static updateTitle = 'Cập nhật quận huyện';
   static manageTitle = 'Quản lý quận huyện';
 
-  static manageTitleLinks: TitleLink[] = ProvinceConfigs.manageTitleLinks;
+  static manageTitleLinks: TitleLink[] = AddressConfigs.manageTitleLinks;
 
   protected static _rawProperties = {
     ...PageConfigs.getProperties(true, true, true),

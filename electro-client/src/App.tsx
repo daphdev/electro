@@ -11,7 +11,7 @@ import ManagerPath from 'constants/ManagerPath';
 import Client from './pages/Client';
 import Admin from './pages/Admin';
 import AdminDashboard from './pages/AdminDashboard';
-import AddressManage from 'pages/address/AddressManage';
+import AddressManage, { AddressCreate, AddressUpdate } from 'pages/address';
 import ProvinceManage, { ProvinceCreate, ProvinceUpdate } from 'pages/province';
 import DistrictManage, { DistrictCreate, DistrictUpdate } from 'pages/district';
 import UserManage, { UserCreate, UserUpdate } from 'pages/user';
@@ -35,6 +35,8 @@ function App() {
                   <Route index element={<AdminDashboard/>}/>
                   {/* ADDRESS */}
                   <Route path={ManagerPath.ADDRESS} element={<AddressManage/>}/>
+                  <Route path={ManagerPath.ADDRESS + '/create'} element={<AddressCreate/>}/>
+                  <Route path={ManagerPath.ADDRESS + '/update/:id'} element={<AddressUpdate/>}/>
                   {/* PROVINCE */}
                   <Route path={ManagerPath.PROVINCE} element={<ProvinceManage/>}/>
                   <Route path={ManagerPath.PROVINCE + '/create'} element={<ProvinceCreate/>}/>

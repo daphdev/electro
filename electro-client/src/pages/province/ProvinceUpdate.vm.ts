@@ -20,7 +20,7 @@ function useProvinceUpdateViewModel(id: number) {
 
   if (!province && provinceResponse) {
     setProvince(provinceResponse);
-    const formValues = {
+    const formValues: typeof form.values = {
       name: provinceResponse.name,
       code: provinceResponse.code,
     };

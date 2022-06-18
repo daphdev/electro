@@ -37,22 +37,22 @@ function DistrictManage() {
       <td>{DateUtils.isoDateToString(entity.createdAt)}</td>
       <td>{DateUtils.isoDateToString(entity.updatedAt)}</td>
       <td>
-        <Highlight highlight={searchToken} highlightColor="blue">
+        <Highlight highlight={searchToken} highlightColor="blue" size="sm">
           {entity.name}
         </Highlight>
       </td>
       <td>
-        <Highlight highlight={searchToken} highlightColor="blue">
+        <Highlight highlight={searchToken} highlightColor="blue" size="sm">
           {entity.code}
         </Highlight>
       </td>
       <td>
-        <Highlight highlight={searchToken} highlightColor="blue">
+        <Highlight highlight={searchToken} highlightColor="blue" size="sm">
           {entity.province.name}
         </Highlight>
       </td>
       <td>
-        <Highlight highlight={searchToken} highlightColor="blue">
+        <Highlight highlight={searchToken} highlightColor="blue" size="sm">
           {entity.province.code}
         </Highlight>
       </td>

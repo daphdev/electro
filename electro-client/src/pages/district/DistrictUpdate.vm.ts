@@ -30,7 +30,7 @@ function useDistrictUpdateViewModel(id: number) {
 
   if (!district && districtResponse) {
     setDistrict(districtResponse);
-    const formValues = {
+    const formValues: typeof form.values = {
       name: districtResponse.name,
       code: districtResponse.code,
       provinceId: String(districtResponse.province.id),

@@ -47,17 +47,17 @@ function UserManage() {
     <>
       <td>{entity.id}</td>
       <td>
-        <Highlight highlight={searchToken} highlightColor="blue">
+        <Highlight highlight={searchToken} highlightColor="blue" size="sm">
           {entity.username}
         </Highlight>
       </td>
       <td>
-        <Highlight highlight={searchToken} highlightColor="blue">
+        <Highlight highlight={searchToken} highlightColor="blue" size="sm">
           {entity.fullname}
         </Highlight>
       </td>
       <td>
-        <Highlight highlight={searchToken} highlightColor="blue">
+        <Highlight highlight={searchToken} highlightColor="blue" size="sm">
           {entity.phone}
         </Highlight>
       </td>

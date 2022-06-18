@@ -45,7 +45,7 @@ function useUserUpdateViewModel(id: number) {
 
   if (!user && userResponse) {
     setUser(userResponse);
-    const formValues = {
+    const formValues: typeof form.values = {
       username: userResponse.username,
       password: '',
       fullname: userResponse.fullname,
