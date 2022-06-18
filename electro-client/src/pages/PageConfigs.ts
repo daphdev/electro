@@ -2,7 +2,7 @@ import { EntityPropertySchema, EntityPropertyType, SelectOption } from 'types';
 import { ListResponse } from 'utils/FetchUtils';
 
 class PageConfigs {
-  static properties: EntityPropertySchema = {
+  static properties = {
     id: {
       label: 'ID',
       type: EntityPropertyType.NUMBER,
@@ -33,7 +33,7 @@ class PageConfigs {
     return properties;
   };
 
-  static initialListResponse: ListResponse<unknown> = {
+  static initialListResponse: ListResponse = {
     content: [],
     page: 1,
     size: 5,

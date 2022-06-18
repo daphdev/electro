@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Highlight, Stack } from '@mantine/core';
 import {
   FilterPanel,
@@ -12,18 +12,24 @@ import {
 } from 'components';
 import DateUtils from 'utils/DateUtils';
 import { ProvinceResponse } from 'models/Province';
+import { ListResponse } from 'utils/FetchUtils';
+import PageConfigs from 'pages/PageConfigs';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
-import useProvinceManageViewModel from 'pages/province/ProvinceManage.vm';
+import useResetManagePageState from 'hooks/use-reset-manage-page-state';
+import useInitFilterPanelState from 'hooks/use-init-filter-panel-state';
+import useGetAllApi from 'hooks/use-get-all-api';
+import useAppStore from 'stores/use-app-store';
 
 function ProvinceManage() {
-  const {
-    searchToken,
-    getProvinces,
-  } = useProvinceManageViewModel();
+  useResetManagePageState();
+  useInitFilterPanelState(ProvinceConfigs.properties);
 
-  useEffect(() => {
-    void getProvinces();
-  }, [getProvinces]);
+  const {
+    isLoading,
+    data: listResponse = PageConfigs.initialListResponse as ListResponse<ProvinceResponse>,
+  } = useGetAllApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey);
+
+  const { searchToken } = useAppStore();
 
   const showedPropertiesFragment = (entity: ProvinceResponse) => (
     <>
@@ -31,19 +37,19 @@ function ProvinceManage() {
       <td>{DateUtils.isoDateToString(entity.createdAt)}</td>
       <td>{DateUtils.isoDateToString(entity.updatedAt)}</td>
       <td>
-        <Highlight highlight={searchToken} highlightColor="blue">
+        <Highlight highlight={searchToken} highlightColor="blue" size="sm">
           {entity.name}
         </Highlight>
       </td>
       <td>
-        <Highlight highlight={searchToken} highlightColor="blue">
+        <Highlight highlight={searchToken} highlightColor="blue" size="sm">
           {entity.code}
         </Highlight>
       </td>
     </>
   );
 
-  const entityDetailsTableRowsFragment = (entity: ProvinceResponse) => (
+  const entityDetailTableRowsFragment = (entity: ProvinceResponse) => (
     <>
       <tr>
         <td>{ProvinceConfigs.properties.id.label}</td>
@@ -76,7 +82,9 @@ function ProvinceManage() {
           title={ProvinceConfigs.manageTitle}
         />
         <ManageHeaderButtons
+          listResponse={listResponse}
           resourceUrl={ProvinceConfigs.resourceUrl}
+          resourceKey={ProvinceConfigs.resourceKey}
         />
       </ManageHeader>
 
@@ -84,16 +92,21 @@ function ProvinceManage() {
 
       <FilterPanel/>
 
-      <ManageMain>
+      <ManageMain
+        listResponse={listResponse}
+        isLoading={isLoading}
+      >
         <ManageTable
+          listResponse={listResponse}
           properties={ProvinceConfigs.properties}
           resourceUrl={ProvinceConfigs.resourceUrl}
+          resourceKey={ProvinceConfigs.resourceKey}
           showedPropertiesFragment={showedPropertiesFragment}
-          entityDetailsTableRowsFragment={entityDetailsTableRowsFragment}
+          entityDetailTableRowsFragment={entityDetailTableRowsFragment}
         />
       </ManageMain>
 
-      <ManagePagination/>
+      <ManagePagination listResponse={listResponse}/>
     </Stack>
   );
 }

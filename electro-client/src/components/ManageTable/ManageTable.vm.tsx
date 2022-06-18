@@ -2,33 +2,30 @@ import React from 'react';
 import { Text, useMantineTheme } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import useAppStore from 'stores/use-app-store';
-import { ListResponse } from 'utils/FetchUtils';
-import { EntityDetailsTable } from 'components/index';
+import { EntityDetailTable } from 'components/index';
 import BaseResponse from 'models/BaseResponse';
-import useGenericService from 'services/use-generic-service';
 import { ManageTableProps } from 'components/ManageTable/ManageTable';
+import useDeleteByIdApi from 'hooks/use-delete-by-id-api';
 
 function useManageTableViewModel<T extends BaseResponse>({
+  listResponse,
   properties,
   resourceUrl,
-  entityDetailsTableRowsFragment,
+  resourceKey,
+  entityDetailTableRowsFragment,
 }: ManageTableProps<T>) {
   const theme = useMantineTheme();
   const modals = useModals();
 
-  const service = useGenericService();
+  const deleteByIdApi = useDeleteByIdApi(resourceUrl, resourceKey);
 
   const {
-    setLoading,
     selection, setSelection,
-    listResponse: rawListResponse,
     activePage, setActivePage,
   } = useAppStore();
 
-  const listResponse = rawListResponse as ListResponse<BaseResponse>;
-
   const tableHeads = Object.values(properties)
-    .flatMap((propertySpec) => !propertySpec.isShowInTable ? [] : propertySpec.label);
+    .flatMap((propertySpec) => propertySpec.isShowInTable ? propertySpec.label : []);
 
   const handleToggleAllRowsCheckbox = () => {
     setSelection((current) => {
@@ -42,18 +39,22 @@ function useManageTableViewModel<T extends BaseResponse>({
     });
   };
 
-  const handleViewEntityButton = async (entityId: number) => {
-    const { data } = await service.getById(resourceUrl, entityId);
-    if (data) {
-      modals.openModal({
-        size: 'md',
-        overlayColor: theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2],
-        overlayOpacity: 0.55,
-        overlayBlur: 3,
-        title: <strong>Thông tin chi tiết</strong>,
-        children: <EntityDetailsTable entityDetailsTableRowsFragment={entityDetailsTableRowsFragment(data as T)}/>,
-      });
-    }
+  const handleViewEntityButton = (entityId: number) => {
+    modals.openModal({
+      size: 'md',
+      overlayColor: theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2],
+      overlayOpacity: 0.55,
+      overlayBlur: 3,
+      title: <strong>Thông tin chi tiết</strong>,
+      children: (
+        <EntityDetailTable
+          entityDetailTableRowsFragment={entityDetailTableRowsFragment}
+          resourceUrl={resourceUrl}
+          resourceKey={resourceKey}
+          entityId={entityId}
+        />
+      ),
+    });
   };
 
   const handleDeleteEntityButton = (entityId: number) => {
@@ -74,19 +75,19 @@ function useManageTableViewModel<T extends BaseResponse>({
     });
   };
 
-  const handleConfirmedDeleteEntityButton = async (entityId: number) => {
-    const { status } = await service.deleteById(resourceUrl, entityId);
-    if (status === 204) {
-      if (listResponse.content.length === 1) {
-        setActivePage(activePage - 1 || 1);
-      }
-      setLoading(true);
-    }
+  const handleConfirmedDeleteEntityButton = (entityId: number) => {
+    deleteByIdApi.mutate(entityId, {
+      onSuccess: () => {
+        if (listResponse.content.length === 1) {
+          setActivePage(activePage - 1 || 1);
+        }
+      },
+    });
   };
 
   return {
-    selection,
     listResponse,
+    selection,
     tableHeads,
     handleToggleAllRowsCheckbox,
     handleToggleRowCheckbox,

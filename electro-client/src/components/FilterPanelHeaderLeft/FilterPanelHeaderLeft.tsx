@@ -13,7 +13,7 @@ function FilterPanelHeaderLeft({
   return (
     <Group>
       <TextInput
-        placeholder="Bộ lọc 1"
+        placeholder="Bộ lọc ..."
         icon={<Filter size={14}/>}
         sx={{ width: 250 }}
         ref={filterNameInputRef}

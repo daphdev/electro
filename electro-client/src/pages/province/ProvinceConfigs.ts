@@ -3,30 +3,20 @@ import { Configs, EntityPropertySchema, EntityPropertyType, TitleLink } from 'ty
 import ResourceURL from 'constants/ResourceURL';
 import MessageUtils from 'utils/MessageUtils';
 import PageConfigs from 'pages/PageConfigs';
+import ManagerPath from 'constants/ManagerPath';
+import AddressConfigs from 'pages/address/AddressConfigs';
 
 class ProvinceConfigs extends Configs {
-  static managerPath = 'address/province';
+  static managerPath = ManagerPath.PROVINCE;
   static resourceUrl = ResourceURL.PROVINCE;
+  static resourceKey = 'provinces';
   static createTitle = 'Thêm tỉnh thành';
   static updateTitle = 'Cập nhật tỉnh thành';
   static manageTitle = 'Quản lý tỉnh thành';
 
-  static manageTitleLinks: TitleLink[] = [
-    {
-      link: '/admin/address',
-      label: 'Quản lý địa chỉ',
-    },
-    {
-      link: '/admin/address/province',
-      label: 'Quản lý tỉnh thành',
-    },
-    {
-      link: '/admin/address/district',
-      label: 'Quản lý quận huyện',
-    },
-  ];
+  static manageTitleLinks: TitleLink[] = AddressConfigs.manageTitleLinks;
 
-  static properties: EntityPropertySchema = {
+  protected static _rawProperties = {
     ...PageConfigs.getProperties(true, true, true),
     name: {
       label: 'Tên tỉnh thành',
@@ -39,6 +29,9 @@ class ProvinceConfigs extends Configs {
       isShowInTable: true,
     },
   };
+
+  static properties = ProvinceConfigs._rawProperties as
+    EntityPropertySchema<typeof ProvinceConfigs._rawProperties & typeof PageConfigs.properties>;
 
   static initialCreateUpdateFormValues = {
     name: '',

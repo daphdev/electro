@@ -1,49 +1,46 @@
 import { useState } from 'react';
 import { useForm, zodResolver } from '@mantine/form';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
-import useGenericService from 'services/use-generic-service';
 import { ProvinceRequest, ProvinceResponse } from 'models/Province';
+import useUpdateApi from 'hooks/use-update-api';
+import useGetByIdApi from 'hooks/use-get-by-id-api';
+import MiscUtils from 'utils/MiscUtils';
 
-function useProvinceUpdateViewModel() {
-  const provinceService = useGenericService<ProvinceRequest, ProvinceResponse>();
+function useProvinceUpdateViewModel(id: number) {
+  const updateApi = useUpdateApi<ProvinceRequest, ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey, id);
+  const { data: provinceResponse } = useGetByIdApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey, id);
+
+  const [province, setProvince] = useState<ProvinceResponse>();
+  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
 
   const form = useForm({
     initialValues: ProvinceConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(ProvinceConfigs.createUpdateFormSchema),
   });
 
-  const [province, setProvince] = useState<ProvinceResponse>();
-  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
-
-  const getProvince = async (id?: string) => {
-    if (id && !province) {
-      const { data } = await provinceService.getById(ProvinceConfigs.resourceUrl, Number(id));
-      if (data) {
-        setProvince(data);
-        const formValues = {
-          name: data.name,
-          code: data.code,
-        };
-        form.setValues(formValues);
-        setPrevFormValues(formValues);
-      }
-    }
-  };
-
-  const handleFormSubmit = form.onSubmit(formValues => {
+  if (!province && provinceResponse) {
+    setProvince(provinceResponse);
+    const formValues: typeof form.values = {
+      name: provinceResponse.name,
+      code: provinceResponse.code,
+    };
+    form.setValues(formValues);
     setPrevFormValues(formValues);
-    if (province && !isEquals(formValues, prevFormValues)) {
-      void provinceService.update(ProvinceConfigs.resourceUrl, province.id, formValues);
+  }
+
+  const handleFormSubmit = form.onSubmit((formValues) => {
+    setPrevFormValues(formValues);
+    if (!MiscUtils.isEquals(formValues, prevFormValues)) {
+      const requestBody: ProvinceRequest = {
+        name: formValues.name,
+        code: formValues.code,
+      };
+      updateApi.mutate(requestBody);
     }
   });
 
-  const isEquals = (formValues: typeof form.values, prevFormValues?: typeof form.values) => {
-    return JSON.stringify(formValues) === JSON.stringify(prevFormValues);
-  };
-
   return {
     province,
-    getProvince,
     form,
     handleFormSubmit,
   };

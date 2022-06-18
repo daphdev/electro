@@ -46,9 +46,7 @@ export enum DateOperator {
 
 export type FilterOperator = StringOperator | NumberOperator | BooleanOperator | DateOperator;
 
-export interface FilterPropertyTypes {
-  [property: string]: EntityPropertyType;
-}
+export type FilterPropertyTypes = Record<string, EntityPropertyType>;
 
 export enum OrderType {
   ASC = 'asc',

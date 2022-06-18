@@ -10,6 +10,10 @@ class MiscUtils {
 
     return result;
   }
+
+  static isEquals<T1, T2>(first: T1, second: T2) {
+    return JSON.stringify(first) === JSON.stringify(second);
+  }
 }
 
 export default MiscUtils;

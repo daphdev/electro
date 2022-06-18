@@ -34,24 +34,29 @@ const useFilterPanelStore = create<FilterPanelState>()(
     (set) => ({
       ...initialFilterPanelState,
       initFilterPanelState: (properties) => set(() => {
-        const initialPropertySelectList: SelectOption[] = Object.keys(properties).map((property) => ({
-          value: property,
-          label: properties[property].label,
-        }));
+        const initialPropertySelectList: SelectOption[] = Object.keys(properties)
+          .filter((property) => !properties[property].isNotAddToSortCriteria && !properties[property].isNotAddToFilterCriteria)
+          .map((property) => ({
+            value: property,
+            label: properties[property].label,
+          }));
 
         const initialFilterPropertyTypes: FilterPropertyTypes = Object.assign({},
-          ...Object.keys(properties).map((property) => ({
-            [property]: properties[property].type,
-          }))
+          ...Object.keys(properties)
+            .filter((property) => !properties[property].isNotAddToFilterCriteria)
+            .map((property) => ({
+              [property]: properties[property].type,
+            }))
         );
 
         return {
+          ...initialFilterPanelState,
           initialPropertySelectList: initialPropertySelectList,
           initialFilterPropertyTypes: initialFilterPropertyTypes,
           sortPropertySelectList: initialPropertySelectList,
           filterPropertySelectList: initialPropertySelectList,
         };
-      }),
+      }, false, 'FilterPanelStore/initFilterPanelState'),
       setSortCriteriaList: (value) => set((state) => extractValue(state, value, 'sortCriteriaList'), false, 'FilterPanelStore/sortCriteriaList'),
       setSortPropertySelectList: (value) => set((state) => extractValue(state, value, 'sortPropertySelectList'), false, 'FilterPanelStore/sortPropertySelectList'),
       setFilterCriteriaList: (value) => set((state) => extractValue(state, value, 'filterCriteriaList'), false, 'FilterPanelStore/filterCriteriaList'),

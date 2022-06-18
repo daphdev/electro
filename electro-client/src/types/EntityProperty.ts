@@ -3,12 +3,17 @@ export enum EntityPropertyType {
   NUMBER = 'number',
   BOOLEAN = 'boolean',
   DATE = 'date',
+  ARRAY = 'array',
+  OPTION = 'option',
 }
 
-export interface EntityPropertySchema {
-  [propertyName: string]: {
-    label: string,
-    type: EntityPropertyType,
-    isShowInTable?: boolean,
-  };
+export interface EntityPropertySpec {
+  label: string,
+  tableLabel?: string,
+  type: EntityPropertyType,
+  isShowInTable?: boolean,
+  isNotAddToSortCriteria?: boolean,
+  isNotAddToFilterCriteria?: boolean,
 }
+
+export type EntityPropertySchema<T = unknown> = Record<string | keyof T, EntityPropertySpec>;

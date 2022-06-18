@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Divider, Group, Paper, SimpleGrid, Stack, TextInput } from '@mantine/core';
+import { Button, Divider, Grid, Group, Paper, Stack, TextInput } from '@mantine/core';
 import { CreateUpdateTitle, DefaultPropertyPanel } from 'components';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 import useProvinceCreateViewModel from 'pages/province/ProvinceCreate.vm';
@@ -22,27 +22,27 @@ function ProvinceCreate() {
       <form onSubmit={handleFormSubmit}>
         <Paper shadow="xs">
           <Stack spacing={0}>
-            <SimpleGrid
-              p="sm"
-              spacing="md"
-              breakpoints={[{ minWidth: 'xs', cols: 2 }]}
-            >
-              <TextInput
-                required
-                label={ProvinceConfigs.properties.name.label}
-                {...form.getInputProps('name')}
-              />
-              <TextInput
-                required
-                label={ProvinceConfigs.properties.code.label}
-                {...form.getInputProps('code')}
-              />
-            </SimpleGrid>
+            <Grid p="sm">
+              <Grid.Col xs={6}>
+                <TextInput
+                  required
+                  label={ProvinceConfigs.properties.name.label}
+                  {...form.getInputProps('name')}
+                />
+              </Grid.Col>
+              <Grid.Col xs={6}>
+                <TextInput
+                  required
+                  label={ProvinceConfigs.properties.code.label}
+                  {...form.getInputProps('code')}
+                />
+              </Grid.Col>
+            </Grid>
 
             <Divider mt="xs"/>
 
             <Group position="apart" p="sm">
-              <Button variant="default" onClick={form.reset}>Tẩy trống</Button>
+              <Button variant="default" onClick={form.reset}>Mặc định</Button>
               <Button type="submit">Thêm</Button>
             </Group>
           </Stack>

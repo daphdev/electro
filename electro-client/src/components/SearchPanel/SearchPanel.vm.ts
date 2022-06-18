@@ -8,7 +8,6 @@ function useSearchPanelViewModel() {
     filters,
     activeFilter, setActiveFilter,
     activeFilterPanel, setActiveFilterPanel,
-    setLoading,
     setActivePage,
     searchToken, setSearchToken,
   } = useAppStore();
@@ -46,13 +45,14 @@ function useSearchPanelViewModel() {
     if (activeFilter) {
       setActiveFilter(null);
     }
+    setSearchToken('');
   };
 
   const handleSearchButton = () => {
     const currentSearchToken = searchInputRef.current ? searchInputRef.current.value : '';
     if (currentSearchToken !== searchToken || activeFilter !== prevActiveFilter) {
-      setLoading(true);
       setActivePage(1);
+      setActiveFilter(activeFilter);
       setSearchToken(currentSearchToken);
       setPrevActiveFilter(activeFilter);
     }

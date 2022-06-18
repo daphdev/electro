@@ -4,22 +4,25 @@ import { ActionIcon, Checkbox, Group, Table } from '@mantine/core';
 import { Edit, Eye, Trash } from 'tabler-icons-react';
 import BaseResponse from 'models/BaseResponse';
 import { EntityPropertySchema } from 'types';
+import { ListResponse } from 'utils/FetchUtils';
 import useManageTableStyles from 'components/ManageTable/ManageTable.styles';
 import useManageTableViewModel from 'components/ManageTable/ManageTable.vm';
 
 export interface ManageTableProps<T> {
+  listResponse: ListResponse<T>;
   properties: EntityPropertySchema;
   resourceUrl: string;
+  resourceKey: string;
   showedPropertiesFragment: (entity: T) => React.ReactNode;
-  entityDetailsTableRowsFragment: (entity: T) => React.ReactNode;
+  entityDetailTableRowsFragment: (entity: T) => React.ReactNode;
 }
 
 function ManageTable<T extends BaseResponse>(props: ManageTableProps<T>) {
   const { classes, cx } = useManageTableStyles();
 
   const {
-    selection,
     listResponse,
+    selection,
     tableHeads,
     handleToggleAllRowsCheckbox,
     handleToggleRowCheckbox,
@@ -37,7 +40,7 @@ function ManageTable<T extends BaseResponse>(props: ManageTableProps<T>) {
           transitionDuration={0}
         />
       </th>
-      {tableHeads.map((item) => <th key={String(item)}>{item}</th>)}
+      {tableHeads.map((item) => <th key={item}>{item}</th>)}
       <th style={{ width: 120 }}>Thao tác</th>
     </tr>
   );

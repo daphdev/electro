@@ -1,19 +1,18 @@
 import React from 'react';
 import { Center, LoadingOverlay, Paper, Text } from '@mantine/core';
-import useAppStore from 'stores/use-app-store';
+import { ListResponse } from 'utils/FetchUtils';
 
 interface ManageMainProps {
+  listResponse: ListResponse;
+  isLoading: boolean;
   children: React.ReactNode;
 }
 
 function ManageMain({
+  listResponse,
+  isLoading,
   children,
 }: ManageMainProps) {
-  const {
-    loading,
-    listResponse,
-  } = useAppStore();
-
   let manageMainInnerFragment = <>{children}</>;
 
   if (listResponse.totalElements === 0) {
@@ -32,7 +31,7 @@ function ManageMain({
         height: listResponse.totalElements === 0 ? '250px' : 'auto',
       }}
     >
-      <LoadingOverlay visible={loading}/>
+      <LoadingOverlay visible={isLoading}/>
       {manageMainInnerFragment}
     </Paper>
   );
