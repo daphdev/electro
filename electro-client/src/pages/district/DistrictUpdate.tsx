@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Divider, Group, Paper, Select, SimpleGrid, Stack, TextInput } from '@mantine/core';
+import { Button, Divider, Grid, Group, Paper, Select, Stack, TextInput } from '@mantine/core';
 import { useParams } from 'react-router-dom';
 import { CreateUpdateTitle, DefaultPropertyPanel } from 'components';
 import DistrictConfigs from 'pages/district/DistrictConfigs';
@@ -36,31 +36,33 @@ function DistrictUpdate() {
       <form onSubmit={handleFormSubmit}>
         <Paper shadow="xs">
           <Stack spacing={0}>
-            <SimpleGrid
-              p="sm"
-              spacing="md"
-              breakpoints={[{ minWidth: 'xs', cols: 2 }]}
-            >
-              <TextInput
-                required
-                label={DistrictConfigs.properties.name.label}
-                {...form.getInputProps('name')}
-              />
-              <TextInput
-                required
-                label={DistrictConfigs.properties.code.label}
-                {...form.getInputProps('code')}
-              />
-              <Select
-                required
-                label={DistrictConfigs.properties.provinceId.label}
-                placeholder="--"
-                clearable
-                searchable
-                data={provinceSelectList || []}
-                {...form.getInputProps('provinceId')}
-              />
-            </SimpleGrid>
+            <Grid p="sm">
+              <Grid.Col xs={6}>
+                <TextInput
+                  required
+                  label={DistrictConfigs.properties.name.label}
+                  {...form.getInputProps('name')}
+                />
+              </Grid.Col>
+              <Grid.Col xs={6}>
+                <TextInput
+                  required
+                  label={DistrictConfigs.properties.code.label}
+                  {...form.getInputProps('code')}
+                />
+              </Grid.Col>
+              <Grid.Col xs={6}>
+                <Select
+                  required
+                  label={DistrictConfigs.properties.provinceId.label}
+                  placeholder="--"
+                  clearable
+                  searchable
+                  data={provinceSelectList || []}
+                  {...form.getInputProps('provinceId')}
+                />
+              </Grid.Col>
+            </Grid>
 
             <Divider mt="xs"/>
 

@@ -51,11 +51,7 @@ function UserUpdate() {
       <form onSubmit={handleFormSubmit}>
         <Paper shadow="xs">
           <Stack spacing={0}>
-            <Grid
-              p="sm"
-              gutter="md"
-              grow
-            >
+            <Grid p="sm">
               <Grid.Col xs={6}>
                 <TextInput
                   required
