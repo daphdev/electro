@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useForm, zodResolver } from '@mantine/form';
 import ProvinceConfigs from 'pages/province/ProvinceConfigs';
 import { ProvinceRequest, ProvinceResponse } from 'models/Province';
-import useGetByIdApi from 'hooks/use-get-by-id-api';
 import useUpdateApi from 'hooks/use-update-api';
+import useGetByIdApi from 'hooks/use-get-by-id-api';
 import MiscUtils from 'utils/MiscUtils';
 
 function useProvinceUpdateViewModel(id: number) {
@@ -31,7 +31,11 @@ function useProvinceUpdateViewModel(id: number) {
   const handleFormSubmit = form.onSubmit((formValues) => {
     setPrevFormValues(formValues);
     if (!MiscUtils.isEquals(formValues, prevFormValues)) {
-      updateApi.mutate(formValues);
+      const requestBody: ProvinceRequest = {
+        name: formValues.name,
+        code: formValues.code,
+      };
+      updateApi.mutate(requestBody);
     }
   });
 

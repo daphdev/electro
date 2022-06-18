@@ -12,7 +12,11 @@ function useProvinceCreateViewModel() {
   });
 
   const handleFormSubmit = form.onSubmit((formValues) => {
-    createApi.mutate(formValues);
+    const requestBody: ProvinceRequest = {
+      name: formValues.name,
+      code: formValues.code,
+    };
+    createApi.mutate(requestBody);
   });
 
   return {
