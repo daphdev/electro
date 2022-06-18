@@ -14,7 +14,7 @@ import { RoleResponse } from 'models/Role';
 import { SelectOption } from 'types';
 
 function useUserUpdateViewModel(id: number) {
-  const updateApi = useUpdateApi<UserRequest, UserResponse>(UserConfigs.resourceUrl, id);
+  const updateApi = useUpdateApi<UserRequest, UserResponse>(UserConfigs.resourceUrl, UserConfigs.resourceKey, id);
   const { data: userResponse } = useGetByIdApi<UserResponse>(UserConfigs.resourceUrl, UserConfigs.resourceKey, id);
   const { data: provinceListResponse } = useGetAllApi<ProvinceResponse>(
     ProvinceConfigs.resourceUrl,

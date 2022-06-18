@@ -13,7 +13,7 @@ import DistrictConfigs from 'pages/district/DistrictConfigs';
 import { SelectOption } from 'types';
 
 function useAddressUpdateViewModel(id: number) {
-  const updateApi = useUpdateApi<AddressRequest, AddressResponse>(AddressConfigs.resourceUrl, id);
+  const updateApi = useUpdateApi<AddressRequest, AddressResponse>(AddressConfigs.resourceUrl, AddressConfigs.resourceKey, id);
   const { data: addressResponse } = useGetByIdApi<AddressResponse>(AddressConfigs.resourceUrl, AddressConfigs.resourceKey, id);
   const { data: provinceListResponse } = useGetAllApi<ProvinceResponse>(
     ProvinceConfigs.resourceUrl,

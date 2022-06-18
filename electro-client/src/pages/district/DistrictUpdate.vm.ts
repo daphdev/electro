@@ -11,7 +11,7 @@ import useGetAllApi from 'hooks/use-get-all-api';
 import MiscUtils from 'utils/MiscUtils';
 
 function useDistrictUpdateViewModel(id: number) {
-  const updateApi = useUpdateApi<DistrictRequest, DistrictResponse>(DistrictConfigs.resourceUrl, id);
+  const updateApi = useUpdateApi<DistrictRequest, DistrictResponse>(DistrictConfigs.resourceUrl, DistrictConfigs.resourceKey, id);
   const { data: districtResponse } = useGetByIdApi<DistrictResponse>(DistrictConfigs.resourceUrl, DistrictConfigs.resourceKey, id);
   const { data: provinceListResponse } = useGetAllApi<ProvinceResponse>(
     ProvinceConfigs.resourceUrl,
