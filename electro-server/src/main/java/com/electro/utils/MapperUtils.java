@@ -12,6 +12,7 @@ import com.electro.entity.employee.JobLevel;
 import com.electro.entity.employee.JobTitle;
 import com.electro.entity.employee.JobType;
 import com.electro.entity.employee.Office;
+import com.electro.entity.product.Category;
 import com.electro.repository.authentication.RoleRepository;
 import lombok.AllArgsConstructor;
 import org.mapstruct.AfterMapping;
@@ -105,6 +106,11 @@ public class MapperUtils {
     @Named("mapCustomerStatusIdToCustomerStatus")
     public CustomerStatus mapCustomerStatusIdToCustomerStatus(Long id) {
         return (CustomerStatus) new CustomerStatus().setId(id);
+    }
+
+    @Named("mapCategoryIdToCategory")
+    public Category mapCategoryIdToCategory(Long id) {
+        return (Category) new Category().setId(id);
     }
 
 }

@@ -3,6 +3,10 @@
 
     drop table if exists prod.brand;
 
+    drop table if exists prod.category;
+
+    drop table if exists prod.category_property;
+
     drop table if exists prod.customer;
 
     drop table if exists prod.customer_group;
@@ -24,6 +28,8 @@
     drop table if exists prod.job_type;
 
     drop table if exists prod.office;
+
+    drop table if exists prod.property;
 
     drop table if exists prod.province;
 
@@ -56,6 +62,26 @@
         name varchar(255) not null,
         status TINYINT not null,
         primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.category (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        description varchar(255) not null,
+        name varchar(255) not null,
+        status TINYINT not null,
+        thumbnail varchar(255) not null,
+        category_id bigint,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.category_property (
+       category_id bigint not null,
+        property_id bigint not null,
+        primary key (category_id, property_id)
     ) engine=MyISAM;
 
     create table prod.customer (
@@ -196,6 +222,20 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.property (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255) not null,
+        description varchar(255) not null,
+        name varchar(255) not null,
+        status TINYINT not null,
+        type varchar(255) not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.province (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -264,6 +304,21 @@
        add constraint FKf8x0jfwoo94op8u88og1ohdcn 
        foreign key (province_id) 
        references prod.province (id);
+
+    alter table prod.category 
+       add constraint FKap0cnk1255oj4bwam7in1hxxv 
+       foreign key (category_id) 
+       references prod.category (id);
+
+    alter table prod.category_property 
+       add constraint FKdpu5w0d2yxl44p7w5b9qthbw4 
+       foreign key (property_id) 
+       references prod.property (id);
+
+    alter table prod.category_property 
+       add constraint FKcyg1h6ev059nd3cjg6x9xwaeh 
+       foreign key (category_id) 
+       references prod.category (id);
 
     alter table prod.customer 
        add constraint FK9ogndo8hll7edx5iloyu2uegy 

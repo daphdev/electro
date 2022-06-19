@@ -36,7 +36,9 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("customer-groups"))
                 .and(generateRoute("customer-resources"))
                 .and(generateRoute("customer-status"))
-                .and(generateRoute("customers"));
+                .and(generateRoute("customers"))
+                .and(generateRoute("properties"))
+                .and(generateRoute("categories"));
     }
 
     private RouterFunction<ServerResponse> generateRoute(String resource) {

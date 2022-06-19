@@ -26,4 +26,6 @@ public interface SearchFields {
     List<String> CUSTOMER = List.of("user.id", "user.username", "user.fullname", "user.email", "user.phone",
             "user.address.province.name", "user.address.province.code", "user.address.district.name",
             "user.address.district.code");
+    List<String> PROPERTY = List.of("name", "code", "type", "description", "status");
+    List<String> CATEGORY = List.of("name", "description");
 }

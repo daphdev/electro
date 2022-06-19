@@ -17,4 +17,6 @@ public interface ResourceName {
     String CUSTOMER_RESOURCE = "CustomerResource";
     String CUSTOMER_STATUS = "CustomerStatus";
     String CUSTOMER = "Customer";
+    String PROPERTY = "Property";
+    String CATEGORY = "Category";
 }
