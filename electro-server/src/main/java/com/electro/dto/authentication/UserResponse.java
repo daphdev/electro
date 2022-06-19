@@ -21,4 +21,3 @@ public class UserResponse {
     Integer status;
     Set<RoleResponse> roles;
 }
-

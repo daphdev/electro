@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-@Slf4j
 @Component
+@Slf4j
 public class JwtUtils {
 
     @Value("${electro.app.jwtSecret}")
@@ -23,37 +23,37 @@ public class JwtUtils {
     @Value("${electro.app.jwtExpirationMs}")
     private int jwtExpiration;
 
-    // create token
-    public String generateJwtToken(Authentication authentication){
-        UserDetailImpl userPrincipal = (UserDetailImpl) authentication.getPrincipal();
+    public String generateJwtToken(Authentication authentication) {
+        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date()).setExpiration(new Date((new Date().getTime()) + this.jwtExpiration))
                 .signWith(SignatureAlgorithm.HS512, this.jwtSecret)
                 .compact();
-
     }
 
-    public String getUsernameFromJwt(String token){
+    public String getUsernameFromJwt(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public boolean validateJwtToken(String authToken){
+    public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
-            return  true;
-        }catch(SignatureException e){
+            return true;
+        } catch (SignatureException e) {
             log.error("Invalid JWT signature {}", e.getMessage());
-        }catch(MalformedJwtException e){
+        } catch (MalformedJwtException e) {
             log.error("Invalid JWT token {}", e.getMessage());
-        }catch(ExpiredJwtException e){
+        } catch (ExpiredJwtException e) {
             log.error("Invalid JWT expired {}", e.getMessage());
-        }catch(UnsupportedJwtException e){
+        } catch (UnsupportedJwtException e) {
             log.error("Invalid JWT unsupported {}", e.getMessage());
-        }catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             log.error("Invalid JWT empty {}", e.getMessage());
         }
+
         return false;
     }
+
 }

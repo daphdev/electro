@@ -1,6 +1,5 @@
 package com.electro.config.security;
 
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
-@Data
 public class AuthTokenFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -31,34 +29,38 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         try {
             String jwt = parseJwt(request);
 
-            log.info("jwt after parse" + jwt);
+            log.info("JWT after parse {}", jwt);
 
-            if(jwt != null && jwtUtil.validateJwtToken(jwt)){
-                // lay username tu token ra
+            if (jwt != null && jwtUtil.validateJwtToken(jwt)) {
+                // Lấy username từ JWT
                 String username = jwtUtil.getUsernameFromJwt(jwt);
-                // gen username ra User-detail
+                // Lấy userDetails theo username
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                // Luu doi tuong authentication vao trong security-context
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                // Lưu đối tượng authentication vào trong security context
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        }catch (Exception exception){
-            log.error("Cannot set user authentication {}", exception);
+        } catch (Exception exception) {
+            log.error("Cannot set user authentication {}", exception.getMessage());
         }
+
         filterChain.doFilter(request, response);
     }
 
-    private String parseJwt(HttpServletRequest request){
+    private String parseJwt(HttpServletRequest request) {
+        String headerAuth = request.getHeader("Authorization");
 
-        String headerAuth =  request.getHeader("Authorization");
+        log.info("JWT from request {}", headerAuth);
 
-        log.info("JWT from request"+headerAuth);
-
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")){
-            return headerAuth.substring(7, headerAuth.length());
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+            return headerAuth.substring(7);
         }
 
-        return  null;
+        return null;
     }
+
 }

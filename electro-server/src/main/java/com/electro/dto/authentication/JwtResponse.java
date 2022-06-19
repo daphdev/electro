@@ -1,4 +1,4 @@
-package com.electro.dto.login;
+package com.electro.dto.authentication;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,5 +10,5 @@ import java.time.Instant;
 public class JwtResponse {
     private String message;
     private String token;
-    private Instant createAt;
+    private Instant createdAt;
 }

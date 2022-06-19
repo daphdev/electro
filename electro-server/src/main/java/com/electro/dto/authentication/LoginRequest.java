@@ -1,4 +1,4 @@
-package com.electro.dto.login;
+package com.electro.dto.authentication;
 
 import lombok.Data;
 

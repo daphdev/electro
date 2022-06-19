@@ -1,7 +1,7 @@
 package com.electro;
 
 
-import com.electro.config.security.UserDetailImpl;
+import com.electro.config.security.UserDetailsImpl;
 import com.electro.entity.authentication.Role;
 import com.electro.entity.authentication.User;
 import com.electro.repository.authentication.UserRepository;
@@ -17,18 +17,16 @@ import java.util.Set;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class UserRepositoryTest {
+public class UserRepositoryTests {
 
     @Autowired
     private UserRepository userRepository;
 
     @Test
-    public void testGetUserByUsername(){
-
-        User user = userRepository.findUserByUsername("dnucator0").orElseThrow(null);
+    public void testGetUserByUsername() {
+        User user = userRepository.findByUsername("dnucator0").orElseThrow(null);
         Set<Role> roles = user.getRoles();
-        UserDetailImpl test = UserDetailImpl.build(user);
-
+        UserDetailsImpl test = UserDetailsImpl.build(user);
     }
 
 }

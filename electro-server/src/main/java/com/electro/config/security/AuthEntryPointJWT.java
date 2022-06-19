@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Slf4j
 @Component
+@Slf4j
 public class AuthEntryPointJWT implements AuthenticationEntryPoint {
 
     @Override
@@ -18,4 +18,5 @@ public class AuthEntryPointJWT implements AuthenticationEntryPoint {
         log.error("Unauthorized error: {}", authException.getMessage());
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
     }
+
 }
