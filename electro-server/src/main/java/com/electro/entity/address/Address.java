@@ -2,6 +2,7 @@ package com.electro.entity.address;
 
 import com.electro.entity.BaseEntity;
 import com.electro.entity.authentication.User;
+import com.electro.entity.employee.Office;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,4 +41,7 @@ public class Address extends BaseEntity {
 
     @OneToOne(mappedBy = "address")
     private User user;
+
+    @OneToOne(mappedBy = "address")
+    private Office office;
 }

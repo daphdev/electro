@@ -2,6 +2,7 @@ package com.electro.entity.authentication;
 
 import com.electro.entity.BaseEntity;
 import com.electro.entity.address.Address;
+import com.electro.entity.employee.Employee;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -55,11 +56,14 @@ public class User extends BaseEntity {
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false)
     )
     private Set<Role> roles = new HashSet<>();
+
+    @OneToOne(mappedBy = "user")
+    private Employee employee;
 }
