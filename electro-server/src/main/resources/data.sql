@@ -174,7 +174,7 @@ insert into office (created_at, updated_at, name, address_id, status) values ('2
 insert into office (created_at, updated_at, name, address_id, status) values ('2021-09-14 21:49:48', '2022-02-11 03:03:22', 'BlogXS', 4, 1);
 insert into office (created_at, updated_at, name, address_id, status) values ('2021-08-18 11:44:50', '2021-07-19 19:33:23', 'BlogXS', 5, 3);
 
---department: 5 record
+-- department: 5 record
 insert into department (created_at, updated_at, name, status) values ('2022-06-02 00:50:54', '2021-09-28 15:01:05', 'Legal', 1);
 insert into department (created_at, updated_at, name, status) values ('2022-05-21 23:55:27', '2022-01-06 07:26:20', 'Training', 2);
 insert into department (created_at, updated_at, name, status) values ('2021-11-02 02:55:33', '2021-11-28 21:13:39', 'Human Resources', 3);
@@ -191,40 +191,40 @@ insert into job_level (created_at, updated_at, name, status) values ('2021-12-08
 insert into job_level (created_at, updated_at, name, status) values ('2022-01-20 12:14:44', '2021-08-30 12:29:20', 'Intern', 3);
 insert into job_level (created_at, updated_at, name, status) values ('2022-02-08 19:12:42', '2021-09-16 21:32:18', 'Fresher', 1);
 
---job title: 5 record
+-- job title: 5 record
 insert into job_title (created_at, updated_at, name, status) values ('2021-09-11 23:37:21', '2021-08-20 10:54:26', 'Marketing Manager', 1);
 insert into job_title (created_at, updated_at, name, status) values ('2021-12-08 16:13:12', '2022-03-26 19:37:23', 'Librarian', 1);
 insert into job_title (created_at, updated_at, name, status) values ('2022-01-20 12:14:44', '2021-08-30 12:29:20', 'Chemical Engineer', 3);
 insert into job_title (created_at, updated_at, name, status) values ('2022-02-08 19:12:42', '2021-09-16 21:32:18', 'Paralegal', 1);
 insert into job_title (created_at, updated_at, name, status) values ('2022-03-29 23:30:36', '2022-01-15 11:44:18', 'Compensation Analyst', 3);
 
---employee: 5 record
+-- employee: 5 record
 insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2021-09-04 07:46:15', '2021-11-10 11:49:52', 1, 4, 5, 2, 3, 4);
 insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2022-02-14 23:37:02', '2021-11-28 11:18:18', 2, 5, 3, 1, 1, 3);
 insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2021-08-18 01:02:24', '2021-11-25 18:57:42', 3, 5, 4, 1, 4, 3);
 insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2022-03-28 13:25:39', '2022-03-14 23:44:50', 4, 1, 1, 1, 2, 5);
 insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2021-07-12 15:21:18', '2021-06-29 17:12:00', 5, 3, 3, 2, 1, 5);
 
---customer-group: 5 record
+-- customer-group: 5 record
 insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2022-01-23 14:14:28', '2021-12-24 07:08:47', '52270-001', 'Facebook', 'Other and unspecified malignant neoplasms of lymphoid and histiocytic tissue, lymph nodes of multiple sites', 'Blue', 2);
 insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2022-03-29 19:59:34', '2021-08-26 07:05:04', '0904-6089', 'Google', 'Amphetamine and other psychostimulant dependence, unspecified', 'Pink', 3);
 insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2022-01-20 11:21:17', '2022-02-05 17:55:09', '65162-539', 'Instagram', 'Salmonella osteomyelitis', 'Red', 1);
 insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2021-10-20 17:12:24', '2022-02-28 19:00:00', '63304-551', 'Potential', 'Unspecified disorder of carbohydrate transport and metabolism', 'Orange', 2);
 insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2021-10-29 00:20:18', '2021-12-10 20:31:28', '76436-202', 'VIP', 'Common ventricle', 'Green', 3);
 
---customer-resource: 5 record
+-- customer-resource: 5 record
 insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2021-08-26 01:48:14', '2021-10-19 04:58:04', '53499-5971', 'Facebook', 'Congenital mitral insufficiency', 'Blue', 1);
 insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2022-01-11 08:53:09', '2022-05-16 19:00:07', '76358-195', 'Google', 'Blisters, epidermal loss [second degree] of hand, unspecified site', 'Violet', 3);
 insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2022-04-24 06:46:43', '2021-10-21 19:59:04', '64616-082', 'Instagram', 'Sedative, hypnotic or anxiolytic dependence, continuous', 'Crimson', 2);
 insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2022-03-19 16:57:29', '2021-11-28 11:50:59', '11559-724', 'Normal', 'Unspecified failure in dosage', 'Green', 1);
 insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2022-02-13 10:28:33', '2022-05-11 03:36:22', '13537-455', 'AVD', 'Other testicular hypofunction', 'Orange', 1);
 
---customer-status: 3 record
+-- customer-status: 3 record
 insert into customer_status (created_at, updated_at, code, name, description, color, status) values ('2022-03-06 12:54:55', '2022-03-01 01:22:53', '55045-3602', 'Active', 'Miliary tuberculosis, unspecified, unspecified', 'Mauv', 3);
 insert into customer_status (created_at, updated_at, code, name, description, color, status) values ('2021-11-04 19:46:58', '2022-01-06 21:22:50', '60429-239', 'Disable', 'Screening for malignant neoplasms of skin', 'Aquamarine', 1);
 insert into customer_status (created_at, updated_at, code, name, description, color, status) values ('2022-03-27 06:15:17', '2021-09-29 17:49:37', '49281-395', 'None', 'Other lymphedema', 'Maroon', 2);
 
---customer: 5 record
+-- customer: 5 record
 insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 10, 4, 5, 3);
 insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-22 12:52:55', '2022-03-05 09:30:21', 6, 2, 4, 2);
 insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-16 21:25:31', '2021-09-13 07:36:37', 8, 5, 2, 2);

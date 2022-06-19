@@ -1,6 +1,5 @@
 package com.electro;
 
-
 import com.electro.config.security.UserDetailsImpl;
 import com.electro.entity.authentication.Role;
 import com.electro.entity.authentication.User;

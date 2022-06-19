@@ -16,7 +16,6 @@ import org.mapstruct.ReportingPolicy;
 public interface CustomerMapper extends GenericMapper<Customer, CustomerRequest, CustomerResponse> {
 
     @Override
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(source = "user.address.provinceId", target = "user.address.province", qualifiedByName = "mapProvinceIdToProvince")
     @Mapping(source = "user.address.districtId", target = "user.address.district", qualifiedByName = "mapDistrictIdToDistrict")
     @Mapping(source = "user.password", target = "user.password", qualifiedByName = "hashPassword")
