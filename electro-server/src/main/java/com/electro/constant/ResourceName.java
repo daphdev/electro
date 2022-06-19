@@ -6,7 +6,6 @@ public interface ResourceName {
     String ADDRESS = "Address";
     String USER = "User";
     String ROLE = "Role";
-    String BRAND = "Brand";
     String OFFICE = "Office";
     String DEPARTMENT = "Department";
     String JOB_TITLE = "JobTitle";
@@ -19,4 +18,5 @@ public interface ResourceName {
     String CUSTOMER = "Customer";
     String PROPERTY = "Property";
     String CATEGORY = "Category";
+    String BRAND = "Brand";
 }

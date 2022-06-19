@@ -2,9 +2,28 @@ USE electro;
 
 -- DROP TABLES
 
-DROP TABLE IF EXISTS province, district, address, user, role, user_role, brand, office, department, job_level,
-                    job_title, job_type, employee, customer_group, customer_resource, customer_status, customer,
-                    property, category, category_property;
+DROP TABLE IF EXISTS
+    province,
+    district,
+    address,
+    user,
+    role,
+    user_role,
+    brand,
+    office,
+    department,
+    job_level,
+    job_title,
+    job_type,
+    employee,
+    customer_group,
+    customer_resource,
+    customer_status,
+    customer,
+    property,
+    category,
+    category_property;
+
 -- CREATE TABLES
 
 CREATE TABLE province

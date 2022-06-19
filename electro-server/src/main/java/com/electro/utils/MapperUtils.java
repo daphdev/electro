@@ -32,27 +32,6 @@ public class MapperUtils {
 
     private RoleRepository roleRepository;
 
-    @AfterMapping
-    @Named("attachUser")
-    public User attachUser(@MappingTarget User user) {
-        return user.setRoles(attachSet(user.getRoles(), roleRepository));
-    }
-
-    private <E extends BaseEntity> Set<E> attachSet(Set<E> entities, JpaRepository<E, Long> repository) {
-        Set<E> detachedSet = Optional.ofNullable(entities).orElseGet(HashSet::new);
-        Set<E> attachedSet = new HashSet<>();
-
-        for (E entity : detachedSet) {
-            if (entity.getId() != null) {
-                repository.findById(entity.getId()).ifPresent(attachedSet::add);
-            } else {
-                attachedSet.add(entity);
-            }
-        }
-
-        return attachedSet;
-    }
-
     @Named("mapProvinceIdToProvince")
     public Province mapProvinceIdToProvince(Long id) {
         return (Province) new Province().setId(id);
@@ -111,6 +90,27 @@ public class MapperUtils {
     @Named("mapCategoryIdToCategory")
     public Category mapCategoryIdToCategory(Long id) {
         return (Category) new Category().setId(id);
+    }
+
+    @AfterMapping
+    @Named("attachUser")
+    public User attachUser(@MappingTarget User user) {
+        return user.setRoles(attachSet(user.getRoles(), roleRepository));
+    }
+
+    private <E extends BaseEntity> Set<E> attachSet(Set<E> entities, JpaRepository<E, Long> repository) {
+        Set<E> detachedSet = Optional.ofNullable(entities).orElseGet(HashSet::new);
+        Set<E> attachedSet = new HashSet<>();
+
+        for (E entity : detachedSet) {
+            if (entity.getId() != null) {
+                repository.findById(entity.getId()).ifPresent(attachedSet::add);
+            } else {
+                attachedSet.add(entity);
+            }
+        }
+
+        return attachedSet;
     }
 
 }
