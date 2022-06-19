@@ -2,6 +2,7 @@ package com.electro.entity.authentication;
 
 import com.electro.entity.BaseEntity;
 import com.electro.entity.address.Address;
+import com.electro.entity.customer.Customer;
 import com.electro.entity.employee.Employee;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -66,4 +67,7 @@ public class User extends BaseEntity {
 
     @OneToOne(mappedBy = "user")
     private Employee employee;
+
+    @OneToOne(mappedBy = "user")
+    private Customer customer;
 }

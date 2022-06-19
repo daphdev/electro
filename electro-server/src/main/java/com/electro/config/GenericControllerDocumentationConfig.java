@@ -32,7 +32,11 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("job-types"))
                 .and(generateRoute("job-titles"))
                 .and(generateRoute("job-levels"))
-                .and(generateRoute("employees"));
+                .and(generateRoute("employees"))
+                .and(generateRoute("customer-groups"))
+                .and(generateRoute("customer-resources"))
+                .and(generateRoute("customer-status"))
+                .and(generateRoute("customers"));
     }
 
     private RouterFunction<ServerResponse> generateRoute(String resource) {
