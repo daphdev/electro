@@ -20,6 +20,7 @@ public interface UserMapper extends GenericMapper<User, UserRequest, UserRespons
     @BeanMapping(qualifiedByName = "attachUser")
     @Mapping(source = "address.provinceId", target = "address.province", qualifiedByName = "mapProvinceIdToProvince")
     @Mapping(source = "address.districtId", target = "address.district", qualifiedByName = "mapDistrictIdToDistrict")
+    @Mapping(source = "password", target = "password", qualifiedByName = "hashPassword")
     User requestToEntity(UserRequest request);
 
     @Override
