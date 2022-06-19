@@ -132,6 +132,18 @@ public interface SearchFields {
             "customerStatus.color"
     );
 
+    List<String> PROPERTY = List.of(
+            "name",
+            "code",
+            "type",
+            "description"
+    );
+
+    List<String> CATEGORY = List.of(
+            "name",
+            "description"
+    );
+
     List<String> BRAND = List.of(
             "name",
             "code",

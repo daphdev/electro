@@ -34,6 +34,10 @@ import com.electro.dto.employee.OfficeRequest;
 import com.electro.dto.employee.OfficeResponse;
 import com.electro.dto.product.BrandRequest;
 import com.electro.dto.product.BrandResponse;
+import com.electro.dto.product.CategoryRequest;
+import com.electro.dto.product.CategoryResponse;
+import com.electro.dto.product.PropertyRequest;
+import com.electro.dto.product.PropertyResponse;
 import com.electro.entity.address.Address;
 import com.electro.entity.address.District;
 import com.electro.entity.authentication.Role;
@@ -49,6 +53,8 @@ import com.electro.entity.employee.JobTitle;
 import com.electro.entity.employee.JobType;
 import com.electro.entity.employee.Office;
 import com.electro.entity.product.Brand;
+import com.electro.entity.product.Category;
+import com.electro.entity.product.Property;
 import com.electro.mapper.address.AddressMapper;
 import com.electro.mapper.address.DistrictMapper;
 import com.electro.mapper.authentication.RoleMapper;
@@ -64,6 +70,8 @@ import com.electro.mapper.employee.JobTitleMapper;
 import com.electro.mapper.employee.JobTypeMapper;
 import com.electro.mapper.employee.OfficeMapper;
 import com.electro.mapper.product.BrandMapper;
+import com.electro.mapper.product.CategoryMapper;
+import com.electro.mapper.product.PropertyMapper;
 import com.electro.repository.address.AddressRepository;
 import com.electro.repository.address.DistrictRepository;
 import com.electro.repository.authentication.RoleRepository;
@@ -79,6 +87,8 @@ import com.electro.repository.employee.JobTitleRepository;
 import com.electro.repository.employee.JobTypeRepository;
 import com.electro.repository.employee.OfficeRepository;
 import com.electro.repository.product.BrandRepository;
+import com.electro.repository.product.CategoryRepository;
+import com.electro.repository.product.PropertyRepository;
 import com.electro.service.CrudService;
 import com.electro.service.GenericService;
 import com.electro.service.address.ProvinceService;
@@ -118,6 +128,8 @@ public class GenericMappingRegister {
     private GenericController<CustomerResourceRequest, CustomerResourceResponse> customerResourceController;
     private GenericController<CustomerStatusRequest, CustomerStatusResponse> customerStatusController;
     private GenericController<CustomerRequest, CustomerResponse> customerController;
+    private GenericController<PropertyRequest, PropertyResponse> propertyController;
+    private GenericController<CategoryRequest, CategoryResponse> categoryController;
     private GenericController<BrandRequest, BrandResponse> brandController;
 
     // Services
@@ -135,6 +147,8 @@ public class GenericMappingRegister {
     private GenericService<CustomerResource, CustomerResourceRequest, CustomerResourceResponse> customerResourceService;
     private GenericService<CustomerStatus, CustomerStatusRequest, CustomerStatusResponse> customerStatusService;
     private GenericService<Customer, CustomerRequest, CustomerResponse> customerService;
+    private GenericService<Property, PropertyRequest, PropertyResponse> propertyService;
+    private GenericService<Category, CategoryRequest, CategoryResponse> categoryService;
     private GenericService<Brand, BrandRequest, BrandResponse> brandService;
 
     @PostConstruct
@@ -239,6 +253,20 @@ public class GenericMappingRegister {
                 SearchFields.CUSTOMER,
                 ResourceName.CUSTOMER
         ), CustomerRequest.class);
+
+        register("properties", propertyController, propertyService.init(
+                context.getBean(PropertyRepository.class),
+                context.getBean(PropertyMapper.class),
+                SearchFields.PROPERTY,
+                ResourceName.PROPERTY
+        ), PropertyRequest.class);
+
+        register("categories", categoryController, categoryService.init(
+                context.getBean(CategoryRepository.class),
+                context.getBean(CategoryMapper.class),
+                SearchFields.CATEGORY,
+                ResourceName.CATEGORY
+        ), CategoryRequest.class);
 
         register("brands", brandController, brandService.init(
                 context.getBean(BrandRepository.class),

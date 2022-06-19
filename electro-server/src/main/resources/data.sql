@@ -230,3 +230,16 @@ insert into customer (created_at, updated_at, user_id, customer_group_id, custom
 insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-16 21:25:31', '2021-09-13 07:36:37', 8, 5, 2, 2);
 insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-07-05 20:51:32', '2022-01-24 03:31:41', 7, 5, 4, 1);
 insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-03 13:27:34', '2022-01-17 05:56:02', 11, 5, 5, 1);
+
+--property: 2 record
+insert into property (created_at, updated_at, code, type, name, description, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', "AKSUCX", "Phone","DEMO", "This is demo", 1);
+insert into property (created_at, updated_at, code, type, name, description, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', "SKSOA", "Laptop","Test", "This is demo", 2);
+
+--category: 5 record
+insert into category (created_at, updated_at, name, description, thumbnail, status, category_id) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', "Tủ Lanh", "Tủ Lạnh","none", 1, null);
+insert into category (created_at, updated_at, name, description, thumbnail, status, category_id) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', "Samsung", "Samsung","none", 1, 1);
+insert into category (created_at, updated_at, name, description, thumbnail, status, category_id) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', "Dell", "Oppo","none", 1, 2);
+
+-- category_property: 3 record
+insert into category_property (category_id, property_id) values (1, 1);
+insert into category_property (category_id, property_id) values (1, 2);

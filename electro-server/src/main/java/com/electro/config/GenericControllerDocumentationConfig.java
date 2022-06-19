@@ -36,6 +36,8 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("customer-resources"))
                 .and(generateRoute("customer-status"))
                 .and(generateRoute("customers"))
+                .and(generateRoute("properties"))
+                .and(generateRoute("categories"))
                 .and(generateRoute("brands"));
     }
 

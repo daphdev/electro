@@ -19,7 +19,10 @@ DROP TABLE IF EXISTS
     customer_group,
     customer_resource,
     customer_status,
-    customer;
+    customer,
+    property,
+    category,
+    category_property;
 
 -- CREATE TABLES
 
@@ -135,24 +138,21 @@ CREATE TABLE brand
     CONSTRAINT pk_brand PRIMARY KEY (id)
 );
 
-CREATE TABLE office
-(
-    id         BIGINT AUTO_INCREMENT NOT NULL,
-    created_at datetime              NOT NULL,
-    updated_at datetime              NOT NULL,
-    created_by BIGINT                NULL,
-    updated_by BIGINT                NULL,
-    name       VARCHAR(255)          NOT NULL,
-    address_id BIGINT                NOT NULL,
-    status     TINYINT               NOT NULL,
-    CONSTRAINT pk_office PRIMARY KEY (id)
+CREATE TABLE office (
+   id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   name VARCHAR(255) NOT NULL,
+   address_id BIGINT NOT NULL,
+   status INT NOT NULL,
+   CONSTRAINT pk_office PRIMARY KEY (id)
 );
 
-ALTER TABLE office
-    ADD CONSTRAINT uc_office_address UNIQUE (address_id);
+ALTER TABLE office ADD CONSTRAINT uc_office_address UNIQUE (address_id);
 
-ALTER TABLE office
-    ADD CONSTRAINT FK_OFFICE_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES address (id);
+ALTER TABLE office ADD CONSTRAINT FK_OFFICE_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES address (id);
 
 CREATE TABLE department (
    id BIGINT AUTO_INCREMENT NOT NULL,
@@ -291,3 +291,46 @@ ALTER TABLE customer ADD CONSTRAINT FK_CUSTOMER_ON_CUSTOMER_RESOURCE FOREIGN KEY
 ALTER TABLE customer ADD CONSTRAINT FK_CUSTOMER_ON_CUSTOMER_STATUS FOREIGN KEY (customer_status_id) REFERENCES customer_status (id);
 
 ALTER TABLE customer ADD CONSTRAINT FK_CUSTOMER_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE property (
+   id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   code VARCHAR(255) NOT NULL,
+   type VARCHAR(255) NOT NULL,
+   name VARCHAR(255) NOT NULL,
+   `description` VARCHAR(255) NOT NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT pk_property PRIMARY KEY (id)
+);
+
+CREATE TABLE category (
+   id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   name VARCHAR(255) NOT NULL,
+   `description` VARCHAR(255) NOT NULL,
+   thumbnail VARCHAR(255) NOT NULL,
+   status TINYINT NOT NULL,
+   category_id BIGINT NULL,
+   CONSTRAINT pk_category PRIMARY KEY (id)
+);
+
+ALTER TABLE category ADD CONSTRAINT FK_CATEGORY_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES category (id);
+
+CREATE TABLE category_property
+(
+    category_id bigint not null,
+    property_id bigint not null,
+    primary key (category_id, property_id)
+);
+
+ALTER TABLE category_property
+    ADD CONSTRAINT FK_CATEGORY_PROPERTY_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES category (id);
+
+ALTER TABLE category_property
+    ADD CONSTRAINT FK_CATEGORY_PROPERTY_ON_PROPERTY FOREIGN KEY (property_id) REFERENCES property (id);

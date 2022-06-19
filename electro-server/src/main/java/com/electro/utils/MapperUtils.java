@@ -12,13 +12,14 @@ import com.electro.entity.employee.JobLevel;
 import com.electro.entity.employee.JobTitle;
 import com.electro.entity.employee.JobType;
 import com.electro.entity.employee.Office;
+import com.electro.entity.product.Category;
 import com.electro.repository.authentication.RoleRepository;
 import lombok.AllArgsConstructor;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -29,7 +30,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class MapperUtils {
 
-    private PasswordEncoder passwordEncoder;
     private RoleRepository roleRepository;
 
     @Named("mapProvinceIdToProvince")
@@ -44,7 +44,7 @@ public class MapperUtils {
 
     @Named("hashPassword")
     public String hashPassword(String password) {
-        return passwordEncoder.encode(password);
+        return new BCryptPasswordEncoder().encode(password);
     }
 
     @Named("mapOfficeIdToOffice")
@@ -85,6 +85,11 @@ public class MapperUtils {
     @Named("mapCustomerStatusIdToCustomerStatus")
     public CustomerStatus mapCustomerStatusIdToCustomerStatus(Long id) {
         return (CustomerStatus) new CustomerStatus().setId(id);
+    }
+
+    @Named("mapCategoryIdToCategory")
+    public Category mapCategoryIdToCategory(Long id) {
+        return (Category) new Category().setId(id);
     }
 
     @AfterMapping
