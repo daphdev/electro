@@ -7,4 +7,10 @@ public interface ResourceName {
     String USER = "User";
     String ROLE = "Role";
     String BRAND = "Brand";
+    String OFFICE = "Office";
+    String DEPARTMENT = "Department";
+    String JOB_TITLE = "JobTitle";
+    String JOB_LEVEL = "JobLevel";
+    String JOB_TYPE = "JobType";
+    String EMPLOYEE = "Employee";
 }
