@@ -19,7 +19,7 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -30,6 +30,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class MapperUtils {
 
+    private PasswordEncoder passwordEncoder;
     private RoleRepository roleRepository;
 
     @Named("mapProvinceIdToProvince")
@@ -44,7 +45,7 @@ public class MapperUtils {
 
     @Named("hashPassword")
     public String hashPassword(String password) {
-        return new BCryptPasswordEncoder().encode(password);
+        return passwordEncoder.encode(password);
     }
 
     @Named("mapOfficeIdToOffice")
