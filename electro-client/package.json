@@ -1,0 +1,69 @@
+{
+  "name": "electro-client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@mantine/core": "^4.2.5",
+    "@mantine/dates": "^4.2.5",
+    "@mantine/dropzone": "^4.2.5",
+    "@mantine/form": "^4.2.5",
+    "@mantine/hooks": "^4.2.5",
+    "@mantine/modals": "^4.2.5",
+    "@mantine/notifications": "^4.2.5",
+    "@mantine/prism": "^4.2.5",
+    "@mantine/rte": "^4.2.5",
+    "@mantine/spotlight": "^4.2.5",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.2.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.1",
+    "@types/node": "^16.11.36",
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.4",
+    "dayjs": "^1.11.2",
+    "immer": "^9.0.14",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-query": "^3.39.1",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.1",
+    "react-tracked": "^1.7.9",
+    "tabler-icons-react": "^1.48.0",
+    "typescript": "^4.6.4",
+    "web-vitals": "^2.1.4",
+    "zod": "^3.17.3",
+    "zustand": "^4.0.0-rc.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.25.0",
+    "@typescript-eslint/parser": "^5.25.0",
+    "eslint": "^8.16.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-react-hooks": "^4.5.0"
+  }
+}

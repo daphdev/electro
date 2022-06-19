@@ -25,7 +25,8 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("districts"))
                 .and(generateRoute("addresses"))
                 .and(generateRoute("users"))
-                .and(generateRoute("roles"));
+                .and(generateRoute("roles"))
+                .and(generateRoute("brands"));
     }
 
     private RouterFunction<ServerResponse> generateRoute(String resource) {

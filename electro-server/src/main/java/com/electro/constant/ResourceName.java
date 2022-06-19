@@ -6,4 +6,5 @@ public interface ResourceName {
     String ADDRESS = "Address";
     String USER = "User";
     String ROLE = "Role";
+    String BRAND = "Brand";
 }
