@@ -12,6 +12,14 @@ import com.electro.dto.authentication.RoleRequest;
 import com.electro.dto.authentication.RoleResponse;
 import com.electro.dto.authentication.UserRequest;
 import com.electro.dto.authentication.UserResponse;
+import com.electro.dto.customer.CustomerGroupRequest;
+import com.electro.dto.customer.CustomerGroupResponse;
+import com.electro.dto.customer.CustomerRequest;
+import com.electro.dto.customer.CustomerResourceRequest;
+import com.electro.dto.customer.CustomerResourceResponse;
+import com.electro.dto.customer.CustomerResponse;
+import com.electro.dto.customer.CustomerStatusRequest;
+import com.electro.dto.customer.CustomerStatusResponse;
 import com.electro.dto.employee.DepartmentRequest;
 import com.electro.dto.employee.DepartmentResponse;
 import com.electro.dto.employee.EmployeeRequest;
@@ -30,6 +38,10 @@ import com.electro.entity.address.Address;
 import com.electro.entity.address.District;
 import com.electro.entity.authentication.Role;
 import com.electro.entity.authentication.User;
+import com.electro.entity.customer.Customer;
+import com.electro.entity.customer.CustomerGroup;
+import com.electro.entity.customer.CustomerResource;
+import com.electro.entity.customer.CustomerStatus;
 import com.electro.entity.employee.Department;
 import com.electro.entity.employee.Employee;
 import com.electro.entity.employee.JobLevel;
@@ -41,6 +53,10 @@ import com.electro.mapper.address.AddressMapper;
 import com.electro.mapper.address.DistrictMapper;
 import com.electro.mapper.authentication.RoleMapper;
 import com.electro.mapper.authentication.UserMapper;
+import com.electro.mapper.customer.CustomerGroupMapper;
+import com.electro.mapper.customer.CustomerMapper;
+import com.electro.mapper.customer.CustomerResourceMapper;
+import com.electro.mapper.customer.CustomerStatusMapper;
 import com.electro.mapper.employee.DepartmentMapper;
 import com.electro.mapper.employee.EmployeeMapper;
 import com.electro.mapper.employee.JobLevelMapper;
@@ -52,6 +68,10 @@ import com.electro.repository.address.AddressRepository;
 import com.electro.repository.address.DistrictRepository;
 import com.electro.repository.authentication.RoleRepository;
 import com.electro.repository.authentication.UserRepository;
+import com.electro.repository.customer.CustomerGroupRepository;
+import com.electro.repository.customer.CustomerRepository;
+import com.electro.repository.customer.CustomerResourceRepository;
+import com.electro.repository.customer.CustomerStatusRepository;
 import com.electro.repository.employee.DepartmentRepository;
 import com.electro.repository.employee.EmployeeRepository;
 import com.electro.repository.employee.JobLevelRepository;
@@ -95,6 +115,10 @@ public class GenericMappingRegister {
     private GenericController<JobTypeRequest, JobTypeResponse> jobTypeController;
     private GenericController<JobTitleRequest, JobTitleResponse> jobTitleController;
     private GenericController<EmployeeRequest, EmployeeResponse> employeeController;
+    private GenericController<CustomerGroupRequest, CustomerGroupResponse> customerGroupController;
+    private GenericController<CustomerResourceRequest, CustomerResourceResponse> customerResourceController;
+    private GenericController<CustomerStatusRequest, CustomerStatusResponse> customerStatusController;
+    private GenericController<CustomerRequest, CustomerResponse> customerController;
 
     // Services
     private GenericService<District, DistrictRequest, DistrictResponse> districtService;
@@ -108,6 +132,10 @@ public class GenericMappingRegister {
     private GenericService<JobType, JobTypeRequest, JobTypeResponse> jobTypeService;
     private GenericService<JobTitle, JobTitleRequest, JobTitleResponse> jobTitleService;
     private GenericService<Employee, EmployeeRequest, EmployeeResponse> employeeService;
+    private GenericService<CustomerGroup, CustomerGroupRequest, CustomerGroupResponse> customerGroupService;
+    private GenericService<CustomerResource, CustomerResourceRequest, CustomerResourceResponse> customerResourceService;
+    private GenericService<CustomerStatus, CustomerStatusRequest, CustomerStatusResponse> customerStatusService;
+    private GenericService<Customer, CustomerRequest, CustomerResponse> customerService;
 
     @PostConstruct
     public void registerControllers() throws NoSuchMethodException {
@@ -201,6 +229,38 @@ public class GenericMappingRegister {
                 SearchFields.EMPLOYEE,
                 ResourceName.EMPLOYEE
         ), EmployeeRequest.class);
+
+        register("customer-groups", customerGroupController, customerGroupService.init(
+                context.getBean(CustomerGroupRepository.class),
+                context.getBean(CustomerGroupRepository.class),
+                context.getBean(CustomerGroupMapper.class),
+                SearchFields.CUSTOMER_GROUP,
+                ResourceName.CUSTOMER_GROUP
+        ), CustomerGroupRequest.class);
+
+        register("customer-resources", customerResourceController, customerResourceService.init(
+                context.getBean(CustomerResourceRepository.class),
+                context.getBean(CustomerResourceRepository.class),
+                context.getBean(CustomerResourceMapper.class),
+                SearchFields.CUSTOMER_RESOURCE,
+                ResourceName.CUSTOMER_RESOURCE
+        ), CustomerResourceRequest.class);
+
+        register("customer-status", customerStatusController, customerStatusService.init(
+                context.getBean(CustomerStatusRepository.class),
+                context.getBean(CustomerStatusRepository.class),
+                context.getBean(CustomerStatusMapper.class),
+                SearchFields.CUSTOMER_STATUS,
+                ResourceName.CUSTOMER_STATUS
+        ), CustomerStatusRequest.class);
+
+        register("customers", customerController, customerService.init(
+                context.getBean(CustomerRepository.class),
+                context.getBean(CustomerRepository.class),
+                context.getBean(CustomerMapper.class),
+                SearchFields.CUSTOMER,
+                ResourceName.CUSTOMER
+        ), CustomerRequest.class);
 
     }
 
