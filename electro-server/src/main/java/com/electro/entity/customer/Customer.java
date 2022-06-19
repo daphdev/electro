@@ -26,7 +26,7 @@ import javax.persistence.Table;
 @Table(name = "customer")
 public class Customer extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, unique = true )
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, unique = true)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)

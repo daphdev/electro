@@ -2,7 +2,24 @@ USE electro;
 
 -- DROP TABLES
 
-DROP TABLE IF EXISTS province, district, address, user, role, user_role, brand, office, department, job_level, job_title, job_type, employee, customer_group, customer_resource, customer_status, customer;
+DROP TABLE IF EXISTS
+    province,
+    district,
+    address,
+    user,
+    role,
+    user_role,
+    brand,
+    office,
+    department,
+    job_level,
+    job_title,
+    job_type,
+    employee,
+    customer_group,
+    customer_resource,
+    customer_status,
+    customer;
 
 -- CREATE TABLES
 
@@ -118,21 +135,24 @@ CREATE TABLE brand
     CONSTRAINT pk_brand PRIMARY KEY (id)
 );
 
-CREATE TABLE office (
-   id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   name VARCHAR(255) NOT NULL,
-   address_id BIGINT NOT NULL,
-   status INT NOT NULL,
-   CONSTRAINT pk_office PRIMARY KEY (id)
+CREATE TABLE office
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    name       VARCHAR(255)          NOT NULL,
+    address_id BIGINT                NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_office PRIMARY KEY (id)
 );
 
-ALTER TABLE office ADD CONSTRAINT uc_office_address UNIQUE (address_id);
+ALTER TABLE office
+    ADD CONSTRAINT uc_office_address UNIQUE (address_id);
 
-ALTER TABLE office ADD CONSTRAINT FK_OFFICE_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES address (id);
+ALTER TABLE office
+    ADD CONSTRAINT FK_OFFICE_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES address (id);
 
 CREATE TABLE department (
    id BIGINT AUTO_INCREMENT NOT NULL,

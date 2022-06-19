@@ -26,7 +26,6 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("addresses"))
                 .and(generateRoute("users"))
                 .and(generateRoute("roles"))
-                .and(generateRoute("brands"))
                 .and(generateRoute("offices"))
                 .and(generateRoute("departments"))
                 .and(generateRoute("job-types"))
@@ -36,7 +35,8 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("customer-groups"))
                 .and(generateRoute("customer-resources"))
                 .and(generateRoute("customer-status"))
-                .and(generateRoute("customers"));
+                .and(generateRoute("customers"))
+                .and(generateRoute("brands"));
     }
 
     private RouterFunction<ServerResponse> generateRoute(String resource) {

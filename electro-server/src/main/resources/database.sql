@@ -191,7 +191,7 @@
         updated_at datetime not null,
         updated_by bigint,
         name varchar(255) not null,
-        status integer not null,
+        status TINYINT not null,
         address_id bigint not null,
         primary key (id)
     ) engine=MyISAM;

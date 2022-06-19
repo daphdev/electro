@@ -108,7 +108,6 @@ public class GenericMappingRegister {
     private GenericController<AddressRequest, AddressResponse> addressController;
     private GenericController<UserRequest, UserResponse> userController;
     private GenericController<RoleRequest, RoleResponse> roleController;
-    private GenericController<BrandRequest, BrandResponse> brandController;
     private GenericController<OfficeRequest, OfficeResponse> officeController;
     private GenericController<DepartmentRequest, DepartmentResponse> departmentController;
     private GenericController<JobLevelRequest, JobLevelResponse> jobLevelController;
@@ -119,13 +118,13 @@ public class GenericMappingRegister {
     private GenericController<CustomerResourceRequest, CustomerResourceResponse> customerResourceController;
     private GenericController<CustomerStatusRequest, CustomerStatusResponse> customerStatusController;
     private GenericController<CustomerRequest, CustomerResponse> customerController;
+    private GenericController<BrandRequest, BrandResponse> brandController;
 
     // Services
     private GenericService<District, DistrictRequest, DistrictResponse> districtService;
     private GenericService<Address, AddressRequest, AddressResponse> addressService;
     private GenericService<User, UserRequest, UserResponse> userService;
     private GenericService<Role, RoleRequest, RoleResponse> roleService;
-    private GenericService<Brand, BrandRequest, BrandResponse> brandService;
     private GenericService<Office, OfficeRequest, OfficeResponse> officeService;
     private GenericService<Department, DepartmentRequest, DepartmentResponse> departmentService;
     private GenericService<JobLevel, JobLevelRequest, JobLevelResponse> jobLevelService;
@@ -136,6 +135,7 @@ public class GenericMappingRegister {
     private GenericService<CustomerResource, CustomerResourceRequest, CustomerResourceResponse> customerResourceService;
     private GenericService<CustomerStatus, CustomerStatusRequest, CustomerStatusResponse> customerStatusService;
     private GenericService<Customer, CustomerRequest, CustomerResponse> customerService;
+    private GenericService<Brand, BrandRequest, BrandResponse> brandService;
 
     @PostConstruct
     public void registerControllers() throws NoSuchMethodException {
@@ -169,13 +169,6 @@ public class GenericMappingRegister {
                 SearchFields.ROLE,
                 ResourceName.ROLE
         ), RoleRequest.class);
-
-        register("brands", brandController, brandService.init(
-                context.getBean(BrandRepository.class),
-                context.getBean(BrandMapper.class),
-                SearchFields.BRAND,
-                ResourceName.BRAND
-        ), BrandRequest.class);
 
         register("offices", officeController, officeService.init(
                 context.getBean(OfficeRepository.class),
@@ -246,6 +239,13 @@ public class GenericMappingRegister {
                 SearchFields.CUSTOMER,
                 ResourceName.CUSTOMER
         ), CustomerRequest.class);
+
+        register("brands", brandController, brandService.init(
+                context.getBean(BrandRepository.class),
+                context.getBean(BrandMapper.class),
+                SearchFields.BRAND,
+                ResourceName.BRAND
+        ), BrandRequest.class);
 
     }
 
