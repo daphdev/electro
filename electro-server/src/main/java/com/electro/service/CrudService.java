@@ -1,8 +1,7 @@
 package com.electro.service;
 
 import com.electro.constant.FieldName;
-import com.electro.dto.ListWrapperResponse;
-import com.electro.dto.PagedListResponse;
+import com.electro.dto.ListResponse;
 import com.electro.exception.ResourceNotFoundException;
 import com.electro.mapper.GenericMapper;
 import com.electro.utils.SearchUtils;
@@ -20,7 +19,7 @@ import java.util.List;
 
 public interface CrudService<I, O> {
 
-    ListWrapperResponse findAll(int page, int size, String sort, String filter, String search, boolean all);
+    ListResponse<O> findAll(int page, int size, String sort, String filter, String search, boolean all);
 
     O findById(Long id);
 
@@ -44,19 +43,19 @@ public interface CrudService<I, O> {
         return save(id, typedRequest);
     }
 
-    default <E> ListWrapperResponse defaultFindAll(int page, int size,
-                                                   String sort, String filter,
-                                                   String search, boolean all,
-                                                   List<String> searchFields,
-                                                   JpaSpecificationExecutor<E> repository,
-                                                   GenericMapper<E, I, O> mapper) {
+    default <E> ListResponse<O> defaultFindAll(int page, int size,
+                                               String sort, String filter,
+                                               String search, boolean all,
+                                               List<String> searchFields,
+                                               JpaSpecificationExecutor<E> repository,
+                                               GenericMapper<E, I, O> mapper) {
         Specification<E> sortable = RSQLJPASupport.toSort(sort);
         Specification<E> filterable = RSQLJPASupport.toSpecification(filter);
         Specification<E> searchable = SearchUtils.parse(search, searchFields);
         Pageable pageable = all ? Pageable.unpaged() : PageRequest.of(page - 1, size);
         Page<E> entities = repository.findAll(sortable.and(filterable).and(searchable), pageable);
         List<O> entityResponses = mapper.entityToResponse(entities.getContent());
-        return new PagedListResponse<>(entityResponses, entities);
+        return new ListResponse<>(entityResponses, entities);
     }
 
     default <E> O defaultFindById(Long id,

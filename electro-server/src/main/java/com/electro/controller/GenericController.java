@@ -1,7 +1,7 @@
 package com.electro.controller;
 
 import com.electro.constant.AppConstants;
-import com.electro.dto.ListWrapperResponse;
+import com.electro.dto.ListResponse;
 import com.electro.service.CrudService;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Setter;
@@ -26,7 +26,7 @@ public class GenericController<I, O> {
     private CrudService<I, O> crudService;
     private Class<I> requestType;
 
-    public ResponseEntity<ListWrapperResponse> getAllResources(
+    public ResponseEntity<ListResponse<O>> getAllResources(
             @RequestParam(name = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size,
             @RequestParam(name = "sort", defaultValue = AppConstants.DEFAULT_SORT) String sort,

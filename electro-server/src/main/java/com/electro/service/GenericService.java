@@ -1,6 +1,6 @@
 package com.electro.service;
 
-import com.electro.dto.ListWrapperResponse;
+import com.electro.dto.ListResponse;
 import com.electro.mapper.GenericMapper;
 import lombok.Setter;
 import org.springframework.context.annotation.Scope;
@@ -21,13 +21,13 @@ public class GenericService<E, I, O> implements CrudService<I, O> {
     private List<String> searchFields;
     private String resourceName;
 
-    public GenericService<E, I, O> init(JpaRepository<E, Long> repository,
-                                        JpaSpecificationExecutor<E> specificationExecutor,
-                                        GenericMapper<E, I, O> mapper,
-                                        List<String> searchFields,
-                                        String resourceName) {
+    public <R extends JpaRepository<E, Long> & JpaSpecificationExecutor<E>> GenericService<E, I, O> init(
+            R repository,
+            GenericMapper<E, I, O> mapper,
+            List<String> searchFields,
+            String resourceName) {
         this.setRepository(repository);
-        this.setSpecificationExecutor(specificationExecutor);
+        this.setSpecificationExecutor(repository);
         this.setMapper(mapper);
         this.setSearchFields(searchFields);
         this.setResourceName(resourceName);
@@ -35,7 +35,7 @@ public class GenericService<E, I, O> implements CrudService<I, O> {
     }
 
     @Override
-    public ListWrapperResponse findAll(int page, int size, String sort, String filter, String search, boolean all) {
+    public ListResponse<O> findAll(int page, int size, String sort, String filter, String search, boolean all) {
         return defaultFindAll(page, size, sort, filter, search, all, searchFields, specificationExecutor, mapper);
     }
 

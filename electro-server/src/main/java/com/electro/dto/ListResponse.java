@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 @Value
-public class PagedListResponse<T> implements ListWrapperResponse {
+public class ListResponse<T> {
     List<T> content;
     int page;
     int size;
@@ -14,7 +14,7 @@ public class PagedListResponse<T> implements ListWrapperResponse {
     int totalPages;
     boolean last;
 
-    public <E> PagedListResponse(List<T> content, Page<E> page) {
+    public <E> ListResponse(List<T> content, Page<E> page) {
         this.content = content;
         this.page = page.getNumber() + 1;
         this.size = page.getSize();

@@ -2,7 +2,7 @@ package com.electro.service.address;
 
 import com.electro.constant.ResourceName;
 import com.electro.constant.SearchFields;
-import com.electro.dto.ListWrapperResponse;
+import com.electro.dto.ListResponse;
 import com.electro.dto.address.ProvinceRequest;
 import com.electro.dto.address.ProvinceResponse;
 import com.electro.mapper.address.ProvinceMapper;
@@ -21,7 +21,7 @@ public class ProvinceServiceImpl implements ProvinceService {
     private ProvinceMapper provinceMapper;
 
     @Override
-    public ListWrapperResponse findAll(int page, int size, String sort, String filter, String search, boolean all) {
+    public ListResponse<ProvinceResponse> findAll(int page, int size, String sort, String filter, String search, boolean all) {
         return defaultFindAll(page, size, sort, filter, search, all, SearchFields.PROVINCE, provinceRepository, provinceMapper);
     }
 

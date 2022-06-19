@@ -144,14 +144,12 @@ public class GenericMappingRegister {
 
         register("districts", districtController, districtService.init(
                 context.getBean(DistrictRepository.class),
-                context.getBean(DistrictRepository.class),
                 context.getBean(DistrictMapper.class),
                 SearchFields.DISTRICT,
                 ResourceName.DISTRICT
         ), DistrictRequest.class);
 
         register("addresses", addressController, addressService.init(
-                context.getBean(AddressRepository.class),
                 context.getBean(AddressRepository.class),
                 context.getBean(AddressMapper.class),
                 SearchFields.ADDRESS,
@@ -160,14 +158,12 @@ public class GenericMappingRegister {
 
         register("users", userController, userService.init(
                 context.getBean(UserRepository.class),
-                context.getBean(UserRepository.class),
                 context.getBean(UserMapper.class),
                 SearchFields.USER,
                 ResourceName.USER
         ), UserRequest.class);
 
         register("roles", roleController, roleService.init(
-                context.getBean(RoleRepository.class),
                 context.getBean(RoleRepository.class),
                 context.getBean(RoleMapper.class),
                 SearchFields.ROLE,
@@ -176,14 +172,12 @@ public class GenericMappingRegister {
 
         register("brands", brandController, brandService.init(
                 context.getBean(BrandRepository.class),
-                context.getBean(BrandRepository.class),
                 context.getBean(BrandMapper.class),
                 SearchFields.BRAND,
                 ResourceName.BRAND
         ), BrandRequest.class);
 
         register("offices", officeController, officeService.init(
-                context.getBean(OfficeRepository.class),
                 context.getBean(OfficeRepository.class),
                 context.getBean(OfficeMapper.class),
                 SearchFields.OFFICE,
@@ -192,14 +186,12 @@ public class GenericMappingRegister {
 
         register("departments", departmentController, departmentService.init(
                 context.getBean(DepartmentRepository.class),
-                context.getBean(DepartmentRepository.class),
                 context.getBean(DepartmentMapper.class),
                 SearchFields.DEPARTMENT,
                 ResourceName.DEPARTMENT
         ), DepartmentRequest.class);
 
         register("job-levels", jobLevelController, jobLevelService.init(
-                context.getBean(JobLevelRepository.class),
                 context.getBean(JobLevelRepository.class),
                 context.getBean(JobLevelMapper.class),
                 SearchFields.JOB_LEVEL,
@@ -208,14 +200,12 @@ public class GenericMappingRegister {
 
         register("job-titles", jobTitleController, jobTitleService.init(
                 context.getBean(JobTitleRepository.class),
-                context.getBean(JobTitleRepository.class),
                 context.getBean(JobTitleMapper.class),
                 SearchFields.JOB_TITLE,
                 ResourceName.JOB_TITLE
         ), JobTitleRequest.class);
 
         register("job-types", jobTypeController, jobTypeService.init(
-                context.getBean(JobTypeRepository.class),
                 context.getBean(JobTypeRepository.class),
                 context.getBean(JobTypeMapper.class),
                 SearchFields.JOB_TYPE,
@@ -224,14 +214,12 @@ public class GenericMappingRegister {
 
         register("employees", employeeController, employeeService.init(
                 context.getBean(EmployeeRepository.class),
-                context.getBean(EmployeeRepository.class),
                 context.getBean(EmployeeMapper.class),
                 SearchFields.EMPLOYEE,
                 ResourceName.EMPLOYEE
         ), EmployeeRequest.class);
 
         register("customer-groups", customerGroupController, customerGroupService.init(
-                context.getBean(CustomerGroupRepository.class),
                 context.getBean(CustomerGroupRepository.class),
                 context.getBean(CustomerGroupMapper.class),
                 SearchFields.CUSTOMER_GROUP,
@@ -240,7 +228,6 @@ public class GenericMappingRegister {
 
         register("customer-resources", customerResourceController, customerResourceService.init(
                 context.getBean(CustomerResourceRepository.class),
-                context.getBean(CustomerResourceRepository.class),
                 context.getBean(CustomerResourceMapper.class),
                 SearchFields.CUSTOMER_RESOURCE,
                 ResourceName.CUSTOMER_RESOURCE
@@ -248,14 +235,12 @@ public class GenericMappingRegister {
 
         register("customer-status", customerStatusController, customerStatusService.init(
                 context.getBean(CustomerStatusRepository.class),
-                context.getBean(CustomerStatusRepository.class),
                 context.getBean(CustomerStatusMapper.class),
                 SearchFields.CUSTOMER_STATUS,
                 ResourceName.CUSTOMER_STATUS
         ), CustomerStatusRequest.class);
 
         register("customers", customerController, customerService.init(
-                context.getBean(CustomerRepository.class),
                 context.getBean(CustomerRepository.class),
                 context.getBean(CustomerMapper.class),
                 SearchFields.CUSTOMER,
