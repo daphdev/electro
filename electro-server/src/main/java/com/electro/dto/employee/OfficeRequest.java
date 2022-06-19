@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class OfficeRequest {
-    String name;
-    AddressRequest address;
-    Integer status;
+    private String name;
+    private AddressRequest address;
+    private Integer status;
 }

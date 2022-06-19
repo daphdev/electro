@@ -5,10 +5,10 @@ import lombok.Data;
 
 @Data
 public class EmployeeRequest {
-    UserRequest user;
-    Long officeId;
-    Long departmentId;
-    Long jobTypeId;
-    Long jobLevelId;
-    Long jobTitleId;
+    private UserRequest user;
+    private Long officeId;
+    private Long departmentId;
+    private Long jobTypeId;
+    private Long jobLevelId;
+    private Long jobTitleId;
 }

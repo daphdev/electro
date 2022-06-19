@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class BrandRequest {
-    String name;
-    String code;
-    String description;
-    Integer status;
+    private String name;
+    private String code;
+    private String description;
+    private Integer status;
 }

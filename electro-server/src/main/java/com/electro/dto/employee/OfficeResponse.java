@@ -7,10 +7,10 @@ import java.time.Instant;
 
 @Data
 public class OfficeResponse {
-    Long id;
-    Instant createdAt;
-    Instant updatedAt;
-    String name;
-    AddressResponse address;
-    Integer status;
+    private Long id;
+    private Instant createdAt;
+    private Instant updatedAt;
+    private String name;
+    private AddressResponse address;
+    private Integer status;
 }

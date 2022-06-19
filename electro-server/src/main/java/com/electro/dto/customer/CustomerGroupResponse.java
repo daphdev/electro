@@ -7,8 +7,8 @@ import java.time.Instant;
 @Data
 public class CustomerGroupResponse {
     private Long id;
-    Instant createdAt;
-    Instant updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
     private String code;
     private String name;
     private String description;

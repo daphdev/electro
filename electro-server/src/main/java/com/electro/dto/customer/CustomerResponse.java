@@ -7,11 +7,11 @@ import java.time.Instant;
 
 @Data
 public class CustomerResponse {
-    Long id;
-    Instant createdAt;
-    Instant updatedAt;
-    UserResponse user;
-    CustomerGroupResponse customerGroup;
-    CustomerResourceResponse customerResource;
-    CustomerStatusResponse customerStatus;
+    private Long id;
+    private Instant createdAt;
+    private Instant updatedAt;
+    private UserResponse user;
+    private CustomerGroupResponse customerGroup;
+    private CustomerResourceResponse customerResource;
+    private CustomerStatusResponse customerStatus;
 }

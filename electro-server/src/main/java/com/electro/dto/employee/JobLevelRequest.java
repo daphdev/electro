@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class JobLevelRequest {
-    String name;
-    Integer status;
+    private String name;
+    private Integer status;
 }

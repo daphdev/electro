@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class ProvinceRequest {
-    String name;
-    String code;
+    private String name;
+    private String code;
 }

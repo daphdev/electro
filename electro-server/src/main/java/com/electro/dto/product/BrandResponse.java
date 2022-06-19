@@ -6,11 +6,11 @@ import java.time.Instant;
 
 @Data
 public class BrandResponse {
-    Long id;
-    Instant createdAt;
-    Instant updatedAt;
-    String name;
-    String code;
-    String description;
-    Integer status;
+    private Long id;
+    private Instant createdAt;
+    private Instant updatedAt;
+    private String name;
+    private String code;
+    private String description;
+    private Integer status;
 }

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class RoleRequest {
-    String code;
-    String name;
-    Integer status;
+    private String code;
+    private String name;
+    private Integer status;
 }

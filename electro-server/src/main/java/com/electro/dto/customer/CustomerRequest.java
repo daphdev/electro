@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class CustomerRequest {
-    UserRequest user;
-    Long customerGroupId;
-    Long customerResourceId;
-    Long customerStatusId;
+    private UserRequest user;
+    private Long customerGroupId;
+    private Long customerResourceId;
+    private Long customerStatusId;
 }

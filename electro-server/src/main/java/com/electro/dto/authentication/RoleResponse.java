@@ -6,10 +6,10 @@ import java.time.Instant;
 
 @Data
 public class RoleResponse {
-    Long id;
-    Instant createdAt;
-    Instant updatedAt;
-    String code;
-    String name;
-    Integer status;
+    private Long id;
+    private Instant createdAt;
+    private Instant updatedAt;
+    private String code;
+    private String name;
+    private Integer status;
 }

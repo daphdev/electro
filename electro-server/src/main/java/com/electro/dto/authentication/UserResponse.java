@@ -8,16 +8,16 @@ import java.util.Set;
 
 @Data
 public class UserResponse {
-    Long id;
-    Instant createdAt;
-    Instant updatedAt;
-    String username;
-    String fullname;
-    String email;
-    String phone;
-    String gender;
-    AddressResponse address;
-    String avatar;
-    Integer status;
-    Set<RoleResponse> roles;
+    private Long id;
+    private Instant createdAt;
+    private Instant updatedAt;
+    private String username;
+    private String fullname;
+    private String email;
+    private String phone;
+    private String gender;
+    private AddressResponse address;
+    private String avatar;
+    private Integer status;
+    private Set<RoleResponse> roles;
 }

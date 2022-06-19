@@ -7,14 +7,14 @@ import java.util.Set;
 
 @Data
 public class UserRequest {
-    String username;
-    String password;
-    String fullname;
-    String email;
-    String phone;
-    String gender;
-    AddressRequest address;
-    String avatar;
-    Integer status;
-    Set<Role_UserRequest> roles;
+    private String username;
+    private String password;
+    private String fullname;
+    private String email;
+    private String phone;
+    private String gender;
+    private AddressRequest address;
+    private String avatar;
+    private Integer status;
+    private Set<Role_UserRequest> roles;
 }

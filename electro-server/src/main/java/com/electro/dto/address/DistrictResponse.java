@@ -6,10 +6,10 @@ import java.time.Instant;
 
 @Data
 public class DistrictResponse {
-    Long id;
-    Instant createdAt;
-    Instant updatedAt;
-    String name;
-    String code;
-    ProvinceResponse province;
+    private Long id;
+    private Instant createdAt;
+    private Instant updatedAt;
+    private String name;
+    private String code;
+    private ProvinceResponse province;
 }

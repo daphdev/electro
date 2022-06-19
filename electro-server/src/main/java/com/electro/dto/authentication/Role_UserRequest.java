@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class Role_UserRequest {
-    Long id;
-    String code;
-    String name;
-    Integer status;
+    private Long id;
+    private String code;
+    private String name;
+    private Integer status;
 }

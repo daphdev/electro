@@ -7,13 +7,13 @@ import java.time.Instant;
 
 @Data
 public class EmployeeResponse {
-    Long id;
-    Instant createdAt;
-    Instant updatedAt;
-    UserResponse user;
-    OfficeResponse office;
-    DepartmentResponse department;
-    JobTypeResponse jobType;
-    JobLevelResponse jobLevel;
-    JobTitleResponse jobTitle;
+    private Long id;
+    private Instant createdAt;
+    private Instant updatedAt;
+    private UserResponse user;
+    private OfficeResponse office;
+    private DepartmentResponse department;
+    private JobTypeResponse jobType;
+    private JobLevelResponse jobLevel;
+    private JobTitleResponse jobTitle;
 }
