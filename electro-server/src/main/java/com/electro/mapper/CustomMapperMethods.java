@@ -24,7 +24,7 @@ public interface CustomMapperMethods {
 
     @Named("hashPassword")
     default String hashPassword(String password) {
-        return new BCryptPasswordEncoder().encode(password) ;
+        return new BCryptPasswordEncoder().encode(password);
     }
 
     @Named("mapOfficeIdToOffice")

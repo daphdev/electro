@@ -25,4 +25,5 @@ public interface OfficeMapper extends GenericMapper<Office, OfficeRequest, Offic
     @Mapping(source = "address.provinceId", target = "address.province", qualifiedByName = "mapProvinceIdToProvince")
     @Mapping(source = "address.districtId", target = "address.district", qualifiedByName = "mapDistrictIdToDistrict")
     Office partialUpdate(@MappingTarget Office entity, OfficeRequest request);
+
 }

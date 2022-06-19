@@ -122,7 +122,7 @@ ALTER TABLE office ADD CONSTRAINT uc_office_address UNIQUE (address_id);
 ALTER TABLE office ADD CONSTRAINT FK_OFFICE_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES address (id);
 
 CREATE TABLE department (
-  id BIGINT AUTO_INCREMENT NOT NULL,
+   id BIGINT AUTO_INCREMENT NOT NULL,
    created_at datetime NOT NULL,
    updated_at datetime NOT NULL,
    created_by BIGINT NULL,
@@ -133,7 +133,7 @@ CREATE TABLE department (
 );
 
 CREATE TABLE job_level (
-  id BIGINT AUTO_INCREMENT NOT NULL,
+   id BIGINT AUTO_INCREMENT NOT NULL,
    created_at datetime NOT NULL,
    updated_at datetime NOT NULL,
    created_by BIGINT NULL,
@@ -144,7 +144,7 @@ CREATE TABLE job_level (
 );
 
 CREATE TABLE job_title (
-  id BIGINT AUTO_INCREMENT NOT NULL,
+   id BIGINT AUTO_INCREMENT NOT NULL,
    created_at datetime NOT NULL,
    updated_at datetime NOT NULL,
    created_by BIGINT NULL,
@@ -155,7 +155,7 @@ CREATE TABLE job_title (
 );
 
 CREATE TABLE job_type (
-  id BIGINT AUTO_INCREMENT NOT NULL,
+   id BIGINT AUTO_INCREMENT NOT NULL,
    created_at datetime NOT NULL,
    updated_at datetime NOT NULL,
    created_by BIGINT NULL,
@@ -166,7 +166,7 @@ CREATE TABLE job_type (
 );
 
 CREATE TABLE employee (
-  id BIGINT AUTO_INCREMENT NOT NULL,
+   id BIGINT AUTO_INCREMENT NOT NULL,
    created_at datetime NOT NULL,
    updated_at datetime NOT NULL,
    created_by BIGINT NULL,
@@ -184,11 +184,11 @@ ALTER TABLE employee ADD CONSTRAINT uc_employee_user UNIQUE (user_id);
 
 ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_DEPARTMENT FOREIGN KEY (department_id) REFERENCES department (id);
 
-ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_JOBLEVEL FOREIGN KEY (job_level_id) REFERENCES job_level (id);
+ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_JOB_LEVEL FOREIGN KEY (job_level_id) REFERENCES job_level (id);
 
-ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_JOBTITLE FOREIGN KEY (job_title_id) REFERENCES job_title (id);
+ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_JOB_TITLE FOREIGN KEY (job_title_id) REFERENCES job_title (id);
 
-ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_JOBTYPE FOREIGN KEY (job_type_id) REFERENCES job_type (id);
+ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_JOB_TYPE FOREIGN KEY (job_type_id) REFERENCES job_type (id);
 
 ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_OFFICE FOREIGN KEY (office_id) REFERENCES office (id);
 

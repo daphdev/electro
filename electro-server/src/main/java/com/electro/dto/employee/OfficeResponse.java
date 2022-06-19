@@ -13,5 +13,4 @@ public class OfficeResponse {
     String name;
     AddressResponse address;
     Integer status;
-
 }

@@ -66,5 +66,4 @@ public class User extends BaseEntity {
 
     @OneToOne(mappedBy = "user")
     private Employee employee;
-
 }

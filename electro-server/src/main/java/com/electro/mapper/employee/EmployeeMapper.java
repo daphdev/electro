@@ -13,7 +13,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface EmployeeMapper  extends GenericMapper<Employee, EmployeeRequest, EmployeeResponse>, CustomMapperMethods {
+public interface EmployeeMapper extends GenericMapper<Employee, EmployeeRequest, EmployeeResponse>, CustomMapperMethods {
 
     @Override
     @Mapping(source = "user.address.provinceId", target = "user.address.province", qualifiedByName = "mapProvinceIdToProvince")
@@ -37,4 +37,5 @@ public interface EmployeeMapper  extends GenericMapper<Employee, EmployeeRequest
     @Mapping(source = "jobLevelId", target = "jobLevel", qualifiedByName = "mapJobLevelIdToJobLevel")
     @Mapping(source = "jobTitleId", target = "jobTitle", qualifiedByName = "mapJobTitleIdToJobTitle")
     Employee partialUpdate(@MappingTarget Employee entity, EmployeeRequest request);
+
 }

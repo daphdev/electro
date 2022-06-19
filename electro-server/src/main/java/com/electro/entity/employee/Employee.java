@@ -3,6 +3,7 @@ package com.electro.entity.employee;
 import com.electro.entity.BaseEntity;
 import com.electro.entity.authentication.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -23,9 +25,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "employee")
 public class Employee extends BaseEntity {
-
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, unique = true )
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, unique = true)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -52,6 +53,4 @@ public class Employee extends BaseEntity {
     @JoinColumn(name = "job_title_id", nullable = false)
     @JsonBackReference
     private JobTitle jobTitle;
-
-
 }

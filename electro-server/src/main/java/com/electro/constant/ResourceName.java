@@ -8,8 +8,8 @@ public interface ResourceName {
     String ROLE = "Role";
     String OFFICE = "Office";
     String DEPARTMENT = "Department";
-    String JOB_TITLE = "JobTile";
-    String JOB_LEVEL = "JobLever";
+    String JOB_TITLE = "JobTitle";
+    String JOB_LEVEL = "JobLevel";
     String JOB_TYPE = "JobType";
     String EMPLOYEE = "Employee";
 }
