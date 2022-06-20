@@ -423,6 +423,6 @@ CREATE TABLE product (
    `description` VARCHAR(255) NOT NULL,
    thumbnail VARCHAR(255) NOT NULL,
    status TINYINT NOT NULL,
-   properties json NOT NULL,
+   properties JSON NOT NULL,
    CONSTRAINT pk_product PRIMARY KEY (id)
 );

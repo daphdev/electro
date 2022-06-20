@@ -265,7 +265,7 @@
         code varchar(255) not null,
         description varchar(255) not null,
         name varchar(255) not null,
-        properties varchar(255),
+        properties JSON,
         status TINYINT not null,
         thumbnail varchar(255) not null,
         primary key (id)

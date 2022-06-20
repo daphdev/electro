@@ -41,7 +41,7 @@ public class Product extends BaseEntity {
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
 
-    @Column(name = "properties")
+    @Column(name = "properties", columnDefinition = "JSON")
     @Convert(converter = JsonNodeConverter.class)
     private JsonNode properties;
 }
