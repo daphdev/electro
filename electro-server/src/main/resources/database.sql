@@ -266,7 +266,7 @@
         description varchar(255) not null,
         name varchar(255) not null,
         properties varchar(255),
-        status integer not null,
+        status TINYINT not null,
         thumbnail varchar(255) not null,
         primary key (id)
     ) engine=MyISAM;
