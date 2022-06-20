@@ -28,7 +28,7 @@ public class UserDetailsImpl implements UserDetails {
     Collection<? extends GrantedAuthority> authorities;
 
     public static UserDetailsImpl build(User user) {
-        log.info("Start build UserDetail");
+        log.info("Start build UserDetails");
 
         // Lấy danh sách role truyền vào SimpleGrantedAuthority
         List<GrantedAuthority> authorities = user.getRoles().stream()

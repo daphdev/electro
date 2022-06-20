@@ -19,7 +19,7 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -30,28 +30,8 @@ import java.util.Set;
 @AllArgsConstructor
 public class MapperUtils {
 
+    private PasswordEncoder passwordEncoder;
     private RoleRepository roleRepository;
-
-    @AfterMapping
-    @Named("attachUser")
-    public User attachUser(@MappingTarget User user) {
-        return user.setRoles(attachSet(user.getRoles(), roleRepository));
-    }
-
-    private <E extends BaseEntity> Set<E> attachSet(Set<E> entities, JpaRepository<E, Long> repository) {
-        Set<E> detachedSet = Optional.ofNullable(entities).orElseGet(HashSet::new);
-        Set<E> attachedSet = new HashSet<>();
-
-        for (E entity : detachedSet) {
-            if (entity.getId() != null) {
-                repository.findById(entity.getId()).ifPresent(attachedSet::add);
-            } else {
-                attachedSet.add(entity);
-            }
-        }
-
-        return attachedSet;
-    }
 
     @Named("mapProvinceIdToProvince")
     public Province mapProvinceIdToProvince(Long id) {
@@ -65,7 +45,7 @@ public class MapperUtils {
 
     @Named("hashPassword")
     public String hashPassword(String password) {
-        return new BCryptPasswordEncoder().encode(password);
+        return passwordEncoder.encode(password);
     }
 
     @Named("mapOfficeIdToOffice")
@@ -111,6 +91,27 @@ public class MapperUtils {
     @Named("mapCategoryIdToCategory")
     public Category mapCategoryIdToCategory(Long id) {
         return (Category) new Category().setId(id);
+    }
+
+    @AfterMapping
+    @Named("attachUser")
+    public User attachUser(@MappingTarget User user) {
+        return user.setRoles(attachSet(user.getRoles(), roleRepository));
+    }
+
+    private <E extends BaseEntity> Set<E> attachSet(Set<E> entities, JpaRepository<E, Long> repository) {
+        Set<E> detachedSet = Optional.ofNullable(entities).orElseGet(HashSet::new);
+        Set<E> attachedSet = new HashSet<>();
+
+        for (E entity : detachedSet) {
+            if (entity.getId() != null) {
+                repository.findById(entity.getId()).ifPresent(attachedSet::add);
+            } else {
+                attachedSet.add(entity);
+            }
+        }
+
+        return attachedSet;
     }
 
 }

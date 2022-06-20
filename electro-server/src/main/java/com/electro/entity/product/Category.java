@@ -47,7 +47,7 @@ public class Category extends BaseEntity {
     @JsonBackReference
     private Category parentCategory;
 
-    @OneToMany(mappedBy = "parentCategory", cascade  = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private Set<Category> categories = new HashSet<>();
 

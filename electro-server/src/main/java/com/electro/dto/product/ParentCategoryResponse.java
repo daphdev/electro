@@ -1,6 +1,5 @@
 package com.electro.dto.product;
 
-
 import lombok.Data;
 
 import java.time.Instant;

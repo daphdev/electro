@@ -12,5 +12,4 @@ public class CategoryRequest {
     private Integer status;
     private Long parentCategoryId;
     private Set<PropertyRequest> properties;
-
 }
