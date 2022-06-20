@@ -28,4 +28,12 @@ public interface SearchFields {
             "user.address.district.code");
     List<String> PROPERTY = List.of("name", "code", "type", "description", "status");
     List<String> CATEGORY = List.of("name", "description");
+    List<String> TAG = List.of("name");
+    List<String> IMAGE = List.of("name");
+    List<String> GUARANTEE = List.of("name","description");
+    List<String> UNIT = List.of("name");
+    List<String> SUPPLIER = List.of("displayName", "code", "contactFullname", "contactEmail", "companyName",
+            "taxCode", "email", "phone", "fax", "address.province.name", "address.province.code",
+            "address.district.name", "address.district.code");
+    List<String> PRODUCT = List.of("name","code","description","thumbnail");
 }

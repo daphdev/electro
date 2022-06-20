@@ -4,7 +4,7 @@ USE electro;
 
 DROP TABLE IF EXISTS province, district, address, user, role, user_role, brand, office, department, job_level,
                     job_title, job_type, employee, customer_group, customer_resource, customer_status, customer,
-                    property, category, category_property;
+                    property, category, category_property, tag, image, guarantee, unit, supplier, product;
 -- CREATE TABLES
 
 CREATE TABLE province
@@ -315,3 +315,89 @@ ALTER TABLE category_property
 
 ALTER TABLE category_property
     ADD CONSTRAINT FK_CATEGORY_PROPERTY_ON_PROPERTY FOREIGN KEY (property_id) REFERENCES property (id);
+
+CREATE TABLE tag (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   name VARCHAR(255) NOT NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT pk_tag PRIMARY KEY (id)
+);
+
+CREATE TABLE image (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   name VARCHAR(255) NOT NULL,
+   CONSTRAINT pk_image PRIMARY KEY (id)
+);
+
+CREATE TABLE guarantee (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   name VARCHAR(255) NOT NULL,
+   `description` VARCHAR(255) NOT NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT pk_guarantee PRIMARY KEY (id)
+);
+
+CREATE TABLE unit (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   name VARCHAR(255) NOT NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT pk_unit PRIMARY KEY (id)
+);
+
+CREATE TABLE supplier (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   display_name VARCHAR(255) NOT NULL,
+   code VARCHAR(255) NOT NULL,
+   contact_fullname VARCHAR(255) NOT NULL,
+   contact_email VARCHAR(255) NOT NULL,
+   company_name VARCHAR(255) NOT NULL,
+   tax_code VARCHAR(255) NOT NULL,
+   email VARCHAR(255) NOT NULL,
+   phone VARCHAR(255) NOT NULL,
+   fax VARCHAR(255) NOT NULL,
+   website VARCHAR(255) NULL,
+   address_id BIGINT NOT NULL,
+   `description` VARCHAR(255) NULL,
+   note VARCHAR(255) NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT pk_supplier PRIMARY KEY (id)
+);
+
+ALTER TABLE supplier ADD CONSTRAINT uc_supplier_address UNIQUE (address_id);
+
+ALTER TABLE supplier ADD CONSTRAINT FK_SUPPLIER_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES address (id);
+
+CREATE TABLE product (
+   id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   name VARCHAR(255) NOT NULL,
+   code VARCHAR(255) NOT NULL,
+   `description` VARCHAR(255) NOT NULL,
+   thumbnail VARCHAR(255) NOT NULL,
+   status INT NOT NULL,
+   properties json NOT NULL,
+   CONSTRAINT pk_product PRIMARY KEY (id)
+);
