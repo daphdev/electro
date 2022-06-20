@@ -24,7 +24,7 @@ public class JsonNodeConverter implements AttributeConverter<JsonNode, String> {
 
     @Override
     public JsonNode convertToEntityAttribute(String jsonNodeString) {
-        if (StringUtils.isEmpty(jsonNodeString)) {
+        if (!StringUtils.hasLength(jsonNodeString)) {
             log.warn("jsonNodeString input is empty, returning null");
             return null;
         }
