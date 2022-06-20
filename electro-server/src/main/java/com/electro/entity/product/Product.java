@@ -38,7 +38,7 @@ public class Product extends BaseEntity {
     @Column(name = "thumbnail", nullable = false)
     private String thumbnail;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
 
     @Column(name = "properties")

@@ -193,7 +193,6 @@ public class GenericMappingRegister {
     private GenericService<Brand, BrandRequest, BrandResponse> brandService;
     private GenericService<Product, ProductRequest, ProductResponse> productService;
 
-
     @PostConstruct
     public void registerControllers() throws NoSuchMethodException {
 

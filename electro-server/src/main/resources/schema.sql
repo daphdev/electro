@@ -152,7 +152,7 @@ CREATE TABLE office (
    updated_by BIGINT NULL,
    name VARCHAR(255) NOT NULL,
    address_id BIGINT NOT NULL,
-   status INT NOT NULL,
+   status TINYINT NOT NULL,
    CONSTRAINT pk_office PRIMARY KEY (id)
 );
 
@@ -422,7 +422,7 @@ CREATE TABLE product (
    code VARCHAR(255) NOT NULL,
    `description` VARCHAR(255) NOT NULL,
    thumbnail VARCHAR(255) NOT NULL,
-   status INT NOT NULL,
+   status TINYINT NOT NULL,
    properties json NOT NULL,
    CONSTRAINT pk_product PRIMARY KEY (id)
 );

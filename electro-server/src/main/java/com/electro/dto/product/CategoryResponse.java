@@ -3,6 +3,7 @@ package com.electro.dto.product;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -15,6 +16,6 @@ public class CategoryResponse {
     private String thumbnail;
     private Integer status;
     private ParentCategoryResponse parentCategory;
-    private Set<CategoryResponse> categories;
+    private List<CategoryResponse> categories;
     private Set<PropertyRequest> properties;
 }
