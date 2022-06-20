@@ -19,8 +19,7 @@ public class JsonNodeConverter implements AttributeConverter<JsonNode, String> {
             return null;
         }
 
-        String jsonNodeString = jsonNode.toPrettyString();
-        return jsonNodeString;
+        return jsonNode.toPrettyString();
     }
 
     @Override
@@ -36,6 +35,8 @@ public class JsonNodeConverter implements AttributeConverter<JsonNode, String> {
         } catch (JsonProcessingException e) {
             log.error("Error parsing jsonNodeString", e);
         }
+
         return null;
     }
+
 }

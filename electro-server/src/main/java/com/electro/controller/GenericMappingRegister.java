@@ -148,7 +148,6 @@ public class GenericMappingRegister {
     private GenericController<AddressRequest, AddressResponse> addressController;
     private GenericController<UserRequest, UserResponse> userController;
     private GenericController<RoleRequest, RoleResponse> roleController;
-    private GenericController<BrandRequest, BrandResponse> brandController;
     private GenericController<OfficeRequest, OfficeResponse> officeController;
     private GenericController<DepartmentRequest, DepartmentResponse> departmentController;
     private GenericController<JobLevelRequest, JobLevelResponse> jobLevelController;
@@ -166,6 +165,7 @@ public class GenericMappingRegister {
     private GenericController<GuaranteeRequest, GuaranteeResponse> guaranteeController;
     private GenericController<UnitRequest, UnitResponse> unitController;
     private GenericController<SupplierRequest, SupplierResponse> supplierController;
+    private GenericController<BrandRequest, BrandResponse> brandController;
     private GenericController<ProductRequest, ProductResponse> productController;
 
     // Services
@@ -173,7 +173,6 @@ public class GenericMappingRegister {
     private GenericService<Address, AddressRequest, AddressResponse> addressService;
     private GenericService<User, UserRequest, UserResponse> userService;
     private GenericService<Role, RoleRequest, RoleResponse> roleService;
-    private GenericService<Brand, BrandRequest, BrandResponse> brandService;
     private GenericService<Office, OfficeRequest, OfficeResponse> officeService;
     private GenericService<Department, DepartmentRequest, DepartmentResponse> departmentService;
     private GenericService<JobLevel, JobLevelRequest, JobLevelResponse> jobLevelService;
@@ -191,6 +190,7 @@ public class GenericMappingRegister {
     private GenericService<Guarantee, GuaranteeRequest, GuaranteeResponse> guaranteeService;
     private GenericService<Unit, UnitRequest, UnitResponse> unitService;
     private GenericService<Supplier, SupplierRequest, SupplierResponse> supplierService;
+    private GenericService<Brand, BrandRequest, BrandResponse> brandService;
     private GenericService<Product, ProductRequest, ProductResponse> productService;
 
 
@@ -226,13 +226,6 @@ public class GenericMappingRegister {
                 SearchFields.ROLE,
                 ResourceName.ROLE
         ), RoleRequest.class);
-
-        register("brands", brandController, brandService.init(
-                context.getBean(BrandRepository.class),
-                context.getBean(BrandMapper.class),
-                SearchFields.BRAND,
-                ResourceName.BRAND
-        ), BrandRequest.class);
 
         register("offices", officeController, officeService.init(
                 context.getBean(OfficeRepository.class),
@@ -352,6 +345,13 @@ public class GenericMappingRegister {
                 SearchFields.SUPPLIER,
                 ResourceName.SUPPLIER
         ), SupplierRequest.class);
+
+        register("brands", brandController, brandService.init(
+                context.getBean(BrandRepository.class),
+                context.getBean(BrandMapper.class),
+                SearchFields.BRAND,
+                ResourceName.BRAND
+        ), BrandRequest.class);
 
         register("products", productController, productService.init(
                 context.getBean(ProductRepository.class),

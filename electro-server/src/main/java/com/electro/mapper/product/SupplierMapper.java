@@ -14,6 +14,7 @@ import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = MapperUtils.class)
 public interface SupplierMapper extends GenericMapper<Supplier, SupplierRequest, SupplierResponse> {
+
     @Override
     @Mapping(source = "address.provinceId", target = "address.province", qualifiedByName = "mapProvinceIdToProvince")
     @Mapping(source = "address.districtId", target = "address.district", qualifiedByName = "mapDistrictIdToDistrict")
@@ -24,4 +25,5 @@ public interface SupplierMapper extends GenericMapper<Supplier, SupplierRequest,
     @Mapping(source = "address.provinceId", target = "address.province", qualifiedByName = "mapProvinceIdToProvince")
     @Mapping(source = "address.districtId", target = "address.district", qualifiedByName = "mapDistrictIdToDistrict")
     Supplier partialUpdate(@MappingTarget Supplier entity, SupplierRequest request);
+
 }

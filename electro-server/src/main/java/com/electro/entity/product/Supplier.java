@@ -2,6 +2,7 @@ package com.electro.entity.product;
 
 import com.electro.entity.BaseEntity;
 import com.electro.entity.address.Address;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -21,7 +23,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "supplier")
 public class Supplier extends BaseEntity {
-
     @Column(name = "display_name", nullable = false)
     private String displayName;
 
@@ -64,5 +65,4 @@ public class Supplier extends BaseEntity {
 
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
-
 }

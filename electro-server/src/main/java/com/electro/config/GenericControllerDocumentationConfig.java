@@ -26,7 +26,6 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("addresses"))
                 .and(generateRoute("users"))
                 .and(generateRoute("roles"))
-                .and(generateRoute("brands"))
                 .and(generateRoute("offices"))
                 .and(generateRoute("departments"))
                 .and(generateRoute("job-types"))
@@ -44,6 +43,7 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("guarantees"))
                 .and(generateRoute("units"))
                 .and(generateRoute("suppliers"))
+                .and(generateRoute("brands"))
                 .and(generateRoute("products"));
     }
 

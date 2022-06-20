@@ -5,6 +5,7 @@ import com.electro.utils.JsonNodeConverter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -24,7 +26,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "product")
 public class Product extends BaseEntity {
-
     @Column(name = "name", nullable = false)
     private String name;
 

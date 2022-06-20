@@ -245,8 +245,8 @@ insert into category_property (category_id, property_id) values (1, 1);
 insert into category_property (category_id, property_id) values (1, 2);
 
 -- tag: 2 record
-insert into tag (created_at, updated_at, name, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', "Test Tag",  1);
-insert into tag (created_at, updated_at, name, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', "Test Tag1",  2);
+insert into tag (created_at, updated_at, name, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', "Test Tag", 1);
+insert into tag (created_at, updated_at, name, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', "Test Tag1", 2);
 
 -- image
 insert into image (created_at, updated_at, name) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', "Downloads/test.jpg");
@@ -256,8 +256,8 @@ insert into guarantee (created_at, updated_at, name, description, status) values
 insert into guarantee (created_at, updated_at, name, description,status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', "Test guarantee2", "ggfdjidkjasc", 2);
 
 -- unit: 2 record
-insert into unit (created_at, updated_at, name, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', "Test Unit",  1);
-insert into unit (created_at, updated_at, name, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', "Test Unit2",  2);
+insert into unit (created_at, updated_at, name, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', "Test Unit", 1);
+insert into unit (created_at, updated_at, name, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', "Test Unit2", 2);
 
 -- supplier: 5 record
 insert into supplier (created_at, updated_at, display_name, code, contact_fullname, contact_email, company_name, tax_code, email, phone, fax, address_id, description, note, status) values ('2022-05-16 02:47:51', '2021-12-06 15:10:37', 'Yodo', '0944-3032', 'Aubrie Cowley', 'acowley0@mysql.com', 'Rhynyx', '49349-988', 'acowley0@japanpost.jp', '714-908-9882', 'Holdlamis', 10, 'Oth uni salpingo-oophor', 'Meningococc endocarditis', 3);

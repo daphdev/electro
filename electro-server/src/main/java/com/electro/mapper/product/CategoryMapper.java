@@ -23,4 +23,5 @@ public interface CategoryMapper extends GenericMapper<Category, CategoryRequest,
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(source = "parentCategoryId", target = "parentCategory", qualifiedByName = "mapCategoryIdToCategory")
     Category partialUpdate(@MappingTarget Category entity, CategoryRequest request);
+
 }

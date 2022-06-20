@@ -27,5 +27,4 @@ public class Guarantee extends BaseEntity {
 
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
-
 }
