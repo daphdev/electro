@@ -21,6 +21,10 @@
 
     drop table if exists prod.employee;
 
+    drop table if exists prod.guarantee;
+
+    drop table if exists prod.image;
+
     drop table if exists prod.job_level;
 
     drop table if exists prod.job_title;
@@ -29,11 +33,19 @@
 
     drop table if exists prod.office;
 
+    drop table if exists prod.product;
+
     drop table if exists prod.property;
 
     drop table if exists prod.province;
 
     drop table if exists prod.role;
+
+    drop table if exists prod.supplier;
+
+    drop table if exists prod.tag;
+
+    drop table if exists prod.unit;
 
     drop table if exists prod.user;
 
@@ -177,6 +189,28 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.guarantee (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        description varchar(255) not null,
+        name varchar(255) not null,
+        status TINYINT not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.image (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        name varchar(255) not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.job_level (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -222,6 +256,21 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.product (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255) not null,
+        description varchar(255) not null,
+        name varchar(255) not null,
+        properties varchar(255),
+        status integer not null,
+        thumbnail varchar(255) not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.property (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -259,6 +308,51 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.supplier (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255) not null,
+        company_name varchar(255) not null,
+        contact_email varchar(255) not null,
+        contact_fullname varchar(255) not null,
+        description varchar(255),
+        display_name varchar(255) not null,
+        email varchar(255) not null,
+        fax varchar(255) not null,
+        note varchar(255),
+        phone varchar(255) not null,
+        status TINYINT not null,
+        tax_code varchar(255) not null,
+        website varchar(255),
+        address_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.tag (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        name varchar(255) not null,
+        status TINYINT not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.unit (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        name varchar(255) not null,
+        status TINYINT not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.user (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -291,6 +385,9 @@
 
     alter table prod.office 
        add constraint UK_mlsa2m6po5222mgtojis7rnow unique (address_id);
+
+    alter table prod.supplier 
+       add constraint UK_78419iap4p0q918rhlcr1phkl unique (address_id);
 
     alter table prod.user 
        add constraint UK_dhlcfg8h1drrgu0irs1ro3ohb unique (address_id);
@@ -377,6 +474,11 @@
 
     alter table prod.office 
        add constraint FKak81m3gkj8xq5t48xuflbj0kn 
+       foreign key (address_id) 
+       references prod.address (id);
+
+    alter table prod.supplier 
+       add constraint FK95a8oipih48obtbhltjy7hgvb 
        foreign key (address_id) 
        references prod.address (id);
 

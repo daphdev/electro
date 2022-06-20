@@ -144,9 +144,77 @@ public interface SearchFields {
             "description"
     );
 
+    List<String> TAG = List.of(
+            "name"
+    );
+
+    List<String> IMAGE = List.of(
+            "name"
+    );
+
+    List<String> GUARANTEE = List.of(
+            "name",
+            "description"
+    );
+
+    List<String> UNIT = List.of(
+            "name"
+    );
+
+    List<String> SUPPLIER = List.of(
+            "displayName",
+            "code",
+            "contactFullname",
+            "contactEmail",
+            "contactPhone",
+            "companyName",
+            "taxCode",
+            "email",
+            "phone",
+            "fax",
+            "website",
+            "address.line",
+            "address.province.name",
+            "address.province.code",
+            "address.district.name",
+            "address.district.code",
+            "description"
+    );
+
     List<String> BRAND = List.of(
             "name",
             "code",
             "description"
+    );
+
+    List<String> PRODUCT = List.of(
+            "name",
+            "code",
+            "description",
+            "category.name",
+            "category.description",
+            "brand.name",
+            "brand.code",
+            "brand.description",
+            "supplier.displayName",
+            "supplier.code",
+            "supplier.contactFullname",
+            "supplier.contactEmail",
+            "supplier.contactPhone",
+            "supplier.companyName",
+            "supplier.taxCode",
+            "supplier.email",
+            "supplier.phone",
+            "supplier.fax",
+            "supplier.website",
+            "supplier.address.line",
+            "supplier.address.province.name",
+            "supplier.address.province.code",
+            "supplier.address.district.name",
+            "supplier.address.district.code",
+            "supplier.description",
+            "unit.name",
+            "guarantee.name",
+            "guarantee.description"
     );
 }
