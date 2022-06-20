@@ -352,15 +352,7 @@ CREATE TABLE tag (
    CONSTRAINT pk_tag PRIMARY KEY (id)
 );
 
-CREATE TABLE image (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   name VARCHAR(255) NOT NULL,
-   CONSTRAINT pk_image PRIMARY KEY (id)
-);
+
 
 CREATE TABLE guarantee (
   id BIGINT AUTO_INCREMENT NOT NULL,
@@ -395,6 +387,7 @@ CREATE TABLE supplier (
    code VARCHAR(255) NOT NULL,
    contact_fullname VARCHAR(255) NOT NULL,
    contact_email VARCHAR(255) NOT NULL,
+   contact_phone VARCHAR(255) NOT NULL,
    company_name VARCHAR(255) NOT NULL,
    tax_code VARCHAR(255) NOT NULL,
    email VARCHAR(255) NOT NULL,
@@ -413,7 +406,7 @@ ALTER TABLE supplier ADD CONSTRAINT uc_supplier_address UNIQUE (address_id);
 ALTER TABLE supplier ADD CONSTRAINT FK_SUPPLIER_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES address (id);
 
 CREATE TABLE product (
-   id BIGINT AUTO_INCREMENT NOT NULL,
+  id BIGINT AUTO_INCREMENT NOT NULL,
    created_at datetime NOT NULL,
    updated_at datetime NOT NULL,
    created_by BIGINT NULL,
@@ -423,6 +416,34 @@ CREATE TABLE product (
    `description` VARCHAR(255) NOT NULL,
    thumbnail VARCHAR(255) NOT NULL,
    status TINYINT NOT NULL,
-   properties JSON NOT NULL,
+   properties JSON NULL,
+   category_id BIGINT NULL,
+   brand_id BIGINT NULL,
+   unit_id BIGINT NULL,
+   guarantee_id BIGINT NULL,
+   supplier_id BIGINT NULL,
    CONSTRAINT pk_product PRIMARY KEY (id)
 );
+
+ALTER TABLE product ADD CONSTRAINT FK_PRODUCT_ON_BRAND FOREIGN KEY (brand_id) REFERENCES brand (id);
+
+ALTER TABLE product ADD CONSTRAINT FK_PRODUCT_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES category (id);
+
+ALTER TABLE product ADD CONSTRAINT FK_PRODUCT_ON_GUARANTEE FOREIGN KEY (guarantee_id) REFERENCES guarantee (id);
+
+ALTER TABLE product ADD CONSTRAINT FK_PRODUCT_ON_SUPPLIER FOREIGN KEY (supplier_id) REFERENCES supplier (id);
+
+ALTER TABLE product ADD CONSTRAINT FK_PRODUCT_ON_UNIT FOREIGN KEY (unit_id) REFERENCES unit (id);
+
+CREATE TABLE image (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   name VARCHAR(255) NOT NULL,
+   product_id BIGINT NULL,
+   CONSTRAINT pk_image PRIMARY KEY (id)
+);
+
+ALTER TABLE image ADD CONSTRAINT FK_IMAGE_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);

@@ -208,6 +208,7 @@
         updated_at datetime not null,
         updated_by bigint,
         name varchar(255) not null,
+        product_id bigint,
         primary key (id)
     ) engine=MyISAM;
 
@@ -268,6 +269,11 @@
         properties JSON,
         status TINYINT not null,
         thumbnail varchar(255) not null,
+        brand_id bigint,
+        category_id bigint,
+        guarantee_id bigint,
+        supplier_id bigint,
+        unit_id bigint,
         primary key (id)
     ) engine=MyISAM;
 
@@ -318,6 +324,7 @@
         company_name varchar(255) not null,
         contact_email varchar(255) not null,
         contact_fullname varchar(255) not null,
+        contact_phone varchar(255) not null,
         description varchar(255),
         display_name varchar(255) not null,
         email varchar(255) not null,
@@ -472,10 +479,40 @@
        foreign key (user_id) 
        references prod.user (id);
 
+    alter table prod.image 
+       add constraint FKgpextbyee3uk9u6o2381m7ft1 
+       foreign key (product_id) 
+       references prod.product (id);
+
     alter table prod.office 
        add constraint FKak81m3gkj8xq5t48xuflbj0kn 
        foreign key (address_id) 
        references prod.address (id);
+
+    alter table prod.product 
+       add constraint FKs6cydsualtsrprvlf2bb3lcam 
+       foreign key (brand_id) 
+       references prod.brand (id);
+
+    alter table prod.product 
+       add constraint FK1mtsbur82frn64de7balymq9s 
+       foreign key (category_id) 
+       references prod.category (id);
+
+    alter table prod.product 
+       add constraint FKgfhdydadolarv86kxk0my2uj3 
+       foreign key (guarantee_id) 
+       references prod.guarantee (id);
+
+    alter table prod.product 
+       add constraint FK2kxvbr72tmtscjvyp9yqb12by 
+       foreign key (supplier_id) 
+       references prod.supplier (id);
+
+    alter table prod.product 
+       add constraint FKndrubbm6whifirg6o2bpdcf6b 
+       foreign key (unit_id) 
+       references prod.unit (id);
 
     alter table prod.supplier 
        add constraint FK95a8oipih48obtbhltjy7hgvb 

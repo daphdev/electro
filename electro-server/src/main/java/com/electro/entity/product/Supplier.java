@@ -2,6 +2,7 @@ package com.electro.entity.product;
 
 import com.electro.entity.BaseEntity;
 import com.electro.entity.address.Address;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +13,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,6 +38,9 @@ public class Supplier extends BaseEntity {
 
     @Column(name = "contact_email", nullable = false)
     private String contactEmail;
+
+    @Column(name = "contact_phone", nullable = false)
+    private String contactPhone;
 
     @Column(name = "company_name", nullable = false)
     private String companyName;
@@ -65,4 +72,8 @@ public class Supplier extends BaseEntity {
 
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
+
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Product> products = new ArrayList<>();
 }

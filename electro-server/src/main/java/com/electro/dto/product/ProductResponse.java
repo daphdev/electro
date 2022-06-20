@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.Set;
 
 @Data
 public class ProductResponse {
@@ -16,4 +17,10 @@ public class ProductResponse {
     private String thumbnail;
     private Integer status;
     private JsonNode properties;
+    private CategoryResponse category;
+    private BrandResponse brand;
+    private UnitResponse unit;
+    private GuaranteeResponse guarantee;
+    private SupplierResponse supplier;
+    private Set<ImageResponse> images;
 }

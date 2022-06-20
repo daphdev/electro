@@ -60,4 +60,8 @@ public class Category extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "property_id", nullable = false)
     )
     private Set<Property> properties = new HashSet<>();
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Product> products = new ArrayList<>();
 }

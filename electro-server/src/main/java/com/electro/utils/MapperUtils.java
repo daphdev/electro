@@ -12,7 +12,12 @@ import com.electro.entity.employee.JobLevel;
 import com.electro.entity.employee.JobTitle;
 import com.electro.entity.employee.JobType;
 import com.electro.entity.employee.Office;
+import com.electro.entity.product.Brand;
 import com.electro.entity.product.Category;
+import com.electro.entity.product.Guarantee;
+import com.electro.entity.product.Product;
+import com.electro.entity.product.Supplier;
+import com.electro.entity.product.Unit;
 import com.electro.repository.authentication.RoleRepository;
 import lombok.AllArgsConstructor;
 import org.mapstruct.AfterMapping;
@@ -91,6 +96,32 @@ public class MapperUtils {
     @Named("mapCategoryIdToCategory")
     public Category mapCategoryIdToCategory(Long id) {
         return (Category) new Category().setId(id);
+    }
+
+    @Named("mapBrandIdToBrand")
+    public Brand mapBrandIdToBrand(Long id) {
+        return (Brand) new Brand().setId(id);
+    }
+
+    @Named("mapUnitIdToUnit")
+    public Unit mapUnitIdToUnit(Long id) {
+        return (Unit) new Unit().setId(id);
+    }
+
+    @Named("mapGuaranteeIdToGuarantee")
+    public Guarantee mapGuaranteeIdToGuarantee(Long id) {
+        return (Guarantee) new Guarantee().setId(id);
+    }
+
+    @Named("mapSupplierIdToSupplier")
+    public Supplier mapSupplierIdToSupplier(Long id) {
+        return (Supplier) new Supplier().setId(id);
+    }
+
+
+    @Named("mapProductIdToProduct")
+    public Product mapProductIdToProduct(Long id) {
+        return (Product) new Product().setId(id);
     }
 
     @AfterMapping
