@@ -13116,7 +13116,7 @@
 											"top": 1684,
 											"width": 186.41162109375,
 											"height": 13,
-											"text": "-reason: Reason",
+											"text": "-reason: DocketReason",
 											"horizontalAlignment": 0
 										},
 										{
@@ -13341,7 +13341,7 @@
 											"top": 1887,
 											"width": 93.919921875,
 											"height": 13,
-											"text": "Reason"
+											"text": "DocketReason"
 										},
 										{
 											"_type": "LabelView",
@@ -32248,7 +32248,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Reason",
+					"name": "DocketReason",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
