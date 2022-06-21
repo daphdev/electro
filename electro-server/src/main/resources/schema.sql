@@ -352,8 +352,6 @@ CREATE TABLE tag (
    CONSTRAINT pk_tag PRIMARY KEY (id)
 );
 
-
-
 CREATE TABLE guarantee (
   id BIGINT AUTO_INCREMENT NOT NULL,
    created_at datetime NOT NULL,

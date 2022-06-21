@@ -46,12 +46,12 @@ public class Product extends BaseEntity {
     @Column(name = "thumbnail", nullable = false)
     private String thumbnail;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Image> images;
+
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
-
-    @Column(name = "properties", columnDefinition = "JSON")
-    @Convert(converter = JsonNodeConverter.class)
-    private JsonNode properties;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
@@ -64,21 +64,21 @@ public class Product extends BaseEntity {
     private Brand brand;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "supplier_id")
+    @JsonBackReference
+    private Supplier supplier;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "unit_id")
     @JsonBackReference
     private Unit unit;
+
+    @Column(name = "properties", columnDefinition = "JSON")
+    @Convert(converter = JsonNodeConverter.class)
+    private JsonNode properties;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guarantee_id")
     @JsonBackReference
     private Guarantee guarantee;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "supplier_id")
-    @JsonBackReference
-    private Supplier supplier;
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval=true)
-    @JsonManagedReference
-    private List<Image> images;
 }

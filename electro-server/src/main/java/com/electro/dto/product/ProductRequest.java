@@ -3,7 +3,7 @@ package com.electro.dto.product;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
 
-import java.util.Set;
+import java.util.List;
 
 @Data
 public class ProductRequest {
@@ -11,12 +11,12 @@ public class ProductRequest {
     private String code;
     private String description;
     private String thumbnail;
+    private List<ImageRequest> images;
     private Integer status;
-    private JsonNode properties;
     private Long categoryId;
     private Long brandId;
-    private Long unitId;
-    private Long guaranteeId;
     private Long supplierId;
-    private Set<ImageRequest> images;
+    private Long unitId;
+    private JsonNode properties;
+    private Long guaranteeId;
 }

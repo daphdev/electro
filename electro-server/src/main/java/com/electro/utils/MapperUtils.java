@@ -103,6 +103,11 @@ public class MapperUtils {
         return (Brand) new Brand().setId(id);
     }
 
+    @Named("mapSupplierIdToSupplier")
+    public Supplier mapSupplierIdToSupplier(Long id) {
+        return (Supplier) new Supplier().setId(id);
+    }
+
     @Named("mapUnitIdToUnit")
     public Unit mapUnitIdToUnit(Long id) {
         return (Unit) new Unit().setId(id);
@@ -112,12 +117,6 @@ public class MapperUtils {
     public Guarantee mapGuaranteeIdToGuarantee(Long id) {
         return (Guarantee) new Guarantee().setId(id);
     }
-
-    @Named("mapSupplierIdToSupplier")
-    public Supplier mapSupplierIdToSupplier(Long id) {
-        return (Supplier) new Supplier().setId(id);
-    }
-
 
     @Named("mapProductIdToProduct")
     public Product mapProductIdToProduct(Long id) {

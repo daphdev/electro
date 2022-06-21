@@ -23,4 +23,5 @@ public interface ImageMapper extends GenericMapper<Image, ImageRequest, ImageRes
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(source = "productId", target = "product", qualifiedByName = "mapProductIdToProduct")
     Image partialUpdate(@MappingTarget Image entity, ImageRequest request);
+
 }

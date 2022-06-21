@@ -39,5 +39,4 @@ public class Brand extends BaseEntity {
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Product> products = new ArrayList<>();
-
 }
