@@ -21,7 +21,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
     navbar: {
       [theme.fn.largerThan('sm')]: {
         height: 'calc(100vh - 56px)',
-      }
+      },
     },
 
     link: {
@@ -83,7 +83,7 @@ const navbarLinks: NavbarLink[] = [
   {
     link: '/admin',
     label: 'Trang chủ',
-    icon: Home
+    icon: Home,
   },
   {
     link: '/admin/address',
@@ -101,7 +101,7 @@ const navbarLinks: NavbarLink[] = [
       {
         link: '/admin/address/district',
         label: 'Quản lý quận huyện',
-      }
+      },
     ],
   },
   {
@@ -137,15 +137,15 @@ const navbarLinks: NavbarLink[] = [
         label: 'Quản lý phòng ban',
       },
       {
-        link: '/admin/employee/jobtype',
+        link: '/admin/employee/job-type',
         label: 'Quản lý loại hình công việc',
       },
       {
-        link: '/admin/employee/joblevel',
+        link: '/admin/employee/job-level',
         label: 'Quản lý cấp bậc công việc',
       },
       {
-        link: '/admin/employee/jobtitle',
+        link: '/admin/employee/job-title',
         label: 'Quản lý chức danh công việc',
       },
     ],
@@ -226,7 +226,7 @@ const navbarLinks: NavbarLink[] = [
         label: 'Quản lý nhà kho',
       },
       {
-        link: '/admin/inventory/purchaseorder',
+        link: '/admin/inventory/purchase-order',
         label: 'Quản lý đơn mua hàng',
       },
       {
@@ -238,7 +238,7 @@ const navbarLinks: NavbarLink[] = [
         label: 'Quản lý phiếu nhập xuất kho',
       },
       {
-        link: '/admin/inventory/reason',
+        link: '/admin/inventory/docket-reason',
         label: 'Quản lý lý do phiếu NXK',
       },
       {
@@ -265,10 +265,10 @@ const navbarLinks: NavbarLink[] = [
         label: 'Quản lý nguồn đơn hàng',
       },
       {
-        link: '/admin/order/cancellationreason',
+        link: '/admin/order/cancellation-reason',
         label: 'Quản lý lý do hủy đơn hàng',
       },
-    ]
+    ],
   },
   {
     link: '/admin/waybill',
@@ -295,7 +295,7 @@ const navbarLinks: NavbarLink[] = [
         label: 'Quản lý sổ quỹ',
       },
       {
-        link: '/admin/paymentmethod',
+        link: '/admin/payment-method',
         label: 'Quản lý hình thức thanh toán',
       },
     ],
