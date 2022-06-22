@@ -31,7 +31,7 @@ function ManageMain({
         height: listResponse.totalElements === 0 ? '250px' : 'auto',
       }}
     >
-      <LoadingOverlay visible={isLoading}/>
+      <LoadingOverlay visible={isLoading} zIndex={250}/>
       {manageMainInnerFragment}
     </Paper>
   );

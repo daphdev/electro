@@ -16,6 +16,8 @@ import ProvinceManage, { ProvinceCreate, ProvinceUpdate } from 'pages/province';
 import DistrictManage, { DistrictCreate, DistrictUpdate } from 'pages/district';
 import UserManage, { UserCreate, UserUpdate } from 'pages/user';
 import RoleManage, { RoleCreate, RoleUpdate } from 'pages/role';
+import OfficeManage, { OfficeCreate, OfficeUpdate } from 'pages/office';
+import DepartmentManage, { DepartmentCreate, DepartmentUpdate } from 'pages/department';
 
 const queryClient = new QueryClient();
 
@@ -54,6 +56,14 @@ function App() {
                   <Route path={ManagerPath.ROLE} element={<RoleManage/>}/>
                   <Route path={ManagerPath.ROLE + '/create'} element={<RoleCreate/>}/>
                   <Route path={ManagerPath.ROLE + '/update/:id'} element={<RoleUpdate/>}/>
+                  {/* OFFICE */}
+                  <Route path={ManagerPath.OFFICE} element={<OfficeManage/>}/>
+                  <Route path={ManagerPath.OFFICE + '/create'} element={<OfficeCreate/>}/>
+                  <Route path={ManagerPath.OFFICE + '/update/:id'} element={<OfficeUpdate/>}/>
+                  {/* DEPARTMENT */}
+                  <Route path={ManagerPath.DEPARTMENT} element={<DepartmentManage/>}/>
+                  <Route path={ManagerPath.DEPARTMENT + '/create'} element={<DepartmentCreate/>}/>
+                  <Route path={ManagerPath.DEPARTMENT + '/update/:id'} element={<DepartmentUpdate/>}/>
                 </Route>
               </Routes>
             </ModalsProvider>
