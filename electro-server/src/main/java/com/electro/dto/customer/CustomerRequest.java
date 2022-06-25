@@ -7,6 +7,6 @@ import lombok.Data;
 public class CustomerRequest {
     private UserRequest user;
     private Long customerGroupId;
-    private Long customerResourceId;
     private Long customerStatusId;
+    private Long customerResourceId;
 }

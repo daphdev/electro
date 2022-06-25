@@ -124,7 +124,7 @@ class UserConfigs extends Configs {
     'address.districtId': '',
     avatar: '',
     status: '1',
-    roles: ['3'],
+    roles: [] as string[],
   };
 
   static createUpdateFormSchema = z.object({

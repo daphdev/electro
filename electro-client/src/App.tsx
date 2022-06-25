@@ -18,6 +18,14 @@ import UserManage, { UserCreate, UserUpdate } from 'pages/user';
 import RoleManage, { RoleCreate, RoleUpdate } from 'pages/role';
 import OfficeManage, { OfficeCreate, OfficeUpdate } from 'pages/office';
 import DepartmentManage, { DepartmentCreate, DepartmentUpdate } from 'pages/department';
+import JobTypeManage, { JobTypeCreate, JobTypeUpdate } from 'pages/job-type';
+import JobLevelManage, { JobLevelCreate, JobLevelUpdate } from 'pages/job-level';
+import JobTitleManage, { JobTitleCreate, JobTitleUpdate } from 'pages/job-title';
+import EmployeeManage, { EmployeeCreate, EmployeeUpdate } from 'pages/employee';
+import CustomerGroupManage, { CustomerGroupCreate, CustomerGroupUpdate } from 'pages/customer-group';
+import CustomerStatusManage, { CustomerStatusCreate, CustomerStatusUpdate } from 'pages/customer-status';
+import CustomerResourceManage, { CustomerResourceCreate, CustomerResourceUpdate } from 'pages/customer-resource';
+import CustomerManage, { CustomerCreate, CustomerUpdate } from 'pages/customer';
 
 const queryClient = new QueryClient();
 
@@ -64,6 +72,38 @@ function App() {
                   <Route path={ManagerPath.DEPARTMENT} element={<DepartmentManage/>}/>
                   <Route path={ManagerPath.DEPARTMENT + '/create'} element={<DepartmentCreate/>}/>
                   <Route path={ManagerPath.DEPARTMENT + '/update/:id'} element={<DepartmentUpdate/>}/>
+                  {/* JOB_TYPE */}
+                  <Route path={ManagerPath.JOB_TYPE} element={<JobTypeManage/>}/>
+                  <Route path={ManagerPath.JOB_TYPE + '/create'} element={<JobTypeCreate/>}/>
+                  <Route path={ManagerPath.JOB_TYPE + '/update/:id'} element={<JobTypeUpdate/>}/>
+                  {/* JOB_LEVEL */}
+                  <Route path={ManagerPath.JOB_LEVEL} element={<JobLevelManage/>}/>
+                  <Route path={ManagerPath.JOB_LEVEL + '/create'} element={<JobLevelCreate/>}/>
+                  <Route path={ManagerPath.JOB_LEVEL + '/update/:id'} element={<JobLevelUpdate/>}/>
+                  {/* JOB_TITLE */}
+                  <Route path={ManagerPath.JOB_TITLE} element={<JobTitleManage/>}/>
+                  <Route path={ManagerPath.JOB_TITLE + '/create'} element={<JobTitleCreate/>}/>
+                  <Route path={ManagerPath.JOB_TITLE + '/update/:id'} element={<JobTitleUpdate/>}/>
+                  {/* EMPLOYEE */}
+                  <Route path={ManagerPath.EMPLOYEE} element={<EmployeeManage/>}/>
+                  <Route path={ManagerPath.EMPLOYEE + '/create'} element={<EmployeeCreate/>}/>
+                  <Route path={ManagerPath.EMPLOYEE + '/update/:id'} element={<EmployeeUpdate/>}/>
+                  {/* CUSTOMER */}
+                  <Route path={ManagerPath.CUSTOMER} element={<CustomerManage/>}/>
+                  <Route path={ManagerPath.CUSTOMER + '/create'} element={<CustomerCreate/>}/>
+                  <Route path={ManagerPath.CUSTOMER + '/update/:id'} element={<CustomerUpdate/>}/>
+                  {/* CUSTOMER_GROUP */}
+                  <Route path={ManagerPath.CUSTOMER_GROUP} element={<CustomerGroupManage/>}/>
+                  <Route path={ManagerPath.CUSTOMER_GROUP + '/create'} element={<CustomerGroupCreate/>}/>
+                  <Route path={ManagerPath.CUSTOMER_GROUP + '/update/:id'} element={<CustomerGroupUpdate/>}/>
+                  {/* CUSTOMER_STATUS */}
+                  <Route path={ManagerPath.CUSTOMER_STATUS} element={<CustomerStatusManage/>}/>
+                  <Route path={ManagerPath.CUSTOMER_STATUS + '/create'} element={<CustomerStatusCreate/>}/>
+                  <Route path={ManagerPath.CUSTOMER_STATUS + '/update/:id'} element={<CustomerStatusUpdate/>}/>
+                  {/* CUSTOMER_RESOURCE */}
+                  <Route path={ManagerPath.CUSTOMER_RESOURCE} element={<CustomerResourceManage/>}/>
+                  <Route path={ManagerPath.CUSTOMER_RESOURCE + '/create'} element={<CustomerResourceCreate/>}/>
+                  <Route path={ManagerPath.CUSTOMER_RESOURCE + '/update/:id'} element={<CustomerResourceUpdate/>}/>
                 </Route>
               </Routes>
             </ModalsProvider>

@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { CreateUpdateTitle, DefaultPropertyPanel } from 'components';
 import DepartmentConfigs from 'pages/department/DepartmentConfigs';
 import useDepartmentUpdateViewModel from 'pages/department/DepartmentUpdate.vm';
-import OfficeConfigs from 'pages/office/OfficeConfigs';
 
 function DepartmentUpdate() {
   const { id } = useParams();
@@ -48,7 +47,7 @@ function DepartmentUpdate() {
               <Grid.Col xs={6}>
                 <Select
                   required
-                  label={OfficeConfigs.properties.status.label}
+                  label={DepartmentConfigs.properties.status.label}
                   placeholder="--"
                   clearable
                   data={statusSelectList}

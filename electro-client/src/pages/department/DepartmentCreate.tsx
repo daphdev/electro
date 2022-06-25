@@ -3,7 +3,6 @@ import { Button, Divider, Grid, Group, Paper, Select, Stack, TextInput } from '@
 import { CreateUpdateTitle, DefaultPropertyPanel } from 'components';
 import DepartmentConfigs from 'pages/department/DepartmentConfigs';
 import useDepartmentCreateViewModel from 'pages/department/DepartmentCreate.vm';
-import OfficeConfigs from 'pages/office/OfficeConfigs';
 
 function DepartmentCreate() {
   const {
@@ -35,7 +34,7 @@ function DepartmentCreate() {
               <Grid.Col xs={6}>
                 <Select
                   required
-                  label={OfficeConfigs.properties.status.label}
+                  label={DepartmentConfigs.properties.status.label}
                   placeholder="--"
                   clearable
                   data={statusSelectList}

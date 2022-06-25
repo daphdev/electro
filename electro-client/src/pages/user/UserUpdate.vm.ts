@@ -12,6 +12,7 @@ import { DistrictResponse } from 'models/District';
 import DistrictConfigs from 'pages/district/DistrictConfigs';
 import { RoleResponse } from 'models/Role';
 import { SelectOption } from 'types';
+import RoleConfigs from 'pages/role/RoleConfigs';
 
 function useUserUpdateViewModel(id: number) {
   const updateApi = useUpdateApi<UserRequest, UserResponse>(UserConfigs.resourceUrl, UserConfigs.resourceKey, id);
@@ -27,8 +28,8 @@ function useUserUpdateViewModel(id: number) {
     { all: 1 }
   );
   const { data: roleListResponse } = useGetAllApi<RoleResponse>(
-    'http://localhost:8085/api/roles',
-    'roles',
+    RoleConfigs.resourceUrl,
+    RoleConfigs.resourceKey,
     { sort: 'id,asc', all: 1 }
   );
 
@@ -92,7 +93,7 @@ function useUserUpdateViewModel(id: number) {
     if (!MiscUtils.isEquals(formValues, prevFormValues)) {
       const requestBody: UserRequest = {
         username: formValues.username,
-        password: formValues.password,
+        password: formValues.password || null,
         fullname: formValues.fullname,
         email: formValues.email,
         phone: formValues.phone,
