@@ -41,7 +41,7 @@ function useManageTableViewModel<T extends BaseResponse>({
 
   const handleViewEntityButton = (entityId: number) => {
     modals.openModal({
-      size: 'md',
+      size: 'lg',
       overlayColor: theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2],
       overlayOpacity: 0.55,
       overlayBlur: 3,

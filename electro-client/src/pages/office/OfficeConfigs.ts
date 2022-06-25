@@ -4,6 +4,7 @@ import ResourceURL from 'constants/ResourceURL';
 import MessageUtils from 'utils/MessageUtils';
 import PageConfigs from 'pages/PageConfigs';
 import ManagerPath from 'constants/ManagerPath';
+import EmployeeConfigs from 'pages/employee/EmployeeConfigs';
 
 class OfficeConfigs extends Configs {
   static managerPath = ManagerPath.OFFICE;
@@ -13,32 +14,7 @@ class OfficeConfigs extends Configs {
   static updateTitle = 'Cập nhật văn phòng';
   static manageTitle = 'Quản lý văn phòng';
 
-  static manageTitleLinks: TitleLink[] = [
-    {
-      link: ManagerPath.EMPLOYEE,
-      label: 'Quản lý nhân viên',
-    },
-    {
-      link: ManagerPath.OFFICE,
-      label: 'Quản lý văn phòng',
-    },
-    {
-      link: ManagerPath.DEPARTMENT,
-      label: 'Quản lý phòng ban',
-    },
-    {
-      link: ManagerPath.JOB_TYPE,
-      label: 'Quản lý loại hình công việc',
-    },
-    {
-      link: ManagerPath.JOB_LEVEL,
-      label: 'Quản lý cấp bậc công việc',
-    },
-    {
-      link: ManagerPath.JOB_TITLE,
-      label: 'Quản lý chức danh công việc',
-    },
-  ];
+  static manageTitleLinks: TitleLink[] = EmployeeConfigs.manageTitleLinks;
 
   protected static _rawProperties = {
     ...PageConfigs.getProperties(true, true, true),

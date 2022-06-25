@@ -45,11 +45,11 @@ function useRoleUpdateViewModel(id: number) {
   const statusSelectList: SelectOption[] = [
     {
       value: '1',
-      label: 'Đang sử dụng',
+      label: 'Có hiệu lực',
     },
     {
       value: '2',
-      label: 'Không sử dụng',
+      label: 'Vô hiệu lực',
     },
   ];
 

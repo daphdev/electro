@@ -90,22 +90,19 @@ public interface SearchFields {
     List<String> CUSTOMER_GROUP = List.of(
             "code",
             "name",
-            "description",
-            "color"
+            "description"
     );
 
     List<String> CUSTOMER_RESOURCE = List.of(
             "code",
             "name",
-            "description",
-            "color"
+            "description"
     );
 
     List<String> CUSTOMER_STATUS = List.of(
             "code",
             "name",
-            "description",
-            "color"
+            "description"
     );
 
     List<String> CUSTOMER = List.of(
@@ -121,15 +118,12 @@ public interface SearchFields {
             "customerGroup.code",
             "customerGroup.name",
             "customerGroup.description",
-            "customerGroup.color",
             "customerResource.code",
             "customerResource.name",
             "customerResource.description",
-            "customerResource.color",
             "customerStatus.code",
             "customerStatus.name",
-            "customerStatus.description",
-            "customerStatus.color"
+            "customerStatus.description"
     );
 
     List<String> PROPERTY = List.of(
