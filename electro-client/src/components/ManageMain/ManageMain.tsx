@@ -1,5 +1,5 @@
 import React from 'react';
-import { Center, LoadingOverlay, Paper, Text } from '@mantine/core';
+import { Center, LoadingOverlay, Paper, ScrollArea, Text } from '@mantine/core';
 import { ListResponse } from 'utils/FetchUtils';
 
 interface ManageMainProps {
@@ -13,7 +13,11 @@ function ManageMain({
   isLoading,
   children,
 }: ManageMainProps) {
-  let manageMainInnerFragment = <>{children}</>;
+  let manageMainInnerFragment = (
+    <ScrollArea>
+      {children}
+    </ScrollArea>
+  );
 
   if (listResponse.totalElements === 0) {
     manageMainInnerFragment = (
@@ -31,7 +35,7 @@ function ManageMain({
         height: listResponse.totalElements === 0 ? '250px' : 'auto',
       }}
     >
-      <LoadingOverlay visible={isLoading} zIndex={250}/>
+      <LoadingOverlay visible={isLoading} zIndex={50}/>
       {manageMainInnerFragment}
     </Paper>
   );

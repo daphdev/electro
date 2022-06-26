@@ -1,9 +1,18 @@
 import React from 'react';
-import { ActionIcon, Autocomplete, Burger, createStyles, Group, Header, useMantineColorScheme } from '@mantine/core';
+import {
+  ActionIcon,
+  Autocomplete,
+  Burger,
+  createStyles,
+  Group,
+  Header,
+  MediaQuery,
+  useMantineColorScheme
+} from '@mantine/core';
 import { Bell, Browser, Icon, Messages, MoonStars, Search, Sun, User } from 'tabler-icons-react';
-import { MantineLogo } from './MantineLogo';
 import { Link } from 'react-router-dom';
 import useAppStore from 'stores/use-app-store';
+import ElectroLogo from 'components/DefaultHeader/ElectroLogo';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -28,7 +37,7 @@ const useStyles = createStyles((theme) => ({
     [theme.fn.smallerThan('xs')]: {
       display: 'none',
     },
-    width: 300
+    width: 300,
   },
 
   link: {
@@ -50,7 +59,7 @@ const useStyles = createStyles((theme) => ({
     '&:active': {
       backgroundColor: theme.colors[theme.primaryColor][6],
       color: theme.white,
-    }
+    },
   },
 }));
 
@@ -70,12 +79,12 @@ const headerLinks: HeaderLink[] = [
   {
     link: '/admin/notification',
     label: 'Thông báo',
-    icon: Bell
+    icon: Bell,
   },
   {
     link: '/admin/message',
     label: 'Tin nhắn',
-    icon: Messages
+    icon: Messages,
   },
   {
     link: '/',
@@ -109,8 +118,10 @@ export function DefaultHeader() {
     <Header height={56} className={classes.header}>
       <div className={classes.inner}>
         <Group>
-          <Burger opened={opened} onClick={toggleOpened} size="sm"/>
-          <MantineLogo/>
+          <MediaQuery largerThan="md" styles={{ display: 'none' }}>
+            <Burger opened={opened} onClick={toggleOpened} size="sm"/>
+          </MediaQuery>
+          <ElectroLogo/>
         </Group>
 
         <Group>
