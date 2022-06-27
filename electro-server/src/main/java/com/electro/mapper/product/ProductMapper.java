@@ -16,6 +16,7 @@ import org.mapstruct.ReportingPolicy;
 public interface ProductMapper extends GenericMapper<Product, ProductRequest, ProductResponse> {
 
     @Override
+    @BeanMapping(qualifiedByName = "attachProduct")
     @Mapping(source = "categoryId", target = "category", qualifiedByName = "mapCategoryIdToCategory")
     @Mapping(source = "brandId", target = "brand", qualifiedByName = "mapBrandIdToBrand")
     @Mapping(source = "supplierId", target = "supplier", qualifiedByName = "mapSupplierIdToSupplier")
@@ -24,7 +25,7 @@ public interface ProductMapper extends GenericMapper<Product, ProductRequest, Pr
     Product requestToEntity(ProductRequest request);
 
     @Override
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, qualifiedByName = "attachProduct")
     @Mapping(source = "categoryId", target = "category", qualifiedByName = "mapCategoryIdToCategory")
     @Mapping(source = "brandId", target = "brand", qualifiedByName = "mapBrandIdToBrand")
     @Mapping(source = "supplierId", target = "supplier", qualifiedByName = "mapSupplierIdToSupplier")

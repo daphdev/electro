@@ -19,6 +19,7 @@ import com.electro.entity.product.Product;
 import com.electro.entity.product.Supplier;
 import com.electro.entity.product.Unit;
 import com.electro.repository.authentication.RoleRepository;
+import com.electro.repository.product.TagRepository;
 import lombok.AllArgsConstructor;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
@@ -37,6 +38,7 @@ public class MapperUtils {
 
     private PasswordEncoder passwordEncoder;
     private RoleRepository roleRepository;
+    private TagRepository tagRepository;
 
     @Named("mapProvinceIdToProvince")
     public Province mapProvinceIdToProvince(Long id) {
@@ -127,6 +129,12 @@ public class MapperUtils {
     @Named("attachUser")
     public User attachUser(@MappingTarget User user) {
         return user.setRoles(attachSet(user.getRoles(), roleRepository));
+    }
+
+    @AfterMapping
+    @Named("attachProduct")
+    public Product attachProduct(@MappingTarget Product product) {
+        return product.setTags(attachSet(product.getTags(), tagRepository));
     }
 
     private <E extends BaseEntity> Set<E> attachSet(Set<E> entities, JpaRepository<E, Long> repository) {

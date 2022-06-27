@@ -4,7 +4,6 @@ import lombok.Data;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Set;
 
 @Data
 public class CategoryResponse {
@@ -12,10 +11,10 @@ public class CategoryResponse {
     private Instant createdAt;
     private Instant updatedAt;
     private String name;
+    private String slug;
     private String description;
     private String thumbnail;
-    private Integer status;
     private ParentCategoryResponse parentCategory;
+    private Integer status;
     private List<CategoryResponse> categories;
-    private Set<PropertyRequest> properties;
 }

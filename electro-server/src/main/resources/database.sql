@@ -5,8 +5,6 @@
 
     drop table if exists prod.category;
 
-    drop table if exists prod.category_property;
-
     drop table if exists prod.customer;
 
     drop table if exists prod.customer_group;
@@ -23,8 +21,6 @@
 
     drop table if exists prod.guarantee;
 
-    drop table if exists prod.image;
-
     drop table if exists prod.job_level;
 
     drop table if exists prod.job_title;
@@ -35,11 +31,15 @@
 
     drop table if exists prod.product;
 
+    drop table if exists prod.product_tag;
+
     drop table if exists prod.property;
 
     drop table if exists prod.province;
 
     drop table if exists prod.role;
+
+    drop table if exists prod.specification;
 
     drop table if exists prod.supplier;
 
@@ -50,6 +50,8 @@
     drop table if exists prod.user;
 
     drop table if exists prod.user_role;
+
+    drop table if exists prod.variant;
 
     create table prod.address (
        id bigint not null auto_increment,
@@ -70,7 +72,7 @@
         updated_at datetime not null,
         updated_by bigint,
         code varchar(35) not null,
-        description varchar(255) not null,
+        description varchar(255),
         name varchar(255) not null,
         status TINYINT not null,
         primary key (id)
@@ -82,18 +84,13 @@
         created_by bigint,
         updated_at datetime not null,
         updated_by bigint,
-        description varchar(255) not null,
+        description varchar(255),
         name varchar(255) not null,
+        slug varchar(255) not null,
         status TINYINT not null,
-        thumbnail varchar(255) not null,
+        thumbnail varchar(255),
         category_id bigint,
         primary key (id)
-    ) engine=MyISAM;
-
-    create table prod.category_property (
-       category_id bigint not null,
-        property_id bigint not null,
-        primary key (category_id, property_id)
     ) engine=MyISAM;
 
     create table prod.customer (
@@ -195,20 +192,9 @@
         created_by bigint,
         updated_at datetime not null,
         updated_by bigint,
-        description varchar(255) not null,
+        description varchar(255),
         name varchar(255) not null,
         status TINYINT not null,
-        primary key (id)
-    ) engine=MyISAM;
-
-    create table prod.image (
-       id bigint not null auto_increment,
-        created_at datetime not null,
-        created_by bigint,
-        updated_at datetime not null,
-        updated_by bigint,
-        name varchar(255) not null,
-        product_id bigint,
         primary key (id)
     ) engine=MyISAM;
 
@@ -264,17 +250,28 @@
         updated_at datetime not null,
         updated_by bigint,
         code varchar(255) not null,
-        description varchar(255) not null,
+        description varchar(255),
+        images JSON,
         name varchar(255) not null,
         properties JSON,
+        short_description varchar(255),
+        slug varchar(255) not null,
+        specifications JSON,
         status TINYINT not null,
-        thumbnail varchar(255) not null,
+        thumbnail varchar(255),
+        weight double precision,
         brand_id bigint,
         category_id bigint,
         guarantee_id bigint,
         supplier_id bigint,
         unit_id bigint,
         primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.product_tag (
+       product_id bigint not null,
+        tag_id bigint not null,
+        primary key (product_id, tag_id)
     ) engine=MyISAM;
 
     create table prod.property (
@@ -284,10 +281,9 @@
         updated_at datetime not null,
         updated_by bigint,
         code varchar(255) not null,
-        description varchar(255) not null,
+        description varchar(255),
         name varchar(255) not null,
         status TINYINT not null,
-        type varchar(255) not null,
         primary key (id)
     ) engine=MyISAM;
 
@@ -314,6 +310,19 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.specification (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255) not null,
+        description varchar(255),
+        name varchar(255) not null,
+        status TINYINT not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.supplier (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -321,20 +330,20 @@
         updated_at datetime not null,
         updated_by bigint,
         code varchar(255) not null,
-        company_name varchar(255) not null,
-        contact_email varchar(255) not null,
-        contact_fullname varchar(255) not null,
-        contact_phone varchar(255) not null,
+        company_name varchar(255),
+        contact_email varchar(255),
+        contact_fullname varchar(255),
+        contact_phone varchar(255),
         description varchar(255),
         display_name varchar(255) not null,
-        email varchar(255) not null,
-        fax varchar(255) not null,
+        email varchar(255),
+        fax varchar(255),
         note varchar(255),
-        phone varchar(255) not null,
+        phone varchar(255),
         status TINYINT not null,
-        tax_code varchar(255) not null,
+        tax_code varchar(255),
         website varchar(255),
-        address_id bigint not null,
+        address_id bigint,
         primary key (id)
     ) engine=MyISAM;
 
@@ -345,6 +354,7 @@
         updated_at datetime not null,
         updated_by bigint,
         name varchar(255) not null,
+        slug varchar(255) not null,
         status TINYINT not null,
         primary key (id)
     ) engine=MyISAM;
@@ -384,6 +394,25 @@
         primary key (user_id, role_id)
     ) engine=MyISAM;
 
+    create table prod.variant (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        cost double precision not null,
+        images JSON,
+        price double precision not null,
+        properties JSON,
+        sku varchar(255) not null,
+        status TINYINT not null,
+        product_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    alter table prod.category 
+       add constraint UK_hqknmjh5423vchi4xkyhxlhg2 unique (slug);
+
     alter table prod.customer 
        add constraint UK_j7ja2xvrxudhvssosd4nu1o92 unique (user_id);
 
@@ -393,8 +422,17 @@
     alter table prod.office 
        add constraint UK_mlsa2m6po5222mgtojis7rnow unique (address_id);
 
+    alter table prod.product 
+       add constraint UK_h3w5r1mx6d0e5c6um32dgyjej unique (code);
+
+    alter table prod.product 
+       add constraint UK_88yb4l9100epddqsrdvxerhq9 unique (slug);
+
     alter table prod.supplier 
        add constraint UK_78419iap4p0q918rhlcr1phkl unique (address_id);
+
+    alter table prod.tag 
+       add constraint UK_1afk1y1o95l8oxxjxsqvelm3o unique (slug);
 
     alter table prod.user 
        add constraint UK_dhlcfg8h1drrgu0irs1ro3ohb unique (address_id);
@@ -411,16 +449,6 @@
 
     alter table prod.category 
        add constraint FKap0cnk1255oj4bwam7in1hxxv 
-       foreign key (category_id) 
-       references prod.category (id);
-
-    alter table prod.category_property 
-       add constraint FKdpu5w0d2yxl44p7w5b9qthbw4 
-       foreign key (property_id) 
-       references prod.property (id);
-
-    alter table prod.category_property 
-       add constraint FKcyg1h6ev059nd3cjg6x9xwaeh 
        foreign key (category_id) 
        references prod.category (id);
 
@@ -479,11 +507,6 @@
        foreign key (user_id) 
        references prod.user (id);
 
-    alter table prod.image 
-       add constraint FKgpextbyee3uk9u6o2381m7ft1 
-       foreign key (product_id) 
-       references prod.product (id);
-
     alter table prod.office 
        add constraint FKak81m3gkj8xq5t48xuflbj0kn 
        foreign key (address_id) 
@@ -514,6 +537,16 @@
        foreign key (unit_id) 
        references prod.unit (id);
 
+    alter table prod.product_tag 
+       add constraint FK3b3a7hu5g2kh24wf0cwv3lgsm 
+       foreign key (tag_id) 
+       references prod.tag (id);
+
+    alter table prod.product_tag 
+       add constraint FK2rf7w3d88x20p7vuc2m9mvv91 
+       foreign key (product_id) 
+       references prod.product (id);
+
     alter table prod.supplier 
        add constraint FK95a8oipih48obtbhltjy7hgvb 
        foreign key (address_id) 
@@ -533,3 +566,8 @@
        add constraint FK859n2jvi8ivhui0rl0esws6o 
        foreign key (user_id) 
        references prod.user (id);
+
+    alter table prod.variant 
+       add constraint FKjjpllnln6hk6hj98uesgxno00 
+       foreign key (product_id) 
+       references prod.product (id);

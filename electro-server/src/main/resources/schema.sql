@@ -22,13 +22,14 @@ DROP TABLE IF EXISTS
     customer,
     property,
     category,
-    category_property,
     tag,
-    image,
     guarantee,
     unit,
     supplier,
-    product;
+    specification,
+    product,
+    product_tag,
+    variant;
 
 -- CREATE TABLES
 
@@ -125,10 +126,10 @@ CREATE TABLE user_role
 );
 
 ALTER TABLE user_role
-    ADD CONSTRAINT FK_USER_ROLE_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+    ADD CONSTRAINT FK_USER__ROLE_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
 
 ALTER TABLE user_role
-    ADD CONSTRAINT FK_USER_ROLE_ON_ROLE FOREIGN KEY (role_id) REFERENCES role (id);
+    ADD CONSTRAINT FK_USER__ROLE_ON_ROLE FOREIGN KEY (role_id) REFERENCES role (id);
 
 CREATE TABLE brand
 (
@@ -139,7 +140,7 @@ CREATE TABLE brand
     updated_by    BIGINT                NULL,
     name          VARCHAR(255)          NOT NULL,
     code          VARCHAR(35)           NOT NULL,
-    `description` VARCHAR(255)          NOT NULL,
+    `description` VARCHAR(255)          NULL,
     status        TINYINT               NOT NULL,
     CONSTRAINT pk_brand PRIMARY KEY (id)
 );
@@ -298,150 +299,204 @@ ALTER TABLE customer ADD CONSTRAINT FK_CUSTOMER_ON_CUSTOMER_STATUS FOREIGN KEY (
 
 ALTER TABLE customer ADD CONSTRAINT FK_CUSTOMER_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
 
-CREATE TABLE property (
-   id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   code VARCHAR(255) NOT NULL,
-   type VARCHAR(255) NOT NULL,
-   name VARCHAR(255) NOT NULL,
-   `description` VARCHAR(255) NOT NULL,
-   status TINYINT NOT NULL,
-   CONSTRAINT pk_property PRIMARY KEY (id)
-);
-
-CREATE TABLE category (
-   id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   name VARCHAR(255) NOT NULL,
-   `description` VARCHAR(255) NOT NULL,
-   thumbnail VARCHAR(255) NOT NULL,
-   status TINYINT NOT NULL,
-   category_id BIGINT NULL,
-   CONSTRAINT pk_category PRIMARY KEY (id)
-);
-
-ALTER TABLE category ADD CONSTRAINT FK_CATEGORY_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES category (id);
-
-CREATE TABLE category_property
+CREATE TABLE property
 (
-    category_id bigint not null,
-    property_id bigint not null,
-    primary key (category_id, property_id)
+    id            BIGINT AUTO_INCREMENT NOT NULL,
+    created_at    datetime              NOT NULL,
+    updated_at    datetime              NOT NULL,
+    created_by    BIGINT                NULL,
+    updated_by    BIGINT                NULL,
+    code          VARCHAR(255)          NOT NULL,
+    name          VARCHAR(255)          NOT NULL,
+    `description` VARCHAR(255)          NULL,
+    status        TINYINT               NOT NULL,
+    CONSTRAINT pk_property PRIMARY KEY (id)
 );
 
-ALTER TABLE category_property
-    ADD CONSTRAINT FK_CATEGORY_PROPERTY_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES category (id);
-
-ALTER TABLE category_property
-    ADD CONSTRAINT FK_CATEGORY_PROPERTY_ON_PROPERTY FOREIGN KEY (property_id) REFERENCES property (id);
-
-CREATE TABLE tag (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   name VARCHAR(255) NOT NULL,
-   status TINYINT NOT NULL,
-   CONSTRAINT pk_tag PRIMARY KEY (id)
+CREATE TABLE category
+(
+    id            BIGINT AUTO_INCREMENT NOT NULL,
+    created_at    datetime              NOT NULL,
+    updated_at    datetime              NOT NULL,
+    created_by    BIGINT                NULL,
+    updated_by    BIGINT                NULL,
+    name          VARCHAR(255)          NOT NULL,
+    slug          VARCHAR(255)          NOT NULL,
+    `description` VARCHAR(255)          NULL,
+    thumbnail     VARCHAR(255)          NULL,
+    category_id   BIGINT                NULL,
+    status        TINYINT               NOT NULL,
+    CONSTRAINT pk_category PRIMARY KEY (id)
 );
 
-CREATE TABLE guarantee (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   name VARCHAR(255) NOT NULL,
-   `description` VARCHAR(255) NOT NULL,
-   status TINYINT NOT NULL,
-   CONSTRAINT pk_guarantee PRIMARY KEY (id)
+ALTER TABLE category
+    ADD CONSTRAINT uc_category_slug UNIQUE (slug);
+
+ALTER TABLE category
+    ADD CONSTRAINT FK_CATEGORY_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES category (id);
+
+CREATE TABLE tag
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    name       VARCHAR(255)          NOT NULL,
+    slug       VARCHAR(255)          NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_tag PRIMARY KEY (id)
 );
 
-CREATE TABLE unit (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   name VARCHAR(255) NOT NULL,
-   status TINYINT NOT NULL,
-   CONSTRAINT pk_unit PRIMARY KEY (id)
+ALTER TABLE tag
+    ADD CONSTRAINT uc_tag_slug UNIQUE (slug);
+
+CREATE TABLE guarantee
+(
+    id            BIGINT AUTO_INCREMENT NOT NULL,
+    created_at    datetime              NOT NULL,
+    updated_at    datetime              NOT NULL,
+    created_by    BIGINT                NULL,
+    updated_by    BIGINT                NULL,
+    name          VARCHAR(255)          NOT NULL,
+    `description` VARCHAR(255)          NULL,
+    status        TINYINT               NOT NULL,
+    CONSTRAINT pk_guarantee PRIMARY KEY (id)
 );
 
-CREATE TABLE supplier (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   display_name VARCHAR(255) NOT NULL,
-   code VARCHAR(255) NOT NULL,
-   contact_fullname VARCHAR(255) NOT NULL,
-   contact_email VARCHAR(255) NOT NULL,
-   contact_phone VARCHAR(255) NOT NULL,
-   company_name VARCHAR(255) NOT NULL,
-   tax_code VARCHAR(255) NOT NULL,
-   email VARCHAR(255) NOT NULL,
-   phone VARCHAR(255) NOT NULL,
-   fax VARCHAR(255) NOT NULL,
-   website VARCHAR(255) NULL,
-   address_id BIGINT NOT NULL,
-   `description` VARCHAR(255) NULL,
-   note VARCHAR(255) NULL,
-   status TINYINT NOT NULL,
-   CONSTRAINT pk_supplier PRIMARY KEY (id)
+CREATE TABLE unit
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    name       VARCHAR(255)          NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_unit PRIMARY KEY (id)
 );
 
-ALTER TABLE supplier ADD CONSTRAINT uc_supplier_address UNIQUE (address_id);
-
-ALTER TABLE supplier ADD CONSTRAINT FK_SUPPLIER_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES address (id);
-
-CREATE TABLE product (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   name VARCHAR(255) NOT NULL,
-   code VARCHAR(255) NOT NULL,
-   `description` VARCHAR(255) NOT NULL,
-   thumbnail VARCHAR(255) NOT NULL,
-   status TINYINT NOT NULL,
-   properties JSON NULL,
-   category_id BIGINT NULL,
-   brand_id BIGINT NULL,
-   unit_id BIGINT NULL,
-   guarantee_id BIGINT NULL,
-   supplier_id BIGINT NULL,
-   CONSTRAINT pk_product PRIMARY KEY (id)
+CREATE TABLE supplier
+(
+    id               BIGINT AUTO_INCREMENT NOT NULL,
+    created_at       datetime              NOT NULL,
+    updated_at       datetime              NOT NULL,
+    created_by       BIGINT                NULL,
+    updated_by       BIGINT                NULL,
+    display_name     VARCHAR(255)          NOT NULL,
+    code             VARCHAR(255)          NOT NULL,
+    contact_fullname VARCHAR(255)          NULL,
+    contact_email    VARCHAR(255)          NULL,
+    contact_phone    VARCHAR(255)          NULL,
+    company_name     VARCHAR(255)          NULL,
+    tax_code         VARCHAR(255)          NULL,
+    email            VARCHAR(255)          NULL,
+    phone            VARCHAR(255)          NULL,
+    fax              VARCHAR(255)          NULL,
+    website          VARCHAR(255)          NULL,
+    address_id       BIGINT                NULL,
+    `description`    VARCHAR(255)          NULL,
+    note             VARCHAR(255)          NULL,
+    status           TINYINT               NOT NULL,
+    CONSTRAINT pk_supplier PRIMARY KEY (id)
 );
 
-ALTER TABLE product ADD CONSTRAINT FK_PRODUCT_ON_BRAND FOREIGN KEY (brand_id) REFERENCES brand (id);
+ALTER TABLE supplier
+    ADD CONSTRAINT uc_supplier_address UNIQUE (address_id);
 
-ALTER TABLE product ADD CONSTRAINT FK_PRODUCT_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES category (id);
+ALTER TABLE supplier
+    ADD CONSTRAINT FK_SUPPLIER_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES address (id);
 
-ALTER TABLE product ADD CONSTRAINT FK_PRODUCT_ON_GUARANTEE FOREIGN KEY (guarantee_id) REFERENCES guarantee (id);
-
-ALTER TABLE product ADD CONSTRAINT FK_PRODUCT_ON_SUPPLIER FOREIGN KEY (supplier_id) REFERENCES supplier (id);
-
-ALTER TABLE product ADD CONSTRAINT FK_PRODUCT_ON_UNIT FOREIGN KEY (unit_id) REFERENCES unit (id);
-
-CREATE TABLE image (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   name VARCHAR(255) NOT NULL,
-   product_id BIGINT NULL,
-   CONSTRAINT pk_image PRIMARY KEY (id)
+CREATE TABLE specification
+(
+    id            BIGINT AUTO_INCREMENT NOT NULL,
+    created_at    datetime              NOT NULL,
+    updated_at    datetime              NOT NULL,
+    created_by    BIGINT                NULL,
+    updated_by    BIGINT                NULL,
+    name          VARCHAR(255)          NOT NULL,
+    code          VARCHAR(255)          NOT NULL,
+    `description` VARCHAR(255)          NULL,
+    status        TINYINT               NOT NULL,
+    CONSTRAINT pk_specification PRIMARY KEY (id)
 );
 
-ALTER TABLE image ADD CONSTRAINT FK_IMAGE_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
+CREATE TABLE product
+(
+    id                BIGINT AUTO_INCREMENT NOT NULL,
+    created_at        datetime              NOT NULL,
+    updated_at        datetime              NOT NULL,
+    created_by        BIGINT                NULL,
+    updated_by        BIGINT                NULL,
+    name              VARCHAR(255)          NOT NULL,
+    code              VARCHAR(255)          NOT NULL,
+    slug              VARCHAR(255)          NOT NULL,
+    short_description VARCHAR(255)          NULL,
+    `description`     VARCHAR(255)          NULL,
+    thumbnail         VARCHAR(255)          NULL,
+    images            JSON                  NULL,
+    status            TINYINT               NOT NULL,
+    category_id       BIGINT                NULL,
+    brand_id          BIGINT                NULL,
+    supplier_id       BIGINT                NULL,
+    unit_id           BIGINT                NULL,
+    specifications    JSON                  NULL,
+    properties        JSON                  NULL,
+    weight            DOUBLE                NULL,
+    guarantee_id      BIGINT                NULL,
+    CONSTRAINT pk_product PRIMARY KEY (id)
+);
+
+ALTER TABLE product
+    ADD CONSTRAINT uc_product_code UNIQUE (code);
+
+ALTER TABLE product
+    ADD CONSTRAINT uc_product_slug UNIQUE (slug);
+
+ALTER TABLE product
+    ADD CONSTRAINT FK_PRODUCT_ON_BRAND FOREIGN KEY (brand_id) REFERENCES brand (id);
+
+ALTER TABLE product
+    ADD CONSTRAINT FK_PRODUCT_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES category (id);
+
+ALTER TABLE product
+    ADD CONSTRAINT FK_PRODUCT_ON_GUARANTEE FOREIGN KEY (guarantee_id) REFERENCES guarantee (id);
+
+ALTER TABLE product
+    ADD CONSTRAINT FK_PRODUCT_ON_SUPPLIER FOREIGN KEY (supplier_id) REFERENCES supplier (id);
+
+ALTER TABLE product
+    ADD CONSTRAINT FK_PRODUCT_ON_UNIT FOREIGN KEY (unit_id) REFERENCES unit (id);
+
+CREATE TABLE product_tag
+(
+    product_id bigint not null,
+    tag_id bigint not null,
+    primary key (product_id, tag_id)
+);
+
+ALTER TABLE product_tag
+    ADD CONSTRAINT FK_PRODUCT__TAG_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
+
+ALTER TABLE product_tag
+    ADD CONSTRAINT FK_PRODUCT__TAG_ON_TAG FOREIGN KEY (tag_id) REFERENCES tag (id);
+
+CREATE TABLE variant
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    product_id BIGINT                NOT NULL,
+    sku        VARCHAR(255)          NOT NULL,
+    cost       DOUBLE                NOT NULL,
+    price      DOUBLE                NOT NULL,
+    properties JSON                  NULL,
+    images     JSON                  NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_variant PRIMARY KEY (id)
+);
+
+ALTER TABLE variant
+    ADD CONSTRAINT FK_VARIANT_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);

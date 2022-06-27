@@ -10,6 +10,7 @@ public class ParentCategoryResponse {
     private Instant createdAt;
     private Instant updatedAt;
     private String name;
+    private String slug;
     private String description;
     private String thumbnail;
     private Integer status;

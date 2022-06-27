@@ -9,6 +9,7 @@ public class SupplierRequest {
     private String code;
     private String contactFullname;
     private String contactEmail;
+    private String contactPhone;
     private String companyName;
     private String taxCode;
     private String email;

@@ -3,11 +3,9 @@ package com.electro.dto.product;
 import lombok.Data;
 
 @Data
-public class CategoryRequest {
+public class SpecificationRequest {
     private String name;
-    private String slug;
+    private String code;
     private String description;
-    private String thumbnail;
-    private Long parentCategoryId;
     private Integer status;
 }

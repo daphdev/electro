@@ -9,9 +9,8 @@ public class PropertyResponse {
     private Long id;
     private Instant createdAt;
     private Instant updatedAt;
-    private String code;
-    private String type;
     private String name;
+    private String code;
     private String description;
     private Integer status;
 }

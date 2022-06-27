@@ -30,7 +30,7 @@ public class Brand extends BaseEntity {
     @Column(name = "code", nullable = false, length = 35)
     private String code;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
