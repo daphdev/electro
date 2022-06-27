@@ -39,12 +39,13 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("properties"))
                 .and(generateRoute("categories"))
                 .and(generateRoute("tags"))
-                .and(generateRoute("images"))
                 .and(generateRoute("guarantees"))
                 .and(generateRoute("units"))
                 .and(generateRoute("suppliers"))
                 .and(generateRoute("brands"))
-                .and(generateRoute("products"));
+                .and(generateRoute("specifications"))
+                .and(generateRoute("products"))
+                .and(generateRoute("variants"));
     }
 
     private RouterFunction<ServerResponse> generateRoute(String resource) {

@@ -17,8 +17,17 @@ import javax.persistence.Table;
 @Setter
 @Accessors(chain = true)
 @Entity
-@Table(name = "image")
-public class Image extends BaseEntity {
+@Table(name = "specification")
+public class Specification extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "code", nullable = false)
+    private String code;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
+    private Integer status;
 }

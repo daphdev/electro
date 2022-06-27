@@ -5,11 +5,13 @@ import lombok.Data;
 import java.time.Instant;
 
 @Data
-public class TagResponse {
+public class Category_ProductResponse {
     private Long id;
     private Instant createdAt;
     private Instant updatedAt;
     private String name;
     private String slug;
+    private String description;
+    private String thumbnail;
     private Integer status;
 }

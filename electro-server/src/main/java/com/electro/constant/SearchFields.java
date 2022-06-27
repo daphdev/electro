@@ -129,21 +129,18 @@ public interface SearchFields {
     List<String> PROPERTY = List.of(
             "name",
             "code",
-            "type",
             "description"
     );
 
     List<String> CATEGORY = List.of(
             "name",
+            "slug",
             "description"
     );
 
     List<String> TAG = List.of(
-            "name"
-    );
-
-    List<String> IMAGE = List.of(
-            "name"
+            "name",
+            "slug"
     );
 
     List<String> GUARANTEE = List.of(
@@ -181,15 +178,21 @@ public interface SearchFields {
             "description"
     );
 
+    List<String> SPECIFICATION = List.of(
+            "name",
+            "code",
+            "description"
+    );
+
     List<String> PRODUCT = List.of(
             "name",
             "code",
+            "slug",
+            "shortDescription",
             "description",
             "category.name",
-            "category.description",
             "brand.name",
             "brand.code",
-            "brand.description",
             "supplier.displayName",
             "supplier.code",
             "supplier.contactFullname",
@@ -202,13 +205,16 @@ public interface SearchFields {
             "supplier.fax",
             "supplier.website",
             "supplier.address.line",
-            "supplier.address.province.name",
-            "supplier.address.province.code",
-            "supplier.address.district.name",
-            "supplier.address.district.code",
-            "supplier.description",
             "unit.name",
-            "guarantee.name",
-            "guarantee.description"
+            "weight",
+            "guarantee.name"
+    );
+
+    List<String> VARIANT = List.of(
+            "product.name",
+            "product.code",
+            "sku",
+            "cost",
+            "price"
     );
 }
