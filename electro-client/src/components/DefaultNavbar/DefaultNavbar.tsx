@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createStyles, Menu, Navbar } from '@mantine/core';
+import { Center, Navbar, ScrollArea, Stack, useMantineTheme } from '@mantine/core';
 import {
   AddressBook,
   Box,
@@ -14,177 +14,107 @@ import {
   Users
 } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
-
-const useStyles = createStyles((theme, _params, getRef) => {
-  const icon = getRef('icon');
-  return {
-    navbar: {
-      [theme.fn.largerThan('sm')]: {
-        height: 'calc(100vh - 56px)',
-      }
-    },
-
-    link: {
-      ...theme.fn.focusStyles(),
-      display: 'flex',
-      alignItems: 'center',
-      textDecoration: 'none',
-      fontSize: theme.fontSizes.sm,
-      color: theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[7],
-      padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
-      borderRadius: theme.radius.sm,
-      fontWeight: 500,
-
-      '&:hover': {
-        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-        color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-
-        [`& .${icon}`]: {
-          color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-        },
-      },
-    },
-
-    linkIcon: {
-      ref: icon,
-      color: theme.colorScheme === 'dark' ? theme.colors.dark[2] : theme.colors.gray[6],
-      marginRight: theme.spacing.sm,
-    },
-
-    linkActive: {
-      '&, &:hover': {
-        backgroundColor:
-          theme.colorScheme === 'dark'
-            ? theme.fn.rgba(theme.colors[theme.primaryColor][8], 0.25)
-            : theme.colors[theme.primaryColor][0],
-        color: theme.colorScheme === 'dark' ? theme.white : theme.colors[theme.primaryColor][7],
-
-        [`& .${icon}`]: {
-          color: theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 5 : 7],
-        },
-      },
-    },
-  };
-});
-
-interface NavbarChildLink {
-  link: string,
-  label: string,
-}
+import useAppStore from 'stores/use-app-store';
+import useDefaultNavbarStyles from 'components/DefaultNavbar/DefaultNavbar.styles';
 
 interface NavbarLink {
-  link: string,
-  label: string,
-  icon: Icon,
-  childLinks?: NavbarChildLink[]
+  link: string;
+  label: string;
+  icon: Icon;
+  childLinks?: NavbarChildLink[];
+}
+
+interface NavbarChildLink {
+  link: string;
+  label: string;
 }
 
 const navbarLinks: NavbarLink[] = [
   {
     link: '/admin',
     label: 'Trang chủ',
-    icon: Home
+    icon: Home,
   },
   {
     link: '/admin/address',
-    label: 'Quản lý địa chỉ',
+    label: 'Địa chỉ',
     icon: AddressBook,
     childLinks: [
       {
-        link: '/admin/address',
-        label: 'Quản lý địa chỉ',
-      },
-      {
         link: '/admin/address/province',
-        label: 'Quản lý tỉnh thành',
+        label: 'Tỉnh thành',
       },
       {
         link: '/admin/address/district',
-        label: 'Quản lý quận huyện',
-      }
+        label: 'Quận huyện',
+      },
     ],
   },
   {
     link: '/admin/user',
-    label: 'Quản lý người dùng',
+    label: 'Người dùng',
     icon: Fingerprint,
     childLinks: [
       {
-        link: '/admin/user',
-        label: 'Quản lý người dùng',
-      },
-      {
         link: '/admin/user/role',
-        label: 'Quản lý quyền',
+        label: 'Quyền',
       },
     ],
   },
   {
     link: '/admin/employee',
-    label: 'Quản lý nhân viên',
+    label: 'Nhân viên',
     icon: Building,
     childLinks: [
       {
-        link: '/admin/employee',
-        label: 'Quản lý nhân viên',
-      },
-      {
         link: '/admin/employee/office',
-        label: 'Quản lý văn phòng',
+        label: 'Văn phòng',
       },
       {
         link: '/admin/employee/department',
-        label: 'Quản lý phòng ban',
+        label: 'Phòng ban',
       },
       {
-        link: '/admin/employee/jobtype',
-        label: 'Quản lý loại hình công việc',
+        link: '/admin/employee/job-type',
+        label: 'Loại hình công việc',
       },
       {
-        link: '/admin/employee/joblevel',
-        label: 'Quản lý cấp bậc công việc',
+        link: '/admin/employee/job-level',
+        label: 'Cấp bậc công việc',
       },
       {
-        link: '/admin/employee/jobtitle',
-        label: 'Quản lý chức danh công việc',
+        link: '/admin/employee/job-title',
+        label: 'Chức danh công việc',
       },
     ],
   },
   {
     link: '/admin/customer',
-    label: 'Quản lý khách hàng',
+    label: 'Khách hàng',
     icon: Users,
     childLinks: [
       {
-        link: '/admin/customer',
-        label: 'Quản lý khách hàng',
-      },
-      {
         link: '/admin/customer/group',
-        label: 'Quản lý nhóm khách hàng',
+        label: 'Nhóm khách hàng',
       },
       {
         link: '/admin/customer/status',
-        label: 'Quản lý trạng thái khách hàng',
+        label: 'Trạng thái khách hàng',
       },
       {
         link: '/admin/customer/resource',
-        label: 'Quản lý nguồn khách hàng',
+        label: 'Nguồn khách hàng',
       },
     ],
   },
   {
     link: '/admin/product',
-    label: 'Quản lý sản phẩm',
+    label: 'Sản phẩm',
     icon: Box,
     childLinks: [
       {
         link: '/admin/category',
         label: 'Quản lý danh mục sản phẩm',
-      },
-      {
-        link: '/admin/product',
-        label: 'Quản lý sản phẩm',
       },
       {
         link: '/admin/product/brand',
@@ -214,7 +144,7 @@ const navbarLinks: NavbarLink[] = [
   },
   {
     link: '/admin/inventory',
-    label: 'Quản lý tồn kho',
+    label: 'Tồn kho',
     icon: BuildingWarehouse,
     childLinks: [
       {
@@ -226,7 +156,7 @@ const navbarLinks: NavbarLink[] = [
         label: 'Quản lý nhà kho',
       },
       {
-        link: '/admin/inventory/purchaseorder',
+        link: '/admin/inventory/purchase-order',
         label: 'Quản lý đơn mua hàng',
       },
       {
@@ -238,7 +168,7 @@ const navbarLinks: NavbarLink[] = [
         label: 'Quản lý phiếu nhập xuất kho',
       },
       {
-        link: '/admin/inventory/reason',
+        link: '/admin/inventory/docket-reason',
         label: 'Quản lý lý do phiếu NXK',
       },
       {
@@ -253,7 +183,7 @@ const navbarLinks: NavbarLink[] = [
   },
   {
     link: '/admin/order',
-    label: 'Quản lý đơn hàng',
+    label: 'Đơn hàng',
     icon: FileBarcode,
     childLinks: [
       {
@@ -265,14 +195,14 @@ const navbarLinks: NavbarLink[] = [
         label: 'Quản lý nguồn đơn hàng',
       },
       {
-        link: '/admin/order/cancellationreason',
+        link: '/admin/order/cancellation-reason',
         label: 'Quản lý lý do hủy đơn hàng',
       },
-    ]
+    ],
   },
   {
     link: '/admin/waybill',
-    label: 'Quản lý vận đơn',
+    label: 'Vận đơn',
     icon: Car,
     childLinks: [
       {
@@ -287,7 +217,7 @@ const navbarLinks: NavbarLink[] = [
   },
   {
     link: '/admin/voucher',
-    label: 'Quản lý sổ quỹ',
+    label: 'Sổ quỹ',
     icon: CurrencyDollar,
     childLinks: [
       {
@@ -295,7 +225,7 @@ const navbarLinks: NavbarLink[] = [
         label: 'Quản lý sổ quỹ',
       },
       {
-        link: '/admin/paymentmethod',
+        link: '/admin/payment-method',
         label: 'Quản lý hình thức thanh toán',
       },
     ],
@@ -303,13 +233,18 @@ const navbarLinks: NavbarLink[] = [
 ];
 
 export function DefaultNavbar() {
-  const { classes, cx } = useStyles();
+  const theme = useMantineTheme();
+  const { opened } = useAppStore();
+  const { classes, cx } = useDefaultNavbarStyles();
   const [active, setActive] = useState('Trang chủ');
 
-  const navbarLinksFragment = navbarLinks.map(navbarLink => {
-    const navbarLinkFragment = (
+  const navbarLinksFragment = navbarLinks.map(navbarLink => (
+    <Stack
+      key={navbarLink.label}
+      spacing={0}
+      sx={{ borderRadius: theme.radius.sm, overflow: 'hidden' }}
+    >
       <Link
-        key={navbarLink.label}
         to={navbarLink.link}
         className={cx(classes.link, { [classes.linkActive]: navbarLink.label === active })}
         onClick={() => setActive(navbarLink.label)}
@@ -317,38 +252,28 @@ export function DefaultNavbar() {
         <navbarLink.icon className={classes.linkIcon}/>
         <span>{navbarLink.label}</span>
       </Link>
-    );
-
-    const navbarChildLinksFragment = navbarLink.childLinks?.map(childLink => (
-      <Menu.Item key={childLink.label} component={Link} to={childLink.link}>
-        {childLink.label}
-      </Menu.Item>
-    ));
-
-    if (navbarChildLinksFragment) {
-      return (
-        <Menu
-          key={navbarLink.label}
-          trigger="hover"
-          position="right"
-          placement="center"
-          withArrow
-          sx={{ width: '100%' }}
-          control={navbarLinkFragment}
-          size={225}
+      {navbarLink.label === active && (navbarLink.childLinks || []).map(childLink => (
+        <Link
+          key={childLink.label}
+          to={childLink.link}
+          className={cx(classes.link, { [classes.childLinkActive]: navbarLink.label === active })}
         >
-          {navbarChildLinksFragment}
-        </Menu>
-      );
-    }
-
-    return navbarLinkFragment;
-  });
-
+          <Center sx={{ width: 24, marginRight: theme.spacing.sm }}>
+            <div className={classes.childLinkDot}/>
+          </Center>
+          <span>{childLink.label}</span>
+        </Link>
+      ))}
+    </Stack>
+  ));
 
   return (
-    <Navbar height={'100%'} width={{ sm: 250 }} p="md" className={classes.navbar}>
-      <Navbar.Section grow>
+    <Navbar
+      p="md"
+      width={{ md: 250 }}
+      hidden={!opened}
+    >
+      <Navbar.Section grow component={ScrollArea}>
         {navbarLinksFragment}
       </Navbar.Section>
     </Navbar>

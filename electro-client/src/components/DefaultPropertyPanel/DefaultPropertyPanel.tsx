@@ -21,29 +21,29 @@ function DefaultPropertyPanel({
     <Paper shadow="xs" p="sm">
       <Group spacing="xl">
         <Stack spacing={5}>
-          <Text>ID</Text>
+          <Text size="sm">ID</Text>
           <Text><Code color="blue">{id}</Code></Text>
         </Stack>
         <Stack spacing={5}>
-          <Text>Ngày tạo</Text>
+          <Text size="sm">Ngày tạo</Text>
           <Text>
             <Code color="blue">{DateUtils.isoDateToString(createdAt)}</Code>
           </Text>
         </Stack>
         <Stack spacing={5}>
-          <Text>Ngày cập nhật</Text>
+          <Text size="sm">Ngày cập nhật</Text>
           <Text>
             <Code color="blue">{DateUtils.isoDateToString(updatedAt)}</Code>
           </Text>
         </Stack>
         <Stack spacing={5}>
-          <Text>Người tạo</Text>
+          <Text size="sm">Người tạo</Text>
           <Text>
             <Code color="blue">{createdBy}</Code>
           </Text>
         </Stack>
         <Stack spacing={5}>
-          <Text>Người cập nhật</Text>
+          <Text size="sm">Người cập nhật</Text>
           <Text>
             <Code color="blue">{updatedBy}</Code>
           </Text>

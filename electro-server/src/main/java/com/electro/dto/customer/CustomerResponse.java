@@ -12,6 +12,6 @@ public class CustomerResponse {
     private Instant updatedAt;
     private UserResponse user;
     private CustomerGroupResponse customerGroup;
-    private CustomerResourceResponse customerResource;
     private CustomerStatusResponse customerStatus;
+    private CustomerResourceResponse customerResource;
 }

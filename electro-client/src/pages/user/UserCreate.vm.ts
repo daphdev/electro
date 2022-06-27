@@ -10,6 +10,7 @@ import { SelectOption } from 'types';
 import { DistrictResponse } from 'models/District';
 import DistrictConfigs from 'pages/district/DistrictConfigs';
 import { RoleResponse } from 'models/Role';
+import RoleConfigs from 'pages/role/RoleConfigs';
 
 function useUserCreateViewModel() {
   const createApi = useCreateApi<UserRequest, UserResponse>(UserConfigs.resourceUrl);
@@ -24,8 +25,8 @@ function useUserCreateViewModel() {
     { all: 1 }
   );
   const { data: roleListResponse } = useGetAllApi<RoleResponse>(
-    'http://localhost:8085/api/roles',
-    'roles',
+    RoleConfigs.resourceUrl,
+    RoleConfigs.resourceKey,
     { sort: 'id,asc', all: 1 }
   );
 

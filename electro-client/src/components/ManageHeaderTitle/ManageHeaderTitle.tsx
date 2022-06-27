@@ -23,6 +23,7 @@ function ManageHeaderTitle({
   return (
     <Group spacing="xs">
       <Menu
+        size={225}
         control={(
           <ActionIcon color="blue" variant="filled">
             <Hash/>

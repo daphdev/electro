@@ -4,10 +4,12 @@ import com.electro.entity.BaseEntity;
 import com.electro.entity.address.District;
 import com.electro.entity.address.Province;
 import com.electro.entity.authentication.User;
+import com.electro.entity.customer.Customer;
 import com.electro.entity.customer.CustomerGroup;
 import com.electro.entity.customer.CustomerResource;
 import com.electro.entity.customer.CustomerStatus;
 import com.electro.entity.employee.Department;
+import com.electro.entity.employee.Employee;
 import com.electro.entity.employee.JobLevel;
 import com.electro.entity.employee.JobTitle;
 import com.electro.entity.employee.JobType;
@@ -129,6 +131,20 @@ public class MapperUtils {
     @Named("attachUser")
     public User attachUser(@MappingTarget User user) {
         return user.setRoles(attachSet(user.getRoles(), roleRepository));
+    }
+
+    @AfterMapping
+    @Named("attachEmployee")
+    public Employee attachEmployee(@MappingTarget Employee employee) {
+        employee.getUser().setRoles(attachSet(employee.getUser().getRoles(), roleRepository));
+        return employee;
+    }
+
+    @AfterMapping
+    @Named("attachCustomer")
+    public Customer attachCustomer(@MappingTarget Customer customer) {
+        customer.getUser().setRoles(attachSet(customer.getUser().getRoles(), roleRepository));
+        return customer;
     }
 
     @AfterMapping
