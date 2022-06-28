@@ -20,14 +20,15 @@ class ResourceURL {
   static CUSTOMER_STATUS = server + '/customer-status';
   static CUSTOMER_RESOURCE = server + '/customer-resources';
 
-  static CATEGORY = server + '/categories';
   static PRODUCT = server + '/products';
+  static CATEGORY = server + '/categories';
   static BRAND = server + '/brands';
   static SUPPLIER = server + '/suppliers';
   static UNIT = server + '/units';
   static TAG = server + '/tags';
   static GUARANTEE = server + '/guarantees';
   static PROPERTY = server + '/properties';
+  static SPECIFICATION = server + '/specifications';
 }
 
 export default ResourceURL;

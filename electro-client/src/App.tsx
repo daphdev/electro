@@ -26,6 +26,8 @@ import CustomerGroupManage, { CustomerGroupCreate, CustomerGroupUpdate } from 'p
 import CustomerStatusManage, { CustomerStatusCreate, CustomerStatusUpdate } from 'pages/customer-status';
 import CustomerResourceManage, { CustomerResourceCreate, CustomerResourceUpdate } from 'pages/customer-resource';
 import CustomerManage, { CustomerCreate, CustomerUpdate } from 'pages/customer';
+import ProductManage from 'pages/product';
+import CategoryManage from 'pages/category';
 
 const queryClient = new QueryClient();
 
@@ -104,6 +106,10 @@ function App() {
                   <Route path={ManagerPath.CUSTOMER_RESOURCE} element={<CustomerResourceManage/>}/>
                   <Route path={ManagerPath.CUSTOMER_RESOURCE + '/create'} element={<CustomerResourceCreate/>}/>
                   <Route path={ManagerPath.CUSTOMER_RESOURCE + '/update/:id'} element={<CustomerResourceUpdate/>}/>
+                  {/* PRODUCT */}
+                  <Route path={ManagerPath.PRODUCT} element={<ProductManage/>}/>
+                  {/* CATEGORY */}
+                  <Route path={ManagerPath.CATEGORY} element={<CategoryManage/>}/>
                 </Route>
               </Routes>
             </ModalsProvider>
