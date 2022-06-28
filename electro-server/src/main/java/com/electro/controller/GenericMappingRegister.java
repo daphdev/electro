@@ -40,6 +40,8 @@ import com.electro.dto.product.GuaranteeRequest;
 import com.electro.dto.product.GuaranteeResponse;
 import com.electro.dto.product.ImageRequest;
 import com.electro.dto.product.ImageResponse;
+import com.electro.dto.product.ProductInventoryLimitRequest;
+import com.electro.dto.product.ProductInventoryLimitResponse;
 import com.electro.dto.product.ProductRequest;
 import com.electro.dto.product.ProductResponse;
 import com.electro.dto.product.PropertyRequest;
@@ -69,6 +71,7 @@ import com.electro.entity.product.Category;
 import com.electro.entity.product.Guarantee;
 import com.electro.entity.product.Image;
 import com.electro.entity.product.Product;
+import com.electro.entity.product.ProductInventoryLimit;
 import com.electro.entity.product.Property;
 import com.electro.entity.product.Supplier;
 import com.electro.entity.product.Tag;
@@ -91,6 +94,7 @@ import com.electro.mapper.product.BrandMapper;
 import com.electro.mapper.product.CategoryMapper;
 import com.electro.mapper.product.GuaranteeMapper;
 import com.electro.mapper.product.ImageMapper;
+import com.electro.mapper.product.ProductInventoryLimitMapper;
 import com.electro.mapper.product.ProductMapper;
 import com.electro.mapper.product.PropertyMapper;
 import com.electro.mapper.product.SupplierMapper;
@@ -114,6 +118,7 @@ import com.electro.repository.product.BrandRepository;
 import com.electro.repository.product.CategoryRepository;
 import com.electro.repository.product.GuaranteeRepository;
 import com.electro.repository.product.ImageRepository;
+import com.electro.repository.product.ProductInventoryLimitRepository;
 import com.electro.repository.product.ProductRepository;
 import com.electro.repository.product.PropertyRepository;
 import com.electro.repository.product.SupplierRepository;
@@ -167,6 +172,7 @@ public class GenericMappingRegister {
     private GenericController<SupplierRequest, SupplierResponse> supplierController;
     private GenericController<BrandRequest, BrandResponse> brandController;
     private GenericController<ProductRequest, ProductResponse> productController;
+    private GenericController<ProductInventoryLimitRequest, ProductInventoryLimitResponse> productInventoryLimitController;
 
     // Services
     private GenericService<District, DistrictRequest, DistrictResponse> districtService;
@@ -192,6 +198,7 @@ public class GenericMappingRegister {
     private GenericService<Supplier, SupplierRequest, SupplierResponse> supplierService;
     private GenericService<Brand, BrandRequest, BrandResponse> brandService;
     private GenericService<Product, ProductRequest, ProductResponse> productService;
+    private GenericService<ProductInventoryLimit, ProductInventoryLimitRequest, ProductInventoryLimitResponse> productInventoryLimitService;
 
     @PostConstruct
     public void registerControllers() throws NoSuchMethodException {
@@ -358,6 +365,13 @@ public class GenericMappingRegister {
                 SearchFields.PRODUCT,
                 ResourceName.PRODUCT
         ), ProductRequest.class);
+
+        register("product-inventory-limit", productInventoryLimitController, productInventoryLimitService.init(
+                context.getBean(ProductInventoryLimitRepository.class),
+                context.getBean(ProductInventoryLimitMapper.class),
+                SearchFields.PRODUCT_INVENTORY_LIMIT,
+                ResourceName.PRODUCT_INVENTORY_LIMIT
+        ), ProductInventoryLimitRequest.class);
 
     }
 

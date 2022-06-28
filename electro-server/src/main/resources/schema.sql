@@ -28,7 +28,8 @@ DROP TABLE IF EXISTS
     guarantee,
     unit,
     supplier,
-    product;
+    product,
+    product_inventory_limit;
 
 -- CREATE TABLES
 
@@ -447,3 +448,19 @@ CREATE TABLE image (
 );
 
 ALTER TABLE image ADD CONSTRAINT FK_IMAGE_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
+
+CREATE TABLE product_inventory_limit (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   product_id BIGINT NOT NULL,
+   minimum_limit INT NULL,
+   maximum_limit INT NULL,
+   CONSTRAINT pk_product_inventory_limit PRIMARY KEY (id)
+);
+
+ALTER TABLE product_inventory_limit ADD CONSTRAINT uc_product_inventory_limit_product UNIQUE (product_id);
+
+ALTER TABLE product_inventory_limit ADD CONSTRAINT FK_PRODUCT_INVENTORY_LIMIT_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);

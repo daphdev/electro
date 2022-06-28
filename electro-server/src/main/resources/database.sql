@@ -35,6 +35,8 @@
 
     drop table if exists prod.product;
 
+    drop table if exists prod.product_inventory_limit;
+
     drop table if exists prod.property;
 
     drop table if exists prod.province;
@@ -277,6 +279,18 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.product_inventory_limit (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        maximum_limit integer,
+        minimum_limit integer,
+        product_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.property (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -392,6 +406,9 @@
 
     alter table prod.office 
        add constraint UK_mlsa2m6po5222mgtojis7rnow unique (address_id);
+
+    alter table prod.product_inventory_limit 
+       add constraint UK_b2qaaqlye3no6xy07jm62qetq unique (product_id);
 
     alter table prod.supplier 
        add constraint UK_78419iap4p0q918rhlcr1phkl unique (address_id);
@@ -513,6 +530,11 @@
        add constraint FKndrubbm6whifirg6o2bpdcf6b 
        foreign key (unit_id) 
        references prod.unit (id);
+
+    alter table prod.product_inventory_limit 
+       add constraint FKgty8thbjnwann6fcm9q5gibvx 
+       foreign key (product_id) 
+       references prod.product (id);
 
     alter table prod.supplier 
        add constraint FK95a8oipih48obtbhltjy7hgvb 

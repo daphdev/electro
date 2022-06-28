@@ -21,6 +21,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.List;
 
@@ -81,4 +82,7 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval=true)
     @JsonManagedReference
     private List<Image> images;
+
+    @OneToOne(mappedBy = "product")
+    private ProductInventoryLimit productInventoryLimit;
 }
