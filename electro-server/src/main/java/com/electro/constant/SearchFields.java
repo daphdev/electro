@@ -217,4 +217,40 @@ public interface SearchFields {
             "cost",
             "price"
     );
+
+    List<String> VARIANT_INVENTORY_LIMIT = List.of(
+            "minimumLimit",
+            "maximumLimit",
+            "variant.product.name",
+            "variant.product.code",
+            "variant.sku",
+            "variant.cost",
+            "variant.price"
+    );
+
+    List<String> COUNT_VARIANT = List.of(
+            "actualInventory",
+            "inventory",
+            "variant.product.name",
+            "variant.product.code",
+            "variant.sku",
+            "variant.cost",
+            "variant.price"
+    );
+
+    List<String> WAREHOUSE = List.of(
+            "code",
+            "name",
+            "address.line",
+            "address.province.name",
+            "address.province.code",
+            "address.district.name",
+            "address.district.code"
+    );
+
+    List<String> COUNT = List.of(
+            "code",
+            "warehouse.code",
+            "warehouse.name"
+    );
 }

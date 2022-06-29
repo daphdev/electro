@@ -29,7 +29,11 @@ DROP TABLE IF EXISTS
     specification,
     product,
     product_tag,
-    variant;
+    variant,
+    variant_inventory_limit,
+    warehouse,
+    count,
+    count_variant;
 
 -- CREATE TABLES
 
@@ -500,3 +504,64 @@ CREATE TABLE variant
 
 ALTER TABLE variant
     ADD CONSTRAINT FK_VARIANT_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
+
+CREATE TABLE variant_inventory_limit (
+   id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   variant_id BIGINT NOT NULL,
+   minimum_limit INT NULL,
+   maximum_limit INT NULL,
+   CONSTRAINT pk_variant_inventory_limit PRIMARY KEY (id)
+);
+
+ALTER TABLE variant_inventory_limit ADD CONSTRAINT uc_variant_inventory_limit_variant UNIQUE (variant_id);
+
+ALTER TABLE variant_inventory_limit ADD CONSTRAINT FK_VARIANT_INVENTORY_LIMIT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+
+CREATE TABLE warehouse (
+   id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   code VARCHAR(255) NULL,
+   name VARCHAR(255) NULL,
+   address_id BIGINT NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT pk_warehouse PRIMARY KEY (id)
+);
+
+ALTER TABLE warehouse ADD CONSTRAINT uc_warehouse_address UNIQUE (address_id);
+
+ALTER TABLE warehouse ADD CONSTRAINT FK_WAREHOUSE_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES address (id);
+
+CREATE TABLE count (
+   id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   code VARCHAR(255) NULL,
+   warehouse_id BIGINT NULL,
+   note VARCHAR(255) NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT pk_count PRIMARY KEY (id)
+);
+
+ALTER TABLE count ADD CONSTRAINT FK_COUNT_ON_WAREHOUSE FOREIGN KEY (warehouse_id) REFERENCES warehouse (id);
+
+CREATE TABLE count_variant (
+   actual_inventory TINYINT NOT NULL,
+   inventory TINYINT NOT NULL,
+   count_id BIGINT NOT NULL,
+   variant_id BIGINT NOT NULL,
+   CONSTRAINT pk_count_variant PRIMARY KEY (count_id, variant_id)
+);
+
+ALTER TABLE count_variant ADD CONSTRAINT FK_COUNT_VARIANT_ON_COUNT FOREIGN KEY (count_id) REFERENCES count (id);
+
+ALTER TABLE count_variant ADD CONSTRAINT FK_COUNT_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+

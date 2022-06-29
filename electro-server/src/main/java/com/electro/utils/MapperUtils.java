@@ -1,5 +1,6 @@
 package com.electro.utils;
 
+import com.electro.dto.inventory.CountVariantRequest;
 import com.electro.entity.BaseEntity;
 import com.electro.entity.address.District;
 import com.electro.entity.address.Province;
@@ -14,14 +15,19 @@ import com.electro.entity.employee.JobLevel;
 import com.electro.entity.employee.JobTitle;
 import com.electro.entity.employee.JobType;
 import com.electro.entity.employee.Office;
+import com.electro.entity.inventory.Count;
+import com.electro.entity.inventory.CountVariant;
+import com.electro.entity.inventory.Warehouse;
 import com.electro.entity.product.Brand;
 import com.electro.entity.product.Category;
 import com.electro.entity.product.Guarantee;
 import com.electro.entity.product.Product;
 import com.electro.entity.product.Supplier;
 import com.electro.entity.product.Unit;
+import com.electro.entity.product.Variant;
 import com.electro.repository.authentication.RoleRepository;
 import com.electro.repository.product.TagRepository;
+import com.electro.repository.product.VariantRepository;
 import lombok.AllArgsConstructor;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
@@ -41,6 +47,7 @@ public class MapperUtils {
     private PasswordEncoder passwordEncoder;
     private RoleRepository roleRepository;
     private TagRepository tagRepository;
+    private VariantRepository variantRepository;
 
     @Named("mapProvinceIdToProvince")
     public Province mapProvinceIdToProvince(Long id) {
@@ -127,6 +134,16 @@ public class MapperUtils {
         return (Product) new Product().setId(id);
     }
 
+    @Named("mapVariantIdToVariant")
+    public Variant mapVariantIdToVariant(Long id) {
+        return (Variant) new Variant().setId(id);
+    }
+
+    @Named("mapWarehouseIdToWarehouse")
+    public Warehouse mapWarehouseIdToWarehouse(Long id) {
+        return (Warehouse) new Warehouse().setId(id);
+    }
+
     @AfterMapping
     @Named("attachUser")
     public User attachUser(@MappingTarget User user) {
@@ -168,4 +185,23 @@ public class MapperUtils {
         return attachedSet;
     }
 
+    @Named("convertCountVariants")
+    public Set<CountVariant> convertCountVariants(Set<CountVariantRequest> countVariantRequests){
+        Set<CountVariant> countVariants = new HashSet<>();
+        for (CountVariantRequest countVariantRequest: countVariantRequests) {
+            CountVariant countVariant = new CountVariant();
+            countVariant.setVariant(variantRepository.getById(countVariantRequest.getVariantId()));
+            countVariant.setInventory(countVariantRequest.getInventory());
+            countVariant.setActualInventory(countVariantRequest.getActualInventory());
+            countVariants.add(countVariant);
+        }
+        return countVariants;
+    }
+
+    @AfterMapping
+    @Named("attachCount")
+    public Count attachCount(@MappingTarget Count count) {
+        count.getCountVariants().forEach(countVariant -> countVariant.setCount(count));
+        return count;
+    }
 }

@@ -26,4 +26,8 @@ public interface ResourceName {
     String SPECIFICATION = "Specification";
     String PRODUCT = "Product";
     String VARIANT = "Variant";
+    String VARIANT_INVENTORY_LIMIT = "VariantInventoryLimit";
+    String COUNT_VARIANT = "CountVariant";
+    String WAREHOUSE = "Warehouse";
+    String COUNT = "Count";
 }

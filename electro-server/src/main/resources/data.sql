@@ -281,3 +281,27 @@ insert into product_tag (product_id, tag_id) values (4, 1);
 insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2021-10-22 20:25:57', '2021-12-14 06:28:15', 1, '43063-210', 2568670, 5395497, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"S"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 2);
 insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2022-05-06 20:40:45', '2022-04-02 20:30:28', 1, '52125-433', 823716, 6459704, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"M"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 1);
 insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2021-07-17 02:36:19', '2021-12-14 10:10:42', 1, '48951-8009', 8298634, 9300059, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"L"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 1);
+
+-- variant_inventory_limit TABLE: 3 records
+insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 1, 4, 10);
+insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 2, 2, 10);
+insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 3, 1, 10);
+
+-- ware_house TABLE: 5 record
+insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2022-03-16 18:12:55', '2021-11-08 04:05:32', '63323-466', 'Wrapsafe', 23, 2);
+insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2022-05-28 12:11:14', '2022-02-25 15:13:22', '35356-773', 'Subin', 22, 2);
+insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2021-10-16 15:47:15', '2021-08-28 18:03:44', '59667-0030', 'Latlux', 25, 1);
+insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2022-04-20 01:31:33', '2021-12-24 04:20:06', '55154-2677', 'Sonair', 26, 3);
+insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2022-03-11 00:56:16', '2022-01-16 14:08:35', '49884-412', 'Viva', 24, 2);
+
+-- count table: 5 record
+insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2022-02-11 02:17:56', '2022-06-10 08:38:27', '58118-0268', 4, 'Shikoku Christian College', 3);
+insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-09-27 04:07:17', '2022-06-06 09:44:39', '58517-440', 3, 'Universitas Paramadina Mulya', 3);
+insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-12-23 11:30:25', '2022-03-11 09:56:07', '66097-003', 4, 'Bangladesh University of Engineering and Technology', 2);
+insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-10-04 13:07:06', '2021-11-11 11:42:22', '53808-0672', 4, 'Universidade Federal Fluminense', 3);
+insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-07-10 22:24:16', '2022-03-04 03:33:40', '51668-402', 2, 'Universidad Tecnológica del Peru', 1);
+
+-- count_variant TABLE: 3 records
+insert into count_variant ( count_id, variant_id, actual_inventory, inventory) values ( 1, 1, 32, 80);
+insert into count_variant ( count_id, variant_id, actual_inventory, inventory) values ( 1, 2, 57, 75);
+insert into count_variant ( count_id, variant_id, actual_inventory, inventory) values ( 1, 3, 30, 37);

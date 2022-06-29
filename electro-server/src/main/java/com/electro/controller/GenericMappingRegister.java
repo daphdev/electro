@@ -32,6 +32,14 @@ import com.electro.dto.employee.JobTypeRequest;
 import com.electro.dto.employee.JobTypeResponse;
 import com.electro.dto.employee.OfficeRequest;
 import com.electro.dto.employee.OfficeResponse;
+import com.electro.dto.inventory.CountRequest;
+import com.electro.dto.inventory.CountResponse;
+import com.electro.dto.inventory.CountVariantRequest;
+import com.electro.dto.inventory.CountVariantResponse;
+import com.electro.dto.inventory.VariantInventoryLimitRequest;
+import com.electro.dto.inventory.VariantInventoryLimitResponse;
+import com.electro.dto.inventory.WarehouseRequest;
+import com.electro.dto.inventory.WarehouseResponse;
 import com.electro.dto.product.BrandRequest;
 import com.electro.dto.product.BrandResponse;
 import com.electro.dto.product.CategoryRequest;
@@ -66,6 +74,10 @@ import com.electro.entity.employee.JobLevel;
 import com.electro.entity.employee.JobTitle;
 import com.electro.entity.employee.JobType;
 import com.electro.entity.employee.Office;
+import com.electro.entity.inventory.Count;
+import com.electro.entity.inventory.CountVariant;
+import com.electro.entity.inventory.VariantInventoryLimit;
+import com.electro.entity.inventory.Warehouse;
 import com.electro.entity.product.Brand;
 import com.electro.entity.product.Category;
 import com.electro.entity.product.Guarantee;
@@ -90,6 +102,10 @@ import com.electro.mapper.employee.JobLevelMapper;
 import com.electro.mapper.employee.JobTitleMapper;
 import com.electro.mapper.employee.JobTypeMapper;
 import com.electro.mapper.employee.OfficeMapper;
+import com.electro.mapper.inventory.CountMapper;
+import com.electro.mapper.inventory.CountVariantMapper;
+import com.electro.mapper.inventory.VariantInventoryLimitMapper;
+import com.electro.mapper.inventory.WarehouseMapper;
 import com.electro.mapper.product.BrandMapper;
 import com.electro.mapper.product.CategoryMapper;
 import com.electro.mapper.product.GuaranteeMapper;
@@ -114,6 +130,10 @@ import com.electro.repository.employee.JobLevelRepository;
 import com.electro.repository.employee.JobTitleRepository;
 import com.electro.repository.employee.JobTypeRepository;
 import com.electro.repository.employee.OfficeRepository;
+import com.electro.repository.inventory.CountRepository;
+import com.electro.repository.inventory.CountVariantRepository;
+import com.electro.repository.inventory.VariantInventoryLimitRepository;
+import com.electro.repository.inventory.WarehouseRepository;
 import com.electro.repository.product.BrandRepository;
 import com.electro.repository.product.CategoryRepository;
 import com.electro.repository.product.GuaranteeRepository;
@@ -173,6 +193,10 @@ public class GenericMappingRegister {
     private GenericController<SpecificationRequest, SpecificationResponse> specificationController;
     private GenericController<ProductRequest, ProductResponse> productController;
     private GenericController<VariantRequest, VariantResponse> variantController;
+    private GenericController<VariantInventoryLimitRequest, VariantInventoryLimitResponse> variantInventoryLimitController;
+    private GenericController<CountVariantRequest, CountVariantResponse> countVariantController;
+    private GenericController<WarehouseRequest, WarehouseResponse> warehouseController;
+    private GenericController<CountRequest, CountResponse> countController;
 
     // Services
     private GenericService<District, DistrictRequest, DistrictResponse> districtService;
@@ -199,6 +223,10 @@ public class GenericMappingRegister {
     private GenericService<Specification, SpecificationRequest, SpecificationResponse> specificationService;
     private GenericService<Product, ProductRequest, ProductResponse> productService;
     private GenericService<Variant, VariantRequest, VariantResponse> variantService;
+    private GenericService<VariantInventoryLimit, VariantInventoryLimitRequest, VariantInventoryLimitResponse> variantInventoryLimitService;
+    private GenericService<CountVariant, CountVariantRequest, CountVariantResponse> countVariantService;
+    private GenericService<Warehouse, WarehouseRequest, WarehouseResponse> warehouseService;
+    private GenericService<Count, CountRequest,CountResponse> countService;
 
     @PostConstruct
     public void registerControllers() throws NoSuchMethodException {
@@ -372,6 +400,34 @@ public class GenericMappingRegister {
                 SearchFields.VARIANT,
                 ResourceName.VARIANT
         ), VariantRequest.class);
+
+        register("variant-inventory-limit", variantInventoryLimitController, variantInventoryLimitService.init(
+                context.getBean(VariantInventoryLimitRepository.class),
+                context.getBean(VariantInventoryLimitMapper.class),
+                SearchFields.VARIANT_INVENTORY_LIMIT,
+                ResourceName.VARIANT_INVENTORY_LIMIT
+        ), VariantInventoryLimitRequest.class);
+
+        register("count-variants", countVariantController, countVariantService.init(
+                context.getBean(CountVariantRepository.class),
+                context.getBean(CountVariantMapper.class),
+                SearchFields.COUNT_VARIANT,
+                ResourceName.COUNT_VARIANT
+        ), CountVariantRequest.class);
+
+        register("warehouses", warehouseController, warehouseService.init(
+                context.getBean(WarehouseRepository.class),
+                context.getBean(WarehouseMapper.class),
+                SearchFields.WAREHOUSE,
+                ResourceName.WAREHOUSE
+        ), WarehouseRequest.class);
+
+        register("counts", countController, countService.init(
+                context.getBean(CountRepository.class),
+                context.getBean(CountMapper.class),
+                SearchFields.COUNT,
+                ResourceName.COUNT
+        ), CountRequest.class);
 
     }
 

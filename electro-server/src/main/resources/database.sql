@@ -5,6 +5,10 @@
 
     drop table if exists prod.category;
 
+    drop table if exists prod.count;
+
+    drop table if exists prod.count_variant;
+
     drop table if exists prod.customer;
 
     drop table if exists prod.customer_group;
@@ -53,6 +57,10 @@
 
     drop table if exists prod.variant;
 
+    drop table if exists prod.variant_inventory_limit;
+
+    drop table if exists prod.warehouse;
+
     create table prod.address (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -91,6 +99,27 @@
         thumbnail varchar(255),
         category_id bigint,
         primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.count (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255),
+        note varchar(255),
+        status TINYINT not null,
+        warehouse_id bigint,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.count_variant (
+       count_id bigint not null,
+        variant_id bigint not null,
+        actual_inventory TINYINT not null,
+        inventory TINYINT not null,
+        primary key (count_id, variant_id)
     ) engine=MyISAM;
 
     create table prod.customer (
@@ -410,6 +439,31 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.variant_inventory_limit (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        maximum_limit integer,
+        minimum_limit integer,
+        variant_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.warehouse (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255),
+        name varchar(255),
+        status TINYINT not null,
+        address_id bigint,
+        primary key (id)
+    ) engine=MyISAM;
+
     alter table prod.category 
        add constraint UK_hqknmjh5423vchi4xkyhxlhg2 unique (slug);
 
@@ -437,6 +491,12 @@
     alter table prod.user 
        add constraint UK_dhlcfg8h1drrgu0irs1ro3ohb unique (address_id);
 
+    alter table prod.variant_inventory_limit 
+       add constraint UK_shw9q4qx2l9f0jgminqo19351 unique (variant_id);
+
+    alter table prod.warehouse 
+       add constraint UK_5hyew1b3bewu839bc54o2jo05 unique (address_id);
+
     alter table prod.address 
        add constraint FKqbjwfi50pdenou8j14knnffrh 
        foreign key (district_id) 
@@ -451,6 +511,21 @@
        add constraint FKap0cnk1255oj4bwam7in1hxxv 
        foreign key (category_id) 
        references prod.category (id);
+
+    alter table prod.count 
+       add constraint FK5fvpdf9v0472mrnb22hqihg8l 
+       foreign key (warehouse_id) 
+       references prod.warehouse (id);
+
+    alter table prod.count_variant 
+       add constraint FKtbly4gx9isdexbdsk58sqs0m0 
+       foreign key (count_id) 
+       references prod.count (id);
+
+    alter table prod.count_variant 
+       add constraint FK36g86gt9dsdw5pjayqqlgsfgq 
+       foreign key (variant_id) 
+       references prod.variant (id);
 
     alter table prod.customer 
        add constraint FK9ogndo8hll7edx5iloyu2uegy 
@@ -571,3 +646,13 @@
        add constraint FKjjpllnln6hk6hj98uesgxno00 
        foreign key (product_id) 
        references prod.product (id);
+
+    alter table prod.variant_inventory_limit 
+       add constraint FKmyp7te4img1nhhmfwj7yr1ss7 
+       foreign key (variant_id) 
+       references prod.variant (id);
+
+    alter table prod.warehouse 
+       add constraint FKp7xymgre8vt94ihf75e9movyt 
+       foreign key (address_id) 
+       references prod.address (id);
