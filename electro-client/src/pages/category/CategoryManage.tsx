@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Badge, Highlight, Stack, Text } from '@mantine/core';
+import { Avatar, Badge, Highlight, Stack } from '@mantine/core';
 import {
   FilterPanel,
   ManageHeader,
@@ -55,7 +55,7 @@ function CategoryManage() {
       <td>
         <Avatar src={entity.thumbnail} alt={entity.name} radius="xl" size="sm"/>
       </td>
-      <td>{entity.parentCategory ? entity.parentCategory.name : <em>Không có</em>}</td>
+      <td>{entity.parentCategory ? entity.parentCategory.name : <em>không có</em>}</td>
       <td>{categoryStatusBadgeFragment(entity.status)}</td>
     </>
   );
@@ -94,7 +94,7 @@ function CategoryManage() {
       </tr>
       <tr>
         <td>{CategoryConfigs.properties['parentCategory.name'].label}</td>
-        <td>{entity.parentCategory ? entity.parentCategory.name : <em>Không có</em>}</td>
+        <td>{entity.parentCategory ? entity.parentCategory.name : <em>không có</em>}</td>
       </tr>
       <tr>
         <td>{CategoryConfigs.properties.status.label}</td>

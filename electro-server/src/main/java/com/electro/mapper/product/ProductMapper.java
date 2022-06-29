@@ -9,7 +9,6 @@ import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = MapperUtils.class)
@@ -25,7 +24,7 @@ public interface ProductMapper extends GenericMapper<Product, ProductRequest, Pr
     Product requestToEntity(ProductRequest request);
 
     @Override
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, qualifiedByName = "attachProduct")
+    @BeanMapping(qualifiedByName = "attachProduct")
     @Mapping(source = "categoryId", target = "category", qualifiedByName = "mapCategoryIdToCategory")
     @Mapping(source = "brandId", target = "brand", qualifiedByName = "mapBrandIdToBrand")
     @Mapping(source = "supplierId", target = "supplier", qualifiedByName = "mapSupplierIdToSupplier")

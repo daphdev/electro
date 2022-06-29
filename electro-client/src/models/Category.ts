@@ -3,9 +3,9 @@ import BaseResponse from 'models/BaseResponse';
 export interface CategoryResponse extends BaseResponse {
   name: string;
   slug: string;
-  description: string;
-  thumbnail: string;
-  parentCategory: ParentCategoryResponse;
+  description: string | null;
+  thumbnail: string | null;
+  parentCategory: ParentCategoryResponse | null;
   status: number;
   categories: CategoryResponse[];
 }
@@ -13,16 +13,16 @@ export interface CategoryResponse extends BaseResponse {
 interface ParentCategoryResponse extends BaseResponse {
   name: string;
   slug: string;
-  description: string;
-  thumbnail: string;
+  description: string | null;
+  thumbnail: string | null;
   status: number;
 }
 
 export interface CategoryRequest {
   name: string;
   slug: string;
-  description: string;
-  thumbnail: string;
-  parentCategoryId: number;
+  description: string | null;
+  thumbnail: string | null;
+  parentCategoryId: number | null;
   status: number;
 }

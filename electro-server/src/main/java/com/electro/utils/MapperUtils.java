@@ -27,6 +27,7 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -98,8 +99,8 @@ public class MapperUtils {
     }
 
     @Named("mapCategoryIdToCategory")
-    public Category mapCategoryIdToCategory(Long id) {
-        return (Category) new Category().setId(id);
+    public Category mapCategoryIdToCategory(@Nullable Long id) {
+        return (id == null) ? null : (Category) new Category().setId(id);
     }
 
     @Named("mapBrandIdToBrand")

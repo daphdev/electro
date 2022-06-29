@@ -65,7 +65,7 @@ class CategoryConfigs extends Configs {
     slug: '',
     description: '',
     thumbnail: '',
-    parentCategoryId: '',
+    parentCategoryId: null as string | null,
     status: '1',
   };
 
@@ -74,7 +74,7 @@ class CategoryConfigs extends Configs {
     slug: z.string(),
     description: z.string(),
     thumbnail: z.string(),
-    parentCategoryId: z.string(),
+    parentCategoryId: z.string().nullable(),
     status: z.string(),
   });
 }

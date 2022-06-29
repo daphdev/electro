@@ -23,9 +23,11 @@ public interface UserMapper extends GenericMapper<User, UserRequest, UserRespons
     User requestToEntity(UserRequest request);
 
     @Override
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, qualifiedByName = "attachUser")
+    @BeanMapping(qualifiedByName = "attachUser")
     @Mapping(source = "address.provinceId", target = "address.province", qualifiedByName = "mapProvinceIdToProvince")
     @Mapping(source = "address.districtId", target = "address.district", qualifiedByName = "mapDistrictIdToDistrict")
+    @Mapping(source = "password", target = "password", qualifiedByName = "hashPassword",
+            nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     User partialUpdate(@MappingTarget User entity, UserRequest request);
 
 }
