@@ -9,27 +9,24 @@ import useCreateApi from 'hooks/use-create-api';
 import useGetAllApi from 'hooks/use-get-all-api';
 
 function useDistrictCreateViewModel() {
-  const createApi = useCreateApi<DistrictRequest, DistrictResponse>(DistrictConfigs.resourceUrl);
-  const { data: provinceListResponse } = useGetAllApi<ProvinceResponse>(
-    ProvinceConfigs.resourceUrl,
-    ProvinceConfigs.resourceKey,
-    { all: 1 }
-  );
-
-  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>();
-
   const form = useForm({
     initialValues: DistrictConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(DistrictConfigs.createUpdateFormSchema),
   });
 
-  if (!provinceSelectList && provinceListResponse) {
-    const selectList: SelectOption[] = provinceListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setProvinceSelectList(selectList);
-  }
+  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>();
+
+  const createApi = useCreateApi<DistrictRequest, DistrictResponse>(DistrictConfigs.resourceUrl);
+  useGetAllApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey,
+    { all: 1 },
+    (provinceListResponse) => {
+      const selectList: SelectOption[] = provinceListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setProvinceSelectList(selectList);
+    }
+  );
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     const requestBody: DistrictRequest = {

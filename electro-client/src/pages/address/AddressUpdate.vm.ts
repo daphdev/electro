@@ -13,55 +13,49 @@ import DistrictConfigs from 'pages/district/DistrictConfigs';
 import { SelectOption } from 'types';
 
 function useAddressUpdateViewModel(id: number) {
-  const updateApi = useUpdateApi<AddressRequest, AddressResponse>(AddressConfigs.resourceUrl, AddressConfigs.resourceKey, id);
-  const { data: addressResponse } = useGetByIdApi<AddressResponse>(AddressConfigs.resourceUrl, AddressConfigs.resourceKey, id);
-  const { data: provinceListResponse } = useGetAllApi<ProvinceResponse>(
-    ProvinceConfigs.resourceUrl,
-    ProvinceConfigs.resourceKey,
-    { all: 1 }
-  );
-  const { data: districtListResponse } = useGetAllApi<DistrictResponse>(
-    DistrictConfigs.resourceUrl,
-    DistrictConfigs.resourceKey,
-    { all: 1 }
-  );
+  const form = useForm({
+    initialValues: AddressConfigs.initialCreateUpdateFormValues,
+    schema: zodResolver(AddressConfigs.createUpdateFormSchema),
+  });
 
   const [address, setAddress] = useState<AddressResponse>();
   const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
   const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>();
   const [districtSelectList, setDistrictSelectList] = useState<SelectOption[]>();
 
-  const form = useForm({
-    initialValues: AddressConfigs.initialCreateUpdateFormValues,
-    schema: zodResolver(AddressConfigs.createUpdateFormSchema),
-  });
-
-  if (!address && addressResponse) {
-    setAddress(addressResponse);
-    const formValues: typeof form.values = {
-      line: addressResponse.line,
-      provinceId: String(addressResponse.province.id),
-      districtId: String(addressResponse.district.id),
-    };
-    form.setValues(formValues);
-    setPrevFormValues(formValues);
-  }
-
-  if (!provinceSelectList && provinceListResponse) {
-    const selectList: SelectOption[] = provinceListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setProvinceSelectList(selectList);
-  }
-
-  if (!districtSelectList && districtListResponse) {
-    const selectList: SelectOption[] = districtListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setDistrictSelectList(selectList);
-  }
+  const updateApi = useUpdateApi<AddressRequest, AddressResponse>(AddressConfigs.resourceUrl, AddressConfigs.resourceKey, id);
+  useGetByIdApi<AddressResponse>(AddressConfigs.resourceUrl, AddressConfigs.resourceKey, id,
+    (addressResponse) => {
+      setAddress(addressResponse);
+      const formValues: typeof form.values = {
+        line: addressResponse.line,
+        provinceId: String(addressResponse.province.id),
+        districtId: String(addressResponse.district.id),
+      };
+      form.setValues(formValues);
+      setPrevFormValues(formValues);
+    }
+  );
+  useGetAllApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey,
+    { all: 1 },
+    (provinceListResponse) => {
+      const selectList: SelectOption[] = provinceListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setProvinceSelectList(selectList);
+    }
+  );
+  useGetAllApi<DistrictResponse>(DistrictConfigs.resourceUrl, DistrictConfigs.resourceKey,
+    { all: 1 },
+    (districtListResponse) => {
+      const selectList: SelectOption[] = districtListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setDistrictSelectList(selectList);
+    }
+  );
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     setPrevFormValues(formValues);
