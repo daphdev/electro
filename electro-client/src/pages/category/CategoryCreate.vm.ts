@@ -8,28 +8,25 @@ import { SelectOption } from 'types';
 import { useQueryClient } from 'react-query';
 
 function useCategoryCreateViewModel() {
-  const queryClient = useQueryClient();
-  const createApi = useCreateApi<CategoryRequest, CategoryResponse>(CategoryConfigs.resourceUrl);
-  const { data: categoryListResponse } = useGetAllApi<CategoryResponse>(
-    CategoryConfigs.resourceUrl,
-    CategoryConfigs.resourceKey,
-    { all: 1 }
-  );
-
-  const [categorySelectList, setCategorySelectList] = useState<SelectOption[]>();
-
   const form = useForm({
     initialValues: CategoryConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(CategoryConfigs.createUpdateFormSchema),
   });
 
-  if (!categorySelectList && categoryListResponse) {
-    const selectList: SelectOption[] = categoryListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.parentCategory ? item.name + ' ← ' + item.parentCategory.name : item.name,
-    }));
-    setCategorySelectList(selectList);
-  }
+  const [categorySelectList, setCategorySelectList] = useState<SelectOption[]>();
+
+  const queryClient = useQueryClient();
+  const createApi = useCreateApi<CategoryRequest, CategoryResponse>(CategoryConfigs.resourceUrl);
+  useGetAllApi<CategoryResponse>(CategoryConfigs.resourceUrl, CategoryConfigs.resourceKey,
+    { all: 1 },
+    (categoryListResponse) => {
+      const selectList: SelectOption[] = categoryListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.parentCategory ? item.name + ' ← ' + item.parentCategory.name : item.name,
+      }));
+      setCategorySelectList(selectList);
+    }
+  );
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     const requestBody: CategoryRequest = {
@@ -41,10 +38,7 @@ function useCategoryCreateViewModel() {
       status: Number(formValues.status),
     };
     createApi.mutate(requestBody, {
-      onSuccess: async () => {
-        await queryClient.invalidateQueries([CategoryConfigs.resourceKey, 'getAll']);
-        setCategorySelectList(undefined);
-      },
+      onSuccess: () => queryClient.invalidateQueries([CategoryConfigs.resourceKey, 'getAll']),
     });
   });
 

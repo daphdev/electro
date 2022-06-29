@@ -10,46 +10,43 @@ import { SelectOption } from 'types';
 import { useQueryClient } from 'react-query';
 
 function useCategoryUpdateViewModel(id: number) {
-  const queryClient = useQueryClient();
-  const updateApi = useUpdateApi<CategoryRequest, CategoryResponse>(CategoryConfigs.resourceUrl, CategoryConfigs.resourceKey, id);
-  const { data: categoryResponse } = useGetByIdApi<CategoryResponse>(CategoryConfigs.resourceUrl, CategoryConfigs.resourceKey, id);
-  const { data: categoryListResponse } = useGetAllApi<CategoryResponse>(
-    CategoryConfigs.resourceUrl,
-    CategoryConfigs.resourceKey,
-    { all: 1 }
-  );
-
-  const [category, setCategory] = useState<CategoryResponse>();
-  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
-  const [categorySelectList, setCategorySelectList] = useState<SelectOption[]>();
-
   const form = useForm({
     initialValues: CategoryConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(CategoryConfigs.createUpdateFormSchema),
   });
 
-  if (!category && categoryResponse) {
-    setCategory(categoryResponse);
-    const formValues: typeof form.values = {
-      name: categoryResponse.name,
-      slug: categoryResponse.slug,
-      description: categoryResponse.description || '',
-      thumbnail: categoryResponse.thumbnail || '',
-      parentCategoryId: categoryResponse.parentCategory ? String(categoryResponse.parentCategory.id) : null,
-      status: String(categoryResponse.status),
-    };
-    form.setValues(formValues);
-    setPrevFormValues(formValues);
-  }
+  const [category, setCategory] = useState<CategoryResponse>();
+  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
+  const [categorySelectList, setCategorySelectList] = useState<SelectOption[]>();
 
-  if (!categorySelectList && categoryListResponse) {
-    const selectList: SelectOption[] = categoryListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.parentCategory ? item.name + ' ← ' + item.parentCategory.name : item.name,
-      disabled: id === item.id,
-    }));
-    setCategorySelectList(selectList);
-  }
+  const queryClient = useQueryClient();
+  const updateApi = useUpdateApi<CategoryRequest, CategoryResponse>(CategoryConfigs.resourceUrl, CategoryConfigs.resourceKey, id);
+  useGetByIdApi<CategoryResponse>(CategoryConfigs.resourceUrl, CategoryConfigs.resourceKey, id,
+    (categoryResponse) => {
+      setCategory(categoryResponse);
+      const formValues: typeof form.values = {
+        name: categoryResponse.name,
+        slug: categoryResponse.slug,
+        description: categoryResponse.description || '',
+        thumbnail: categoryResponse.thumbnail || '',
+        parentCategoryId: categoryResponse.parentCategory ? String(categoryResponse.parentCategory.id) : null,
+        status: String(categoryResponse.status),
+      };
+      form.setValues(formValues);
+      setPrevFormValues(formValues);
+    }
+  );
+  useGetAllApi<CategoryResponse>(CategoryConfigs.resourceUrl, CategoryConfigs.resourceKey,
+    { all: 1 },
+    (categoryListResponse) => {
+      const selectList: SelectOption[] = categoryListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.parentCategory ? item.name + ' ← ' + item.parentCategory.name : item.name,
+        disabled: id === item.id,
+      }));
+      setCategorySelectList(selectList);
+    }
+  );
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     setPrevFormValues(formValues);
@@ -63,10 +60,7 @@ function useCategoryUpdateViewModel(id: number) {
         status: Number(formValues.status),
       };
       updateApi.mutate(requestBody, {
-        onSuccess: async () => {
-          await queryClient.invalidateQueries([CategoryConfigs.resourceKey, 'getAll']);
-          setCategorySelectList(undefined);
-        },
+        onSuccess: () => queryClient.invalidateQueries([CategoryConfigs.resourceKey, 'getAll']),
       });
     }
   });
