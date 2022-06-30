@@ -43,9 +43,9 @@ function useAddressCreateViewModel() {
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     const requestBody: AddressRequest = {
-      line: formValues.line,
-      provinceId: Number(formValues.provinceId),
-      districtId: Number(formValues.districtId),
+      line: formValues.line || null,
+      provinceId: Number(formValues.provinceId) || null,
+      districtId: Number(formValues.districtId) || null,
     };
     createApi.mutate(requestBody);
   });

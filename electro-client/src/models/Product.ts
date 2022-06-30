@@ -10,21 +10,21 @@ export interface ProductResponse extends BaseResponse {
   name: string;
   code: string;
   slug: string;
-  shortDescription: string;
-  description: string;
-  thumbnail: string;
-  images: CollectionWrapper<ImageItem>;
+  shortDescription: string | null;
+  description: string | null;
+  thumbnail: string | null;
+  images: CollectionWrapper<ImageItem> | null;
   status: number;
-  category: Category_ProductResponse;
-  brand: BrandResponse;
-  supplier: SupplierResponse;
-  unit: UnitResponse;
+  category: Category_ProductResponse | null;
+  brand: BrandResponse | null;
+  supplier: SupplierResponse | null;
+  unit: UnitResponse | null;
   tags: TagResponse[];
-  specifications: CollectionWrapper<SpecificationItem>;
-  properties: CollectionWrapper<ProductPropertyItem>;
+  specifications: CollectionWrapper<SpecificationItem> | null;
+  properties: CollectionWrapper<ProductPropertyItem> | null;
   variants: VariantResponse[];
-  weight: number;
-  guarantee: GuaranteeResponse;
+  weight: number | null;
+  guarantee: GuaranteeResponse | null;
 }
 
 export interface CollectionWrapper<T> {
@@ -39,23 +39,23 @@ export interface ImageItem {
 
 export interface SpecificationItem {
   id: number;
-  code: string;
   name: string;
+  code: string;
   value: string;
 }
 
 export interface ProductPropertyItem {
   id: number;
-  code: string;
   name: string;
+  code: string;
   value: string[];
 }
 
 interface Category_ProductResponse extends BaseResponse {
   name: string;
   slug: string;
-  description: string;
-  thumbnail: string;
+  description: string | null;
+  thumbnail: string | null;
   status: number;
 }
 
@@ -63,21 +63,21 @@ export interface ProductRequest {
   name: string;
   code: string;
   slug: string;
-  shortDescription: string;
-  description: string;
-  thumbnail: string;
-  images: CollectionWrapper<ImageItem>;
+  shortDescription: string | null;
+  description: string | null;
+  thumbnail: string | null;
+  images: CollectionWrapper<ImageItem> | null;
   status: number;
-  categoryId: number;
-  brandId: number;
-  supplierId: number;
-  unitId: number;
+  categoryId: number | null;
+  brandId: number | null;
+  supplierId: number | null;
+  unitId: number | null;
   tags: Tag_ProductRequest[];
-  specifications: CollectionWrapper<SpecificationItem>;
-  properties: CollectionWrapper<ProductPropertyItem>;
+  specifications: CollectionWrapper<SpecificationItem> | null;
+  properties: CollectionWrapper<ProductPropertyItem> | null;
   variants: VariantRequest[];
-  weight: number;
-  guaranteeId: number;
+  weight: number | null;
+  guaranteeId: number | null;
 }
 
 interface Tag_ProductRequest {

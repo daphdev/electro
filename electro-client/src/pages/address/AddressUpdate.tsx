@@ -40,14 +40,12 @@ function AddressUpdate() {
             <Grid p="sm">
               <Grid.Col>
                 <TextInput
-                  required
                   label={AddressConfigs.properties.line.label}
                   {...form.getInputProps('line')}
                 />
               </Grid.Col>
               <Grid.Col xs={6}>
                 <Select
-                  required
                   label={AddressConfigs.properties.provinceId.label}
                   placeholder="--"
                   clearable
@@ -58,7 +56,6 @@ function AddressUpdate() {
               </Grid.Col>
               <Grid.Col xs={6}>
                 <Select
-                  required
                   label={AddressConfigs.properties.districtId.label}
                   placeholder="--"
                   clearable

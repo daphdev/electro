@@ -28,9 +28,9 @@ function useAddressUpdateViewModel(id: number) {
     (addressResponse) => {
       setAddress(addressResponse);
       const formValues: typeof form.values = {
-        line: addressResponse.line,
-        provinceId: String(addressResponse.province.id),
-        districtId: String(addressResponse.district.id),
+        line: addressResponse.line || '',
+        provinceId: addressResponse.province ? String(addressResponse.province.id) : null,
+        districtId: addressResponse.district ? String(addressResponse.district.id) : null,
       };
       form.setValues(formValues);
       setPrevFormValues(formValues);
@@ -61,9 +61,9 @@ function useAddressUpdateViewModel(id: number) {
     setPrevFormValues(formValues);
     if (!MiscUtils.isEquals(formValues, prevFormValues)) {
       const requestBody: AddressRequest = {
-        line: formValues.line,
-        provinceId: Number(formValues.provinceId),
-        districtId: Number(formValues.districtId),
+        line: formValues.line || null,
+        provinceId: Number(formValues.provinceId) || null,
+        districtId: Number(formValues.districtId) || null,
       };
       updateApi.mutate(requestBody);
     }

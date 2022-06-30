@@ -44,13 +44,13 @@ public class MapperUtils {
     private TagRepository tagRepository;
 
     @Named("mapProvinceIdToProvince")
-    public Province mapProvinceIdToProvince(Long id) {
-        return (Province) new Province().setId(id);
+    public Province mapProvinceIdToProvince(@Nullable Long id) {
+        return (id == null) ? null : (Province) new Province().setId(id);
     }
 
     @Named("mapDistrictIdToDistrict")
-    public District mapDistrictIdToDistrict(Long id) {
-        return (District) new District().setId(id);
+    public District mapDistrictIdToDistrict(@Nullable Long id) {
+        return (id == null) ? null : (District) new District().setId(id);
     }
 
     @Named("hashPassword")

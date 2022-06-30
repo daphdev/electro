@@ -55,12 +55,12 @@ function OfficeManage() {
       </td>
       <td>
         <Highlight highlight={searchToken} highlightColor="blue" size="sm">
-          {entity.address.line}
+          {entity.address.line || ''}
         </Highlight>
       </td>
       <td>
         <Highlight highlight={searchToken} highlightColor="blue" size="sm">
-          {entity.address.province.name}
+          {entity.address.province ? entity.address.province.name : ''}
         </Highlight>
       </td>
       <td>{officeStatusBadgeFragment(entity.status)}</td>
@@ -91,19 +91,19 @@ function OfficeManage() {
       </tr>
       <tr>
         <td>{OfficeConfigs.properties['address.province.name'].label}</td>
-        <td>{entity.address.province.name}</td>
+        <td>{entity.address.province?.name}</td>
       </tr>
       <tr>
         <td>{OfficeConfigs.properties['address.province.code'].label}</td>
-        <td>{entity.address.province.code}</td>
+        <td>{entity.address.province?.code}</td>
       </tr>
       <tr>
         <td>{OfficeConfigs.properties['address.district.name'].label}</td>
-        <td>{entity.address.district.name}</td>
+        <td>{entity.address.district?.name}</td>
       </tr>
       <tr>
         <td>{OfficeConfigs.properties['address.district.code'].label}</td>
-        <td>{entity.address.district.code}</td>
+        <td>{entity.address.district?.code}</td>
       </tr>
       <tr>
         <td>{OfficeConfigs.properties.status.label}</td>

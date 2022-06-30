@@ -1,5 +1,5 @@
 import BaseResponse from 'models/BaseResponse';
-import { ImageItem, CollectionWrapper } from 'models/Product';
+import { CollectionWrapper, ImageItem } from 'models/Product';
 
 export interface VariantResponse extends BaseResponse {
   sku: string;
@@ -12,8 +12,8 @@ export interface VariantResponse extends BaseResponse {
 
 export interface VariantPropertyItem {
   id: number;
-  code: string;
   name: string;
+  code: string;
   value: string;
 }
 
