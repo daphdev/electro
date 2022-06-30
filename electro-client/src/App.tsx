@@ -28,6 +28,7 @@ import CustomerResourceManage, { CustomerResourceCreate, CustomerResourceUpdate 
 import CustomerManage, { CustomerCreate, CustomerUpdate } from 'pages/customer';
 import ProductManage from 'pages/product';
 import CategoryManage, { CategoryCreate, CategoryUpdate } from 'pages/category';
+import BrandManage, { BrandCreate, BrandUpdate } from 'pages/brand';
 
 const queryClient = new QueryClient();
 
@@ -112,6 +113,10 @@ function App() {
                   <Route path={ManagerPath.CATEGORY} element={<CategoryManage/>}/>
                   <Route path={ManagerPath.CATEGORY + '/create'} element={<CategoryCreate/>}/>
                   <Route path={ManagerPath.CATEGORY + '/update/:id'} element={<CategoryUpdate/>}/>
+                  {/* BRAND */}
+                  <Route path={ManagerPath.BRAND} element={<BrandManage/>}/>
+                  <Route path={ManagerPath.BRAND + '/create'} element={<BrandCreate/>}/>
+                  <Route path={ManagerPath.BRAND + '/update/:id'} element={<BrandUpdate/>}/>
                 </Route>
               </Routes>
             </ModalsProvider>

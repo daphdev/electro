@@ -1,21 +1,21 @@
 import React from 'react';
-import { Button, Divider, Grid, Group, Paper, Select, Stack, TextInput } from '@mantine/core';
+import { Button, Divider, Grid, Group, Paper, Select, Stack, Textarea, TextInput } from '@mantine/core';
 import { CreateUpdateTitle, DefaultPropertyPanel } from 'components';
-import DepartmentConfigs from 'pages/department/DepartmentConfigs';
-import useDepartmentCreateViewModel from 'pages/department/DepartmentCreate.vm';
+import BrandConfigs from 'pages/brand/BrandConfigs';
+import useBrandCreateViewModel from 'pages/brand/BrandCreate.vm';
 
-function DepartmentCreate() {
+function BrandCreate() {
   const {
     form,
     handleFormSubmit,
     statusSelectList,
-  } = useDepartmentCreateViewModel();
+  } = useBrandCreateViewModel();
 
   return (
     <Stack sx={{ maxWidth: 800 }}>
       <CreateUpdateTitle
-        managerPath={DepartmentConfigs.managerPath}
-        title={DepartmentConfigs.createTitle}
+        managerPath={BrandConfigs.managerPath}
+        title={BrandConfigs.createTitle}
       />
 
       <DefaultPropertyPanel/>
@@ -27,14 +27,27 @@ function DepartmentCreate() {
               <Grid.Col xs={6}>
                 <TextInput
                   required
-                  label={DepartmentConfigs.properties.name.label}
+                  label={BrandConfigs.properties.name.label}
                   {...form.getInputProps('name')}
+                />
+              </Grid.Col>
+              <Grid.Col xs={6}>
+                <TextInput
+                  required
+                  label={BrandConfigs.properties.code.label}
+                  {...form.getInputProps('code')}
+                />
+              </Grid.Col>
+              <Grid.Col>
+                <Textarea
+                  label={BrandConfigs.properties.description.label}
+                  {...form.getInputProps('description')}
                 />
               </Grid.Col>
               <Grid.Col xs={6}>
                 <Select
                   required
-                  label={DepartmentConfigs.properties.status.label}
+                  label={BrandConfigs.properties.status.label}
                   placeholder="--"
                   data={statusSelectList}
                   {...form.getInputProps('status')}
@@ -55,4 +68,4 @@ function DepartmentCreate() {
   );
 }
 
-export default DepartmentCreate;
+export default BrandCreate;

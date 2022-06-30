@@ -66,7 +66,6 @@ function CategoryCreate() {
                   required
                   label={CategoryConfigs.properties.status.label}
                   placeholder="--"
-                  clearable
                   data={statusSelectList}
                   {...form.getInputProps('status')}
                 />

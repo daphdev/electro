@@ -36,7 +36,6 @@ function JobTitleCreate() {
                   required
                   label={JobTitleConfigs.properties.status.label}
                   placeholder="--"
-                  clearable
                   data={statusSelectList}
                   {...form.getInputProps('status')}
                 />

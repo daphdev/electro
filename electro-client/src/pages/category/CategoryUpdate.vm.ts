@@ -42,7 +42,7 @@ function useCategoryUpdateViewModel(id: number) {
       const selectList: SelectOption[] = categoryListResponse.content.map((item) => ({
         value: String(item.id),
         label: item.parentCategory ? item.name + ' ← ' + item.parentCategory.name : item.name,
-        disabled: id === item.id,
+        disabled: (item.id === id) || (item.parentCategory ? item.parentCategory.id === id : false),
       }));
       setCategorySelectList(selectList);
     }

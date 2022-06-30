@@ -43,7 +43,6 @@ function RoleCreate() {
                   required
                   label={RoleConfigs.properties.status.label}
                   placeholder="--"
-                  clearable
                   data={statusSelectList}
                   {...form.getInputProps('status')}
                 />

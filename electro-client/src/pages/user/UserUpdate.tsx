@@ -138,7 +138,6 @@ function UserUpdate() {
                   required
                   label={UserConfigs.properties.status.label}
                   placeholder="--"
-                  clearable
                   data={statusSelectList}
                   {...form.getInputProps('status')}
                 />
