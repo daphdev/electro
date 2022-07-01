@@ -114,31 +114,35 @@ const navbarLinks: NavbarLink[] = [
     childLinks: [
       {
         link: '/admin/category',
-        label: 'Quản lý danh mục sản phẩm',
+        label: 'Danh mục sản phẩm',
       },
       {
         link: '/admin/product/brand',
-        label: 'Quản lý nhãn hiệu',
+        label: 'Nhãn hiệu',
       },
       {
         link: '/admin/product/supplier',
-        label: 'Quản lý nhà cung cấp',
+        label: 'Nhà cung cấp',
       },
       {
         link: '/admin/product/unit',
-        label: 'Quản lý đơn vị tính',
+        label: 'Đơn vị tính',
       },
       {
         link: '/admin/product/tag',
-        label: 'Quản lý tag',
+        label: 'Tag',
       },
       {
         link: '/admin/product/guarantee',
-        label: 'Quản lý bảo hành',
+        label: 'Bảo hành',
       },
       {
         link: '/admin/product/property',
-        label: 'Quản lý thuộc tính sản phẩm',
+        label: 'Thuộc tính sản phẩm',
+      },
+      {
+        link: '/admin/product/specification',
+        label: 'Thông số sản phẩm',
       },
     ],
   },

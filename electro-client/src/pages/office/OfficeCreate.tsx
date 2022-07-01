@@ -67,7 +67,6 @@ function OfficeCreate() {
                   required
                   label={OfficeConfigs.properties.status.label}
                   placeholder="--"
-                  clearable
                   data={statusSelectList}
                   {...form.getInputProps('status')}
                 />

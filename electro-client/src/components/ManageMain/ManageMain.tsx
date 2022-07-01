@@ -22,7 +22,7 @@ function ManageMain({
   if (listResponse.totalElements === 0) {
     manageMainInnerFragment = (
       <Center sx={{ height: '100%' }}>
-        <Text color="dimmed">Không có gì hết :)</Text>
+        {!isLoading && <Text color="dimmed">Không có gì hết :)</Text>}
       </Center>
     );
   }

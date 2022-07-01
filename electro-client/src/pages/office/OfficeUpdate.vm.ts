@@ -40,9 +40,9 @@ function useOfficeUpdateViewModel(id: number) {
     setOffice(officeResponse);
     const formValues: typeof form.values = {
       name: officeResponse.name,
-      'address.line': officeResponse.address.line,
-      'address.provinceId': String(officeResponse.address.province.id),
-      'address.districtId': String(officeResponse.address.district.id),
+      'address.line': officeResponse.address.line || '',
+      'address.provinceId': officeResponse.address.province ? String(officeResponse.address.province.id) : '',
+      'address.districtId': officeResponse.address.district ? String(officeResponse.address.district.id) : '',
       status: String(officeResponse.status),
     };
     form.setValues(formValues);

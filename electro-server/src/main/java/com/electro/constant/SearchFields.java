@@ -206,7 +206,6 @@ public interface SearchFields {
             "supplier.website",
             "supplier.address.line",
             "unit.name",
-            "weight",
             "guarantee.name"
     );
 

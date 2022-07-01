@@ -58,7 +58,6 @@ function CustomerStatusCreate() {
                   required
                   label={CustomerStatusConfigs.properties.status.label}
                   placeholder="--"
-                  clearable
                   data={statusSelectList}
                   {...form.getInputProps('status')}
                 />

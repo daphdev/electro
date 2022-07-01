@@ -68,9 +68,9 @@ CREATE TABLE address
     updated_at  datetime              NOT NULL,
     created_by  BIGINT                NULL,
     updated_by  BIGINT                NULL,
-    line        VARCHAR(255)          NOT NULL,
-    province_id BIGINT                NOT NULL,
-    district_id BIGINT                NOT NULL,
+    line        VARCHAR(255)          NULL,
+    province_id BIGINT                NULL,
+    district_id BIGINT                NULL,
     CONSTRAINT pk_address PRIMARY KEY (id)
 );
 
@@ -306,8 +306,8 @@ CREATE TABLE property
     updated_at    datetime              NOT NULL,
     created_by    BIGINT                NULL,
     updated_by    BIGINT                NULL,
-    code          VARCHAR(255)          NOT NULL,
     name          VARCHAR(255)          NOT NULL,
+    code          VARCHAR(255)          NOT NULL,
     `description` VARCHAR(255)          NULL,
     status        TINYINT               NOT NULL,
     CONSTRAINT pk_property PRIMARY KEY (id)
@@ -497,6 +497,9 @@ CREATE TABLE variant
     status     TINYINT               NOT NULL,
     CONSTRAINT pk_variant PRIMARY KEY (id)
 );
+
+ALTER TABLE variant
+    ADD CONSTRAINT uc_variant_sku UNIQUE (sku);
 
 ALTER TABLE variant
     ADD CONSTRAINT FK_VARIANT_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);

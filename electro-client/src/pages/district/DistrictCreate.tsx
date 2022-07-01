@@ -45,7 +45,7 @@ function DistrictCreate() {
                   placeholder="--"
                   clearable
                   searchable
-                  data={provinceSelectList || []}
+                  data={provinceSelectList}
                   {...form.getInputProps('provinceId')}
                 />
               </Grid.Col>
