@@ -17,8 +17,8 @@ function useSupplierCreateViewModel() {
     schema: zodResolver(SupplierConfigs.createUpdateFormSchema),
   });
 
-  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>();
-  const [districtSelectList, setDistrictSelectList] = useState<SelectOption[]>();
+  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>([]);
+  const [districtSelectList, setDistrictSelectList] = useState<SelectOption[]>([]);
 
   const createApi = useCreateApi<SupplierRequest, SupplierResponse>(SupplierConfigs.resourceUrl);
   useGetAllApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey,

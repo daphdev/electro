@@ -21,8 +21,8 @@ function useSupplierUpdateViewModel(id: number) {
 
   const [supplier, setSupplier] = useState<SupplierResponse>();
   const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
-  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>();
-  const [districtSelectList, setDistrictSelectList] = useState<SelectOption[]>();
+  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>([]);
+  const [districtSelectList, setDistrictSelectList] = useState<SelectOption[]>([]);
 
   const updateApi = useUpdateApi<SupplierRequest, SupplierResponse>(SupplierConfigs.resourceUrl, SupplierConfigs.resourceKey, id);
   useGetByIdApi<SupplierResponse>(SupplierConfigs.resourceUrl, SupplierConfigs.resourceKey, id,
