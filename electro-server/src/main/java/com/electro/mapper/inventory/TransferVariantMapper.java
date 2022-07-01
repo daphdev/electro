@@ -20,4 +20,5 @@ public interface TransferVariantMapper extends GenericMapper<TransferVariant, Tr
     @Override
     @Mapping(source = "variantId", target = "variant", qualifiedByName = "mapVariantIdToVariant")
     TransferVariant partialUpdate(@MappingTarget TransferVariant entity, TransferVariantRequest request);
+
 }
