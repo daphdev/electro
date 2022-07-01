@@ -80,7 +80,7 @@ export interface ProductRequest {
   guaranteeId: number | null;
 }
 
-interface Tag_ProductRequest {
+export interface Tag_ProductRequest {
   id?: number;
   name?: string;
   slug?: string;

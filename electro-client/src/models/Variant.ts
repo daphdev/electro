@@ -5,8 +5,8 @@ export interface VariantResponse extends BaseResponse {
   sku: string;
   cost: number;
   price: number;
-  properties: CollectionWrapper<VariantPropertyItem>;
-  images: CollectionWrapper<ImageItem>;
+  properties: CollectionWrapper<VariantPropertyItem> | null;
+  images: CollectionWrapper<ImageItem> | null;
   status: number;
 }
 
@@ -21,7 +21,7 @@ export interface VariantRequest {
   sku: string;
   cost: number;
   price: number;
-  properties: CollectionWrapper<VariantPropertyItem>;
-  images: CollectionWrapper<ImageItem>;
+  properties: CollectionWrapper<VariantPropertyItem> | null;
+  images: CollectionWrapper<ImageItem> | null;
   status: number;
 }

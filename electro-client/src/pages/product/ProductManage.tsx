@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Badge, Group, Highlight, Stack } from '@mantine/core';
+import { Avatar, Badge, Grid, Group, Highlight, Stack } from '@mantine/core';
 import {
   FilterPanel,
   ManageHeader,
@@ -8,7 +8,8 @@ import {
   ManageMain,
   ManagePagination,
   ManageTable,
-  SearchPanel
+  SearchPanel,
+  VariantTablePopover
 } from 'components';
 import DateUtils from 'utils/DateUtils';
 import { ProductResponse } from 'models/Product';
@@ -19,6 +20,7 @@ import useResetManagePageState from 'hooks/use-reset-manage-page-state';
 import useInitFilterPanelState from 'hooks/use-init-filter-panel-state';
 import useGetAllApi from 'hooks/use-get-all-api';
 import useAppStore from 'stores/use-app-store';
+import { QuestionMark } from 'tabler-icons-react';
 
 function ProductManage() {
   useResetManagePageState();
@@ -53,7 +55,9 @@ function ProductManage() {
         </Highlight>
       </td>
       <td>
-        <Avatar src={entity.thumbnail} alt={entity.name} radius="lg" size="lg"/>
+        <Avatar src={entity.thumbnail} alt={entity.name} radius="lg" size="lg" color="grape">
+          <QuestionMark size={30}/>
+        </Avatar>
       </td>
       <td>{productStatusBadgeFragment(entity.status)}</td>
       <td>
@@ -65,6 +69,7 @@ function ProductManage() {
         <Stack spacing="xs" align="flex-start">
           {entity.tags
             .sort((a, b) => a.name.localeCompare(b.name))
+            .slice(0, 2)
             .map((tag, index) => (
               <Badge
                 key={index}
@@ -75,9 +80,20 @@ function ProductManage() {
                 {tag.name}
               </Badge>
             ))}
+          {entity.tags.length > 2 && (
+            <Badge
+              variant="dot"
+              size="sm"
+              sx={{ textTransform: 'none' }}
+            >
+              ... và {entity.tags.length - 2} tag nữa
+            </Badge>
+          )}
         </Stack>
       </td>
-      <td>{entity.variants.length + ' phiên bản'}</td>
+      <td>
+        <VariantTablePopover variants={entity.variants} productProperties={entity.properties}/>
+      </td>
     </>
   );
 
@@ -118,12 +134,22 @@ function ProductManage() {
       <tr>
         <td>{ProductConfigs.properties.thumbnail.label}</td>
         <td>
-          <Avatar src={entity.thumbnail} alt={entity.name} radius="lg" size="lg"/>
+          <Avatar src={entity.thumbnail} alt={entity.name} radius="lg" size="lg" color="grape">
+            <QuestionMark size={30}/>
+          </Avatar>
         </td>
       </tr>
       <tr>
         <td>{ProductConfigs.properties.images.label}</td>
-        <td>{entity.images?.totalElements + ' hình ảnh'}</td>
+        <td style={{ maxWidth: 300 }}>
+          <Group spacing="xs">
+            {entity.images && entity.images.content.map((image, index) => (
+              <Avatar key={index} src={image.url} radius="lg" size="lg" color="grape">
+                <QuestionMark size={30}/>
+              </Avatar>
+            ))}
+          </Group>
+        </td>
       </tr>
       <tr>
         <td>{ProductConfigs.properties.status.label}</td>
@@ -147,7 +173,7 @@ function ProductManage() {
       </tr>
       <tr>
         <td>{ProductConfigs.properties.tags.label}</td>
-        <td>
+        <td style={{ maxWidth: 300 }}>
           <Group spacing="xs">
             {entity.tags
               .sort((a, b) => a.name.localeCompare(b.name))
@@ -166,19 +192,60 @@ function ProductManage() {
       </tr>
       <tr>
         <td>{ProductConfigs.properties.specifications.label}</td>
-        <td>{entity.specifications?.totalElements + ' thông số'}</td>
+        <td style={{ maxWidth: 300 }}>
+          {entity.specifications && (
+            <Grid gutter="xs">
+              <Grid.Col span={6}><strong>Thông số</strong></Grid.Col>
+              <Grid.Col span={6}><strong>Giá trị</strong></Grid.Col>
+              {entity.specifications.content.map((specification, index) => (
+                <React.Fragment key={index}>
+                  <Grid.Col span={6}>{specification.name}</Grid.Col>
+                  <Grid.Col span={6}>{specification.value}</Grid.Col>
+                </React.Fragment>
+              ))}
+            </Grid>
+          )}
+        </td>
       </tr>
       <tr>
         <td>{ProductConfigs.properties.properties.label}</td>
-        <td>{entity.properties?.totalElements + ' thuộc tính'}</td>
+        <td style={{ maxWidth: 300 }}>
+          {entity.properties && (
+            <Grid gutter="xs">
+              <Grid.Col span={6}><strong>Thuộc tính</strong></Grid.Col>
+              <Grid.Col span={6}><strong>Giá trị</strong></Grid.Col>
+              {entity.properties.content.map((property, index) => (
+                <React.Fragment key={index}>
+                  <Grid.Col span={6}>{property.name}</Grid.Col>
+                  <Grid.Col span={6}>
+                    <Group spacing="xs">
+                      {property.value.map((value, index) => (
+                        <Badge
+                          key={index}
+                          size="sm"
+                          radius="sm"
+                          variant="outline"
+                          color="teal"
+                          sx={{ textTransform: 'none' }}
+                        >
+                          {value}
+                        </Badge>
+                      ))}
+                    </Group>
+                  </Grid.Col>
+                </React.Fragment>
+              ))}
+            </Grid>
+          )}
+        </td>
       </tr>
       <tr>
         <td>{ProductConfigs.properties.variants.label}</td>
-        <td>{entity.variants.length + ' phiên bản'}</td>
+        <td>{entity.variants.length === 0 ? <em>không có</em> : entity.variants.length + ' phiên bản'}</td>
       </tr>
       <tr>
         <td>{ProductConfigs.properties.weight.label}</td>
-        <td>{entity.weight + ' g'}</td>
+        <td>{entity.weight ? entity.weight + ' g' : ''}</td>
       </tr>
       <tr>
         <td>{ProductConfigs.properties['guarantee.name'].label}</td>

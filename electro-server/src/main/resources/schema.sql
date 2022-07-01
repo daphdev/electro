@@ -499,4 +499,7 @@ CREATE TABLE variant
 );
 
 ALTER TABLE variant
+    ADD CONSTRAINT uc_variant_sku UNIQUE (sku);
+
+ALTER TABLE variant
     ADD CONSTRAINT FK_VARIANT_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);

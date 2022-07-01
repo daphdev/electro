@@ -26,7 +26,7 @@ import CustomerGroupManage, { CustomerGroupCreate, CustomerGroupUpdate } from 'p
 import CustomerStatusManage, { CustomerStatusCreate, CustomerStatusUpdate } from 'pages/customer-status';
 import CustomerResourceManage, { CustomerResourceCreate, CustomerResourceUpdate } from 'pages/customer-resource';
 import CustomerManage, { CustomerCreate, CustomerUpdate } from 'pages/customer';
-import ProductManage from 'pages/product';
+import ProductManage, { ProductCreate, ProductUpdate } from 'pages/product';
 import CategoryManage, { CategoryCreate, CategoryUpdate } from 'pages/category';
 import BrandManage, { BrandCreate, BrandUpdate } from 'pages/brand';
 import PropertyManage, { PropertyCreate, PropertyUpdate } from 'pages/property';
@@ -115,6 +115,8 @@ function App() {
                   <Route path={ManagerPath.CUSTOMER_RESOURCE + '/update/:id'} element={<CustomerResourceUpdate/>}/>
                   {/* PRODUCT */}
                   <Route path={ManagerPath.PRODUCT} element={<ProductManage/>}/>
+                  <Route path={ManagerPath.PRODUCT + '/create'} element={<ProductCreate/>}/>
+                  <Route path={ManagerPath.PRODUCT + '/update/:id'} element={<ProductUpdate/>}/>
                   {/* CATEGORY */}
                   <Route path={ManagerPath.CATEGORY} element={<CategoryManage/>}/>
                   <Route path={ManagerPath.CATEGORY + '/create'} element={<CategoryCreate/>}/>

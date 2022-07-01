@@ -19,6 +19,7 @@ import useResetManagePageState from 'hooks/use-reset-manage-page-state';
 import useInitFilterPanelState from 'hooks/use-init-filter-panel-state';
 import useGetAllApi from 'hooks/use-get-all-api';
 import useAppStore from 'stores/use-app-store';
+import { QuestionMark } from 'tabler-icons-react';
 
 function CategoryManage() {
   useResetManagePageState();
@@ -53,7 +54,9 @@ function CategoryManage() {
         </Highlight>
       </td>
       <td>
-        <Avatar src={entity.thumbnail} alt={entity.name} radius="xl" size="sm"/>
+        <Avatar src={entity.thumbnail} alt={entity.name} radius="xl" size="sm" color="grape">
+          <QuestionMark/>
+        </Avatar>
       </td>
       <td>{entity.parentCategory ? entity.parentCategory.name : <em>không có</em>}</td>
       <td>{categoryStatusBadgeFragment(entity.status)}</td>
@@ -89,7 +92,9 @@ function CategoryManage() {
       <tr>
         <td>{CategoryConfigs.properties.thumbnail.label}</td>
         <td>
-          <Avatar src={entity.thumbnail} alt={entity.name} radius="xl" size="sm"/>
+          <Avatar src={entity.thumbnail} alt={entity.name} radius="xl" size="sm" color="grape">
+            <QuestionMark/>
+          </Avatar>
         </td>
       </tr>
       <tr>

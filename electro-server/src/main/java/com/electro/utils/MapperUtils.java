@@ -104,23 +104,23 @@ public class MapperUtils {
     }
 
     @Named("mapBrandIdToBrand")
-    public Brand mapBrandIdToBrand(Long id) {
-        return (Brand) new Brand().setId(id);
+    public Brand mapBrandIdToBrand(@Nullable Long id) {
+        return (id == null) ? null : (Brand) new Brand().setId(id);
     }
 
     @Named("mapSupplierIdToSupplier")
-    public Supplier mapSupplierIdToSupplier(Long id) {
-        return (Supplier) new Supplier().setId(id);
+    public Supplier mapSupplierIdToSupplier(@Nullable Long id) {
+        return (id == null) ? null : (Supplier) new Supplier().setId(id);
     }
 
     @Named("mapUnitIdToUnit")
-    public Unit mapUnitIdToUnit(Long id) {
-        return (Unit) new Unit().setId(id);
+    public Unit mapUnitIdToUnit(@Nullable Long id) {
+        return (id == null) ? null : (Unit) new Unit().setId(id);
     }
 
     @Named("mapGuaranteeIdToGuarantee")
-    public Guarantee mapGuaranteeIdToGuarantee(Long id) {
-        return (Guarantee) new Guarantee().setId(id);
+    public Guarantee mapGuaranteeIdToGuarantee(@Nullable Long id) {
+        return (id == null) ? null : (Guarantee) new Guarantee().setId(id);
     }
 
     @Named("mapProductIdToProduct")

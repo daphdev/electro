@@ -147,6 +147,36 @@ class ProductConfigs extends Configs {
       label: 'Tên bảo hành sản phẩm',
       type: EntityPropertyType.STRING,
     },
+    categoryId: {
+      label: 'Danh mục sản phẩm',
+      type: EntityPropertyType.NUMBER,
+      isNotAddToSortCriteria: true,
+      isNotAddToFilterCriteria: true,
+    },
+    brandId: {
+      label: 'Nhãn hiệu',
+      type: EntityPropertyType.NUMBER,
+      isNotAddToSortCriteria: true,
+      isNotAddToFilterCriteria: true,
+    },
+    supplierId: {
+      label: 'Nhà cung cấp',
+      type: EntityPropertyType.NUMBER,
+      isNotAddToSortCriteria: true,
+      isNotAddToFilterCriteria: true,
+    },
+    unitId: {
+      label: 'Đơn vị tính',
+      type: EntityPropertyType.NUMBER,
+      isNotAddToSortCriteria: true,
+      isNotAddToFilterCriteria: true,
+    },
+    guaranteeId: {
+      label: 'Bảo hành',
+      type: EntityPropertyType.NUMBER,
+      isNotAddToSortCriteria: true,
+      isNotAddToFilterCriteria: true,
+    },
   };
 
   static properties = ProductConfigs._rawProperties as
@@ -169,7 +199,7 @@ class ProductConfigs extends Configs {
     specifications: null as CollectionWrapper<SpecificationItem> | null,
     properties: null as CollectionWrapper<ProductPropertyItem> | null,
     variants: [] as VariantRequest[],
-    weight: 0.0,
+    weight: 0.00,
     guaranteeId: null as string | null,
   };
 
@@ -180,16 +210,59 @@ class ProductConfigs extends Configs {
     shortDescription: z.string(),
     description: z.string(),
     thumbnail: z.string(),
-    images: z.object({}).nullable(),
+    images: z.object({
+      content: z.array(z.object({
+        url: z.string(),
+        isThumbnail: z.boolean().optional(),
+      })),
+      totalElements: z.number(),
+    }).nullable(),
     status: z.string(),
     categoryId: z.string().nullable(),
     brandId: z.string().nullable(),
     supplierId: z.string().nullable(),
     unitId: z.string().nullable(),
     tags: z.array(z.string()),
-    specifications: z.object({}).nullable(),
-    properties: z.object({}).nullable(),
-    variants: z.array(z.object({})),
+    specifications: z.object({
+      content: z.array(z.object({
+        id: z.number(),
+        name: z.string(),
+        code: z.string(),
+        value: z.string(),
+      })),
+      totalElements: z.number(),
+    }).nullable(),
+    properties: z.object({
+      content: z.array(z.object({
+        id: z.number(),
+        name: z.string(),
+        code: z.string(),
+        value: z.array(z.string()),
+      })),
+      totalElements: z.number(),
+    }).nullable(),
+    variants: z.array(z.object({
+      sku: z.string(),
+      cost: z.number(),
+      price: z.number(),
+      properties: z.object({
+        content: z.array(z.object({
+          id: z.number(),
+          name: z.string(),
+          code: z.string(),
+          value: z.string(),
+        })),
+        totalElements: z.number(),
+      }).nullable(),
+      images: z.object({
+        content: z.array(z.object({
+          url: z.string(),
+          isThumbnail: z.boolean().optional(),
+        })),
+        totalElements: z.number(),
+      }).nullable(),
+      status: z.number(),
+    })),
     weight: z.number(),
     guaranteeId: z.string().nullable(),
   });
