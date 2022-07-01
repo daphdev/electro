@@ -1,6 +1,7 @@
 package com.electro.utils;
 
 import com.electro.dto.inventory.CountVariantRequest;
+import com.electro.dto.inventory.TransferVariantRequest;
 import com.electro.entity.BaseEntity;
 import com.electro.entity.address.District;
 import com.electro.entity.address.Province;
@@ -17,6 +18,8 @@ import com.electro.entity.employee.JobType;
 import com.electro.entity.employee.Office;
 import com.electro.entity.inventory.Count;
 import com.electro.entity.inventory.CountVariant;
+import com.electro.entity.inventory.Transfer;
+import com.electro.entity.inventory.TransferVariant;
 import com.electro.entity.inventory.Warehouse;
 import com.electro.entity.product.Brand;
 import com.electro.entity.product.Category;
@@ -198,10 +201,30 @@ public class MapperUtils {
         return countVariants;
     }
 
+    @Named("convertTransferVariants")
+    public Set<TransferVariant> convertTransferVariants(Set<TransferVariantRequest> transferVariantRequests){
+        Set<TransferVariant>  transferVariants = new HashSet<>();
+        for (TransferVariantRequest transferVariantRequest : transferVariantRequests){
+            TransferVariant transferVariant = new TransferVariant();
+            transferVariant.setQuantity(transferVariantRequest.getQuantity());
+            transferVariant.setVariant(variantRepository.getById(transferVariantRequest.getVariantId()));
+            transferVariants.add(transferVariant);
+        }
+        return transferVariants;
+    }
+
+
     @AfterMapping
     @Named("attachCount")
     public Count attachCount(@MappingTarget Count count) {
         count.getCountVariants().forEach(countVariant -> countVariant.setCount(count));
         return count;
+    }
+
+    @AfterMapping
+    @Named("attachTransfer")
+    public Transfer attachTransfer(@MappingTarget Transfer transfer) {
+        transfer.getTransferVariants().forEach(transferVariant -> transferVariant.setTransfer(transfer));
+        return transfer;
     }
 }

@@ -53,6 +53,10 @@
 
     drop table if exists prod.tag;
 
+    drop table if exists prod.transfer;
+
+    drop table if exists prod.transfer_variant;
+
     drop table if exists prod.unit;
 
     drop table if exists prod.user;
@@ -416,6 +420,25 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.transfer (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255),
+        note varchar(255),
+        status TINYINT not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.transfer_variant (
+       transfer_id bigint not null,
+        variant_id bigint not null,
+        quantity TINYINT not null,
+        primary key (transfer_id, variant_id)
+    ) engine=MyISAM;
+
     create table prod.unit (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -662,6 +685,16 @@
        add constraint FK95a8oipih48obtbhltjy7hgvb 
        foreign key (address_id) 
        references prod.address (id);
+
+    alter table prod.transfer_variant 
+       add constraint FK8nqj79dxjl442elxpc333pwj6 
+       foreign key (transfer_id) 
+       references prod.transfer (id);
+
+    alter table prod.transfer_variant 
+       add constraint FKe9484a4kgr0i94tgycb8q517p 
+       foreign key (variant_id) 
+       references prod.variant (id);
 
     alter table prod.user 
        add constraint FKddefmvbrws3hvl5t0hnnsv8ox 

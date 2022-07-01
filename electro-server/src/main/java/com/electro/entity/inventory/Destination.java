@@ -31,6 +31,10 @@ public class Destination extends BaseEntity {
     @Column(name = "contact_email")
     private String contactEmail;
 
+    @Column(name = "contact_phone")
+    private String contactPhone;
+
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id", referencedColumnName = "id", unique = true)
     private Address address;

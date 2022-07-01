@@ -40,6 +40,10 @@ import com.electro.dto.inventory.DestinationRequest;
 import com.electro.dto.inventory.DestinationResponse;
 import com.electro.dto.inventory.DockerReasonRequest;
 import com.electro.dto.inventory.DockerReasonResponse;
+import com.electro.dto.inventory.TransferRequest;
+import com.electro.dto.inventory.TransferResponse;
+import com.electro.dto.inventory.TransferVariantRequest;
+import com.electro.dto.inventory.TransferVariantResponse;
 import com.electro.dto.inventory.VariantInventoryLimitRequest;
 import com.electro.dto.inventory.VariantInventoryLimitResponse;
 import com.electro.dto.inventory.WarehouseRequest;
@@ -82,6 +86,8 @@ import com.electro.entity.inventory.Count;
 import com.electro.entity.inventory.CountVariant;
 import com.electro.entity.inventory.Destination;
 import com.electro.entity.inventory.DocketReason;
+import com.electro.entity.inventory.Transfer;
+import com.electro.entity.inventory.TransferVariant;
 import com.electro.entity.inventory.VariantInventoryLimit;
 import com.electro.entity.inventory.Warehouse;
 import com.electro.entity.product.Brand;
@@ -112,6 +118,8 @@ import com.electro.mapper.inventory.CountMapper;
 import com.electro.mapper.inventory.CountVariantMapper;
 import com.electro.mapper.inventory.DestinationMapper;
 import com.electro.mapper.inventory.DocketReasonMapper;
+import com.electro.mapper.inventory.TransferMapper;
+import com.electro.mapper.inventory.TransferVariantMapper;
 import com.electro.mapper.inventory.VariantInventoryLimitMapper;
 import com.electro.mapper.inventory.WarehouseMapper;
 import com.electro.mapper.product.BrandMapper;
@@ -142,6 +150,8 @@ import com.electro.repository.inventory.CountRepository;
 import com.electro.repository.inventory.CountVariantRepository;
 import com.electro.repository.inventory.DestinationRepository;
 import com.electro.repository.inventory.DocketReasonRepository;
+import com.electro.repository.inventory.TransferRepository;
+import com.electro.repository.inventory.TransferVariantRepository;
 import com.electro.repository.inventory.VariantInventoryLimitRepository;
 import com.electro.repository.inventory.WarehouseRepository;
 import com.electro.repository.product.BrandRepository;
@@ -209,6 +219,8 @@ public class GenericMappingRegister {
     private GenericController<CountRequest, CountResponse> countController;
     private GenericController<DestinationRequest, DestinationResponse> destinationController;
     private GenericController<DockerReasonRequest, DockerReasonResponse> docketReasonController;
+    private GenericController<TransferVariantRequest, TransferVariantResponse> transferVariantController;
+    private GenericController<TransferRequest, TransferResponse> transferController;
 
     // Services
     private GenericService<District, DistrictRequest, DistrictResponse> districtService;
@@ -241,6 +253,8 @@ public class GenericMappingRegister {
     private GenericService<Count, CountRequest,CountResponse> countService;
     private GenericService<Destination, DestinationRequest,DestinationResponse> destinationService;
     private GenericService<DocketReason, DockerReasonRequest,DockerReasonResponse> docketReasonService;
+    private GenericService<TransferVariant, TransferVariantRequest, TransferVariantResponse> transferVariantService;
+    private GenericService<Transfer, TransferRequest, TransferResponse> transferService;
 
     @PostConstruct
     public void registerControllers() throws NoSuchMethodException {
@@ -457,6 +471,19 @@ public class GenericMappingRegister {
                 ResourceName.DOCKET_REASON
         ), DockerReasonRequest.class);
 
+        register("transfer-variants", transferVariantController, transferVariantService.init(
+                context.getBean(TransferVariantRepository.class),
+                context.getBean(TransferVariantMapper.class),
+                SearchFields.TRANSFER_VARIANT,
+                ResourceName.TRANSFER_VARIANT
+        ), TransferVariantRequest.class);
+
+        register("transfers", transferController, transferService.init(
+                context.getBean(TransferRepository.class),
+                context.getBean(TransferMapper.class),
+                SearchFields.TRANSFER,
+                ResourceName.TRANSFER
+        ), TransferRequest.class);
 
 
     }

@@ -35,7 +35,9 @@ DROP TABLE IF EXISTS
     count,
     count_variant,
     destination,
-    docket_reason;
+    docket_reason,
+    transfer,
+    transfer_variant;
 
 -- CREATE TABLES
 
@@ -575,6 +577,7 @@ CREATE TABLE destination (
    updated_by BIGINT NULL,
    contact_fullname VARCHAR(255) NULL,
    contact_email VARCHAR(255) NULL,
+   contact_phone VARCHAR(255) NULL,
    address_id BIGINT NULL,
    status TINYINT NOT NULL,
    CONSTRAINT pk_destination PRIMARY KEY (id)
@@ -594,6 +597,29 @@ CREATE TABLE docket_reason (
    status INT NULL,
    CONSTRAINT pk_docket_reason PRIMARY KEY (id)
 );
+
+CREATE TABLE transfer (
+   id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   code VARCHAR(255) NULL,
+   note VARCHAR(255) NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT pk_transfer PRIMARY KEY (id)
+);
+
+CREATE TABLE transfer_variant (
+   quantity TINYINT NOT NULL,
+   transfer_id BIGINT NOT NULL,
+   variant_id BIGINT NOT NULL,
+   CONSTRAINT pk_transfer_variant PRIMARY KEY (transfer_id, variant_id)
+);
+
+ALTER TABLE transfer_variant ADD CONSTRAINT FK_TRANSFER_VARIANT_ON_TRANSFER FOREIGN KEY (transfer_id) REFERENCES transfer (id);
+
+ALTER TABLE transfer_variant ADD CONSTRAINT FK_TRANSFER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
 
 
 

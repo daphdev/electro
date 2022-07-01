@@ -255,7 +255,9 @@ public interface SearchFields {
     );
 
     List<String> DESTINATION = List.of(
-            "name",
+            "contactFullName",
+            "contactEmail",
+            "contactPhone",
             "address.line",
             "address.province.name",
             "address.province.code",
@@ -265,5 +267,18 @@ public interface SearchFields {
 
     List<String> DOCKET_REASON = List.of(
             "name"
+    );
+
+    List<String> TRANSFER_VARIANT = List.of(
+            "quantity",
+            "variant.product.name",
+            "variant.product.code",
+            "variant.sku",
+            "variant.cost",
+            "variant.price"
+    );
+
+    List<String>  TRANSFER = List.of(
+            "quantity"
     );
 }

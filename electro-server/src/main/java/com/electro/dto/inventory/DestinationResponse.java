@@ -7,6 +7,7 @@ import lombok.Data;
 public class DestinationResponse {
     private String contactFullName;
     private String contactEmail;
+    private String contactPhone;
     private AddressResponse address;
     private Integer status;
 }

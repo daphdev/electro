@@ -2,6 +2,7 @@ package com.electro.entity.product;
 
 import com.electro.entity.BaseEntity;
 import com.electro.entity.inventory.CountVariant;
+import com.electro.entity.inventory.TransferVariant;
 import com.electro.entity.inventory.VariantInventoryLimit;
 import com.electro.utils.JsonNodeConverter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -63,4 +64,7 @@ public class Variant extends BaseEntity {
 
     @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
     private Set<CountVariant> countVariants = new HashSet<>();
+
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
+    private Set<TransferVariant> transferVariants = new HashSet<>();
 }
