@@ -1,6 +1,5 @@
 package com.electro.utils;
 
-import com.electro.dto.inventory.CountVariantRequest;
 import com.electro.dto.inventory.TransferVariantRequest;
 import com.electro.entity.BaseEntity;
 import com.electro.entity.address.District;
@@ -17,7 +16,6 @@ import com.electro.entity.employee.JobTitle;
 import com.electro.entity.employee.JobType;
 import com.electro.entity.employee.Office;
 import com.electro.entity.inventory.Count;
-import com.electro.entity.inventory.CountVariant;
 import com.electro.entity.inventory.Transfer;
 import com.electro.entity.inventory.TransferVariant;
 import com.electro.entity.inventory.Warehouse;
@@ -36,6 +34,7 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -139,12 +138,12 @@ public class MapperUtils {
 
     @Named("mapVariantIdToVariant")
     public Variant mapVariantIdToVariant(Long id) {
-        return (Variant) new Variant().setId(id);
+        return variantRepository.getById(id);
     }
 
     @Named("mapWarehouseIdToWarehouse")
-    public Warehouse mapWarehouseIdToWarehouse(Long id) {
-        return (Warehouse) new Warehouse().setId(id);
+    public Warehouse mapWarehouseIdToWarehouse(@Nullable Long id) {
+        return (id == null) ? null : (Warehouse) new Warehouse().setId(id);
     }
 
     @AfterMapping
@@ -188,23 +187,10 @@ public class MapperUtils {
         return attachedSet;
     }
 
-    @Named("convertCountVariants")
-    public Set<CountVariant> convertCountVariants(Set<CountVariantRequest> countVariantRequests){
-        Set<CountVariant> countVariants = new HashSet<>();
-        for (CountVariantRequest countVariantRequest: countVariantRequests) {
-            CountVariant countVariant = new CountVariant();
-            countVariant.setVariant(variantRepository.getById(countVariantRequest.getVariantId()));
-            countVariant.setInventory(countVariantRequest.getInventory());
-            countVariant.setActualInventory(countVariantRequest.getActualInventory());
-            countVariants.add(countVariant);
-        }
-        return countVariants;
-    }
-
     @Named("convertTransferVariants")
-    public Set<TransferVariant> convertTransferVariants(Set<TransferVariantRequest> transferVariantRequests){
-        Set<TransferVariant>  transferVariants = new HashSet<>();
-        for (TransferVariantRequest transferVariantRequest : transferVariantRequests){
+    public Set<TransferVariant> convertTransferVariants(Set<TransferVariantRequest> transferVariantRequests) {
+        Set<TransferVariant> transferVariants = new HashSet<>();
+        for (TransferVariantRequest transferVariantRequest : transferVariantRequests) {
             TransferVariant transferVariant = new TransferVariant();
             transferVariant.setQuantity(transferVariantRequest.getQuantity());
             transferVariant.setVariant(variantRepository.getById(transferVariantRequest.getVariantId()));
@@ -212,7 +198,6 @@ public class MapperUtils {
         }
         return transferVariants;
     }
-
 
     @AfterMapping
     @Named("attachCount")

@@ -204,6 +204,7 @@
         updated_by bigint,
         contact_email varchar(255),
         contact_fullname varchar(255),
+        contact_phone varchar(255),
         status TINYINT not null,
         address_id bigint,
         primary key (id)

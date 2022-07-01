@@ -11,19 +11,17 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = MapperUtils.class)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {MapperUtils.class, CountVariantMapper.class})
 public interface CountMapper extends GenericMapper<Count, CountRequest, CountResponse> {
 
     @Override
     @BeanMapping(qualifiedByName = "attachCount")
     @Mapping(source = "warehouseId", target = "warehouse", qualifiedByName = "mapWarehouseIdToWarehouse")
-    @Mapping(source = "countVariants", target = "countVariants", qualifiedByName = "convertCountVariants")
     Count requestToEntity(CountRequest request);
 
     @Override
     @BeanMapping(qualifiedByName = "attachCount")
     @Mapping(source = "warehouseId", target = "warehouse", qualifiedByName = "mapWarehouseIdToWarehouse")
-    @Mapping(source = "countVariants", target = "countVariants", qualifiedByName = "convertCountVariants")
     Count partialUpdate(@MappingTarget Count entity, CountRequest request);
 
 }
