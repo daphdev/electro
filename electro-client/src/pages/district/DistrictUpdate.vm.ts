@@ -18,7 +18,7 @@ function useDistrictUpdateViewModel(id: number) {
 
   const [district, setDistrict] = useState<DistrictResponse>();
   const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
-  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>();
+  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>([]);
 
   const updateApi = useUpdateApi<DistrictRequest, DistrictResponse>(DistrictConfigs.resourceUrl, DistrictConfigs.resourceKey, id);
   useGetByIdApi<DistrictResponse>(DistrictConfigs.resourceUrl, DistrictConfigs.resourceKey, id,

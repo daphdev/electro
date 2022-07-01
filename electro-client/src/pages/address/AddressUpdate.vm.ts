@@ -20,8 +20,8 @@ function useAddressUpdateViewModel(id: number) {
 
   const [address, setAddress] = useState<AddressResponse>();
   const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
-  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>();
-  const [districtSelectList, setDistrictSelectList] = useState<SelectOption[]>();
+  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>([]);
+  const [districtSelectList, setDistrictSelectList] = useState<SelectOption[]>([]);
 
   const updateApi = useUpdateApi<AddressRequest, AddressResponse>(AddressConfigs.resourceUrl, AddressConfigs.resourceKey, id);
   useGetByIdApi<AddressResponse>(AddressConfigs.resourceUrl, AddressConfigs.resourceKey, id,

@@ -37,7 +37,7 @@ function AddressCreate() {
                   placeholder="--"
                   clearable
                   searchable
-                  data={provinceSelectList || []}
+                  data={provinceSelectList}
                   {...form.getInputProps('provinceId')}
                 />
               </Grid.Col>
@@ -47,7 +47,7 @@ function AddressCreate() {
                   placeholder="--"
                   clearable
                   searchable
-                  data={districtSelectList || []}
+                  data={districtSelectList}
                   {...form.getInputProps('districtId')}
                 />
               </Grid.Col>

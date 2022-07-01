@@ -13,7 +13,7 @@ function useCategoryCreateViewModel() {
     schema: zodResolver(CategoryConfigs.createUpdateFormSchema),
   });
 
-  const [categorySelectList, setCategorySelectList] = useState<SelectOption[]>();
+  const [categorySelectList, setCategorySelectList] = useState<SelectOption[]>([]);
 
   const queryClient = useQueryClient();
   const createApi = useCreateApi<CategoryRequest, CategoryResponse>(CategoryConfigs.resourceUrl);

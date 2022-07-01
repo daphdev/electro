@@ -131,7 +131,7 @@ function SupplierUpdate() {
                   placeholder="--"
                   clearable
                   searchable
-                  data={provinceSelectList || []}
+                  data={provinceSelectList}
                   {...form.getInputProps('address.provinceId')}
                 />
               </Grid.Col>
@@ -141,7 +141,7 @@ function SupplierUpdate() {
                   placeholder="--"
                   clearable
                   searchable
-                  data={districtSelectList || []}
+                  data={districtSelectList}
                   {...form.getInputProps('address.districtId')}
                 />
               </Grid.Col>

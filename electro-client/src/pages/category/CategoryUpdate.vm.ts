@@ -17,7 +17,7 @@ function useCategoryUpdateViewModel(id: number) {
 
   const [category, setCategory] = useState<CategoryResponse>();
   const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
-  const [categorySelectList, setCategorySelectList] = useState<SelectOption[]>();
+  const [categorySelectList, setCategorySelectList] = useState<SelectOption[]>([]);
 
   const queryClient = useQueryClient();
   const updateApi = useUpdateApi<CategoryRequest, CategoryResponse>(CategoryConfigs.resourceUrl, CategoryConfigs.resourceKey, id);

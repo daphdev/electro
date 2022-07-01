@@ -70,7 +70,7 @@ function CategoryUpdate() {
                   placeholder="--"
                   clearable
                   searchable
-                  data={categorySelectList || []}
+                  data={categorySelectList}
                   {...form.getInputProps('parentCategoryId')}
                 />
               </Grid.Col>
