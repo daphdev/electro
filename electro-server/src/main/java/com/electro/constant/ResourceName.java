@@ -30,4 +30,6 @@ public interface ResourceName {
     String COUNT_VARIANT = "CountVariant";
     String WAREHOUSE = "Warehouse";
     String COUNT = "Count";
+    String DESTINATION = "Destination";
+    String DOCKET_REASON = "DocketReason";
 }

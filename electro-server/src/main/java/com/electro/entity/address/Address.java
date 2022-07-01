@@ -3,6 +3,7 @@ package com.electro.entity.address;
 import com.electro.entity.BaseEntity;
 import com.electro.entity.authentication.User;
 import com.electro.entity.employee.Office;
+import com.electro.entity.inventory.Destination;
 import com.electro.entity.product.Supplier;
 import com.electro.entity.inventory.Warehouse;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -52,4 +53,7 @@ public class Address extends BaseEntity {
 
     @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
     private Warehouse warehouse;
+
+    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
+    private Destination destination;
 }

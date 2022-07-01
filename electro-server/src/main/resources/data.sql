@@ -305,3 +305,15 @@ insert into count (created_at, updated_at, code, warehouse_id, note, status) val
 insert into count_variant ( count_id, variant_id, actual_inventory, inventory) values ( 1, 1, 32, 80);
 insert into count_variant ( count_id, variant_id, actual_inventory, inventory) values ( 1, 2, 57, 75);
 insert into count_variant ( count_id, variant_id, actual_inventory, inventory) values ( 1, 3, 30, 37);
+
+-- destination: 4 record
+insert into destination (created_at, updated_at, contact_fullname, contact_email, address_id, status) values ('2021-10-18 02:13:21', '2022-01-15 02:02:33', 'Zoozzy', 'jdaulby0@chron.com', 21, 1);
+insert into destination (created_at, updated_at, contact_fullname, contact_email, address_id, status) values ('2021-08-10 10:26:25', '2021-11-25 01:59:50', 'Jazzy', 'saleksandrov1@twitp   ic.com', 22, 2);
+insert into destination (created_at, updated_at, contact_fullname, contact_email, address_id, status) values ('2021-10-19 18:02:53', '2022-02-25 21:47:06', 'Gabcube', 'gnegus2@nationalgeographic.com', 23, 2);
+insert into destination (created_at, updated_at, contact_fullname, contact_email, address_id, status) values ('2021-12-30 15:41:07', '2021-11-03 07:49:17', 'Vinte', 'gmanders3@bandcamp.com', 24, 3);
+
+-- docker_reason: 4 record
+insert into docket_reason (created_at, updated_at, name, status) values ('2022-01-02 15:22:57', '2021-12-18 19:24:30', 'Youspan', 1);
+insert into docket_reason (created_at, updated_at, name, status) values ('2022-03-31 11:59:41', '2021-09-16 04:19:25', 'Gabspot', 3);
+insert into docket_reason (created_at, updated_at, name, status) values ('2022-02-02 14:35:04', '2022-06-11 18:05:41', 'Fanoodle', 3);
+insert into docket_reason (created_at, updated_at, name, status) values ('2021-09-13 15:19:28', '2021-10-11 10:36:10', 'Brainbox', 2);

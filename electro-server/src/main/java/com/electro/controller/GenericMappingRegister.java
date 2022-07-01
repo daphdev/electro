@@ -36,6 +36,10 @@ import com.electro.dto.inventory.CountRequest;
 import com.electro.dto.inventory.CountResponse;
 import com.electro.dto.inventory.CountVariantRequest;
 import com.electro.dto.inventory.CountVariantResponse;
+import com.electro.dto.inventory.DestinationRequest;
+import com.electro.dto.inventory.DestinationResponse;
+import com.electro.dto.inventory.DockerReasonRequest;
+import com.electro.dto.inventory.DockerReasonResponse;
 import com.electro.dto.inventory.VariantInventoryLimitRequest;
 import com.electro.dto.inventory.VariantInventoryLimitResponse;
 import com.electro.dto.inventory.WarehouseRequest;
@@ -76,6 +80,8 @@ import com.electro.entity.employee.JobType;
 import com.electro.entity.employee.Office;
 import com.electro.entity.inventory.Count;
 import com.electro.entity.inventory.CountVariant;
+import com.electro.entity.inventory.Destination;
+import com.electro.entity.inventory.DocketReason;
 import com.electro.entity.inventory.VariantInventoryLimit;
 import com.electro.entity.inventory.Warehouse;
 import com.electro.entity.product.Brand;
@@ -104,6 +110,8 @@ import com.electro.mapper.employee.JobTypeMapper;
 import com.electro.mapper.employee.OfficeMapper;
 import com.electro.mapper.inventory.CountMapper;
 import com.electro.mapper.inventory.CountVariantMapper;
+import com.electro.mapper.inventory.DestinationMapper;
+import com.electro.mapper.inventory.DocketReasonMapper;
 import com.electro.mapper.inventory.VariantInventoryLimitMapper;
 import com.electro.mapper.inventory.WarehouseMapper;
 import com.electro.mapper.product.BrandMapper;
@@ -132,6 +140,8 @@ import com.electro.repository.employee.JobTypeRepository;
 import com.electro.repository.employee.OfficeRepository;
 import com.electro.repository.inventory.CountRepository;
 import com.electro.repository.inventory.CountVariantRepository;
+import com.electro.repository.inventory.DestinationRepository;
+import com.electro.repository.inventory.DocketReasonRepository;
 import com.electro.repository.inventory.VariantInventoryLimitRepository;
 import com.electro.repository.inventory.WarehouseRepository;
 import com.electro.repository.product.BrandRepository;
@@ -197,6 +207,8 @@ public class GenericMappingRegister {
     private GenericController<CountVariantRequest, CountVariantResponse> countVariantController;
     private GenericController<WarehouseRequest, WarehouseResponse> warehouseController;
     private GenericController<CountRequest, CountResponse> countController;
+    private GenericController<DestinationRequest, DestinationResponse> destinationController;
+    private GenericController<DockerReasonRequest, DockerReasonResponse> docketReasonController;
 
     // Services
     private GenericService<District, DistrictRequest, DistrictResponse> districtService;
@@ -227,6 +239,8 @@ public class GenericMappingRegister {
     private GenericService<CountVariant, CountVariantRequest, CountVariantResponse> countVariantService;
     private GenericService<Warehouse, WarehouseRequest, WarehouseResponse> warehouseService;
     private GenericService<Count, CountRequest,CountResponse> countService;
+    private GenericService<Destination, DestinationRequest,DestinationResponse> destinationService;
+    private GenericService<DocketReason, DockerReasonRequest,DockerReasonResponse> docketReasonService;
 
     @PostConstruct
     public void registerControllers() throws NoSuchMethodException {
@@ -428,6 +442,22 @@ public class GenericMappingRegister {
                 SearchFields.COUNT,
                 ResourceName.COUNT
         ), CountRequest.class);
+
+        register("destinations", destinationController, destinationService.init(
+                context.getBean(DestinationRepository.class),
+                context.getBean(DestinationMapper.class),
+                SearchFields.DESTINATION,
+                ResourceName.DESTINATION
+        ), DestinationRequest.class);
+
+        register("docket-reasons", docketReasonController, docketReasonService.init(
+                context.getBean(DocketReasonRepository.class),
+                context.getBean(DocketReasonMapper.class),
+                SearchFields.DOCKET_REASON,
+                ResourceName.DOCKET_REASON
+        ), DockerReasonRequest.class);
+
+
 
     }
 

@@ -253,4 +253,17 @@ public interface SearchFields {
             "warehouse.code",
             "warehouse.name"
     );
+
+    List<String> DESTINATION = List.of(
+            "name",
+            "address.line",
+            "address.province.name",
+            "address.province.code",
+            "address.district.name",
+            "address.district.code"
+    );
+
+    List<String> DOCKET_REASON = List.of(
+            "name"
+    );
 }

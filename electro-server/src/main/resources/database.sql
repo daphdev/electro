@@ -19,7 +19,11 @@
 
     drop table if exists prod.department;
 
+    drop table if exists prod.destination;
+
     drop table if exists prod.district;
+
+    drop table if exists prod.docket_reason;
 
     drop table if exists prod.employee;
 
@@ -188,6 +192,19 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.destination (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        contact_email varchar(255),
+        contact_fullname varchar(255),
+        status TINYINT not null,
+        address_id bigint,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.district (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -197,6 +214,17 @@
         code varchar(35) not null,
         name varchar(255) not null,
         province_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.docket_reason (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        name varchar(255),
+        status integer,
         primary key (id)
     ) engine=MyISAM;
 
@@ -470,6 +498,9 @@
     alter table prod.customer 
        add constraint UK_j7ja2xvrxudhvssosd4nu1o92 unique (user_id);
 
+    alter table prod.destination 
+       add constraint UK_a99mkfyhl65vc2n78ijodyoje unique (address_id);
+
     alter table prod.employee 
        add constraint UK_mpps3d3r9pdvyjx3iqixi96fi unique (user_id);
 
@@ -546,6 +577,11 @@
        add constraint FKj8dlm21j202cadsbfkoem0s58 
        foreign key (user_id) 
        references prod.user (id);
+
+    alter table prod.destination 
+       add constraint FKn0obgfthaq1r8ku3ysej74yk 
+       foreign key (address_id) 
+       references prod.address (id);
 
     alter table prod.district 
        add constraint FK276utu38g5lgqeth6pwfm3rw2 

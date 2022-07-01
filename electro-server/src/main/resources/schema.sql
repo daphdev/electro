@@ -33,7 +33,9 @@ DROP TABLE IF EXISTS
     variant_inventory_limit,
     warehouse,
     count,
-    count_variant;
+    count_variant,
+    destination,
+    docket_reason;
 
 -- CREATE TABLES
 
@@ -564,4 +566,34 @@ CREATE TABLE count_variant (
 ALTER TABLE count_variant ADD CONSTRAINT FK_COUNT_VARIANT_ON_COUNT FOREIGN KEY (count_id) REFERENCES count (id);
 
 ALTER TABLE count_variant ADD CONSTRAINT FK_COUNT_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+
+CREATE TABLE destination (
+   id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   contact_fullname VARCHAR(255) NULL,
+   contact_email VARCHAR(255) NULL,
+   address_id BIGINT NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT pk_destination PRIMARY KEY (id)
+);
+
+ALTER TABLE destination ADD CONSTRAINT uc_destination_address UNIQUE (address_id);
+
+ALTER TABLE destination ADD CONSTRAINT FK_DESTINATION_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES address (id);
+
+CREATE TABLE docket_reason (
+   id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   name VARCHAR(255) NULL,
+   status INT NULL,
+   CONSTRAINT pk_docket_reason PRIMARY KEY (id)
+);
+
+
 

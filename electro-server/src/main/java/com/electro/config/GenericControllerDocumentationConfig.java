@@ -49,7 +49,9 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("variant-inventory-limit"))
                 .and(generateRoute("count-variants"))
                 .and(generateRoute("warehouses"))
-                .and(generateRoute("counts"));
+                .and(generateRoute("counts"))
+                .and(generateRoute("destinations"))
+                .and(generateRoute("docket-reasons"));
     }
 
     private RouterFunction<ServerResponse> generateRoute(String resource) {
