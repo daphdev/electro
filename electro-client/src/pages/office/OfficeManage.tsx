@@ -60,7 +60,7 @@ function OfficeManage() {
       </td>
       <td>
         <Highlight highlight={searchToken} highlightColor="blue" size="sm">
-          {entity.address.province ? entity.address.province.name : ''}
+          {entity.address.province?.name || ''}
         </Highlight>
       </td>
       <td>{officeStatusBadgeFragment(entity.status)}</td>

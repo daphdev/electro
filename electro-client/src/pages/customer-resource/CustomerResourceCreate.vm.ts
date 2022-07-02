@@ -5,12 +5,12 @@ import useCreateApi from 'hooks/use-create-api';
 import { SelectOption } from 'types';
 
 function useCustomerResourceCreateViewModel() {
-  const createApi = useCreateApi<CustomerResourceRequest, CustomerResourceResponse>(CustomerResourceConfigs.resourceUrl);
-
   const form = useForm({
     initialValues: CustomerResourceConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(CustomerResourceConfigs.createUpdateFormSchema),
   });
+
+  const createApi = useCreateApi<CustomerResourceRequest, CustomerResourceResponse>(CustomerResourceConfigs.resourceUrl);
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     const requestBody: CustomerResourceRequest = {

@@ -54,8 +54,8 @@ function CategoryManage() {
         </Highlight>
       </td>
       <td>
-        <Avatar src={entity.thumbnail} alt={entity.name} radius="xl" size="sm" color="grape">
-          <QuestionMark/>
+        <Avatar src={entity.thumbnail} alt={entity.name} radius="lg" size="lg" color="grape">
+          <QuestionMark size={30}/>
         </Avatar>
       </td>
       <td>{entity.parentCategory ? entity.parentCategory.name : <em>không có</em>}</td>
@@ -92,8 +92,8 @@ function CategoryManage() {
       <tr>
         <td>{CategoryConfigs.properties.thumbnail.label}</td>
         <td>
-          <Avatar src={entity.thumbnail} alt={entity.name} radius="xl" size="sm" color="grape">
-            <QuestionMark/>
+          <Avatar src={entity.thumbnail} alt={entity.name} radius="lg" size="lg" color="grape">
+            <QuestionMark size={30}/>
           </Avatar>
         </td>
       </tr>

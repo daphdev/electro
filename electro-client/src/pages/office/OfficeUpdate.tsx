@@ -58,9 +58,8 @@ function OfficeUpdate() {
                   required
                   label={OfficeConfigs.properties['address.provinceId'].label}
                   placeholder="--"
-                  clearable
                   searchable
-                  data={provinceSelectList || []}
+                  data={provinceSelectList}
                   {...form.getInputProps('address.provinceId')}
                 />
               </Grid.Col>
@@ -69,9 +68,8 @@ function OfficeUpdate() {
                   required
                   label={OfficeConfigs.properties['address.districtId'].label}
                   placeholder="--"
-                  clearable
                   searchable
-                  data={districtSelectList || []}
+                  data={districtSelectList}
                   {...form.getInputProps('address.districtId')}
                 />
               </Grid.Col>

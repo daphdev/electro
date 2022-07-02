@@ -8,29 +8,29 @@ import MiscUtils from 'utils/MiscUtils';
 import { SelectOption } from 'types';
 
 function useCustomerGroupUpdateViewModel(id: number) {
-  const updateApi = useUpdateApi<CustomerGroupRequest, CustomerGroupResponse>(CustomerGroupConfigs.resourceUrl, CustomerGroupConfigs.resourceKey, id);
-  const { data: customerGroupResponse } = useGetByIdApi<CustomerGroupResponse>(CustomerGroupConfigs.resourceUrl, CustomerGroupConfigs.resourceKey, id);
-
-  const [customerGroup, setCustomerGroup] = useState<CustomerGroupResponse>();
-  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
-
   const form = useForm({
     initialValues: CustomerGroupConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(CustomerGroupConfigs.createUpdateFormSchema),
   });
 
-  if (!customerGroup && customerGroupResponse) {
-    setCustomerGroup(customerGroupResponse);
-    const formValues: typeof form.values = {
-      code: customerGroupResponse.code,
-      name: customerGroupResponse.name,
-      description: customerGroupResponse.description,
-      color: customerGroupResponse.color,
-      status: String(customerGroupResponse.status),
-    };
-    form.setValues(formValues);
-    setPrevFormValues(formValues);
-  }
+  const [customerGroup, setCustomerGroup] = useState<CustomerGroupResponse>();
+  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
+
+  const updateApi = useUpdateApi<CustomerGroupRequest, CustomerGroupResponse>(CustomerGroupConfigs.resourceUrl, CustomerGroupConfigs.resourceKey, id);
+  useGetByIdApi<CustomerGroupResponse>(CustomerGroupConfigs.resourceUrl, CustomerGroupConfigs.resourceKey, id,
+    (customerGroupResponse) => {
+      setCustomerGroup(customerGroupResponse);
+      const formValues: typeof form.values = {
+        code: customerGroupResponse.code,
+        name: customerGroupResponse.name,
+        description: customerGroupResponse.description,
+        color: customerGroupResponse.color,
+        status: String(customerGroupResponse.status),
+      };
+      form.setValues(formValues);
+      setPrevFormValues(formValues);
+    }
+  );
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     setPrevFormValues(formValues);

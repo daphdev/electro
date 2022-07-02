@@ -5,12 +5,12 @@ import useCreateApi from 'hooks/use-create-api';
 import { SelectOption } from 'types';
 
 function useCustomerStatusCreateViewModel() {
-  const createApi = useCreateApi<CustomerStatusRequest, CustomerStatusResponse>(CustomerStatusConfigs.resourceUrl);
-
   const form = useForm({
     initialValues: CustomerStatusConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(CustomerStatusConfigs.createUpdateFormSchema),
   });
+
+  const createApi = useCreateApi<CustomerStatusRequest, CustomerStatusResponse>(CustomerStatusConfigs.resourceUrl);
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     const requestBody: CustomerStatusRequest = {

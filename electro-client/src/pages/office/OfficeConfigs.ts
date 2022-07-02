@@ -70,8 +70,8 @@ class OfficeConfigs extends Configs {
   static initialCreateUpdateFormValues = {
     name: '',
     'address.line': '',
-    'address.provinceId': '',
-    'address.districtId': '',
+    'address.provinceId': null as string | null,
+    'address.districtId': null as string | null,
     status: '1',
   };
 

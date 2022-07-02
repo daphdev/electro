@@ -85,7 +85,6 @@ function EmployeeCreate() {
                   required
                   label={EmployeeConfigs.properties['user.gender'].label}
                   placeholder="--"
-                  clearable
                   data={userGenderSelectList}
                   {...form.getInputProps('user.gender')}
                 />
@@ -102,9 +101,8 @@ function EmployeeCreate() {
                   required
                   label={EmployeeConfigs.properties['user.address.provinceId'].label}
                   placeholder="--"
-                  clearable
                   searchable
-                  data={provinceSelectList || []}
+                  data={provinceSelectList}
                   {...form.getInputProps('user.address.provinceId')}
                 />
               </Grid.Col>
@@ -113,9 +111,8 @@ function EmployeeCreate() {
                   required
                   label={EmployeeConfigs.properties['user.address.districtId'].label}
                   placeholder="--"
-                  clearable
                   searchable
-                  data={districtSelectList || []}
+                  data={districtSelectList}
                   {...form.getInputProps('user.address.districtId')}
                 />
               </Grid.Col>
@@ -130,7 +127,6 @@ function EmployeeCreate() {
                   required
                   label={EmployeeConfigs.properties['user.status'].label}
                   placeholder="--"
-                  clearable
                   data={userStatusSelectList}
                   {...form.getInputProps('user.status')}
                 />
@@ -141,7 +137,6 @@ function EmployeeCreate() {
                   required
                   label={EmployeeConfigs.properties['user.roles'].label}
                   placeholder="--"
-                  clearable
                   data={userRoleSelectList}
                   {...form.getInputProps('user.roles')}
                 />
@@ -151,8 +146,7 @@ function EmployeeCreate() {
                   required
                   label={EmployeeConfigs.properties.officeId.label}
                   placeholder="--"
-                  clearable
-                  data={officeSelectList || []}
+                  data={officeSelectList}
                   {...form.getInputProps('officeId')}
                 />
               </Grid.Col>
@@ -161,8 +155,7 @@ function EmployeeCreate() {
                   required
                   label={EmployeeConfigs.properties.departmentId.label}
                   placeholder="--"
-                  clearable
-                  data={departmentSelectList || []}
+                  data={departmentSelectList}
                   {...form.getInputProps('departmentId')}
                 />
               </Grid.Col>
@@ -171,8 +164,7 @@ function EmployeeCreate() {
                   required
                   label={EmployeeConfigs.properties.jobTypeId.label}
                   placeholder="--"
-                  clearable
-                  data={jobTypeSelectList || []}
+                  data={jobTypeSelectList}
                   {...form.getInputProps('jobTypeId')}
                 />
               </Grid.Col>
@@ -181,8 +173,7 @@ function EmployeeCreate() {
                   required
                   label={EmployeeConfigs.properties.jobLevelId.label}
                   placeholder="--"
-                  clearable
-                  data={jobLevelSelectList || []}
+                  data={jobLevelSelectList}
                   {...form.getInputProps('jobLevelId')}
                 />
               </Grid.Col>
@@ -191,8 +182,7 @@ function EmployeeCreate() {
                   required
                   label={EmployeeConfigs.properties.jobTitleId.label}
                   placeholder="--"
-                  clearable
-                  data={jobTitleSelectList || []}
+                  data={jobTitleSelectList}
                   {...form.getInputProps('jobTitleId')}
                 />
               </Grid.Col>

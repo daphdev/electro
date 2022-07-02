@@ -5,12 +5,12 @@ import useCreateApi from 'hooks/use-create-api';
 import { SelectOption } from 'types';
 
 function useRoleCreateViewModel() {
-  const createApi = useCreateApi<RoleRequest, RoleResponse>(RoleConfigs.resourceUrl);
-
   const form = useForm({
     initialValues: RoleConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(RoleConfigs.createUpdateFormSchema),
   });
+
+  const createApi = useCreateApi<RoleRequest, RoleResponse>(RoleConfigs.resourceUrl);
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     const requestBody: RoleRequest = {

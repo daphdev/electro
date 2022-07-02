@@ -43,12 +43,12 @@ function AddressManage() {
       </td>
       <td>
         <Highlight highlight={searchToken} highlightColor="blue" size="sm">
-          {entity.province ? entity.province.name : ''}
+          {entity.province?.name || ''}
         </Highlight>
       </td>
       <td>
         <Highlight highlight={searchToken} highlightColor="blue" size="sm">
-          {entity.district ? entity.district.name : ''}
+          {entity.district?.name || ''}
         </Highlight>
       </td>
     </>
@@ -74,19 +74,19 @@ function AddressManage() {
       </tr>
       <tr>
         <td>{AddressConfigs.properties['province.name'].label}</td>
-        <td>{entity.province ? entity.province.name : ''}</td>
+        <td>{entity.province?.name}</td>
       </tr>
       <tr>
         <td>{AddressConfigs.properties['province.code'].label}</td>
-        <td>{entity.province ? entity.province.code : ''}</td>
+        <td>{entity.province?.code}</td>
       </tr>
       <tr>
         <td>{AddressConfigs.properties['district.name'].label}</td>
-        <td>{entity.district ? entity.district.name : ''}</td>
+        <td>{entity.district?.name}</td>
       </tr>
       <tr>
         <td>{AddressConfigs.properties['district.code'].label}</td>
-        <td>{entity.district ? entity.district.code : ''}</td>
+        <td>{entity.district?.code}</td>
       </tr>
     </>
   );
