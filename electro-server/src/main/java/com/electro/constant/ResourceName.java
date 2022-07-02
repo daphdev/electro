@@ -19,11 +19,12 @@ public interface ResourceName {
     String PROPERTY = "Property";
     String CATEGORY = "Category";
     String TAG = "Tag";
-    String IMAGE = "Image";
     String GUARANTEE = "Guarantee";
     String UNIT = "Unit";
     String SUPPLIER = "Supplier";
     String BRAND = "Brand";
+    String SPECIFICATION = "Specification";
     String PRODUCT = "Product";
+    String VARIANT = "Variant";
     String PRODUCT_INVENTORY_LIMIT = "ProductInventoryLimit";
 }

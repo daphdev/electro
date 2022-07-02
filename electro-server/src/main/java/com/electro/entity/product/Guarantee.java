@@ -27,7 +27,7 @@ public class Guarantee extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")

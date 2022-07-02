@@ -38,20 +38,22 @@ import com.electro.dto.product.CategoryRequest;
 import com.electro.dto.product.CategoryResponse;
 import com.electro.dto.product.GuaranteeRequest;
 import com.electro.dto.product.GuaranteeResponse;
-import com.electro.dto.product.ImageRequest;
-import com.electro.dto.product.ImageResponse;
 import com.electro.dto.product.ProductInventoryLimitRequest;
 import com.electro.dto.product.ProductInventoryLimitResponse;
 import com.electro.dto.product.ProductRequest;
 import com.electro.dto.product.ProductResponse;
 import com.electro.dto.product.PropertyRequest;
 import com.electro.dto.product.PropertyResponse;
+import com.electro.dto.product.SpecificationRequest;
+import com.electro.dto.product.SpecificationResponse;
 import com.electro.dto.product.SupplierRequest;
 import com.electro.dto.product.SupplierResponse;
 import com.electro.dto.product.TagRequest;
 import com.electro.dto.product.TagResponse;
 import com.electro.dto.product.UnitRequest;
 import com.electro.dto.product.UnitResponse;
+import com.electro.dto.product.VariantRequest;
+import com.electro.dto.product.VariantResponse;
 import com.electro.entity.address.Address;
 import com.electro.entity.address.District;
 import com.electro.entity.authentication.Role;
@@ -69,13 +71,14 @@ import com.electro.entity.employee.Office;
 import com.electro.entity.product.Brand;
 import com.electro.entity.product.Category;
 import com.electro.entity.product.Guarantee;
-import com.electro.entity.product.Image;
 import com.electro.entity.product.Product;
 import com.electro.entity.product.ProductInventoryLimit;
 import com.electro.entity.product.Property;
+import com.electro.entity.product.Specification;
 import com.electro.entity.product.Supplier;
 import com.electro.entity.product.Tag;
 import com.electro.entity.product.Unit;
+import com.electro.entity.product.Variant;
 import com.electro.mapper.address.AddressMapper;
 import com.electro.mapper.address.DistrictMapper;
 import com.electro.mapper.authentication.RoleMapper;
@@ -93,13 +96,14 @@ import com.electro.mapper.employee.OfficeMapper;
 import com.electro.mapper.product.BrandMapper;
 import com.electro.mapper.product.CategoryMapper;
 import com.electro.mapper.product.GuaranteeMapper;
-import com.electro.mapper.product.ImageMapper;
 import com.electro.mapper.product.ProductInventoryLimitMapper;
 import com.electro.mapper.product.ProductMapper;
 import com.electro.mapper.product.PropertyMapper;
+import com.electro.mapper.product.SpecificationMapper;
 import com.electro.mapper.product.SupplierMapper;
 import com.electro.mapper.product.TagMapper;
 import com.electro.mapper.product.UnitMapper;
+import com.electro.mapper.product.VariantMapper;
 import com.electro.repository.address.AddressRepository;
 import com.electro.repository.address.DistrictRepository;
 import com.electro.repository.authentication.RoleRepository;
@@ -117,13 +121,14 @@ import com.electro.repository.employee.OfficeRepository;
 import com.electro.repository.product.BrandRepository;
 import com.electro.repository.product.CategoryRepository;
 import com.electro.repository.product.GuaranteeRepository;
-import com.electro.repository.product.ImageRepository;
 import com.electro.repository.product.ProductInventoryLimitRepository;
 import com.electro.repository.product.ProductRepository;
 import com.electro.repository.product.PropertyRepository;
+import com.electro.repository.product.SpecificationRepository;
 import com.electro.repository.product.SupplierRepository;
 import com.electro.repository.product.TagRepository;
 import com.electro.repository.product.UnitRepository;
+import com.electro.repository.product.VariantRepository;
 import com.electro.service.CrudService;
 import com.electro.service.GenericService;
 import com.electro.service.address.ProvinceService;
@@ -166,12 +171,13 @@ public class GenericMappingRegister {
     private GenericController<PropertyRequest, PropertyResponse> propertyController;
     private GenericController<CategoryRequest, CategoryResponse> categoryController;
     private GenericController<TagRequest, TagResponse> tagController;
-    private GenericController<ImageRequest, ImageResponse> imageController;
     private GenericController<GuaranteeRequest, GuaranteeResponse> guaranteeController;
     private GenericController<UnitRequest, UnitResponse> unitController;
     private GenericController<SupplierRequest, SupplierResponse> supplierController;
     private GenericController<BrandRequest, BrandResponse> brandController;
+    private GenericController<SpecificationRequest, SpecificationResponse> specificationController;
     private GenericController<ProductRequest, ProductResponse> productController;
+    private GenericController<VariantRequest, VariantResponse> variantController;
     private GenericController<ProductInventoryLimitRequest, ProductInventoryLimitResponse> productInventoryLimitController;
 
     // Services
@@ -192,12 +198,13 @@ public class GenericMappingRegister {
     private GenericService<Property, PropertyRequest, PropertyResponse> propertyService;
     private GenericService<Category, CategoryRequest, CategoryResponse> categoryService;
     private GenericService<Tag, TagRequest, TagResponse> tagService;
-    private GenericService<Image, ImageRequest, ImageResponse> imageService;
     private GenericService<Guarantee, GuaranteeRequest, GuaranteeResponse> guaranteeService;
     private GenericService<Unit, UnitRequest, UnitResponse> unitService;
     private GenericService<Supplier, SupplierRequest, SupplierResponse> supplierService;
     private GenericService<Brand, BrandRequest, BrandResponse> brandService;
+    private GenericService<Specification, SpecificationRequest, SpecificationResponse> specificationService;
     private GenericService<Product, ProductRequest, ProductResponse> productService;
+    private GenericService<Variant, VariantRequest, VariantResponse> variantService;
     private GenericService<ProductInventoryLimit, ProductInventoryLimitRequest, ProductInventoryLimitResponse> productInventoryLimitService;
 
     @PostConstruct
@@ -324,13 +331,6 @@ public class GenericMappingRegister {
                 ResourceName.TAG
         ), TagRequest.class);
 
-        register("images", imageController, imageService.init(
-                context.getBean(ImageRepository.class),
-                context.getBean(ImageMapper.class),
-                SearchFields.IMAGE,
-                ResourceName.IMAGE
-        ), ImageRequest.class);
-
         register("guarantees", guaranteeController, guaranteeService.init(
                 context.getBean(GuaranteeRepository.class),
                 context.getBean(GuaranteeMapper.class),
@@ -359,12 +359,26 @@ public class GenericMappingRegister {
                 ResourceName.BRAND
         ), BrandRequest.class);
 
+        register("specifications", specificationController, specificationService.init(
+                context.getBean(SpecificationRepository.class),
+                context.getBean(SpecificationMapper.class),
+                SearchFields.SPECIFICATION,
+                ResourceName.SPECIFICATION
+        ), SpecificationRequest.class);
+
         register("products", productController, productService.init(
                 context.getBean(ProductRepository.class),
                 context.getBean(ProductMapper.class),
                 SearchFields.PRODUCT,
                 ResourceName.PRODUCT
         ), ProductRequest.class);
+
+        register("variants", variantController, variantService.init(
+                context.getBean(VariantRepository.class),
+                context.getBean(VariantMapper.class),
+                SearchFields.VARIANT,
+                ResourceName.VARIANT
+        ), VariantRequest.class);
 
         register("product-inventory-limits", productInventoryLimitController, productInventoryLimitService.init(
                 context.getBean(ProductInventoryLimitRepository.class),

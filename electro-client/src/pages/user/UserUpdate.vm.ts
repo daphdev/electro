@@ -12,87 +12,79 @@ import { DistrictResponse } from 'models/District';
 import DistrictConfigs from 'pages/district/DistrictConfigs';
 import { RoleResponse } from 'models/Role';
 import { SelectOption } from 'types';
+import RoleConfigs from 'pages/role/RoleConfigs';
 
 function useUserUpdateViewModel(id: number) {
-  const updateApi = useUpdateApi<UserRequest, UserResponse>(UserConfigs.resourceUrl, UserConfigs.resourceKey, id);
-  const { data: userResponse } = useGetByIdApi<UserResponse>(UserConfigs.resourceUrl, UserConfigs.resourceKey, id);
-  const { data: provinceListResponse } = useGetAllApi<ProvinceResponse>(
-    ProvinceConfigs.resourceUrl,
-    ProvinceConfigs.resourceKey,
-    { all: 1 }
-  );
-  const { data: districtListResponse } = useGetAllApi<DistrictResponse>(
-    DistrictConfigs.resourceUrl,
-    DistrictConfigs.resourceKey,
-    { all: 1 }
-  );
-  const { data: roleListResponse } = useGetAllApi<RoleResponse>(
-    'http://localhost:8085/api/roles',
-    'roles',
-    { sort: 'id,asc', all: 1 }
-  );
-
-  const [user, setUser] = useState<UserResponse>();
-  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
-  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>();
-  const [districtSelectList, setDistrictSelectList] = useState<SelectOption[]>();
-  const [roleSelectList, setRoleSelectList] = useState<SelectOption[]>();
-
   const form = useForm({
     initialValues: UserConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(UserConfigs.createUpdateFormSchema),
   });
 
-  if (!user && userResponse) {
-    setUser(userResponse);
-    const formValues: typeof form.values = {
-      username: userResponse.username,
-      password: '',
-      fullname: userResponse.fullname,
-      email: userResponse.email,
-      phone: userResponse.phone,
-      gender: userResponse.gender,
-      'address.line': userResponse.address.line,
-      'address.provinceId': String(userResponse.address.province.id),
-      'address.districtId': String(userResponse.address.district.id),
-      avatar: userResponse.avatar || '',
-      status: String(userResponse.status),
-      roles: userResponse.roles.map((role) => String(role.id)),
-    };
-    form.setValues(formValues);
-    setPrevFormValues(formValues);
-  }
+  const [user, setUser] = useState<UserResponse>();
+  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
+  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>([]);
+  const [districtSelectList, setDistrictSelectList] = useState<SelectOption[]>([]);
+  const [roleSelectList, setRoleSelectList] = useState<SelectOption[]>([]);
 
-  if (!provinceSelectList && provinceListResponse) {
-    const selectList: SelectOption[] = provinceListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setProvinceSelectList(selectList);
-  }
-
-  if (!districtSelectList && districtListResponse) {
-    const selectList: SelectOption[] = districtListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setDistrictSelectList(selectList);
-  }
-
-  if (!roleSelectList && roleListResponse) {
-    const selectList: SelectOption[] = roleListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setRoleSelectList(selectList);
-  }
+  const updateApi = useUpdateApi<UserRequest, UserResponse>(UserConfigs.resourceUrl, UserConfigs.resourceKey, id);
+  useGetByIdApi<UserResponse>(UserConfigs.resourceUrl, UserConfigs.resourceKey, id,
+    (userResponse) => {
+      setUser(userResponse);
+      const formValues: typeof form.values = {
+        username: userResponse.username,
+        password: '',
+        fullname: userResponse.fullname,
+        email: userResponse.email,
+        phone: userResponse.phone,
+        gender: userResponse.gender,
+        'address.line': userResponse.address.line || '',
+        'address.provinceId': userResponse.address.province ? String(userResponse.address.province.id) : null,
+        'address.districtId': userResponse.address.district ? String(userResponse.address.district.id) : null,
+        avatar: userResponse.avatar || '',
+        status: String(userResponse.status),
+        roles: userResponse.roles.map((role) => String(role.id)),
+      };
+      form.setValues(formValues);
+      setPrevFormValues(formValues);
+    }
+  );
+  useGetAllApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey,
+    { all: 1 },
+    (provinceListResponse) => {
+      const selectList: SelectOption[] = provinceListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setProvinceSelectList(selectList);
+    }
+  );
+  useGetAllApi<DistrictResponse>(DistrictConfigs.resourceUrl, DistrictConfigs.resourceKey,
+    { all: 1 },
+    (districtListResponse) => {
+      const selectList: SelectOption[] = districtListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setDistrictSelectList(selectList);
+    }
+  );
+  useGetAllApi<RoleResponse>(RoleConfigs.resourceUrl, RoleConfigs.resourceKey,
+    { sort: 'id,asc', all: 1 },
+    (roleListResponse) => {
+      const selectList: SelectOption[] = roleListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setRoleSelectList(selectList);
+    }
+  );
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     setPrevFormValues(formValues);
     if (!MiscUtils.isEquals(formValues, prevFormValues)) {
       const requestBody: UserRequest = {
         username: formValues.username,
-        password: formValues.password,
+        password: formValues.password || null,
         fullname: formValues.fullname,
         email: formValues.email,
         phone: formValues.phone,

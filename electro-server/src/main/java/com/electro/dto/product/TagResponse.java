@@ -10,5 +10,6 @@ public class TagResponse {
     private Instant createdAt;
     private Instant updatedAt;
     private String name;
+    private String slug;
     private Integer status;
 }

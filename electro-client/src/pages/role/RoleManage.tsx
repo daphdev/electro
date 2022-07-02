@@ -33,10 +33,10 @@ function RoleManage() {
 
   const roleStatusBadgeFragment = (status: number) => {
     if (status === 1) {
-      return <Badge variant="outline" size="sm">Đang sử dụng</Badge>;
+      return <Badge variant="outline" size="sm">Có hiệu lực</Badge>;
     }
 
-    return <Badge color="red" variant="outline" size="sm">Không sử dụng</Badge>;
+    return <Badge color="red" variant="outline" size="sm">Vô hiệu lực</Badge>;
   };
 
   const showedPropertiesFragment = (entity: RoleResponse) => (

@@ -16,6 +16,7 @@ import org.mapstruct.ReportingPolicy;
 public interface EmployeeMapper extends GenericMapper<Employee, EmployeeRequest, EmployeeResponse> {
 
     @Override
+    @BeanMapping(qualifiedByName = "attachEmployee")
     @Mapping(source = "user.address.provinceId", target = "user.address.province", qualifiedByName = "mapProvinceIdToProvince")
     @Mapping(source = "user.address.districtId", target = "user.address.district", qualifiedByName = "mapDistrictIdToDistrict")
     @Mapping(source = "user.password", target = "user.password", qualifiedByName = "hashPassword")
@@ -27,10 +28,11 @@ public interface EmployeeMapper extends GenericMapper<Employee, EmployeeRequest,
     Employee requestToEntity(EmployeeRequest request);
 
     @Override
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @BeanMapping(qualifiedByName = "attachEmployee")
     @Mapping(source = "user.address.provinceId", target = "user.address.province", qualifiedByName = "mapProvinceIdToProvince")
     @Mapping(source = "user.address.districtId", target = "user.address.district", qualifiedByName = "mapDistrictIdToDistrict")
-    @Mapping(source = "user.password", target = "user.password", qualifiedByName = "hashPassword")
+    @Mapping(source = "user.password", target = "user.password", qualifiedByName = "hashPassword",
+            nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(source = "officeId", target = "office", qualifiedByName = "mapOfficeIdToOffice")
     @Mapping(source = "departmentId", target = "department", qualifiedByName = "mapDepartmentIdToDepartment")
     @Mapping(source = "jobTypeId", target = "jobType", qualifiedByName = "mapJobTypeIdToJobType")

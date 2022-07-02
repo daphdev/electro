@@ -4,10 +4,12 @@ import com.electro.entity.BaseEntity;
 import com.electro.entity.address.District;
 import com.electro.entity.address.Province;
 import com.electro.entity.authentication.User;
+import com.electro.entity.customer.Customer;
 import com.electro.entity.customer.CustomerGroup;
 import com.electro.entity.customer.CustomerResource;
 import com.electro.entity.customer.CustomerStatus;
 import com.electro.entity.employee.Department;
+import com.electro.entity.employee.Employee;
 import com.electro.entity.employee.JobLevel;
 import com.electro.entity.employee.JobTitle;
 import com.electro.entity.employee.JobType;
@@ -19,11 +21,13 @@ import com.electro.entity.product.Product;
 import com.electro.entity.product.Supplier;
 import com.electro.entity.product.Unit;
 import com.electro.repository.authentication.RoleRepository;
+import com.electro.repository.product.TagRepository;
 import lombok.AllArgsConstructor;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -37,15 +41,16 @@ public class MapperUtils {
 
     private PasswordEncoder passwordEncoder;
     private RoleRepository roleRepository;
+    private TagRepository tagRepository;
 
     @Named("mapProvinceIdToProvince")
-    public Province mapProvinceIdToProvince(Long id) {
-        return (Province) new Province().setId(id);
+    public Province mapProvinceIdToProvince(@Nullable Long id) {
+        return (id == null) ? null : (Province) new Province().setId(id);
     }
 
     @Named("mapDistrictIdToDistrict")
-    public District mapDistrictIdToDistrict(Long id) {
-        return (District) new District().setId(id);
+    public District mapDistrictIdToDistrict(@Nullable Long id) {
+        return (id == null) ? null : (District) new District().setId(id);
     }
 
     @Named("hashPassword")
@@ -94,30 +99,29 @@ public class MapperUtils {
     }
 
     @Named("mapCategoryIdToCategory")
-    public Category mapCategoryIdToCategory(Long id) {
-        return (Category) new Category().setId(id);
+    public Category mapCategoryIdToCategory(@Nullable Long id) {
+        return (id == null) ? null : (Category) new Category().setId(id);
     }
 
     @Named("mapBrandIdToBrand")
-    public Brand mapBrandIdToBrand(Long id) {
-        return (Brand) new Brand().setId(id);
-    }
-
-    @Named("mapUnitIdToUnit")
-    public Unit mapUnitIdToUnit(Long id) {
-        return (Unit) new Unit().setId(id);
-    }
-
-    @Named("mapGuaranteeIdToGuarantee")
-    public Guarantee mapGuaranteeIdToGuarantee(Long id) {
-        return (Guarantee) new Guarantee().setId(id);
+    public Brand mapBrandIdToBrand(@Nullable Long id) {
+        return (id == null) ? null : (Brand) new Brand().setId(id);
     }
 
     @Named("mapSupplierIdToSupplier")
-    public Supplier mapSupplierIdToSupplier(Long id) {
-        return (Supplier) new Supplier().setId(id);
+    public Supplier mapSupplierIdToSupplier(@Nullable Long id) {
+        return (id == null) ? null : (Supplier) new Supplier().setId(id);
     }
 
+    @Named("mapUnitIdToUnit")
+    public Unit mapUnitIdToUnit(@Nullable Long id) {
+        return (id == null) ? null : (Unit) new Unit().setId(id);
+    }
+
+    @Named("mapGuaranteeIdToGuarantee")
+    public Guarantee mapGuaranteeIdToGuarantee(@Nullable Long id) {
+        return (id == null) ? null : (Guarantee) new Guarantee().setId(id);
+    }
 
     @Named("mapProductIdToProduct")
     public Product mapProductIdToProduct(Long id) {
@@ -128,6 +132,26 @@ public class MapperUtils {
     @Named("attachUser")
     public User attachUser(@MappingTarget User user) {
         return user.setRoles(attachSet(user.getRoles(), roleRepository));
+    }
+
+    @AfterMapping
+    @Named("attachEmployee")
+    public Employee attachEmployee(@MappingTarget Employee employee) {
+        employee.getUser().setRoles(attachSet(employee.getUser().getRoles(), roleRepository));
+        return employee;
+    }
+
+    @AfterMapping
+    @Named("attachCustomer")
+    public Customer attachCustomer(@MappingTarget Customer customer) {
+        customer.getUser().setRoles(attachSet(customer.getUser().getRoles(), roleRepository));
+        return customer;
+    }
+
+    @AfterMapping
+    @Named("attachProduct")
+    public Product attachProduct(@MappingTarget Product product) {
+        return product.setTags(attachSet(product.getTags(), tagRepository));
     }
 
     private <E extends BaseEntity> Set<E> attachSet(Set<E> entities, JpaRepository<E, Long> repository) {

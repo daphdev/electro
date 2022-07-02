@@ -12,6 +12,7 @@ import lombok.experimental.Accessors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -33,35 +34,35 @@ public class Supplier extends BaseEntity {
     @Column(name = "code", nullable = false)
     private String code;
 
-    @Column(name = "contact_fullname", nullable = false)
+    @Column(name = "contact_fullname")
     private String contactFullname;
 
-    @Column(name = "contact_email", nullable = false)
+    @Column(name = "contact_email")
     private String contactEmail;
 
-    @Column(name = "contact_phone", nullable = false)
+    @Column(name = "contact_phone")
     private String contactPhone;
 
-    @Column(name = "company_name", nullable = false)
+    @Column(name = "company_name")
     private String companyName;
 
-    @Column(name = "tax_code", nullable = false)
+    @Column(name = "tax_code")
     private String taxCode;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "phone", nullable = false)
+    @Column(name = "phone")
     private String phone;
 
-    @Column(name = "fax", nullable = false)
+    @Column(name = "fax")
     private String fax;
 
     @Column(name = "website")
     private String website;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false, unique = true)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id", referencedColumnName = "id", unique = true)
     private Address address;
 
     @Column(name = "description")

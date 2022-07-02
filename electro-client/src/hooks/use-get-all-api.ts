@@ -4,7 +4,12 @@ import FilterUtils from 'utils/FilterUtils';
 import FetchUtils, { ErrorMessage, ListResponse, RequestParams } from 'utils/FetchUtils';
 import NotifyUtils from 'utils/NotifyUtils';
 
-function useGetAllApi<O>(resourceUrl: string, resourceKey: string, requestParams?: RequestParams) {
+function useGetAllApi<O>(
+  resourceUrl: string,
+  resourceKey: string,
+  requestParams?: RequestParams,
+  successCallback?: (data: ListResponse<O>) => void
+) {
   const {
     activePage,
     activePageSize,
@@ -29,6 +34,7 @@ function useGetAllApi<O>(resourceUrl: string, resourceKey: string, requestParams
     () => FetchUtils.getAll<O>(resourceUrl, requestParams),
     {
       keepPreviousData: true,
+      onSuccess: successCallback,
       onError: (error) => NotifyUtils.simpleFailed(`Lỗi ${error.statusCode || 'chưa biết'}: Lấy dữ liệu không thành công`),
     }
   );

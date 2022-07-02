@@ -8,27 +8,27 @@ import MiscUtils from 'utils/MiscUtils';
 import { SelectOption } from 'types';
 
 function useRoleUpdateViewModel(id: number) {
-  const updateApi = useUpdateApi<RoleRequest, RoleResponse>(RoleConfigs.resourceUrl, RoleConfigs.resourceKey, id);
-  const { data: roleResponse } = useGetByIdApi<RoleResponse>(RoleConfigs.resourceUrl, RoleConfigs.resourceKey, id);
-
-  const [role, setRole] = useState<RoleResponse>();
-  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
-
   const form = useForm({
     initialValues: RoleConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(RoleConfigs.createUpdateFormSchema),
   });
 
-  if (!role && roleResponse) {
-    setRole(roleResponse);
-    const formValues: typeof form.values = {
-      code: roleResponse.code,
-      name: roleResponse.name,
-      status: String(roleResponse.status),
-    };
-    form.setValues(formValues);
-    setPrevFormValues(formValues);
-  }
+  const [role, setRole] = useState<RoleResponse>();
+  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
+
+  const updateApi = useUpdateApi<RoleRequest, RoleResponse>(RoleConfigs.resourceUrl, RoleConfigs.resourceKey, id);
+  useGetByIdApi<RoleResponse>(RoleConfigs.resourceUrl, RoleConfigs.resourceKey, id,
+    (roleResponse) => {
+      setRole(roleResponse);
+      const formValues: typeof form.values = {
+        code: roleResponse.code,
+        name: roleResponse.name,
+        status: String(roleResponse.status),
+      };
+      form.setValues(formValues);
+      setPrevFormValues(formValues);
+    }
+  );
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     setPrevFormValues(formValues);
@@ -45,11 +45,11 @@ function useRoleUpdateViewModel(id: number) {
   const statusSelectList: SelectOption[] = [
     {
       value: '1',
-      label: 'Đang sử dụng',
+      label: 'Có hiệu lực',
     },
     {
       value: '2',
-      label: 'Không sử dụng',
+      label: 'Vô hiệu lực',
     },
   ];
 

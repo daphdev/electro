@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import { Configs, EntityPropertySchema, EntityPropertyType, TitleLink } from 'types';
 import ResourceURL from 'constants/ResourceURL';
-import MessageUtils from 'utils/MessageUtils';
 import PageConfigs from 'pages/PageConfigs';
 import ManagerPath from 'constants/ManagerPath';
 
@@ -72,14 +71,14 @@ class AddressConfigs extends Configs {
 
   static initialCreateUpdateFormValues = {
     line: '',
-    provinceId: '',
-    districtId: '',
+    provinceId: null as string | null,
+    districtId: null as string | null,
   };
 
   static createUpdateFormSchema = z.object({
-    line: z.string().min(2, MessageUtils.min(AddressConfigs.properties.line.label, 2)),
-    provinceId: z.string(),
-    districtId: z.string(),
+    line: z.string(),
+    provinceId: z.string().nullable(),
+    districtId: z.string().nullable(),
   });
 }
 

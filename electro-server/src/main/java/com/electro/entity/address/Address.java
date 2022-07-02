@@ -27,25 +27,25 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "address")
 public class Address extends BaseEntity {
-    @Column(name = "line", nullable = false)
+    @Column(name = "line")
     private String line;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "province_id", nullable = false)
+    @JoinColumn(name = "province_id")
     @JsonBackReference
     private Province province;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "district_id", nullable = false)
+    @JoinColumn(name = "district_id")
     @JsonBackReference
     private District district;
 
-    @OneToOne(mappedBy = "address")
+    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
     private User user;
 
-    @OneToOne(mappedBy = "address")
+    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
     private Office office;
 
-    @OneToOne(mappedBy = "address")
+    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
     private Supplier supplier;
 }

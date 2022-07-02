@@ -90,22 +90,19 @@ public interface SearchFields {
     List<String> CUSTOMER_GROUP = List.of(
             "code",
             "name",
-            "description",
-            "color"
+            "description"
     );
 
     List<String> CUSTOMER_RESOURCE = List.of(
             "code",
             "name",
-            "description",
-            "color"
+            "description"
     );
 
     List<String> CUSTOMER_STATUS = List.of(
             "code",
             "name",
-            "description",
-            "color"
+            "description"
     );
 
     List<String> CUSTOMER = List.of(
@@ -121,35 +118,29 @@ public interface SearchFields {
             "customerGroup.code",
             "customerGroup.name",
             "customerGroup.description",
-            "customerGroup.color",
             "customerResource.code",
             "customerResource.name",
             "customerResource.description",
-            "customerResource.color",
             "customerStatus.code",
             "customerStatus.name",
-            "customerStatus.description",
-            "customerStatus.color"
+            "customerStatus.description"
     );
 
     List<String> PROPERTY = List.of(
             "name",
             "code",
-            "type",
             "description"
     );
 
     List<String> CATEGORY = List.of(
             "name",
+            "slug",
             "description"
     );
 
     List<String> TAG = List.of(
-            "name"
-    );
-
-    List<String> IMAGE = List.of(
-            "name"
+            "name",
+            "slug"
     );
 
     List<String> GUARANTEE = List.of(
@@ -187,15 +178,21 @@ public interface SearchFields {
             "description"
     );
 
+    List<String> SPECIFICATION = List.of(
+            "name",
+            "code",
+            "description"
+    );
+
     List<String> PRODUCT = List.of(
             "name",
             "code",
+            "slug",
+            "shortDescription",
             "description",
             "category.name",
-            "category.description",
             "brand.name",
             "brand.code",
-            "brand.description",
             "supplier.displayName",
             "supplier.code",
             "supplier.contactFullname",
@@ -208,14 +205,16 @@ public interface SearchFields {
             "supplier.fax",
             "supplier.website",
             "supplier.address.line",
-            "supplier.address.province.name",
-            "supplier.address.province.code",
-            "supplier.address.district.name",
-            "supplier.address.district.code",
-            "supplier.description",
             "unit.name",
-            "guarantee.name",
-            "guarantee.description"
+            "guarantee.name"
+    );
+
+    List<String> VARIANT = List.of(
+            "product.name",
+            "product.code",
+            "sku",
+            "cost",
+            "price"
     );
 
     List<String> PRODUCT_INVENTORY_LIMIT = List.of(

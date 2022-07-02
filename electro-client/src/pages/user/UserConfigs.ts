@@ -120,11 +120,11 @@ class UserConfigs extends Configs {
     phone: '',
     gender: 'M' as 'M' | 'F',
     'address.line': '',
-    'address.provinceId': '',
-    'address.districtId': '',
+    'address.provinceId': null as string | null,
+    'address.districtId': null as string | null,
     avatar: '',
     status: '1',
-    roles: ['3'],
+    roles: [] as string[],
   };
 
   static createUpdateFormSchema = z.object({
@@ -139,7 +139,7 @@ class UserConfigs extends Configs {
     'address.districtId': z.string(),
     avatar: z.string(),
     status: z.string(),
-    roles: z.array(z.string()),
+    roles: z.array(z.string()).nonempty(),
   });
 }
 

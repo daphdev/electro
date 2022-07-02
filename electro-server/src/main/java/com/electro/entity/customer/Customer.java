@@ -35,12 +35,12 @@ public class Customer extends BaseEntity {
     private CustomerGroup customerGroup;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_resource_id", nullable = false)
-    @JsonBackReference
-    private CustomerResource customerResource;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_status_id", nullable = false)
     @JsonBackReference
     private CustomerStatus customerStatus;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_resource_id", nullable = false)
+    @JsonBackReference
+    private CustomerResource customerResource;
 }
