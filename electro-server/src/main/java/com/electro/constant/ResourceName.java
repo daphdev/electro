@@ -27,4 +27,12 @@ public interface ResourceName {
     String PRODUCT = "Product";
     String VARIANT = "Variant";
     String PRODUCT_INVENTORY_LIMIT = "ProductInventoryLimit";
+    String VARIANT_INVENTORY_LIMIT = "VariantInventoryLimit";
+    String COUNT_VARIANT = "CountVariant";
+    String WAREHOUSE = "Warehouse";
+    String COUNT = "Count";
+    String DESTINATION = "Destination";
+    String DOCKET_REASON = "DocketReason";
+    String TRANSFER_VARIANT = "TransferVariant";
+    String TRANSFER = "Transfer";
 }

@@ -224,4 +224,70 @@ public interface SearchFields {
             "minimumLimit",
             "maximumLimit"
     );
+
+    List<String> VARIANT_INVENTORY_LIMIT = List.of(
+            "variant.product.name",
+            "variant.product.code",
+            "variant.sku",
+            "variant.cost",
+            "variant.price",
+            "minimumLimit",
+            "maximumLimit"
+    );
+
+    List<String> COUNT_VARIANT = List.of(
+            "count.code",
+            "variant.product.name",
+            "variant.product.code",
+            "variant.sku",
+            "variant.cost",
+            "variant.price",
+            "inventory",
+            "actualInventory"
+    );
+
+    List<String> WAREHOUSE = List.of(
+            "code",
+            "name",
+            "address.line",
+            "address.province.name",
+            "address.province.code",
+            "address.district.name",
+            "address.district.code"
+    );
+
+    List<String> COUNT = List.of(
+            "code",
+            "warehouse.code",
+            "warehouse.name"
+    );
+
+    List<String> DESTINATION = List.of(
+            "contactFullname",
+            "contactEmail",
+            "contactPhone",
+            "address.line",
+            "address.province.name",
+            "address.province.code",
+            "address.district.name",
+            "address.district.code"
+    );
+
+    List<String> DOCKET_REASON = List.of(
+            "name"
+    );
+
+    List<String> TRANSFER_VARIANT = List.of(
+            "transfer.code",
+            "variant.product.name",
+            "variant.product.code",
+            "variant.sku",
+            "variant.cost",
+            "variant.price",
+            "quantity"
+    );
+
+    List<String> TRANSFER = List.of(
+            "code"
+    );
 }

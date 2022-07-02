@@ -5,6 +5,10 @@
 
     drop table if exists prod.category;
 
+    drop table if exists prod.count;
+
+    drop table if exists prod.count_variant;
+
     drop table if exists prod.customer;
 
     drop table if exists prod.customer_group;
@@ -15,7 +19,11 @@
 
     drop table if exists prod.department;
 
+    drop table if exists prod.destination;
+
     drop table if exists prod.district;
+
+    drop table if exists prod.docket_reason;
 
     drop table if exists prod.employee;
 
@@ -47,6 +55,10 @@
 
     drop table if exists prod.tag;
 
+    drop table if exists prod.transfer;
+
+    drop table if exists prod.transfer_variant;
+
     drop table if exists prod.unit;
 
     drop table if exists prod.user;
@@ -54,6 +66,10 @@
     drop table if exists prod.user_role;
 
     drop table if exists prod.variant;
+
+    drop table if exists prod.variant_inventory_limit;
+
+    drop table if exists prod.warehouse;
 
     create table prod.address (
        id bigint not null auto_increment,
@@ -93,6 +109,27 @@
         thumbnail varchar(255),
         category_id bigint,
         primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.count (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255) not null,
+        note varchar(255),
+        status TINYINT not null,
+        warehouse_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.count_variant (
+       count_id bigint not null,
+        variant_id bigint not null,
+        actual_inventory integer not null,
+        inventory integer not null,
+        primary key (count_id, variant_id)
     ) engine=MyISAM;
 
     create table prod.customer (
@@ -161,6 +198,20 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.destination (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        contact_email varchar(255),
+        contact_fullname varchar(255),
+        contact_phone varchar(255),
+        status TINYINT not null,
+        address_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.district (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -170,6 +221,17 @@
         code varchar(35) not null,
         name varchar(255) not null,
         province_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.docket_reason (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        name varchar(255) not null,
+        status TINYINT not null,
         primary key (id)
     ) engine=MyISAM;
 
@@ -373,6 +435,25 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.transfer (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255) not null,
+        note varchar(255),
+        status TINYINT not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.transfer_variant (
+       transfer_id bigint not null,
+        variant_id bigint not null,
+        quantity integer not null,
+        primary key (transfer_id, variant_id)
+    ) engine=MyISAM;
+
     create table prod.unit (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -424,13 +505,44 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.variant_inventory_limit (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        maximum_limit integer,
+        minimum_limit integer,
+        variant_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.warehouse (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255) not null,
+        name varchar(255) not null,
+        status TINYINT not null,
+        address_id bigint,
+        primary key (id)
+    ) engine=MyISAM;
+
     alter table prod.category
        add constraint UK_hqknmjh5423vchi4xkyhxlhg2 unique (slug);
+
+    alter table prod.count
+       add constraint UK_18vr7dtwv2bmr0gya58j9aoem unique (code);
 
     alter table prod.customer
        add constraint UK_j7ja2xvrxudhvssosd4nu1o92 unique (user_id);
 
-    alter table prod.employee 
+    alter table prod.destination
+       add constraint UK_a99mkfyhl65vc2n78ijodyoje unique (address_id);
+
+    alter table prod.employee
        add constraint UK_mpps3d3r9pdvyjx3iqixi96fi unique (user_id);
 
     alter table prod.office 
@@ -451,14 +563,26 @@
     alter table prod.tag
        add constraint UK_1afk1y1o95l8oxxjxsqvelm3o unique (slug);
 
+    alter table prod.transfer
+       add constraint UK_pvng2ahmu3ketx3y7xm2cbssc unique (code);
+
     alter table prod.user
        add constraint UK_dhlcfg8h1drrgu0irs1ro3ohb unique (address_id);
 
     alter table prod.variant
        add constraint UK_llpabmolrn143l5uh3dp92bgy unique (sku);
 
+    alter table prod.variant_inventory_limit
+       add constraint UK_shw9q4qx2l9f0jgminqo19351 unique (variant_id);
+
+    alter table prod.warehouse
+       add constraint UK_9wk4ocyt0wv0hpffpr41aoweu unique (code);
+
+    alter table prod.warehouse
+       add constraint UK_5hyew1b3bewu839bc54o2jo05 unique (address_id);
+
     alter table prod.address
-       add constraint FKqbjwfi50pdenou8j14knnffrh 
+       add constraint FKqbjwfi50pdenou8j14knnffrh
        foreign key (district_id) 
        references prod.district (id);
 
@@ -472,7 +596,22 @@
        foreign key (category_id) 
        references prod.category (id);
 
-    alter table prod.customer 
+    alter table prod.count
+       add constraint FK5fvpdf9v0472mrnb22hqihg8l
+       foreign key (warehouse_id)
+       references prod.warehouse (id);
+
+    alter table prod.count_variant
+       add constraint FKtbly4gx9isdexbdsk58sqs0m0
+       foreign key (count_id)
+       references prod.count (id);
+
+    alter table prod.count_variant
+       add constraint FK36g86gt9dsdw5pjayqqlgsfgq
+       foreign key (variant_id)
+       references prod.variant (id);
+
+    alter table prod.customer
        add constraint FK9ogndo8hll7edx5iloyu2uegy 
        foreign key (customer_group_id) 
        references prod.customer_group (id);
@@ -492,7 +631,12 @@
        foreign key (user_id) 
        references prod.user (id);
 
-    alter table prod.district 
+    alter table prod.destination
+       add constraint FKn0obgfthaq1r8ku3ysej74yk
+       foreign key (address_id)
+       references prod.address (id);
+
+    alter table prod.district
        add constraint FK276utu38g5lgqeth6pwfm3rw2 
        foreign key (province_id) 
        references prod.province (id);
@@ -577,7 +721,17 @@
        foreign key (address_id) 
        references prod.address (id);
 
-    alter table prod.user 
+    alter table prod.transfer_variant
+       add constraint FK8nqj79dxjl442elxpc333pwj6
+       foreign key (transfer_id)
+       references prod.transfer (id);
+
+    alter table prod.transfer_variant
+       add constraint FKe9484a4kgr0i94tgycb8q517p
+       foreign key (variant_id)
+       references prod.variant (id);
+
+    alter table prod.user
        add constraint FKddefmvbrws3hvl5t0hnnsv8ox 
        foreign key (address_id) 
        references prod.address (id);
@@ -596,3 +750,13 @@
        add constraint FKjjpllnln6hk6hj98uesgxno00
        foreign key (product_id)
        references prod.product (id);
+
+    alter table prod.variant_inventory_limit
+       add constraint FKmyp7te4img1nhhmfwj7yr1ss7
+       foreign key (variant_id)
+       references prod.variant (id);
+
+    alter table prod.warehouse
+       add constraint FKp7xymgre8vt94ihf75e9movyt
+       foreign key (address_id)
+       references prod.address (id);
