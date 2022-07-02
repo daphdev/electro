@@ -56,7 +56,6 @@ function DistrictUpdate() {
                   required
                   label={DistrictConfigs.properties.provinceId.label}
                   placeholder="--"
-                  clearable
                   searchable
                   data={provinceSelectList}
                   {...form.getInputProps('provinceId')}

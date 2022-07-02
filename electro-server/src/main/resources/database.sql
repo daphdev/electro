@@ -59,9 +59,9 @@
         created_by bigint,
         updated_at datetime not null,
         updated_by bigint,
-        line varchar(255) not null,
-        district_id bigint not null,
-        province_id bigint not null,
+        line varchar(255),
+        district_id bigint,
+        province_id bigint,
         primary key (id)
     ) engine=MyISAM;
 
@@ -436,6 +436,9 @@
 
     alter table prod.user 
        add constraint UK_dhlcfg8h1drrgu0irs1ro3ohb unique (address_id);
+
+    alter table prod.variant 
+       add constraint UK_llpabmolrn143l5uh3dp92bgy unique (sku);
 
     alter table prod.address 
        add constraint FKqbjwfi50pdenou8j14knnffrh 

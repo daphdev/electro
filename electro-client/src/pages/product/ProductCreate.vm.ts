@@ -18,6 +18,7 @@ import TagConfigs from 'pages/tag/TagConfigs';
 import GuaranteeConfigs from 'pages/guarantee/GuaranteeConfigs';
 import { GuaranteeResponse } from 'models/Guarantee';
 import MiscUtils from 'utils/MiscUtils';
+import { useQueryClient } from 'react-query';
 
 function useProductCreateViewModel() {
   const form = useForm({
@@ -32,6 +33,7 @@ function useProductCreateViewModel() {
   const [tagSelectList, setTagSelectList] = useState<SelectOption[]>([]);
   const [guaranteeSelectList, setGuaranteeSelectList] = useState<SelectOption[]>([]);
 
+  const queryClient = useQueryClient();
   const createApi = useCreateApi<ProductRequest, ProductResponse>(ProductConfigs.resourceUrl);
   useGetAllApi<CategoryResponse>(CategoryConfigs.resourceUrl, CategoryConfigs.resourceKey,
     { all: 1 },
@@ -76,10 +78,12 @@ function useProductCreateViewModel() {
   useGetAllApi<TagResponse>(TagConfigs.resourceUrl, TagConfigs.resourceKey,
     { all: 1 },
     (tagListResponse) => {
-      const selectList: SelectOption[] = tagListResponse.content.map((item) => ({
-        value: String(item.id) + '#ORIGINAL',
-        label: item.name,
-      }));
+      const selectList: SelectOption[] = tagListResponse.content
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map((item) => ({
+          value: String(item.id) + '#ORIGINAL',
+          label: item.name,
+        }));
       setTagSelectList(selectList);
     }
   );
@@ -129,7 +133,15 @@ function useProductCreateViewModel() {
       weight: formValues.weight || null,
       guaranteeId: Number(formValues.guaranteeId) || null,
     };
-    createApi.mutate(requestBody);
+    createApi.mutate(requestBody, {
+      onSuccess: async (productResponse) => {
+        await queryClient.invalidateQueries([TagConfigs.resourceKey, 'getAll']);
+        const tags = productResponse.tags
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map((tag) => String(tag.id) + '#ORIGINAL');
+        form.setFieldValue('tags', tags);
+      },
+    });
   });
 
   const statusSelectList: SelectOption[] = [

@@ -19,6 +19,7 @@ import { TagResponse } from 'models/Tag';
 import TagConfigs from 'pages/tag/TagConfigs';
 import { GuaranteeResponse } from 'models/Guarantee';
 import GuaranteeConfigs from 'pages/guarantee/GuaranteeConfigs';
+import { useQueryClient } from 'react-query';
 
 function useProductUpdateViewModel(id: number) {
   const form = useForm({
@@ -35,9 +36,11 @@ function useProductUpdateViewModel(id: number) {
   const [tagSelectList, setTagSelectList] = useState<SelectOption[]>([]);
   const [guaranteeSelectList, setGuaranteeSelectList] = useState<SelectOption[]>([]);
 
+  const queryClient = useQueryClient();
   const updateApi = useUpdateApi<ProductRequest, ProductResponse>(ProductConfigs.resourceUrl, ProductConfigs.resourceKey, id);
   useGetByIdApi<ProductResponse>(ProductConfigs.resourceUrl, ProductConfigs.resourceKey, id,
-    (productResponse) => {
+    async (productResponse) => {
+      await queryClient.invalidateQueries([TagConfigs.resourceKey, 'getAll']);
       setProduct(productResponse);
       const formValues: typeof form.values = {
         name: productResponse.name,
@@ -108,10 +111,12 @@ function useProductUpdateViewModel(id: number) {
   useGetAllApi<TagResponse>(TagConfigs.resourceUrl, TagConfigs.resourceKey,
     { all: 1 },
     (tagListResponse) => {
-      const selectList: SelectOption[] = tagListResponse.content.map((item) => ({
-        value: String(item.id) + '#ORIGINAL',
-        label: item.name,
-      }));
+      const selectList: SelectOption[] = tagListResponse.content
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map((item) => ({
+          value: String(item.id) + '#ORIGINAL',
+          label: item.name,
+        }));
       setTagSelectList(selectList);
     }
   );

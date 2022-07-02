@@ -13,55 +13,46 @@ import { RoleResponse } from 'models/Role';
 import RoleConfigs from 'pages/role/RoleConfigs';
 
 function useUserCreateViewModel() {
-  const createApi = useCreateApi<UserRequest, UserResponse>(UserConfigs.resourceUrl);
-  const { data: provinceListResponse } = useGetAllApi<ProvinceResponse>(
-    ProvinceConfigs.resourceUrl,
-    ProvinceConfigs.resourceKey,
-    { all: 1 }
-  );
-  const { data: districtListResponse } = useGetAllApi<DistrictResponse>(
-    DistrictConfigs.resourceUrl,
-    DistrictConfigs.resourceKey,
-    { all: 1 }
-  );
-  const { data: roleListResponse } = useGetAllApi<RoleResponse>(
-    RoleConfigs.resourceUrl,
-    RoleConfigs.resourceKey,
-    { sort: 'id,asc', all: 1 }
-  );
-
-  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>();
-  const [districtSelectList, setDistrictSelectList] = useState<SelectOption[]>();
-  const [roleSelectList, setRoleSelectList] = useState<SelectOption[]>();
-
   const form = useForm({
     initialValues: UserConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(UserConfigs.createUpdateFormSchema),
   });
 
-  if (!provinceSelectList && provinceListResponse) {
-    const selectList: SelectOption[] = provinceListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setProvinceSelectList(selectList);
-  }
+  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>([]);
+  const [districtSelectList, setDistrictSelectList] = useState<SelectOption[]>([]);
+  const [roleSelectList, setRoleSelectList] = useState<SelectOption[]>([]);
 
-  if (!districtSelectList && districtListResponse) {
-    const selectList: SelectOption[] = districtListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setDistrictSelectList(selectList);
-  }
-
-  if (!roleSelectList && roleListResponse) {
-    const selectList: SelectOption[] = roleListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setRoleSelectList(selectList);
-  }
+  const createApi = useCreateApi<UserRequest, UserResponse>(UserConfigs.resourceUrl);
+  useGetAllApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey,
+    { all: 1 },
+    (provinceListResponse) => {
+      const selectList: SelectOption[] = provinceListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setProvinceSelectList(selectList);
+    }
+  );
+  useGetAllApi<DistrictResponse>(DistrictConfigs.resourceUrl, DistrictConfigs.resourceKey,
+    { all: 1 },
+    (districtListResponse) => {
+      const selectList: SelectOption[] = districtListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setDistrictSelectList(selectList);
+    }
+  );
+  useGetAllApi<RoleResponse>(RoleConfigs.resourceUrl, RoleConfigs.resourceKey,
+    { sort: 'id,asc', all: 1 },
+    (roleListResponse) => {
+      const selectList: SelectOption[] = roleListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setRoleSelectList(selectList);
+    }
+  );
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     const requestBody: UserRequest = {

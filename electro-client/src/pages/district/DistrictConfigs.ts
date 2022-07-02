@@ -52,7 +52,7 @@ class DistrictConfigs extends Configs {
   static initialCreateUpdateFormValues = {
     name: '',
     code: '',
-    provinceId: '',
+    provinceId: null as string | null,
   };
 
   static createUpdateFormSchema = z.object({

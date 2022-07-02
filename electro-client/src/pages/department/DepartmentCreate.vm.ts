@@ -5,12 +5,12 @@ import useCreateApi from 'hooks/use-create-api';
 import { SelectOption } from 'types';
 
 function useDepartmentCreateViewModel() {
-  const createApi = useCreateApi<DepartmentRequest, DepartmentResponse>(DepartmentConfigs.resourceUrl);
-
   const form = useForm({
     initialValues: DepartmentConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(DepartmentConfigs.createUpdateFormSchema),
   });
+
+  const createApi = useCreateApi<DepartmentRequest, DepartmentResponse>(DepartmentConfigs.resourceUrl);
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     const requestBody: DepartmentRequest = {

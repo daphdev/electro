@@ -5,12 +5,12 @@ import useCreateApi from 'hooks/use-create-api';
 import { SelectOption } from 'types';
 
 function useJobTypeCreateViewModel() {
-  const createApi = useCreateApi<JobTypeRequest, JobTypeResponse>(JobTypeConfigs.resourceUrl);
-
   const form = useForm({
     initialValues: JobTypeConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(JobTypeConfigs.createUpdateFormSchema),
   });
+
+  const createApi = useCreateApi<JobTypeRequest, JobTypeResponse>(JobTypeConfigs.resourceUrl);
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     const requestBody: JobTypeRequest = {
