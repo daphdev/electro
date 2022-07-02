@@ -216,4 +216,12 @@ public interface SearchFields {
             "cost",
             "price"
     );
+
+    List<String> PRODUCT_INVENTORY_LIMIT = List.of(
+            "product.name",
+            "product.code",
+            "product.category.name",
+            "minimumLimit",
+            "maximumLimit"
+    );
 }

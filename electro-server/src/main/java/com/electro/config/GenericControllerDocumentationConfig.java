@@ -45,7 +45,8 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("brands"))
                 .and(generateRoute("specifications"))
                 .and(generateRoute("products"))
-                .and(generateRoute("variants"));
+                .and(generateRoute("variants"))
+                .and(generateRoute("product-inventory-limits"));
     }
 
     private RouterFunction<ServerResponse> generateRoute(String resource) {
