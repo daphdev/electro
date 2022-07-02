@@ -32,7 +32,6 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -140,8 +139,8 @@ public class MapperUtils {
     }
 
     @Named("mapWarehouseIdToWarehouse")
-    public Warehouse mapWarehouseIdToWarehouse(@Nullable Long id) {
-        return (id == null) ? null : (Warehouse) new Warehouse().setId(id);
+    public Warehouse mapWarehouseIdToWarehouse(Long id) {
+        return (Warehouse) new Warehouse().setId(id);
     }
 
     @AfterMapping

@@ -23,20 +23,19 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "transfer_variant")
 public class TransferVariant {
-
     @EmbeddedId
     private TransferVariantKey transferVariantKey = new TransferVariantKey();
 
     @ManyToOne
     @MapsId("transferId")
-    @JoinColumn(name = "transfer_id")
+    @JoinColumn(name = "transfer_id", nullable = false)
     private Transfer transfer;
 
     @ManyToOne
     @MapsId("variantId")
-    @JoinColumn(name = "variant_id")
+    @JoinColumn(name = "variant_id", nullable = false)
     private Variant variant;
 
-    @Column(name = "quantity", nullable = false, columnDefinition = "TINYINT")
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
 }

@@ -38,8 +38,8 @@ import com.electro.dto.inventory.CountVariantRequest;
 import com.electro.dto.inventory.CountVariantResponse;
 import com.electro.dto.inventory.DestinationRequest;
 import com.electro.dto.inventory.DestinationResponse;
-import com.electro.dto.inventory.DockerReasonRequest;
-import com.electro.dto.inventory.DockerReasonResponse;
+import com.electro.dto.inventory.DocketReasonRequest;
+import com.electro.dto.inventory.DocketReasonResponse;
 import com.electro.dto.inventory.TransferRequest;
 import com.electro.dto.inventory.TransferResponse;
 import com.electro.dto.inventory.TransferVariantRequest;
@@ -218,7 +218,7 @@ public class GenericMappingRegister {
     private GenericController<WarehouseRequest, WarehouseResponse> warehouseController;
     private GenericController<CountRequest, CountResponse> countController;
     private GenericController<DestinationRequest, DestinationResponse> destinationController;
-    private GenericController<DockerReasonRequest, DockerReasonResponse> docketReasonController;
+    private GenericController<DocketReasonRequest, DocketReasonResponse> docketReasonController;
     private GenericController<TransferVariantRequest, TransferVariantResponse> transferVariantController;
     private GenericController<TransferRequest, TransferResponse> transferController;
 
@@ -250,9 +250,9 @@ public class GenericMappingRegister {
     private GenericService<VariantInventoryLimit, VariantInventoryLimitRequest, VariantInventoryLimitResponse> variantInventoryLimitService;
     private GenericService<CountVariant, CountVariantRequest, CountVariantResponse> countVariantService;
     private GenericService<Warehouse, WarehouseRequest, WarehouseResponse> warehouseService;
-    private GenericService<Count, CountRequest,CountResponse> countService;
-    private GenericService<Destination, DestinationRequest,DestinationResponse> destinationService;
-    private GenericService<DocketReason, DockerReasonRequest,DockerReasonResponse> docketReasonService;
+    private GenericService<Count, CountRequest, CountResponse> countService;
+    private GenericService<Destination, DestinationRequest, DestinationResponse> destinationService;
+    private GenericService<DocketReason, DocketReasonRequest, DocketReasonResponse> docketReasonService;
     private GenericService<TransferVariant, TransferVariantRequest, TransferVariantResponse> transferVariantService;
     private GenericService<Transfer, TransferRequest, TransferResponse> transferService;
 
@@ -429,7 +429,7 @@ public class GenericMappingRegister {
                 ResourceName.VARIANT
         ), VariantRequest.class);
 
-        register("variant-inventory-limit", variantInventoryLimitController, variantInventoryLimitService.init(
+        register("variant-inventory-limits", variantInventoryLimitController, variantInventoryLimitService.init(
                 context.getBean(VariantInventoryLimitRepository.class),
                 context.getBean(VariantInventoryLimitMapper.class),
                 SearchFields.VARIANT_INVENTORY_LIMIT,
@@ -469,7 +469,7 @@ public class GenericMappingRegister {
                 context.getBean(DocketReasonMapper.class),
                 SearchFields.DOCKET_REASON,
                 ResourceName.DOCKET_REASON
-        ), DockerReasonRequest.class);
+        ), DocketReasonRequest.class);
 
         register("transfer-variants", transferVariantController, transferVariantService.init(
                 context.getBean(TransferVariantRepository.class),
@@ -484,7 +484,6 @@ public class GenericMappingRegister {
                 SearchFields.TRANSFER,
                 ResourceName.TRANSFER
         ), TransferRequest.class);
-
 
     }
 

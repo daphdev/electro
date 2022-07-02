@@ -27,12 +27,11 @@ import java.util.Set;
 @Entity
 @Table(name = "count")
 public class Count extends BaseEntity {
-
-    @Column(name = "code")
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "warehouse_id")
+    @JoinColumn(name = "warehouse_id", nullable = false)
     @JsonBackReference
     private Warehouse warehouse;
 

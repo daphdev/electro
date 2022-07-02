@@ -115,18 +115,18 @@
         created_by bigint,
         updated_at datetime not null,
         updated_by bigint,
-        code varchar(255),
+        code varchar(255) not null,
         note varchar(255),
         status TINYINT not null,
-        warehouse_id bigint,
+        warehouse_id bigint not null,
         primary key (id)
     ) engine=MyISAM;
 
     create table prod.count_variant (
        count_id bigint not null,
         variant_id bigint not null,
-        actual_inventory TINYINT not null,
-        inventory TINYINT not null,
+        actual_inventory integer not null,
+        inventory integer not null,
         primary key (count_id, variant_id)
     ) engine=MyISAM;
 
@@ -206,7 +206,7 @@
         contact_fullname varchar(255),
         contact_phone varchar(255),
         status TINYINT not null,
-        address_id bigint,
+        address_id bigint not null,
         primary key (id)
     ) engine=MyISAM;
 
@@ -228,8 +228,8 @@
         created_by bigint,
         updated_at datetime not null,
         updated_by bigint,
-        name varchar(255),
-        status integer,
+        name varchar(255) not null,
+        status TINYINT not null,
         primary key (id)
     ) engine=MyISAM;
 
@@ -427,7 +427,7 @@
         created_by bigint,
         updated_at datetime not null,
         updated_by bigint,
-        code varchar(255),
+        code varchar(255) not null,
         note varchar(255),
         status TINYINT not null,
         primary key (id)
@@ -436,7 +436,7 @@
     create table prod.transfer_variant (
        transfer_id bigint not null,
         variant_id bigint not null,
-        quantity TINYINT not null,
+        quantity integer not null,
         primary key (transfer_id, variant_id)
     ) engine=MyISAM;
 
@@ -509,8 +509,8 @@
         created_by bigint,
         updated_at datetime not null,
         updated_by bigint,
-        code varchar(255),
-        name varchar(255),
+        code varchar(255) not null,
+        name varchar(255) not null,
         status TINYINT not null,
         address_id bigint,
         primary key (id)
@@ -518,6 +518,9 @@
 
     alter table prod.category 
        add constraint UK_hqknmjh5423vchi4xkyhxlhg2 unique (slug);
+
+    alter table prod.count 
+       add constraint UK_18vr7dtwv2bmr0gya58j9aoem unique (code);
 
     alter table prod.customer 
        add constraint UK_j7ja2xvrxudhvssosd4nu1o92 unique (user_id);
@@ -543,11 +546,17 @@
     alter table prod.tag 
        add constraint UK_1afk1y1o95l8oxxjxsqvelm3o unique (slug);
 
+    alter table prod.transfer 
+       add constraint UK_pvng2ahmu3ketx3y7xm2cbssc unique (code);
+
     alter table prod.user 
        add constraint UK_dhlcfg8h1drrgu0irs1ro3ohb unique (address_id);
 
     alter table prod.variant_inventory_limit 
        add constraint UK_shw9q4qx2l9f0jgminqo19351 unique (variant_id);
+
+    alter table prod.warehouse 
+       add constraint UK_9wk4ocyt0wv0hpffpr41aoweu unique (code);
 
     alter table prod.warehouse 
        add constraint UK_5hyew1b3bewu839bc54o2jo05 unique (address_id);

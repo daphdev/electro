@@ -19,14 +19,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "docket_reason")
 public class DocketReason extends BaseEntity {
-
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
+    private Integer status;
 
 //    @OneToMany(mappedBy = "reason", cascade = CascadeType.ALL, orphanRemoval = true)
 //    @JsonManagedReference
 //    private List<Docket> dockets = new ArrayList<>();
-
-    @Column(name = "status")
-    private Integer status;
 }

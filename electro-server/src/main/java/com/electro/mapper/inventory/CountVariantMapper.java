@@ -20,4 +20,5 @@ public interface CountVariantMapper extends GenericMapper<CountVariant, CountVar
     @Override
     @Mapping(source = "variantId", target = "variant", qualifiedByName = "mapVariantIdToVariant")
     CountVariant partialUpdate(@MappingTarget CountVariant entity, CountVariantRequest request);
+
 }

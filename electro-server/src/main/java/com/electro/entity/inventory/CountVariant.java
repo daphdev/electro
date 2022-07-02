@@ -23,24 +23,22 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "count_variant")
 public class CountVariant {
-
     @EmbeddedId
     private CountVariantKey countVariantKey = new CountVariantKey();
 
     @ManyToOne
     @MapsId("countId")
-    @JoinColumn(name = "count_id")
+    @JoinColumn(name = "count_id", nullable = false)
     private Count count;
 
     @ManyToOne
     @MapsId("variantId")
-    @JoinColumn(name = "variant_id")
+    @JoinColumn(name = "variant_id", nullable = false)
     private Variant variant;
 
-    @Column(name = "actual_inventory", nullable = false, columnDefinition = "TINYINT")
-    private Integer actualInventory;
-
-    @Column(name = "inventory", nullable = false, columnDefinition = "TINYINT")
+    @Column(name = "inventory", nullable = false)
     private Integer inventory;
 
+    @Column(name = "actual_inventory", nullable = false)
+    private Integer actualInventory;
 }

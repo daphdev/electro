@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class DestinationRequest {
-    private String contactFullName;
+    private String contactFullname;
     private String contactEmail;
     private String contactPhone;
     private AddressRequest address;

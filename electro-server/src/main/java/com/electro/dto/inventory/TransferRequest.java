@@ -10,5 +10,4 @@ public class TransferRequest {
     private Set<TransferVariantRequest> transferVariants;
     private String note;
     private Integer status;
-
 }

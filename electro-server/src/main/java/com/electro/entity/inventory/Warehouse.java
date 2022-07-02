@@ -28,11 +28,10 @@ import java.util.List;
 @Entity
 @Table(name = "warehouse")
 public class Warehouse extends BaseEntity {
-
-    @Column(name = "code")
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -45,5 +44,4 @@ public class Warehouse extends BaseEntity {
     @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Count> counts = new ArrayList<>();
-
 }

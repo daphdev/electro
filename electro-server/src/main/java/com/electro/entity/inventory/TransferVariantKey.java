@@ -9,11 +9,11 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
-@Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Embeddable
 public class TransferVariantKey implements Serializable {
     @Column(name = "transfer_id", nullable = false)
     Long transferId;

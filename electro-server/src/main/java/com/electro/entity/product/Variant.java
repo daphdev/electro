@@ -59,7 +59,7 @@ public class Variant extends BaseEntity {
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
 
-    @OneToOne(mappedBy = "variant")
+    @OneToOne(mappedBy = "variant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private VariantInventoryLimit variantInventoryLimit;
 
     @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)

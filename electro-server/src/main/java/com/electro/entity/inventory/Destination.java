@@ -24,9 +24,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "destination")
 public class Destination extends BaseEntity {
-
     @Column(name = "contact_fullname")
-    private String contactFullName;
+    private String contactFullname;
 
     @Column(name = "contact_email")
     private String contactEmail;
@@ -34,9 +33,8 @@ public class Destination extends BaseEntity {
     @Column(name = "contact_phone")
     private String contactPhone;
 
-
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id", referencedColumnName = "id", unique = true)
+    @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false, unique = true)
     private Address address;
 
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")

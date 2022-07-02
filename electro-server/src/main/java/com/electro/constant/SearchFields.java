@@ -219,23 +219,24 @@ public interface SearchFields {
     );
 
     List<String> VARIANT_INVENTORY_LIMIT = List.of(
-            "minimumLimit",
-            "maximumLimit",
             "variant.product.name",
             "variant.product.code",
             "variant.sku",
             "variant.cost",
-            "variant.price"
+            "variant.price",
+            "minimumLimit",
+            "maximumLimit"
     );
 
     List<String> COUNT_VARIANT = List.of(
-            "actualInventory",
-            "inventory",
+            "count.code",
             "variant.product.name",
             "variant.product.code",
             "variant.sku",
             "variant.cost",
-            "variant.price"
+            "variant.price",
+            "inventory",
+            "actualInventory"
     );
 
     List<String> WAREHOUSE = List.of(
@@ -255,7 +256,7 @@ public interface SearchFields {
     );
 
     List<String> DESTINATION = List.of(
-            "contactFullName",
+            "contactFullname",
             "contactEmail",
             "contactPhone",
             "address.line",
@@ -270,15 +271,16 @@ public interface SearchFields {
     );
 
     List<String> TRANSFER_VARIANT = List.of(
-            "quantity",
+            "transfer.code",
             "variant.product.name",
             "variant.product.code",
             "variant.sku",
             "variant.cost",
-            "variant.price"
+            "variant.price",
+            "quantity"
     );
 
-    List<String>  TRANSFER = List.of(
-            "quantity"
+    List<String> TRANSFER = List.of(
+            "code"
     );
 }

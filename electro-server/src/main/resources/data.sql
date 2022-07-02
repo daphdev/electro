@@ -287,14 +287,14 @@ insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum
 insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 2, 2, 10);
 insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 3, 1, 10);
 
--- ware_house TABLE: 5 record
+-- warehouse TABLE: 5 records
 insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2022-03-16 18:12:55', '2021-11-08 04:05:32', '63323-466', 'Wrapsafe', 23, 2);
 insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2022-05-28 12:11:14', '2022-02-25 15:13:22', '35356-773', 'Subin', 22, 2);
 insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2021-10-16 15:47:15', '2021-08-28 18:03:44', '59667-0030', 'Latlux', 25, 1);
 insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2022-04-20 01:31:33', '2021-12-24 04:20:06', '55154-2677', 'Sonair', 26, 3);
 insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2022-03-11 00:56:16', '2022-01-16 14:08:35', '49884-412', 'Viva', 24, 2);
 
--- count table: 5 record
+-- count TABLE: 5 records
 insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2022-02-11 02:17:56', '2022-06-10 08:38:27', '58118-0268', 4, 'Shikoku Christian College', 3);
 insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-09-27 04:07:17', '2022-06-06 09:44:39', '58517-440', 3, 'Universitas Paramadina Mulya', 3);
 insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-12-23 11:30:25', '2022-03-11 09:56:07', '66097-003', 4, 'Bangladesh University of Engineering and Technology', 2);
@@ -302,29 +302,29 @@ insert into count (created_at, updated_at, code, warehouse_id, note, status) val
 insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-07-10 22:24:16', '2022-03-04 03:33:40', '51668-402', 2, 'Universidad Tecnológica del Peru', 1);
 
 -- count_variant TABLE: 3 records
-insert into count_variant ( count_id, variant_id, actual_inventory, inventory) values ( 1, 1, 32, 80);
-insert into count_variant ( count_id, variant_id, actual_inventory, inventory) values ( 1, 2, 57, 75);
-insert into count_variant ( count_id, variant_id, actual_inventory, inventory) values ( 1, 3, 30, 37);
+insert into count_variant (count_id, variant_id, actual_inventory, inventory) values (1, 1, 32, 80);
+insert into count_variant (count_id, variant_id, actual_inventory, inventory) values (1, 2, 57, 75);
+insert into count_variant (count_id, variant_id, actual_inventory, inventory) values (1, 3, 30, 37);
 
--- destination: 4 record
+-- destination TABLE: 4 records
 insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-10-18 02:13:21', '2022-01-15 02:02:33', 'Zoozzy', 'jdaulby0@chron.com', '03123131231', 21, 1);
 insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-08-10 10:26:25', '2021-11-25 01:59:50', 'Jazzy', 'saleksandrov1@twitp   ic.com', '03123131231', 22, 2);
 insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-10-19 18:02:53', '2022-02-25 21:47:06', 'Gabcube', 'gnegus2@nationalgeographic.com', '03123131231', 23, 2);
 insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-12-30 15:41:07', '2021-11-03 07:49:17', 'Vinte', 'gmanders3@bandcamp.com', '03123131231', 24, 3);
 
--- docker_reason: 4 record
+-- docket_reason TABLE: 4 records
 insert into docket_reason (created_at, updated_at, name, status) values ('2022-01-02 15:22:57', '2021-12-18 19:24:30', 'Youspan', 1);
 insert into docket_reason (created_at, updated_at, name, status) values ('2022-03-31 11:59:41', '2021-09-16 04:19:25', 'Gabspot', 3);
 insert into docket_reason (created_at, updated_at, name, status) values ('2022-02-02 14:35:04', '2022-06-11 18:05:41', 'Fanoodle', 3);
 insert into docket_reason (created_at, updated_at, name, status) values ('2021-09-13 15:19:28', '2021-10-11 10:36:10', 'Brainbox', 2);
 
---  transfer: 4 record
+--  transfer TABLE: 4 records
 insert into transfer (created_at, updated_at, code, note, status) values ('2022-07-01 14:16:33', '2021-12-02 23:53:14', '0642-0076', 'Excision of Right Lower Leg Tendon, Open Approach', 2);
 insert into transfer (created_at, updated_at, code, note, status) values ('2021-08-20 08:29:19', '2021-07-02 02:52:07', '10812-201', 'Revision of Ext Fix in R Humeral Head, Extern Approach', 3);
 insert into transfer (created_at, updated_at, code, note, status) values ('2021-09-09 05:27:20', '2022-01-29 01:01:33', '48951-3139', 'Resection of Liver, Percutaneous Endoscopic Approach', 1);
 insert into transfer (created_at, updated_at, code, note, status) values ('2022-05-11 01:20:38', '2022-01-05 09:40:39', '68084-784', 'Drainage of R Great Saphenous with Drain Dev, Perc Approach', 3);
 
---transfer_variant: 4 record
+-- transfer_variant TABLE: 4 records
 insert into transfer_variant (quantity, transfer_id, variant_id) values (50, 1, 1);
 insert into transfer_variant (quantity, transfer_id, variant_id) values (51, 1, 2);
 insert into transfer_variant (quantity, transfer_id, variant_id) values (12, 1, 3);

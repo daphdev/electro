@@ -23,8 +23,7 @@ import java.util.Set;
 @Entity
 @Table(name = "transfer")
 public class Transfer extends BaseEntity {
-
-    @Column(name = "code")
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
 
     @OneToMany(mappedBy = "transfer", cascade = CascadeType.ALL)
@@ -35,6 +34,4 @@ public class Transfer extends BaseEntity {
 
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
-
-
 }
