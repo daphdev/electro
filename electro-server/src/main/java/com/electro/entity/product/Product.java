@@ -83,6 +83,6 @@ public class Product extends BaseEntity {
     @JsonManagedReference
     private List<Image> images;
 
-    @OneToOne(mappedBy = "product")
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private ProductInventoryLimit productInventoryLimit;
 }

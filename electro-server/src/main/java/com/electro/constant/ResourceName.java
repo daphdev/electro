@@ -26,6 +26,4 @@ public interface ResourceName {
     String BRAND = "Brand";
     String PRODUCT = "Product";
     String PRODUCT_INVENTORY_LIMIT = "ProductInventoryLimit";
-
-
 }

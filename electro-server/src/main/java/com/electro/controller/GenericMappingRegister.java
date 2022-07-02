@@ -366,7 +366,7 @@ public class GenericMappingRegister {
                 ResourceName.PRODUCT
         ), ProductRequest.class);
 
-        register("product-inventory-limit", productInventoryLimitController, productInventoryLimitService.init(
+        register("product-inventory-limits", productInventoryLimitController, productInventoryLimitService.init(
                 context.getBean(ProductInventoryLimitRepository.class),
                 context.getBean(ProductInventoryLimitMapper.class),
                 SearchFields.PRODUCT_INVENTORY_LIMIT,

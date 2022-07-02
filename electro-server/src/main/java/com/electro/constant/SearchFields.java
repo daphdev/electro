@@ -218,37 +218,11 @@ public interface SearchFields {
             "guarantee.description"
     );
 
-
     List<String> PRODUCT_INVENTORY_LIMIT = List.of(
-            "minimumLimit",
-            "maximumLimit",
             "product.name",
             "product.code",
-            "product.description",
             "product.category.name",
-            "product.category.description",
-            "product.brand.name",
-            "product.brand.code",
-            "product.brand.description",
-            "product.supplier.displayName",
-            "product.supplier.code",
-            "product.supplier.contactFullname",
-            "product.product.supplier.contactEmail",
-            "product.supplier.contactPhone",
-            "product.supplier.companyName",
-            "product.supplier.taxCode",
-            "product.supplier.email",
-            "product.supplier.phone",
-            "product.supplier.fax",
-            "product.supplier.website",
-            "product.supplier.address.line",
-            "product.supplier.address.province.name",
-            "product.supplier.address.province.code",
-            "product.supplier.address.district.name",
-            "product.supplier.address.district.code",
-            "product.supplier.description",
-            "product.unit.name",
-            "product.guarantee.name",
-            "product.guarantee.description"
+            "minimumLimit",
+            "maximumLimit"
     );
 }

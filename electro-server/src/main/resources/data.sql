@@ -277,7 +277,7 @@ insert into image (created_at, updated_at, name, product_id) values ('2022-05-01
 insert into image (created_at, updated_at, name, product_id) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'http://dummyimage.com/131x100.png/cc0000/ffffff3', 2);
 insert into image (created_at, updated_at, name, product_id) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'http://dummyimage.com/131x100.png/cc0000/ffffff3', 2);
 
--- product inventory limit: 5 record
+-- product_inventory_limit: 5 records
 insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 1, 4, 10);
 insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2022-03-19 07:44:19', '2021-09-18 00:00:22', 2, 4, 10);
 insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2022-04-13 16:55:03', '2021-08-29 12:08:00', 3, 1, 6);

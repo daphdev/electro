@@ -1,15 +1,12 @@
 package com.electro.entity.product;
 
 import com.electro.entity.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -21,14 +18,10 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Accessors(chain = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "product_inventory_limit")
 public class ProductInventoryLimit extends BaseEntity {
-
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false, unique = true)
     private Product product;
 
