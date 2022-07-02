@@ -9,7 +9,6 @@ DROP TABLE IF EXISTS
     user,
     role,
     user_role,
-    brand,
     office,
     department,
     job_level,
@@ -26,6 +25,7 @@ DROP TABLE IF EXISTS
     guarantee,
     unit,
     supplier,
+    brand,
     specification,
     product,
     product_tag,
@@ -127,6 +127,9 @@ CREATE TABLE `role`
     CONSTRAINT pk_role PRIMARY KEY (id)
 );
 
+ALTER TABLE `role`
+    ADD CONSTRAINT uc_role_code UNIQUE (code);
+
 CREATE TABLE user_role
 (
     user_id bigint not null,
@@ -135,178 +138,197 @@ CREATE TABLE user_role
 );
 
 ALTER TABLE user_role
-    ADD CONSTRAINT FK_USER__ROLE_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+    ADD CONSTRAINT FK_USER_ROLE_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
 
 ALTER TABLE user_role
-    ADD CONSTRAINT FK_USER__ROLE_ON_ROLE FOREIGN KEY (role_id) REFERENCES role (id);
+    ADD CONSTRAINT FK_USER_ROLE_ON_ROLE FOREIGN KEY (role_id) REFERENCES role (id);
 
-CREATE TABLE brand
+CREATE TABLE office
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    name       VARCHAR(255)          NOT NULL,
+    address_id BIGINT                NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_office PRIMARY KEY (id)
+);
+
+ALTER TABLE office
+    ADD CONSTRAINT uc_office_address UNIQUE (address_id);
+
+ALTER TABLE office
+    ADD CONSTRAINT FK_OFFICE_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES address (id);
+
+CREATE TABLE department
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    name       VARCHAR(255)          NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_department PRIMARY KEY (id)
+);
+
+CREATE TABLE job_level
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    name       VARCHAR(255)          NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_job_level PRIMARY KEY (id)
+);
+
+CREATE TABLE job_title
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    name       VARCHAR(255)          NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_job_title PRIMARY KEY (id)
+);
+
+CREATE TABLE job_type
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    name       VARCHAR(255)          NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_job_type PRIMARY KEY (id)
+);
+
+CREATE TABLE employee
 (
     id            BIGINT AUTO_INCREMENT NOT NULL,
     created_at    datetime              NOT NULL,
     updated_at    datetime              NOT NULL,
     created_by    BIGINT                NULL,
     updated_by    BIGINT                NULL,
+    user_id       BIGINT                NOT NULL,
+    office_id     BIGINT                NOT NULL,
+    department_id BIGINT                NOT NULL,
+    job_type_id   BIGINT                NOT NULL,
+    job_level_id  BIGINT                NOT NULL,
+    job_title_id  BIGINT                NOT NULL,
+    CONSTRAINT pk_employee PRIMARY KEY (id)
+);
+
+ALTER TABLE employee
+    ADD CONSTRAINT uc_employee_user UNIQUE (user_id);
+
+ALTER TABLE employee
+    ADD CONSTRAINT FK_EMPLOYEE_ON_DEPARTMENT FOREIGN KEY (department_id) REFERENCES department (id);
+
+ALTER TABLE employee
+    ADD CONSTRAINT FK_EMPLOYEE_ON_JOB_LEVEL FOREIGN KEY (job_level_id) REFERENCES job_level (id);
+
+ALTER TABLE employee
+    ADD CONSTRAINT FK_EMPLOYEE_ON_JOB_TITLE FOREIGN KEY (job_title_id) REFERENCES job_title (id);
+
+ALTER TABLE employee
+    ADD CONSTRAINT FK_EMPLOYEE_ON_JOB_TYPE FOREIGN KEY (job_type_id) REFERENCES job_type (id);
+
+ALTER TABLE employee
+    ADD CONSTRAINT FK_EMPLOYEE_ON_OFFICE FOREIGN KEY (office_id) REFERENCES office (id);
+
+ALTER TABLE employee
+    ADD CONSTRAINT FK_EMPLOYEE_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE customer_group
+(
+    id            BIGINT AUTO_INCREMENT NOT NULL,
+    created_at    datetime              NOT NULL,
+    updated_at    datetime              NOT NULL,
+    created_by    BIGINT                NULL,
+    updated_by    BIGINT                NULL,
+    code          VARCHAR(255)          NOT NULL,
     name          VARCHAR(255)          NOT NULL,
-    code          VARCHAR(35)           NOT NULL,
-    `description` VARCHAR(255)          NULL,
+    `description` VARCHAR(255)          NOT NULL,
+    color         VARCHAR(255)          NOT NULL,
     status        TINYINT               NOT NULL,
-    CONSTRAINT pk_brand PRIMARY KEY (id)
+    CONSTRAINT pk_customer_group PRIMARY KEY (id)
 );
 
-CREATE TABLE office (
-   id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   name VARCHAR(255) NOT NULL,
-   address_id BIGINT NOT NULL,
-   status TINYINT NOT NULL,
-   CONSTRAINT pk_office PRIMARY KEY (id)
+ALTER TABLE customer_group
+    ADD CONSTRAINT uc_customer_group_code UNIQUE (code);
+
+CREATE TABLE customer_resource
+(
+    id            BIGINT AUTO_INCREMENT NOT NULL,
+    created_at    datetime              NOT NULL,
+    updated_at    datetime              NOT NULL,
+    created_by    BIGINT                NULL,
+    updated_by    BIGINT                NULL,
+    code          VARCHAR(255)          NOT NULL,
+    name          VARCHAR(255)          NOT NULL,
+    `description` VARCHAR(255)          NOT NULL,
+    color         VARCHAR(255)          NOT NULL,
+    status        TINYINT               NOT NULL,
+    CONSTRAINT pk_customer_resource PRIMARY KEY (id)
 );
 
-ALTER TABLE office ADD CONSTRAINT uc_office_address UNIQUE (address_id);
+ALTER TABLE customer_resource
+    ADD CONSTRAINT uc_customer_resource_code UNIQUE (code);
 
-ALTER TABLE office ADD CONSTRAINT FK_OFFICE_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES address (id);
-
-CREATE TABLE department (
-   id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   name VARCHAR(255) NOT NULL,
-   status TINYINT NOT NULL,
-   CONSTRAINT pk_department PRIMARY KEY (id)
+CREATE TABLE customer_status
+(
+    id            BIGINT AUTO_INCREMENT NOT NULL,
+    created_at    datetime              NOT NULL,
+    updated_at    datetime              NOT NULL,
+    created_by    BIGINT                NULL,
+    updated_by    BIGINT                NULL,
+    code          VARCHAR(255)          NOT NULL,
+    name          VARCHAR(255)          NOT NULL,
+    `description` VARCHAR(255)          NOT NULL,
+    color         VARCHAR(255)          NOT NULL,
+    status        TINYINT               NOT NULL,
+    CONSTRAINT pk_customer_status PRIMARY KEY (id)
 );
 
-CREATE TABLE job_level (
-   id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   name VARCHAR(255) NOT NULL,
-   status TINYINT NOT NULL,
-   CONSTRAINT pk_job_lever PRIMARY KEY (id)
-);
+ALTER TABLE customer_status
+    ADD CONSTRAINT uc_customer_status_code UNIQUE (code);
 
-CREATE TABLE job_title (
-   id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   name VARCHAR(255) NOT NULL,
-   status TINYINT NOT NULL,
-   CONSTRAINT pk_job_title PRIMARY KEY (id)
-);
-
-CREATE TABLE job_type (
-   id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   name VARCHAR(255) NOT NULL,
-   status TINYINT NOT NULL,
-   CONSTRAINT pk_job_type PRIMARY KEY (id)
-);
-
-CREATE TABLE employee (
-   id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   user_id BIGINT NOT NULL,
-   office_id BIGINT NOT NULL,
-   department_id BIGINT NOT NULL,
-   job_type_id BIGINT NOT NULL,
-   job_level_id BIGINT NOT NULL,
-   job_title_id BIGINT NOT NULL,
-   CONSTRAINT pk_employee PRIMARY KEY (id)
-);
-
-ALTER TABLE employee ADD CONSTRAINT uc_employee_user UNIQUE (user_id);
-
-ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_DEPARTMENT FOREIGN KEY (department_id) REFERENCES department (id);
-
-ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_JOB_LEVEL FOREIGN KEY (job_level_id) REFERENCES job_level (id);
-
-ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_JOB_TITLE FOREIGN KEY (job_title_id) REFERENCES job_title (id);
-
-ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_JOB_TYPE FOREIGN KEY (job_type_id) REFERENCES job_type (id);
-
-ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_OFFICE FOREIGN KEY (office_id) REFERENCES office (id);
-
-ALTER TABLE employee ADD CONSTRAINT FK_EMPLOYEE_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
-
-CREATE TABLE `customer_group` (
-    id BIGINT AUTO_INCREMENT NOT NULL,
-    created_at datetime NOT NULL,
-    updated_at datetime NOT NULL,
-    created_by BIGINT NULL,
-    updated_by BIGINT NULL,
-    code VARCHAR(255) NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    `description` VARCHAR(255) NOT NULL,
-    color VARCHAR(255) NOT NULL,
-    status TINYINT NOT NULL,
-    CONSTRAINT `pk_customer-group` PRIMARY KEY (id)
-);
-
-CREATE TABLE `customer_resource` (
-    id BIGINT AUTO_INCREMENT NOT NULL,
-    created_at datetime NOT NULL,
-    updated_at datetime NOT NULL,
-    created_by BIGINT NULL,
-    updated_by BIGINT NULL,
-    code VARCHAR(255) NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    `description` VARCHAR(255) NOT NULL,
-    color VARCHAR(255) NOT NULL,
-    status TINYINT NOT NULL,
-    CONSTRAINT `pk_customer-resource` PRIMARY KEY (id)
-);
-
-CREATE TABLE `customer_status` (
-    id BIGINT AUTO_INCREMENT NOT NULL,
-    created_at datetime NOT NULL,
-    updated_at datetime NOT NULL,
-    created_by BIGINT NULL,
-    updated_by BIGINT NULL,
-    code VARCHAR(255) NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    `description` VARCHAR(255) NOT NULL,
-    color VARCHAR(255) NOT NULL,
-    status TINYINT NOT NULL,
-    CONSTRAINT `pk_customer-status` PRIMARY KEY (id)
-);
-
-CREATE TABLE customer (
-    id BIGINT AUTO_INCREMENT NOT NULL,
-    created_at datetime NOT NULL,
-    updated_at datetime NOT NULL,
-    created_by BIGINT NULL,
-    updated_by BIGINT NULL,
-    user_id BIGINT NOT NULL,
-    customer_group_id BIGINT NOT NULL,
-    customer_resource_id BIGINT NOT NULL,
-    customer_status_id BIGINT NOT NULL,
+CREATE TABLE customer
+(
+    id                   BIGINT AUTO_INCREMENT NOT NULL,
+    created_at           datetime              NOT NULL,
+    updated_at           datetime              NOT NULL,
+    created_by           BIGINT                NULL,
+    updated_by           BIGINT                NULL,
+    user_id              BIGINT                NOT NULL,
+    customer_group_id    BIGINT                NOT NULL,
+    customer_status_id   BIGINT                NOT NULL,
+    customer_resource_id BIGINT                NOT NULL,
     CONSTRAINT pk_customer PRIMARY KEY (id)
 );
 
-ALTER TABLE customer ADD CONSTRAINT uc_customer_user UNIQUE (user_id);
+ALTER TABLE customer
+    ADD CONSTRAINT uc_customer_user UNIQUE (user_id);
 
-ALTER TABLE customer ADD CONSTRAINT FK_CUSTOMER_ON_CUSTOMER_GROUP FOREIGN KEY (customer_group_id) REFERENCES customer_group (id);
+ALTER TABLE customer
+    ADD CONSTRAINT FK_CUSTOMER_ON_CUSTOMER_GROUP FOREIGN KEY (customer_group_id) REFERENCES customer_group (id);
 
-ALTER TABLE customer ADD CONSTRAINT FK_CUSTOMER_ON_CUSTOMER_RESOURCE FOREIGN KEY (customer_resource_id) REFERENCES customer_resource (id);
+ALTER TABLE customer
+    ADD CONSTRAINT FK_CUSTOMER_ON_CUSTOMER_RESOURCE FOREIGN KEY (customer_resource_id) REFERENCES customer_resource (id);
 
-ALTER TABLE customer ADD CONSTRAINT FK_CUSTOMER_ON_CUSTOMER_STATUS FOREIGN KEY (customer_status_id) REFERENCES customer_status (id);
+ALTER TABLE customer
+    ADD CONSTRAINT FK_CUSTOMER_ON_CUSTOMER_STATUS FOREIGN KEY (customer_status_id) REFERENCES customer_status (id);
 
-ALTER TABLE customer ADD CONSTRAINT FK_CUSTOMER_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+ALTER TABLE customer
+    ADD CONSTRAINT FK_CUSTOMER_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
 
 CREATE TABLE property
 (
@@ -414,7 +436,27 @@ ALTER TABLE supplier
     ADD CONSTRAINT uc_supplier_address UNIQUE (address_id);
 
 ALTER TABLE supplier
+    ADD CONSTRAINT uc_supplier_code UNIQUE (code);
+
+ALTER TABLE supplier
     ADD CONSTRAINT FK_SUPPLIER_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES address (id);
+
+CREATE TABLE brand
+(
+    id            BIGINT AUTO_INCREMENT NOT NULL,
+    created_at    datetime              NOT NULL,
+    updated_at    datetime              NOT NULL,
+    created_by    BIGINT                NULL,
+    updated_by    BIGINT                NULL,
+    name          VARCHAR(255)          NOT NULL,
+    code          VARCHAR(35)           NOT NULL,
+    `description` VARCHAR(255)          NULL,
+    status        TINYINT               NOT NULL,
+    CONSTRAINT pk_brand PRIMARY KEY (id)
+);
+
+ALTER TABLE brand
+    ADD CONSTRAINT uc_brand_code UNIQUE (code);
 
 CREATE TABLE specification
 (
@@ -429,6 +471,9 @@ CREATE TABLE specification
     status        TINYINT               NOT NULL,
     CONSTRAINT pk_specification PRIMARY KEY (id)
 );
+
+ALTER TABLE specification
+    ADD CONSTRAINT uc_specification_code UNIQUE (code);
 
 CREATE TABLE product
 (
@@ -480,15 +525,15 @@ ALTER TABLE product
 CREATE TABLE product_tag
 (
     product_id bigint not null,
-    tag_id bigint not null,
+    tag_id     bigint not null,
     primary key (product_id, tag_id)
 );
 
 ALTER TABLE product_tag
-    ADD CONSTRAINT FK_PRODUCT__TAG_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
+    ADD CONSTRAINT FK_PRODUCT_TAG_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
 
 ALTER TABLE product_tag
-    ADD CONSTRAINT FK_PRODUCT__TAG_ON_TAG FOREIGN KEY (tag_id) REFERENCES tag (id);
+    ADD CONSTRAINT FK_PRODUCT_TAG_ON_TAG FOREIGN KEY (tag_id) REFERENCES tag (id);
 
 CREATE TABLE variant
 (

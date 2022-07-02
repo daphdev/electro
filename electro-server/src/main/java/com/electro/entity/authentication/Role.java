@@ -22,7 +22,7 @@ import java.util.Set;
 @Entity
 @Table(name = "role")
 public class Role extends BaseEntity {
-    @Column(name = "code", nullable = false, length = 35)
+    @Column(name = "code", nullable = false, unique = true, length = 35)
     private String code;
 
     @Column(name = "name", nullable = false)

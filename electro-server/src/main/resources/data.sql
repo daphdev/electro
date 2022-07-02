@@ -1,5 +1,4 @@
 -- province TABLE: 10 records
-
 insert into province (created_at, updated_at, name, code) values ('2021-12-13 00:45:37', '2021-05-23 06:08:23', 'Ohio', '44111');
 insert into province (created_at, updated_at, name, code) values ('2021-05-27 13:31:51', '2021-07-11 13:59:28', 'Texas', '77090');
 insert into province (created_at, updated_at, name, code) values ('2021-10-21 16:31:59', '2021-10-23 06:46:37', 'Nevada', '89519');
@@ -12,7 +11,6 @@ insert into province (created_at, updated_at, name, code) values ('2022-04-14 20
 insert into province (created_at, updated_at, name, code) values ('2022-04-11 20:14:28', '2021-10-03 15:28:38', 'Illinois', '60158');
 
 -- district TABLE: 30 records
-
 insert into district (created_at, updated_at, name, code, province_id) values ('2022-04-21 10:13:00', '2021-05-16 21:13:23', 'Shelley', '#5169de', 7);
 insert into district (created_at, updated_at, name, code, province_id) values ('2022-04-22 00:20:29', '2021-09-19 14:41:03', 'Morningstar', '#fce716', 10);
 insert into district (created_at, updated_at, name, code, province_id) values ('2021-05-16 04:15:24', '2021-07-06 18:41:58', 'Pepper Wood', '#0ebaa3', 8);
@@ -45,7 +43,6 @@ insert into district (created_at, updated_at, name, code, province_id) values ('
 insert into district (created_at, updated_at, name, code, province_id) values ('2021-12-17 21:50:15', '2021-06-29 08:19:03', 'Mallard', '#ef7968', 2);
 
 -- address TABLE: 30 records
-
 insert into address (created_at, updated_at, line, province_id, district_id) values ('2021-09-29 21:58:33', '2021-07-30 14:27:56', '140 Commercial Way', 7, 28);
 insert into address (created_at, updated_at, line, province_id, district_id) values ('2021-08-22 21:08:28', '2021-08-31 07:42:14', '9121 Calypso Street', 7, 26);
 insert into address (created_at, updated_at, line, province_id, district_id) values ('2021-08-15 21:35:21', '2022-04-08 22:22:57', '59 Del Sol Road', 10, 2);
@@ -78,7 +75,6 @@ insert into address (created_at, updated_at, line, province_id, district_id) val
 insert into address (created_at, updated_at, line, province_id, district_id) values ('2021-10-06 19:21:11', '2022-05-03 08:50:28', '02 Moland Court', 9, 10);
 
 -- user TABLE: 20 records
-
 insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2021-10-05 07:30:07', '2021-06-03 16:38:23', 'dnucator0', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Dolly Nucator', 'dnucator0@prweb.com', '734-215-9112', 'M', 1, 'http://dummyimage.com/138x100.png/dddddd/000000', 1);
 insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2022-01-07 17:51:29', '2022-02-24 10:37:18', 'jgratten1', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Jose Gratten', 'jgratten1@google.co.jp', '793-799-2738', 'F', 2, 'http://dummyimage.com/222x100.png/ff4444/ffffff', 1);
 insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2021-11-30 21:45:42', '2022-03-05 17:40:25', 'ethuillier2', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Ermin Thuillier', 'ethuillier2@jimdo.com', '783-937-1723', 'M', 3, null, 2);
@@ -101,21 +97,110 @@ insert into user (created_at, updated_at, username, password, fullname, email, p
 insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2022-04-09 11:43:10', '2021-12-29 05:46:21', 'jclearj', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Jsandye Clear', 'jclearj@shinystat.com', '256-635-2585', 'M', 20, null, 3);
 
 -- role TABLE: 3 records
-
 INSERT INTO `role` (`created_at`, `updated_at`, `code`, `name`, `status`) VALUES ('1971-04-11 07:45:46', '2006-04-26 03:05:23', 'ADMIN', 'Quản trị viên', 1);
 INSERT INTO `role` (`created_at`, `updated_at`, `code`, `name`, `status`) VALUES ('1995-08-23 17:15:34', '1983-06-18 03:01:29', 'EMPLOYEE', 'Nhân viên', 1);
 INSERT INTO `role` (`created_at`, `updated_at`, `code`, `name`, `status`) VALUES ('1989-01-25 23:05:02', '2001-01-13 09:01:36', 'CUSTOMER', 'Khách hàng', 1);
 
 -- user_role TABLE: 5 records
-
 insert into user_role (user_id, role_id) values (1, 1);
 insert into user_role (user_id, role_id) values (1, 2);
 insert into user_role (user_id, role_id) values (2, 1);
 insert into user_role (user_id, role_id) values (3, 2);
 insert into user_role (user_id, role_id) values (4, 3);
 
--- brand TABLE: 50 records
+-- office TABLE: 5 records
+insert into office (created_at, updated_at, name, address_id, status) values ('2021-09-21 07:19:24', '2021-08-26 17:40:14', 'Talane', 1, 3);
+insert into office (created_at, updated_at, name, address_id, status) values ('2021-07-09 08:07:20', '2021-10-23 08:36:12', 'Skyndu', 2, 1);
+insert into office (created_at, updated_at, name, address_id, status) values ('2021-06-29 10:10:15', '2021-09-21 22:05:41', 'Yadel', 3, 2);
+insert into office (created_at, updated_at, name, address_id, status) values ('2021-09-14 21:49:48', '2022-02-11 03:03:22', 'BlogXS', 4, 1);
+insert into office (created_at, updated_at, name, address_id, status) values ('2021-08-18 11:44:50', '2021-07-19 19:33:23', 'BlogXS', 5, 3);
 
+-- department TABLE: 5 records
+insert into department (created_at, updated_at, name, status) values ('2022-06-02 00:50:54', '2021-09-28 15:01:05', 'Legal', 1);
+insert into department (created_at, updated_at, name, status) values ('2022-05-21 23:55:27', '2022-01-06 07:26:20', 'Training', 2);
+insert into department (created_at, updated_at, name, status) values ('2021-11-02 02:55:33', '2021-11-28 21:13:39', 'Human Resources', 3);
+insert into department (created_at, updated_at, name, status) values ('2021-08-07 23:28:26', '2021-11-20 15:29:28', 'Support', 3);
+insert into department (created_at, updated_at, name, status) values ('2021-10-21 01:50:28', '2021-08-01 01:58:22', 'Human Resources', 2);
+
+-- job_type TABLE: 2 records
+insert into job_type (created_at, updated_at, name, status) values ('2021-09-11 23:37:21', '2021-08-20 10:54:26', 'Full time', 1);
+insert into job_type (created_at, updated_at, name, status) values ('2021-12-08 16:13:12', '2022-03-26 19:37:23', 'part time', 1);
+
+-- job_level TABLE: 4 records
+insert into job_level (created_at, updated_at, name, status) values ('2021-09-11 23:37:21', '2021-08-20 10:54:26', 'Senior', 1);
+insert into job_level (created_at, updated_at, name, status) values ('2021-12-08 16:13:12', '2022-03-26 19:37:23', 'Master', 2);
+insert into job_level (created_at, updated_at, name, status) values ('2022-01-20 12:14:44', '2021-08-30 12:29:20', 'Intern', 3);
+insert into job_level (created_at, updated_at, name, status) values ('2022-02-08 19:12:42', '2021-09-16 21:32:18', 'Fresher', 1);
+
+-- job_title TABLE: 5 records
+insert into job_title (created_at, updated_at, name, status) values ('2021-09-11 23:37:21', '2021-08-20 10:54:26', 'Marketing Manager', 1);
+insert into job_title (created_at, updated_at, name, status) values ('2021-12-08 16:13:12', '2022-03-26 19:37:23', 'Librarian', 1);
+insert into job_title (created_at, updated_at, name, status) values ('2022-01-20 12:14:44', '2021-08-30 12:29:20', 'Chemical Engineer', 3);
+insert into job_title (created_at, updated_at, name, status) values ('2022-02-08 19:12:42', '2021-09-16 21:32:18', 'Paralegal', 1);
+insert into job_title (created_at, updated_at, name, status) values ('2022-03-29 23:30:36', '2022-01-15 11:44:18', 'Compensation Analyst', 3);
+
+-- employee: 5 records
+insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2021-09-04 07:46:15', '2021-11-10 11:49:52', 1, 4, 5, 2, 3, 4);
+insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2022-02-14 23:37:02', '2021-11-28 11:18:18', 2, 5, 3, 1, 1, 3);
+insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2021-08-18 01:02:24', '2021-11-25 18:57:42', 3, 5, 4, 1, 4, 3);
+insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2022-03-28 13:25:39', '2022-03-14 23:44:50', 4, 1, 1, 1, 2, 5);
+insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2021-07-12 15:21:18', '2021-06-29 17:12:00', 5, 3, 3, 2, 1, 5);
+
+-- customer_group TABLE: 5 records
+insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2022-01-23 14:14:28', '2021-12-24 07:08:47', '52270-001', 'Facebook', 'Other and unspecified malignant neoplasms of lymphoid and histiocytic tissue, lymph nodes of multiple sites', 'Blue', 2);
+insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2022-03-29 19:59:34', '2021-08-26 07:05:04', '0904-6089', 'Google', 'Amphetamine and other psychostimulant dependence, unspecified', 'Pink', 3);
+insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2022-01-20 11:21:17', '2022-02-05 17:55:09', '65162-539', 'Instagram', 'Salmonella osteomyelitis', 'Red', 1);
+insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2021-10-20 17:12:24', '2022-02-28 19:00:00', '63304-551', 'Potential', 'Unspecified disorder of carbohydrate transport and metabolism', 'Orange', 2);
+insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2021-10-29 00:20:18', '2021-12-10 20:31:28', '76436-202', 'VIP', 'Common ventricle', 'Green', 3);
+
+-- customer_resource TABLE: 5 records
+insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2021-08-26 01:48:14', '2021-10-19 04:58:04', '53499-5971', 'Facebook', 'Congenital mitral insufficiency', 'Blue', 1);
+insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2022-01-11 08:53:09', '2022-05-16 19:00:07', '76358-195', 'Google', 'Blisters, epidermal loss [second degree] of hand, unspecified site', 'Violet', 3);
+insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2022-04-24 06:46:43', '2021-10-21 19:59:04', '64616-082', 'Instagram', 'Sedative, hypnotic or anxiolytic dependence, continuous', 'Crimson', 2);
+insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2022-03-19 16:57:29', '2021-11-28 11:50:59', '11559-724', 'Normal', 'Unspecified failure in dosage', 'Green', 1);
+insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2022-02-13 10:28:33', '2022-05-11 03:36:22', '13537-455', 'AVD', 'Other testicular hypofunction', 'Orange', 1);
+
+-- customer_status TABLE: 3 records
+insert into customer_status (created_at, updated_at, code, name, description, color, status) values ('2022-03-06 12:54:55', '2022-03-01 01:22:53', '55045-3602', 'Active', 'Miliary tuberculosis, unspecified, unspecified', 'Mauv', 3);
+insert into customer_status (created_at, updated_at, code, name, description, color, status) values ('2021-11-04 19:46:58', '2022-01-06 21:22:50', '60429-239', 'Disable', 'Screening for malignant neoplasms of skin', 'Aquamarine', 1);
+insert into customer_status (created_at, updated_at, code, name, description, color, status) values ('2022-03-27 06:15:17', '2021-09-29 17:49:37', '49281-395', 'None', 'Other lymphedema', 'Maroon', 2);
+
+-- customer TABLE: 5 records
+insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 10, 4, 5, 3);
+insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-22 12:52:55', '2022-03-05 09:30:21', 6, 2, 4, 2);
+insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-16 21:25:31', '2021-09-13 07:36:37', 8, 5, 2, 2);
+insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-07-05 20:51:32', '2022-01-24 03:31:41', 7, 5, 4, 1);
+insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-03 13:27:34', '2022-01-17 05:56:02', 11, 5, 5, 1);
+
+-- property TABLE: 2 records
+insert into property (created_at, updated_at, name, code, description, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Kích cỡ', 'size', 'Lorem ipsum dolor sit amet', 1);
+insert into property (created_at, updated_at, name, code, description, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Màu sắc', 'color', null, 2);
+
+-- category TABLE: 5 records
+insert into category (created_at, updated_at, name, slug, description, thumbnail, category_id, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Tủ lạnh', 'tu-lanh', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'http://dummyimage.com/138x100.png/dddddd/000000', null, 1);
+insert into category (created_at, updated_at, name, slug, description, thumbnail, category_id, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Điện thoại', 'dien-thoai', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', null, 1, 1);
+insert into category (created_at, updated_at, name, slug, description, thumbnail, category_id, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Laptop', 'laptop', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', null, 2, 1);
+
+-- tag TABLE: 2 records
+insert into tag (created_at, updated_at, name, slug, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Sản phẩm mới', 'san-pham-moi', 1);
+insert into tag (created_at, updated_at, name, slug, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Sản phẩm nổi bật', 'san-pham-noi-bat', 2);
+
+-- guarantee TABLE: 2 records
+insert into guarantee (created_at, updated_at, name, description, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Bảo hành 6 tháng', null, 1);
+insert into guarantee (created_at, updated_at, name, description, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Bảo hành 1 năm', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 2);
+
+-- unit TABLE: 2 records
+insert into unit (created_at, updated_at, name, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Cái', 1);
+insert into unit (created_at, updated_at, name, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Hộp', 2);
+
+-- supplier TABLE: 5 records
+insert into supplier (created_at, updated_at, display_name, code, contact_fullname, contact_email, contact_phone, company_name, tax_code, email, phone, fax, address_id, description, note, status) values ('2022-05-16 02:47:51', '2021-12-06 15:10:37', 'Yodo', '0944-3032', 'Aubrie Cowley', 'acowley0@mysql.com', '0919944500', 'Rhynyx', '49349-988', 'acowley0@japanpost.jp', '714-908-9882', 'Holdlamis', 10, 'Oth uni salpingo-oophor', 'Meningococc endocarditis', 3);
+insert into supplier (created_at, updated_at, display_name, code, contact_fullname, contact_email, contact_phone, company_name, tax_code, email, phone, fax, address_id, description, note, status) values ('2021-07-15 19:55:46', '2021-09-20 15:40:51', 'Roomm', '49035-519', 'Jeth Knipe', 'jknipe1@nymag.com', '0919944500', 'Babblestorm', '43598-012', 'jknipe1@woothemes.com', '134-360-5820', 'Zathin', 14, 'Insert antimicrobial env', 'Power aircraft acc-psngr', 1);
+insert into supplier (created_at, updated_at, display_name, code, contact_fullname, contact_email, contact_phone, company_name, tax_code, email, phone, fax, address_id, description, note, status) values ('2022-05-07 21:04:34', '2021-08-11 13:11:43', 'Topicblab', '43419-861', 'Alla Gunnell', 'agunnell2@g.co', '0919944500', 'Voolith', '68001-237', 'agunnell2@amazonaws.com', '303-523-6126', 'Sub-Ex', 15, 'Man replac invert uterus', 'Burn NOS ear', 2);
+insert into supplier (created_at, updated_at, display_name, code, contact_fullname, contact_email, contact_phone, company_name, tax_code, email, phone, fax, address_id, description, note, status) values ('2021-11-16 03:47:13', '2022-04-22 18:41:01', 'Jazzy', '68572-6005', 'Margery Seely', 'mseely3@xing.com', '0919944500', 'Kwinu', '54473-141', 'mseely3@pagesperso-orange.fr', '557-431-0161', 'Cookley', 13, 'CAS w fluoroscopy', 'Lactation fail-postpart', 1);
+insert into supplier (created_at, updated_at, display_name, code, contact_fullname, contact_email, contact_phone, company_name, tax_code, email, phone, fax, address_id, description, note, status) values ('2021-09-18 12:13:01', '2022-01-02 09:04:03', 'Kimia', '49349-675', 'El De Carlo', 'ede4@wisc.edu', '0919944500', 'Kanoodle', '57520-0467', 'ede4@exblog.jp', '509-999-7966', 'Zaam-Dox', 11, 'Pancreat transplant NOS', 'Acc poison-analgesic NOS', 2);
+
+-- brand TABLE: 50 records
 insert into brand (created_at, updated_at, name, code, description, status) values ('2022-06-05 12:40:37', '2022-04-04 01:57:04', 'Cruickshank-VonRueden', '5025', 'Lap abltn liver les/tiss', 3);
 insert into brand (created_at, updated_at, name, code, description, status) values ('2021-06-18 10:09:09', '2022-03-30 13:45:08', 'Schowalter, Hartmann and Kihn', '4994', 'Reduction anal prolapse', 3);
 insert into brand (created_at, updated_at, name, code, description, status) values ('2021-12-06 05:08:25', '2021-12-22 11:02:07', 'Lehner-O''Hara', '8884', 'Muscle thermography', 1);
@@ -167,103 +252,11 @@ insert into brand (created_at, updated_at, name, code, description, status) valu
 insert into brand (created_at, updated_at, name, code, description, status) values ('2021-06-17 07:17:30', '2021-08-06 18:33:59', 'Kautzer, Marvin and Hoppe', '3982', 'Imp/rep crtd sinus lead', 2);
 insert into brand (created_at, updated_at, name, code, description, status) values ('2022-03-22 03:16:00', '2022-06-06 22:32:43', 'Cronin, Schmitt and Conroy', '9738', 'Remove head/neck sutures', 3);
 
--- office table: 5 records
-insert into office (created_at, updated_at, name, address_id, status) values ('2021-09-21 07:19:24', '2021-08-26 17:40:14', 'Talane', 1, 3);
-insert into office (created_at, updated_at, name, address_id, status) values ('2021-07-09 08:07:20', '2021-10-23 08:36:12', 'Skyndu', 2, 1);
-insert into office (created_at, updated_at, name, address_id, status) values ('2021-06-29 10:10:15', '2021-09-21 22:05:41', 'Yadel', 3, 2);
-insert into office (created_at, updated_at, name, address_id, status) values ('2021-09-14 21:49:48', '2022-02-11 03:03:22', 'BlogXS', 4, 1);
-insert into office (created_at, updated_at, name, address_id, status) values ('2021-08-18 11:44:50', '2021-07-19 19:33:23', 'BlogXS', 5, 3);
-
--- department: 5 records
-insert into department (created_at, updated_at, name, status) values ('2022-06-02 00:50:54', '2021-09-28 15:01:05', 'Legal', 1);
-insert into department (created_at, updated_at, name, status) values ('2022-05-21 23:55:27', '2022-01-06 07:26:20', 'Training', 2);
-insert into department (created_at, updated_at, name, status) values ('2021-11-02 02:55:33', '2021-11-28 21:13:39', 'Human Resources', 3);
-insert into department (created_at, updated_at, name, status) values ('2021-08-07 23:28:26', '2021-11-20 15:29:28', 'Support', 3);
-insert into department (created_at, updated_at, name, status) values ('2021-10-21 01:50:28', '2021-08-01 01:58:22', 'Human Resources', 2);
-
--- job type: 2 records
-insert into job_type (created_at, updated_at, name, status) values ('2021-09-11 23:37:21', '2021-08-20 10:54:26', 'Full time', 1);
-insert into job_type (created_at, updated_at, name, status) values ('2021-12-08 16:13:12', '2022-03-26 19:37:23', 'part time', 1);
-
--- job level: 4 records
-insert into job_level (created_at, updated_at, name, status) values ('2021-09-11 23:37:21', '2021-08-20 10:54:26', 'Senior', 1);
-insert into job_level (created_at, updated_at, name, status) values ('2021-12-08 16:13:12', '2022-03-26 19:37:23', 'Master', 2);
-insert into job_level (created_at, updated_at, name, status) values ('2022-01-20 12:14:44', '2021-08-30 12:29:20', 'Intern', 3);
-insert into job_level (created_at, updated_at, name, status) values ('2022-02-08 19:12:42', '2021-09-16 21:32:18', 'Fresher', 1);
-
--- job title: 5 records
-insert into job_title (created_at, updated_at, name, status) values ('2021-09-11 23:37:21', '2021-08-20 10:54:26', 'Marketing Manager', 1);
-insert into job_title (created_at, updated_at, name, status) values ('2021-12-08 16:13:12', '2022-03-26 19:37:23', 'Librarian', 1);
-insert into job_title (created_at, updated_at, name, status) values ('2022-01-20 12:14:44', '2021-08-30 12:29:20', 'Chemical Engineer', 3);
-insert into job_title (created_at, updated_at, name, status) values ('2022-02-08 19:12:42', '2021-09-16 21:32:18', 'Paralegal', 1);
-insert into job_title (created_at, updated_at, name, status) values ('2022-03-29 23:30:36', '2022-01-15 11:44:18', 'Compensation Analyst', 3);
-
--- employee: 5 records
-insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2021-09-04 07:46:15', '2021-11-10 11:49:52', 1, 4, 5, 2, 3, 4);
-insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2022-02-14 23:37:02', '2021-11-28 11:18:18', 2, 5, 3, 1, 1, 3);
-insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2021-08-18 01:02:24', '2021-11-25 18:57:42', 3, 5, 4, 1, 4, 3);
-insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2022-03-28 13:25:39', '2022-03-14 23:44:50', 4, 1, 1, 1, 2, 5);
-insert into employee (created_at, updated_at, user_id, office_id, department_id, job_type_id, job_level_id, job_title_id) values ('2021-07-12 15:21:18', '2021-06-29 17:12:00', 5, 3, 3, 2, 1, 5);
-
--- customer-group: 5 records
-insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2022-01-23 14:14:28', '2021-12-24 07:08:47', '52270-001', 'Facebook', 'Other and unspecified malignant neoplasms of lymphoid and histiocytic tissue, lymph nodes of multiple sites', 'Blue', 2);
-insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2022-03-29 19:59:34', '2021-08-26 07:05:04', '0904-6089', 'Google', 'Amphetamine and other psychostimulant dependence, unspecified', 'Pink', 3);
-insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2022-01-20 11:21:17', '2022-02-05 17:55:09', '65162-539', 'Instagram', 'Salmonella osteomyelitis', 'Red', 1);
-insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2021-10-20 17:12:24', '2022-02-28 19:00:00', '63304-551', 'Potential', 'Unspecified disorder of carbohydrate transport and metabolism', 'Orange', 2);
-insert into customer_group (created_at, updated_at, code, name, description, color, status) values ('2021-10-29 00:20:18', '2021-12-10 20:31:28', '76436-202', 'VIP', 'Common ventricle', 'Green', 3);
-
--- customer-resource: 5 records
-insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2021-08-26 01:48:14', '2021-10-19 04:58:04', '53499-5971', 'Facebook', 'Congenital mitral insufficiency', 'Blue', 1);
-insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2022-01-11 08:53:09', '2022-05-16 19:00:07', '76358-195', 'Google', 'Blisters, epidermal loss [second degree] of hand, unspecified site', 'Violet', 3);
-insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2022-04-24 06:46:43', '2021-10-21 19:59:04', '64616-082', 'Instagram', 'Sedative, hypnotic or anxiolytic dependence, continuous', 'Crimson', 2);
-insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2022-03-19 16:57:29', '2021-11-28 11:50:59', '11559-724', 'Normal', 'Unspecified failure in dosage', 'Green', 1);
-insert into customer_resource (created_at, updated_at, code, name, description, color, status) values ('2022-02-13 10:28:33', '2022-05-11 03:36:22', '13537-455', 'AVD', 'Other testicular hypofunction', 'Orange', 1);
-
--- customer-status: 3 records
-insert into customer_status (created_at, updated_at, code, name, description, color, status) values ('2022-03-06 12:54:55', '2022-03-01 01:22:53', '55045-3602', 'Active', 'Miliary tuberculosis, unspecified, unspecified', 'Mauv', 3);
-insert into customer_status (created_at, updated_at, code, name, description, color, status) values ('2021-11-04 19:46:58', '2022-01-06 21:22:50', '60429-239', 'Disable', 'Screening for malignant neoplasms of skin', 'Aquamarine', 1);
-insert into customer_status (created_at, updated_at, code, name, description, color, status) values ('2022-03-27 06:15:17', '2021-09-29 17:49:37', '49281-395', 'None', 'Other lymphedema', 'Maroon', 2);
-
--- customer: 5 records
-insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 10, 4, 5, 3);
-insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-22 12:52:55', '2022-03-05 09:30:21', 6, 2, 4, 2);
-insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-16 21:25:31', '2021-09-13 07:36:37', 8, 5, 2, 2);
-insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-07-05 20:51:32', '2022-01-24 03:31:41', 7, 5, 4, 1);
-insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-03 13:27:34', '2022-01-17 05:56:02', 11, 5, 5, 1);
-
--- property: 2 records
-insert into property (created_at, updated_at, name, code, description, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Kích cỡ', 'size', 'Lorem ipsum dolor sit amet', 1);
-insert into property (created_at, updated_at, name, code, description, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Màu sắc', 'color', null, 2);
-
--- category: 5 records
-insert into category (created_at, updated_at, name, slug, description, thumbnail, category_id, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Tủ lạnh', 'tu-lanh', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'http://dummyimage.com/138x100.png/dddddd/000000', null, 1);
-insert into category (created_at, updated_at, name, slug, description, thumbnail, category_id, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Điện thoại', 'dien-thoai', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', null, 1, 1);
-insert into category (created_at, updated_at, name, slug, description, thumbnail, category_id, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Laptop', 'laptop', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', null, 2, 1);
-
--- tag: 2 records
-insert into tag (created_at, updated_at, name, slug, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Sản phẩm mới', 'san-pham-moi', 1);
-insert into tag (created_at, updated_at, name, slug, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Sản phẩm nổi bật', 'san-pham-noi-bat', 2);
-
--- guarantee: 2 records
-insert into guarantee (created_at, updated_at, name, description, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Bảo hành 6 tháng', null, 1);
-insert into guarantee (created_at, updated_at, name, description, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Bảo hành 1 năm', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 2);
-
--- unit: 2 records
-insert into unit (created_at, updated_at, name, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Cái', 1);
-insert into unit (created_at, updated_at, name, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Hộp', 2);
-
--- supplier: 5 records
-insert into supplier (created_at, updated_at, display_name, code, contact_fullname, contact_email, contact_phone, company_name, tax_code, email, phone, fax, address_id, description, note, status) values ('2022-05-16 02:47:51', '2021-12-06 15:10:37', 'Yodo', '0944-3032', 'Aubrie Cowley', 'acowley0@mysql.com', '0919944500', 'Rhynyx', '49349-988', 'acowley0@japanpost.jp', '714-908-9882', 'Holdlamis', 10, 'Oth uni salpingo-oophor', 'Meningococc endocarditis', 3);
-insert into supplier (created_at, updated_at, display_name, code, contact_fullname, contact_email, contact_phone, company_name, tax_code, email, phone, fax, address_id, description, note, status) values ('2021-07-15 19:55:46', '2021-09-20 15:40:51', 'Roomm', '49035-519', 'Jeth Knipe', 'jknipe1@nymag.com', '0919944500', 'Babblestorm', '43598-012', 'jknipe1@woothemes.com', '134-360-5820', 'Zathin', 14, 'Insert antimicrobial env', 'Power aircraft acc-psngr', 1);
-insert into supplier (created_at, updated_at, display_name, code, contact_fullname, contact_email, contact_phone, company_name, tax_code, email, phone, fax, address_id, description, note, status) values ('2022-05-07 21:04:34', '2021-08-11 13:11:43', 'Topicblab', '43419-861', 'Alla Gunnell', 'agunnell2@g.co', '0919944500', 'Voolith', '68001-237', 'agunnell2@amazonaws.com', '303-523-6126', 'Sub-Ex', 15, 'Man replac invert uterus', 'Burn NOS ear', 2);
-insert into supplier (created_at, updated_at, display_name, code, contact_fullname, contact_email, contact_phone, company_name, tax_code, email, phone, fax, address_id, description, note, status) values ('2021-11-16 03:47:13', '2022-04-22 18:41:01', 'Jazzy', '68572-6005', 'Margery Seely', 'mseely3@xing.com', '0919944500', 'Kwinu', '54473-141', 'mseely3@pagesperso-orange.fr', '557-431-0161', 'Cookley', 13, 'CAS w fluoroscopy', 'Lactation fail-postpart', 1);
-insert into supplier (created_at, updated_at, display_name, code, contact_fullname, contact_email, contact_phone, company_name, tax_code, email, phone, fax, address_id, description, note, status) values ('2021-09-18 12:13:01', '2022-01-02 09:04:03', 'Kimia', '49349-675', 'El De Carlo', 'ede4@wisc.edu', '0919944500', 'Kanoodle', '57520-0467', 'ede4@exblog.jp', '509-999-7966', 'Zaam-Dox', 11, 'Pancreat transplant NOS', 'Acc poison-analgesic NOS', 2);
-
--- specification: 2 records
+-- specification TABLE: 2 records
 insert into specification (created_at, updated_at, name, code, description, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Cỡ màn hình', 'screen-size', 'Lorem ipsum dolor sit amet', 1);
 insert into specification (created_at, updated_at, name, code, description, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'CPU', 'cpu', null, 2);
 
--- product: 5 records
+-- product TABLE: 5 records
 insert into product (created_at, updated_at, name, code, slug, short_description, description, thumbnail, images, status, category_id, brand_id, supplier_id, unit_id, specifications, properties, weight, guarantee_id) values ('2022-06-10 11:43:15', '2021-06-29 10:23:48', 'Latex Rubber Gloves Size 9', '0003-1967', 'ealdus0', 'Pellentesque ultrices mattis odio. Donec vitae nisi.', 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.', 'http://dummyimage.com/233x100.png/ff4444/ffffff', '{"content":[{"url":"http://dummyimage.com/185x100.png/ff4444/ffffff","isThumbnail":true},{"url":"http://dummyimage.com/185x100.png/ff4444/ffffff"}],"totalElements":2}', 2, 2, 3, 5, 2, '{"content":[{"id":1,"name":"Cỡ màn hình","code":"screen-size","value":"15 inch"},{"id":2,"name":"CPU","code":"cpu","value":"Intel Core i7"}],"totalElements":2}', '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":["S","M","L"]},{"id":2,"name":"Màu sắc","code":"color","value":["Đỏ","Xanh dương"]}],"totalElements":2}', 602, 2);
 insert into product (created_at, updated_at, name, code, slug, short_description, description, thumbnail, images, status, category_id, brand_id, supplier_id, unit_id, specifications, properties, weight, guarantee_id) values ('2022-04-04 12:24:24', '2021-08-22 19:25:02', 'Sour Cream', '0049-0530', 'eblackaller1', 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque. Duis bibendum.', 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.', 'http://dummyimage.com/186x100.png/cc0000/ffffff', '{"content":[{"url":"http://dummyimage.com/185x100.png/ff4444/ffffff","isThumbnail":true},{"url":"http://dummyimage.com/185x100.png/ff4444/ffffff"}],"totalElements":2}', 2, 1, 5, 5, 2, '{"content":[{"id":1,"name":"Cỡ màn hình","code":"screen-size","value":"15 inch"},{"id":2,"name":"CPU","code":"cpu","value":"Intel Core i7"}],"totalElements":2}', '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":["S","M","L"]},{"id":2,"name":"Màu sắc","code":"color","value":["Đỏ","Xanh dương"]}],"totalElements":2}', 851, 1);
 insert into product (created_at, updated_at, name, code, slug, short_description, description, thumbnail, images, status, category_id, brand_id, supplier_id, unit_id, specifications, properties, weight, guarantee_id) values ('2022-01-20 03:49:30', '2022-04-12 10:55:49', 'Beef - Bresaola', '58232-0051', 'fblakeborough2', 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.', 'http://dummyimage.com/144x100.png/cc0000/ffffff', '{"content":[{"url":"http://dummyimage.com/185x100.png/ff4444/ffffff","isThumbnail":true},{"url":"http://dummyimage.com/185x100.png/ff4444/ffffff"}],"totalElements":2}', 1, 1, 3, 3, 2, '{"content":[{"id":1,"name":"Cỡ màn hình","code":"screen-size","value":"15 inch"},{"id":2,"name":"CPU","code":"cpu","value":"Intel Core i7"}],"totalElements":2}', '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":["S","M","L"]},{"id":2,"name":"Màu sắc","code":"color","value":["Đỏ","Xanh dương"]}],"totalElements":2}', 874, 1);
@@ -282,7 +275,7 @@ insert into variant (created_at, updated_at, product_id, sku, cost, price, prope
 insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2022-05-06 20:40:45', '2022-04-02 20:30:28', 1, '52125-433', 823716, 6459704, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"M"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 1);
 insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2021-07-17 02:36:19', '2021-12-14 10:10:42', 1, '48951-8009', 8298634, 9300059, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"L"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 1);
 
--- product_inventory_limit: 5 records
+-- product_inventory_limit TABLE: 5 records
 insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 1, 4, 10);
 insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2022-03-19 07:44:19', '2021-09-18 00:00:22', 2, 4, 10);
 insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2022-04-13 16:55:03', '2021-08-29 12:08:00', 3, 1, 6);

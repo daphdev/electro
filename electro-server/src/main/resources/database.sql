@@ -530,6 +530,9 @@
         primary key (id)
     ) engine=MyISAM;
 
+    alter table prod.brand 
+       add constraint UK_g7ft8mes72rnsk746b7ibyln2 unique (code);
+
     alter table prod.category 
        add constraint UK_hqknmjh5423vchi4xkyhxlhg2 unique (slug);
 
@@ -538,6 +541,15 @@
 
     alter table prod.customer 
        add constraint UK_j7ja2xvrxudhvssosd4nu1o92 unique (user_id);
+
+    alter table prod.customer_group 
+       add constraint UK_sq3i7v7mcfuu5wyo1k09fau29 unique (code);
+
+    alter table prod.customer_resource 
+       add constraint UK_7hysyb2oivjudrlfofqxhmtba unique (code);
+
+    alter table prod.customer_status 
+       add constraint UK_d3q20t05sxaaxpshsfv94cfms unique (code);
 
     alter table prod.destination 
        add constraint UK_a99mkfyhl65vc2n78ijodyoje unique (address_id);
@@ -556,6 +568,18 @@
 
     alter table prod.product_inventory_limit 
        add constraint UK_b2qaaqlye3no6xy07jm62qetq unique (product_id);
+
+    alter table prod.property 
+       add constraint UK_17f03s5ron7wrua25qyg8tx2v unique (code);
+
+    alter table prod.role 
+       add constraint UK_c36say97xydpmgigg38qv5l2p unique (code);
+
+    alter table prod.specification 
+       add constraint UK_3lssqgpri39w9a5y932fgdvsa unique (code);
+
+    alter table prod.supplier 
+       add constraint UK_u0lh6hby20ok7au7646wrewl unique (code);
 
     alter table prod.supplier 
        add constraint UK_78419iap4p0q918rhlcr1phkl unique (address_id);

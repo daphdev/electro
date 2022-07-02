@@ -27,7 +27,7 @@ public class Brand extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "code", nullable = false, length = 35)
+    @Column(name = "code", nullable = false, unique = true, length = 35)
     private String code;
 
     @Column(name = "description")

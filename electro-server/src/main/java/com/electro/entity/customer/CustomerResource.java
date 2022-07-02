@@ -24,7 +24,7 @@ import java.util.List;
 @Entity
 @Table(name = "customer_resource")
 public class CustomerResource extends BaseEntity {
-    @Column(name = "code", nullable = false)
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
 
     @Column(name = "name", nullable = false)

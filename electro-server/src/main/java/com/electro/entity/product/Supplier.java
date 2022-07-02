@@ -31,7 +31,7 @@ public class Supplier extends BaseEntity {
     @Column(name = "display_name", nullable = false)
     private String displayName;
 
-    @Column(name = "code", nullable = false)
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
 
     @Column(name = "contact_fullname")
