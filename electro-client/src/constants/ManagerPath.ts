@@ -18,14 +18,15 @@ class ManagerPath {
   static CUSTOMER_STATUS = '/admin/customer/status';
   static CUSTOMER_RESOURCE = '/admin/customer/resource';
 
-  static CATEGORY = '/admin/category';
   static PRODUCT = '/admin/product';
+  static CATEGORY = '/admin/category';
   static BRAND = '/admin/product/brand';
   static SUPPLIER = '/admin/product/supplier';
   static UNIT = '/admin/product/unit';
   static TAG = '/admin/product/tag';
   static GUARANTEE = '/admin/product/guarantee';
   static PROPERTY = '/admin/product/property';
+  static SPECIFICATION = '/admin/product/specification';
 }
 
 export default ManagerPath;

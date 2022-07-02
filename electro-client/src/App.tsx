@@ -26,6 +26,15 @@ import CustomerGroupManage, { CustomerGroupCreate, CustomerGroupUpdate } from 'p
 import CustomerStatusManage, { CustomerStatusCreate, CustomerStatusUpdate } from 'pages/customer-status';
 import CustomerResourceManage, { CustomerResourceCreate, CustomerResourceUpdate } from 'pages/customer-resource';
 import CustomerManage, { CustomerCreate, CustomerUpdate } from 'pages/customer';
+import ProductManage, { ProductCreate, ProductUpdate } from 'pages/product';
+import CategoryManage, { CategoryCreate, CategoryUpdate } from 'pages/category';
+import BrandManage, { BrandCreate, BrandUpdate } from 'pages/brand';
+import PropertyManage, { PropertyCreate, PropertyUpdate } from 'pages/property';
+import SpecificationManage, { SpecificationCreate, SpecificationUpdate } from 'pages/specification';
+import UnitManage, { UnitCreate, UnitUpdate } from 'pages/unit';
+import TagManage, { TagCreate, TagUpdate } from 'pages/tag';
+import GuaranteeManage, { GuaranteeCreate, GuaranteeUpdate } from 'pages/guarantee';
+import SupplierManage, { SupplierCreate, SupplierUpdate } from 'pages/supplier';
 
 const queryClient = new QueryClient();
 
@@ -104,6 +113,42 @@ function App() {
                   <Route path={ManagerPath.CUSTOMER_RESOURCE} element={<CustomerResourceManage/>}/>
                   <Route path={ManagerPath.CUSTOMER_RESOURCE + '/create'} element={<CustomerResourceCreate/>}/>
                   <Route path={ManagerPath.CUSTOMER_RESOURCE + '/update/:id'} element={<CustomerResourceUpdate/>}/>
+                  {/* PRODUCT */}
+                  <Route path={ManagerPath.PRODUCT} element={<ProductManage/>}/>
+                  <Route path={ManagerPath.PRODUCT + '/create'} element={<ProductCreate/>}/>
+                  <Route path={ManagerPath.PRODUCT + '/update/:id'} element={<ProductUpdate/>}/>
+                  {/* CATEGORY */}
+                  <Route path={ManagerPath.CATEGORY} element={<CategoryManage/>}/>
+                  <Route path={ManagerPath.CATEGORY + '/create'} element={<CategoryCreate/>}/>
+                  <Route path={ManagerPath.CATEGORY + '/update/:id'} element={<CategoryUpdate/>}/>
+                  {/* BRAND */}
+                  <Route path={ManagerPath.BRAND} element={<BrandManage/>}/>
+                  <Route path={ManagerPath.BRAND + '/create'} element={<BrandCreate/>}/>
+                  <Route path={ManagerPath.BRAND + '/update/:id'} element={<BrandUpdate/>}/>
+                  {/* SUPPLIER */}
+                  <Route path={ManagerPath.SUPPLIER} element={<SupplierManage/>}/>
+                  <Route path={ManagerPath.SUPPLIER + '/create'} element={<SupplierCreate/>}/>
+                  <Route path={ManagerPath.SUPPLIER + '/update/:id'} element={<SupplierUpdate/>}/>
+                  {/* UNIT */}
+                  <Route path={ManagerPath.UNIT} element={<UnitManage/>}/>
+                  <Route path={ManagerPath.UNIT + '/create'} element={<UnitCreate/>}/>
+                  <Route path={ManagerPath.UNIT + '/update/:id'} element={<UnitUpdate/>}/>
+                  {/* TAG */}
+                  <Route path={ManagerPath.TAG} element={<TagManage/>}/>
+                  <Route path={ManagerPath.TAG + '/create'} element={<TagCreate/>}/>
+                  <Route path={ManagerPath.TAG + '/update/:id'} element={<TagUpdate/>}/>
+                  {/* GUARANTEE */}
+                  <Route path={ManagerPath.GUARANTEE} element={<GuaranteeManage/>}/>
+                  <Route path={ManagerPath.GUARANTEE + '/create'} element={<GuaranteeCreate/>}/>
+                  <Route path={ManagerPath.GUARANTEE + '/update/:id'} element={<GuaranteeUpdate/>}/>
+                  {/* PROPERTY */}
+                  <Route path={ManagerPath.PROPERTY} element={<PropertyManage/>}/>
+                  <Route path={ManagerPath.PROPERTY + '/create'} element={<PropertyCreate/>}/>
+                  <Route path={ManagerPath.PROPERTY + '/update/:id'} element={<PropertyUpdate/>}/>
+                  {/* SPECIFICATION */}
+                  <Route path={ManagerPath.SPECIFICATION} element={<SpecificationManage/>}/>
+                  <Route path={ManagerPath.SPECIFICATION + '/create'} element={<SpecificationCreate/>}/>
+                  <Route path={ManagerPath.SPECIFICATION + '/update/:id'} element={<SpecificationUpdate/>}/>
                 </Route>
               </Routes>
             </ModalsProvider>

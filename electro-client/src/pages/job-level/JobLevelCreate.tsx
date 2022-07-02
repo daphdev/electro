@@ -36,7 +36,6 @@ function JobLevelCreate() {
                   required
                   label={JobLevelConfigs.properties.status.label}
                   placeholder="--"
-                  clearable
                   data={statusSelectList}
                   {...form.getInputProps('status')}
                 />

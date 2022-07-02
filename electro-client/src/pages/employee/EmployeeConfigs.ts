@@ -13,6 +13,8 @@ class EmployeeConfigs extends Configs {
   static updateTitle = 'Cập nhật nhân viên';
   static manageTitle = 'Quản lý nhân viên';
 
+  static EMPLOYEE_ROLE_ID = 2;
+
   static manageTitleLinks: TitleLink[] = [
     {
       link: ManagerPath.EMPLOYEE,
@@ -226,16 +228,16 @@ class EmployeeConfigs extends Configs {
     'user.phone': '',
     'user.gender': 'M' as 'M' | 'F',
     'user.address.line': '',
-    'user.address.provinceId': '',
-    'user.address.districtId': '',
+    'user.address.provinceId': null as string | null,
+    'user.address.districtId': null as string | null,
     'user.avatar': '',
     'user.status': '1',
-    'user.roles': ['EMPLOYEE'],
-    officeId: '',
-    departmentId: '',
-    jobTypeId: '',
-    jobLevelId: '',
-    jobTitleId: '',
+    'user.roles': [String(EmployeeConfigs.EMPLOYEE_ROLE_ID)],
+    officeId: null as string | null,
+    departmentId: null as string | null,
+    jobTypeId: null as string | null,
+    jobLevelId: null as string | null,
+    jobTitleId: null as string | null,
   };
 
   static createUpdateFormSchema = z.object({
@@ -250,7 +252,7 @@ class EmployeeConfigs extends Configs {
     'user.address.districtId': z.string(),
     'user.avatar': z.string(),
     'user.status': z.string(),
-    'user.roles': z.array(z.string()),
+    'user.roles': z.array(z.string()).nonempty(),
     officeId: z.string(),
     departmentId: z.string(),
     jobTypeId: z.string(),

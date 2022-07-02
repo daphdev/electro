@@ -49,7 +49,6 @@ function JobTypeUpdate() {
                   required
                   label={JobTypeConfigs.properties.status.label}
                   placeholder="--"
-                  clearable
                   data={statusSelectList}
                   {...form.getInputProps('status')}
                 />

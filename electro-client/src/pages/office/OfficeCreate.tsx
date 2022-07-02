@@ -45,9 +45,8 @@ function OfficeCreate() {
                   required
                   label={OfficeConfigs.properties['address.provinceId'].label}
                   placeholder="--"
-                  clearable
                   searchable
-                  data={provinceSelectList || []}
+                  data={provinceSelectList}
                   {...form.getInputProps('address.provinceId')}
                 />
               </Grid.Col>
@@ -56,9 +55,8 @@ function OfficeCreate() {
                   required
                   label={OfficeConfigs.properties['address.districtId'].label}
                   placeholder="--"
-                  clearable
                   searchable
-                  data={districtSelectList || []}
+                  data={districtSelectList}
                   {...form.getInputProps('address.districtId')}
                 />
               </Grid.Col>
@@ -67,7 +65,6 @@ function OfficeCreate() {
                   required
                   label={OfficeConfigs.properties.status.label}
                   placeholder="--"
-                  clearable
                   data={statusSelectList}
                   {...form.getInputProps('status')}
                 />

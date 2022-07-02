@@ -96,7 +96,6 @@ function CustomerUpdate() {
                   required
                   label={CustomerConfigs.properties['user.gender'].label}
                   placeholder="--"
-                  clearable
                   data={userGenderSelectList}
                   {...form.getInputProps('user.gender')}
                 />
@@ -113,9 +112,8 @@ function CustomerUpdate() {
                   required
                   label={CustomerConfigs.properties['user.address.provinceId'].label}
                   placeholder="--"
-                  clearable
                   searchable
-                  data={provinceSelectList || []}
+                  data={provinceSelectList}
                   {...form.getInputProps('user.address.provinceId')}
                 />
               </Grid.Col>
@@ -124,9 +122,8 @@ function CustomerUpdate() {
                   required
                   label={CustomerConfigs.properties['user.address.districtId'].label}
                   placeholder="--"
-                  clearable
                   searchable
-                  data={districtSelectList || []}
+                  data={districtSelectList}
                   {...form.getInputProps('user.address.districtId')}
                 />
               </Grid.Col>
@@ -141,7 +138,6 @@ function CustomerUpdate() {
                   required
                   label={CustomerConfigs.properties['user.status'].label}
                   placeholder="--"
-                  clearable
                   data={userStatusSelectList}
                   {...form.getInputProps('user.status')}
                 />
@@ -152,7 +148,6 @@ function CustomerUpdate() {
                   required
                   label={CustomerConfigs.properties['user.roles'].label}
                   placeholder="--"
-                  clearable
                   data={userRoleSelectList}
                   {...form.getInputProps('user.roles')}
                 />
@@ -162,8 +157,7 @@ function CustomerUpdate() {
                   required
                   label={CustomerConfigs.properties.customerGroupId.label}
                   placeholder="--"
-                  clearable
-                  data={customerGroupSelectList || []}
+                  data={customerGroupSelectList}
                   {...form.getInputProps('customerGroupId')}
                 />
               </Grid.Col>
@@ -172,8 +166,7 @@ function CustomerUpdate() {
                   required
                   label={CustomerConfigs.properties.customerStatusId.label}
                   placeholder="--"
-                  clearable
-                  data={customerStatusSelectList || []}
+                  data={customerStatusSelectList}
                   {...form.getInputProps('customerStatusId')}
                 />
               </Grid.Col>
@@ -182,8 +175,7 @@ function CustomerUpdate() {
                   required
                   label={CustomerConfigs.properties.customerResourceId.label}
                   placeholder="--"
-                  clearable
-                  data={customerResourceSelectList || []}
+                  data={customerResourceSelectList}
                   {...form.getInputProps('customerResourceId')}
                 />
               </Grid.Col>

@@ -8,29 +8,29 @@ import MiscUtils from 'utils/MiscUtils';
 import { SelectOption } from 'types';
 
 function useCustomerStatusUpdateViewModel(id: number) {
-  const updateApi = useUpdateApi<CustomerStatusRequest, CustomerStatusResponse>(CustomerStatusConfigs.resourceUrl, CustomerStatusConfigs.resourceKey, id);
-  const { data: customerStatusResponse } = useGetByIdApi<CustomerStatusResponse>(CustomerStatusConfigs.resourceUrl, CustomerStatusConfigs.resourceKey, id);
-
-  const [customerStatus, setCustomerStatus] = useState<CustomerStatusResponse>();
-  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
-
   const form = useForm({
     initialValues: CustomerStatusConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(CustomerStatusConfigs.createUpdateFormSchema),
   });
 
-  if (!customerStatus && customerStatusResponse) {
-    setCustomerStatus(customerStatusResponse);
-    const formValues: typeof form.values = {
-      code: customerStatusResponse.code,
-      name: customerStatusResponse.name,
-      description: customerStatusResponse.description,
-      color: customerStatusResponse.color,
-      status: String(customerStatusResponse.status),
-    };
-    form.setValues(formValues);
-    setPrevFormValues(formValues);
-  }
+  const [customerStatus, setCustomerStatus] = useState<CustomerStatusResponse>();
+  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
+
+  const updateApi = useUpdateApi<CustomerStatusRequest, CustomerStatusResponse>(CustomerStatusConfigs.resourceUrl, CustomerStatusConfigs.resourceKey, id);
+  useGetByIdApi<CustomerStatusResponse>(CustomerStatusConfigs.resourceUrl, CustomerStatusConfigs.resourceKey, id,
+    (customerStatusResponse) => {
+      setCustomerStatus(customerStatusResponse);
+      const formValues: typeof form.values = {
+        code: customerStatusResponse.code,
+        name: customerStatusResponse.name,
+        description: customerStatusResponse.description,
+        color: customerStatusResponse.color,
+        status: String(customerStatusResponse.status),
+      };
+      form.setValues(formValues);
+      setPrevFormValues(formValues);
+    }
+  );
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     setPrevFormValues(formValues);

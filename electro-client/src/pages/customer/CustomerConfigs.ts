@@ -13,6 +13,8 @@ class CustomerConfigs extends Configs {
   static updateTitle = 'Cập nhật khách hàng';
   static manageTitle = 'Quản lý khách hàng';
 
+  static CUSTOMER_ROLE_ID = 3;
+
   static manageTitleLinks: TitleLink[] = [
     {
       link: ManagerPath.CUSTOMER,
@@ -157,14 +159,14 @@ class CustomerConfigs extends Configs {
     'user.phone': '',
     'user.gender': 'M' as 'M' | 'F',
     'user.address.line': '',
-    'user.address.provinceId': '',
-    'user.address.districtId': '',
+    'user.address.provinceId': null as string | null,
+    'user.address.districtId': null as string | null,
     'user.avatar': '',
     'user.status': '1',
-    'user.roles': ['CUSTOMER'],
-    customerGroupId: '',
-    customerStatusId: '',
-    customerResourceId: '',
+    'user.roles': [String(CustomerConfigs.CUSTOMER_ROLE_ID)],
+    customerGroupId: null as string | null,
+    customerStatusId: null as string | null,
+    customerResourceId: null as string | null,
   };
 
   static createUpdateFormSchema = z.object({
@@ -179,7 +181,7 @@ class CustomerConfigs extends Configs {
     'user.address.districtId': z.string(),
     'user.avatar': z.string(),
     'user.status': z.string(),
-    'user.roles': z.array(z.string()),
+    'user.roles': z.array(z.string()).nonempty(),
     customerGroupId: z.string(),
     customerStatusId: z.string(),
     customerResourceId: z.string(),

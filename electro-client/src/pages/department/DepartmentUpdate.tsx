@@ -49,7 +49,6 @@ function DepartmentUpdate() {
                   required
                   label={DepartmentConfigs.properties.status.label}
                   placeholder="--"
-                  clearable
                   data={statusSelectList}
                   {...form.getInputProps('status')}
                 />

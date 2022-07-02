@@ -8,26 +8,26 @@ import MiscUtils from 'utils/MiscUtils';
 import { SelectOption } from 'types';
 
 function useDepartmentUpdateViewModel(id: number) {
-  const updateApi = useUpdateApi<DepartmentRequest, DepartmentResponse>(DepartmentConfigs.resourceUrl, DepartmentConfigs.resourceKey, id);
-  const { data: departmentResponse } = useGetByIdApi<DepartmentResponse>(DepartmentConfigs.resourceUrl, DepartmentConfigs.resourceKey, id);
-
-  const [department, setDepartment] = useState<DepartmentResponse>();
-  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
-
   const form = useForm({
     initialValues: DepartmentConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(DepartmentConfigs.createUpdateFormSchema),
   });
 
-  if (!department && departmentResponse) {
-    setDepartment(departmentResponse);
-    const formValues: typeof form.values = {
-      name: departmentResponse.name,
-      status: String(departmentResponse.status),
-    };
-    form.setValues(formValues);
-    setPrevFormValues(formValues);
-  }
+  const [department, setDepartment] = useState<DepartmentResponse>();
+  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
+
+  const updateApi = useUpdateApi<DepartmentRequest, DepartmentResponse>(DepartmentConfigs.resourceUrl, DepartmentConfigs.resourceKey, id);
+  useGetByIdApi<DepartmentResponse>(DepartmentConfigs.resourceUrl, DepartmentConfigs.resourceKey, id,
+    (departmentResponse) => {
+      setDepartment(departmentResponse);
+      const formValues: typeof form.values = {
+        name: departmentResponse.name,
+        status: String(departmentResponse.status),
+      };
+      form.setValues(formValues);
+      setPrevFormValues(formValues);
+    }
+  );
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     setPrevFormValues(formValues);

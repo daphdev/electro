@@ -71,7 +71,6 @@ function CustomerResourceUpdate() {
                   required
                   label={CustomerResourceConfigs.properties.status.label}
                   placeholder="--"
-                  clearable
                   data={statusSelectList}
                   {...form.getInputProps('status')}
                 />

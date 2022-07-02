@@ -8,26 +8,26 @@ import MiscUtils from 'utils/MiscUtils';
 import { SelectOption } from 'types';
 
 function useJobTitleUpdateViewModel(id: number) {
-  const updateApi = useUpdateApi<JobTitleRequest, JobTitleResponse>(JobTitleConfigs.resourceUrl, JobTitleConfigs.resourceKey, id);
-  const { data: jobTypeResponse } = useGetByIdApi<JobTitleResponse>(JobTitleConfigs.resourceUrl, JobTitleConfigs.resourceKey, id);
-
-  const [jobType, setJobTitle] = useState<JobTitleResponse>();
-  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
-
   const form = useForm({
     initialValues: JobTitleConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(JobTitleConfigs.createUpdateFormSchema),
   });
 
-  if (!jobType && jobTypeResponse) {
-    setJobTitle(jobTypeResponse);
-    const formValues: typeof form.values = {
-      name: jobTypeResponse.name,
-      status: String(jobTypeResponse.status),
-    };
-    form.setValues(formValues);
-    setPrevFormValues(formValues);
-  }
+  const [jobType, setJobTitle] = useState<JobTitleResponse>();
+  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
+
+  const updateApi = useUpdateApi<JobTitleRequest, JobTitleResponse>(JobTitleConfigs.resourceUrl, JobTitleConfigs.resourceKey, id);
+  useGetByIdApi<JobTitleResponse>(JobTitleConfigs.resourceUrl, JobTitleConfigs.resourceKey, id,
+    (jobTypeResponse) => {
+      setJobTitle(jobTypeResponse);
+      const formValues: typeof form.values = {
+        name: jobTypeResponse.name,
+        status: String(jobTypeResponse.status),
+      };
+      form.setValues(formValues);
+      setPrevFormValues(formValues);
+    }
+  );
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     setPrevFormValues(formValues);

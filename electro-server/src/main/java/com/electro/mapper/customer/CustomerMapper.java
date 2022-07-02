@@ -26,10 +26,11 @@ public interface CustomerMapper extends GenericMapper<Customer, CustomerRequest,
     Customer requestToEntity(CustomerRequest request);
 
     @Override
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, qualifiedByName = "attachCustomer")
+    @BeanMapping(qualifiedByName = "attachCustomer")
     @Mapping(source = "user.address.provinceId", target = "user.address.province", qualifiedByName = "mapProvinceIdToProvince")
     @Mapping(source = "user.address.districtId", target = "user.address.district", qualifiedByName = "mapDistrictIdToDistrict")
-    @Mapping(source = "user.password", target = "user.password", qualifiedByName = "hashPassword")
+    @Mapping(source = "user.password", target = "user.password", qualifiedByName = "hashPassword",
+            nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(source = "customerGroupId", target = "customerGroup", qualifiedByName = "mapCustomerGroupIdToCustomerGroup")
     @Mapping(source = "customerResourceId", target = "customerResource", qualifiedByName = "mapCustomerResourceIdToCustomerResource")
     @Mapping(source = "customerStatusId", target = "customerStatus", qualifiedByName = "mapCustomerStatusIdToCustomerStatus")

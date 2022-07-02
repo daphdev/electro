@@ -21,6 +21,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -107,4 +108,7 @@ public class Product extends BaseEntity {
     @JoinColumn(name = "guarantee_id")
     @JsonBackReference
     private Guarantee guarantee;
+
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    private ProductInventoryLimit productInventoryLimit;
 }

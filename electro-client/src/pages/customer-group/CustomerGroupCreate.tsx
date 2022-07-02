@@ -58,7 +58,6 @@ function CustomerGroupCreate() {
                   required
                   label={CustomerGroupConfigs.properties.status.label}
                   placeholder="--"
-                  clearable
                   data={statusSelectList}
                   {...form.getInputProps('status')}
                 />

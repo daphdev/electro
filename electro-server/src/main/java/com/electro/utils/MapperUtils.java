@@ -32,6 +32,7 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -49,13 +50,13 @@ public class MapperUtils {
     private VariantRepository variantRepository;
 
     @Named("mapProvinceIdToProvince")
-    public Province mapProvinceIdToProvince(Long id) {
-        return (Province) new Province().setId(id);
+    public Province mapProvinceIdToProvince(@Nullable Long id) {
+        return (id == null) ? null : (Province) new Province().setId(id);
     }
 
     @Named("mapDistrictIdToDistrict")
-    public District mapDistrictIdToDistrict(Long id) {
-        return (District) new District().setId(id);
+    public District mapDistrictIdToDistrict(@Nullable Long id) {
+        return (id == null) ? null : (District) new District().setId(id);
     }
 
     @Named("hashPassword")
@@ -104,28 +105,28 @@ public class MapperUtils {
     }
 
     @Named("mapCategoryIdToCategory")
-    public Category mapCategoryIdToCategory(Long id) {
-        return (Category) new Category().setId(id);
+    public Category mapCategoryIdToCategory(@Nullable Long id) {
+        return (id == null) ? null : (Category) new Category().setId(id);
     }
 
     @Named("mapBrandIdToBrand")
-    public Brand mapBrandIdToBrand(Long id) {
-        return (Brand) new Brand().setId(id);
+    public Brand mapBrandIdToBrand(@Nullable Long id) {
+        return (id == null) ? null : (Brand) new Brand().setId(id);
     }
 
     @Named("mapSupplierIdToSupplier")
-    public Supplier mapSupplierIdToSupplier(Long id) {
-        return (Supplier) new Supplier().setId(id);
+    public Supplier mapSupplierIdToSupplier(@Nullable Long id) {
+        return (id == null) ? null : (Supplier) new Supplier().setId(id);
     }
 
     @Named("mapUnitIdToUnit")
-    public Unit mapUnitIdToUnit(Long id) {
-        return (Unit) new Unit().setId(id);
+    public Unit mapUnitIdToUnit(@Nullable Long id) {
+        return (id == null) ? null : (Unit) new Unit().setId(id);
     }
 
     @Named("mapGuaranteeIdToGuarantee")
-    public Guarantee mapGuaranteeIdToGuarantee(Long id) {
-        return (Guarantee) new Guarantee().setId(id);
+    public Guarantee mapGuaranteeIdToGuarantee(@Nullable Long id) {
+        return (id == null) ? null : (Guarantee) new Guarantee().setId(id);
     }
 
     @Named("mapProductIdToProduct")

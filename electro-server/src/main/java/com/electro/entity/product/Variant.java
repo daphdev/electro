@@ -39,7 +39,7 @@ public class Variant extends BaseEntity {
     @JsonBackReference
     private Product product;
 
-    @Column(name = "sku", nullable = false)
+    @Column(name = "sku", nullable = false, unique = true)
     private String sku;
 
     @Column(name = "cost", nullable = false)

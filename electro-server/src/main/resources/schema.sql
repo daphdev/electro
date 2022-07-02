@@ -30,6 +30,7 @@ DROP TABLE IF EXISTS
     product,
     product_tag,
     variant,
+    product_inventory_limit,
     variant_inventory_limit,
     warehouse,
     count,
@@ -76,9 +77,9 @@ CREATE TABLE address
     updated_at  datetime              NOT NULL,
     created_by  BIGINT                NULL,
     updated_by  BIGINT                NULL,
-    line        VARCHAR(255)          NOT NULL,
-    province_id BIGINT                NOT NULL,
-    district_id BIGINT                NOT NULL,
+    line        VARCHAR(255)          NULL,
+    province_id BIGINT                NULL,
+    district_id BIGINT                NULL,
     CONSTRAINT pk_address PRIMARY KEY (id)
 );
 
@@ -314,8 +315,8 @@ CREATE TABLE property
     updated_at    datetime              NOT NULL,
     created_by    BIGINT                NULL,
     updated_by    BIGINT                NULL,
-    code          VARCHAR(255)          NOT NULL,
     name          VARCHAR(255)          NOT NULL,
+    code          VARCHAR(255)          NOT NULL,
     `description` VARCHAR(255)          NULL,
     status        TINYINT               NOT NULL,
     CONSTRAINT pk_property PRIMARY KEY (id)
@@ -507,7 +508,29 @@ CREATE TABLE variant
 );
 
 ALTER TABLE variant
+    ADD CONSTRAINT uc_variant_sku UNIQUE (sku);
+
+ALTER TABLE variant
     ADD CONSTRAINT FK_VARIANT_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
+
+CREATE TABLE product_inventory_limit
+(
+    id            BIGINT AUTO_INCREMENT NOT NULL,
+    created_at    datetime              NOT NULL,
+    updated_at    datetime              NOT NULL,
+    created_by    BIGINT                NULL,
+    updated_by    BIGINT                NULL,
+    product_id    BIGINT                NOT NULL,
+    minimum_limit INT                   NULL,
+    maximum_limit INT                   NULL,
+    CONSTRAINT pk_product_inventory_limit PRIMARY KEY (id)
+);
+
+ALTER TABLE product_inventory_limit
+    ADD CONSTRAINT uc_product_inventory_limit_product UNIQUE (product_id);
+
+ALTER TABLE product_inventory_limit
+    ADD CONSTRAINT FK_PRODUCT_INVENTORY_LIMIT_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
 
 CREATE TABLE variant_inventory_limit
 (

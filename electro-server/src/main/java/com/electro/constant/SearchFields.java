@@ -206,7 +206,6 @@ public interface SearchFields {
             "supplier.website",
             "supplier.address.line",
             "unit.name",
-            "weight",
             "guarantee.name"
     );
 
@@ -216,6 +215,14 @@ public interface SearchFields {
             "sku",
             "cost",
             "price"
+    );
+
+    List<String> PRODUCT_INVENTORY_LIMIT = List.of(
+            "product.name",
+            "product.code",
+            "product.category.name",
+            "minimumLimit",
+            "maximumLimit"
     );
 
     List<String> VARIANT_INVENTORY_LIMIT = List.of(

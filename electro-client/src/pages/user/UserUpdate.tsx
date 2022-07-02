@@ -93,7 +93,6 @@ function UserUpdate() {
                   required
                   label={UserConfigs.properties.gender.label}
                   placeholder="--"
-                  clearable
                   data={genderSelectList}
                   {...form.getInputProps('gender')}
                 />
@@ -110,9 +109,8 @@ function UserUpdate() {
                   required
                   label={UserConfigs.properties['address.provinceId'].label}
                   placeholder="--"
-                  clearable
                   searchable
-                  data={provinceSelectList || []}
+                  data={provinceSelectList}
                   {...form.getInputProps('address.provinceId')}
                 />
               </Grid.Col>
@@ -121,9 +119,8 @@ function UserUpdate() {
                   required
                   label={UserConfigs.properties['address.districtId'].label}
                   placeholder="--"
-                  clearable
                   searchable
-                  data={districtSelectList || []}
+                  data={districtSelectList}
                   {...form.getInputProps('address.districtId')}
                 />
               </Grid.Col>
@@ -138,7 +135,6 @@ function UserUpdate() {
                   required
                   label={UserConfigs.properties.status.label}
                   placeholder="--"
-                  clearable
                   data={statusSelectList}
                   {...form.getInputProps('status')}
                 />
@@ -148,8 +144,7 @@ function UserUpdate() {
                   required
                   label={UserConfigs.properties.roles.label}
                   placeholder="--"
-                  clearable
-                  data={roleSelectList || []}
+                  data={roleSelectList}
                   {...form.getInputProps('roles')}
                 />
               </Grid.Col>

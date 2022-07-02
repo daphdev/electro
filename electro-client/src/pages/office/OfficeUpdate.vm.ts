@@ -13,57 +13,51 @@ import DistrictConfigs from 'pages/district/DistrictConfigs';
 import { SelectOption } from 'types';
 
 function useOfficeUpdateViewModel(id: number) {
-  const updateApi = useUpdateApi<OfficeRequest, OfficeResponse>(OfficeConfigs.resourceUrl, OfficeConfigs.resourceKey, id);
-  const { data: officeResponse } = useGetByIdApi<OfficeResponse>(OfficeConfigs.resourceUrl, OfficeConfigs.resourceKey, id);
-  const { data: provinceListResponse } = useGetAllApi<ProvinceResponse>(
-    ProvinceConfigs.resourceUrl,
-    ProvinceConfigs.resourceKey,
-    { all: 1 }
-  );
-  const { data: districtListResponse } = useGetAllApi<DistrictResponse>(
-    DistrictConfigs.resourceUrl,
-    DistrictConfigs.resourceKey,
-    { all: 1 }
-  );
-
-  const [office, setOffice] = useState<OfficeResponse>();
-  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
-  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>();
-  const [districtSelectList, setDistrictSelectList] = useState<SelectOption[]>();
-
   const form = useForm({
     initialValues: OfficeConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(OfficeConfigs.createUpdateFormSchema),
   });
 
-  if (!office && officeResponse) {
-    setOffice(officeResponse);
-    const formValues: typeof form.values = {
-      name: officeResponse.name,
-      'address.line': officeResponse.address.line,
-      'address.provinceId': String(officeResponse.address.province.id),
-      'address.districtId': String(officeResponse.address.district.id),
-      status: String(officeResponse.status),
-    };
-    form.setValues(formValues);
-    setPrevFormValues(formValues);
-  }
+  const [office, setOffice] = useState<OfficeResponse>();
+  const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
+  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>([]);
+  const [districtSelectList, setDistrictSelectList] = useState<SelectOption[]>([]);
 
-  if (!provinceSelectList && provinceListResponse) {
-    const selectList: SelectOption[] = provinceListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setProvinceSelectList(selectList);
-  }
-
-  if (!districtSelectList && districtListResponse) {
-    const selectList: SelectOption[] = districtListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setDistrictSelectList(selectList);
-  }
+  const updateApi = useUpdateApi<OfficeRequest, OfficeResponse>(OfficeConfigs.resourceUrl, OfficeConfigs.resourceKey, id);
+  useGetByIdApi<OfficeResponse>(OfficeConfigs.resourceUrl, OfficeConfigs.resourceKey, id,
+    (officeResponse) => {
+      setOffice(officeResponse);
+      const formValues: typeof form.values = {
+        name: officeResponse.name,
+        'address.line': officeResponse.address.line || '',
+        'address.provinceId': officeResponse.address.province ? String(officeResponse.address.province.id) : null,
+        'address.districtId': officeResponse.address.district ? String(officeResponse.address.district.id) : null,
+        status: String(officeResponse.status),
+      };
+      form.setValues(formValues);
+      setPrevFormValues(formValues);
+    }
+  );
+  useGetAllApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey,
+    { all: 1 },
+    (provinceListResponse) => {
+      const selectList: SelectOption[] = provinceListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setProvinceSelectList(selectList);
+    }
+  );
+  useGetAllApi<DistrictResponse>(DistrictConfigs.resourceUrl, DistrictConfigs.resourceKey,
+    { all: 1 },
+    (districtListResponse) => {
+      const selectList: SelectOption[] = districtListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setDistrictSelectList(selectList);
+    }
+  );
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     setPrevFormValues(formValues);

@@ -29,6 +29,9 @@ import EntityDetailTable from 'components/EntityDetailTable/EntityDetailTable';
 // ManagePagination
 import ManagePagination from 'components/ManagePagination/ManagePagination';
 
+// Product
+import VariantTablePopover from 'components/VariantTablePopover/VariantTablePopover';
+
 export {
   CreateUpdateTitle,
   DefaultPropertyPanel,
@@ -54,4 +57,6 @@ export {
   EntityDetailTable,
 
   ManagePagination,
+
+  VariantTablePopover,
 };

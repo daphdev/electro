@@ -54,6 +54,8 @@ import com.electro.dto.product.CategoryRequest;
 import com.electro.dto.product.CategoryResponse;
 import com.electro.dto.product.GuaranteeRequest;
 import com.electro.dto.product.GuaranteeResponse;
+import com.electro.dto.product.ProductInventoryLimitRequest;
+import com.electro.dto.product.ProductInventoryLimitResponse;
 import com.electro.dto.product.ProductRequest;
 import com.electro.dto.product.ProductResponse;
 import com.electro.dto.product.PropertyRequest;
@@ -94,6 +96,7 @@ import com.electro.entity.product.Brand;
 import com.electro.entity.product.Category;
 import com.electro.entity.product.Guarantee;
 import com.electro.entity.product.Product;
+import com.electro.entity.product.ProductInventoryLimit;
 import com.electro.entity.product.Property;
 import com.electro.entity.product.Specification;
 import com.electro.entity.product.Supplier;
@@ -125,6 +128,7 @@ import com.electro.mapper.inventory.WarehouseMapper;
 import com.electro.mapper.product.BrandMapper;
 import com.electro.mapper.product.CategoryMapper;
 import com.electro.mapper.product.GuaranteeMapper;
+import com.electro.mapper.product.ProductInventoryLimitMapper;
 import com.electro.mapper.product.ProductMapper;
 import com.electro.mapper.product.PropertyMapper;
 import com.electro.mapper.product.SpecificationMapper;
@@ -157,6 +161,7 @@ import com.electro.repository.inventory.WarehouseRepository;
 import com.electro.repository.product.BrandRepository;
 import com.electro.repository.product.CategoryRepository;
 import com.electro.repository.product.GuaranteeRepository;
+import com.electro.repository.product.ProductInventoryLimitRepository;
 import com.electro.repository.product.ProductRepository;
 import com.electro.repository.product.PropertyRepository;
 import com.electro.repository.product.SpecificationRepository;
@@ -213,6 +218,7 @@ public class GenericMappingRegister {
     private GenericController<SpecificationRequest, SpecificationResponse> specificationController;
     private GenericController<ProductRequest, ProductResponse> productController;
     private GenericController<VariantRequest, VariantResponse> variantController;
+    private GenericController<ProductInventoryLimitRequest, ProductInventoryLimitResponse> productInventoryLimitController;
     private GenericController<VariantInventoryLimitRequest, VariantInventoryLimitResponse> variantInventoryLimitController;
     private GenericController<CountVariantRequest, CountVariantResponse> countVariantController;
     private GenericController<WarehouseRequest, WarehouseResponse> warehouseController;
@@ -247,6 +253,7 @@ public class GenericMappingRegister {
     private GenericService<Specification, SpecificationRequest, SpecificationResponse> specificationService;
     private GenericService<Product, ProductRequest, ProductResponse> productService;
     private GenericService<Variant, VariantRequest, VariantResponse> variantService;
+    private GenericService<ProductInventoryLimit, ProductInventoryLimitRequest, ProductInventoryLimitResponse> productInventoryLimitService;
     private GenericService<VariantInventoryLimit, VariantInventoryLimitRequest, VariantInventoryLimitResponse> variantInventoryLimitService;
     private GenericService<CountVariant, CountVariantRequest, CountVariantResponse> countVariantService;
     private GenericService<Warehouse, WarehouseRequest, WarehouseResponse> warehouseService;
@@ -428,6 +435,13 @@ public class GenericMappingRegister {
                 SearchFields.VARIANT,
                 ResourceName.VARIANT
         ), VariantRequest.class);
+
+        register("product-inventory-limits", productInventoryLimitController, productInventoryLimitService.init(
+                context.getBean(ProductInventoryLimitRepository.class),
+                context.getBean(ProductInventoryLimitMapper.class),
+                SearchFields.PRODUCT_INVENTORY_LIMIT,
+                ResourceName.PRODUCT_INVENTORY_LIMIT
+        ), ProductInventoryLimitRequest.class);
 
         register("variant-inventory-limits", variantInventoryLimitController, variantInventoryLimitService.init(
                 context.getBean(VariantInventoryLimitRepository.class),

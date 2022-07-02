@@ -126,19 +126,19 @@ function CustomerManage() {
       </tr>
       <tr>
         <td>{CustomerConfigs.properties['user.address.province.name'].label}</td>
-        <td>{entity.user.address.province.name}</td>
+        <td>{entity.user.address.province?.name}</td>
       </tr>
       <tr>
         <td>{CustomerConfigs.properties['user.address.province.code'].label}</td>
-        <td>{entity.user.address.province.code}</td>
+        <td>{entity.user.address.province?.code}</td>
       </tr>
       <tr>
         <td>{CustomerConfigs.properties['user.address.district.name'].label}</td>
-        <td>{entity.user.address.district.name}</td>
+        <td>{entity.user.address.district?.name}</td>
       </tr>
       <tr>
         <td>{CustomerConfigs.properties['user.address.district.code'].label}</td>
-        <td>{entity.user.address.district.code}</td>
+        <td>{entity.user.address.district?.code}</td>
       </tr>
       <tr>
         <td>{CustomerConfigs.properties['user.avatar'].label}</td>

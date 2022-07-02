@@ -21,111 +21,90 @@ import { JobTitleResponse } from 'models/JobTitle';
 import JobTitleConfigs from 'pages/job-title/JobTitleConfigs';
 
 function useEmployeeCreateViewModel() {
-  const createApi = useCreateApi<EmployeeRequest, EmployeeResponse>(EmployeeConfigs.resourceUrl);
-  const { data: provinceListResponse } = useGetAllApi<ProvinceResponse>(
-    ProvinceConfigs.resourceUrl,
-    ProvinceConfigs.resourceKey,
-    { all: 1 }
-  );
-  const { data: districtListResponse } = useGetAllApi<DistrictResponse>(
-    DistrictConfigs.resourceUrl,
-    DistrictConfigs.resourceKey,
-    { all: 1 }
-  );
-  const { data: officeListResponse } = useGetAllApi<OfficeResponse>(
-    OfficeConfigs.resourceUrl,
-    OfficeConfigs.resourceKey,
-    { all: 1 }
-  );
-  const { data: departmentListResponse } = useGetAllApi<DepartmentResponse>(
-    DepartmentConfigs.resourceUrl,
-    DepartmentConfigs.resourceKey,
-    { all: 1 }
-  );
-  const { data: jobTypeListResponse } = useGetAllApi<JobTypeResponse>(
-    JobTypeConfigs.resourceUrl,
-    JobTypeConfigs.resourceKey,
-    { all: 1 }
-  );
-  const { data: jobLevelListResponse } = useGetAllApi<JobLevelResponse>(
-    JobLevelConfigs.resourceUrl,
-    JobLevelConfigs.resourceKey,
-    { all: 1 }
-  );
-  const { data: jobTitleListResponse } = useGetAllApi<JobTitleResponse>(
-    JobTitleConfigs.resourceUrl,
-    JobTitleConfigs.resourceKey,
-    { all: 1 }
-  );
-
-  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>();
-  const [districtSelectList, setDistrictSelectList] = useState<SelectOption[]>();
-  const [officeSelectList, setOfficeSelectList] = useState<SelectOption[]>();
-  const [departmentSelectList, setDepartmentSelectList] = useState<SelectOption[]>();
-  const [jobTypeSelectList, setJobTypeSelectList] = useState<SelectOption[]>();
-  const [jobLevelSelectList, setJobLevelSelectList] = useState<SelectOption[]>();
-  const [jobTitleSelectList, setJobTitleSelectList] = useState<SelectOption[]>();
-
   const form = useForm({
     initialValues: EmployeeConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(EmployeeConfigs.createUpdateFormSchema),
   });
 
-  if (!provinceSelectList && provinceListResponse) {
-    const selectList: SelectOption[] = provinceListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setProvinceSelectList(selectList);
-  }
+  const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>([]);
+  const [districtSelectList, setDistrictSelectList] = useState<SelectOption[]>([]);
+  const [officeSelectList, setOfficeSelectList] = useState<SelectOption[]>([]);
+  const [departmentSelectList, setDepartmentSelectList] = useState<SelectOption[]>([]);
+  const [jobTypeSelectList, setJobTypeSelectList] = useState<SelectOption[]>([]);
+  const [jobLevelSelectList, setJobLevelSelectList] = useState<SelectOption[]>([]);
+  const [jobTitleSelectList, setJobTitleSelectList] = useState<SelectOption[]>([]);
 
-  if (!districtSelectList && districtListResponse) {
-    const selectList: SelectOption[] = districtListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setDistrictSelectList(selectList);
-  }
-
-  if (!officeSelectList && officeListResponse) {
-    const selectList: SelectOption[] = officeListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setOfficeSelectList(selectList);
-  }
-
-  if (!departmentSelectList && departmentListResponse) {
-    const selectList: SelectOption[] = departmentListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setDepartmentSelectList(selectList);
-  }
-
-  if (!jobTypeSelectList && jobTypeListResponse) {
-    const selectList: SelectOption[] = jobTypeListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setJobTypeSelectList(selectList);
-  }
-
-  if (!jobLevelSelectList && jobLevelListResponse) {
-    const selectList: SelectOption[] = jobLevelListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setJobLevelSelectList(selectList);
-  }
-
-  if (!jobTitleSelectList && jobTitleListResponse) {
-    const selectList: SelectOption[] = jobTitleListResponse.content.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    }));
-    setJobTitleSelectList(selectList);
-  }
+  const createApi = useCreateApi<EmployeeRequest, EmployeeResponse>(EmployeeConfigs.resourceUrl);
+  useGetAllApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey,
+    { all: 1 },
+    (provinceListResponse) => {
+      const selectList: SelectOption[] = provinceListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setProvinceSelectList(selectList);
+    }
+  );
+  useGetAllApi<DistrictResponse>(DistrictConfigs.resourceUrl, DistrictConfigs.resourceKey,
+    { all: 1 },
+    (districtListResponse) => {
+      const selectList: SelectOption[] = districtListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setDistrictSelectList(selectList);
+    }
+  );
+  useGetAllApi<OfficeResponse>(OfficeConfigs.resourceUrl, OfficeConfigs.resourceKey,
+    { all: 1 },
+    (officeListResponse) => {
+      const selectList: SelectOption[] = officeListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setOfficeSelectList(selectList);
+    }
+  );
+  useGetAllApi<DepartmentResponse>(DepartmentConfigs.resourceUrl, DepartmentConfigs.resourceKey,
+    { all: 1 },
+    (departmentListResponse) => {
+      const selectList: SelectOption[] = departmentListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setDepartmentSelectList(selectList);
+    }
+  );
+  useGetAllApi<JobTypeResponse>(JobTypeConfigs.resourceUrl, JobTypeConfigs.resourceKey,
+    { all: 1 },
+    (jobTypeListResponse) => {
+      const selectList: SelectOption[] = jobTypeListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setJobTypeSelectList(selectList);
+    }
+  );
+  useGetAllApi<JobLevelResponse>(JobLevelConfigs.resourceUrl, JobLevelConfigs.resourceKey,
+    { all: 1 },
+    (jobLevelListResponse) => {
+      const selectList: SelectOption[] = jobLevelListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setJobLevelSelectList(selectList);
+    }
+  );
+  useGetAllApi<JobTitleResponse>(JobTitleConfigs.resourceUrl, JobTitleConfigs.resourceKey,
+    { all: 1 },
+    (jobTitleListResponse) => {
+      const selectList: SelectOption[] = jobTitleListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setJobTitleSelectList(selectList);
+    }
+  );
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     const requestBody: EmployeeRequest = {
@@ -143,7 +122,7 @@ function useEmployeeCreateViewModel() {
         },
         avatar: formValues['user.avatar'].trim() || null,
         status: Number(formValues['user.status']),
-        roles: [{ id: 2 }],
+        roles: [{ id: EmployeeConfigs.EMPLOYEE_ROLE_ID }],
       },
       officeId: Number(formValues.officeId),
       departmentId: Number(formValues.departmentId),
@@ -182,7 +161,7 @@ function useEmployeeCreateViewModel() {
 
   const userRoleSelectList: SelectOption[] = [
     {
-      value: 'EMPLOYEE',
+      value: String(EmployeeConfigs.EMPLOYEE_ROLE_ID),
       label: 'Nhân viên',
     },
   ];
