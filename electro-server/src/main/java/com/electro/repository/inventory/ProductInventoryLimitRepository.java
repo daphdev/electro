@@ -1,6 +1,6 @@
-package com.electro.repository.product;
+package com.electro.repository.inventory;
 
-import com.electro.entity.product.ProductInventoryLimit;
+import com.electro.entity.inventory.ProductInventoryLimit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

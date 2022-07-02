@@ -1,4 +1,4 @@
-package com.electro.dto.product;
+package com.electro.dto.inventory;
 
 import lombok.Data;
 

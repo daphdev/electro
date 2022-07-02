@@ -1,8 +1,8 @@
-package com.electro.mapper.product;
+package com.electro.mapper.inventory;
 
-import com.electro.dto.product.ProductInventoryLimitRequest;
-import com.electro.dto.product.ProductInventoryLimitResponse;
-import com.electro.entity.product.ProductInventoryLimit;
+import com.electro.dto.inventory.ProductInventoryLimitRequest;
+import com.electro.dto.inventory.ProductInventoryLimitResponse;
+import com.electro.entity.inventory.ProductInventoryLimit;
 import com.electro.mapper.GenericMapper;
 import com.electro.utils.MapperUtils;
 import org.mapstruct.Mapper;

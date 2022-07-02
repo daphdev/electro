@@ -39,9 +39,9 @@
 
     drop table if exists prod.product;
 
-    drop table if exists prod.product_tag;
-
     drop table if exists prod.product_inventory_limit;
+
+    drop table if exists prod.product_tag;
 
     drop table if exists prod.property;
 
@@ -332,12 +332,6 @@
         primary key (id)
     ) engine=MyISAM;
 
-    create table prod.product_tag (
-       product_id bigint not null,
-        tag_id bigint not null,
-        primary key (product_id, tag_id)
-    ) engine=MyISAM;
-
     create table prod.product_inventory_limit (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -348,6 +342,12 @@
         minimum_limit integer,
         product_id bigint not null,
         primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.product_tag (
+       product_id bigint not null,
+        tag_id bigint not null,
+        primary key (product_id, tag_id)
     ) engine=MyISAM;
 
     create table prod.property (
@@ -530,59 +530,59 @@
         primary key (id)
     ) engine=MyISAM;
 
-    alter table prod.category
+    alter table prod.category 
        add constraint UK_hqknmjh5423vchi4xkyhxlhg2 unique (slug);
 
-    alter table prod.count
+    alter table prod.count 
        add constraint UK_18vr7dtwv2bmr0gya58j9aoem unique (code);
 
-    alter table prod.customer
+    alter table prod.customer 
        add constraint UK_j7ja2xvrxudhvssosd4nu1o92 unique (user_id);
 
-    alter table prod.destination
+    alter table prod.destination 
        add constraint UK_a99mkfyhl65vc2n78ijodyoje unique (address_id);
 
-    alter table prod.employee
+    alter table prod.employee 
        add constraint UK_mpps3d3r9pdvyjx3iqixi96fi unique (user_id);
 
     alter table prod.office 
        add constraint UK_mlsa2m6po5222mgtojis7rnow unique (address_id);
 
-    alter table prod.product_inventory_limit
-       add constraint UK_b2qaaqlye3no6xy07jm62qetq unique (product_id);
-
-    alter table prod.product
+    alter table prod.product 
        add constraint UK_h3w5r1mx6d0e5c6um32dgyjej unique (code);
 
-    alter table prod.product
+    alter table prod.product 
        add constraint UK_88yb4l9100epddqsrdvxerhq9 unique (slug);
 
-    alter table prod.supplier
+    alter table prod.product_inventory_limit 
+       add constraint UK_b2qaaqlye3no6xy07jm62qetq unique (product_id);
+
+    alter table prod.supplier 
        add constraint UK_78419iap4p0q918rhlcr1phkl unique (address_id);
 
-    alter table prod.tag
+    alter table prod.tag 
        add constraint UK_1afk1y1o95l8oxxjxsqvelm3o unique (slug);
 
-    alter table prod.transfer
+    alter table prod.transfer 
        add constraint UK_pvng2ahmu3ketx3y7xm2cbssc unique (code);
 
-    alter table prod.user
+    alter table prod.user 
        add constraint UK_dhlcfg8h1drrgu0irs1ro3ohb unique (address_id);
 
-    alter table prod.variant
+    alter table prod.variant 
        add constraint UK_llpabmolrn143l5uh3dp92bgy unique (sku);
 
-    alter table prod.variant_inventory_limit
+    alter table prod.variant_inventory_limit 
        add constraint UK_shw9q4qx2l9f0jgminqo19351 unique (variant_id);
 
-    alter table prod.warehouse
+    alter table prod.warehouse 
        add constraint UK_9wk4ocyt0wv0hpffpr41aoweu unique (code);
 
-    alter table prod.warehouse
+    alter table prod.warehouse 
        add constraint UK_5hyew1b3bewu839bc54o2jo05 unique (address_id);
 
-    alter table prod.address
-       add constraint FKqbjwfi50pdenou8j14knnffrh
+    alter table prod.address 
+       add constraint FKqbjwfi50pdenou8j14knnffrh 
        foreign key (district_id) 
        references prod.district (id);
 
@@ -596,22 +596,22 @@
        foreign key (category_id) 
        references prod.category (id);
 
-    alter table prod.count
-       add constraint FK5fvpdf9v0472mrnb22hqihg8l
-       foreign key (warehouse_id)
+    alter table prod.count 
+       add constraint FK5fvpdf9v0472mrnb22hqihg8l 
+       foreign key (warehouse_id) 
        references prod.warehouse (id);
 
-    alter table prod.count_variant
-       add constraint FKtbly4gx9isdexbdsk58sqs0m0
-       foreign key (count_id)
+    alter table prod.count_variant 
+       add constraint FKtbly4gx9isdexbdsk58sqs0m0 
+       foreign key (count_id) 
        references prod.count (id);
 
-    alter table prod.count_variant
-       add constraint FK36g86gt9dsdw5pjayqqlgsfgq
-       foreign key (variant_id)
+    alter table prod.count_variant 
+       add constraint FK36g86gt9dsdw5pjayqqlgsfgq 
+       foreign key (variant_id) 
        references prod.variant (id);
 
-    alter table prod.customer
+    alter table prod.customer 
        add constraint FK9ogndo8hll7edx5iloyu2uegy 
        foreign key (customer_group_id) 
        references prod.customer_group (id);
@@ -631,12 +631,12 @@
        foreign key (user_id) 
        references prod.user (id);
 
-    alter table prod.destination
-       add constraint FKn0obgfthaq1r8ku3ysej74yk
-       foreign key (address_id)
+    alter table prod.destination 
+       add constraint FKn0obgfthaq1r8ku3ysej74yk 
+       foreign key (address_id) 
        references prod.address (id);
 
-    alter table prod.district
+    alter table prod.district 
        add constraint FK276utu38g5lgqeth6pwfm3rw2 
        foreign key (province_id) 
        references prod.province (id);
@@ -701,37 +701,37 @@
        foreign key (unit_id) 
        references prod.unit (id);
 
-    alter table prod.product_inventory_limit
-       add constraint FKgty8thbjnwann6fcm9q5gibvx
-       foreign key (product_id)
+    alter table prod.product_inventory_limit 
+       add constraint FKgty8thbjnwann6fcm9q5gibvx 
+       foreign key (product_id) 
        references prod.product (id);
 
-    alter table prod.product_tag
-       add constraint FK3b3a7hu5g2kh24wf0cwv3lgsm
-       foreign key (tag_id)
+    alter table prod.product_tag 
+       add constraint FK3b3a7hu5g2kh24wf0cwv3lgsm 
+       foreign key (tag_id) 
        references prod.tag (id);
 
-    alter table prod.product_tag
-       add constraint FK2rf7w3d88x20p7vuc2m9mvv91
-       foreign key (product_id)
+    alter table prod.product_tag 
+       add constraint FK2rf7w3d88x20p7vuc2m9mvv91 
+       foreign key (product_id) 
        references prod.product (id);
 
-    alter table prod.supplier
+    alter table prod.supplier 
        add constraint FK95a8oipih48obtbhltjy7hgvb 
        foreign key (address_id) 
        references prod.address (id);
 
-    alter table prod.transfer_variant
-       add constraint FK8nqj79dxjl442elxpc333pwj6
-       foreign key (transfer_id)
+    alter table prod.transfer_variant 
+       add constraint FK8nqj79dxjl442elxpc333pwj6 
+       foreign key (transfer_id) 
        references prod.transfer (id);
 
-    alter table prod.transfer_variant
-       add constraint FKe9484a4kgr0i94tgycb8q517p
-       foreign key (variant_id)
+    alter table prod.transfer_variant 
+       add constraint FKe9484a4kgr0i94tgycb8q517p 
+       foreign key (variant_id) 
        references prod.variant (id);
 
-    alter table prod.user
+    alter table prod.user 
        add constraint FKddefmvbrws3hvl5t0hnnsv8ox 
        foreign key (address_id) 
        references prod.address (id);
@@ -746,17 +746,17 @@
        foreign key (user_id) 
        references prod.user (id);
 
-    alter table prod.variant
-       add constraint FKjjpllnln6hk6hj98uesgxno00
-       foreign key (product_id)
+    alter table prod.variant 
+       add constraint FKjjpllnln6hk6hj98uesgxno00 
+       foreign key (product_id) 
        references prod.product (id);
 
-    alter table prod.variant_inventory_limit
-       add constraint FKmyp7te4img1nhhmfwj7yr1ss7
-       foreign key (variant_id)
+    alter table prod.variant_inventory_limit 
+       add constraint FKmyp7te4img1nhhmfwj7yr1ss7 
+       foreign key (variant_id) 
        references prod.variant (id);
 
-    alter table prod.warehouse
-       add constraint FKp7xymgre8vt94ihf75e9movyt
-       foreign key (address_id)
+    alter table prod.warehouse 
+       add constraint FKp7xymgre8vt94ihf75e9movyt 
+       foreign key (address_id) 
        references prod.address (id);

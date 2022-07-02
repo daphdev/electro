@@ -1,5 +1,6 @@
-package com.electro.dto.product;
+package com.electro.dto.inventory;
 
+import com.electro.dto.product.ProductResponse;
 import lombok.Data;
 
 import java.time.Instant;

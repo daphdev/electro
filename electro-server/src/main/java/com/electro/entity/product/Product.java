@@ -1,6 +1,7 @@
 package com.electro.entity.product;
 
 import com.electro.entity.BaseEntity;
+import com.electro.entity.inventory.ProductInventoryLimit;
 import com.electro.utils.JsonNodeConverter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -109,6 +110,6 @@ public class Product extends BaseEntity {
     @JsonBackReference
     private Guarantee guarantee;
 
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ProductInventoryLimit productInventoryLimit;
 }
