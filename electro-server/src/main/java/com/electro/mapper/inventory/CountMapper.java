@@ -16,12 +16,12 @@ public interface CountMapper extends GenericMapper<Count, CountRequest, CountRes
 
     @Override
     @BeanMapping(qualifiedByName = "attachCount")
-    @Mapping(source = "warehouseId", target = "warehouse", qualifiedByName = "mapWarehouseIdToWarehouse")
+    @Mapping(source = "warehouseId", target = "warehouse")
     Count requestToEntity(CountRequest request);
 
     @Override
     @BeanMapping(qualifiedByName = "attachCount")
-    @Mapping(source = "warehouseId", target = "warehouse", qualifiedByName = "mapWarehouseIdToWarehouse")
+    @Mapping(source = "warehouseId", target = "warehouse")
     Count partialUpdate(@MappingTarget Count entity, CountRequest request);
 
 }

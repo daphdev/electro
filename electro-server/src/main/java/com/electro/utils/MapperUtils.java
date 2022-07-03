@@ -25,121 +25,72 @@ import com.electro.entity.product.Variant;
 import com.electro.repository.authentication.RoleRepository;
 import com.electro.repository.product.TagRepository;
 import com.electro.repository.product.VariantRepository;
-import lombok.AllArgsConstructor;
 import org.mapstruct.AfterMapping;
+import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
+import org.mapstruct.ReportingPolicy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-@Component
-@AllArgsConstructor
-public class MapperUtils {
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public abstract class MapperUtils {
 
+    @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
     private RoleRepository roleRepository;
+    @Autowired
     private TagRepository tagRepository;
+    @Autowired
     private VariantRepository variantRepository;
 
-    @Named("mapProvinceIdToProvince")
-    public Province mapProvinceIdToProvince(@Nullable Long id) {
-        return (id == null) ? null : (Province) new Province().setId(id);
-    }
+    public abstract Province mapToProvince(Long id);
 
-    @Named("mapDistrictIdToDistrict")
-    public District mapDistrictIdToDistrict(@Nullable Long id) {
-        return (id == null) ? null : (District) new District().setId(id);
+    public abstract District mapToDistrict(Long id);
+
+    public abstract Office mapToOffice(Long id);
+
+    public abstract Department mapToDepartment(Long id);
+
+    public abstract JobType mapToJobType(Long id);
+
+    public abstract JobLevel mapToJobLevel(Long id);
+
+    public abstract JobTitle mapToJobTitle(Long id);
+
+    public abstract CustomerGroup mapToCustomerGroup(Long id);
+
+    public abstract CustomerResource mapToCustomerResource(Long id);
+
+    public abstract CustomerStatus mapToCustomerStatus(Long id);
+
+    public abstract Category mapToCategory(Long id);
+
+    public abstract Brand mapToBrand(Long id);
+
+    public abstract Supplier mapToSupplier(Long id);
+
+    public abstract Unit mapToUnit(Long id);
+
+    public abstract Guarantee mapToGuarantee(Long id);
+
+    public abstract Product mapToProduct(Long id);
+
+    public abstract Warehouse mapToWarehouse(Long id);
+
+    public Variant mapToVariant(Long id) {
+        return variantRepository.getById(id);
     }
 
     @Named("hashPassword")
     public String hashPassword(String password) {
         return passwordEncoder.encode(password);
-    }
-
-    @Named("mapOfficeIdToOffice")
-    public Office mapOfficeIdToOffice(Long id) {
-        return (Office) new Office().setId(id);
-    }
-
-    @Named("mapDepartmentIdToDepartment")
-    public Department mapDepartmentIdToDepartment(Long id) {
-        return (Department) new Department().setId(id);
-    }
-
-    @Named("mapJobTypeIdToJobType")
-    public JobType mapJobTypeIdToJobType(Long id) {
-        return (JobType) new JobType().setId(id);
-    }
-
-    @Named("mapJobLevelIdToJobLevel")
-    public JobLevel mapJobLevelIdToJobLevel(Long id) {
-        return (JobLevel) new JobLevel().setId(id);
-    }
-
-    @Named("mapJobTitleIdToJobTitle")
-    public JobTitle mapJobTitleIdToJobTitle(Long id) {
-        return (JobTitle) new JobTitle().setId(id);
-    }
-
-    @Named("mapCustomerGroupIdToCustomerGroup")
-    public CustomerGroup mapCustomerGroupIdToCustomerGroup(Long id) {
-        return (CustomerGroup) new CustomerGroup().setId(id);
-    }
-
-    @Named("mapCustomerResourceIdToCustomerResource")
-    public CustomerResource mapCustomerResourceIdToCustomerResource(Long id) {
-        return (CustomerResource) new CustomerResource().setId(id);
-    }
-
-    @Named("mapCustomerStatusIdToCustomerStatus")
-    public CustomerStatus mapCustomerStatusIdToCustomerStatus(Long id) {
-        return (CustomerStatus) new CustomerStatus().setId(id);
-    }
-
-    @Named("mapCategoryIdToCategory")
-    public Category mapCategoryIdToCategory(@Nullable Long id) {
-        return (id == null) ? null : (Category) new Category().setId(id);
-    }
-
-    @Named("mapBrandIdToBrand")
-    public Brand mapBrandIdToBrand(@Nullable Long id) {
-        return (id == null) ? null : (Brand) new Brand().setId(id);
-    }
-
-    @Named("mapSupplierIdToSupplier")
-    public Supplier mapSupplierIdToSupplier(@Nullable Long id) {
-        return (id == null) ? null : (Supplier) new Supplier().setId(id);
-    }
-
-    @Named("mapUnitIdToUnit")
-    public Unit mapUnitIdToUnit(@Nullable Long id) {
-        return (id == null) ? null : (Unit) new Unit().setId(id);
-    }
-
-    @Named("mapGuaranteeIdToGuarantee")
-    public Guarantee mapGuaranteeIdToGuarantee(@Nullable Long id) {
-        return (id == null) ? null : (Guarantee) new Guarantee().setId(id);
-    }
-
-    @Named("mapProductIdToProduct")
-    public Product mapProductIdToProduct(Long id) {
-        return (Product) new Product().setId(id);
-    }
-
-    @Named("mapVariantIdToVariant")
-    public Variant mapVariantIdToVariant(Long id) {
-        return variantRepository.getById(id);
-    }
-
-    @Named("mapWarehouseIdToWarehouse")
-    public Warehouse mapWarehouseIdToWarehouse(Long id) {
-        return (Warehouse) new Warehouse().setId(id);
     }
 
     @AfterMapping

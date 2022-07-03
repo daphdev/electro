@@ -14,11 +14,11 @@ import org.mapstruct.ReportingPolicy;
 public interface CountVariantMapper extends GenericMapper<CountVariant, CountVariantRequest, CountVariantResponse> {
 
     @Override
-    @Mapping(source = "variantId", target = "variant", qualifiedByName = "mapVariantIdToVariant")
+    @Mapping(source = "variantId", target = "variant")
     CountVariant requestToEntity(CountVariantRequest request);
 
     @Override
-    @Mapping(source = "variantId", target = "variant", qualifiedByName = "mapVariantIdToVariant")
+    @Mapping(source = "variantId", target = "variant")
     CountVariant partialUpdate(@MappingTarget CountVariant entity, CountVariantRequest request);
 
 }

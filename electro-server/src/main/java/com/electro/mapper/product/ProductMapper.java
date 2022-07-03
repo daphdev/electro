@@ -16,20 +16,20 @@ public interface ProductMapper extends GenericMapper<Product, ProductRequest, Pr
 
     @Override
     @BeanMapping(qualifiedByName = "attachProduct")
-    @Mapping(source = "categoryId", target = "category", qualifiedByName = "mapCategoryIdToCategory")
-    @Mapping(source = "brandId", target = "brand", qualifiedByName = "mapBrandIdToBrand")
-    @Mapping(source = "supplierId", target = "supplier", qualifiedByName = "mapSupplierIdToSupplier")
-    @Mapping(source = "unitId", target = "unit", qualifiedByName = "mapUnitIdToUnit")
-    @Mapping(source = "guaranteeId", target = "guarantee", qualifiedByName = "mapGuaranteeIdToGuarantee")
+    @Mapping(source = "categoryId", target = "category")
+    @Mapping(source = "brandId", target = "brand")
+    @Mapping(source = "supplierId", target = "supplier")
+    @Mapping(source = "unitId", target = "unit")
+    @Mapping(source = "guaranteeId", target = "guarantee")
     Product requestToEntity(ProductRequest request);
 
     @Override
     @BeanMapping(qualifiedByName = "attachProduct")
-    @Mapping(source = "categoryId", target = "category", qualifiedByName = "mapCategoryIdToCategory")
-    @Mapping(source = "brandId", target = "brand", qualifiedByName = "mapBrandIdToBrand")
-    @Mapping(source = "supplierId", target = "supplier", qualifiedByName = "mapSupplierIdToSupplier")
-    @Mapping(source = "unitId", target = "unit", qualifiedByName = "mapUnitIdToUnit")
-    @Mapping(source = "guaranteeId", target = "guarantee", qualifiedByName = "mapGuaranteeIdToGuarantee")
+    @Mapping(source = "categoryId", target = "category")
+    @Mapping(source = "brandId", target = "brand")
+    @Mapping(source = "supplierId", target = "supplier")
+    @Mapping(source = "unitId", target = "unit")
+    @Mapping(source = "guaranteeId", target = "guarantee")
     Product partialUpdate(@MappingTarget Product entity, ProductRequest request);
 
 }

@@ -14,11 +14,11 @@ import org.mapstruct.ReportingPolicy;
 public interface DistrictMapper extends GenericMapper<District, DistrictRequest, DistrictResponse> {
 
     @Override
-    @Mapping(source = "provinceId", target = "province", qualifiedByName = "mapProvinceIdToProvince")
+    @Mapping(source = "provinceId", target = "province")
     District requestToEntity(DistrictRequest request);
 
     @Override
-    @Mapping(source = "provinceId", target = "province", qualifiedByName = "mapProvinceIdToProvince")
+    @Mapping(source = "provinceId", target = "province")
     District partialUpdate(@MappingTarget District entity, DistrictRequest request);
 
 }

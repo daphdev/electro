@@ -14,11 +14,11 @@ import org.mapstruct.ReportingPolicy;
 public interface VariantInventoryLimitMapper extends GenericMapper<VariantInventoryLimit, VariantInventoryLimitRequest, VariantInventoryLimitResponse> {
 
     @Override
-    @Mapping(source = "variantId", target = "variant", qualifiedByName = "mapVariantIdToVariant")
+    @Mapping(source = "variantId", target = "variant")
     VariantInventoryLimit requestToEntity(VariantInventoryLimitRequest request);
 
     @Override
-    @Mapping(source = "variantId", target = "variant", qualifiedByName = "mapVariantIdToVariant")
+    @Mapping(source = "variantId", target = "variant")
     VariantInventoryLimit partialUpdate(@MappingTarget VariantInventoryLimit entity, VariantInventoryLimitRequest request);
 
 }

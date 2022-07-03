@@ -14,11 +14,11 @@ import org.mapstruct.ReportingPolicy;
 public interface TransferVariantMapper extends GenericMapper<TransferVariant, TransferVariantRequest, TransferVariantResponse> {
 
     @Override
-    @Mapping(source = "variantId", target = "variant", qualifiedByName = "mapVariantIdToVariant")
+    @Mapping(source = "variantId", target = "variant")
     TransferVariant requestToEntity(TransferVariantRequest request);
 
     @Override
-    @Mapping(source = "variantId", target = "variant", qualifiedByName = "mapVariantIdToVariant")
+    @Mapping(source = "variantId", target = "variant")
     TransferVariant partialUpdate(@MappingTarget TransferVariant entity, TransferVariantRequest request);
 
 }

@@ -14,11 +14,11 @@ import org.mapstruct.ReportingPolicy;
 public interface CategoryMapper extends GenericMapper<Category, CategoryRequest, CategoryResponse> {
 
     @Override
-    @Mapping(source = "parentCategoryId", target = "parentCategory", qualifiedByName = "mapCategoryIdToCategory")
+    @Mapping(source = "parentCategoryId", target = "parentCategory")
     Category requestToEntity(CategoryRequest request);
 
     @Override
-    @Mapping(source = "parentCategoryId", target = "parentCategory", qualifiedByName = "mapCategoryIdToCategory")
+    @Mapping(source = "parentCategoryId", target = "parentCategory")
     Category partialUpdate(@MappingTarget Category entity, CategoryRequest request);
 
 }

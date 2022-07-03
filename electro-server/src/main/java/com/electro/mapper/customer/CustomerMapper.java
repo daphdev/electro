@@ -15,15 +15,15 @@ import org.mapstruct.ReportingPolicy;
 public interface CustomerMapper extends GenericMapper<Customer, CustomerRequest, CustomerResponse> {
 
     @Override
-    @Mapping(source = "customerGroupId", target = "customerGroup", qualifiedByName = "mapCustomerGroupIdToCustomerGroup")
-    @Mapping(source = "customerResourceId", target = "customerResource", qualifiedByName = "mapCustomerResourceIdToCustomerResource")
-    @Mapping(source = "customerStatusId", target = "customerStatus", qualifiedByName = "mapCustomerStatusIdToCustomerStatus")
+    @Mapping(source = "customerGroupId", target = "customerGroup")
+    @Mapping(source = "customerResourceId", target = "customerResource")
+    @Mapping(source = "customerStatusId", target = "customerStatus")
     Customer requestToEntity(CustomerRequest request);
 
     @Override
-    @Mapping(source = "customerGroupId", target = "customerGroup", qualifiedByName = "mapCustomerGroupIdToCustomerGroup")
-    @Mapping(source = "customerResourceId", target = "customerResource", qualifiedByName = "mapCustomerResourceIdToCustomerResource")
-    @Mapping(source = "customerStatusId", target = "customerStatus", qualifiedByName = "mapCustomerStatusIdToCustomerStatus")
+    @Mapping(source = "customerGroupId", target = "customerGroup")
+    @Mapping(source = "customerResourceId", target = "customerResource")
+    @Mapping(source = "customerStatusId", target = "customerStatus")
     Customer partialUpdate(@MappingTarget Customer entity, CustomerRequest request);
 
 }

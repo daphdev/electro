@@ -15,19 +15,19 @@ import org.mapstruct.ReportingPolicy;
 public interface EmployeeMapper extends GenericMapper<Employee, EmployeeRequest, EmployeeResponse> {
 
     @Override
-    @Mapping(source = "officeId", target = "office", qualifiedByName = "mapOfficeIdToOffice")
-    @Mapping(source = "departmentId", target = "department", qualifiedByName = "mapDepartmentIdToDepartment")
-    @Mapping(source = "jobTypeId", target = "jobType", qualifiedByName = "mapJobTypeIdToJobType")
-    @Mapping(source = "jobLevelId", target = "jobLevel", qualifiedByName = "mapJobLevelIdToJobLevel")
-    @Mapping(source = "jobTitleId", target = "jobTitle", qualifiedByName = "mapJobTitleIdToJobTitle")
+    @Mapping(source = "officeId", target = "office")
+    @Mapping(source = "departmentId", target = "department")
+    @Mapping(source = "jobTypeId", target = "jobType")
+    @Mapping(source = "jobLevelId", target = "jobLevel")
+    @Mapping(source = "jobTitleId", target = "jobTitle")
     Employee requestToEntity(EmployeeRequest request);
 
     @Override
-    @Mapping(source = "officeId", target = "office", qualifiedByName = "mapOfficeIdToOffice")
-    @Mapping(source = "departmentId", target = "department", qualifiedByName = "mapDepartmentIdToDepartment")
-    @Mapping(source = "jobTypeId", target = "jobType", qualifiedByName = "mapJobTypeIdToJobType")
-    @Mapping(source = "jobLevelId", target = "jobLevel", qualifiedByName = "mapJobLevelIdToJobLevel")
-    @Mapping(source = "jobTitleId", target = "jobTitle", qualifiedByName = "mapJobTitleIdToJobTitle")
+    @Mapping(source = "officeId", target = "office")
+    @Mapping(source = "departmentId", target = "department")
+    @Mapping(source = "jobTypeId", target = "jobType")
+    @Mapping(source = "jobLevelId", target = "jobLevel")
+    @Mapping(source = "jobTitleId", target = "jobTitle")
     Employee partialUpdate(@MappingTarget Employee entity, EmployeeRequest request);
 
 }

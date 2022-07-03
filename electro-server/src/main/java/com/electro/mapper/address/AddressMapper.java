@@ -14,13 +14,13 @@ import org.mapstruct.ReportingPolicy;
 public interface AddressMapper extends GenericMapper<Address, AddressRequest, AddressResponse> {
 
     @Override
-    @Mapping(source = "provinceId", target = "province", qualifiedByName = "mapProvinceIdToProvince")
-    @Mapping(source = "districtId", target = "district", qualifiedByName = "mapDistrictIdToDistrict")
+    @Mapping(source = "provinceId", target = "province")
+    @Mapping(source = "districtId", target = "district")
     Address requestToEntity(AddressRequest request);
 
     @Override
-    @Mapping(source = "provinceId", target = "province", qualifiedByName = "mapProvinceIdToProvince")
-    @Mapping(source = "districtId", target = "district", qualifiedByName = "mapDistrictIdToDistrict")
+    @Mapping(source = "provinceId", target = "province")
+    @Mapping(source = "districtId", target = "district")
     Address partialUpdate(@MappingTarget Address entity, AddressRequest request);
 
 }

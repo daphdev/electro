@@ -14,11 +14,11 @@ import org.mapstruct.ReportingPolicy;
 public interface ProductInventoryLimitMapper extends GenericMapper<ProductInventoryLimit, ProductInventoryLimitRequest, ProductInventoryLimitResponse> {
 
     @Override
-    @Mapping(source = "productId", target = "product", qualifiedByName = "mapProductIdToProduct")
+    @Mapping(source = "productId", target = "product")
     ProductInventoryLimit requestToEntity(ProductInventoryLimitRequest request);
 
     @Override
-    @Mapping(source = "productId", target = "product", qualifiedByName = "mapProductIdToProduct")
+    @Mapping(source = "productId", target = "product")
     ProductInventoryLimit partialUpdate(@MappingTarget ProductInventoryLimit entity, ProductInventoryLimitRequest request);
 
 }
