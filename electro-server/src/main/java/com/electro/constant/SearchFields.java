@@ -290,4 +290,57 @@ public interface SearchFields {
     List<String> TRANSFER = List.of(
             "code"
     );
+
+    List<String> DOCKET = List.of(
+            "code",
+            "type",
+            "reason.name"
+    );
+
+    List<String> STORAGE_LOCATION = List.of(
+            "name",
+            "warehouse.code",
+            "warehouse.name"
+    );
+
+    List<String> DOCKET_VARIANT = List.of(
+            "docket.code",
+            "variant.product.name",
+            "variant.product.code",
+            "variant.sku",
+            "variant.cost",
+            "variant.price",
+            "quantity"
+    );
+
+    List<String> PURCHASE_ORDER = List.of(
+            "code",
+            "supplier.displayName",
+            "supplier.code",
+            "supplier.contactFullname",
+            "supplier.contactEmail",
+            "supplier.contactPhone",
+            "supplier.companyName",
+            "supplier.taxCode",
+            "supplier.email",
+            "supplier.phone",
+            "supplier.fax",
+            "supplier.website",
+            "supplier.address.line",
+            "destination.contactFullname",
+            "destination.contactEmail",
+            "destination.contactPhone",
+            "destination.address.line",
+            "destination.address.province.name",
+            "destination.address.province.code",
+            "destination.address.district.name",
+            "destination.address.district.code"
+    );
+
+    List<String> PURCHASE_ORDER_VARIANT = List.of(
+            "cost",
+            "quantity",
+            "amount"
+
+    );
 }

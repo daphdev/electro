@@ -44,4 +44,12 @@ public class Warehouse extends BaseEntity {
     @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Count> counts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<StorageLocation> storageLocations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Docket> dockets = new ArrayList<>();
 }

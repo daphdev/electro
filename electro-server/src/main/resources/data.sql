@@ -327,3 +327,36 @@ insert into transfer_variant (quantity, transfer_id, variant_id) values (50, 1, 
 insert into transfer_variant (quantity, transfer_id, variant_id) values (51, 1, 2);
 insert into transfer_variant (quantity, transfer_id, variant_id) values (12, 1, 3);
 insert into transfer_variant (quantity, transfer_id, variant_id) values (98, 2, 3);
+
+-- storage_location TABLE: 5 record
+insert into storage_location (created_at, updated_at, storage_location_id, warehouse_id, name) values ('2022-04-03 16:47:22', '2022-06-19 19:19:23', 1, 5, 'Ke 1 hang 2');
+insert into storage_location (created_at, updated_at, storage_location_id, warehouse_id, name) values ('2022-07-03 03:46:02', '2022-06-06 08:25:05', 2, 3, 'Ke 2 hang 2');
+insert into storage_location (created_at, updated_at, storage_location_id, warehouse_id, name) values ('2021-10-25 14:11:02', '2021-08-30 18:56:30', 3, 2, 'Ke 3 hang 4');
+
+
+-- purchase_order TABLE: 5 records
+insert into purchase_order (created_at, updated_at, code, supplier_id, destination_id, total_amount, note, status) values ('2022-03-19 22:22:03', '2022-04-02 04:27:05', '41520-499', 2, 2, 12, 'Revision of Intraluminal Device in Fallopian Tube, Endo', 1);
+insert into purchase_order (created_at, updated_at, code, supplier_id, destination_id, total_amount, note, status) values ('2022-07-13 16:31:05', '2021-09-13 01:47:12', '48951-2030', 5, 3, 53, 'Bypass Cereb Vent to Intestine w Nonaut Sub, Open', 2);
+insert into purchase_order (created_at, updated_at, code, supplier_id, destination_id, total_amount, note, status) values ('2021-10-17 00:57:29', '2021-08-07 13:54:28', '68479-116', 2, 4, 85, 'Restriction of Bladder with Intralum Dev, Open Approach', 1);
+insert into purchase_order (created_at, updated_at, code, supplier_id, destination_id, total_amount, note, status) values ('2021-12-06 13:14:48', '2021-10-05 13:10:53', '0904-1102', 2, 4, 44, 'Revision of Drainage Device in L Wrist Jt, Open Approach', 2);
+insert into purchase_order (created_at, updated_at, code, supplier_id, destination_id, total_amount, note, status) values ('2022-05-09 04:34:55', '2022-06-18 05:16:04', '52686-224', 3, 1, 2, 'Revision of Autol Sub in L Glenoid Cav, Perc Endo Approach', 2);
+
+-- docket_variant TABLE: 4 records
+insert into purchase_order_variant (cost, quantity, amount, purchase_order_id, variant_id) values (24, 61, 61, 3, 2);
+insert into purchase_order_variant (cost, quantity, amount, purchase_order_id, variant_id) values (89, 77, 68, 3, 1);
+insert into purchase_order_variant (cost, quantity, amount, purchase_order_id, variant_id) values (100, 26, 21, 1, 3);
+insert into purchase_order_variant (cost, quantity, amount, purchase_order_id, variant_id) values (66, 1, 53, 4, 2);
+insert into purchase_order_variant (cost, quantity, amount, purchase_order_id, variant_id) values (57, 22, 21, 4, 3);
+
+-- docket TABLE: 4 record
+insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, note, status, purchase_order_id) values ('2022-07-08 00:17:58', '2022-02-22 22:04:49', 27, '68016-008', 4, 1, 'Revision or replacement of artificial spinal disc prosthesis, not otherwise specified', 3, 1);
+insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, note, status, purchase_order_id) values ('2021-12-05 11:44:55', '2021-10-13 11:24:38', 14, '36987-1459', 3, 2, 'Repair of retinal tear by xenon arc photocoagulation', 1, 2);
+insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, note, status, purchase_order_id) values ('2022-02-20 04:04:06', '2021-12-20 00:26:02', 68, '36987-3265', 2, 3, 'Complete glossectomy', 1, 3);
+insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, note, status, purchase_order_id) values ('2022-01-27 01:34:39', '2022-04-22 22:26:16', 3, '50436-6046', 2, 4,'Carotid sinus stimulation', 2, 4);
+insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, note, status, purchase_order_id) values ('2021-12-16 17:41:03', '2021-08-05 17:16:06', 10, '68788-9108', 3, 5,'Character analysis', 2, 5);
+
+-- docket_variant TABLE: 4 records
+insert into docket_variant (quantity, docket_id, variant_id) values (50, 1, 1);
+insert into docket_variant (quantity, docket_id, variant_id) values (51, 1, 2);
+insert into docket_variant (quantity, docket_id, variant_id) values (12, 1, 3);
+insert into docket_variant (quantity, docket_id, variant_id) values (98, 2, 3);

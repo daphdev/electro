@@ -23,7 +23,11 @@
 
     drop table if exists prod.district;
 
+    drop table if exists prod.docket;
+
     drop table if exists prod.docket_reason;
+
+    drop table if exists prod.docket_variant;
 
     drop table if exists prod.employee;
 
@@ -47,9 +51,15 @@
 
     drop table if exists prod.province;
 
+    drop table if exists prod.purchase_order;
+
+    drop table if exists prod.purchase_order_variant;
+
     drop table if exists prod.role;
 
     drop table if exists prod.specification;
+
+    drop table if exists prod.storage_location;
 
     drop table if exists prod.supplier;
 
@@ -224,6 +234,22 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.docket (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255),
+        note varchar(255),
+        status TINYINT not null,
+        type integer,
+        purchase_order_id bigint not null,
+        reason_id bigint,
+        warehouse_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.docket_reason (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -233,6 +259,13 @@
         name varchar(255) not null,
         status TINYINT not null,
         primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.docket_variant (
+       docket_id bigint not null,
+        variant_id bigint not null,
+        quantity integer not null,
+        primary key (docket_id, variant_id)
     ) engine=MyISAM;
 
     create table prod.employee (
@@ -374,6 +407,30 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.purchase_order (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255),
+        note varchar(255),
+        status TINYINT not null,
+        total_amount double precision,
+        destination_id bigint not null,
+        supplier_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.purchase_order_variant (
+       purchase_order_id bigint not null,
+        variant_id bigint not null,
+        amount double precision not null,
+        cost double precision not null,
+        quantity integer not null,
+        primary key (purchase_order_id, variant_id)
+    ) engine=MyISAM;
+
     create table prod.role (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -396,6 +453,18 @@
         description varchar(255),
         name varchar(255) not null,
         status TINYINT not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.storage_location (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        name varchar(255),
+        storage_location_id bigint not null,
+        warehouse_id bigint not null,
         primary key (id)
     ) engine=MyISAM;
 
@@ -578,6 +647,9 @@
     alter table prod.specification 
        add constraint UK_3lssqgpri39w9a5y932fgdvsa unique (code);
 
+    alter table prod.storage_location 
+       add constraint UK_ha0hf7i67ueyx4yiloeesde5k unique (storage_location_id);
+
     alter table prod.supplier 
        add constraint UK_u0lh6hby20ok7au7646wrewl unique (code);
 
@@ -665,6 +737,31 @@
        foreign key (province_id) 
        references prod.province (id);
 
+    alter table prod.docket 
+       add constraint FKckq6rph63qir38nenagh535vb 
+       foreign key (purchase_order_id) 
+       references prod.purchase_order (id);
+
+    alter table prod.docket 
+       add constraint FKcsyjfas113aro12r3cbpq599 
+       foreign key (reason_id) 
+       references prod.docket_reason (id);
+
+    alter table prod.docket 
+       add constraint FKoj8a1a4df4f01954wlf6usrcv 
+       foreign key (warehouse_id) 
+       references prod.warehouse (id);
+
+    alter table prod.docket_variant 
+       add constraint FK2rkqg8145y1g3eobexpab8xxj 
+       foreign key (docket_id) 
+       references prod.docket (id);
+
+    alter table prod.docket_variant 
+       add constraint FKln55e0ivaxua5yq25pl1tk9hk 
+       foreign key (variant_id) 
+       references prod.variant (id);
+
     alter table prod.employee 
        add constraint FKbejtwvg9bxus2mffsm3swj3u9 
        foreign key (department_id) 
@@ -739,6 +836,36 @@
        add constraint FK2rf7w3d88x20p7vuc2m9mvv91 
        foreign key (product_id) 
        references prod.product (id);
+
+    alter table prod.purchase_order 
+       add constraint FK13alrtuvkdl5mevgqvpwjp0ma 
+       foreign key (destination_id) 
+       references prod.destination (id);
+
+    alter table prod.purchase_order 
+       add constraint FK4traogu3jriq9u7e8rvm86k7i 
+       foreign key (supplier_id) 
+       references prod.supplier (id);
+
+    alter table prod.purchase_order_variant 
+       add constraint FKcknb9rwvu7dfki70nyye7x2ww 
+       foreign key (purchase_order_id) 
+       references prod.purchase_order (id);
+
+    alter table prod.purchase_order_variant 
+       add constraint FKs0ol41wsfln8hjuv3pkgkk60i 
+       foreign key (variant_id) 
+       references prod.variant (id);
+
+    alter table prod.storage_location 
+       add constraint FK5ot86kqkl4h9vcb8u5wntgqo6 
+       foreign key (storage_location_id) 
+       references prod.variant (id);
+
+    alter table prod.storage_location 
+       add constraint FK956y7ykytekn259p907onqkiw 
+       foreign key (warehouse_id) 
+       references prod.warehouse (id);
 
     alter table prod.supplier 
        add constraint FK95a8oipih48obtbhltjy7hgvb 

@@ -13,6 +13,10 @@ import com.electro.entity.employee.JobTitle;
 import com.electro.entity.employee.JobType;
 import com.electro.entity.employee.Office;
 import com.electro.entity.inventory.Count;
+import com.electro.entity.inventory.Destination;
+import com.electro.entity.inventory.Docket;
+import com.electro.entity.inventory.DocketReason;
+import com.electro.entity.inventory.PurchaseOrder;
 import com.electro.entity.inventory.Transfer;
 import com.electro.entity.inventory.Warehouse;
 import com.electro.entity.product.Brand;
@@ -84,6 +88,13 @@ public abstract class MapperUtils {
 
     public abstract Warehouse mapToWarehouse(Long id);
 
+    public abstract DocketReason mapToDocketReason(Long id);
+
+    public abstract Destination mapToDestination(Long id);
+
+    public abstract PurchaseOrder mapToPurchaseOrder(Long id);
+
+
     public Variant mapToVariant(Long id) {
         return variantRepository.getById(id);
     }
@@ -117,6 +128,20 @@ public abstract class MapperUtils {
     public Transfer attachTransfer(@MappingTarget Transfer transfer) {
         transfer.getTransferVariants().forEach(transferVariant -> transferVariant.setTransfer(transfer));
         return transfer;
+    }
+
+    @AfterMapping
+    @Named("attachDocket")
+    public Docket attachDocket(@MappingTarget Docket docket) {
+        docket.getDocketVariants().forEach(docketVariant -> docketVariant.setDocket(docket));
+        return docket;
+    }
+
+    @AfterMapping
+    @Named("attachPurchaseOrder")
+    public PurchaseOrder attachPurchaseOrder(@MappingTarget PurchaseOrder purchaseOrder) {
+        purchaseOrder.getVariants().forEach(purchaseOrderVariant -> purchaseOrderVariant.setPurchaseOrder(purchaseOrder));
+        return purchaseOrder;
     }
 
     private <E extends BaseEntity> Set<E> attachSet(Set<E> entities, JpaRepository<E, Long> repository) {

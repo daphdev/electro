@@ -54,7 +54,11 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("destinations"))
                 .and(generateRoute("docket-reasons"))
                 .and(generateRoute("transfer-variants"))
-                .and(generateRoute("transfers"));
+                .and(generateRoute("transfers"))
+                .and(generateRoute("dockets"))
+                .and(generateRoute("storage-locations"))
+                .and(generateRoute("purchase-orders"))
+                .and(generateRoute("purchase-order-variants"));
     }
 
     private RouterFunction<ServerResponse> generateRoute(String resource) {

@@ -2,6 +2,9 @@ package com.electro.entity.product;
 
 import com.electro.entity.BaseEntity;
 import com.electro.entity.inventory.CountVariant;
+import com.electro.entity.inventory.DocketVariant;
+import com.electro.entity.inventory.PurchaseOrderVariant;
+import com.electro.entity.inventory.StorageLocation;
 import com.electro.entity.inventory.TransferVariant;
 import com.electro.entity.inventory.VariantInventoryLimit;
 import com.electro.utils.JsonNodeConverter;
@@ -56,6 +59,9 @@ public class Variant extends BaseEntity {
     @Convert(converter = JsonNodeConverter.class)
     private JsonNode images;
 
+    @OneToOne(mappedBy = "variant",  cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private StorageLocation storageLocation;
+
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
 
@@ -67,4 +73,10 @@ public class Variant extends BaseEntity {
 
     @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
     private Set<TransferVariant> transferVariants = new HashSet<>();
+
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
+    private Set<DocketVariant> docketVariants = new HashSet<>();
+
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
+    private Set<PurchaseOrderVariant> purchaseOrderVariants = new HashSet<>();
 }

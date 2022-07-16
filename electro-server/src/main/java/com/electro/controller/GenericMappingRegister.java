@@ -40,6 +40,18 @@ import com.electro.dto.inventory.DestinationRequest;
 import com.electro.dto.inventory.DestinationResponse;
 import com.electro.dto.inventory.DocketReasonRequest;
 import com.electro.dto.inventory.DocketReasonResponse;
+import com.electro.dto.inventory.DocketRequest;
+import com.electro.dto.inventory.DocketResponse;
+import com.electro.dto.inventory.DocketVariantRequest;
+import com.electro.dto.inventory.DocketVariantResponse;
+import com.electro.dto.inventory.ProductInventoryLimitRequest;
+import com.electro.dto.inventory.ProductInventoryLimitResponse;
+import com.electro.dto.inventory.PurchaseOrderRequest;
+import com.electro.dto.inventory.PurchaseOrderResponse;
+import com.electro.dto.inventory.PurchaseOrderVariantRequest;
+import com.electro.dto.inventory.PurchaseOrderVariantResponse;
+import com.electro.dto.inventory.StorageLocationRequest;
+import com.electro.dto.inventory.StorageLocationResponse;
 import com.electro.dto.inventory.TransferRequest;
 import com.electro.dto.inventory.TransferResponse;
 import com.electro.dto.inventory.TransferVariantRequest;
@@ -54,8 +66,6 @@ import com.electro.dto.product.CategoryRequest;
 import com.electro.dto.product.CategoryResponse;
 import com.electro.dto.product.GuaranteeRequest;
 import com.electro.dto.product.GuaranteeResponse;
-import com.electro.dto.inventory.ProductInventoryLimitRequest;
-import com.electro.dto.inventory.ProductInventoryLimitResponse;
 import com.electro.dto.product.ProductRequest;
 import com.electro.dto.product.ProductResponse;
 import com.electro.dto.product.PropertyRequest;
@@ -87,7 +97,13 @@ import com.electro.entity.employee.Office;
 import com.electro.entity.inventory.Count;
 import com.electro.entity.inventory.CountVariant;
 import com.electro.entity.inventory.Destination;
+import com.electro.entity.inventory.Docket;
 import com.electro.entity.inventory.DocketReason;
+import com.electro.entity.inventory.DocketVariant;
+import com.electro.entity.inventory.ProductInventoryLimit;
+import com.electro.entity.inventory.PurchaseOrder;
+import com.electro.entity.inventory.PurchaseOrderVariant;
+import com.electro.entity.inventory.StorageLocation;
 import com.electro.entity.inventory.Transfer;
 import com.electro.entity.inventory.TransferVariant;
 import com.electro.entity.inventory.VariantInventoryLimit;
@@ -96,7 +112,6 @@ import com.electro.entity.product.Brand;
 import com.electro.entity.product.Category;
 import com.electro.entity.product.Guarantee;
 import com.electro.entity.product.Product;
-import com.electro.entity.inventory.ProductInventoryLimit;
 import com.electro.entity.product.Property;
 import com.electro.entity.product.Specification;
 import com.electro.entity.product.Supplier;
@@ -120,7 +135,13 @@ import com.electro.mapper.employee.OfficeMapper;
 import com.electro.mapper.inventory.CountMapper;
 import com.electro.mapper.inventory.CountVariantMapper;
 import com.electro.mapper.inventory.DestinationMapper;
+import com.electro.mapper.inventory.DocketMapper;
 import com.electro.mapper.inventory.DocketReasonMapper;
+import com.electro.mapper.inventory.DocketVariantMapper;
+import com.electro.mapper.inventory.ProductInventoryLimitMapper;
+import com.electro.mapper.inventory.PurchaseOrderMapper;
+import com.electro.mapper.inventory.PurchaseOrderVariantMapper;
+import com.electro.mapper.inventory.StorageLocationMapper;
 import com.electro.mapper.inventory.TransferMapper;
 import com.electro.mapper.inventory.TransferVariantMapper;
 import com.electro.mapper.inventory.VariantInventoryLimitMapper;
@@ -128,7 +149,6 @@ import com.electro.mapper.inventory.WarehouseMapper;
 import com.electro.mapper.product.BrandMapper;
 import com.electro.mapper.product.CategoryMapper;
 import com.electro.mapper.product.GuaranteeMapper;
-import com.electro.mapper.inventory.ProductInventoryLimitMapper;
 import com.electro.mapper.product.ProductMapper;
 import com.electro.mapper.product.PropertyMapper;
 import com.electro.mapper.product.SpecificationMapper;
@@ -154,6 +174,12 @@ import com.electro.repository.inventory.CountRepository;
 import com.electro.repository.inventory.CountVariantRepository;
 import com.electro.repository.inventory.DestinationRepository;
 import com.electro.repository.inventory.DocketReasonRepository;
+import com.electro.repository.inventory.DocketRepository;
+import com.electro.repository.inventory.DocketVariantRepository;
+import com.electro.repository.inventory.ProductInventoryLimitRepository;
+import com.electro.repository.inventory.PurchaseOrderRepository;
+import com.electro.repository.inventory.PurchaseOrderVariantRepository;
+import com.electro.repository.inventory.StorageLocationRepository;
 import com.electro.repository.inventory.TransferRepository;
 import com.electro.repository.inventory.TransferVariantRepository;
 import com.electro.repository.inventory.VariantInventoryLimitRepository;
@@ -161,7 +187,6 @@ import com.electro.repository.inventory.WarehouseRepository;
 import com.electro.repository.product.BrandRepository;
 import com.electro.repository.product.CategoryRepository;
 import com.electro.repository.product.GuaranteeRepository;
-import com.electro.repository.inventory.ProductInventoryLimitRepository;
 import com.electro.repository.product.ProductRepository;
 import com.electro.repository.product.PropertyRepository;
 import com.electro.repository.product.SpecificationRepository;
@@ -227,6 +252,11 @@ public class GenericMappingRegister {
     private GenericController<DocketReasonRequest, DocketReasonResponse> docketReasonController;
     private GenericController<TransferVariantRequest, TransferVariantResponse> transferVariantController;
     private GenericController<TransferRequest, TransferResponse> transferController;
+    private GenericController<DocketRequest, DocketResponse> docketController;
+    private GenericController<StorageLocationRequest, StorageLocationResponse> storageLocationController;
+    private GenericController<DocketVariantRequest, DocketVariantResponse> docketVariantController;
+    private GenericController<PurchaseOrderRequest, PurchaseOrderResponse> purchaseOrderController;
+    private GenericController<PurchaseOrderVariantRequest, PurchaseOrderVariantResponse> purchaseOrderVariantController;
 
     // Services
     private GenericService<District, DistrictRequest, DistrictResponse> districtService;
@@ -262,6 +292,11 @@ public class GenericMappingRegister {
     private GenericService<DocketReason, DocketReasonRequest, DocketReasonResponse> docketReasonService;
     private GenericService<TransferVariant, TransferVariantRequest, TransferVariantResponse> transferVariantService;
     private GenericService<Transfer, TransferRequest, TransferResponse> transferService;
+    private GenericService<Docket, DocketRequest, DocketResponse> docketService;
+    private GenericService<StorageLocation, StorageLocationRequest, StorageLocationResponse> storageLocationService;
+    private GenericService<DocketVariant, DocketVariantRequest, DocketVariantResponse> docketVariantService;
+    private GenericService<PurchaseOrder, PurchaseOrderRequest, PurchaseOrderResponse> purchaseOrderService;
+    private GenericService<PurchaseOrderVariant, PurchaseOrderVariantRequest, PurchaseOrderVariantResponse> purchaseOrderVariantService;
 
     @PostConstruct
     public void registerControllers() throws NoSuchMethodException {
@@ -499,6 +534,40 @@ public class GenericMappingRegister {
                 ResourceName.TRANSFER
         ), TransferRequest.class);
 
+        register("dockets", docketController, docketService.init(
+                context.getBean(DocketRepository.class),
+                context.getBean(DocketMapper.class),
+                SearchFields.DOCKET,
+                ResourceName.DOCKET
+        ), DocketRequest.class);
+
+        register("storage-locations", storageLocationController, storageLocationService.init(
+                context.getBean(StorageLocationRepository.class),
+                context.getBean(StorageLocationMapper.class),
+                SearchFields.STORAGE_LOCATION,
+                ResourceName.STORAGE_LOCATION
+        ), StorageLocationRequest.class);
+
+        register("docket-variants", docketVariantController, docketVariantService.init(
+                context.getBean(DocketVariantRepository.class),
+                context.getBean(DocketVariantMapper.class),
+                SearchFields.DOCKET_VARIANT,
+                ResourceName.DOCKET_VARIANT
+        ), DocketVariantRequest.class);
+
+        register("purchase-orders", purchaseOrderController, purchaseOrderService.init(
+                context.getBean(PurchaseOrderRepository.class),
+                context.getBean(PurchaseOrderMapper.class),
+                SearchFields.PURCHASE_ORDER,
+                ResourceName.PURCHASE_ORDER
+        ), PurchaseOrderRequest.class);
+
+        register("purchase-order-variants", purchaseOrderVariantController, purchaseOrderVariantService.init(
+                context.getBean(PurchaseOrderVariantRepository.class),
+                context.getBean(PurchaseOrderVariantMapper.class),
+                SearchFields.PURCHASE_ORDER_VARIANT,
+                ResourceName.PURCHASE_ORDER_VARIANT
+        ), PurchaseOrderVariantRequest.class);
     }
 
     private <I, O> void register(String resource,
