@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -69,16 +70,14 @@ public class ImageController {
     }
 
     @DeleteMapping("/{imageName:.+}")
-    public ResponseEntity<?> deleteImage(@PathVariable String imageName) {
+    public ResponseEntity<Void> deleteImage(@PathVariable String imageName) {
         imageService.delete(imageName);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @DeleteMapping()
-    public ResponseEntity<?> deleteMultipleImages(@RequestBody String[] imageNames) {
-        for (String fileName : imageNames) {
-            imageService.delete(fileName);
-        }
+    @DeleteMapping
+    public ResponseEntity<Void> deleteMultipleImages(@RequestBody List<String> imageNames) {
+        imageNames.forEach(imageService::delete);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

@@ -75,8 +75,8 @@ public class ImageServiceImpl implements ImageService {
         try {
             Path imagePath = IMAGE_DIR.resolve(imageName).normalize();
             Resource resource = new UrlResource(imagePath.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                Files.delete(IMAGE_DIR.resolve(imagePath));
+            if (resource.exists()) {
+                Files.delete(imagePath);
             } else {
                 throw new StorageFileNotFoundException("File not found " + imageName);
             }
@@ -84,13 +84,6 @@ public class ImageServiceImpl implements ImageService {
             throw new StorageFileNotFoundException("File not found " + imageName, e);
         } catch (IOException e) {
             throw new FileStorageException("File not found " + imageName + ". Please try again!", e);
-        }
-    }
-
-    @Override
-    public void deleteMultiFile(String[] imageNames) {
-        for (String filename : imageNames) {
-            delete(filename);
         }
     }
 

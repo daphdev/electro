@@ -12,6 +12,4 @@ public interface ImageService {
 
     void delete(String imageName);
 
-    void deleteMultiFile(String[] imageNames);
-
 }
