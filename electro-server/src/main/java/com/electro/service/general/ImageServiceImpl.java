@@ -70,4 +70,28 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
+    @Override
+    public void delete(String imageName) {
+        try {
+            Path imagePath = IMAGE_DIR.resolve(imageName).normalize();
+            Resource resource = new UrlResource(imagePath.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                Files.delete(IMAGE_DIR.resolve(imagePath));
+            } else {
+                throw new StorageFileNotFoundException("File not found " + imageName);
+            }
+        } catch (MalformedURLException e) {
+            throw new StorageFileNotFoundException("File not found " + imageName, e);
+        } catch (IOException e) {
+            throw new FileStorageException("File not found " + imageName + ". Please try again!", e);
+        }
+    }
+
+    @Override
+    public void deleteMultiFile(String[] imageNames) {
+        for (String filename : imageNames) {
+            delete(filename);
+        }
+    }
+
 }

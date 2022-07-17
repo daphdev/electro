@@ -10,4 +10,8 @@ public interface ImageService {
 
     Resource load(String imageName);
 
+    void delete(String imageName);
+
+    void deleteMultiFile(String[] imageNames);
+
 }
