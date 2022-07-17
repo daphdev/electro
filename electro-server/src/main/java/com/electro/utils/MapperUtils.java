@@ -140,7 +140,7 @@ public abstract class MapperUtils {
     @AfterMapping
     @Named("attachPurchaseOrder")
     public PurchaseOrder attachPurchaseOrder(@MappingTarget PurchaseOrder purchaseOrder) {
-        purchaseOrder.getVariants().forEach(purchaseOrderVariant -> purchaseOrderVariant.setPurchaseOrder(purchaseOrder));
+        purchaseOrder.getPurchaseOrderVariants().forEach(purchaseOrderVariant -> purchaseOrderVariant.setPurchaseOrder(purchaseOrder));
         return purchaseOrder;
     }
 

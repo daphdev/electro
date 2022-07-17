@@ -36,7 +36,7 @@ public interface ResourceName {
     String TRANSFER_VARIANT = "TransferVariant";
     String TRANSFER = "Transfer";
     String DOCKET = "Docket";
-    String STORAGE_LOCATION = "Docket";
+    String STORAGE_LOCATION = "StorageLocation";
     String DOCKET_VARIANT = "DocketVariant";
     String PURCHASE_ORDER = "PurchaseOrder";
     String PURCHASE_ORDER_VARIANT = "PurchaseOrderVariant";

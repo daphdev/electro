@@ -38,7 +38,7 @@ public class PurchaseOrder extends BaseEntity {
     private Supplier supplier;
 
     @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL)
-    private Set<PurchaseOrderVariant> variants = new HashSet<>();
+    private Set<PurchaseOrderVariant> purchaseOrderVariants = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "destination_id", nullable = false)

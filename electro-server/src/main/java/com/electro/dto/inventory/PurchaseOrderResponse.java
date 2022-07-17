@@ -14,7 +14,7 @@ public class PurchaseOrderResponse {
     private String code;
     private SupplierResponse supplier;
     private DestinationResponse destination;
-    private Set<PurchaseOrderVariantResponse> variants;
+    private Set<PurchaseOrderVariantResponse> purchaseOrderVariants;
     private Double totalAmount;
     private String note;
     private Integer status;
