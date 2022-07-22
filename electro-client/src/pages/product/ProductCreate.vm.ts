@@ -118,15 +118,16 @@ function useProductCreateViewModel() {
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     const createProduct = (images?: CollectionWrapper<ImageItem>) => {
+      const currentThumbnailName = images?.content[imageFiles.findIndex((imageFile) => imageFile.name === thumbnailName)]?.name || null;
       const requestBody: ProductRequest = {
         name: formValues.name,
         code: formValues.code,
         slug: formValues.slug,
         shortDescription: formValues.shortDescription || null,
         description: formValues.description || null,
-        thumbnail: images?.content.find((image) => image.name === thumbnailName)?.path || null,
+        thumbnail: images?.content.find((image) => image.name === currentThumbnailName)?.path || null,
         images: images ? {
-          content: images.content.map((image) => (image.name === thumbnailName) ? {
+          content: images.content.map((image) => (image.name === currentThumbnailName) ? {
             ...image,
             isThumbnail: true,
           } : image),

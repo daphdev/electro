@@ -156,16 +156,24 @@ function useProductUpdateViewModel(id: number) {
     const createProduct = (images?: CollectionWrapper<ImageItem>) => {
       setPrevFormValues(formValues);
       if (!MiscUtils.isEquals(formValues, prevFormValues) || imageFiles.length > 0) {
+        /* NOTE:
+         * - currentThumbnailName có giá trị trong trường hợp (1): Tải hình mới cho product không hình
+         * và trường hợp (2b2): Tải hình mới cho product có hình và chọn thumbnail trong danh sách hình mới
+         * - currentThumbnailName === null trong trường hợp (2a): Không tải hình mới cho product có hình
+         * và trường hợp (2b1): Tải hình mới cho product có hình nhưng không chọn thumbnail trong danh sách hình mới
+         * và trường hợp (3): Xóa tất cả hình
+         */
+        const currentThumbnailName = images?.content[imageFiles.findIndex((imageFile) => imageFile.name === thumbnailName)]?.name || null;
         const requestBody: ProductRequest = {
           name: formValues.name,
           code: formValues.code,
           slug: formValues.slug,
           shortDescription: formValues.shortDescription || null,
           description: formValues.description || null,
-          thumbnail: images?.content.find((image) => image.name === thumbnailName)?.path
+          thumbnail: images?.content.find((image) => image.name === currentThumbnailName)?.path
             || formValues.images?.content.find((image) => image.isThumbnail)?.path || null,
           images: images ? {
-            content: (formValues.images?.content || []).concat(images.content.map((image) => (image.name === thumbnailName) ? {
+            content: (formValues.images?.content || []).concat(images.content.map((image) => (image.name === currentThumbnailName) ? {
               ...image,
               isThumbnail: true,
             } : image)),
