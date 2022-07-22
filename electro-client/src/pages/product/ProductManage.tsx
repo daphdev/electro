@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Badge, Grid, Group, Highlight, Stack } from '@mantine/core';
+import { Avatar, Badge, Grid, Group, Highlight, Stack, useMantineTheme } from '@mantine/core';
 import {
   FilterPanel,
   ManageHeader,
@@ -23,6 +23,8 @@ import useAppStore from 'stores/use-app-store';
 import { QuestionMark } from 'tabler-icons-react';
 
 function ProductManage() {
+  const theme = useMantineTheme();
+
   useResetManagePageState();
   useInitFilterPanelState(ProductConfigs.properties);
 
@@ -144,7 +146,14 @@ function ProductManage() {
         <td style={{ maxWidth: 300 }}>
           <Group spacing="xs">
             {entity.images && entity.images.content.map((image, index) => (
-              <Avatar key={index} src={image.url} radius="lg" size="lg" color="grape">
+              <Avatar
+                key={index}
+                src={image.path}
+                radius="lg"
+                size="lg"
+                color="grape"
+                sx={{ boxShadow: image.isThumbnail ? '0 0 0 2px ' + theme.colors.teal[theme.colorScheme === 'dark' ? 4 : 6] : 'none' }}
+              >
                 <QuestionMark size={30}/>
               </Avatar>
             ))}

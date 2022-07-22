@@ -1,5 +1,6 @@
 import BaseResponse from 'models/BaseResponse';
-import { CollectionWrapper, ImageItem } from 'models/Product';
+import { ImageItem } from 'models/Product';
+import { CollectionWrapper } from 'types';
 
 export interface VariantResponse extends BaseResponse {
   sku: string;

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Badge, Button, Popover, Table, useMantineTheme } from '@mantine/core';
 import { VariantResponse } from 'models/Variant';
-import { CollectionWrapper, ProductPropertyItem } from 'models/Product';
+import { ProductPropertyItem } from 'models/Product';
+import { CollectionWrapper } from 'types';
 
 interface VariantTablePopoverProps {
   variants: VariantResponse[],

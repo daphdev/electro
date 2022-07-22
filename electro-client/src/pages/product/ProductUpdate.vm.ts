@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useForm, zodResolver } from '@mantine/form';
 import ProductConfigs from 'pages/product/ProductConfigs';
-import { ProductRequest, ProductResponse } from 'models/Product';
+import { ImageItem, ProductRequest, ProductResponse } from 'models/Product';
 import useUpdateApi from 'hooks/use-update-api';
 import useGetByIdApi from 'hooks/use-get-by-id-api';
 import MiscUtils from 'utils/MiscUtils';
-import { SelectOption } from 'types';
+import { CollectionWrapper, SelectOption } from 'types';
 import useGetAllApi from 'hooks/use-get-all-api';
 import { CategoryResponse } from 'models/Category';
 import CategoryConfigs from 'pages/category/CategoryConfigs';
@@ -20,6 +20,7 @@ import TagConfigs from 'pages/tag/TagConfigs';
 import { GuaranteeResponse } from 'models/Guarantee';
 import GuaranteeConfigs from 'pages/guarantee/GuaranteeConfigs';
 import { useQueryClient } from 'react-query';
+import useUploadMultipleImagesApi from 'hooks/use-upload-multiple-images-api';
 
 function useProductUpdateViewModel(id: number) {
   const form = useForm({
@@ -35,9 +36,12 @@ function useProductUpdateViewModel(id: number) {
   const [unitSelectList, setUnitSelectList] = useState<SelectOption[]>([]);
   const [tagSelectList, setTagSelectList] = useState<SelectOption[]>([]);
   const [guaranteeSelectList, setGuaranteeSelectList] = useState<SelectOption[]>([]);
+  const [imageFiles, setImageFiles] = useState<(File & { preview: string })[]>([]);
+  const [thumbnailName, setThumbnailName] = useState('');
 
   const queryClient = useQueryClient();
   const updateApi = useUpdateApi<ProductRequest, ProductResponse>(ProductConfigs.resourceUrl, ProductConfigs.resourceKey, id);
+  const uploadMultipleImagesApi = useUploadMultipleImagesApi();
   useGetByIdApi<ProductResponse>(ProductConfigs.resourceUrl, ProductConfigs.resourceKey, id,
     async (productResponse) => {
       await queryClient.invalidateQueries([TagConfigs.resourceKey, 'getAll']);
@@ -66,6 +70,9 @@ function useProductUpdateViewModel(id: number) {
       };
       form.setValues(formValues);
       setPrevFormValues(formValues);
+      if (productResponse.thumbnail) {
+        setThumbnailName(formValues.images?.content.find((image) => image.isThumbnail)?.name || '');
+      }
     }
   );
   useGetAllApi<CategoryResponse>(CategoryConfigs.resourceUrl, CategoryConfigs.resourceKey,
@@ -146,31 +153,55 @@ function useProductUpdateViewModel(id: number) {
   });
 
   const handleFormSubmit = form.onSubmit((formValues) => {
-    setPrevFormValues(formValues);
-    if (!MiscUtils.isEquals(formValues, prevFormValues)) {
-      const requestBody: ProductRequest = {
-        name: formValues.name,
-        code: formValues.code,
-        slug: formValues.slug,
-        shortDescription: formValues.shortDescription || null,
-        description: formValues.description || null,
-        thumbnail: formValues.thumbnail || null,
-        images: formValues.images,
-        status: Number(formValues.status),
-        categoryId: Number(formValues.categoryId) || null,
-        brandId: Number(formValues.brandId) || null,
-        supplierId: Number(formValues.supplierId) || null,
-        unitId: Number(formValues.unitId) || null,
-        tags: transformTags(formValues.tags),
-        specifications: formValues.specifications,
-        properties: formValues.properties,
-        variants: [],
-        weight: formValues.weight || null,
-        guaranteeId: Number(formValues.guaranteeId) || null,
-      };
-      updateApi.mutate(requestBody);
+    const createProduct = (images?: CollectionWrapper<ImageItem>) => {
+      setPrevFormValues(formValues);
+      if (!MiscUtils.isEquals(formValues, prevFormValues) || imageFiles.length > 0) {
+        const requestBody: ProductRequest = {
+          name: formValues.name,
+          code: formValues.code,
+          slug: formValues.slug,
+          shortDescription: formValues.shortDescription || null,
+          description: formValues.description || null,
+          thumbnail: images?.content.find((image) => image.name === thumbnailName)?.path
+            || formValues.images?.content.find((image) => image.isThumbnail)?.path || null,
+          images: images ? {
+            content: (formValues.images?.content || []).concat(images.content.map((image) => (image.name === thumbnailName) ? {
+              ...image,
+              isThumbnail: true,
+            } : image)),
+            totalElements: (formValues.images?.totalElements || 0) + images.totalElements,
+          } : formValues.images,
+          status: Number(formValues.status),
+          categoryId: Number(formValues.categoryId) || null,
+          brandId: Number(formValues.brandId) || null,
+          supplierId: Number(formValues.supplierId) || null,
+          unitId: Number(formValues.unitId) || null,
+          tags: transformTags(formValues.tags),
+          specifications: formValues.specifications,
+          properties: formValues.properties,
+          variants: [],
+          weight: formValues.weight || null,
+          guaranteeId: Number(formValues.guaranteeId) || null,
+        };
+        updateApi.mutate(requestBody);
+        setImageFiles([]);
+      }
+    };
+
+    if (imageFiles.length > 0) {
+      uploadMultipleImagesApi.mutate(imageFiles, {
+        onSuccess: (imageCollectionResponse) => createProduct(imageCollectionResponse),
+      });
+    } else {
+      createProduct();
     }
   });
+
+  const resetForm = () => {
+    form.reset();
+    setImageFiles([]);
+    setThumbnailName('');
+  };
 
   const statusSelectList: SelectOption[] = [
     {
@@ -186,6 +217,7 @@ function useProductUpdateViewModel(id: number) {
   return {
     product,
     form,
+    prevFormValues,
     handleFormSubmit,
     statusSelectList,
     categorySelectList,
@@ -194,6 +226,9 @@ function useProductUpdateViewModel(id: number) {
     unitSelectList,
     tagSelectList,
     guaranteeSelectList,
+    imageFiles, setImageFiles,
+    thumbnailName, setThumbnailName,
+    resetForm,
   };
 }
 

@@ -1,8 +1,8 @@
 import { useForm, zodResolver } from '@mantine/form';
 import ProductConfigs from 'pages/product/ProductConfigs';
-import { ProductRequest, ProductResponse } from 'models/Product';
+import { ImageItem, ProductRequest, ProductResponse } from 'models/Product';
 import useCreateApi from 'hooks/use-create-api';
-import { SelectOption } from 'types';
+import { CollectionWrapper, SelectOption } from 'types';
 import { useState } from 'react';
 import useGetAllApi from 'hooks/use-get-all-api';
 import { CategoryResponse } from 'models/Category';
@@ -19,6 +19,7 @@ import GuaranteeConfigs from 'pages/guarantee/GuaranteeConfigs';
 import { GuaranteeResponse } from 'models/Guarantee';
 import MiscUtils from 'utils/MiscUtils';
 import { useQueryClient } from 'react-query';
+import useUploadMultipleImagesApi from 'hooks/use-upload-multiple-images-api';
 
 function useProductCreateViewModel() {
   const form = useForm({
@@ -32,9 +33,12 @@ function useProductCreateViewModel() {
   const [unitSelectList, setUnitSelectList] = useState<SelectOption[]>([]);
   const [tagSelectList, setTagSelectList] = useState<SelectOption[]>([]);
   const [guaranteeSelectList, setGuaranteeSelectList] = useState<SelectOption[]>([]);
+  const [imageFiles, setImageFiles] = useState<(File & { preview: string })[]>([]);
+  const [thumbnailName, setThumbnailName] = useState('');
 
   const queryClient = useQueryClient();
   const createApi = useCreateApi<ProductRequest, ProductResponse>(ProductConfigs.resourceUrl);
+  const uploadMultipleImagesApi = useUploadMultipleImagesApi();
   useGetAllApi<CategoryResponse>(CategoryConfigs.resourceUrl, CategoryConfigs.resourceKey,
     { all: 1 },
     (categoryListResponse) => {
@@ -113,36 +117,58 @@ function useProductCreateViewModel() {
   });
 
   const handleFormSubmit = form.onSubmit((formValues) => {
-    const requestBody: ProductRequest = {
-      name: formValues.name,
-      code: formValues.code,
-      slug: formValues.slug,
-      shortDescription: formValues.shortDescription || null,
-      description: formValues.description || null,
-      thumbnail: formValues.thumbnail || null,
-      images: formValues.images,
-      status: Number(formValues.status),
-      categoryId: Number(formValues.categoryId) || null,
-      brandId: Number(formValues.brandId) || null,
-      supplierId: Number(formValues.supplierId) || null,
-      unitId: Number(formValues.unitId) || null,
-      tags: transformTags(formValues.tags),
-      specifications: formValues.specifications,
-      properties: formValues.properties,
-      variants: formValues.variants,
-      weight: formValues.weight || null,
-      guaranteeId: Number(formValues.guaranteeId) || null,
+    const createProduct = (images?: CollectionWrapper<ImageItem>) => {
+      const requestBody: ProductRequest = {
+        name: formValues.name,
+        code: formValues.code,
+        slug: formValues.slug,
+        shortDescription: formValues.shortDescription || null,
+        description: formValues.description || null,
+        thumbnail: images?.content.find((image) => image.name === thumbnailName)?.path || null,
+        images: images ? {
+          content: images.content.map((image) => (image.name === thumbnailName) ? {
+            ...image,
+            isThumbnail: true,
+          } : image),
+          totalElements: images.totalElements,
+        } : null,
+        status: Number(formValues.status),
+        categoryId: Number(formValues.categoryId) || null,
+        brandId: Number(formValues.brandId) || null,
+        supplierId: Number(formValues.supplierId) || null,
+        unitId: Number(formValues.unitId) || null,
+        tags: transformTags(formValues.tags),
+        specifications: formValues.specifications,
+        properties: formValues.properties,
+        variants: formValues.variants,
+        weight: formValues.weight || null,
+        guaranteeId: Number(formValues.guaranteeId) || null,
+      };
+      createApi.mutate(requestBody, {
+        onSuccess: async (productResponse) => {
+          await queryClient.invalidateQueries([TagConfigs.resourceKey, 'getAll']);
+          const tags = productResponse.tags
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((tag) => String(tag.id) + '#ORIGINAL');
+          form.setFieldValue('tags', tags);
+        },
+      });
     };
-    createApi.mutate(requestBody, {
-      onSuccess: async (productResponse) => {
-        await queryClient.invalidateQueries([TagConfigs.resourceKey, 'getAll']);
-        const tags = productResponse.tags
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .map((tag) => String(tag.id) + '#ORIGINAL');
-        form.setFieldValue('tags', tags);
-      },
-    });
+
+    if (imageFiles.length > 0) {
+      uploadMultipleImagesApi.mutate(imageFiles, {
+        onSuccess: (imageCollectionResponse) => createProduct(imageCollectionResponse),
+      });
+    } else {
+      createProduct();
+    }
   });
+
+  const resetForm = () => {
+    form.reset();
+    setImageFiles([]);
+    setThumbnailName('');
+  };
 
   const statusSelectList: SelectOption[] = [
     {
@@ -165,6 +191,9 @@ function useProductCreateViewModel() {
     unitSelectList,
     tagSelectList,
     guaranteeSelectList,
+    imageFiles, setImageFiles,
+    thumbnailName, setThumbnailName,
+    resetForm,
   };
 }
 

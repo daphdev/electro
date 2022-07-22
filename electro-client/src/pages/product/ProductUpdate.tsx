@@ -9,19 +9,23 @@ import {
   Paper,
   Select,
   Stack,
+  Text,
   Textarea,
-  TextInput
+  TextInput,
+  Title
 } from '@mantine/core';
 import { useParams } from 'react-router-dom';
-import { CreateUpdateTitle, DefaultPropertyPanel } from 'components';
+import { CreateUpdateTitle, DefaultPropertyPanel, ProductImagesDropzone } from 'components';
 import ProductConfigs from 'pages/product/ProductConfigs';
 import useProductUpdateViewModel from 'pages/product/ProductUpdate.vm';
+import MiscUtils from 'utils/MiscUtils';
 
 function ProductUpdate() {
   const { id } = useParams();
   const {
     product,
     form,
+    prevFormValues,
     handleFormSubmit,
     statusSelectList,
     categorySelectList,
@@ -30,6 +34,9 @@ function ProductUpdate() {
     unitSelectList,
     tagSelectList,
     guaranteeSelectList,
+    imageFiles, setImageFiles,
+    thumbnailName, setThumbnailName,
+    resetForm,
   } = useProductUpdateViewModel(Number(id));
 
   if (!product) {
@@ -55,6 +62,10 @@ function ProductUpdate() {
         <Paper shadow="xs">
           <Stack spacing={0}>
             <Grid p="sm">
+              <Grid.Col>
+                <Title order={4}>Thông tin cơ bản</Title>
+                <Text size="sm">Một số thông tin chung</Text>
+              </Grid.Col>
               <Grid.Col>
                 <TextInput
                   required
@@ -89,10 +100,22 @@ function ProductUpdate() {
                 />
               </Grid.Col>
               <Grid.Col>
-                <TextInput
-                  label={ProductConfigs.properties.thumbnail.label}
-                  {...form.getInputProps('thumbnail')}
+                <Title order={4}>Hình sản phẩm</Title>
+                <Text size="sm">Thêm danh sách hình giới thiệu sản phẩm và chọn hình đại diện</Text>
+              </Grid.Col>
+              <Grid.Col>
+                <ProductImagesDropzone
+                  imageFiles={imageFiles}
+                  setImageFiles={setImageFiles}
+                  thumbnailName={thumbnailName}
+                  setThumbnailName={setThumbnailName}
+                  imageCollectionResponse={form.values.images}
+                  setImageCollectionResponse={(imageCollectionResponse) => form.setFieldValue('images', imageCollectionResponse)}
                 />
+              </Grid.Col>
+              <Grid.Col>
+                <Title order={4}>Thông tin bổ sung</Title>
+                <Text size="sm">Một số thông tin thêm</Text>
               </Grid.Col>
               <Grid.Col xs={6}>
                 <Select
@@ -178,8 +201,13 @@ function ProductUpdate() {
             <Divider mt="xs"/>
 
             <Group position="apart" p="sm">
-              <Button variant="default" onClick={form.reset}>Mặc định</Button>
-              <Button type="submit">Cập nhật</Button>
+              <Button variant="default" onClick={resetForm}>Mặc định</Button>
+              <Button
+                type="submit"
+                disabled={MiscUtils.isEquals(form.values, prevFormValues) && imageFiles.length === 0}
+              >
+                Cập nhật
+              </Button>
             </Group>
           </Stack>
         </Paper>

@@ -32,6 +32,9 @@ import ManagePagination from 'components/ManagePagination/ManagePagination';
 // Product
 import VariantTablePopover from 'components/VariantTablePopover/VariantTablePopover';
 
+// Others
+import ProductImagesDropzone from 'components/ProductImagesDropzone/ProductImagesDropzone';
+
 export {
   CreateUpdateTitle,
   DefaultPropertyPanel,
@@ -59,4 +62,6 @@ export {
   ManagePagination,
 
   VariantTablePopover,
+
+  ProductImagesDropzone,
 };

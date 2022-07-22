@@ -1,3 +1,5 @@
+import isEqual from 'lodash.isequal';
+
 class MiscUtils {
   static pick<T>(o: T, arr: string[]) {
     const result = {};
@@ -12,7 +14,7 @@ class MiscUtils {
   }
 
   static isEquals<T1, T2>(first: T1, second: T2) {
-    return JSON.stringify(first) === JSON.stringify(second);
+    return isEqual(first, second);
   }
 
   static convertToSlug = (name: string) => {

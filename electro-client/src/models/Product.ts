@@ -5,6 +5,8 @@ import { UnitResponse } from 'models/Unit';
 import { TagResponse } from 'models/Tag';
 import { GuaranteeResponse } from 'models/Guarantee';
 import { VariantRequest, VariantResponse } from 'models/Variant';
+import { CollectionWrapper } from 'types';
+import { ImageResponse } from 'models/Image';
 
 export interface ProductResponse extends BaseResponse {
   name: string;
@@ -27,13 +29,7 @@ export interface ProductResponse extends BaseResponse {
   guarantee: GuaranteeResponse | null;
 }
 
-export interface CollectionWrapper<T> {
-  content: T[];
-  totalElements: number;
-}
-
-export interface ImageItem {
-  url: string;
+export interface ImageItem extends ImageResponse {
   isThumbnail?: boolean;
 }
 

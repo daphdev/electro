@@ -9,10 +9,12 @@ import {
   Paper,
   Select,
   Stack,
+  Text,
   Textarea,
-  TextInput
+  TextInput,
+  Title
 } from '@mantine/core';
-import { CreateUpdateTitle, DefaultPropertyPanel } from 'components';
+import { CreateUpdateTitle, DefaultPropertyPanel, ProductImagesDropzone } from 'components';
 import ProductConfigs from 'pages/product/ProductConfigs';
 import useProductCreateViewModel from 'pages/product/ProductCreate.vm';
 
@@ -27,6 +29,9 @@ function ProductCreate() {
     unitSelectList,
     tagSelectList,
     guaranteeSelectList,
+    imageFiles, setImageFiles,
+    thumbnailName, setThumbnailName,
+    resetForm,
   } = useProductCreateViewModel();
 
   return (
@@ -42,6 +47,10 @@ function ProductCreate() {
         <Paper shadow="xs">
           <Stack spacing={0}>
             <Grid p="sm">
+              <Grid.Col>
+                <Title order={4}>Thông tin cơ bản</Title>
+                <Text size="sm">Một số thông tin chung</Text>
+              </Grid.Col>
               <Grid.Col>
                 <TextInput
                   required
@@ -76,10 +85,20 @@ function ProductCreate() {
                 />
               </Grid.Col>
               <Grid.Col>
-                <TextInput
-                  label={ProductConfigs.properties.thumbnail.label}
-                  {...form.getInputProps('thumbnail')}
+                <Title order={4}>Hình sản phẩm</Title>
+                <Text size="sm">Thêm danh sách hình giới thiệu sản phẩm và chọn hình đại diện</Text>
+              </Grid.Col>
+              <Grid.Col>
+                <ProductImagesDropzone
+                  imageFiles={imageFiles}
+                  setImageFiles={setImageFiles}
+                  thumbnailName={thumbnailName}
+                  setThumbnailName={setThumbnailName}
                 />
+              </Grid.Col>
+              <Grid.Col>
+                <Title order={4}>Thông tin bổ sung</Title>
+                <Text size="sm">Một số thông tin thêm</Text>
               </Grid.Col>
               <Grid.Col xs={6}>
                 <Select
@@ -165,7 +184,7 @@ function ProductCreate() {
             <Divider mt="xs"/>
 
             <Group position="apart" p="sm">
-              <Button variant="default" onClick={form.reset}>Mặc định</Button>
+              <Button variant="default" onClick={resetForm}>Mặc định</Button>
               <Button type="submit">Thêm</Button>
             </Group>
           </Stack>

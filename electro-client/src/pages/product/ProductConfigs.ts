@@ -1,10 +1,10 @@
 import { z } from 'zod';
-import { Configs, EntityPropertySchema, EntityPropertyType, TitleLink } from 'types';
+import { CollectionWrapper, Configs, EntityPropertySchema, EntityPropertyType, TitleLink } from 'types';
 import ResourceURL from 'constants/ResourceURL';
 import MessageUtils from 'utils/MessageUtils';
 import PageConfigs from 'pages/PageConfigs';
 import ManagerPath from 'constants/ManagerPath';
-import { CollectionWrapper, ImageItem, ProductPropertyItem, SpecificationItem } from 'models/Product';
+import { ImageItem, ProductPropertyItem, SpecificationItem } from 'models/Product';
 import { VariantRequest } from 'models/Variant';
 
 class ProductConfigs extends Configs {
@@ -212,7 +212,10 @@ class ProductConfigs extends Configs {
     thumbnail: z.string(),
     images: z.object({
       content: z.array(z.object({
-        url: z.string(),
+        name: z.string(),
+        path: z.string(),
+        type: z.string(),
+        size: z.number(),
         isThumbnail: z.boolean().optional(),
       })),
       totalElements: z.number(),
@@ -256,7 +259,10 @@ class ProductConfigs extends Configs {
       }).nullable(),
       images: z.object({
         content: z.array(z.object({
-          url: z.string(),
+          name: z.string(),
+          path: z.string(),
+          type: z.string(),
+          size: z.number(),
           isThumbnail: z.boolean().optional(),
         })),
         totalElements: z.number(),
