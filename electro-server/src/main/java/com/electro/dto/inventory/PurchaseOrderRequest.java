@@ -2,6 +2,7 @@ package com.electro.dto.inventory;
 
 import lombok.Data;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -13,5 +14,5 @@ public class PurchaseOrderRequest {
     private Double totalAmount;
     private String note;
     private Integer status;
-
+    private List<DocketRequest> dockets;
 }

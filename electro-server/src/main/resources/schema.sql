@@ -43,7 +43,11 @@ DROP TABLE IF EXISTS
     purchase_order,
     purchase_order_variant,
     docket,
-    docket_variant;
+    docket_variant,
+    order_resource,
+    order_cancellation_reason,
+    `order`,
+    order_variant;
 
 -- CREATE TABLES
 
@@ -700,6 +704,8 @@ CREATE TABLE transfer
     created_by BIGINT                NULL,
     updated_by BIGINT                NULL,
     code       VARCHAR(255)          NOT NULL,
+    export_docket_id BIGINT NOT NULL,
+    import_docket_id BIGINT NOT NULL,
     note       VARCHAR(255)          NULL,
     status     TINYINT               NOT NULL,
     CONSTRAINT pk_transfer PRIMARY KEY (id)
@@ -785,7 +791,8 @@ CREATE TABLE docket (
    warehouse_id BIGINT NOT NULL,
    note VARCHAR(255) NULL,
    status TINYINT NOT NULL,
-   purchase_order_id BIGINT NOT NULL,
+   purchase_order_id BIGINT NULL,
+   order_id BIGINT NULL,
    CONSTRAINT pk_docket PRIMARY KEY (id)
 );
 
@@ -806,3 +813,78 @@ ALTER TABLE docket_variant ADD CONSTRAINT FK_DOCKET_VARIANT_ON_DOCKET FOREIGN KE
 
 ALTER TABLE docket_variant ADD CONSTRAINT FK_DOCKET_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
 
+CREATE TABLE order_resource (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   code VARCHAR(255) NULL,
+   name VARCHAR(255) NULL,
+   color VARCHAR(255) NULL,
+   customer_resource_id BIGINT NOT NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT pk_order_resource PRIMARY KEY (id)
+);
+
+ALTER TABLE order_resource ADD CONSTRAINT FK_ORDER_RESOURCE_ON_CUSTOMER_RESOURCE FOREIGN KEY (customer_resource_id) REFERENCES customer_resource (id);
+
+CREATE TABLE order_cancellation_reason (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   name VARCHAR(255) NULL,
+   note VARCHAR(255) NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT pk_order_cancellation_reason PRIMARY KEY (id)
+);
+
+CREATE TABLE `order` (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   code VARCHAR(255) NULL,
+   status TINYINT NOT NULL,
+   order_resource_id BIGINT NOT NULL,
+   order_cancellation_reason_id BIGINT NOT NULL,
+   note VARCHAR(255) NULL,
+   customer_id BIGINT NOT NULL,
+   total_amount DECIMAL NULL,
+   shipping_cost DECIMAL NULL,
+   tax DECIMAL NULL,
+   total_pay DECIMAL NULL,
+   CONSTRAINT pk_order PRIMARY KEY (id)
+);
+
+ALTER TABLE `order` ADD CONSTRAINT FK_ORDER_ON_CUSTOMER FOREIGN KEY (customer_id) REFERENCES customer (id);
+
+ALTER TABLE `order` ADD CONSTRAINT FK_ORDER_ON_ORDER_CANCELLATION_REASON FOREIGN KEY (order_cancellation_reason_id) REFERENCES order_cancellation_reason (id);
+
+ALTER TABLE `order` ADD CONSTRAINT FK_ORDER_ON_ORDER_RESOURCE FOREIGN KEY (order_resource_id) REFERENCES order_resource (id);
+
+CREATE TABLE order_variant (
+   price DECIMAL NOT NULL,
+   quantity INT NOT NULL,
+   amount DECIMAL NOT NULL,
+   order_id BIGINT NOT NULL,
+   variant_id BIGINT NOT NULL,
+   CONSTRAINT pk_order_variant PRIMARY KEY (order_id, variant_id)
+);
+
+ALTER TABLE order_variant ADD CONSTRAINT FK_ORDER_VARIANT_ON_ORDER FOREIGN KEY (order_id) REFERENCES `order` (id);
+
+ALTER TABLE order_variant ADD CONSTRAINT FK_ORDER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+
+ALTER TABLE docket ADD CONSTRAINT FK_DOCKET_ON_ORDER FOREIGN KEY (order_id) REFERENCES `order` (id);
+
+ALTER TABLE transfer ADD CONSTRAINT uc_transfer_export_docket UNIQUE (export_docket_id);
+
+ALTER TABLE transfer ADD CONSTRAINT uc_transfer_import_docket UNIQUE (import_docket_id);
+
+ALTER TABLE transfer ADD CONSTRAINT FK_TRANSFER_ON_EXPORT_DOCKET FOREIGN KEY (export_docket_id) REFERENCES docket (id);
+
+ALTER TABLE transfer ADD CONSTRAINT FK_TRANSFER_ON_IMPORT_DOCKET FOREIGN KEY (import_docket_id) REFERENCES docket (id);

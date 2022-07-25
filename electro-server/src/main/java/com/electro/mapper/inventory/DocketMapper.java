@@ -19,6 +19,7 @@ public interface DocketMapper extends GenericMapper<Docket, DocketRequest, Docke
     @Mapping(source = "docketReasonId", target = "reason")
     @Mapping(source = "warehouseId", target = "warehouse")
     @Mapping(source = "purchaseOrderId", target = "purchaseOrder")
+    @Mapping(source = "orderId", target = "order")
     Docket requestToEntity(DocketRequest request);
 
     @Override
@@ -26,5 +27,6 @@ public interface DocketMapper extends GenericMapper<Docket, DocketRequest, Docke
     @Mapping(source = "docketReasonId", target = "reason")
     @Mapping(source = "warehouseId", target = "warehouse")
     @Mapping(source = "purchaseOrderId", target = "purchaseOrder")
+    @Mapping(source = "orderId", target = "order")
     Docket partialUpdate(@MappingTarget  Docket entity, DocketRequest request);
 }

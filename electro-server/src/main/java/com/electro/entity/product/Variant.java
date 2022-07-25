@@ -7,6 +7,7 @@ import com.electro.entity.inventory.PurchaseOrderVariant;
 import com.electro.entity.inventory.StorageLocation;
 import com.electro.entity.inventory.TransferVariant;
 import com.electro.entity.inventory.VariantInventoryLimit;
+import com.electro.entity.order.OrderVariant;
 import com.electro.utils.JsonNodeConverter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -79,4 +80,7 @@ public class Variant extends BaseEntity {
 
     @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
     private Set<PurchaseOrderVariant> purchaseOrderVariants = new HashSet<>();
+
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
+    private Set<OrderVariant> orderVariants = new HashSet<>();
 }

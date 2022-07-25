@@ -10,7 +10,10 @@ import lombok.experimental.Accessors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +31,14 @@ public class Transfer extends BaseEntity {
 
     @OneToMany(mappedBy = "transfer", cascade = CascadeType.ALL)
     private Set<TransferVariant> transferVariants = new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "export_docket_id", referencedColumnName = "id", nullable = false, unique = true)
+    private Docket exportDocket;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "import_docket_id", referencedColumnName = "id", nullable = false, unique = true)
+    private Docket importDocket;
 
     @Column(name = "note")
     private String note;

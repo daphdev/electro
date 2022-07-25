@@ -1,6 +1,7 @@
 package com.electro.entity.inventory;
 
 import com.electro.entity.BaseEntity;
+import com.electro.entity.order.Order;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
@@ -54,7 +56,18 @@ public class Docket extends BaseEntity {
     private Integer status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "purchase_order_id", nullable = false)
+    @JoinColumn(name = "purchase_order_id")
     @JsonBackReference
     private PurchaseOrder purchaseOrder;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    @JsonBackReference
+    private Order order;
+
+    @OneToOne(mappedBy = "exportDocket", fetch = FetchType.LAZY)
+    private Transfer exportTransfer;
+
+    @OneToOne(mappedBy = "importDocket", fetch = FetchType.LAZY)
+    private Transfer importTransfer;
 }

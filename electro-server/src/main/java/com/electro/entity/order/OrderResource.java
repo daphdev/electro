@@ -1,7 +1,8 @@
-package com.electro.entity.customer;
+package com.electro.entity.order;
 
 import com.electro.entity.BaseEntity;
-import com.electro.entity.order.OrderResource;
+import com.electro.entity.customer.CustomerResource;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +13,9 @@ import lombok.experimental.Accessors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
@@ -23,28 +27,28 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @Entity
-@Table(name = "customer_resource")
-public class CustomerResource extends BaseEntity {
-    @Column(name = "code", nullable = false, unique = true)
+@Table(name = "order_resource")
+public class OrderResource extends BaseEntity {
+
+    @Column(name = "code")
     private String code;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "description", nullable = false)
-    private String description;
-
-    @Column(name = "color", nullable = false)
+    @Column(name = "color")
     private String color;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_resource_id", nullable = false)
+    @JsonBackReference
+    private CustomerResource customerResource;
 
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
 
-    @OneToMany(mappedBy = "customerResource", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "orderResource", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Customer> employees = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
 
-    @OneToMany(mappedBy = "customerResource", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<OrderResource> orderResources = new ArrayList<>();
 }

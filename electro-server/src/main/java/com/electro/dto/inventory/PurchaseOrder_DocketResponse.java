@@ -4,11 +4,10 @@ import com.electro.dto.product.SupplierResponse;
 import lombok.Data;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Set;
 
 @Data
-public class PurchaseOrderResponse {
+public class PurchaseOrder_DocketResponse {
     private Long id;
     private Instant createdAt;
     private Instant updatedAt;
@@ -19,5 +18,5 @@ public class PurchaseOrderResponse {
     private Double totalAmount;
     private String note;
     private Integer status;
-    private List<Docket_PurchaseOrderResponse> dockets;
+
 }

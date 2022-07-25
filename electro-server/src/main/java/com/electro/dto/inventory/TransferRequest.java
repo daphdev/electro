@@ -8,6 +8,8 @@ import java.util.Set;
 public class TransferRequest {
     private String code;
     private Set<TransferVariantRequest> transferVariants;
+    private DocketRequest exportDocket;
+    private DocketRequest importDocket;
     private String note;
     private Integer status;
 }

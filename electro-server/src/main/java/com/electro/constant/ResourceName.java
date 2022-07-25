@@ -40,4 +40,8 @@ public interface ResourceName {
     String DOCKET_VARIANT = "DocketVariant";
     String PURCHASE_ORDER = "PurchaseOrder";
     String PURCHASE_ORDER_VARIANT = "PurchaseOrderVariant";
+    String ORDER_RESOURCE = "OrderResource";
+    String ORDER_CANCELLATION_REASON = "OrderCancellationReason";
+    String ORDER = "Order";
+    String ORDER_VARIANT = "OrderVariant";
 }

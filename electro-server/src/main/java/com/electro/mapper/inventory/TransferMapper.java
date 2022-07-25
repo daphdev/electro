@@ -10,7 +10,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {MapperUtils.class, TransferVariantMapper.class})
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {MapperUtils.class, TransferVariantMapper.class, DocketMapper.class})
 public interface TransferMapper extends GenericMapper<Transfer, TransferRequest, TransferResponse> {
 
     @Override

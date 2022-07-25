@@ -12,6 +12,8 @@ public class TransferResponse {
     private Instant updatedAt;
     private String code;
     private Set<TransferVariantResponse> transferVariants;
+    private DocketResponse exportDocket;
+    private DocketResponse importDocket;
     private String note;
     private Integer status;
 }

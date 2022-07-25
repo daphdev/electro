@@ -12,6 +12,7 @@ public class DocketRequest {
     private Long warehouseId;
     private Set<DocketVariantRequest> docketVariants;
     private Long purchaseOrderId;
+    private Long orderId;
     private String note;
     private Integer status;
 

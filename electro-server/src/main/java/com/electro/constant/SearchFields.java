@@ -341,6 +341,40 @@ public interface SearchFields {
             "cost",
             "quantity",
             "amount"
+    );
 
+    List<String> ORDER_RESOURCE = List.of(
+            "code",
+            "name",
+            "color",
+            "customerResource.code",
+            "customerResource.name",
+            "customerResource.description"
+    );
+
+    List<String> ORDER_CANCELLATION_REASON = List.of(
+            "name"
+    );
+
+
+    List<String> ORDER = List.of(
+            "code",
+            "status",
+            "totalAmount",
+            "tax",
+            "shippingCost",
+            "totalPay",
+            "orderResource.code",
+            "orderResource.name",
+            "orderResource.color",
+            "orderCancellationReason.name",
+            "orderCancellationReason.status"
+    );
+
+
+    List<String> ORDER_VARIANT = List.of(
+            "price",
+            "quantity",
+            "amount"
     );
 }

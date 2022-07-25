@@ -4,6 +4,7 @@ import com.electro.entity.BaseEntity;
 import com.electro.entity.address.District;
 import com.electro.entity.address.Province;
 import com.electro.entity.authentication.User;
+import com.electro.entity.customer.Customer;
 import com.electro.entity.customer.CustomerGroup;
 import com.electro.entity.customer.CustomerResource;
 import com.electro.entity.customer.CustomerStatus;
@@ -19,6 +20,9 @@ import com.electro.entity.inventory.DocketReason;
 import com.electro.entity.inventory.PurchaseOrder;
 import com.electro.entity.inventory.Transfer;
 import com.electro.entity.inventory.Warehouse;
+import com.electro.entity.order.Order;
+import com.electro.entity.order.OrderCancellationReason;
+import com.electro.entity.order.OrderResource;
 import com.electro.entity.product.Brand;
 import com.electro.entity.product.Category;
 import com.electro.entity.product.Guarantee;
@@ -94,6 +98,13 @@ public abstract class MapperUtils {
 
     public abstract PurchaseOrder mapToPurchaseOrder(Long id);
 
+    public abstract OrderResource mapToOrderResource(Long id);
+
+    public abstract OrderCancellationReason mapToOrderCancellationReason(Long id);
+
+    public abstract Customer mapToCustomer(Long id);
+
+    public abstract Order mapToOrder(Long id);
 
     public Variant mapToVariant(Long id) {
         return variantRepository.getById(id);
@@ -124,6 +135,14 @@ public abstract class MapperUtils {
     }
 
     @AfterMapping
+    @Named("attachOrder")
+    public Order attachOrder(@MappingTarget Order order) {
+        order.getOrderVariants().forEach(orderVariant -> orderVariant.setOrder(order));
+        order.getDockets().forEach(docket -> docket.setOrder(order));
+        return order;
+    }
+
+    @AfterMapping
     @Named("attachTransfer")
     public Transfer attachTransfer(@MappingTarget Transfer transfer) {
         transfer.getTransferVariants().forEach(transferVariant -> transferVariant.setTransfer(transfer));
@@ -141,6 +160,7 @@ public abstract class MapperUtils {
     @Named("attachPurchaseOrder")
     public PurchaseOrder attachPurchaseOrder(@MappingTarget PurchaseOrder purchaseOrder) {
         purchaseOrder.getPurchaseOrderVariants().forEach(purchaseOrderVariant -> purchaseOrderVariant.setPurchaseOrder(purchaseOrder));
+        purchaseOrder.getDockets().forEach(docket -> docket.setPurchaseOrder(purchaseOrder));
         return purchaseOrder;
     }
 

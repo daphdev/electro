@@ -1,13 +1,12 @@
 package com.electro.dto.inventory;
 
-import com.electro.dto.order.Order_DocketResponse;
 import lombok.Data;
 
 import java.time.Instant;
 import java.util.Set;
 
 @Data
-public class DocketResponse {
+public class Docket_OrderResponse {
     private Long id;
     private Instant createdAt;
     private Instant updatedAt;
@@ -16,8 +15,6 @@ public class DocketResponse {
     private DocketReasonResponse reason;
     private WarehouseResponse warehouse;
     private Set<DocketVariantResponse> docketVariants;
-    private PurchaseOrder_DocketResponse purchaseOrder;
-    private Order_DocketResponse order;
     private String note;
     private Integer status;
 

@@ -2,7 +2,9 @@ package com.electro.entity.customer;
 
 import com.electro.entity.BaseEntity;
 import com.electro.entity.authentication.User;
+import com.electro.entity.order.Order;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,8 +16,11 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,4 +48,8 @@ public class Customer extends BaseEntity {
     @JoinColumn(name = "customer_resource_id", nullable = false)
     @JsonBackReference
     private CustomerResource customerResource;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Order> orders = new ArrayList<>();
 }

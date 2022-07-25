@@ -60,6 +60,14 @@ import com.electro.dto.inventory.VariantInventoryLimitRequest;
 import com.electro.dto.inventory.VariantInventoryLimitResponse;
 import com.electro.dto.inventory.WarehouseRequest;
 import com.electro.dto.inventory.WarehouseResponse;
+import com.electro.dto.order.OrderCancellationReasonRequest;
+import com.electro.dto.order.OrderCancellationReasonResponse;
+import com.electro.dto.order.OrderRequest;
+import com.electro.dto.order.OrderResourceRequest;
+import com.electro.dto.order.OrderResourceResponse;
+import com.electro.dto.order.OrderResponse;
+import com.electro.dto.order.OrderVariantRequest;
+import com.electro.dto.order.OrderVariantResponse;
 import com.electro.dto.product.BrandRequest;
 import com.electro.dto.product.BrandResponse;
 import com.electro.dto.product.CategoryRequest;
@@ -108,6 +116,10 @@ import com.electro.entity.inventory.Transfer;
 import com.electro.entity.inventory.TransferVariant;
 import com.electro.entity.inventory.VariantInventoryLimit;
 import com.electro.entity.inventory.Warehouse;
+import com.electro.entity.order.Order;
+import com.electro.entity.order.OrderCancellationReason;
+import com.electro.entity.order.OrderResource;
+import com.electro.entity.order.OrderVariant;
 import com.electro.entity.product.Brand;
 import com.electro.entity.product.Category;
 import com.electro.entity.product.Guarantee;
@@ -146,6 +158,10 @@ import com.electro.mapper.inventory.TransferMapper;
 import com.electro.mapper.inventory.TransferVariantMapper;
 import com.electro.mapper.inventory.VariantInventoryLimitMapper;
 import com.electro.mapper.inventory.WarehouseMapper;
+import com.electro.mapper.order.OrderCancellationReasonMapper;
+import com.electro.mapper.order.OrderMapper;
+import com.electro.mapper.order.OrderResourceMapper;
+import com.electro.mapper.order.OrderVariantMapper;
 import com.electro.mapper.product.BrandMapper;
 import com.electro.mapper.product.CategoryMapper;
 import com.electro.mapper.product.GuaranteeMapper;
@@ -184,6 +200,10 @@ import com.electro.repository.inventory.TransferRepository;
 import com.electro.repository.inventory.TransferVariantRepository;
 import com.electro.repository.inventory.VariantInventoryLimitRepository;
 import com.electro.repository.inventory.WarehouseRepository;
+import com.electro.repository.order.OrderCancellationReasonRepository;
+import com.electro.repository.order.OrderRepository;
+import com.electro.repository.order.OrderResourceRepository;
+import com.electro.repository.order.OrderVariantRepository;
 import com.electro.repository.product.BrandRepository;
 import com.electro.repository.product.CategoryRepository;
 import com.electro.repository.product.GuaranteeRepository;
@@ -257,6 +277,10 @@ public class GenericMappingRegister {
     private GenericController<DocketVariantRequest, DocketVariantResponse> docketVariantController;
     private GenericController<PurchaseOrderRequest, PurchaseOrderResponse> purchaseOrderController;
     private GenericController<PurchaseOrderVariantRequest, PurchaseOrderVariantResponse> purchaseOrderVariantController;
+    private GenericController<OrderResourceRequest, OrderResourceResponse> orderResourceController;
+    private GenericController<OrderCancellationReasonRequest, OrderCancellationReasonResponse> orderCancellationReasonController;
+    private GenericController<OrderRequest, OrderResponse> orderController;
+    private GenericController<OrderVariantRequest, OrderVariantResponse> orderVariantController;
 
     // Services
     private GenericService<District, DistrictRequest, DistrictResponse> districtService;
@@ -297,6 +321,10 @@ public class GenericMappingRegister {
     private GenericService<DocketVariant, DocketVariantRequest, DocketVariantResponse> docketVariantService;
     private GenericService<PurchaseOrder, PurchaseOrderRequest, PurchaseOrderResponse> purchaseOrderService;
     private GenericService<PurchaseOrderVariant, PurchaseOrderVariantRequest, PurchaseOrderVariantResponse> purchaseOrderVariantService;
+    private GenericService<OrderResource, OrderResourceRequest, OrderResourceResponse> orderResourceService;
+    private GenericService<OrderCancellationReason, OrderCancellationReasonRequest, OrderCancellationReasonResponse> orderCancellationReasonService;
+    private GenericService<Order, OrderRequest, OrderResponse> orderService;
+    private GenericService<OrderVariant, OrderVariantRequest, OrderVariantResponse> orderVariantService;
 
     @PostConstruct
     public void registerControllers() throws NoSuchMethodException {
@@ -568,6 +596,35 @@ public class GenericMappingRegister {
                 SearchFields.PURCHASE_ORDER_VARIANT,
                 ResourceName.PURCHASE_ORDER_VARIANT
         ), PurchaseOrderVariantRequest.class);
+
+        register("order-resources", orderResourceController, orderResourceService.init(
+                context.getBean(OrderResourceRepository.class),
+                context.getBean(OrderResourceMapper.class),
+                SearchFields.ORDER_RESOURCE,
+                ResourceName.ORDER_RESOURCE
+        ), OrderResourceRequest.class);
+
+        register("order-cancellation-reasons", orderCancellationReasonController, orderCancellationReasonService.init(
+                context.getBean(OrderCancellationReasonRepository.class),
+                context.getBean(OrderCancellationReasonMapper.class),
+                SearchFields.ORDER_CANCELLATION_REASON,
+                ResourceName.ORDER_CANCELLATION_REASON
+        ), OrderCancellationReasonRequest.class);
+
+        register("orders", orderController, orderService.init(
+                context.getBean(OrderRepository.class),
+                context.getBean(OrderMapper.class),
+                SearchFields.ORDER,
+                ResourceName.ORDER
+        ), OrderRequest.class);
+
+        register("order-variants", orderVariantController, orderVariantService.init(
+                context.getBean(OrderVariantRepository.class),
+                context.getBean(OrderVariantMapper.class),
+                SearchFields.ORDER_VARIANT,
+                ResourceName.ORDER_VARIANT
+        ), OrderVariantRequest.class);
+
     }
 
     private <I, O> void register(String resource,

@@ -41,6 +41,14 @@
 
     drop table if exists prod.office;
 
+    drop table if exists prod.`order`;
+
+    drop table if exists prod.order_cancellation_reason;
+
+    drop table if exists prod.order_resource;
+
+    drop table if exists prod.order_variant;
+
     drop table if exists prod.product;
 
     drop table if exists prod.product_inventory_limit;
@@ -244,7 +252,8 @@
         note varchar(255),
         status TINYINT not null,
         type integer,
-        purchase_order_id bigint not null,
+        order_id bigint,
+        purchase_order_id bigint,
         reason_id bigint,
         warehouse_id bigint not null,
         primary key (id)
@@ -338,6 +347,60 @@
         status TINYINT not null,
         address_id bigint not null,
         primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.`order` (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255),
+        note varchar(255),
+        shipping_cost decimal(19,2),
+        status TINYINT not null,
+        tax decimal(19,2),
+        total_amount decimal(19,2),
+        total_pay decimal(19,2),
+        customer_id bigint not null,
+        order_cancellation_reason_id bigint not null,
+        order_resource_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.order_cancellation_reason (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        name varchar(255),
+        note varchar(255),
+        status TINYINT not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.order_resource (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255),
+        color varchar(255),
+        name varchar(255),
+        status TINYINT not null,
+        customer_resource_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.order_variant (
+       order_id bigint not null,
+        variant_id bigint not null,
+        amount decimal(19,2) not null,
+        price decimal(19,2) not null,
+        quantity integer not null,
+        primary key (order_id, variant_id)
     ) engine=MyISAM;
 
     create table prod.product (
@@ -513,6 +576,8 @@
         code varchar(255) not null,
         note varchar(255),
         status TINYINT not null,
+        export_docket_id bigint not null,
+        import_docket_id bigint not null,
         primary key (id)
     ) engine=MyISAM;
 
@@ -662,6 +727,12 @@
     alter table prod.transfer 
        add constraint UK_pvng2ahmu3ketx3y7xm2cbssc unique (code);
 
+    alter table prod.transfer 
+       add constraint UK_m24yqnms2wjuxyv59bbpyf8hn unique (export_docket_id);
+
+    alter table prod.transfer 
+       add constraint UK_7wdrpgv6fc6dycm0ymhkgxhsr unique (import_docket_id);
+
     alter table prod.user 
        add constraint UK_dhlcfg8h1drrgu0irs1ro3ohb unique (address_id);
 
@@ -738,6 +809,11 @@
        references prod.province (id);
 
     alter table prod.docket 
+       add constraint FKlo46fav5ci97xbr53a67pc0wh 
+       foreign key (order_id) 
+       references prod.`order` (id);
+
+    alter table prod.docket 
        add constraint FKckq6rph63qir38nenagh535vb 
        foreign key (purchase_order_id) 
        references prod.purchase_order (id);
@@ -796,6 +872,36 @@
        add constraint FKak81m3gkj8xq5t48xuflbj0kn 
        foreign key (address_id) 
        references prod.address (id);
+
+    alter table prod.`order` 
+       add constraint FK1oduxyuuo3n2g98l3j7754vym 
+       foreign key (customer_id) 
+       references prod.customer (id);
+
+    alter table prod.`order` 
+       add constraint FK1kb7gv71fjr6lrhy901bn9fy6 
+       foreign key (order_cancellation_reason_id) 
+       references prod.order_cancellation_reason (id);
+
+    alter table prod.`order` 
+       add constraint FKgr04wlw4hnfsloesmls7q4prc 
+       foreign key (order_resource_id) 
+       references prod.order_resource (id);
+
+    alter table prod.order_resource 
+       add constraint FKee6qcbh5rwnq9ecbajwmr8051 
+       foreign key (customer_resource_id) 
+       references prod.customer_resource (id);
+
+    alter table prod.order_variant 
+       add constraint FKtmpuci143q76w888a66xradw2 
+       foreign key (order_id) 
+       references prod.`order` (id);
+
+    alter table prod.order_variant 
+       add constraint FKe57gamff0q357714my3ibs6a 
+       foreign key (variant_id) 
+       references prod.variant (id);
 
     alter table prod.product 
        add constraint FKs6cydsualtsrprvlf2bb3lcam 
@@ -871,6 +977,16 @@
        add constraint FK95a8oipih48obtbhltjy7hgvb 
        foreign key (address_id) 
        references prod.address (id);
+
+    alter table prod.transfer 
+       add constraint FKkpskc38eu9e36app8iaquigbg 
+       foreign key (export_docket_id) 
+       references prod.docket (id);
+
+    alter table prod.transfer 
+       add constraint FKd8wk8ohuol7ap3unjrsq1hc2i 
+       foreign key (import_docket_id) 
+       references prod.docket (id);
 
     alter table prod.transfer_variant 
        add constraint FK8nqj79dxjl442elxpc333pwj6 
