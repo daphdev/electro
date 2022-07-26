@@ -34,6 +34,8 @@ import VariantTablePopover from 'components/VariantTablePopover/VariantTablePopo
 
 // Others
 import ProductImagesDropzone from 'components/ProductImagesDropzone/ProductImagesDropzone';
+import ProductSpecifications from 'components/ProductSpecifications/ProductSpecifications';
+import ProductSpecificationRow from 'components/ProductSpecificationRow/ProductSpecificationRow';
 
 export {
   CreateUpdateTitle,
@@ -64,4 +66,6 @@ export {
   VariantTablePopover,
 
   ProductImagesDropzone,
+  ProductSpecifications,
+  ProductSpecificationRow,
 };

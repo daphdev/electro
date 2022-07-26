@@ -14,7 +14,7 @@ import {
   TextInput,
   Title
 } from '@mantine/core';
-import { CreateUpdateTitle, DefaultPropertyPanel, ProductImagesDropzone } from 'components';
+import { CreateUpdateTitle, DefaultPropertyPanel, ProductImagesDropzone, ProductSpecifications } from 'components';
 import ProductConfigs from 'pages/product/ProductConfigs';
 import useProductCreateViewModel from 'pages/product/ProductCreate.vm';
 
@@ -31,6 +31,7 @@ function ProductCreate() {
     guaranteeSelectList,
     imageFiles, setImageFiles,
     thumbnailName, setThumbnailName,
+    specificationSelectList, setSpecificationSelectList,
     resetForm,
   } = useProductCreateViewModel();
 
@@ -94,6 +95,18 @@ function ProductCreate() {
                   setImageFiles={setImageFiles}
                   thumbnailName={thumbnailName}
                   setThumbnailName={setThumbnailName}
+                />
+              </Grid.Col>
+              <Grid.Col>
+                <Title order={4}>Thông số sản phẩm</Title>
+                <Text size="sm">Thêm các thông số của sản phẩm</Text>
+              </Grid.Col>
+              <Grid.Col>
+                <ProductSpecifications
+                  specifications={form.values.specifications}
+                  setSpecifications={(specifications) => form.setFieldValue('specifications', specifications)}
+                  specificationSelectList={specificationSelectList}
+                  setSpecificationSelectList={setSpecificationSelectList}
                 />
               </Grid.Col>
               <Grid.Col>

@@ -7,7 +7,7 @@ function useFilterPanelMainLeftViewModel() {
     sortPropertySelectList,
   } = useFilterPanelStore();
 
-  const isDisabledDeleteSortCriteriaButton = sortCriteriaList.length === sortPropertySelectList.length;
+  const isDisabledCreateSortCriteriaButton = sortCriteriaList.length === sortPropertySelectList.length;
 
   const handleCreateSortCriteriaButton = () => {
     if (sortCriteriaList.length < sortPropertySelectList.length) {
@@ -17,7 +17,7 @@ function useFilterPanelMainLeftViewModel() {
 
   return {
     sortCriteriaList,
-    isDisabledDeleteSortCriteriaButton,
+    isDisabledCreateSortCriteriaButton,
     handleCreateSortCriteriaButton,
   };
 }

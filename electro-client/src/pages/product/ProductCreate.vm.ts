@@ -1,6 +1,6 @@
 import { useForm, zodResolver } from '@mantine/form';
 import ProductConfigs from 'pages/product/ProductConfigs';
-import { ImageItem, ProductRequest, ProductResponse } from 'models/Product';
+import { ImageItem, ProductRequest, ProductResponse, SpecificationItem } from 'models/Product';
 import useCreateApi from 'hooks/use-create-api';
 import { CollectionWrapper, SelectOption } from 'types';
 import { useState } from 'react';
@@ -20,6 +20,8 @@ import { GuaranteeResponse } from 'models/Guarantee';
 import MiscUtils from 'utils/MiscUtils';
 import { useQueryClient } from 'react-query';
 import useUploadMultipleImagesApi from 'hooks/use-upload-multiple-images-api';
+import { SpecificationResponse } from 'models/Specification';
+import SpecificationConfigs from 'pages/specification/SpecificationConfigs';
 
 function useProductCreateViewModel() {
   const form = useForm({
@@ -35,6 +37,7 @@ function useProductCreateViewModel() {
   const [guaranteeSelectList, setGuaranteeSelectList] = useState<SelectOption[]>([]);
   const [imageFiles, setImageFiles] = useState<(File & { preview: string })[]>([]);
   const [thumbnailName, setThumbnailName] = useState('');
+  const [specificationSelectList, setSpecificationSelectList] = useState<SelectOption[]>([]);
 
   const queryClient = useQueryClient();
   const createApi = useCreateApi<ProductRequest, ProductResponse>(ProductConfigs.resourceUrl);
@@ -101,6 +104,16 @@ function useProductCreateViewModel() {
       setGuaranteeSelectList(selectList);
     }
   );
+  useGetAllApi<SpecificationResponse>(SpecificationConfigs.resourceUrl, SpecificationConfigs.resourceKey,
+    { all: 1 },
+    (specificationListResponse) => {
+      const selectList: SelectOption[] = specificationListResponse.content.map((item) => ({
+        value: `${item.id}#${item.name}#${item.code}`,
+        label: item.name,
+      }));
+      setSpecificationSelectList(selectList);
+    }
+  );
 
   const transformTags = (tags: string[]) => tags.map((tagIdOrName) => {
     if (tagIdOrName.includes('#ORIGINAL')) {
@@ -115,6 +128,17 @@ function useProductCreateViewModel() {
       };
     }
   });
+
+  const filterSpecifications = (specifications: CollectionWrapper<SpecificationItem>) => {
+    const filteredSpecificationsContent = specifications.content.filter((specification) => specification.id !== 0);
+    if (filteredSpecificationsContent.length === 0) {
+      return null;
+    }
+    return {
+      content: filteredSpecificationsContent,
+      totalElements: filteredSpecificationsContent.length,
+    };
+  };
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     const createProduct = (images?: CollectionWrapper<ImageItem>) => {
@@ -139,7 +163,7 @@ function useProductCreateViewModel() {
         supplierId: Number(formValues.supplierId) || null,
         unitId: Number(formValues.unitId) || null,
         tags: transformTags(formValues.tags),
-        specifications: formValues.specifications,
+        specifications: formValues.specifications ? filterSpecifications(formValues.specifications) : null,
         properties: formValues.properties,
         variants: formValues.variants,
         weight: formValues.weight || null,
@@ -194,6 +218,7 @@ function useProductCreateViewModel() {
     guaranteeSelectList,
     imageFiles, setImageFiles,
     thumbnailName, setThumbnailName,
+    specificationSelectList, setSpecificationSelectList,
     resetForm,
   };
 }
