@@ -1,11 +1,11 @@
 import { useMutation } from 'react-query';
 import FetchUtils, { ErrorMessage } from 'utils/FetchUtils';
 import { CollectionWrapper } from 'types';
-import { ImageResponse } from 'models/Image';
+import { UploadedImageResponse } from 'models/Image';
 import NotifyUtils from 'utils/NotifyUtils';
 
 function useUploadMultipleImagesApi() {
-  return useMutation<CollectionWrapper<ImageResponse>, ErrorMessage, File[]>(
+  return useMutation<CollectionWrapper<UploadedImageResponse>, ErrorMessage, File[]>(
     (images) => FetchUtils.uploadMultipleImages(images),
     {
       onSuccess: () => NotifyUtils.simpleSuccess('Tải hình lên thành công'),

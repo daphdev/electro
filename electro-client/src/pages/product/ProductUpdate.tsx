@@ -109,8 +109,8 @@ function ProductUpdate() {
                   setImageFiles={setImageFiles}
                   thumbnailName={thumbnailName}
                   setThumbnailName={setThumbnailName}
-                  imageCollectionResponse={form.values.images}
-                  setImageCollectionResponse={(imageCollectionResponse) => form.setFieldValue('images', imageCollectionResponse)}
+                  imageResponses={form.values.images}
+                  setImageResponses={(imageResponses) => form.setFieldValue('images', imageResponses)}
                 />
               </Grid.Col>
               <Grid.Col>

@@ -16,10 +16,11 @@ import {
 import React, { useEffect } from 'react';
 import { Check, CirclePlus, Photo, Upload, X } from 'tabler-icons-react';
 import { useModals } from '@mantine/modals';
-import { ImageItem } from 'models/Product';
-import { CollectionWrapper } from 'types';
+import { FileWithPreview } from 'types';
+import { ImageResponse } from 'models/Image';
+import produce from 'immer';
 
-function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
+const getIconColor = (status: DropzoneStatus, theme: MantineTheme) => {
   return status.accepted
     ? theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 4 : 6]
     : status.rejected
@@ -27,7 +28,7 @@ function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
       : theme.colorScheme === 'dark'
         ? theme.colors.dark[0]
         : theme.colors.gray[7];
-}
+};
 
 const dropzoneChildren = (status: DropzoneStatus, theme: MantineTheme) => {
   const ImageUploadIcon = status.accepted ? Upload : (status.rejected ? X : Photo);
@@ -60,12 +61,12 @@ const useStyles = createStyles(
 );
 
 interface ProductImagesDropzoneProps {
-  imageFiles: (File & { preview: string })[];
-  setImageFiles: React.Dispatch<React.SetStateAction<(File & { preview: string })[]>>;
+  imageFiles: FileWithPreview[];
+  setImageFiles: React.Dispatch<React.SetStateAction<FileWithPreview[]>>;
   thumbnailName: string,
   setThumbnailName: React.Dispatch<React.SetStateAction<string>>,
-  imageCollectionResponse?: CollectionWrapper<ImageItem> | null,
-  setImageCollectionResponse?: (imageCollectionResponse: CollectionWrapper<ImageItem> | null) => void;
+  imageResponses?: ImageResponse[],
+  setImageResponses?: (imageResponses: ImageResponse[]) => void;
 }
 
 function ProductImagesDropzone({
@@ -73,8 +74,8 @@ function ProductImagesDropzone({
   setImageFiles,
   thumbnailName,
   setThumbnailName,
-  imageCollectionResponse,
-  setImageCollectionResponse,
+  imageResponses,
+  setImageResponses,
 }: ProductImagesDropzoneProps) {
   const theme = useMantineTheme();
   const { classes } = useStyles();
@@ -82,7 +83,7 @@ function ProductImagesDropzone({
   const modals = useModals();
 
   const onDrop = (files: File[]) => {
-    if (!imageCollectionResponse) {
+    if ((imageResponses || []).every((imageResponse) => imageResponse.isEliminated)) {
       setThumbnailName(files[0].name);
     }
     setImageFiles(files.map((file) => Object.assign(file, { preview: URL.createObjectURL(file) })));
@@ -102,97 +103,151 @@ function ProductImagesDropzone({
         confirm: 'Xóa',
       },
       confirmProps: { color: 'red' },
-      onConfirm: () => setImageFiles([]),
+      onConfirm: () => {
+        if (imageFiles.some(imageFile => imageFile.name === thumbnailName) && imageResponses && setImageResponses) {
+          const currentImageResponses = produce(imageResponses, draft => {
+            for (const imageResponse of draft) {
+              if (!imageResponse.isEliminated) {
+                imageResponse.isThumbnail = true;
+                setThumbnailName(imageResponse.name);
+                break;
+              }
+            }
+          });
+          setImageResponses(currentImageResponses);
+        }
+        setImageFiles([]);
+      },
     });
   };
 
-  const handleDeleteImageButton = (imageFileName: string) => {
-    const currentImageFiles = imageFiles.filter((imageFile) => imageFile.name !== imageFileName);
-    if (imageFileName === thumbnailName && currentImageFiles.length > 0) {
-      setThumbnailName(currentImageFiles[0].name);
-    }
-    setImageFiles(currentImageFiles);
-    if (imageCollectionResponse && setImageCollectionResponse) {
-      const currentImageCollectionResponseContent = imageCollectionResponse.content
-        .filter((imageResponse) => imageResponse.name !== imageFileName);
-      if (imageFileName === thumbnailName && currentImageCollectionResponseContent.length > 0) {
-        setThumbnailName(currentImageCollectionResponseContent[0].name);
-        currentImageCollectionResponseContent[0].isThumbnail = true;
+  const handleDeleteImageButton = (imageIndex: number, arrayName: string) => {
+    if (arrayName === 'imageFiles') {
+      const currentImageFiles = imageFiles.filter((_, index) => index !== imageIndex);
+      if (imageFiles[imageIndex].name === thumbnailName && currentImageFiles.length > 0) {
+        setThumbnailName(currentImageFiles[0].name);
       }
-      const currentImageCollectionResponse = {
-        content: currentImageCollectionResponseContent,
-        totalElements: currentImageCollectionResponseContent.length,
-      };
-      setImageCollectionResponse(currentImageCollectionResponseContent.length > 0
-        ? currentImageCollectionResponse : null);
+      if (currentImageFiles.length === 0) {
+        setThumbnailName('');
+        if (imageResponses && setImageResponses) {
+          const currentImageResponses = produce(imageResponses, draft => {
+            for (const imageResponse of draft) {
+              if (!imageResponse.isEliminated) {
+                imageResponse.isThumbnail = true;
+                setThumbnailName(imageResponse.name);
+                break;
+              }
+            }
+          });
+          setImageResponses(currentImageResponses);
+        }
+      }
+      setImageFiles(currentImageFiles);
+    }
+
+    if (arrayName === 'imageResponses' && imageResponses && setImageResponses) {
+      const currentImageResponses = produce(imageResponses, draft => {
+        draft[imageIndex].isEliminated = true;
+        if (draft[imageIndex].isThumbnail) {
+          draft[imageIndex].isThumbnail = false;
+          for (const imageResponse of draft) {
+            if (!imageResponse.isEliminated) {
+              imageResponse.isThumbnail = true;
+              setThumbnailName(imageResponse.name);
+              break;
+            }
+          }
+        }
+      });
+      if (currentImageResponses.every((imageResponse) => imageResponse.isEliminated)) {
+        if (imageFiles.length > 0) {
+          setThumbnailName(imageFiles[0].name);
+        } else {
+          setThumbnailName('');
+        }
+      }
+      setImageResponses(currentImageResponses);
     }
   };
 
-  const handleSelectThumbnailButton = (imageFileName: string) => {
-    setThumbnailName(imageFileName);
-    if (imageCollectionResponse && setImageCollectionResponse) {
-      const currentImageCollectionResponse = {
-        content: imageCollectionResponse.content.map((imageResponse) => {
+  const handleSelectThumbnailButton = (imageIndex: number, arrayName: string) => {
+    if (arrayName === 'imageFiles') {
+      setThumbnailName(imageFiles[imageIndex].name);
+      if (imageResponses && setImageResponses) {
+        const currentImageResponses = produce(imageResponses, draft => {
+          for (const imageResponse of draft) {
+            if (imageResponse.isThumbnail) {
+              imageResponse.isThumbnail = false;
+              break;
+            }
+          }
+        });
+        setImageResponses(currentImageResponses);
+      }
+    }
+
+    if (arrayName === 'imageResponses' && imageResponses && setImageResponses) {
+      setThumbnailName(imageResponses[imageIndex].name);
+      const currentImageResponses = produce(imageResponses, draft => {
+        for (const imageResponse of draft) {
           if (imageResponse.isThumbnail) {
-            const tempImageResponse = { ...imageResponse };
-            delete tempImageResponse.isThumbnail;
-            return tempImageResponse;
+            imageResponse.isThumbnail = false;
+            break;
           }
-
-          if (imageResponse.name === imageFileName) {
-            return { ...imageResponse, isThumbnail: true };
-          }
-
-          return imageResponse;
-        }),
-        totalElements: imageCollectionResponse.totalElements,
-      };
-      setImageCollectionResponse(currentImageCollectionResponse);
+        }
+        draft[imageIndex].isThumbnail = true;
+      });
+      setImageResponses(currentImageResponses);
     }
   };
 
-  const imageResponsesFragment = imageCollectionResponse?.content.map((imageResponse) => (
-    <Stack key={imageResponse.name} spacing="xs">
-      <Image
-        radius="md"
-        width={115}
-        height={115}
-        src={imageResponse.path}
-        alt={imageResponse.name}
-        title={imageResponse.name}
-        styles={{
-          image: {
-            boxShadow: imageResponse.name === thumbnailName
-              ? '0 0 0 3px ' + theme.colors.teal[theme.colorScheme === 'dark' ? 4 : 6]
-              : 'none',
-          },
-        }}
-      />
-      <Center>
-        <Group spacing="xs">
-          <ActionIcon
-            color="teal"
-            variant="light"
-            disabled={imageResponse.name === thumbnailName}
-            title="Chọn làm hình đại điện"
-            onClick={() => handleSelectThumbnailButton(imageResponse.name)}
-          >
-            <Check/>
-          </ActionIcon>
-          <ActionIcon
-            color="red"
-            variant="light"
-            title="Xóa hình này"
-            onClick={() => handleDeleteImageButton(imageResponse.name)}
-          >
-            <X/>
-          </ActionIcon>
-        </Group>
-      </Center>
-    </Stack>
-  ));
+  const imageResponsesFragment = (imageResponses || []).map((imageResponse, index) => {
+    if (!imageResponse.isEliminated) {
+      return (
+        <Stack key={imageResponse.name} spacing="xs">
+          <Image
+            radius="md"
+            width={115}
+            height={115}
+            src={imageResponse.path}
+            alt={imageResponse.name}
+            title={imageResponse.name}
+            styles={{
+              image: {
+                boxShadow: imageResponse.name === thumbnailName
+                  ? '0 0 0 3px ' + theme.colors.teal[theme.colorScheme === 'dark' ? 4 : 6]
+                  : 'none',
+              },
+            }}
+          />
+          <Center>
+            <Group spacing="xs">
+              <ActionIcon
+                color="teal"
+                variant="light"
+                disabled={imageResponse.name === thumbnailName}
+                title="Chọn làm hình đại điện"
+                onClick={() => handleSelectThumbnailButton(index, 'imageResponses')}
+              >
+                <Check/>
+              </ActionIcon>
+              <ActionIcon
+                color="red"
+                variant="light"
+                title="Xóa hình này"
+                onClick={() => handleDeleteImageButton(index, 'imageResponses')}
+              >
+                <X/>
+              </ActionIcon>
+            </Group>
+          </Center>
+        </Stack>
+      );
+    }
+    return null;
+  });
 
-  const imageFilesFragment = imageFiles.map((imageFile) => (
+  const imageFilesFragment = imageFiles.map((imageFile, index) => (
     <Stack key={imageFile.name} spacing="xs">
       <Image
         radius="md"
@@ -217,7 +272,7 @@ function ProductImagesDropzone({
             variant="light"
             disabled={imageFile.name === thumbnailName}
             title="Chọn làm hình đại điện"
-            onClick={() => handleSelectThumbnailButton(imageFile.name)}
+            onClick={() => handleSelectThumbnailButton(index, 'imageFiles')}
           >
             <Check/>
           </ActionIcon>
@@ -225,7 +280,7 @@ function ProductImagesDropzone({
             color="red"
             variant="light"
             title="Xóa hình này"
-            onClick={() => handleDeleteImageButton(imageFile.name)}
+            onClick={() => handleDeleteImageButton(index, 'imageFiles')}
           >
             <X/>
           </ActionIcon>
@@ -248,7 +303,7 @@ function ProductImagesDropzone({
       >
         {(status) => dropzoneChildren(status, theme)}
       </Dropzone>
-      {imageCollectionResponse && (
+      {(imageResponses || []).some((imageResponse) => !imageResponse.isEliminated) && (
         <Group spacing="sm" className={classes.previewPanel}>
           {imageResponsesFragment}
         </Group>

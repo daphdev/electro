@@ -1,7 +1,7 @@
 package com.electro.controller.general;
 
 import com.electro.dto.CollectionWrapper;
-import com.electro.dto.ImageResponse;
+import com.electro.dto.general.UploadedImageResponse;
 import com.electro.service.general.ImageService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,12 +35,12 @@ public class ImageController {
     private ImageService imageService;
 
     @PostMapping("/upload-single")
-    public ResponseEntity<ImageResponse> uploadSingleImage(@RequestParam("image") MultipartFile image) {
+    public ResponseEntity<UploadedImageResponse> uploadSingleImage(@RequestParam("image") MultipartFile image) {
         return ResponseEntity.status(HttpStatus.OK).body(imageService.store(image));
     }
 
     @PostMapping("/upload-multiple")
-    public ResponseEntity<CollectionWrapper<ImageResponse>> uploadMultipleImages(@RequestParam("images") MultipartFile[] images) {
+    public ResponseEntity<CollectionWrapper<UploadedImageResponse>> uploadMultipleImages(@RequestParam("images") MultipartFile[] images) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new CollectionWrapper<>(Stream.of(images)
                         .map(imageService::store)

@@ -4,8 +4,9 @@ import ResourceURL from 'constants/ResourceURL';
 import MessageUtils from 'utils/MessageUtils';
 import PageConfigs from 'pages/PageConfigs';
 import ManagerPath from 'constants/ManagerPath';
-import { ImageItem, ProductPropertyItem, SpecificationItem } from 'models/Product';
+import { ProductPropertyItem, SpecificationItem } from 'models/Product';
 import { VariantRequest } from 'models/Variant';
+import { ImageResponse } from 'models/Image';
 
 class ProductConfigs extends Configs {
   static managerPath = ManagerPath.PRODUCT;
@@ -87,7 +88,7 @@ class ProductConfigs extends Configs {
     },
     images: {
       label: 'Hình ảnh sản phẩm',
-      type: EntityPropertyType.COLLECTION,
+      type: EntityPropertyType.ARRAY,
       isNotAddToSortCriteria: true,
       isNotAddToFilterCriteria: true,
     },
@@ -188,8 +189,7 @@ class ProductConfigs extends Configs {
     slug: '',
     shortDescription: '',
     description: '',
-    thumbnail: '',
-    images: null as CollectionWrapper<ImageItem> | null,
+    images: [] as ImageResponse[],
     status: '1',
     categoryId: null as string | null,
     brandId: null as string | null,
@@ -209,17 +209,16 @@ class ProductConfigs extends Configs {
     slug: z.string(),
     shortDescription: z.string(),
     description: z.string(),
-    thumbnail: z.string(),
-    images: z.object({
-      content: z.array(z.object({
-        name: z.string(),
-        path: z.string(),
-        type: z.string(),
-        size: z.number(),
-        isThumbnail: z.boolean().optional(),
-      })),
-      totalElements: z.number(),
-    }).nullable(),
+    images: z.array(z.object({
+      id: z.number(),
+      name: z.string(),
+      path: z.string(),
+      contentType: z.string(),
+      size: z.number(),
+      group: z.string(),
+      isThumbnail: z.boolean(),
+      isEliminated: z.boolean(),
+    })),
     status: z.string(),
     categoryId: z.string().nullable(),
     brandId: z.string().nullable(),
@@ -261,7 +260,7 @@ class ProductConfigs extends Configs {
         content: z.array(z.object({
           name: z.string(),
           path: z.string(),
-          type: z.string(),
+          contentType: z.string(),
           size: z.number(),
           isThumbnail: z.boolean().optional(),
         })),

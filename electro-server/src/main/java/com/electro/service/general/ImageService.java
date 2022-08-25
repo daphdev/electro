@@ -1,12 +1,12 @@
 package com.electro.service.general;
 
-import com.electro.dto.ImageResponse;
+import com.electro.dto.general.UploadedImageResponse;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ImageService {
 
-    ImageResponse store(MultipartFile image);
+    UploadedImageResponse store(MultipartFile image);
 
     Resource load(String imageName);
 

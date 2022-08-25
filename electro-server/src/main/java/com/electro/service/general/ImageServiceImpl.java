@@ -1,6 +1,6 @@
 package com.electro.service.general;
 
-import com.electro.dto.ImageResponse;
+import com.electro.dto.general.UploadedImageResponse;
 import com.electro.exception.FileStorageException;
 import com.electro.exception.StorageFileNotFoundException;
 import org.springframework.core.io.Resource;
@@ -35,7 +35,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public ImageResponse store(MultipartFile image) {
+    public UploadedImageResponse store(MultipartFile image) {
         String imageName = StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename()));
 
         try {
@@ -48,12 +48,14 @@ public class ImageServiceImpl implements ImageService {
                 Files.copy(fileContent, targetLocation, StandardCopyOption.REPLACE_EXISTING);
             }
 
-            String imagePath = ServletUriComponentsBuilder.fromCurrentContextPath()
+            String uploadedImageName = targetLocation.getFileName().toString();
+
+            String uploadedImagePath = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("/images/")
-                    .path(targetLocation.getFileName().toString())
+                    .path(uploadedImageName)
                     .toUriString();
 
-            return new ImageResponse(targetLocation.getFileName().toString(), imagePath, image.getContentType(), image.getSize());
+            return new UploadedImageResponse(uploadedImageName, uploadedImagePath, image.getContentType(), image.getSize());
         } catch (IOException e) {
             throw new FileStorageException("Could not store file " + imageName + ". Please try again!", e);
         }
@@ -64,7 +66,7 @@ public class ImageServiceImpl implements ImageService {
         try {
             Path imagePath = IMAGE_DIR.resolve(imageName).normalize();
             Resource resource = new UrlResource(imagePath.toUri());
-            if (resource.exists()) {
+            if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
                 throw new StorageFileNotFoundException("File not found " + imageName);
@@ -79,7 +81,7 @@ public class ImageServiceImpl implements ImageService {
         try {
             Path imagePath = IMAGE_DIR.resolve(imageName).normalize();
             Resource resource = new UrlResource(imagePath.toUri());
-            if (resource.exists()) {
+            if (resource.exists() || resource.isReadable()) {
                 Files.delete(imagePath);
             } else {
                 throw new StorageFileNotFoundException("File not found " + imageName);

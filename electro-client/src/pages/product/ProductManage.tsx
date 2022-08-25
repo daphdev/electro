@@ -57,7 +57,13 @@ function ProductManage() {
         </Highlight>
       </td>
       <td>
-        <Avatar src={entity.thumbnail} alt={entity.name} radius="lg" size="lg" color="grape">
+        <Avatar
+          src={(entity.images.find((image) => image.isThumbnail) || {}).path}
+          alt={entity.name}
+          radius="lg"
+          size="lg"
+          color="grape"
+        >
           <QuestionMark size={30}/>
         </Avatar>
       </td>
@@ -136,7 +142,13 @@ function ProductManage() {
       <tr>
         <td>{ProductConfigs.properties.thumbnail.label}</td>
         <td>
-          <Avatar src={entity.thumbnail} alt={entity.name} radius="lg" size="lg" color="grape">
+          <Avatar
+            src={(entity.images.find((image) => image.isThumbnail) || {}).path}
+            alt={entity.name}
+            radius="lg"
+            size="lg"
+            color="grape"
+          >
             <QuestionMark size={30}/>
           </Avatar>
         </td>
@@ -145,10 +157,11 @@ function ProductManage() {
         <td>{ProductConfigs.properties.images.label}</td>
         <td style={{ maxWidth: 300 }}>
           <Group spacing="xs">
-            {entity.images && entity.images.content.map((image, index) => (
+            {entity.images.filter((image) => !image.isEliminated).map((image) => (
               <Avatar
-                key={index}
+                key={image.name}
                 src={image.path}
+                alt={image.name}
                 radius="lg"
                 size="lg"
                 color="grape"

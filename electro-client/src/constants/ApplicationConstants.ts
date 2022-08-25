@@ -1,6 +1,6 @@
 class ApplicationConstants {
-  static HOME = 'http://localhost:8085';
-  static API_PATH = ApplicationConstants.HOME + '/api';
+  static HOME_PATH = 'http://localhost:8085';
+  static API_PATH = ApplicationConstants.HOME_PATH + '/api';
 }
 
 export default ApplicationConstants;

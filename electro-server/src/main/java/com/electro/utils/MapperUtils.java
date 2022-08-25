@@ -102,7 +102,9 @@ public abstract class MapperUtils {
     @AfterMapping
     @Named("attachProduct")
     public Product attachProduct(@MappingTarget Product product) {
-        return product.setTags(attachSet(product.getTags(), tagRepository));
+        product.getImages().forEach(image -> image.setProduct(product));
+        product.setTags(attachSet(product.getTags(), tagRepository));
+        return product;
     }
 
     @AfterMapping

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useForm, zodResolver } from '@mantine/form';
 import ProductConfigs from 'pages/product/ProductConfigs';
-import { ImageItem, ProductRequest, ProductResponse } from 'models/Product';
+import { ProductRequest, ProductResponse, Tag_ProductRequest } from 'models/Product';
 import useUpdateApi from 'hooks/use-update-api';
 import useGetByIdApi from 'hooks/use-get-by-id-api';
 import MiscUtils from 'utils/MiscUtils';
-import { CollectionWrapper, SelectOption } from 'types';
+import { FileWithPreview, SelectOption } from 'types';
 import useGetAllApi from 'hooks/use-get-all-api';
 import { CategoryResponse } from 'models/Category';
 import CategoryConfigs from 'pages/category/CategoryConfigs';
@@ -21,6 +21,7 @@ import { GuaranteeResponse } from 'models/Guarantee';
 import GuaranteeConfigs from 'pages/guarantee/GuaranteeConfigs';
 import { useQueryClient } from 'react-query';
 import useUploadMultipleImagesApi from 'hooks/use-upload-multiple-images-api';
+import { ImageRequest, UploadedImageResponse } from 'models/Image';
 
 function useProductUpdateViewModel(id: number) {
   const form = useForm({
@@ -36,7 +37,8 @@ function useProductUpdateViewModel(id: number) {
   const [unitSelectList, setUnitSelectList] = useState<SelectOption[]>([]);
   const [tagSelectList, setTagSelectList] = useState<SelectOption[]>([]);
   const [guaranteeSelectList, setGuaranteeSelectList] = useState<SelectOption[]>([]);
-  const [imageFiles, setImageFiles] = useState<(File & { preview: string })[]>([]);
+
+  const [imageFiles, setImageFiles] = useState<FileWithPreview[]>([]);
   const [thumbnailName, setThumbnailName] = useState('');
 
   const queryClient = useQueryClient();
@@ -52,7 +54,6 @@ function useProductUpdateViewModel(id: number) {
         slug: productResponse.slug,
         shortDescription: productResponse.shortDescription || '',
         description: productResponse.description || '',
-        thumbnail: productResponse.thumbnail || '',
         images: productResponse.images,
         status: String(productResponse.status),
         categoryId: productResponse.category ? String(productResponse.category.id) : null,
@@ -70,8 +71,8 @@ function useProductUpdateViewModel(id: number) {
       };
       form.setValues(formValues);
       setPrevFormValues(formValues);
-      if (productResponse.thumbnail) {
-        setThumbnailName(formValues.images?.content.find((image) => image.isThumbnail)?.name || '');
+      if (productResponse.images.some((image) => !image.isEliminated)) {
+        setThumbnailName((productResponse.images.find((image) => image.isThumbnail) || {}).name || '');
       }
     }
   );
@@ -138,7 +139,7 @@ function useProductUpdateViewModel(id: number) {
     }
   );
 
-  const transformTags = (tags: string[]) => tags.map((tagIdOrName) => {
+  const transformTags = (tags: string[]): Tag_ProductRequest[] => tags.map((tagIdOrName) => {
     if (tagIdOrName.includes('#ORIGINAL')) {
       return {
         id: Number(tagIdOrName.split('#')[0]),
@@ -152,33 +153,36 @@ function useProductUpdateViewModel(id: number) {
     }
   });
 
+  const transformImages = (uploadedImageResponses: UploadedImageResponse[]): ImageRequest[] => {
+    /**
+     * NOTE:
+     * - thumbnailIndex >= 0 khi có tải hình mới và có chọn thumbnail trong danh sách hình mới (imageFiles)
+     * - thumbnailIndex = -1 khi có tải hình mới nhưng không chọn thumbnail trong đó
+     */
+    const thumbnailIndex = imageFiles.findIndex((imageFile) => imageFile.name === thumbnailName);
+    return uploadedImageResponses.map((uploadedImageResponse, index) => ({
+      id: null,
+      name: uploadedImageResponse.name,
+      path: uploadedImageResponse.path,
+      contentType: uploadedImageResponse.contentType,
+      size: uploadedImageResponse.size,
+      group: 'P',
+      isThumbnail: index === thumbnailIndex,
+      isEliminated: false,
+    }));
+  };
+
   const handleFormSubmit = form.onSubmit((formValues) => {
-    const createProduct = (images?: CollectionWrapper<ImageItem>) => {
+    const createProduct = (uploadedImageResponses?: UploadedImageResponse[]) => {
       setPrevFormValues(formValues);
       if (!MiscUtils.isEquals(formValues, prevFormValues) || imageFiles.length > 0) {
-        /* NOTE:
-         * - currentThumbnailName có giá trị trong trường hợp (1): Tải hình mới cho product không hình
-         * và trường hợp (2b2): Tải hình mới cho product có hình và chọn thumbnail trong danh sách hình mới
-         * - currentThumbnailName === null trong trường hợp (2a): Không tải hình mới cho product có hình
-         * và trường hợp (2b1): Tải hình mới cho product có hình nhưng không chọn thumbnail trong danh sách hình mới
-         * và trường hợp (3): Xóa tất cả hình
-         */
-        const currentThumbnailName = images?.content[imageFiles.findIndex((imageFile) => imageFile.name === thumbnailName)]?.name || null;
         const requestBody: ProductRequest = {
           name: formValues.name,
           code: formValues.code,
           slug: formValues.slug,
           shortDescription: formValues.shortDescription || null,
           description: formValues.description || null,
-          thumbnail: images?.content.find((image) => image.name === currentThumbnailName)?.path
-            || formValues.images?.content.find((image) => image.isThumbnail)?.path || null,
-          images: images ? {
-            content: (formValues.images?.content || []).concat(images.content.map((image) => (image.name === currentThumbnailName) ? {
-              ...image,
-              isThumbnail: true,
-            } : image)),
-            totalElements: (formValues.images?.totalElements || 0) + images.totalElements,
-          } : formValues.images,
+          images: [...formValues.images, ...(uploadedImageResponses ? transformImages(uploadedImageResponses) : [])],
           status: Number(formValues.status),
           categoryId: Number(formValues.categoryId) || null,
           brandId: Number(formValues.brandId) || null,
@@ -198,7 +202,7 @@ function useProductUpdateViewModel(id: number) {
 
     if (imageFiles.length > 0) {
       uploadMultipleImagesApi.mutate(imageFiles, {
-        onSuccess: (imageCollectionResponse) => createProduct(imageCollectionResponse),
+        onSuccess: (imageCollectionResponse) => createProduct(imageCollectionResponse.content),
       });
     } else {
       createProduct();
