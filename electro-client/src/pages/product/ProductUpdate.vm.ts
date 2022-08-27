@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useForm, zodResolver } from '@mantine/form';
 import ProductConfigs from 'pages/product/ProductConfigs';
-import { ProductRequest, ProductResponse, Tag_ProductRequest } from 'models/Product';
+import { ProductRequest, ProductResponse, SpecificationItem, Tag_ProductRequest } from 'models/Product';
 import useUpdateApi from 'hooks/use-update-api';
 import useGetByIdApi from 'hooks/use-get-by-id-api';
 import MiscUtils from 'utils/MiscUtils';
-import { FileWithPreview, SelectOption } from 'types';
+import { CollectionWrapper, FileWithPreview, SelectOption } from 'types';
 import useGetAllApi from 'hooks/use-get-all-api';
 import { CategoryResponse } from 'models/Category';
 import CategoryConfigs from 'pages/category/CategoryConfigs';
@@ -22,6 +22,8 @@ import GuaranteeConfigs from 'pages/guarantee/GuaranteeConfigs';
 import { useQueryClient } from 'react-query';
 import useUploadMultipleImagesApi from 'hooks/use-upload-multiple-images-api';
 import { ImageRequest, UploadedImageResponse } from 'models/Image';
+import { SpecificationResponse } from 'models/Specification';
+import SpecificationConfigs from 'pages/specification/SpecificationConfigs';
 
 function useProductUpdateViewModel(id: number) {
   const form = useForm({
@@ -40,6 +42,8 @@ function useProductUpdateViewModel(id: number) {
 
   const [imageFiles, setImageFiles] = useState<FileWithPreview[]>([]);
   const [thumbnailName, setThumbnailName] = useState('');
+
+  const [specificationSelectList, setSpecificationSelectList] = useState<SelectOption[]>([]);
 
   const queryClient = useQueryClient();
   const updateApi = useUpdateApi<ProductRequest, ProductResponse>(ProductConfigs.resourceUrl, ProductConfigs.resourceKey, id);
@@ -138,19 +142,33 @@ function useProductUpdateViewModel(id: number) {
       setGuaranteeSelectList(selectList);
     }
   );
+  useGetAllApi<SpecificationResponse>(SpecificationConfigs.resourceUrl, SpecificationConfigs.resourceKey,
+    { all: 1 },
+    (specificationListResponse) => {
+      const productSpecificationsIds = form.values.specifications?.content.map(item => item.id) || [];
+      const selectList: SelectOption[] = specificationListResponse.content.map((item) => {
+        const option: SelectOption = {
+          value: JSON.stringify({ id: item.id, name: item.name, code: item.code }),
+          label: item.name,
+        };
+        if (productSpecificationsIds.includes(item.id)) {
+          option.disabled = true;
+        }
+        return option;
+      });
+      setSpecificationSelectList(selectList);
+    }
+  );
 
   const transformTags = (tags: string[]): Tag_ProductRequest[] => tags.map((tagIdOrName) => {
     if (tagIdOrName.includes('#ORIGINAL')) {
-      return {
-        id: Number(tagIdOrName.split('#')[0]),
-      };
-    } else {
-      return {
-        name: tagIdOrName.trim(),
-        slug: MiscUtils.convertToSlug(tagIdOrName),
-        status: 1,
-      };
+      return { id: Number(tagIdOrName.split('#')[0]) };
     }
+    return {
+      name: tagIdOrName.trim(),
+      slug: MiscUtils.convertToSlug(tagIdOrName),
+      status: 1,
+    };
   });
 
   const transformImages = (uploadedImageResponses: UploadedImageResponse[]): ImageRequest[] => {
@@ -172,6 +190,11 @@ function useProductUpdateViewModel(id: number) {
     }));
   };
 
+  const filterSpecifications = (specifications: CollectionWrapper<SpecificationItem>) => {
+    const filteredSpecificationsContent = specifications.content.filter((specification) => specification.id !== 0);
+    return filteredSpecificationsContent.length === 0 ? null : new CollectionWrapper(filteredSpecificationsContent);
+  };
+
   const handleFormSubmit = form.onSubmit((formValues) => {
     const createProduct = (uploadedImageResponses?: UploadedImageResponse[]) => {
       setPrevFormValues(formValues);
@@ -189,7 +212,7 @@ function useProductUpdateViewModel(id: number) {
           supplierId: Number(formValues.supplierId) || null,
           unitId: Number(formValues.unitId) || null,
           tags: transformTags(formValues.tags),
-          specifications: formValues.specifications,
+          specifications: formValues.specifications ? filterSpecifications(formValues.specifications) : null,
           properties: formValues.properties,
           variants: [],
           weight: formValues.weight || null,
@@ -240,6 +263,7 @@ function useProductUpdateViewModel(id: number) {
     guaranteeSelectList,
     imageFiles, setImageFiles,
     thumbnailName, setThumbnailName,
+    specificationSelectList, setSpecificationSelectList,
     resetForm,
   };
 }

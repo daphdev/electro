@@ -15,7 +15,7 @@ import {
   Title
 } from '@mantine/core';
 import { useParams } from 'react-router-dom';
-import { CreateUpdateTitle, DefaultPropertyPanel, ProductImagesDropzone } from 'components';
+import { CreateUpdateTitle, DefaultPropertyPanel, ProductImagesDropzone, ProductSpecifications } from 'components';
 import ProductConfigs from 'pages/product/ProductConfigs';
 import useProductUpdateViewModel from 'pages/product/ProductUpdate.vm';
 import MiscUtils from 'utils/MiscUtils';
@@ -36,6 +36,7 @@ function ProductUpdate() {
     guaranteeSelectList,
     imageFiles, setImageFiles,
     thumbnailName, setThumbnailName,
+    specificationSelectList, setSpecificationSelectList,
     resetForm,
   } = useProductUpdateViewModel(Number(id));
 
@@ -111,6 +112,18 @@ function ProductUpdate() {
                   setThumbnailName={setThumbnailName}
                   imageResponses={form.values.images}
                   setImageResponses={(imageResponses) => form.setFieldValue('images', imageResponses)}
+                />
+              </Grid.Col>
+              <Grid.Col>
+                <Title order={4}>Thông số sản phẩm</Title>
+                <Text size="sm">Thêm các thông số của sản phẩm</Text>
+              </Grid.Col>
+              <Grid.Col>
+                <ProductSpecifications
+                  specifications={form.values.specifications}
+                  setSpecifications={(specifications) => form.setFieldValue('specifications', specifications)}
+                  specificationSelectList={specificationSelectList}
+                  setSpecificationSelectList={setSpecificationSelectList}
                 />
               </Grid.Col>
               <Grid.Col>

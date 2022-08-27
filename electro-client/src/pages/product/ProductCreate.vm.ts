@@ -111,7 +111,7 @@ function useProductCreateViewModel() {
     { all: 1 },
     (specificationListResponse) => {
       const selectList: SelectOption[] = specificationListResponse.content.map((item) => ({
-        value: `${item.id}#${item.name}#${item.code}`,
+        value: JSON.stringify({ id: item.id, name: item.name, code: item.code }),
         label: item.name,
       }));
       setSpecificationSelectList(selectList);
@@ -120,16 +120,13 @@ function useProductCreateViewModel() {
 
   const transformTags = (tags: string[]): Tag_ProductRequest[] => tags.map((tagIdOrName) => {
     if (tagIdOrName.includes('#ORIGINAL')) {
-      return {
-        id: Number(tagIdOrName.split('#')[0]),
-      };
-    } else {
-      return {
-        name: tagIdOrName.trim(),
-        slug: MiscUtils.convertToSlug(tagIdOrName),
-        status: 1,
-      };
+      return { id: Number(tagIdOrName.split('#')[0]) };
     }
+    return {
+      name: tagIdOrName.trim(),
+      slug: MiscUtils.convertToSlug(tagIdOrName),
+      status: 1,
+    };
   });
 
   const transformImages = (uploadedImageResponses: UploadedImageResponse[]): ImageRequest[] => {
@@ -148,10 +145,7 @@ function useProductCreateViewModel() {
 
   const filterSpecifications = (specifications: CollectionWrapper<SpecificationItem>) => {
     const filteredSpecificationsContent = specifications.content.filter((specification) => specification.id !== 0);
-    if (filteredSpecificationsContent.length === 0) {
-      return null;
-    }
-    return new CollectionWrapper(filteredSpecificationsContent);
+    return filteredSpecificationsContent.length === 0 ? null : new CollectionWrapper(filteredSpecificationsContent);
   };
 
   const handleFormSubmit = form.onSubmit((formValues) => {

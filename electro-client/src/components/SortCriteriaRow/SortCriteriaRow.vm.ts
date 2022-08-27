@@ -14,12 +14,10 @@ function useSortCriteriaRowViewModel() {
 
     setSortCriteriaList(currentSortCriteriaList);
 
-    const isIncludeInSortCriteriaPropertyList = (propertyValue: string) => {
-      return currentSortCriteriaList.map(item => item.property).includes(propertyValue);
-    };
+    const sortCriteriaPropertyList = currentSortCriteriaList.map(item => item.property);
 
     setSortPropertySelectList(sortPropertySelectList.map((option) => {
-      if (option.disabled === true && !isIncludeInSortCriteriaPropertyList(option.value)) {
+      if (option.disabled === true && !sortCriteriaPropertyList.includes(option.value)) {
         return { ...option, disabled: false };
       }
       if (option.value === propertyValue) {

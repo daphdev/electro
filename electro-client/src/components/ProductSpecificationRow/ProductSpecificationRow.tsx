@@ -3,6 +3,7 @@ import { AB, CircleX, DragDrop, Keyboard } from 'tabler-icons-react';
 import React from 'react';
 import { CollectionWrapper, SelectOption } from 'types';
 import { SpecificationItem } from 'models/Product';
+import produce from 'immer';
 
 interface ProductSpecificationRowProps {
   specification: SpecificationItem;
@@ -24,36 +25,23 @@ function ProductSpecificationRow({
   const isDisabledProductSpecificationValueInput = specification.id === 0;
 
   const handleProductSpecificationSelect = (specificationInfos: string | null, specificationIndex: number) => {
-    let specification: SpecificationItem;
+    const specification: SpecificationItem = { id: 0, name: '', code: '', value: '' };
+
     if (specificationInfos) {
-      const specificationInfosArray = specificationInfos.split('#');
-      specification = {
-        id: Number(specificationInfosArray[0]),
-        name: specificationInfosArray[1],
-        code: specificationInfosArray[2],
-        value: '',
-      };
-    } else {
-      specification = {
-        id: 0,
-        name: '',
-        code: '',
-        value: '',
-      };
+      const parsedSpecificationInfos = JSON.parse(specificationInfos);
+      specification.id = parsedSpecificationInfos.id;
+      specification.name = parsedSpecificationInfos.name;
+      specification.code = parsedSpecificationInfos.code;
     }
 
-    const currentSpecifications: CollectionWrapper<SpecificationItem> = {
-      content: specifications.content.map((item, index) => (index === specificationIndex) ? specification : item),
-      totalElements: specifications.totalElements,
-    };
+    const currentSpecifications = new CollectionWrapper(specifications.content
+      .map((item, index) => (index === specificationIndex) ? specification : item));
     setSpecifications(currentSpecifications);
 
-    const isIncludeInSpecifications = (specificationInfos: string) => {
-      return currentSpecifications.content.map(item => String(item.id)).includes(specificationInfos.split('#')[0]);
-    };
+    const currentSpecificationsIds = currentSpecifications.content.map(item => item.id);
 
     setSpecificationSelectList(specificationSelectList.map((option) => {
-      if (option.disabled === true && !isIncludeInSpecifications(option.value)) {
+      if (option.disabled === true && !currentSpecificationsIds.includes(JSON.parse(option.value).id)) {
         return { value: option.value, label: option.label };
       }
       if (option.value === specificationInfos) {
@@ -64,25 +52,19 @@ function ProductSpecificationRow({
   };
 
   const handleProductSpecificationValueInput = (specificationValue: string, specificationIndex: number) => {
-    const currentSpecifications: CollectionWrapper<SpecificationItem> = {
-      content: specifications.content.map((item, index) => (index === specificationIndex) ? {
-        ...item,
-        value: specificationValue,
-      } : item),
-      totalElements: specifications.totalElements,
-    };
+    const currentSpecifications = new CollectionWrapper(produce(specifications.content, draft => {
+      draft[specificationIndex].value = specificationValue;
+    }));
     setSpecifications(currentSpecifications);
   };
 
   const handleDeleteProductSpecificationButton = (specificationIndex: number) => {
-    const currentSpecifications: CollectionWrapper<SpecificationItem> = {
-      content: specifications.content.filter((_, index) => index !== specificationIndex),
-      totalElements: specifications.totalElements - 1,
-    };
+    const currentSpecifications = new CollectionWrapper(specifications.content
+      .filter((_, index) => index !== specificationIndex));
     setSpecifications(currentSpecifications.totalElements !== 0 ? currentSpecifications : null);
 
     setSpecificationSelectList(specificationSelectList.map(option => {
-      if (option.disabled === true && option.value.split('#')[0] === String(specifications.content[specificationIndex].id)) {
+      if (option.disabled === true && JSON.parse(option.value).id === specifications.content[specificationIndex].id) {
         return { value: option.value, label: option.label };
       }
       return option;
@@ -108,7 +90,7 @@ function ProductSpecificationRow({
         icon={<AB size={14}/>}
         clearable
         searchable
-        value={`${specification.id}#${specification.name}#${specification.code}`}
+        value={JSON.stringify({ id: specification.id, name: specification.name, code: specification.code })}
         data={specificationSelectList}
         onChange={specificationInfos => handleProductSpecificationSelect(specificationInfos, index)}
       />

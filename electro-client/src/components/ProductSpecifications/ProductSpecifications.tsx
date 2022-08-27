@@ -20,31 +20,14 @@ function ProductSpecifications({
   const isDisabledCreateProductSpecificationButton = specifications?.content.length === specificationSelectList.length;
 
   const handleCreateProductSpecificationButton = () => {
-    let currentSpecifications: CollectionWrapper<SpecificationItem>;
+    let currentSpecificationItems: SpecificationItem[] = [];
+
     if (specifications && specifications.content.length < specificationSelectList.length) {
-      currentSpecifications = {
-        content: [...specifications.content, {
-          id: 0,
-          name: '',
-          code: '',
-          value: '',
-        }],
-        totalElements: specifications.content.length + 1,
-      };
-    } else {
-      currentSpecifications = {
-        content: [
-          {
-            id: 0,
-            name: '',
-            code: '',
-            value: '',
-          },
-        ],
-        totalElements: 1,
-      };
+      currentSpecificationItems = [...specifications.content];
     }
-    setSpecifications(currentSpecifications);
+
+    currentSpecificationItems.push({ id: 0, name: '', code: '', value: '' });
+    setSpecifications(new CollectionWrapper(currentSpecificationItems));
   };
 
   const productSpecificationsFragment = specifications?.content.map((specification, index) => (
