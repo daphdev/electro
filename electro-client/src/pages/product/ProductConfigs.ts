@@ -6,7 +6,7 @@ import PageConfigs from 'pages/PageConfigs';
 import ManagerPath from 'constants/ManagerPath';
 import { ProductPropertyItem, SpecificationItem } from 'models/Product';
 import { VariantRequest } from 'models/Variant';
-import { ImageResponse } from 'models/Image';
+import { ImageRequest } from 'models/Image';
 
 class ProductConfigs extends Configs {
   static managerPath = ManagerPath.PRODUCT;
@@ -189,7 +189,7 @@ class ProductConfigs extends Configs {
     slug: '',
     shortDescription: '',
     description: '',
-    images: [] as ImageResponse[],
+    images: [] as ImageRequest[],
     status: '1',
     categoryId: null as string | null,
     brandId: null as string | null,
@@ -198,7 +198,16 @@ class ProductConfigs extends Configs {
     tags: [] as string[],
     specifications: null as CollectionWrapper<SpecificationItem> | null,
     properties: null as CollectionWrapper<ProductPropertyItem> | null,
-    variants: [] as VariantRequest[],
+    variants: [
+      {
+        sku: '',
+        cost: 0,
+        price: 0,
+        properties: null,
+        images: null,
+        status: 1,
+      },
+    ] as VariantRequest[],
     weight: 0.00,
     guaranteeId: null as string | null,
   };

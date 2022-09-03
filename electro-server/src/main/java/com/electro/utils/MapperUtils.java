@@ -104,6 +104,7 @@ public abstract class MapperUtils {
     public Product attachProduct(@MappingTarget Product product) {
         product.getImages().forEach(image -> image.setProduct(product));
         product.setTags(attachSet(product.getTags(), tagRepository));
+        product.getVariants().forEach(variant -> variant.setProduct(product));
         return product;
     }
 

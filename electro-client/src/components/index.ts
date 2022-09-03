@@ -36,6 +36,13 @@ import VariantTablePopover from 'components/VariantTablePopover/VariantTablePopo
 import ProductImagesDropzone from 'components/ProductImagesDropzone/ProductImagesDropzone';
 import ProductSpecifications from 'components/ProductSpecifications/ProductSpecifications';
 import ProductSpecificationRow from 'components/ProductSpecificationRow/ProductSpecificationRow';
+import ProductProperties from 'components/ProductProperties/ProductProperties';
+import ProductPropertyRow from 'components/ProductPropertyRow/ProductPropertyRow';
+import ProductVariants from 'components/ProductVariants/ProductVariants';
+import ProductVariantRow from 'components/ProductVariantRow/ProductVariantRow';
+
+// Debug
+import FloatingCodeFrame from 'components/FloatingCodeFrame/FloatingCodeFrame';
 
 export {
   CreateUpdateTitle,
@@ -68,4 +75,10 @@ export {
   ProductImagesDropzone,
   ProductSpecifications,
   ProductSpecificationRow,
+  ProductProperties,
+  ProductPropertyRow,
+  ProductVariants,
+  ProductVariantRow,
+
+  FloatingCodeFrame,
 };

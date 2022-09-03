@@ -63,7 +63,7 @@ function ProductSpecificationRow({
       .filter((_, index) => index !== specificationIndex));
     setSpecifications(currentSpecifications.totalElements !== 0 ? currentSpecifications : null);
 
-    setSpecificationSelectList(specificationSelectList.map(option => {
+    setSpecificationSelectList(specificationSelectList.map((option) => {
       if (option.disabled === true && JSON.parse(option.value).id === specifications.content[specificationIndex].id) {
         return { value: option.value, label: option.label };
       }

@@ -19,6 +19,7 @@ import { CreateUpdateTitle, DefaultPropertyPanel, ProductImagesDropzone, Product
 import ProductConfigs from 'pages/product/ProductConfigs';
 import useProductUpdateViewModel from 'pages/product/ProductUpdate.vm';
 import MiscUtils from 'utils/MiscUtils';
+import { ImageResponse } from 'models/Image';
 
 function ProductUpdate() {
   const { id } = useParams();
@@ -110,7 +111,7 @@ function ProductUpdate() {
                   setImageFiles={setImageFiles}
                   thumbnailName={thumbnailName}
                   setThumbnailName={setThumbnailName}
-                  imageResponses={form.values.images}
+                  imageResponses={form.values.images as ImageResponse[]}
                   setImageResponses={(imageResponses) => form.setFieldValue('images', imageResponses)}
                 />
               </Grid.Col>

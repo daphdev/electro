@@ -14,7 +14,15 @@ import {
   TextInput,
   Title
 } from '@mantine/core';
-import { CreateUpdateTitle, DefaultPropertyPanel, ProductImagesDropzone, ProductSpecifications } from 'components';
+import {
+  CreateUpdateTitle,
+  DefaultPropertyPanel,
+  FloatingCodeFrame,
+  ProductImagesDropzone,
+  ProductProperties,
+  ProductSpecifications,
+  ProductVariants
+} from 'components';
 import ProductConfigs from 'pages/product/ProductConfigs';
 import useProductCreateViewModel from 'pages/product/ProductCreate.vm';
 
@@ -32,11 +40,19 @@ function ProductCreate() {
     imageFiles, setImageFiles,
     thumbnailName, setThumbnailName,
     specificationSelectList, setSpecificationSelectList,
+    productPropertySelectList, setProductPropertySelectList,
+    selectedVariantIndexes, setSelectedVariantIndexes,
     resetForm,
   } = useProductCreateViewModel();
 
   return (
     <Stack sx={{ maxWidth: 800 }}>
+      <FloatingCodeFrame object={{
+        productProperties: form.values.properties,
+        productPropertySelectList: productPropertySelectList,
+        variants: form.values.variants,
+      }}
+      />
       <CreateUpdateTitle
         managerPath={ProductConfigs.managerPath}
         title={ProductConfigs.createTitle}
@@ -107,6 +123,32 @@ function ProductCreate() {
                   setSpecifications={(specifications) => form.setFieldValue('specifications', specifications)}
                   specificationSelectList={specificationSelectList}
                   setSpecificationSelectList={setSpecificationSelectList}
+                />
+              </Grid.Col>
+              <Grid.Col>
+                <Title order={4}>Thuộc tính sản phẩm</Title>
+                <Text size="sm">Thêm mới thuộc tính giúp sản phẩm có nhiều lựa chọn, như kích cỡ hay màu sắc</Text>
+              </Grid.Col>
+              <Grid.Col>
+                <ProductProperties
+                  productProperties={form.values.properties}
+                  setProductProperties={(productProperties) => form.setFieldValue('properties', productProperties)}
+                  productPropertySelectList={productPropertySelectList}
+                  setProductPropertySelectList={setProductPropertySelectList}
+                />
+              </Grid.Col>
+              <Grid.Col>
+                <Title order={4}>Phiên bản sản phẩm</Title>
+                <Text size="sm">Phiên bản mặc định của sản phẩm hoặc phiên bản dựa vào thuộc tính sản phẩm</Text>
+              </Grid.Col>
+              <Grid.Col>
+                <ProductVariants
+                  variants={form.values.variants}
+                  setVariants={(variants) => form.setFieldValue('variants', variants)}
+                  productProperties={form.values.properties}
+                  setProductProperties={(productProperties) => form.setFieldValue('properties', productProperties)}
+                  selectedVariantIndexes={selectedVariantIndexes}
+                  setSelectedVariantIndexes={setSelectedVariantIndexes}
                 />
               </Grid.Col>
               <Grid.Col>
