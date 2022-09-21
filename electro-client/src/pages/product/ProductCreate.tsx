@@ -17,7 +17,6 @@ import {
 import {
   CreateUpdateTitle,
   DefaultPropertyPanel,
-  FloatingCodeFrame,
   ProductImagesDropzone,
   ProductProperties,
   ProductSpecifications,
@@ -47,12 +46,6 @@ function ProductCreate() {
 
   return (
     <Stack sx={{ maxWidth: 800 }}>
-      <FloatingCodeFrame object={{
-        productProperties: form.values.properties,
-        productPropertySelectList: productPropertySelectList,
-        variants: form.values.variants,
-      }}
-      />
       <CreateUpdateTitle
         managerPath={ProductConfigs.managerPath}
         title={ProductConfigs.createTitle}

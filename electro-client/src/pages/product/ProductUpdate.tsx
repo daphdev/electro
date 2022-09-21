@@ -15,7 +15,14 @@ import {
   Title
 } from '@mantine/core';
 import { useParams } from 'react-router-dom';
-import { CreateUpdateTitle, DefaultPropertyPanel, ProductImagesDropzone, ProductSpecifications } from 'components';
+import {
+  CreateUpdateTitle,
+  DefaultPropertyPanel,
+  ProductImagesDropzone,
+  ProductProperties,
+  ProductSpecifications,
+  ProductVariantsForUpdate
+} from 'components';
 import ProductConfigs from 'pages/product/ProductConfigs';
 import useProductUpdateViewModel from 'pages/product/ProductUpdate.vm';
 import MiscUtils from 'utils/MiscUtils';
@@ -38,6 +45,8 @@ function ProductUpdate() {
     imageFiles, setImageFiles,
     thumbnailName, setThumbnailName,
     specificationSelectList, setSpecificationSelectList,
+    productPropertySelectList, setProductPropertySelectList,
+    selectedVariantIndexes, setSelectedVariantIndexes,
     resetForm,
   } = useProductUpdateViewModel(Number(id));
 
@@ -125,6 +134,32 @@ function ProductUpdate() {
                   setSpecifications={(specifications) => form.setFieldValue('specifications', specifications)}
                   specificationSelectList={specificationSelectList}
                   setSpecificationSelectList={setSpecificationSelectList}
+                />
+              </Grid.Col>
+              <Grid.Col>
+                <Title order={4}>Thuộc tính sản phẩm</Title>
+                <Text size="sm">Thêm mới thuộc tính giúp sản phẩm có nhiều lựa chọn, như kích cỡ hay màu sắc</Text>
+              </Grid.Col>
+              <Grid.Col>
+                <ProductProperties
+                  productProperties={form.values.properties}
+                  setProductProperties={(productProperties) => form.setFieldValue('properties', productProperties)}
+                  productPropertySelectList={productPropertySelectList}
+                  setProductPropertySelectList={setProductPropertySelectList}
+                />
+              </Grid.Col>
+              <Grid.Col>
+                <Title order={4}>Phiên bản sản phẩm</Title>
+                <Text size="sm">Phiên bản mặc định của sản phẩm hoặc phiên bản dựa vào thuộc tính sản phẩm</Text>
+              </Grid.Col>
+              <Grid.Col>
+                <ProductVariantsForUpdate
+                  variants={form.values.variants}
+                  setVariants={(variants) => form.setFieldValue('variants', variants)}
+                  productProperties={form.values.properties}
+                  setProductProperties={(productProperties) => form.setFieldValue('properties', productProperties)}
+                  selectedVariantIndexes={selectedVariantIndexes}
+                  setSelectedVariantIndexes={setSelectedVariantIndexes}
                 />
               </Grid.Col>
               <Grid.Col>
@@ -218,7 +253,9 @@ function ProductUpdate() {
               <Button variant="default" onClick={resetForm}>Mặc định</Button>
               <Button
                 type="submit"
-                disabled={MiscUtils.isEquals(form.values, prevFormValues) && imageFiles.length === 0}
+                disabled={MiscUtils.isEquals(form.values, prevFormValues)
+                  && selectedVariantIndexes.length === product.variants.length
+                  && imageFiles.length === 0}
               >
                 Cập nhật
               </Button>

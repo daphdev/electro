@@ -19,6 +19,7 @@ export interface VariantPropertyItem {
 }
 
 export interface VariantRequest {
+  id?: number;
   sku: string;
   cost: number;
   price: number;

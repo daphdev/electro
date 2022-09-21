@@ -40,6 +40,8 @@ import ProductProperties from 'components/ProductProperties/ProductProperties';
 import ProductPropertyRow from 'components/ProductPropertyRow/ProductPropertyRow';
 import ProductVariants from 'components/ProductVariants/ProductVariants';
 import ProductVariantRow from 'components/ProductVariantRow/ProductVariantRow';
+import ProductVariantsForUpdate from 'components/ProductVariantsForUpdate/ProductVariantsForUpdate';
+import AddVariantsModal from 'components/AddVariantsModal/AddVariantsModal';
 
 // Debug
 import FloatingCodeFrame from 'components/FloatingCodeFrame/FloatingCodeFrame';
@@ -79,6 +81,8 @@ export {
   ProductPropertyRow,
   ProductVariants,
   ProductVariantRow,
+  ProductVariantsForUpdate,
+  AddVariantsModal,
 
   FloatingCodeFrame,
 };

@@ -1,4 +1,4 @@
-import { Checkbox, NumberInput, TextInput } from '@mantine/core';
+import { Checkbox, NumberInput, TextInput, useMantineTheme } from '@mantine/core';
 import React from 'react';
 import { VariantRequest } from 'models/Variant';
 import produce from 'immer';
@@ -11,6 +11,7 @@ interface ProductVariantRowProps {
   setVariants: (variants: VariantRequest[]) => void;
   selectedVariantIndexes: number[];
   setSelectedVariantIndexes: React.Dispatch<React.SetStateAction<number[]>>;
+  isNewable?: boolean; // For ProductUpdate
 }
 
 function ProductVariantRow({
@@ -20,7 +21,9 @@ function ProductVariantRow({
   setVariants,
   selectedVariantIndexes,
   setSelectedVariantIndexes,
+  isNewable,
 }: ProductVariantRowProps) {
+  const theme = useMantineTheme();
 
   const handleVariantCheckbox = (index: number) => {
     setSelectedVariantIndexes(indexes => indexes.includes(index) ? indexes.filter(i => i !== index) : [...indexes, index]);
@@ -45,7 +48,13 @@ function ProductVariantRow({
   };
 
   return (
-    <tr>
+    <tr style={isNewable
+      ? {
+        backgroundColor: theme.colorScheme === 'dark'
+          ? theme.fn.rgba(theme.colors.yellow[8], 0.1)
+          : theme.colors.yellow[0],
+      }
+      : {}}>
       <td>
         <Checkbox
           checked={selectedVariantIndexes.includes(index)}
