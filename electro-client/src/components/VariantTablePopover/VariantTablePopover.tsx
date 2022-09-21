@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Badge, Button, Popover, Table, useMantineTheme } from '@mantine/core';
 import { VariantResponse } from 'models/Variant';
-import { CollectionWrapper, ProductPropertyItem } from 'models/Product';
+import { ProductPropertyItem } from 'models/Product';
+import { CollectionWrapper } from 'types';
+import MiscUtils from 'utils/MiscUtils';
 
 interface VariantTablePopoverProps {
   variants: VariantResponse[],
@@ -22,8 +24,6 @@ function VariantTablePopover({
 
     return <Badge color="red" variant="outline" size="sm">Vô hiệu lực</Badge>;
   };
-
-  const formatPrice = (price: number) => new Intl.NumberFormat('vi-VN').format(price);
 
   if (variants.length === 0) {
     return <em>không có</em>;
@@ -82,8 +82,8 @@ function VariantTablePopover({
                 <td key={index}>{property.value}</td>
               ))}
               <td>{variant.sku}</td>
-              <td>{formatPrice(variant.cost) + '₫'}</td>
-              <td>{formatPrice(variant.price) + '₫'}</td>
+              <td>{MiscUtils.formatPrice(variant.cost) + '₫'}</td>
+              <td>{MiscUtils.formatPrice(variant.price) + '₫'}</td>
               <td>{variant.images ? variant.images.totalElements + ' hình ảnh' : <em>không có</em>}</td>
               <td>{variantStatusBadgeFragment(variant.status)}</td>
             </tr>

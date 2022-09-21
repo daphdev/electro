@@ -217,6 +217,11 @@ public interface SearchFields {
             "price"
     );
 
+    List<String> IMAGE = List.of(
+            "name",
+            "contentType"
+    );
+
     List<String> PRODUCT_INVENTORY_LIMIT = List.of(
             "product.name",
             "product.code",

@@ -2,6 +2,8 @@ package com.electro.controller;
 
 import com.electro.constant.ResourceName;
 import com.electro.constant.SearchFields;
+import com.electro.dto.general.ImageRequest;
+import com.electro.dto.general.ImageResponse;
 import com.electro.dto.address.AddressRequest;
 import com.electro.dto.address.AddressResponse;
 import com.electro.dto.address.DistrictRequest;
@@ -40,6 +42,8 @@ import com.electro.dto.inventory.DestinationRequest;
 import com.electro.dto.inventory.DestinationResponse;
 import com.electro.dto.inventory.DocketReasonRequest;
 import com.electro.dto.inventory.DocketReasonResponse;
+import com.electro.dto.inventory.ProductInventoryLimitRequest;
+import com.electro.dto.inventory.ProductInventoryLimitResponse;
 import com.electro.dto.inventory.TransferRequest;
 import com.electro.dto.inventory.TransferResponse;
 import com.electro.dto.inventory.TransferVariantRequest;
@@ -54,8 +58,6 @@ import com.electro.dto.product.CategoryRequest;
 import com.electro.dto.product.CategoryResponse;
 import com.electro.dto.product.GuaranteeRequest;
 import com.electro.dto.product.GuaranteeResponse;
-import com.electro.dto.inventory.ProductInventoryLimitRequest;
-import com.electro.dto.inventory.ProductInventoryLimitResponse;
 import com.electro.dto.product.ProductRequest;
 import com.electro.dto.product.ProductResponse;
 import com.electro.dto.product.PropertyRequest;
@@ -70,6 +72,7 @@ import com.electro.dto.product.UnitRequest;
 import com.electro.dto.product.UnitResponse;
 import com.electro.dto.product.VariantRequest;
 import com.electro.dto.product.VariantResponse;
+import com.electro.entity.general.Image;
 import com.electro.entity.address.Address;
 import com.electro.entity.address.District;
 import com.electro.entity.authentication.Role;
@@ -88,6 +91,7 @@ import com.electro.entity.inventory.Count;
 import com.electro.entity.inventory.CountVariant;
 import com.electro.entity.inventory.Destination;
 import com.electro.entity.inventory.DocketReason;
+import com.electro.entity.inventory.ProductInventoryLimit;
 import com.electro.entity.inventory.Transfer;
 import com.electro.entity.inventory.TransferVariant;
 import com.electro.entity.inventory.VariantInventoryLimit;
@@ -96,13 +100,13 @@ import com.electro.entity.product.Brand;
 import com.electro.entity.product.Category;
 import com.electro.entity.product.Guarantee;
 import com.electro.entity.product.Product;
-import com.electro.entity.inventory.ProductInventoryLimit;
 import com.electro.entity.product.Property;
 import com.electro.entity.product.Specification;
 import com.electro.entity.product.Supplier;
 import com.electro.entity.product.Tag;
 import com.electro.entity.product.Unit;
 import com.electro.entity.product.Variant;
+import com.electro.mapper.general.ImageMapper;
 import com.electro.mapper.address.AddressMapper;
 import com.electro.mapper.address.DistrictMapper;
 import com.electro.mapper.authentication.RoleMapper;
@@ -121,6 +125,7 @@ import com.electro.mapper.inventory.CountMapper;
 import com.electro.mapper.inventory.CountVariantMapper;
 import com.electro.mapper.inventory.DestinationMapper;
 import com.electro.mapper.inventory.DocketReasonMapper;
+import com.electro.mapper.inventory.ProductInventoryLimitMapper;
 import com.electro.mapper.inventory.TransferMapper;
 import com.electro.mapper.inventory.TransferVariantMapper;
 import com.electro.mapper.inventory.VariantInventoryLimitMapper;
@@ -128,7 +133,6 @@ import com.electro.mapper.inventory.WarehouseMapper;
 import com.electro.mapper.product.BrandMapper;
 import com.electro.mapper.product.CategoryMapper;
 import com.electro.mapper.product.GuaranteeMapper;
-import com.electro.mapper.inventory.ProductInventoryLimitMapper;
 import com.electro.mapper.product.ProductMapper;
 import com.electro.mapper.product.PropertyMapper;
 import com.electro.mapper.product.SpecificationMapper;
@@ -136,6 +140,7 @@ import com.electro.mapper.product.SupplierMapper;
 import com.electro.mapper.product.TagMapper;
 import com.electro.mapper.product.UnitMapper;
 import com.electro.mapper.product.VariantMapper;
+import com.electro.repository.general.ImageRepository;
 import com.electro.repository.address.AddressRepository;
 import com.electro.repository.address.DistrictRepository;
 import com.electro.repository.authentication.RoleRepository;
@@ -154,6 +159,7 @@ import com.electro.repository.inventory.CountRepository;
 import com.electro.repository.inventory.CountVariantRepository;
 import com.electro.repository.inventory.DestinationRepository;
 import com.electro.repository.inventory.DocketReasonRepository;
+import com.electro.repository.inventory.ProductInventoryLimitRepository;
 import com.electro.repository.inventory.TransferRepository;
 import com.electro.repository.inventory.TransferVariantRepository;
 import com.electro.repository.inventory.VariantInventoryLimitRepository;
@@ -161,7 +167,6 @@ import com.electro.repository.inventory.WarehouseRepository;
 import com.electro.repository.product.BrandRepository;
 import com.electro.repository.product.CategoryRepository;
 import com.electro.repository.product.GuaranteeRepository;
-import com.electro.repository.inventory.ProductInventoryLimitRepository;
 import com.electro.repository.product.ProductRepository;
 import com.electro.repository.product.PropertyRepository;
 import com.electro.repository.product.SpecificationRepository;
@@ -218,6 +223,7 @@ public class GenericMappingRegister {
     private GenericController<SpecificationRequest, SpecificationResponse> specificationController;
     private GenericController<ProductRequest, ProductResponse> productController;
     private GenericController<VariantRequest, VariantResponse> variantController;
+    private GenericController<ImageRequest, ImageResponse> imageController;
     private GenericController<ProductInventoryLimitRequest, ProductInventoryLimitResponse> productInventoryLimitController;
     private GenericController<VariantInventoryLimitRequest, VariantInventoryLimitResponse> variantInventoryLimitController;
     private GenericController<CountVariantRequest, CountVariantResponse> countVariantController;
@@ -253,6 +259,7 @@ public class GenericMappingRegister {
     private GenericService<Specification, SpecificationRequest, SpecificationResponse> specificationService;
     private GenericService<Product, ProductRequest, ProductResponse> productService;
     private GenericService<Variant, VariantRequest, VariantResponse> variantService;
+    private GenericService<Image, ImageRequest, ImageResponse> imageService;
     private GenericService<ProductInventoryLimit, ProductInventoryLimitRequest, ProductInventoryLimitResponse> productInventoryLimitService;
     private GenericService<VariantInventoryLimit, VariantInventoryLimitRequest, VariantInventoryLimitResponse> variantInventoryLimitService;
     private GenericService<CountVariant, CountVariantRequest, CountVariantResponse> countVariantService;
@@ -435,6 +442,13 @@ public class GenericMappingRegister {
                 SearchFields.VARIANT,
                 ResourceName.VARIANT
         ), VariantRequest.class);
+
+        register("images", imageController, imageService.init(
+                context.getBean(ImageRepository.class),
+                context.getBean(ImageMapper.class),
+                SearchFields.IMAGE,
+                ResourceName.IMAGE
+        ), ImageRequest.class);
 
         register("product-inventory-limits", productInventoryLimitController, productInventoryLimitService.init(
                 context.getBean(ProductInventoryLimitRepository.class),

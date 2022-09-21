@@ -9,7 +9,7 @@ function FilterPanelMainLeft() {
 
   const {
     sortCriteriaList,
-    isDisabledDeleteSortCriteriaButton,
+    isDisabledCreateSortCriteriaButton,
     handleCreateSortCriteriaButton,
   } = useFilterPanelMainLeftViewModel();
 
@@ -31,7 +31,7 @@ function FilterPanelMainLeft() {
         <Button
           variant="outline"
           onClick={handleCreateSortCriteriaButton}
-          disabled={isDisabledDeleteSortCriteriaButton}
+          disabled={isDisabledCreateSortCriteriaButton}
         >
           Thêm tiêu chí sắp xếp
         </Button>

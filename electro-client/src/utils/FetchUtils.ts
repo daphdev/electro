@@ -1,3 +1,7 @@
+import ApplicationConstants from 'constants/ApplicationConstants';
+import { CollectionWrapper } from 'types';
+import { UploadedImageResponse } from 'models/Image';
+
 /**
  * RequestParams dùng để chứa các query param
  */
@@ -126,6 +130,25 @@ class FetchUtils {
     if (!response.ok) {
       throw await response.json();
     }
+  }
+
+  /**
+   * Hàm uploadMultipleImages dùng để tải lên nhiều tệp hình
+   * @param images
+   */
+  static async uploadMultipleImages(images: File[]): Promise<CollectionWrapper<UploadedImageResponse>> {
+    const formData = new FormData();
+    images.forEach((image) => formData.append('images', image));
+
+    const response = await fetch(ApplicationConstants.HOME_PATH + '/images/upload-multiple', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw await response.json();
+    }
+    return await response.json();
   }
 
   /**
