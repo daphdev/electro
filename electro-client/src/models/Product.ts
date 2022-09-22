@@ -28,6 +28,10 @@ export interface ProductResponse extends BaseResponse {
   guarantee: GuaranteeResponse | null;
 }
 
+/**
+ * Còn đang dính với createUpdateFormSchema của ProductConfigs
+ * @deprecated
+ */
 export interface ImageItem extends UploadedImageResponse {
   isThumbnail?: boolean;
 }

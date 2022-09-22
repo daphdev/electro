@@ -61,8 +61,7 @@ function ProductVariantsForUpdate({
 
     for (const selectedRemainingPropertyValueCombination of selectedRemainingPropertyValueCombinations) {
       const variant = { ...defaultVariant };
-      // Lấy tạm properties của variant đầu tiên
-      variant.properties = JSON.parse(JSON.stringify(variants[0].properties)) as CollectionWrapper<VariantPropertyItem>;
+      variant.properties = JSON.parse(JSON.stringify(productProperties)) as CollectionWrapper<VariantPropertyItem>;
       variant.properties.content.forEach((item, index) => (item.value = selectedRemainingPropertyValueCombination[index]));
       currentVariants.push(variant);
     }

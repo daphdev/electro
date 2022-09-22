@@ -31,8 +31,6 @@ import ManagePagination from 'components/ManagePagination/ManagePagination';
 
 // Product
 import VariantTablePopover from 'components/VariantTablePopover/VariantTablePopover';
-
-// Others
 import ProductImagesDropzone from 'components/ProductImagesDropzone/ProductImagesDropzone';
 import ProductSpecifications from 'components/ProductSpecifications/ProductSpecifications';
 import ProductSpecificationRow from 'components/ProductSpecificationRow/ProductSpecificationRow';
@@ -43,7 +41,7 @@ import ProductVariantRow from 'components/ProductVariantRow/ProductVariantRow';
 import ProductVariantsForUpdate from 'components/ProductVariantsForUpdate/ProductVariantsForUpdate';
 import AddVariantsModal from 'components/AddVariantsModal/AddVariantsModal';
 
-// Debug
+// Others
 import FloatingCodeFrame from 'components/FloatingCodeFrame/FloatingCodeFrame';
 
 export {
@@ -73,7 +71,6 @@ export {
   ManagePagination,
 
   VariantTablePopover,
-
   ProductImagesDropzone,
   ProductSpecifications,
   ProductSpecificationRow,
