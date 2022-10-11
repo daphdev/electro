@@ -4,6 +4,8 @@ class MiscUtils {
   static pick = <T>(o: T, arr: string[]) => {
     const result = {};
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     Object.entries(o).forEach(([k, v]) => {
       if (arr.includes(k)) {
         Object.assign(result, { [k]: v });
