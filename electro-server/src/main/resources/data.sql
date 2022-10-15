@@ -305,10 +305,10 @@ insert into count_variant (count_id, variant_id, actual_inventory, inventory) va
 insert into count_variant (count_id, variant_id, actual_inventory, inventory) values (1, 3, 30, 37);
 
 -- destination TABLE: 4 records
-insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-10-18 02:13:21', '2022-01-15 02:02:33', 'Zoozzy', 'jdaulby0@chron.com', '03123131231', 21, 1);
-insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-08-10 10:26:25', '2021-11-25 01:59:50', 'Jazzy', 'saleksandrov1@twitp   ic.com', '03123131231', 22, 2);
-insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-10-19 18:02:53', '2022-02-25 21:47:06', 'Gabcube', 'gnegus2@nationalgeographic.com', '03123131231', 23, 2);
-insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-12-30 15:41:07', '2021-11-03 07:49:17', 'Vinte', 'gmanders3@bandcamp.com', '03123131231', 24, 3);
+insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-10-18 02:13:21', '2022-01-15 02:02:33', 'Mike Smith', 'jdaulby0@chron.com', '03123131231', 21, 1);
+insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-08-10 10:26:25', '2021-11-25 01:59:50', 'Johny Down', 'saleksandrov1@twitpic.com', '03123131231', 22, 2);
+insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-10-19 18:02:53', '2022-02-25 21:47:06', 'Vin Diesel', 'gnegus2@nationalgeographic.com', '03123131231', 23, 2);
+insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-12-30 15:41:07', '2021-11-03 07:49:17', 'Dan Wellington', 'gmanders3@bandcamp.com', '03123131231', 24, 1);
 
 -- docket_reason TABLE: 4 records
 insert into docket_reason (created_at, updated_at, name, status) values ('2022-01-02 15:22:57', '2021-12-18 19:24:30', 'Youspan', 1);

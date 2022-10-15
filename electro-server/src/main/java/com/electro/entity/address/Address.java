@@ -56,7 +56,7 @@ public class Address extends BaseEntity {
 
     @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
     private Destination destination;
-//
+
 //    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
 //    private Shipper shipper;
 }
