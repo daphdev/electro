@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActionIcon, Group, Select } from '@mantine/core';
-import { AB, ArrowsDownUp, CircleX, DragDrop } from 'tabler-icons-react';
+import { AB, ArrowsDownUp, DragDrop, PlaystationX } from 'tabler-icons-react';
 import FilterUtils, { SortCriteria } from 'utils/FilterUtils';
 import useSortCriteriaRowViewModel from 'components/SortCriteriaRow/SortCriteriaRow.vm';
 
@@ -58,7 +58,7 @@ function SortCriteriaRow({
         title="Xóa tiêu chí sắp xếp"
         onClick={() => handleDeleteSortCriteriaButton(index)}
       >
-        <CircleX/>
+        <PlaystationX/>
       </ActionIcon>
     </Group>
   );

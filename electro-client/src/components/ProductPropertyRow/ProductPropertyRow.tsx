@@ -1,6 +1,6 @@
 import { ProductPropertyItem } from 'models/Product';
 import { ActionIcon, Group, MultiSelect, Select } from '@mantine/core';
-import { AB, CircleX, DragDrop, Keyboard } from 'tabler-icons-react';
+import { AB, DragDrop, Keyboard, PlaystationX } from 'tabler-icons-react';
 import React from 'react';
 import { CollectionWrapper, SelectOption } from 'types';
 import produce from 'immer';
@@ -121,7 +121,7 @@ function ProductPropertyRow({
         title="Xóa thuộc tính"
         onClick={() => handleDeleteProductPropertyButton(index)}
       >
-        <CircleX/>
+        <PlaystationX/>
       </ActionIcon>
     </Group>
   );

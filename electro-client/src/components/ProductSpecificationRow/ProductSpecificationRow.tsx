@@ -1,5 +1,5 @@
 import { ActionIcon, Group, Select, TextInput } from '@mantine/core';
-import { AB, CircleX, DragDrop, Keyboard } from 'tabler-icons-react';
+import { AB, DragDrop, Keyboard, PlaystationX } from 'tabler-icons-react';
 import React from 'react';
 import { CollectionWrapper, SelectOption } from 'types';
 import { SpecificationItem } from 'models/Product';
@@ -109,7 +109,7 @@ function ProductSpecificationRow({
         title="Xóa thông số"
         onClick={() => handleDeleteProductSpecificationButton(index)}
       >
-        <CircleX/>
+        <PlaystationX/>
       </ActionIcon>
     </Group>
   );
