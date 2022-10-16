@@ -316,11 +316,10 @@ insert into docket_reason (created_at, updated_at, name, status) values ('2022-0
 insert into docket_reason (created_at, updated_at, name, status) values ('2022-02-02 14:35:04', '2022-06-11 18:05:41', 'Kiểm kho', 1);
 insert into docket_reason (created_at, updated_at, name, status) values ('2021-09-13 15:19:28', '2021-10-11 10:36:10', 'Trả hàng lỗi', 2);
 
--- storage_location TABLE: 5 record
-insert into storage_location (created_at, updated_at, storage_location_id, warehouse_id, name) values ('2022-04-03 16:47:22', '2022-06-19 19:19:23', 1, 1, 'Ke 1 hang 2');
-insert into storage_location (created_at, updated_at, storage_location_id, warehouse_id, name) values ('2022-07-03 03:46:02', '2022-06-06 08:25:05', 2, 2, 'Ke 2 hang 2');
-insert into storage_location (created_at, updated_at, storage_location_id, warehouse_id, name) values ('2021-10-25 14:11:02', '2021-08-30 18:56:30', 3, 3, 'Ke 3 hang 4');
-
+-- storage_location TABLE: 3 records
+insert into storage_location (created_at, updated_at, warehouse_id, variant_id, name) values ('2022-04-03 16:47:22', '2022-06-19 19:19:23', 1, 1, 'Kệ 1 Hàng 1');
+insert into storage_location (created_at, updated_at, warehouse_id, variant_id, name) values ('2022-07-03 03:46:02', '2022-06-06 08:25:05', 2, 2, 'Kệ 2 Hàng 2');
+insert into storage_location (created_at, updated_at, warehouse_id, variant_id, name) values ('2021-10-25 14:11:02', '2021-08-30 18:56:30', 3, 3, 'Kệ 3 Hàng 4');
 
 -- purchase_order TABLE: 5 records
 insert into purchase_order (created_at, updated_at, code, supplier_id, destination_id, total_amount, note, status) values ('2022-03-19 22:22:03', '2022-04-02 04:27:05', '41520-499', 2, 2, 12, 'Revision of Intraluminal Device in Fallopian Tube, Endo', 1);

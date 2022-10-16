@@ -728,24 +728,23 @@ ALTER TABLE transfer_variant
 ALTER TABLE transfer_variant
     ADD CONSTRAINT FK_TRANSFER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
 
-CREATE TABLE storage_location (
-   id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   storage_location_id BIGINT NOT NULL,
-   warehouse_id BIGINT NOT NULL,
-   name VARCHAR(255) NULL,
-   CONSTRAINT pk_storage_location PRIMARY KEY (id)
+CREATE TABLE storage_location
+(
+    variant_id   BIGINT       NOT NULL,
+    created_at   datetime     NOT NULL,
+    updated_at   datetime     NOT NULL,
+    created_by   BIGINT       NULL,
+    updated_by   BIGINT       NULL,
+    warehouse_id BIGINT       NOT NULL,
+    name         VARCHAR(255) NOT NULL,
+    CONSTRAINT pk_storage_location PRIMARY KEY (variant_id)
 );
 
-ALTER TABLE storage_location ADD CONSTRAINT uc_storage_location_storage_location UNIQUE (storage_location_id);
+ALTER TABLE storage_location
+    ADD CONSTRAINT FK_STORAGE_LOCATION_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
 
-ALTER TABLE storage_location ADD CONSTRAINT FK_STORAGE_LOCATION_ON_STORAGE_LOCATION FOREIGN KEY (storage_location_id) REFERENCES variant (id);
-
-ALTER TABLE storage_location ADD CONSTRAINT FK_STORAGE_LOCATION_ON_WAREHOUSE FOREIGN KEY (warehouse_id) REFERENCES warehouse (id);
-
+ALTER TABLE storage_location
+    ADD CONSTRAINT FK_STORAGE_LOCATION_ON_WAREHOUSE FOREIGN KEY (warehouse_id) REFERENCES warehouse (id);
 
 CREATE TABLE purchase_order (
   id BIGINT AUTO_INCREMENT NOT NULL,

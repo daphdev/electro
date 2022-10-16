@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class StorageLocationRequest {
-    private Long variantId;
     private Long warehouseId;
+    private Long variantId;
     private String name;
 }

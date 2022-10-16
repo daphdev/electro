@@ -520,15 +520,14 @@
     ) engine=MyISAM;
 
     create table prod.storage_location (
-       id bigint not null auto_increment,
+       variant_id bigint not null,
         created_at datetime not null,
         created_by bigint,
         updated_at datetime not null,
         updated_by bigint,
-        name varchar(255),
-        storage_location_id bigint not null,
+        name varchar(255) not null,
         warehouse_id bigint not null,
-        primary key (id)
+        primary key (variant_id)
     ) engine=MyISAM;
 
     create table prod.supplier (
@@ -711,9 +710,6 @@
 
     alter table prod.specification 
        add constraint UK_3lssqgpri39w9a5y932fgdvsa unique (code);
-
-    alter table prod.storage_location 
-       add constraint UK_ha0hf7i67ueyx4yiloeesde5k unique (storage_location_id);
 
     alter table prod.supplier 
        add constraint UK_u0lh6hby20ok7au7646wrewl unique (code);
@@ -964,14 +960,14 @@
        references prod.variant (id);
 
     alter table prod.storage_location 
-       add constraint FK5ot86kqkl4h9vcb8u5wntgqo6 
-       foreign key (storage_location_id) 
-       references prod.variant (id);
-
-    alter table prod.storage_location 
        add constraint FK956y7ykytekn259p907onqkiw 
        foreign key (warehouse_id) 
        references prod.warehouse (id);
+
+    alter table prod.storage_location 
+       add constraint FK7iurgk8f1wiounw6mur8fhc6 
+       foreign key (variant_id) 
+       references prod.variant (id);
 
     alter table prod.supplier 
        add constraint FK95a8oipih48obtbhltjy7hgvb 
