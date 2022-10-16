@@ -311,11 +311,12 @@ insert into destination (created_at, updated_at, contact_fullname, contact_email
 insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-12-30 15:41:07', '2021-11-03 07:49:17', 'Dan Wellington', 'gmanders3@bandcamp.com', '03123131231', 24, 1);
 
 -- docket_reason TABLE: 4 records
-insert into docket_reason (created_at, updated_at, name, status) values ('2022-01-02 15:22:57', '2021-12-18 19:24:30', 'Youspan', 1);
-insert into docket_reason (created_at, updated_at, name, status) values ('2022-03-31 11:59:41', '2021-09-16 04:19:25', 'Gabspot', 3);
-insert into docket_reason (created_at, updated_at, name, status) values ('2022-02-02 14:35:04', '2022-06-11 18:05:41', 'Fanoodle', 3);
-insert into docket_reason (created_at, updated_at, name, status) values ('2021-09-13 15:19:28', '2021-10-11 10:36:10', 'Brainbox', 2);
-
+insert into docket_reason (created_at, updated_at, name, status) values ('2022-01-02 15:22:57', '2021-12-18 19:24:30', 'Nhập kho', 1);
+insert into docket_reason (created_at, updated_at, name, status) values ('2022-03-31 11:59:41', '2021-09-16 04:19:25', 'Xuất kho', 1);
+insert into docket_reason (created_at, updated_at, name, status) values ('2022-03-31 11:59:41', '2021-09-16 04:19:25', 'Mua hàng', 1);
+insert into docket_reason (created_at, updated_at, name, status) values ('2022-03-31 11:59:41', '2021-09-16 04:19:25', 'Điều chuyển kho', 1);
+insert into docket_reason (created_at, updated_at, name, status) values ('2022-02-02 14:35:04', '2022-06-11 18:05:41', 'Kiểm kho', 1);
+insert into docket_reason (created_at, updated_at, name, status) values ('2021-09-13 15:19:28', '2021-10-11 10:36:10', 'Trả hàng lỗi', 2);
 
 -- storage_location TABLE: 5 record
 insert into storage_location (created_at, updated_at, storage_location_id, warehouse_id, name) values ('2022-04-03 16:47:22', '2022-06-19 19:19:23', 1, 5, 'Ke 1 hang 2');
