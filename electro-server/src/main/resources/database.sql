@@ -639,15 +639,14 @@
     ) engine=MyISAM;
 
     create table prod.variant_inventory_limit (
-       id bigint not null auto_increment,
+       variant_id bigint not null,
         created_at datetime not null,
         created_by bigint,
         updated_at datetime not null,
         updated_by bigint,
         maximum_limit integer,
         minimum_limit integer,
-        variant_id bigint not null,
-        primary key (id)
+        primary key (variant_id)
     ) engine=MyISAM;
 
     create table prod.warehouse (
@@ -734,9 +733,6 @@
 
     alter table prod.variant 
        add constraint UK_llpabmolrn143l5uh3dp92bgy unique (sku);
-
-    alter table prod.variant_inventory_limit 
-       add constraint UK_shw9q4qx2l9f0jgminqo19351 unique (variant_id);
 
     alter table prod.warehouse 
        add constraint UK_9wk4ocyt0wv0hpffpr41aoweu unique (code);

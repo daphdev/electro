@@ -588,19 +588,15 @@ ALTER TABLE product_inventory_limit
 
 CREATE TABLE variant_inventory_limit
 (
-    id            BIGINT AUTO_INCREMENT NOT NULL,
-    created_at    datetime              NOT NULL,
-    updated_at    datetime              NOT NULL,
-    created_by    BIGINT                NULL,
-    updated_by    BIGINT                NULL,
-    variant_id    BIGINT                NOT NULL,
-    minimum_limit INT                   NULL,
-    maximum_limit INT                   NULL,
-    CONSTRAINT pk_variant_inventory_limit PRIMARY KEY (id)
+    variant_id    BIGINT   NOT NULL,
+    created_at    datetime NOT NULL,
+    updated_at    datetime NOT NULL,
+    created_by    BIGINT   NULL,
+    updated_by    BIGINT   NULL,
+    minimum_limit INT      NULL,
+    maximum_limit INT      NULL,
+    CONSTRAINT pk_variant_inventory_limit PRIMARY KEY (variant_id)
 );
-
-ALTER TABLE variant_inventory_limit
-    ADD CONSTRAINT uc_variant_inventory_limit_variant UNIQUE (variant_id);
 
 ALTER TABLE variant_inventory_limit
     ADD CONSTRAINT FK_VARIANT_INVENTORY_LIMIT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);

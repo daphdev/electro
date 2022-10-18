@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,6 +26,7 @@ import javax.persistence.Table;
 public class VariantInventoryLimit extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "variant_id", referencedColumnName = "id", nullable = false, unique = true)
+    @MapsId
     private Variant variant;
 
     @Column(name = "minimum_limit")

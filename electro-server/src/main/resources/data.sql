@@ -281,9 +281,9 @@ insert into product_inventory_limit (created_at, updated_at, product_id, minimum
 insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2022-04-13 16:55:03', '2021-08-29 12:08:00', 3, 1, 6);
 
 -- variant_inventory_limit TABLE: 3 records
-insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 1, 4, 10);
-insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 2, 2, 10);
-insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 3, 1, 10);
+insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 1, 5, null);
+insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 2, 10, 20);
+insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 3, null, 20);
 
 -- warehouse TABLE: 3 records
 insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2022-03-16 18:12:55', '2021-11-08 04:05:32', 'WARE-A', 'Kho A', 22, 1);
