@@ -110,6 +110,6 @@ public class Product extends BaseEntity {
     @JsonBackReference
     private Guarantee guarantee;
 
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private ProductInventoryLimit productInventoryLimit;
 }

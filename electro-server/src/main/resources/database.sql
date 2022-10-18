@@ -429,15 +429,14 @@
     ) engine=MyISAM;
 
     create table prod.product_inventory_limit (
-       id bigint not null auto_increment,
+       product_id bigint not null,
         created_at datetime not null,
         created_by bigint,
         updated_at datetime not null,
         updated_by bigint,
         maximum_limit integer,
         minimum_limit integer,
-        product_id bigint not null,
-        primary key (id)
+        primary key (product_id)
     ) engine=MyISAM;
 
     create table prod.product_tag (
@@ -697,9 +696,6 @@
 
     alter table prod.product 
        add constraint UK_88yb4l9100epddqsrdvxerhq9 unique (slug);
-
-    alter table prod.product_inventory_limit 
-       add constraint UK_b2qaaqlye3no6xy07jm62qetq unique (product_id);
 
     alter table prod.property 
        add constraint UK_17f03s5ron7wrua25qyg8tx2v unique (code);

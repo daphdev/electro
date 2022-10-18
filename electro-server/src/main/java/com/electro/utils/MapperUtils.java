@@ -31,6 +31,7 @@ import com.electro.entity.product.Supplier;
 import com.electro.entity.product.Unit;
 import com.electro.entity.product.Variant;
 import com.electro.repository.authentication.RoleRepository;
+import com.electro.repository.product.ProductRepository;
 import com.electro.repository.product.TagRepository;
 import com.electro.repository.product.VariantRepository;
 import org.mapstruct.AfterMapping;
@@ -57,6 +58,8 @@ public abstract class MapperUtils {
     private TagRepository tagRepository;
     @Autowired
     private VariantRepository variantRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     public abstract Province mapToProvince(Long id);
 
@@ -88,8 +91,6 @@ public abstract class MapperUtils {
 
     public abstract Guarantee mapToGuarantee(Long id);
 
-    public abstract Product mapToProduct(Long id);
-
     public abstract Warehouse mapToWarehouse(Long id);
 
     public abstract DocketReason mapToDocketReason(Long id);
@@ -108,6 +109,10 @@ public abstract class MapperUtils {
 
     public Variant mapToVariant(Long id) {
         return variantRepository.getById(id);
+    }
+
+    public Product mapToProduct(Long id) {
+        return productRepository.getById(id);
     }
 
     @Named("hashPassword")

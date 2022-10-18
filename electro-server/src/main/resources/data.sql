@@ -275,10 +275,10 @@ insert into variant (created_at, updated_at, product_id, sku, cost, price, prope
 insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2022-05-06 20:40:45', '2022-04-02 20:30:28', 1, '52125-433', 823716, 6459704, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"M"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 1);
 insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2021-07-17 02:36:19', '2021-12-14 10:10:42', 1, '48951-8009', 8298634, 9300059, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"L"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 1);
 
--- product_inventory_limit TABLE: 5 records
-insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 1, 4, 10);
-insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2022-03-19 07:44:19', '2021-09-18 00:00:22', 2, 4, 10);
-insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2022-04-13 16:55:03', '2021-08-29 12:08:00', 3, 1, 6);
+-- product_inventory_limit TABLE: 3 records
+insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 1, 5, null);
+insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2022-03-19 07:44:19', '2021-09-18 00:00:22', 2, 10, 20);
+insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2022-04-13 16:55:03', '2021-08-29 12:08:00', 3, null, 20);
 
 -- variant_inventory_limit TABLE: 3 records
 insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 1, 5, null);
