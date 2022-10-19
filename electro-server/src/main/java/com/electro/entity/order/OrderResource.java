@@ -29,18 +29,17 @@ import java.util.List;
 @Entity
 @Table(name = "order_resource")
 public class OrderResource extends BaseEntity {
-
-    @Column(name = "code")
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "color")
+    @Column(name = "color", nullable = false)
     private String color;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_resource_id", nullable = false)
+    @JoinColumn(name = "customer_resource_id")
     @JsonBackReference
     private CustomerResource customerResource;
 
@@ -50,5 +49,4 @@ public class OrderResource extends BaseEntity {
     @OneToMany(mappedBy = "orderResource", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Order> orders = new ArrayList<>();
-
 }

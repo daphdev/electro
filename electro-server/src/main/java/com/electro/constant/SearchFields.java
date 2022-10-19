@@ -348,8 +348,7 @@ public interface SearchFields {
             "name",
             "color",
             "customerResource.code",
-            "customerResource.name",
-            "customerResource.description"
+            "customerResource.name"
     );
 
     List<String> ORDER_CANCELLATION_REASON = List.of(

@@ -349,11 +349,11 @@ insert into docket_variant (quantity, docket_id, variant_id) values (12, 1, 3);
 insert into docket_variant (quantity, docket_id, variant_id) values (98, 2, 3);
 
 -- order_resource TABLE: 5 records
-insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2022-04-22 11:46:21', '2022-02-13 04:37:06', '60429-104', 'Kimia', 'Mauv', 2, 2);
-insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2021-08-10 08:25:22', '2021-11-08 03:30:06', '65597-116', 'Flipopia', 'Maroon', 3, 1);
-insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2021-12-22 20:39:26', '2022-05-17 08:30:22', '47242-0021', 'Realblab', 'Mauv', 5, 3);
-insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2021-12-31 07:37:30', '2021-09-22 23:11:03', '76095-003', 'Gigabox', 'Indigo', 5, 3);
-insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2021-12-21 07:55:27', '2022-06-03 19:34:58', '49884-660', 'Feedfire', 'Pink', 3, 2);
+insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2022-04-22 11:46:21', '2022-02-13 04:37:06', 'BIZ', 'Bizweb', 'Orange', null, 1);
+insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2021-08-10 08:25:22', '2021-11-08 03:30:06', 'FBK', 'Facebook', 'Yellow', null, 1);
+insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2021-12-22 20:39:26', '2022-05-17 08:30:22', 'HRV', 'Haravan', 'Blue', 1, 2);
+insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2021-12-31 07:37:30', '2021-09-22 23:11:03', 'POS', 'POS', 'Indigo', 2, 1);
+insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2021-12-21 07:55:27', '2022-06-03 19:34:58', 'WEB', 'Website', 'Pink', 3, 1);
 
 -- order_cancellation_reason TABLE: 5 records
 insert into order_cancellation_reason (created_at, updated_at, name, note, status) values ('2021-10-03 21:16:01', '2021-11-18 00:55:52', '43063-479', 'Expected delivery date has changed and the product is arriving at a later date.', 3);

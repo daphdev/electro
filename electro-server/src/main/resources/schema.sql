@@ -804,21 +804,26 @@ ALTER TABLE docket_variant ADD CONSTRAINT FK_DOCKET_VARIANT_ON_DOCKET FOREIGN KE
 
 ALTER TABLE docket_variant ADD CONSTRAINT FK_DOCKET_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
 
-CREATE TABLE order_resource (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   code VARCHAR(255) NULL,
-   name VARCHAR(255) NULL,
-   color VARCHAR(255) NULL,
-   customer_resource_id BIGINT NOT NULL,
-   status TINYINT NOT NULL,
-   CONSTRAINT pk_order_resource PRIMARY KEY (id)
+CREATE TABLE order_resource
+(
+    id                   BIGINT AUTO_INCREMENT NOT NULL,
+    created_at           datetime              NOT NULL,
+    updated_at           datetime              NOT NULL,
+    created_by           BIGINT                NULL,
+    updated_by           BIGINT                NULL,
+    code                 VARCHAR(255)          NOT NULL,
+    name                 VARCHAR(255)          NOT NULL,
+    color                VARCHAR(255)          NOT NULL,
+    customer_resource_id BIGINT                NULL,
+    status               TINYINT               NOT NULL,
+    CONSTRAINT pk_order_resource PRIMARY KEY (id)
 );
 
-ALTER TABLE order_resource ADD CONSTRAINT FK_ORDER_RESOURCE_ON_CUSTOMER_RESOURCE FOREIGN KEY (customer_resource_id) REFERENCES customer_resource (id);
+ALTER TABLE order_resource
+    ADD CONSTRAINT uc_order_resource_code UNIQUE (code);
+
+ALTER TABLE order_resource
+    ADD CONSTRAINT FK_ORDER_RESOURCE_ON_CUSTOMER_RESOURCE FOREIGN KEY (customer_resource_id) REFERENCES customer_resource (id);
 
 CREATE TABLE order_cancellation_reason (
   id BIGINT AUTO_INCREMENT NOT NULL,

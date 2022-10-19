@@ -386,11 +386,11 @@
         created_by bigint,
         updated_at datetime not null,
         updated_by bigint,
-        code varchar(255),
-        color varchar(255),
-        name varchar(255),
+        code varchar(255) not null,
+        color varchar(255) not null,
+        name varchar(255) not null,
         status TINYINT not null,
-        customer_resource_id bigint not null,
+        customer_resource_id bigint,
         primary key (id)
     ) engine=MyISAM;
 
@@ -690,6 +690,9 @@
 
     alter table prod.office 
        add constraint UK_mlsa2m6po5222mgtojis7rnow unique (address_id);
+
+    alter table prod.order_resource 
+       add constraint UK_t9tuhf1vpiqqfyr9cr6nnu7yv unique (code);
 
     alter table prod.product 
        add constraint UK_h3w5r1mx6d0e5c6um32dgyjej unique (code);
