@@ -355,7 +355,6 @@ public interface SearchFields {
             "name"
     );
 
-
     List<String> ORDER = List.of(
             "code",
             "status",
@@ -369,7 +368,6 @@ public interface SearchFields {
             "orderCancellationReason.name",
             "orderCancellationReason.status"
     );
-
 
     List<String> ORDER_VARIANT = List.of(
             "price",

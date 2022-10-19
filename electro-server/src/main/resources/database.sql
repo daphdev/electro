@@ -374,7 +374,7 @@
         created_by bigint,
         updated_at datetime not null,
         updated_by bigint,
-        name varchar(255),
+        name varchar(255) not null,
         note varchar(255),
         status TINYINT not null,
         primary key (id)

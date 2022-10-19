@@ -825,16 +825,17 @@ ALTER TABLE order_resource
 ALTER TABLE order_resource
     ADD CONSTRAINT FK_ORDER_RESOURCE_ON_CUSTOMER_RESOURCE FOREIGN KEY (customer_resource_id) REFERENCES customer_resource (id);
 
-CREATE TABLE order_cancellation_reason (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   name VARCHAR(255) NULL,
-   note VARCHAR(255) NULL,
-   status TINYINT NOT NULL,
-   CONSTRAINT pk_order_cancellation_reason PRIMARY KEY (id)
+CREATE TABLE order_cancellation_reason
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    name       VARCHAR(255)          NOT NULL,
+    note       VARCHAR(255)          NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_order_cancellation_reason PRIMARY KEY (id)
 );
 
 CREATE TABLE `order` (

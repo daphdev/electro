@@ -24,8 +24,7 @@ import java.util.List;
 @Entity
 @Table(name = "order_cancellation_reason")
 public class OrderCancellationReason extends BaseEntity {
-
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "note")

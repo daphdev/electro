@@ -356,11 +356,11 @@ insert into order_resource (created_at, updated_at, code, name, color, customer_
 insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2021-12-21 07:55:27', '2022-06-03 19:34:58', 'WEB', 'Website', 'Pink', 3, 1);
 
 -- order_cancellation_reason TABLE: 5 records
-insert into order_cancellation_reason (created_at, updated_at, name, note, status) values ('2021-10-03 21:16:01', '2021-11-18 00:55:52', '43063-479', 'Expected delivery date has changed and the product is arriving at a later date.', 3);
-insert into order_cancellation_reason (created_at, updated_at, name, note, status) values ('2021-12-31 03:37:36', '2021-10-20 05:49:33', '68084-722', 'Product is being delivered to a wrong address(Customer’s mistake)', 3);
-insert into order_cancellation_reason (created_at, updated_at, name, note, status) values ('2021-09-01 03:46:49', '2022-02-22 10:13:24', '17478-823', 'Product is not required anymore.', 3);
-insert into order_cancellation_reason (created_at, updated_at, name, note, status) values ('2022-03-14 10:30:34', '2021-11-16 11:45:21', '52959-138', 'Customer changes his mind and opts for another brand instead', 1);
-insert into order_cancellation_reason (created_at, updated_at, name, note, status) values ('2021-08-26 05:18:38', '2022-02-02 14:58:07', '36987-1521', 'Recipient not available at the estimated time/day of delivery.', 1);
+insert into order_cancellation_reason (created_at, updated_at, name, note, status) values ('2021-10-03 21:16:01', '2021-11-18 00:55:52', 'Giao hàng nhưng khách không nhận', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 1);
+insert into order_cancellation_reason (created_at, updated_at, name, note, status) values ('2021-12-31 03:37:36', '2021-10-20 05:49:33', 'Hết hàng trong kho', null, 1);
+insert into order_cancellation_reason (created_at, updated_at, name, note, status) values ('2021-09-01 03:46:49', '2022-02-22 10:13:24', 'Khách hàng hủy', null, 1);
+insert into order_cancellation_reason (created_at, updated_at, name, note, status) values ('2022-03-14 10:30:34', '2021-11-16 11:45:21', 'Không liên hệ được', 'Cras felis urna, facilisis at finibus non, pharetra in turpis.', 1);
+insert into order_cancellation_reason (created_at, updated_at, name, note, status) values ('2021-08-26 05:18:38', '2022-02-02 14:58:07', 'Nhân viên làm sai', null, 2);
 
 -- order TABLE: 2 records
 insert into `order` (created_at, updated_at, code, status, order_resource_id, order_cancellation_reason_id, note, customer_id, total_amount, shipping_cost, tax, total_pay) values ('2022-06-30 08:32:41', '2021-08-17 03:28:55', '68400-107', 1, 5, 3, 'Tomo Nucl Med Imag of Brain using Technetium 99m', 1,  50.0, 12.0, 10, 72.0);
