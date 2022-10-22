@@ -145,7 +145,6 @@ import com.electro.mapper.employee.JobTitleMapper;
 import com.electro.mapper.employee.JobTypeMapper;
 import com.electro.mapper.employee.OfficeMapper;
 import com.electro.mapper.inventory.CountMapper;
-import com.electro.mapper.inventory.CountVariantMapper;
 import com.electro.mapper.inventory.DestinationMapper;
 import com.electro.mapper.inventory.DocketMapper;
 import com.electro.mapper.inventory.DocketReasonMapper;
@@ -187,7 +186,6 @@ import com.electro.repository.employee.JobTitleRepository;
 import com.electro.repository.employee.JobTypeRepository;
 import com.electro.repository.employee.OfficeRepository;
 import com.electro.repository.inventory.CountRepository;
-import com.electro.repository.inventory.CountVariantRepository;
 import com.electro.repository.inventory.DestinationRepository;
 import com.electro.repository.inventory.DocketReasonRepository;
 import com.electro.repository.inventory.DocketRepository;
@@ -513,12 +511,12 @@ public class GenericMappingRegister {
                 ResourceName.VARIANT_INVENTORY_LIMIT
         ), VariantInventoryLimitRequest.class);
 
-        register("count-variants", countVariantController, countVariantService.init(
-                context.getBean(CountVariantRepository.class),
-                context.getBean(CountVariantMapper.class),
-                SearchFields.COUNT_VARIANT,
-                ResourceName.COUNT_VARIANT
-        ), CountVariantRequest.class);
+//        register("count-variants", countVariantController, countVariantService.init(
+//                context.getBean(CountVariantRepository.class),
+//                context.getBean(CountVariantMapper.class),
+//                SearchFields.COUNT_VARIANT,
+//                ResourceName.COUNT_VARIANT
+//        ), CountVariantRequest.class);
 
         register("warehouses", warehouseController, warehouseService.init(
                 context.getBean(WarehouseRepository.class),
@@ -629,7 +627,7 @@ public class GenericMappingRegister {
 
     private <I, O> void register(String resource,
                                  GenericController<I, O> controller,
-                                 CrudService<I, O> service,
+                                 CrudService<Long, I, O> service,
                                  Class<I> requestType
     ) throws NoSuchMethodException {
         RequestMappingInfo.BuilderConfiguration options = new RequestMappingInfo.BuilderConfiguration();

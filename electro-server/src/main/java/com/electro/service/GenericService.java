@@ -13,7 +13,7 @@ import java.util.List;
 @Component
 @Setter
 @Scope("prototype")
-public class GenericService<E, I, O> implements CrudService<I, O> {
+public class GenericService<E, I, O> implements CrudService<Long, I, O> {
 
     private JpaRepository<E, Long> repository;
     private JpaSpecificationExecutor<E> specificationExecutor;

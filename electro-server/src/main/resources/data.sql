@@ -291,16 +291,16 @@ insert into warehouse (created_at, updated_at, code, name, address_id, status) v
 insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2021-10-16 15:47:15', '2021-08-28 18:03:44', 'WARE-C', 'Kho C', null, 2);
 
 -- count TABLE: 5 records
-insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2022-02-11 02:17:56', '2022-06-10 08:38:27', '58118-0268', 1, 'Shikoku Christian College', 3);
-insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-09-27 04:07:17', '2022-06-06 09:44:39', '58517-440', 1, 'Universitas Paramadina Mulya', 3);
-insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-12-23 11:30:25', '2022-03-11 09:56:07', '66097-003', 2, 'Bangladesh University of Engineering and Technology', 2);
-insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-10-04 13:07:06', '2021-11-11 11:42:22', '53808-0672', 2, 'Universidade Federal Fluminense', 3);
+insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2022-02-11 02:17:56', '2022-06-10 08:38:27', '58118-026', 1, 'Shikoku Christian College', 3);
+insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-09-27 04:07:17', '2022-06-06 09:44:39', '58517-440', 1, null, 3);
+insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-12-23 11:30:25', '2022-03-11 09:56:07', '66097-003', 2, null, 2);
+insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-10-04 13:07:06', '2021-11-11 11:42:22', '53808-067', 2, 'Universidade Federal Fluminense', 3);
 insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-07-10 22:24:16', '2022-03-04 03:33:40', '51668-402', 3, 'Universidad Tecnológica del Peru', 1);
 
 -- count_variant TABLE: 3 records
-insert into count_variant (count_id, variant_id, actual_inventory, inventory) values (1, 1, 32, 80);
-insert into count_variant (count_id, variant_id, actual_inventory, inventory) values (1, 2, 57, 75);
-insert into count_variant (count_id, variant_id, actual_inventory, inventory) values (1, 3, 30, 37);
+insert into count_variant (count_id, variant_id, inventory, actual_inventory) values (1, 1, 80, 80);
+insert into count_variant (count_id, variant_id, inventory, actual_inventory) values (1, 2, 70, 75);
+insert into count_variant (count_id, variant_id, inventory, actual_inventory) values (1, 3, 30, 25);
 
 -- destination TABLE: 4 records
 insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-10-18 02:13:21', '2022-01-15 02:02:33', 'Mike Smith', 'jdaulby0@chron.com', '03123131231', 21, 1);

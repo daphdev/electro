@@ -14,6 +14,7 @@ import com.electro.entity.employee.JobTitle;
 import com.electro.entity.employee.JobType;
 import com.electro.entity.employee.Office;
 import com.electro.entity.inventory.Count;
+import com.electro.entity.inventory.CountVariantKey;
 import com.electro.entity.inventory.Destination;
 import com.electro.entity.inventory.Docket;
 import com.electro.entity.inventory.DocketReason;
@@ -135,7 +136,10 @@ public abstract class MapperUtils {
     @AfterMapping
     @Named("attachCount")
     public Count attachCount(@MappingTarget Count count) {
-        count.getCountVariants().forEach(countVariant -> countVariant.setCount(count));
+        count.getCountVariants().forEach(countVariant -> {
+            countVariant.setCountVariantKey(new CountVariantKey(count.getId(), countVariant.getVariant().getId()));
+            countVariant.setCount(count);
+        });
         return count;
     }
 
