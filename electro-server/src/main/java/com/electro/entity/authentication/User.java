@@ -2,8 +2,11 @@ package com.electro.entity.authentication;
 
 import com.electro.entity.BaseEntity;
 import com.electro.entity.address.Address;
+import com.electro.entity.chat.Message;
+import com.electro.entity.chat.Room;
 import com.electro.entity.customer.Customer;
 import com.electro.entity.employee.Employee;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +20,12 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -71,4 +77,13 @@ public class User extends BaseEntity {
 
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     private Customer customer;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Message> chats = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    private Room room;
+
+
 }

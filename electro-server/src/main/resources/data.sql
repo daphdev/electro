@@ -360,3 +360,7 @@ insert into docket_variant (quantity, docket_id, variant_id) values (50, 1, 1);
 insert into docket_variant (quantity, docket_id, variant_id) values (51, 1, 2);
 insert into docket_variant (quantity, docket_id, variant_id) values (12, 1, 3);
 insert into docket_variant (quantity, docket_id, variant_id) values (98, 2, 3);
+
+-- room TABLE: 1 record
+insert into room (created_at, updated_at, name, user_id) values('2021-12-16 17:41:03', '2021-08-05 17:16:06', 'thang', 1);
+insert into room (created_at, updated_at, name, user_id) values('2022-01-27 01:34:39', '2022-04-22 22:26:16', 'Dang', 2);

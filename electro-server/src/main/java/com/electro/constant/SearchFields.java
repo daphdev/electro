@@ -341,6 +341,16 @@ public interface SearchFields {
             "cost",
             "quantity",
             "amount"
+    );
 
+    List<String> MESSAGE = List.of(
+            "createdAt",
+            "roomId"
+    );
+
+    List<String> ROOM = List.of(
+            "id",
+            "name",
+            "user.id"
     );
 }

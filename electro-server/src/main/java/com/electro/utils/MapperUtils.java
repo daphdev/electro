@@ -4,6 +4,7 @@ import com.electro.entity.BaseEntity;
 import com.electro.entity.address.District;
 import com.electro.entity.address.Province;
 import com.electro.entity.authentication.User;
+import com.electro.entity.chat.Room;
 import com.electro.entity.customer.CustomerGroup;
 import com.electro.entity.customer.CustomerResource;
 import com.electro.entity.customer.CustomerStatus;
@@ -94,6 +95,9 @@ public abstract class MapperUtils {
 
     public abstract PurchaseOrder mapToPurchaseOrder(Long id);
 
+    public abstract Room mapToRoom(Long id);
+
+    public abstract User mapToUser(Long id);
 
     public Variant mapToVariant(Long id) {
         return variantRepository.getById(id);

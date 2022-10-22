@@ -40,4 +40,5 @@ public interface ResourceName {
     String DOCKET_VARIANT = "DocketVariant";
     String PURCHASE_ORDER = "PurchaseOrder";
     String PURCHASE_ORDER_VARIANT = "PurchaseOrderVariant";
+    String ROOM = "Room";
 }

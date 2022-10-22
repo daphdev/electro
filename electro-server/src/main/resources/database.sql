@@ -39,6 +39,8 @@
 
     drop table if exists prod.job_type;
 
+    drop table if exists prod.message;
+
     drop table if exists prod.office;
 
     drop table if exists prod.product;
@@ -56,6 +58,8 @@
     drop table if exists prod.purchase_order_variant;
 
     drop table if exists prod.role;
+
+    drop table if exists prod.room;
 
     drop table if exists prod.specification;
 
@@ -328,6 +332,19 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.message (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        content varchar(255),
+        status TINYINT not null,
+        room_id bigint,
+        user_id bigint,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.office (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -440,6 +457,18 @@
         code varchar(35) not null,
         name varchar(255) not null,
         status TINYINT not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.room (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        name varchar(255) not null,
+        last_message_id bigint,
+        user_id bigint not null,
         primary key (id)
     ) engine=MyISAM;
 
@@ -644,6 +673,12 @@
     alter table prod.role 
        add constraint UK_c36say97xydpmgigg38qv5l2p unique (code);
 
+    alter table prod.room 
+       add constraint UK_p6gc8ipudo7mwq8wwq2t05iov unique (last_message_id);
+
+    alter table prod.room 
+       add constraint UK_q0m921ecs8v2s58xh95nppp5c unique (user_id);
+
     alter table prod.specification 
        add constraint UK_3lssqgpri39w9a5y932fgdvsa unique (code);
 
@@ -792,6 +827,16 @@
        foreign key (user_id) 
        references prod.user (id);
 
+    alter table prod.message 
+       add constraint FKl1kg5a2471cv6pkew0gdgjrmo 
+       foreign key (room_id) 
+       references prod.room (id);
+
+    alter table prod.message 
+       add constraint FKb3y6etti1cfougkdr0qiiemgv 
+       foreign key (user_id) 
+       references prod.user (id);
+
     alter table prod.office 
        add constraint FKak81m3gkj8xq5t48xuflbj0kn 
        foreign key (address_id) 
@@ -856,6 +901,16 @@
        add constraint FKs0ol41wsfln8hjuv3pkgkk60i 
        foreign key (variant_id) 
        references prod.variant (id);
+
+    alter table prod.room 
+       add constraint FKgklsfkcs5o94kiti4qlrsb3pq 
+       foreign key (last_message_id) 
+       references prod.message (id);
+
+    alter table prod.room 
+       add constraint FKj8a5tk6wghd3x2sxgksj2fv3o 
+       foreign key (user_id) 
+       references prod.user (id);
 
     alter table prod.storage_location 
        add constraint FK5ot86kqkl4h9vcb8u5wntgqo6 
