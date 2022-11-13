@@ -19,6 +19,7 @@ import com.electro.entity.inventory.Destination;
 import com.electro.entity.inventory.Docket;
 import com.electro.entity.inventory.DocketReason;
 import com.electro.entity.inventory.PurchaseOrder;
+import com.electro.entity.inventory.PurchaseOrderVariantKey;
 import com.electro.entity.inventory.Transfer;
 import com.electro.entity.inventory.Warehouse;
 import com.electro.entity.order.Order;
@@ -168,8 +169,11 @@ public abstract class MapperUtils {
     @AfterMapping
     @Named("attachPurchaseOrder")
     public PurchaseOrder attachPurchaseOrder(@MappingTarget PurchaseOrder purchaseOrder) {
-        purchaseOrder.getPurchaseOrderVariants().forEach(purchaseOrderVariant -> purchaseOrderVariant.setPurchaseOrder(purchaseOrder));
-        purchaseOrder.getDockets().forEach(docket -> docket.setPurchaseOrder(purchaseOrder));
+        purchaseOrder.getPurchaseOrderVariants().forEach(purchaseOrderVariant -> {
+            purchaseOrderVariant.setPurchaseOrderVariantKey(
+                    new PurchaseOrderVariantKey(purchaseOrder.getId(), purchaseOrderVariant.getVariant().getId()));
+            purchaseOrderVariant.setPurchaseOrder(purchaseOrder);
+        });
         return purchaseOrder;
     }
 

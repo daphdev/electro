@@ -330,11 +330,7 @@ public interface SearchFields {
             "destination.contactFullname",
             "destination.contactEmail",
             "destination.contactPhone",
-            "destination.address.line",
-            "destination.address.province.name",
-            "destination.address.province.code",
-            "destination.address.district.name",
-            "destination.address.district.code"
+            "destination.address.line"
     );
 
     List<String> PURCHASE_ORDER_VARIANT = List.of(

@@ -8,5 +8,4 @@ public class PurchaseOrderVariantRequest {
     private Double cost;
     private Integer quantity;
     private Double amount;
-
 }

@@ -475,10 +475,10 @@
         created_by bigint,
         updated_at datetime not null,
         updated_by bigint,
-        code varchar(255),
+        code varchar(255) not null,
         note varchar(255),
         status TINYINT not null,
-        total_amount double precision,
+        total_amount double precision not null,
         destination_id bigint not null,
         supplier_id bigint not null,
         primary key (id)
@@ -702,6 +702,9 @@
 
     alter table prod.property 
        add constraint UK_17f03s5ron7wrua25qyg8tx2v unique (code);
+
+    alter table prod.purchase_order 
+       add constraint UK_lyhuui3e3rh2a6itktx3rwrpe unique (code);
 
     alter table prod.role 
        add constraint UK_c36say97xydpmgigg38qv5l2p unique (code);

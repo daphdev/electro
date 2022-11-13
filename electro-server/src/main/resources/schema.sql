@@ -738,37 +738,46 @@ ALTER TABLE storage_location
 ALTER TABLE storage_location
     ADD CONSTRAINT FK_STORAGE_LOCATION_ON_WAREHOUSE FOREIGN KEY (warehouse_id) REFERENCES warehouse (id);
 
-CREATE TABLE purchase_order (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   code VARCHAR(255) NULL,
-   supplier_id BIGINT NOT NULL,
-   destination_id BIGINT NOT NULL,
-   total_amount DOUBLE NULL,
-   note VARCHAR(255) NULL,
-   status TINYINT NOT NULL,
-   CONSTRAINT pk_purchase_order PRIMARY KEY (id)
+CREATE TABLE purchase_order
+(
+    id             BIGINT AUTO_INCREMENT NOT NULL,
+    created_at     datetime              NOT NULL,
+    updated_at     datetime              NOT NULL,
+    created_by     BIGINT                NULL,
+    updated_by     BIGINT                NULL,
+    code           VARCHAR(255)          NOT NULL,
+    supplier_id    BIGINT                NOT NULL,
+    destination_id BIGINT                NOT NULL,
+    total_amount   DOUBLE                NOT NULL,
+    note           VARCHAR(255)          NULL,
+    status         TINYINT               NOT NULL,
+    CONSTRAINT pk_purchase_order PRIMARY KEY (id)
 );
 
-ALTER TABLE purchase_order ADD CONSTRAINT FK_PURCHASE_ORDER_ON_DESTINATION FOREIGN KEY (destination_id) REFERENCES destination (id);
+ALTER TABLE purchase_order
+    ADD CONSTRAINT uc_purchase_order_code UNIQUE (code);
 
-ALTER TABLE purchase_order ADD CONSTRAINT FK_PURCHASE_ORDER_ON_SUPPLIER FOREIGN KEY (supplier_id) REFERENCES supplier (id);
+ALTER TABLE purchase_order
+    ADD CONSTRAINT FK_PURCHASE_ORDER_ON_DESTINATION FOREIGN KEY (destination_id) REFERENCES destination (id);
 
-CREATE TABLE purchase_order_variant (
-   cost DOUBLE NOT NULL,
-   quantity INT NOT NULL,
-   amount DOUBLE NOT NULL,
-   purchase_order_id BIGINT NOT NULL,
-   variant_id BIGINT NOT NULL,
-   CONSTRAINT pk_purchase_order_variant PRIMARY KEY (purchase_order_id, variant_id)
+ALTER TABLE purchase_order
+    ADD CONSTRAINT FK_PURCHASE_ORDER_ON_SUPPLIER FOREIGN KEY (supplier_id) REFERENCES supplier (id);
+
+CREATE TABLE purchase_order_variant
+(
+    purchase_order_id BIGINT NOT NULL,
+    variant_id        BIGINT NOT NULL,
+    cost              DOUBLE NOT NULL,
+    quantity          INT    NOT NULL,
+    amount            DOUBLE NOT NULL,
+    CONSTRAINT pk_purchase_order_variant PRIMARY KEY (purchase_order_id, variant_id)
 );
 
-ALTER TABLE purchase_order_variant ADD CONSTRAINT FK_PURCHASE_ORDER_VARIANT_ON_PURCHASE_ORDER FOREIGN KEY (purchase_order_id) REFERENCES purchase_order (id);
+ALTER TABLE purchase_order_variant
+    ADD CONSTRAINT FK_PURCHASE_ORDER_VARIANT_ON_PURCHASE_ORDER FOREIGN KEY (purchase_order_id) REFERENCES purchase_order (id);
 
-ALTER TABLE purchase_order_variant ADD CONSTRAINT FK_PURCHASE_ORDER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+ALTER TABLE purchase_order_variant
+    ADD CONSTRAINT FK_PURCHASE_ORDER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
 
 CREATE TABLE docket (
   id BIGINT AUTO_INCREMENT NOT NULL,

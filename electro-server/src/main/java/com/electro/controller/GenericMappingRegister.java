@@ -151,7 +151,6 @@ import com.electro.mapper.inventory.DocketReasonMapper;
 import com.electro.mapper.inventory.DocketVariantMapper;
 import com.electro.mapper.inventory.ProductInventoryLimitMapper;
 import com.electro.mapper.inventory.PurchaseOrderMapper;
-import com.electro.mapper.inventory.PurchaseOrderVariantMapper;
 import com.electro.mapper.inventory.StorageLocationMapper;
 import com.electro.mapper.inventory.TransferMapper;
 import com.electro.mapper.inventory.TransferVariantMapper;
@@ -192,7 +191,6 @@ import com.electro.repository.inventory.DocketRepository;
 import com.electro.repository.inventory.DocketVariantRepository;
 import com.electro.repository.inventory.ProductInventoryLimitRepository;
 import com.electro.repository.inventory.PurchaseOrderRepository;
-import com.electro.repository.inventory.PurchaseOrderVariantRepository;
 import com.electro.repository.inventory.StorageLocationRepository;
 import com.electro.repository.inventory.TransferRepository;
 import com.electro.repository.inventory.TransferVariantRepository;
@@ -588,12 +586,12 @@ public class GenericMappingRegister {
                 ResourceName.PURCHASE_ORDER
         ), PurchaseOrderRequest.class);
 
-        register("purchase-order-variants", purchaseOrderVariantController, purchaseOrderVariantService.init(
-                context.getBean(PurchaseOrderVariantRepository.class),
-                context.getBean(PurchaseOrderVariantMapper.class),
-                SearchFields.PURCHASE_ORDER_VARIANT,
-                ResourceName.PURCHASE_ORDER_VARIANT
-        ), PurchaseOrderVariantRequest.class);
+//        register("purchase-order-variants", purchaseOrderVariantController, purchaseOrderVariantService.init(
+//                context.getBean(PurchaseOrderVariantRepository.class),
+//                context.getBean(PurchaseOrderVariantMapper.class),
+//                SearchFields.PURCHASE_ORDER_VARIANT,
+//                ResourceName.PURCHASE_ORDER_VARIANT
+//        ), PurchaseOrderVariantRequest.class);
 
         register("order-resources", orderResourceController, orderResourceService.init(
                 context.getBean(OrderResourceRepository.class),

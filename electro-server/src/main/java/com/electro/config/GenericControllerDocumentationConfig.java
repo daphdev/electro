@@ -58,7 +58,7 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("dockets"))
                 .and(generateRoute("storage-locations"))
                 .and(generateRoute("purchase-orders"))
-                .and(generateRoute("purchase-order-variants"))
+//                .and(generateRoute("purchase-order-variants"))
                 .and(generateRoute("order-resources"))
                 .and(generateRoute("order-cancellation-reasons"))
                 .and(generateRoute("orders"))
