@@ -248,13 +248,13 @@
         created_by bigint,
         updated_at datetime not null,
         updated_by bigint,
-        code varchar(255),
+        code varchar(255) not null,
         note varchar(255),
         status TINYINT not null,
-        type integer,
+        type integer not null,
         order_id bigint,
         purchase_order_id bigint,
-        reason_id bigint,
+        reason_id bigint not null,
         warehouse_id bigint not null,
         primary key (id)
     ) engine=MyISAM;
@@ -684,6 +684,9 @@
 
     alter table prod.destination 
        add constraint UK_a99mkfyhl65vc2n78ijodyoje unique (address_id);
+
+    alter table prod.docket 
+       add constraint UK_m8eoh52affco74plnewadng8j unique (code);
 
     alter table prod.employee 
        add constraint UK_mpps3d3r9pdvyjx3iqixi96fi unique (user_id);

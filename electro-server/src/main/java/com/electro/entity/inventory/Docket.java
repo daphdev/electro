@@ -16,7 +16,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,15 +28,14 @@ import java.util.Set;
 @Entity
 @Table(name = "docket")
 public class Docket extends BaseEntity {
-
-    @Column(name = "type")
+    @Column(name = "type", nullable = false)
     private Integer type;
 
-    @Column(name = "code")
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reason_id")
+    @JoinColumn(name = "reason_id", nullable = false)
     @JsonBackReference
     private DocketReason reason;
 
@@ -49,12 +47,6 @@ public class Docket extends BaseEntity {
     @OneToMany(mappedBy = "docket", cascade = CascadeType.ALL)
     private Set<DocketVariant> docketVariants = new HashSet<>();
 
-    @Column(name = "note")
-    private String note;
-
-    @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
-    private Integer status;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "purchase_order_id")
     @JsonBackReference
@@ -65,9 +57,15 @@ public class Docket extends BaseEntity {
     @JsonBackReference
     private Order order;
 
-    @OneToOne(mappedBy = "exportDocket", fetch = FetchType.LAZY)
-    private Transfer exportTransfer;
+    @Column(name = "note")
+    private String note;
 
-    @OneToOne(mappedBy = "importDocket", fetch = FetchType.LAZY)
-    private Transfer importTransfer;
+    @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
+    private Integer status;
+
+//    @OneToOne(mappedBy = "exportDocket", fetch = FetchType.LAZY)
+//    private Transfer exportTransfer;
+//
+//    @OneToOne(mappedBy = "importDocket", fetch = FetchType.LAZY)
+//    private Transfer importTransfer;
 }

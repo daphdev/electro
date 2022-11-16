@@ -335,18 +335,19 @@ insert into purchase_order_variant (purchase_order_id, variant_id, cost, quantit
 insert into purchase_order_variant (purchase_order_id, variant_id, cost, quantity, amount) values (2, 3, 1500000, 1, 1500000);
 insert into purchase_order_variant (purchase_order_id, variant_id, cost, quantity, amount) values (3, 3, 1500000, 2, 3000000);
 
--- docket TABLE: 4 record
-insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, note, status, purchase_order_id, order_id) values ('2022-07-08 00:17:58', '2022-02-22 22:04:49', 27, '68016-008', 4, 1, 'Revision or replacement of artificial spinal disc prosthesis, not otherwise specified', 3, 1, null);
-insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, note, status, purchase_order_id, order_id) values ('2021-12-05 11:44:55', '2021-10-13 11:24:38', 14, '36987-1459', 3, 2, 'Repair of retinal tear by xenon arc photocoagulation', 1, 2, null);
-insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, note, status, purchase_order_id, order_id) values ('2022-02-20 04:04:06', '2021-12-20 00:26:02', 68, '36987-3265', 2, 3, 'Complete glossectomy', 1, 3, null);
-insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, note, status, purchase_order_id, order_id) values ('2022-01-27 01:34:39', '2022-04-22 22:26:16', 3, '50436-6046', 2, 1,'Carotid sinus stimulation', 2, 4, null);
-insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, note, status, purchase_order_id, order_id) values ('2021-12-16 17:41:03', '2021-08-05 17:16:06', 10, '68788-9108', 3, 2,'Character analysis', 2, 5, null);
+-- docket TABLE: 5 record
+insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, purchase_order_id, order_id, note, status) values ('2022-07-08 00:17:58', '2022-02-22 22:04:49', 1, '68016-008', 1, 1, 1, null, 'Revision or replacement of artificial spinal disc prosthesis, not otherwise specified', 3);
+insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, purchase_order_id, order_id, note, status) values ('2021-12-05 11:44:55', '2021-10-13 11:24:38', 1, '36987-145', 1, 2, 2, null, 'Repair of retinal tear by xenon arc photocoagulation', 1);
+insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, purchase_order_id, order_id, note, status) values ('2022-02-20 04:04:06', '2021-12-20 00:26:02', 1, '36987-325', 1, 3, 3, null, null, 1);
+insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, purchase_order_id, order_id, note, status) values ('2022-01-27 01:34:39', '2022-04-22 22:26:16', 1, '50436-646', 1, 1, 4, null, 'Carotid sinus stimulation', 2);
+insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, purchase_order_id, order_id, note, status) values ('2021-12-16 17:41:03', '2021-08-05 17:16:06', 1, '68788-108', 1, 2, 5, null, null, 2);
 
--- docket_variant TABLE: 4 records
-insert into docket_variant (quantity, docket_id, variant_id) values (50, 1, 1);
-insert into docket_variant (quantity, docket_id, variant_id) values (51, 1, 2);
-insert into docket_variant (quantity, docket_id, variant_id) values (12, 1, 3);
-insert into docket_variant (quantity, docket_id, variant_id) values (98, 2, 3);
+-- docket_variant TABLE: 5 records
+insert into docket_variant (docket_id, variant_id, quantity) values (1, 1, 2);
+insert into docket_variant (docket_id, variant_id, quantity) values (1, 2, 1);
+insert into docket_variant (docket_id, variant_id, quantity) values (2, 2, 2);
+insert into docket_variant (docket_id, variant_id, quantity) values (2, 3, 1);
+insert into docket_variant (docket_id, variant_id, quantity) values (3, 3, 2);
 
 -- order_resource TABLE: 5 records
 insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2022-04-22 11:46:21', '2022-02-13 04:37:06', 'BIZ', 'Bizweb', 'Orange', null, 1);
@@ -366,15 +367,11 @@ insert into order_cancellation_reason (created_at, updated_at, name, note, statu
 insert into `order` (created_at, updated_at, code, status, order_resource_id, order_cancellation_reason_id, note, customer_id, total_amount, shipping_cost, tax, total_pay) values ('2022-06-30 08:32:41', '2021-08-17 03:28:55', '68400-107', 1, 5, 3, 'Tomo Nucl Med Imag of Brain using Technetium 99m', 1,  50.0, 12.0, 10, 72.0);
 insert into `order` (created_at, updated_at, code, status, order_resource_id, order_cancellation_reason_id, note, customer_id, total_amount, shipping_cost, tax, total_pay) values ('2022-05-02 23:20:36', '2022-07-02 09:02:05', '36987-1660', 2, 1, 3, 'Insertion of Other Device into Left Upper Leg, Perc Approach', 1,  40, 5, 2, 47);
 
-
--- order_variant: 3 records
-
-
--- docket_variant TABLE: 4 records
+-- order_variant: 2 records
 insert into order_variant (price, quantity, amount, order_id, variant_id) values (15.5, 4, 12.5, 1, 1);
 insert into order_variant (price, quantity, amount, order_id, variant_id) values (12.5, 2, 11.5, 1, 2);
 
-insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, note, status, purchase_order_id, order_id) values ('2022-07-08 00:17:58', '2022-02-22 22:04:49', 27, '68016-008', 4, 1, 'Revision or replacement of artificial spinal disc prosthesis, not otherwise specified', 3, 1, 1);
+insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, purchase_order_id, order_id, note, status) values ('2022-07-08 00:17:58', '2022-02-22 22:04:49', 1, '23532-028', 4, 1, 1, 1, 'Revision or replacement of artificial spinal disc prosthesis, not otherwise specified', 3);
 
 --  transfer TABLE: 4 records
 insert into transfer (created_at, updated_at, code, export_docket_id, import_docket_id, note, status) values ('2022-07-01 14:16:33', '2021-12-02 23:53:14', '0642-0076', 1, 2,'Excision of Right Lower Leg Tendon, Open Approach', 2);

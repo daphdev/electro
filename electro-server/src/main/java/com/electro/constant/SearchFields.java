@@ -293,8 +293,9 @@ public interface SearchFields {
 
     List<String> DOCKET = List.of(
             "code",
-            "type",
-            "reason.name"
+            "reason.name",
+            "warehouse.code",
+            "warehouse.name"
     );
 
     List<String> STORAGE_LOCATION = List.of(
@@ -334,6 +335,12 @@ public interface SearchFields {
     );
 
     List<String> PURCHASE_ORDER_VARIANT = List.of(
+            "purchaseOrder.code",
+            "variant.product.name",
+            "variant.product.code",
+            "variant.sku",
+            "variant.cost",
+            "variant.price",
             "cost",
             "quantity",
             "amount"

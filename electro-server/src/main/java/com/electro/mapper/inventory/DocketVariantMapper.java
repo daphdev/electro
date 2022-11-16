@@ -20,4 +20,5 @@ public interface DocketVariantMapper extends GenericMapper<DocketVariant, Docket
     @Override
     @Mapping(source = "variantId", target = "variant")
     DocketVariant partialUpdate(@MappingTarget DocketVariant entity, DocketVariantRequest request);
+
 }

@@ -18,6 +18,7 @@ import com.electro.entity.inventory.CountVariantKey;
 import com.electro.entity.inventory.Destination;
 import com.electro.entity.inventory.Docket;
 import com.electro.entity.inventory.DocketReason;
+import com.electro.entity.inventory.DocketVariantKey;
 import com.electro.entity.inventory.PurchaseOrder;
 import com.electro.entity.inventory.PurchaseOrderVariantKey;
 import com.electro.entity.inventory.Transfer;
@@ -162,7 +163,10 @@ public abstract class MapperUtils {
     @AfterMapping
     @Named("attachDocket")
     public Docket attachDocket(@MappingTarget Docket docket) {
-        docket.getDocketVariants().forEach(docketVariant -> docketVariant.setDocket(docket));
+        docket.getDocketVariants().forEach(docketVariant -> {
+            docketVariant.setDocketVariantKey(new DocketVariantKey(docket.getId(), docketVariant.getVariant().getId()));
+            docketVariant.setDocket(docket);
+        });
         return docket;
     }
 

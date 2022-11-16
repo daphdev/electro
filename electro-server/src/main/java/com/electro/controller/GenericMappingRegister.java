@@ -148,7 +148,6 @@ import com.electro.mapper.inventory.CountMapper;
 import com.electro.mapper.inventory.DestinationMapper;
 import com.electro.mapper.inventory.DocketMapper;
 import com.electro.mapper.inventory.DocketReasonMapper;
-import com.electro.mapper.inventory.DocketVariantMapper;
 import com.electro.mapper.inventory.ProductInventoryLimitMapper;
 import com.electro.mapper.inventory.PurchaseOrderMapper;
 import com.electro.mapper.inventory.StorageLocationMapper;
@@ -188,7 +187,6 @@ import com.electro.repository.inventory.CountRepository;
 import com.electro.repository.inventory.DestinationRepository;
 import com.electro.repository.inventory.DocketReasonRepository;
 import com.electro.repository.inventory.DocketRepository;
-import com.electro.repository.inventory.DocketVariantRepository;
 import com.electro.repository.inventory.ProductInventoryLimitRepository;
 import com.electro.repository.inventory.PurchaseOrderRepository;
 import com.electro.repository.inventory.StorageLocationRepository;
@@ -572,12 +570,12 @@ public class GenericMappingRegister {
                 ResourceName.STORAGE_LOCATION
         ), StorageLocationRequest.class);
 
-        register("docket-variants", docketVariantController, docketVariantService.init(
-                context.getBean(DocketVariantRepository.class),
-                context.getBean(DocketVariantMapper.class),
-                SearchFields.DOCKET_VARIANT,
-                ResourceName.DOCKET_VARIANT
-        ), DocketVariantRequest.class);
+//        register("docket-variants", docketVariantController, docketVariantService.init(
+//                context.getBean(DocketVariantRepository.class),
+//                context.getBean(DocketVariantMapper.class),
+//                SearchFields.DOCKET_VARIANT,
+//                ResourceName.DOCKET_VARIANT
+//        ), DocketVariantRequest.class);
 
         register("purchase-orders", purchaseOrderController, purchaseOrderService.init(
                 context.getBean(PurchaseOrderRepository.class),

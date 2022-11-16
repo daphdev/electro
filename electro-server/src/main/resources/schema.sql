@@ -779,39 +779,49 @@ ALTER TABLE purchase_order_variant
 ALTER TABLE purchase_order_variant
     ADD CONSTRAINT FK_PURCHASE_ORDER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
 
-CREATE TABLE docket (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   type INT NULL,
-   code VARCHAR(255) NULL,
-   reason_id BIGINT NULL,
-   warehouse_id BIGINT NOT NULL,
-   note VARCHAR(255) NULL,
-   status TINYINT NOT NULL,
-   purchase_order_id BIGINT NULL,
-   order_id BIGINT NULL,
-   CONSTRAINT pk_docket PRIMARY KEY (id)
+CREATE TABLE docket
+(
+    id                BIGINT AUTO_INCREMENT NOT NULL,
+    created_at        datetime              NOT NULL,
+    updated_at        datetime              NOT NULL,
+    created_by        BIGINT                NULL,
+    updated_by        BIGINT                NULL,
+    type              INT                   NOT NULL,
+    code              VARCHAR(255)          NOT NULL,
+    reason_id         BIGINT                NOT NULL,
+    warehouse_id      BIGINT                NOT NULL,
+    purchase_order_id BIGINT                NULL,
+    order_id          BIGINT                NULL,
+    note              VARCHAR(255)          NULL,
+    status            TINYINT               NOT NULL,
+    CONSTRAINT pk_docket PRIMARY KEY (id)
 );
 
-ALTER TABLE docket ADD CONSTRAINT FK_DOCKET_ON_PURCHASE_ORDER FOREIGN KEY (purchase_order_id) REFERENCES purchase_order (id);
+ALTER TABLE docket
+    ADD CONSTRAINT uc_docket_code UNIQUE (code);
 
-ALTER TABLE docket ADD CONSTRAINT FK_DOCKET_ON_REASON FOREIGN KEY (reason_id) REFERENCES docket_reason (id);
+ALTER TABLE docket
+    ADD CONSTRAINT FK_DOCKET_ON_PURCHASE_ORDER FOREIGN KEY (purchase_order_id) REFERENCES purchase_order (id);
 
-ALTER TABLE docket ADD CONSTRAINT FK_DOCKET_ON_WAREHOUSE FOREIGN KEY (warehouse_id) REFERENCES warehouse (id);
+ALTER TABLE docket
+    ADD CONSTRAINT FK_DOCKET_ON_REASON FOREIGN KEY (reason_id) REFERENCES docket_reason (id);
 
-CREATE TABLE docket_variant (
-   quantity INT NOT NULL,
-   docket_id BIGINT NOT NULL,
-   variant_id BIGINT NOT NULL,
-   CONSTRAINT pk_docket_variant PRIMARY KEY (docket_id, variant_id)
+ALTER TABLE docket
+    ADD CONSTRAINT FK_DOCKET_ON_WAREHOUSE FOREIGN KEY (warehouse_id) REFERENCES warehouse (id);
+
+CREATE TABLE docket_variant
+(
+    docket_id  BIGINT NOT NULL,
+    variant_id BIGINT NOT NULL,
+    quantity   INT    NOT NULL,
+    CONSTRAINT pk_docket_variant PRIMARY KEY (docket_id, variant_id)
 );
 
-ALTER TABLE docket_variant ADD CONSTRAINT FK_DOCKET_VARIANT_ON_DOCKET FOREIGN KEY (docket_id) REFERENCES docket (id);
+ALTER TABLE docket_variant
+    ADD CONSTRAINT FK_DOCKET_VARIANT_ON_DOCKET FOREIGN KEY (docket_id) REFERENCES docket (id);
 
-ALTER TABLE docket_variant ADD CONSTRAINT FK_DOCKET_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+ALTER TABLE docket_variant
+    ADD CONSTRAINT FK_DOCKET_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
 
 CREATE TABLE order_resource
 (
@@ -872,6 +882,9 @@ ALTER TABLE `order` ADD CONSTRAINT FK_ORDER_ON_ORDER_CANCELLATION_REASON FOREIGN
 
 ALTER TABLE `order` ADD CONSTRAINT FK_ORDER_ON_ORDER_RESOURCE FOREIGN KEY (order_resource_id) REFERENCES order_resource (id);
 
+ALTER TABLE docket
+    ADD CONSTRAINT FK_DOCKET_ON_ORDER FOREIGN KEY (order_id) REFERENCES `order` (id);
+
 CREATE TABLE order_variant (
    price DECIMAL NOT NULL,
    quantity INT NOT NULL,
@@ -884,8 +897,6 @@ CREATE TABLE order_variant (
 ALTER TABLE order_variant ADD CONSTRAINT FK_ORDER_VARIANT_ON_ORDER FOREIGN KEY (order_id) REFERENCES `order` (id);
 
 ALTER TABLE order_variant ADD CONSTRAINT FK_ORDER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
-
-ALTER TABLE docket ADD CONSTRAINT FK_DOCKET_ON_ORDER FOREIGN KEY (order_id) REFERENCES `order` (id);
 
 ALTER TABLE transfer ADD CONSTRAINT uc_transfer_export_docket UNIQUE (export_docket_id);
 
