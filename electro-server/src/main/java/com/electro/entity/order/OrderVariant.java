@@ -37,13 +37,12 @@ public class OrderVariant {
     @JoinColumn(name = "variant_id", nullable = false)
     private Variant variant;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "price", nullable = false, columnDefinition = "DECIMAL(15,5)")
     private BigDecimal price;
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "amount", nullable = false)
+    @Column(name = "amount", nullable = false, columnDefinition = "DECIMAL(15,5)")
     private BigDecimal amount;
-
 }

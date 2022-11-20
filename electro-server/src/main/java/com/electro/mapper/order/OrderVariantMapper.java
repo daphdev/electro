@@ -20,4 +20,5 @@ public interface OrderVariantMapper extends GenericMapper<OrderVariant, OrderVar
     @Override
     @Mapping(source = "variantId", target = "variant")
     OrderVariant partialUpdate(@MappingTarget OrderVariant entity, OrderVariantRequest request);
+
 }

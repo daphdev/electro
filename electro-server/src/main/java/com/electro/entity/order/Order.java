@@ -33,8 +33,7 @@ import java.util.Set;
 @Entity
 @Table(name = "`order`")
 public class Order extends BaseEntity {
-
-    @Column(name = "code")
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
 
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
@@ -46,7 +45,7 @@ public class Order extends BaseEntity {
     private OrderResource orderResource;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_cancellation_reason_id", nullable = false)
+    @JoinColumn(name = "order_cancellation_reason_id")
     @JsonBackReference
     private OrderCancellationReason orderCancellationReason;
 
@@ -58,23 +57,28 @@ public class Order extends BaseEntity {
     @JsonBackReference
     private Customer customer;
 
+    // paymentMethod: PaymentMethod
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderVariant> orderVariants = new HashSet<>();
 
-    @Column(name = "total_amount")
+    @Column(name = "total_amount", nullable = false, columnDefinition = "DECIMAL(15,5)")
     private BigDecimal totalAmount;
 
-    @Column(name = "shipping_cost")
-    private BigDecimal shippingCost;
-
-    @Column(name = "tax")
+    @Column(name = "tax", nullable = false, columnDefinition = "DECIMAL(15,5)")
     private BigDecimal tax;
 
-    @Column(name = "total_pay")
+    @Column(name = "shipping_cost", nullable = false, columnDefinition = "DECIMAL(15,5)")
+    private BigDecimal shippingCost;
+
+    @Column(name = "total_pay", nullable = false, columnDefinition = "DECIMAL(15,5)")
     private BigDecimal totalPay;
+
+    // waybill: Waybill
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Docket> dockets = new ArrayList<>();
 
+    // vouchers: List<Voucher>
 }

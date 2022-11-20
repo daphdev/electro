@@ -353,15 +353,15 @@
         created_by bigint,
         updated_at datetime not null,
         updated_by bigint,
-        code varchar(255),
+        code varchar(255) not null,
         note varchar(255),
-        shipping_cost decimal(19,2),
+        shipping_cost DECIMAL(15,5) not null,
         status TINYINT not null,
-        tax decimal(19,2),
-        total_amount decimal(19,2),
-        total_pay decimal(19,2),
+        tax DECIMAL(15,5) not null,
+        total_amount DECIMAL(15,5) not null,
+        total_pay DECIMAL(15,5) not null,
         customer_id bigint not null,
-        order_cancellation_reason_id bigint not null,
+        order_cancellation_reason_id bigint,
         order_resource_id bigint not null,
         primary key (id)
     ) engine=MyISAM;
@@ -395,8 +395,8 @@
     create table prod.order_variant (
        order_id bigint not null,
         variant_id bigint not null,
-        amount decimal(19,2) not null,
-        price decimal(19,2) not null,
+        amount DECIMAL(15,5) not null,
+        price DECIMAL(15,5) not null,
         quantity integer not null,
         primary key (order_id, variant_id)
     ) engine=MyISAM;
@@ -683,6 +683,9 @@
 
     alter table prod.office 
        add constraint UK_mlsa2m6po5222mgtojis7rnow unique (address_id);
+
+    alter table prod.`order` 
+       add constraint UK_28dgdc5siorptevhwl566i27v unique (code);
 
     alter table prod.order_resource 
        add constraint UK_t9tuhf1vpiqqfyr9cr6nnu7yv unique (code);

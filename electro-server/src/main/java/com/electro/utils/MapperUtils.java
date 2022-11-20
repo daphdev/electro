@@ -25,6 +25,7 @@ import com.electro.entity.inventory.Warehouse;
 import com.electro.entity.order.Order;
 import com.electro.entity.order.OrderCancellationReason;
 import com.electro.entity.order.OrderResource;
+import com.electro.entity.order.OrderVariantKey;
 import com.electro.entity.product.Brand;
 import com.electro.entity.product.Category;
 import com.electro.entity.product.Guarantee;
@@ -147,8 +148,10 @@ public abstract class MapperUtils {
     @AfterMapping
     @Named("attachOrder")
     public Order attachOrder(@MappingTarget Order order) {
-        order.getOrderVariants().forEach(orderVariant -> orderVariant.setOrder(order));
-        order.getDockets().forEach(docket -> docket.setOrder(order));
+        order.getOrderVariants().forEach(orderVariant -> {
+            orderVariant.setOrderVariantKey(new OrderVariantKey(order.getId(), orderVariant.getVariant().getId()));
+            orderVariant.setOrder(order);
+        });
         return order;
     }
 

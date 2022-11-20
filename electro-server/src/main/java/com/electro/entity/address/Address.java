@@ -35,22 +35,4 @@ public class Address extends BaseEntity {
     @JoinColumn(name = "district_id")
     @JsonBackReference
     private District district;
-
-//    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
-//    private User user;
-
-//    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
-//    private Office office;
-
-//    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
-//    private Supplier supplier;
-
-//    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
-//    private Warehouse warehouse;
-
-//    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
-//    private Destination destination;
-
-//    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
-//    private Shipper shipper;
 }

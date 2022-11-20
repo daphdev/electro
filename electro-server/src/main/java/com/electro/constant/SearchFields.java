@@ -350,19 +350,27 @@ public interface SearchFields {
 
     List<String> ORDER = List.of(
             "code",
-            "status",
-            "totalAmount",
-            "tax",
-            "shippingCost",
-            "totalPay",
             "orderResource.code",
             "orderResource.name",
-            "orderResource.color",
             "orderCancellationReason.name",
-            "orderCancellationReason.status"
+            "customer.user.username",
+            "customer.user.fullname",
+            "customer.user.email",
+            "customer.user.phone",
+            "customer.user.address.line",
+            "customer.user.address.province.name",
+            "customer.user.address.province.code",
+            "customer.user.address.district.name",
+            "customer.user.address.district.code"
     );
 
     List<String> ORDER_VARIANT = List.of(
+            "order.code",
+            "variant.product.name",
+            "variant.product.code",
+            "variant.sku",
+            "variant.cost",
+            "variant.price",
             "price",
             "quantity",
             "amount"

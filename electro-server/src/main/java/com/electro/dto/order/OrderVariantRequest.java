@@ -10,5 +10,4 @@ public class OrderVariantRequest {
     private BigDecimal price;
     private Integer quantity;
     private BigDecimal amount;
-
 }

@@ -5,7 +5,7 @@ import com.electro.dto.order.OrderRequest;
 import com.electro.dto.order.OrderResponse;
 import com.electro.entity.order.Order;
 import com.electro.mapper.GenericMapper;
-import com.electro.mapper.inventory.DocketMapper;
+import com.electro.mapper.authentication.UserMapper;
 import com.electro.utils.MapperUtils;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
@@ -13,7 +13,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {MapperUtils.class, OrderVariantMapper.class, DocketMapper.class})
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        uses = {MapperUtils.class, OrderResourceMapper.class, OrderCancellationReasonMapper.class, UserMapper.class,
+                OrderVariantMapper.class})
 public interface OrderMapper extends GenericMapper<Order, OrderRequest, OrderResponse> {
 
     @Override
@@ -29,4 +31,5 @@ public interface OrderMapper extends GenericMapper<Order, OrderRequest, OrderRes
     @Mapping(source = "orderCancellationReasonId", target = "orderCancellationReason")
     @Mapping(source = "customerId", target = "customer")
     Order partialUpdate(@MappingTarget Order entity, OrderRequest request);
+
 }

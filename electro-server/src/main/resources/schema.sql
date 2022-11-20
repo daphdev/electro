@@ -853,43 +853,53 @@ CREATE TABLE order_cancellation_reason
     CONSTRAINT pk_order_cancellation_reason PRIMARY KEY (id)
 );
 
-CREATE TABLE `order` (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   code VARCHAR(255) NULL,
-   status TINYINT NOT NULL,
-   order_resource_id BIGINT NOT NULL,
-   order_cancellation_reason_id BIGINT NOT NULL,
-   note VARCHAR(255) NULL,
-   customer_id BIGINT NOT NULL,
-   total_amount DECIMAL NULL,
-   shipping_cost DECIMAL NULL,
-   tax DECIMAL NULL,
-   total_pay DECIMAL NULL,
-   CONSTRAINT pk_order PRIMARY KEY (id)
+CREATE TABLE `order`
+(
+    id                           BIGINT AUTO_INCREMENT NOT NULL,
+    created_at                   datetime              NOT NULL,
+    updated_at                   datetime              NOT NULL,
+    created_by                   BIGINT                NULL,
+    updated_by                   BIGINT                NULL,
+    code                         VARCHAR(255)          NOT NULL,
+    status                       TINYINT               NOT NULL,
+    order_resource_id            BIGINT                NOT NULL,
+    order_cancellation_reason_id BIGINT                NULL,
+    note                         VARCHAR(255)          NULL,
+    customer_id                  BIGINT                NOT NULL,
+    total_amount                 DECIMAL(15, 5)        NOT NULL,
+    tax                          DECIMAL(15, 5)        NOT NULL,
+    shipping_cost                DECIMAL(15, 5)        NOT NULL,
+    total_pay                    DECIMAL(15, 5)        NOT NULL,
+    CONSTRAINT pk_order PRIMARY KEY (id)
 );
 
-ALTER TABLE `order` ADD CONSTRAINT FK_ORDER_ON_CUSTOMER FOREIGN KEY (customer_id) REFERENCES customer (id);
+ALTER TABLE `order`
+    ADD CONSTRAINT uc_order_code UNIQUE (code);
 
-ALTER TABLE `order` ADD CONSTRAINT FK_ORDER_ON_ORDER_CANCELLATION_REASON FOREIGN KEY (order_cancellation_reason_id) REFERENCES order_cancellation_reason (id);
+ALTER TABLE `order`
+    ADD CONSTRAINT FK_ORDER_ON_CUSTOMER FOREIGN KEY (customer_id) REFERENCES customer (id);
 
-ALTER TABLE `order` ADD CONSTRAINT FK_ORDER_ON_ORDER_RESOURCE FOREIGN KEY (order_resource_id) REFERENCES order_resource (id);
+ALTER TABLE `order`
+    ADD CONSTRAINT FK_ORDER_ON_ORDER_CANCELLATION_REASON FOREIGN KEY (order_cancellation_reason_id) REFERENCES order_cancellation_reason (id);
+
+ALTER TABLE `order`
+    ADD CONSTRAINT FK_ORDER_ON_ORDER_RESOURCE FOREIGN KEY (order_resource_id) REFERENCES order_resource (id);
 
 ALTER TABLE docket
     ADD CONSTRAINT FK_DOCKET_ON_ORDER FOREIGN KEY (order_id) REFERENCES `order` (id);
 
-CREATE TABLE order_variant (
-   price DECIMAL NOT NULL,
-   quantity INT NOT NULL,
-   amount DECIMAL NOT NULL,
-   order_id BIGINT NOT NULL,
-   variant_id BIGINT NOT NULL,
-   CONSTRAINT pk_order_variant PRIMARY KEY (order_id, variant_id)
+CREATE TABLE order_variant
+(
+    order_id   BIGINT         NOT NULL,
+    variant_id BIGINT         NOT NULL,
+    price      DECIMAL(15, 5) NOT NULL,
+    quantity   INT            NOT NULL,
+    amount     DECIMAL(15, 5) NOT NULL,
+    CONSTRAINT pk_order_variant PRIMARY KEY (order_id, variant_id)
 );
 
-ALTER TABLE order_variant ADD CONSTRAINT FK_ORDER_VARIANT_ON_ORDER FOREIGN KEY (order_id) REFERENCES `order` (id);
+ALTER TABLE order_variant
+    ADD CONSTRAINT FK_ORDER_VARIANT_ON_ORDER FOREIGN KEY (order_id) REFERENCES `order` (id);
 
-ALTER TABLE order_variant ADD CONSTRAINT FK_ORDER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+ALTER TABLE order_variant
+    ADD CONSTRAINT FK_ORDER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
