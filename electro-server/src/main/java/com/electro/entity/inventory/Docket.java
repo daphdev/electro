@@ -62,10 +62,4 @@ public class Docket extends BaseEntity {
 
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
-
-//    @OneToOne(mappedBy = "exportDocket", fetch = FetchType.LAZY)
-//    private Transfer exportTransfer;
-//
-//    @OneToOne(mappedBy = "importDocket", fetch = FetchType.LAZY)
-//    private Transfer importTransfer;
 }

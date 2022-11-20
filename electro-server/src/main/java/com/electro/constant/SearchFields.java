@@ -277,16 +277,6 @@ public interface SearchFields {
             "name"
     );
 
-    List<String> TRANSFER_VARIANT = List.of(
-            "transfer.code",
-            "variant.product.name",
-            "variant.product.code",
-            "variant.sku",
-            "variant.cost",
-            "variant.price",
-            "quantity"
-    );
-
     List<String> TRANSFER = List.of(
             "code"
     );

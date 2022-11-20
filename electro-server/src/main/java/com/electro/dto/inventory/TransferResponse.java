@@ -1,9 +1,9 @@
 package com.electro.dto.inventory;
 
 import lombok.Data;
+import org.springframework.lang.Nullable;
 
 import java.time.Instant;
-import java.util.Set;
 
 @Data
 public class TransferResponse {
@@ -11,9 +11,8 @@ public class TransferResponse {
     private Instant createdAt;
     private Instant updatedAt;
     private String code;
-    private Set<TransferVariantResponse> transferVariants;
     private DocketResponse exportDocket;
     private DocketResponse importDocket;
+    @Nullable
     private String note;
-    private Integer status;
 }

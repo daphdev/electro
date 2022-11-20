@@ -33,7 +33,6 @@ public interface ResourceName {
     String COUNT = "Count";
     String DESTINATION = "Destination";
     String DOCKET_REASON = "DocketReason";
-    String TRANSFER_VARIANT = "TransferVariant";
     String TRANSFER = "Transfer";
     String DOCKET = "Docket";
     String STORAGE_LOCATION = "StorageLocation";

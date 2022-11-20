@@ -75,8 +75,6 @@
 
     drop table if exists prod.transfer;
 
-    drop table if exists prod.transfer_variant;
-
     drop table if exists prod.unit;
 
     drop table if exists prod.user;
@@ -573,17 +571,9 @@
         updated_by bigint,
         code varchar(255) not null,
         note varchar(255),
-        status TINYINT not null,
         export_docket_id bigint not null,
         import_docket_id bigint not null,
         primary key (id)
-    ) engine=MyISAM;
-
-    create table prod.transfer_variant (
-       transfer_id bigint not null,
-        variant_id bigint not null,
-        quantity integer not null,
-        primary key (transfer_id, variant_id)
     ) engine=MyISAM;
 
     create table prod.unit (
@@ -984,16 +974,6 @@
        add constraint FKd8wk8ohuol7ap3unjrsq1hc2i 
        foreign key (import_docket_id) 
        references prod.docket (id);
-
-    alter table prod.transfer_variant 
-       add constraint FK8nqj79dxjl442elxpc333pwj6 
-       foreign key (transfer_id) 
-       references prod.transfer (id);
-
-    alter table prod.transfer_variant 
-       add constraint FKe9484a4kgr0i94tgycb8q517p 
-       foreign key (variant_id) 
-       references prod.variant (id);
 
     alter table prod.user 
        add constraint FKddefmvbrws3hvl5t0hnnsv8ox 

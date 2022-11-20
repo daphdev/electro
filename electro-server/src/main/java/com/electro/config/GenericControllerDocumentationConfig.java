@@ -53,7 +53,7 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("counts"))
                 .and(generateRoute("destinations"))
                 .and(generateRoute("docket-reasons"))
-                .and(generateRoute("transfer-variants"))
+//                .and(generateRoute("transfer-variants"))
                 .and(generateRoute("transfers"))
                 .and(generateRoute("dockets"))
                 .and(generateRoute("storage-locations"))

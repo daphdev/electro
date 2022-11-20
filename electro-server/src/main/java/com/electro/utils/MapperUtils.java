@@ -21,7 +21,6 @@ import com.electro.entity.inventory.DocketReason;
 import com.electro.entity.inventory.DocketVariantKey;
 import com.electro.entity.inventory.PurchaseOrder;
 import com.electro.entity.inventory.PurchaseOrderVariantKey;
-import com.electro.entity.inventory.Transfer;
 import com.electro.entity.inventory.Warehouse;
 import com.electro.entity.order.Order;
 import com.electro.entity.order.OrderCancellationReason;
@@ -151,13 +150,6 @@ public abstract class MapperUtils {
         order.getOrderVariants().forEach(orderVariant -> orderVariant.setOrder(order));
         order.getDockets().forEach(docket -> docket.setOrder(order));
         return order;
-    }
-
-    @AfterMapping
-    @Named("attachTransfer")
-    public Transfer attachTransfer(@MappingTarget Transfer transfer) {
-        transfer.getTransferVariants().forEach(transferVariant -> transferVariant.setTransfer(transfer));
-        return transfer;
     }
 
     @AfterMapping

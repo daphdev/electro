@@ -37,13 +37,12 @@ DROP TABLE IF EXISTS
     count_variant,
     destination,
     docket_reason,
-    transfer,
-    transfer_variant,
     storage_location,
     purchase_order,
     purchase_order_variant,
     docket,
     docket_variant,
+    transfer,
     order_resource,
     order_cancellation_reason,
     `order`,
@@ -688,38 +687,6 @@ CREATE TABLE docket_reason
     CONSTRAINT pk_docket_reason PRIMARY KEY (id)
 );
 
-CREATE TABLE transfer
-(
-    id         BIGINT AUTO_INCREMENT NOT NULL,
-    created_at datetime              NOT NULL,
-    updated_at datetime              NOT NULL,
-    created_by BIGINT                NULL,
-    updated_by BIGINT                NULL,
-    code       VARCHAR(255)          NOT NULL,
-    export_docket_id BIGINT NOT NULL,
-    import_docket_id BIGINT NOT NULL,
-    note       VARCHAR(255)          NULL,
-    status     TINYINT               NOT NULL,
-    CONSTRAINT pk_transfer PRIMARY KEY (id)
-);
-
-ALTER TABLE transfer
-    ADD CONSTRAINT uc_transfer_code UNIQUE (code);
-
-CREATE TABLE transfer_variant
-(
-    transfer_id BIGINT NOT NULL,
-    variant_id  BIGINT NOT NULL,
-    quantity    INT    NOT NULL,
-    CONSTRAINT pk_transfer_variant PRIMARY KEY (transfer_id, variant_id)
-);
-
-ALTER TABLE transfer_variant
-    ADD CONSTRAINT FK_TRANSFER_VARIANT_ON_TRANSFER FOREIGN KEY (transfer_id) REFERENCES transfer (id);
-
-ALTER TABLE transfer_variant
-    ADD CONSTRAINT FK_TRANSFER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
-
 CREATE TABLE storage_location
 (
     variant_id   BIGINT       NOT NULL,
@@ -823,6 +790,35 @@ ALTER TABLE docket_variant
 ALTER TABLE docket_variant
     ADD CONSTRAINT FK_DOCKET_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
 
+CREATE TABLE transfer
+(
+    id               BIGINT AUTO_INCREMENT NOT NULL,
+    created_at       datetime              NOT NULL,
+    updated_at       datetime              NOT NULL,
+    created_by       BIGINT                NULL,
+    updated_by       BIGINT                NULL,
+    code             VARCHAR(255)          NOT NULL,
+    export_docket_id BIGINT                NOT NULL,
+    import_docket_id BIGINT                NOT NULL,
+    note             VARCHAR(255)          NULL,
+    CONSTRAINT pk_transfer PRIMARY KEY (id)
+);
+
+ALTER TABLE transfer
+    ADD CONSTRAINT uc_transfer_code UNIQUE (code);
+
+ALTER TABLE transfer
+    ADD CONSTRAINT uc_transfer_export_docket UNIQUE (export_docket_id);
+
+ALTER TABLE transfer
+    ADD CONSTRAINT uc_transfer_import_docket UNIQUE (import_docket_id);
+
+ALTER TABLE transfer
+    ADD CONSTRAINT FK_TRANSFER_ON_EXPORT_DOCKET FOREIGN KEY (export_docket_id) REFERENCES docket (id);
+
+ALTER TABLE transfer
+    ADD CONSTRAINT FK_TRANSFER_ON_IMPORT_DOCKET FOREIGN KEY (import_docket_id) REFERENCES docket (id);
+
 CREATE TABLE order_resource
 (
     id                   BIGINT AUTO_INCREMENT NOT NULL,
@@ -897,11 +893,3 @@ CREATE TABLE order_variant (
 ALTER TABLE order_variant ADD CONSTRAINT FK_ORDER_VARIANT_ON_ORDER FOREIGN KEY (order_id) REFERENCES `order` (id);
 
 ALTER TABLE order_variant ADD CONSTRAINT FK_ORDER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
-
-ALTER TABLE transfer ADD CONSTRAINT uc_transfer_export_docket UNIQUE (export_docket_id);
-
-ALTER TABLE transfer ADD CONSTRAINT uc_transfer_import_docket UNIQUE (import_docket_id);
-
-ALTER TABLE transfer ADD CONSTRAINT FK_TRANSFER_ON_EXPORT_DOCKET FOREIGN KEY (export_docket_id) REFERENCES docket (id);
-
-ALTER TABLE transfer ADD CONSTRAINT FK_TRANSFER_ON_IMPORT_DOCKET FOREIGN KEY (import_docket_id) REFERENCES docket (id);

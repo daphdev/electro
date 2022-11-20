@@ -54,8 +54,6 @@ import com.electro.dto.inventory.StorageLocationRequest;
 import com.electro.dto.inventory.StorageLocationResponse;
 import com.electro.dto.inventory.TransferRequest;
 import com.electro.dto.inventory.TransferResponse;
-import com.electro.dto.inventory.TransferVariantRequest;
-import com.electro.dto.inventory.TransferVariantResponse;
 import com.electro.dto.inventory.VariantInventoryLimitRequest;
 import com.electro.dto.inventory.VariantInventoryLimitResponse;
 import com.electro.dto.inventory.WarehouseRequest;
@@ -113,7 +111,6 @@ import com.electro.entity.inventory.PurchaseOrder;
 import com.electro.entity.inventory.PurchaseOrderVariant;
 import com.electro.entity.inventory.StorageLocation;
 import com.electro.entity.inventory.Transfer;
-import com.electro.entity.inventory.TransferVariant;
 import com.electro.entity.inventory.VariantInventoryLimit;
 import com.electro.entity.inventory.Warehouse;
 import com.electro.entity.order.Order;
@@ -152,7 +149,6 @@ import com.electro.mapper.inventory.ProductInventoryLimitMapper;
 import com.electro.mapper.inventory.PurchaseOrderMapper;
 import com.electro.mapper.inventory.StorageLocationMapper;
 import com.electro.mapper.inventory.TransferMapper;
-import com.electro.mapper.inventory.TransferVariantMapper;
 import com.electro.mapper.inventory.VariantInventoryLimitMapper;
 import com.electro.mapper.inventory.WarehouseMapper;
 import com.electro.mapper.order.OrderCancellationReasonMapper;
@@ -191,7 +187,6 @@ import com.electro.repository.inventory.ProductInventoryLimitRepository;
 import com.electro.repository.inventory.PurchaseOrderRepository;
 import com.electro.repository.inventory.StorageLocationRepository;
 import com.electro.repository.inventory.TransferRepository;
-import com.electro.repository.inventory.TransferVariantRepository;
 import com.electro.repository.inventory.VariantInventoryLimitRepository;
 import com.electro.repository.inventory.WarehouseRepository;
 import com.electro.repository.order.OrderCancellationReasonRepository;
@@ -264,7 +259,6 @@ public class GenericMappingRegister {
     private GenericController<CountRequest, CountResponse> countController;
     private GenericController<DestinationRequest, DestinationResponse> destinationController;
     private GenericController<DocketReasonRequest, DocketReasonResponse> docketReasonController;
-    private GenericController<TransferVariantRequest, TransferVariantResponse> transferVariantController;
     private GenericController<TransferRequest, TransferResponse> transferController;
     private GenericController<DocketRequest, DocketResponse> docketController;
     private GenericController<StorageLocationRequest, StorageLocationResponse> storageLocationController;
@@ -308,7 +302,6 @@ public class GenericMappingRegister {
     private GenericService<Count, CountRequest, CountResponse> countService;
     private GenericService<Destination, DestinationRequest, DestinationResponse> destinationService;
     private GenericService<DocketReason, DocketReasonRequest, DocketReasonResponse> docketReasonService;
-    private GenericService<TransferVariant, TransferVariantRequest, TransferVariantResponse> transferVariantService;
     private GenericService<Transfer, TransferRequest, TransferResponse> transferService;
     private GenericService<Docket, DocketRequest, DocketResponse> docketService;
     private GenericService<StorageLocation, StorageLocationRequest, StorageLocationResponse> storageLocationService;
@@ -541,13 +534,6 @@ public class GenericMappingRegister {
                 SearchFields.DOCKET_REASON,
                 ResourceName.DOCKET_REASON
         ), DocketReasonRequest.class);
-
-        register("transfer-variants", transferVariantController, transferVariantService.init(
-                context.getBean(TransferVariantRepository.class),
-                context.getBean(TransferVariantMapper.class),
-                SearchFields.TRANSFER_VARIANT,
-                ResourceName.TRANSFER_VARIANT
-        ), TransferVariantRequest.class);
 
         register("transfers", transferController, transferService.init(
                 context.getBean(TransferRepository.class),

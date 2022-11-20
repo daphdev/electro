@@ -349,6 +349,10 @@ insert into docket_variant (docket_id, variant_id, quantity) values (2, 2, 2);
 insert into docket_variant (docket_id, variant_id, quantity) values (2, 3, 1);
 insert into docket_variant (docket_id, variant_id, quantity) values (3, 3, 2);
 
+-- transfer TABLE: 2 records
+insert into transfer (created_at, updated_at, code, export_docket_id, import_docket_id, note) values ('2022-07-01 14:16:33', '2021-12-02 23:53:14', '06420-076', 1, 2, 'Excision of Right Lower Leg Tendon, Open Approach');
+insert into transfer (created_at, updated_at, code, export_docket_id, import_docket_id, note) values ('2021-08-20 08:29:19', '2021-07-02 02:52:07', '10812-201', 3, 4, null);
+
 -- order_resource TABLE: 5 records
 insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2022-04-22 11:46:21', '2022-02-13 04:37:06', 'BIZ', 'Bizweb', 'Orange', null, 1);
 insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2021-08-10 08:25:22', '2021-11-08 03:30:06', 'FBK', 'Facebook', 'Yellow', null, 1);
@@ -367,18 +371,6 @@ insert into order_cancellation_reason (created_at, updated_at, name, note, statu
 insert into `order` (created_at, updated_at, code, status, order_resource_id, order_cancellation_reason_id, note, customer_id, total_amount, shipping_cost, tax, total_pay) values ('2022-06-30 08:32:41', '2021-08-17 03:28:55', '68400-107', 1, 5, 3, 'Tomo Nucl Med Imag of Brain using Technetium 99m', 1,  50.0, 12.0, 10, 72.0);
 insert into `order` (created_at, updated_at, code, status, order_resource_id, order_cancellation_reason_id, note, customer_id, total_amount, shipping_cost, tax, total_pay) values ('2022-05-02 23:20:36', '2022-07-02 09:02:05', '36987-1660', 2, 1, 3, 'Insertion of Other Device into Left Upper Leg, Perc Approach', 1,  40, 5, 2, 47);
 
--- order_variant: 2 records
+-- order_variant TABLE: 2 records
 insert into order_variant (price, quantity, amount, order_id, variant_id) values (15.5, 4, 12.5, 1, 1);
 insert into order_variant (price, quantity, amount, order_id, variant_id) values (12.5, 2, 11.5, 1, 2);
-
-insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, purchase_order_id, order_id, note, status) values ('2022-07-08 00:17:58', '2022-02-22 22:04:49', 1, '23532-028', 4, 1, 1, 1, 'Revision or replacement of artificial spinal disc prosthesis, not otherwise specified', 3);
-
---  transfer TABLE: 4 records
-insert into transfer (created_at, updated_at, code, export_docket_id, import_docket_id, note, status) values ('2022-07-01 14:16:33', '2021-12-02 23:53:14', '0642-0076', 1, 2,'Excision of Right Lower Leg Tendon, Open Approach', 2);
-insert into transfer (created_at, updated_at, code, export_docket_id, import_docket_id, note, status) values ('2021-08-20 08:29:19', '2021-07-02 02:52:07', '10812-201', 3, 4, 'Revision of Ext Fix in R Humeral Head, Extern Approach', 3);
-
--- transfer_variant TABLE: 4 records
-insert into transfer_variant (quantity, transfer_id, variant_id) values (50, 1, 1);
-insert into transfer_variant (quantity, transfer_id, variant_id) values (51, 1, 2);
-insert into transfer_variant (quantity, transfer_id, variant_id) values (12, 1, 3);
-insert into transfer_variant (quantity, transfer_id, variant_id) values (98, 2, 3);
