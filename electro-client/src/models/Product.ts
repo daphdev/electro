@@ -5,6 +5,8 @@ import { UnitResponse } from 'models/Unit';
 import { TagResponse } from 'models/Tag';
 import { GuaranteeResponse } from 'models/Guarantee';
 import { VariantRequest, VariantResponse } from 'models/Variant';
+import { CollectionWrapper } from 'types';
+import { ImageRequest, ImageResponse, UploadedImageResponse } from 'models/Image';
 
 export interface ProductResponse extends BaseResponse {
   name: string;
@@ -12,8 +14,7 @@ export interface ProductResponse extends BaseResponse {
   slug: string;
   shortDescription: string | null;
   description: string | null;
-  thumbnail: string | null;
-  images: CollectionWrapper<ImageItem> | null;
+  images: ImageResponse[];
   status: number;
   category: Category_ProductResponse | null;
   brand: BrandResponse | null;
@@ -27,13 +28,11 @@ export interface ProductResponse extends BaseResponse {
   guarantee: GuaranteeResponse | null;
 }
 
-export interface CollectionWrapper<T> {
-  content: T[];
-  totalElements: number;
-}
-
-export interface ImageItem {
-  url: string;
+/**
+ * Còn đang dính với createUpdateFormSchema của ProductConfigs
+ * @deprecated
+ */
+export interface ImageItem extends UploadedImageResponse {
   isThumbnail?: boolean;
 }
 
@@ -65,8 +64,7 @@ export interface ProductRequest {
   slug: string;
   shortDescription: string | null;
   description: string | null;
-  thumbnail: string | null;
-  images: CollectionWrapper<ImageItem> | null;
+  images: ImageRequest[];
   status: number;
   categoryId: number | null;
   brandId: number | null;

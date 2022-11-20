@@ -1,5 +1,6 @@
 package com.electro.dto.product;
 
+import com.electro.dto.general.ImageRequest;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
 
@@ -13,8 +14,7 @@ public class ProductRequest {
     private String slug;
     private String shortDescription;
     private String description;
-    private String thumbnail;
-    private JsonNode images;
+    private List<ImageRequest> images;
     private Integer status;
     private Long categoryId;
     private Long brandId;

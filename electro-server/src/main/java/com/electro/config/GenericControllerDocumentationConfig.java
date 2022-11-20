@@ -46,6 +46,7 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("specifications"))
                 .and(generateRoute("products"))
                 .and(generateRoute("variants"))
+                .and(generateRoute("images"))
                 .and(generateRoute("product-inventory-limits"))
                 .and(generateRoute("variant-inventory-limits"))
                 .and(generateRoute("warehouses"))

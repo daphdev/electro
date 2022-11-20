@@ -1,7 +1,7 @@
 import React from 'react';
 import { ActionIcon, Group, Input, NumberInput, Select, TextInput } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
-import { AB, CircleX, DragDrop, Filter, Keyboard } from 'tabler-icons-react';
+import { AB, DragDrop, Filter, Keyboard, PlaystationX } from 'tabler-icons-react';
 import { EntityPropertyType, SelectOption } from 'types';
 import FilterUtils, { FilterCriteria } from 'utils/FilterUtils';
 import useFilterCriteriaRowViewModel from 'components/FilterCriteriaRow/FilterCriteriaRow.vm';
@@ -127,7 +127,7 @@ function FilterCriteriaRow({
         title="Xóa tiêu chí lọc"
         onClick={() => handleDeleteFilterCriteriaButton(index)}
       >
-        <CircleX/>
+        <PlaystationX/>
       </ActionIcon>
     </Group>
   );

@@ -9,10 +9,19 @@ import {
   Paper,
   Select,
   Stack,
+  Text,
   Textarea,
-  TextInput
+  TextInput,
+  Title
 } from '@mantine/core';
-import { CreateUpdateTitle, DefaultPropertyPanel } from 'components';
+import {
+  CreateUpdateTitle,
+  DefaultPropertyPanel,
+  ProductImagesDropzone,
+  ProductProperties,
+  ProductSpecifications,
+  ProductVariants
+} from 'components';
 import ProductConfigs from 'pages/product/ProductConfigs';
 import useProductCreateViewModel from 'pages/product/ProductCreate.vm';
 
@@ -27,6 +36,12 @@ function ProductCreate() {
     unitSelectList,
     tagSelectList,
     guaranteeSelectList,
+    imageFiles, setImageFiles,
+    thumbnailName, setThumbnailName,
+    specificationSelectList, setSpecificationSelectList,
+    productPropertySelectList, setProductPropertySelectList,
+    selectedVariantIndexes, setSelectedVariantIndexes,
+    resetForm,
   } = useProductCreateViewModel();
 
   return (
@@ -42,6 +57,10 @@ function ProductCreate() {
         <Paper shadow="xs">
           <Stack spacing={0}>
             <Grid p="sm">
+              <Grid.Col>
+                <Title order={4}>Thông tin cơ bản</Title>
+                <Text size="sm">Một số thông tin chung</Text>
+              </Grid.Col>
               <Grid.Col>
                 <TextInput
                   required
@@ -76,10 +95,58 @@ function ProductCreate() {
                 />
               </Grid.Col>
               <Grid.Col>
-                <TextInput
-                  label={ProductConfigs.properties.thumbnail.label}
-                  {...form.getInputProps('thumbnail')}
+                <Title order={4}>Hình sản phẩm</Title>
+                <Text size="sm">Thêm danh sách hình giới thiệu sản phẩm và chọn hình đại diện</Text>
+              </Grid.Col>
+              <Grid.Col>
+                <ProductImagesDropzone
+                  imageFiles={imageFiles}
+                  setImageFiles={setImageFiles}
+                  thumbnailName={thumbnailName}
+                  setThumbnailName={setThumbnailName}
                 />
+              </Grid.Col>
+              <Grid.Col>
+                <Title order={4}>Thông số sản phẩm</Title>
+                <Text size="sm">Thêm các thông số của sản phẩm</Text>
+              </Grid.Col>
+              <Grid.Col>
+                <ProductSpecifications
+                  specifications={form.values.specifications}
+                  setSpecifications={(specifications) => form.setFieldValue('specifications', specifications)}
+                  specificationSelectList={specificationSelectList}
+                  setSpecificationSelectList={setSpecificationSelectList}
+                />
+              </Grid.Col>
+              <Grid.Col>
+                <Title order={4}>Thuộc tính sản phẩm</Title>
+                <Text size="sm">Thêm mới thuộc tính giúp sản phẩm có nhiều lựa chọn, như kích cỡ hay màu sắc</Text>
+              </Grid.Col>
+              <Grid.Col>
+                <ProductProperties
+                  productProperties={form.values.properties}
+                  setProductProperties={(productProperties) => form.setFieldValue('properties', productProperties)}
+                  productPropertySelectList={productPropertySelectList}
+                  setProductPropertySelectList={setProductPropertySelectList}
+                />
+              </Grid.Col>
+              <Grid.Col>
+                <Title order={4}>Phiên bản sản phẩm</Title>
+                <Text size="sm">Phiên bản mặc định của sản phẩm hoặc phiên bản dựa vào thuộc tính sản phẩm</Text>
+              </Grid.Col>
+              <Grid.Col>
+                <ProductVariants
+                  variants={form.values.variants}
+                  setVariants={(variants) => form.setFieldValue('variants', variants)}
+                  productProperties={form.values.properties}
+                  setProductProperties={(productProperties) => form.setFieldValue('properties', productProperties)}
+                  selectedVariantIndexes={selectedVariantIndexes}
+                  setSelectedVariantIndexes={setSelectedVariantIndexes}
+                />
+              </Grid.Col>
+              <Grid.Col>
+                <Title order={4}>Thông tin bổ sung</Title>
+                <Text size="sm">Một số thông tin thêm</Text>
               </Grid.Col>
               <Grid.Col xs={6}>
                 <Select
@@ -165,7 +232,7 @@ function ProductCreate() {
             <Divider mt="xs"/>
 
             <Group position="apart" p="sm">
-              <Button variant="default" onClick={form.reset}>Mặc định</Button>
+              <Button variant="default" onClick={resetForm}>Mặc định</Button>
               <Button type="submit">Thêm</Button>
             </Group>
           </Stack>

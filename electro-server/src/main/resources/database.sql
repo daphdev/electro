@@ -33,6 +33,8 @@
 
     drop table if exists prod.guarantee;
 
+    drop table if exists prod.image;
+
     drop table if exists prod.job_level;
 
     drop table if exists prod.job_title;
@@ -302,6 +304,23 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.image (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        content_type varchar(255) not null,
+        `group` varchar(255) not null,
+        is_eliminated BOOLEAN not null,
+        is_thumbnail BOOLEAN not null,
+        name varchar(255) not null,
+        path varchar(255) not null,
+        size bigint not null,
+        product_id bigint,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.job_level (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -409,14 +428,12 @@
         updated_by bigint,
         code varchar(255) not null,
         description varchar(255),
-        images JSON,
         name varchar(255) not null,
         properties JSON,
         short_description varchar(255),
         slug varchar(255) not null,
         specifications JSON,
         status TINYINT not null,
-        thumbnail varchar(255),
         weight double precision,
         brand_id bigint,
         category_id bigint,
@@ -681,6 +698,12 @@
     alter table prod.employee 
        add constraint UK_mpps3d3r9pdvyjx3iqixi96fi unique (user_id);
 
+    alter table prod.image 
+       add constraint UK_2o7ijfxp9nv014xfgn93go7cd unique (name);
+
+    alter table prod.image 
+       add constraint UK_ctehsuv9mudy26ep17efcbj4h unique (path);
+
     alter table prod.office 
        add constraint UK_mlsa2m6po5222mgtojis7rnow unique (address_id);
 
@@ -857,6 +880,11 @@
        add constraint FK6lk0xml9r7okjdq0onka4ytju 
        foreign key (user_id) 
        references prod.user (id);
+
+    alter table prod.image 
+       add constraint FKgpextbyee3uk9u6o2381m7ft1 
+       foreign key (product_id) 
+       references prod.product (id);
 
     alter table prod.office 
        add constraint FKak81m3gkj8xq5t48xuflbj0kn 

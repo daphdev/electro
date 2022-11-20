@@ -1,6 +1,7 @@
 package com.electro.entity.product;
 
 import com.electro.entity.BaseEntity;
+import com.electro.entity.general.Image;
 import com.electro.entity.inventory.ProductInventoryLimit;
 import com.electro.utils.JsonNodeConverter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -52,12 +53,9 @@ public class Product extends BaseEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "thumbnail")
-    private String thumbnail;
-
-    @Column(name = "images", columnDefinition = "JSON")
-    @Convert(converter = JsonNodeConverter.class)
-    private JsonNode images;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Image> images = new ArrayList<>();
 
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;

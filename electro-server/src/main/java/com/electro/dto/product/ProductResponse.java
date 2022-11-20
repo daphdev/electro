@@ -1,5 +1,6 @@
 package com.electro.dto.product;
 
+import com.electro.dto.general.ImageResponse;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
 
@@ -17,8 +18,7 @@ public class ProductResponse {
     private String slug;
     private String shortDescription;
     private String description;
-    private String thumbnail;
-    private JsonNode images;
+    private List<ImageResponse> images;
     private Integer status;
     private Category_ProductResponse category;
     private BrandResponse brand;

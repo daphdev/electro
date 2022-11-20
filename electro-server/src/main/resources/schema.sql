@@ -30,6 +30,7 @@ DROP TABLE IF EXISTS
     product,
     product_tag,
     variant,
+    image,
     product_inventory_limit,
     variant_inventory_limit,
     warehouse,
@@ -495,8 +496,6 @@ CREATE TABLE product
     slug              VARCHAR(255)          NOT NULL,
     short_description VARCHAR(255)          NULL,
     `description`     VARCHAR(255)          NULL,
-    thumbnail         VARCHAR(255)          NULL,
-    images            JSON                  NULL,
     status            TINYINT               NOT NULL,
     category_id       BIGINT                NULL,
     brand_id          BIGINT                NULL,
@@ -565,6 +564,33 @@ ALTER TABLE variant
 
 ALTER TABLE variant
     ADD CONSTRAINT FK_VARIANT_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
+
+CREATE TABLE image
+(
+    id            BIGINT AUTO_INCREMENT NOT NULL,
+    created_at    datetime              NOT NULL,
+    updated_at    datetime              NOT NULL,
+    created_by    BIGINT                NULL,
+    updated_by    BIGINT                NULL,
+    name          VARCHAR(255)          NOT NULL,
+    `path`        VARCHAR(255)          NOT NULL,
+    content_type  VARCHAR(255)          NOT NULL,
+    size          BIGINT                NOT NULL,
+    `group`       VARCHAR(255)          NOT NULL,
+    is_thumbnail  BIT(1)                NOT NULL,
+    is_eliminated BIT(1)                NOT NULL,
+    product_id    BIGINT                NULL,
+    CONSTRAINT pk_image PRIMARY KEY (id)
+);
+
+ALTER TABLE image
+    ADD CONSTRAINT uc_image_name UNIQUE (name);
+
+ALTER TABLE image
+    ADD CONSTRAINT uc_image_path UNIQUE (`path`);
+
+ALTER TABLE image
+    ADD CONSTRAINT FK_IMAGE_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
 
 CREATE TABLE product_inventory_limit
 (
