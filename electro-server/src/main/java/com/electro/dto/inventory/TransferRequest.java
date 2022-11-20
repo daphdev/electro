@@ -1,13 +1,13 @@
 package com.electro.dto.inventory;
 
 import lombok.Data;
-
-import java.util.Set;
+import org.springframework.lang.Nullable;
 
 @Data
 public class TransferRequest {
     private String code;
-    private Set<TransferVariantRequest> transferVariants;
+    private DocketRequest exportDocket;
+    private DocketRequest importDocket;
+    @Nullable
     private String note;
-    private Integer status;
 }

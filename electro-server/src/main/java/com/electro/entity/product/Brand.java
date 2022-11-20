@@ -34,7 +34,7 @@ public class Brand extends BaseEntity {
     private String description;
 
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
-    private String status;
+    private Integer status;
 
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference

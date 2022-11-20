@@ -23,7 +23,7 @@ import java.util.List;
 @CrossOrigin("http://localhost:3000/")
 public class GenericController<I, O> {
 
-    private CrudService<I, O> crudService;
+    private CrudService<Long, I, O> crudService;
     private Class<I> requestType;
 
     public ResponseEntity<ListResponse<O>> getAllResources(

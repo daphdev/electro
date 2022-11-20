@@ -34,6 +34,14 @@ public interface ResourceName {
     String COUNT = "Count";
     String DESTINATION = "Destination";
     String DOCKET_REASON = "DocketReason";
-    String TRANSFER_VARIANT = "TransferVariant";
     String TRANSFER = "Transfer";
+    String DOCKET = "Docket";
+    String STORAGE_LOCATION = "StorageLocation";
+    String DOCKET_VARIANT = "DocketVariant";
+    String PURCHASE_ORDER = "PurchaseOrder";
+    String PURCHASE_ORDER_VARIANT = "PurchaseOrderVariant";
+    String ORDER_RESOURCE = "OrderResource";
+    String ORDER_CANCELLATION_REASON = "OrderCancellationReason";
+    String ORDER = "Order";
+    String ORDER_VARIANT = "OrderVariant";
 }

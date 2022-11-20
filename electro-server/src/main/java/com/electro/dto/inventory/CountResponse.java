@@ -1,6 +1,7 @@
 package com.electro.dto.inventory;
 
 import lombok.Data;
+import org.springframework.lang.Nullable;
 
 import java.time.Instant;
 import java.util.Set;
@@ -13,6 +14,7 @@ public class CountResponse {
     private String code;
     private WarehouseResponse warehouse;
     private Set<CountVariantResponse> countVariants;
+    @Nullable
     private String note;
     private Integer status;
 }

@@ -1,6 +1,7 @@
 package com.electro.entity.customer;
 
 import com.electro.entity.BaseEntity;
+import com.electro.entity.order.OrderResource;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,4 +43,8 @@ public class CustomerResource extends BaseEntity {
     @OneToMany(mappedBy = "customerResource", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Customer> employees = new ArrayList<>();
+
+    @OneToMany(mappedBy = "customerResource", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<OrderResource> orderResources = new ArrayList<>();
 }

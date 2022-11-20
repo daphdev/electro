@@ -282,8 +282,25 @@ public interface SearchFields {
             "name"
     );
 
-    List<String> TRANSFER_VARIANT = List.of(
-            "transfer.code",
+    List<String> TRANSFER = List.of(
+            "code"
+    );
+
+    List<String> DOCKET = List.of(
+            "code",
+            "reason.name",
+            "warehouse.code",
+            "warehouse.name"
+    );
+
+    List<String> STORAGE_LOCATION = List.of(
+            "name",
+            "warehouse.code",
+            "warehouse.name"
+    );
+
+    List<String> DOCKET_VARIANT = List.of(
+            "docket.code",
             "variant.product.name",
             "variant.product.code",
             "variant.sku",
@@ -292,7 +309,75 @@ public interface SearchFields {
             "quantity"
     );
 
-    List<String> TRANSFER = List.of(
-            "code"
+    List<String> PURCHASE_ORDER = List.of(
+            "code",
+            "supplier.displayName",
+            "supplier.code",
+            "supplier.contactFullname",
+            "supplier.contactEmail",
+            "supplier.contactPhone",
+            "supplier.companyName",
+            "supplier.taxCode",
+            "supplier.email",
+            "supplier.phone",
+            "supplier.fax",
+            "supplier.website",
+            "supplier.address.line",
+            "destination.contactFullname",
+            "destination.contactEmail",
+            "destination.contactPhone",
+            "destination.address.line"
+    );
+
+    List<String> PURCHASE_ORDER_VARIANT = List.of(
+            "purchaseOrder.code",
+            "variant.product.name",
+            "variant.product.code",
+            "variant.sku",
+            "variant.cost",
+            "variant.price",
+            "cost",
+            "quantity",
+            "amount"
+    );
+
+    List<String> ORDER_RESOURCE = List.of(
+            "code",
+            "name",
+            "color",
+            "customerResource.code",
+            "customerResource.name"
+    );
+
+    List<String> ORDER_CANCELLATION_REASON = List.of(
+            "name"
+    );
+
+    List<String> ORDER = List.of(
+            "code",
+            "orderResource.code",
+            "orderResource.name",
+            "orderCancellationReason.name",
+            "customer.user.username",
+            "customer.user.fullname",
+            "customer.user.email",
+            "customer.user.phone",
+            "customer.user.address.line",
+            "customer.user.address.province.name",
+            "customer.user.address.province.code",
+            "customer.user.address.district.name",
+            "customer.user.address.district.code"
+    );
+
+    List<String> ORDER_VARIANT = List.of(
+            "order.code",
+            "variant.product.name",
+            "variant.product.code",
+            "variant.sku",
+            "variant.cost",
+            "variant.price",
+            "price",
+            "quantity",
+            "amount"
     );
 }

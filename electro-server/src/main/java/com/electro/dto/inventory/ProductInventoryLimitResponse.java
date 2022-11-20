@@ -1,7 +1,7 @@
 package com.electro.dto.inventory;
 
-import com.electro.dto.product.ProductResponse;
 import lombok.Data;
+import org.springframework.lang.Nullable;
 
 import java.time.Instant;
 
@@ -10,7 +10,8 @@ public class ProductInventoryLimitResponse {
     private Long id;
     private Instant createdAt;
     private Instant updatedAt;
-    private ProductResponse product;
+    @Nullable
     private Integer minimumLimit;
+    @Nullable
     private Integer maximumLimit;
 }

@@ -2,8 +2,11 @@ package com.electro.entity.product;
 
 import com.electro.entity.BaseEntity;
 import com.electro.entity.inventory.CountVariant;
-import com.electro.entity.inventory.TransferVariant;
+import com.electro.entity.inventory.DocketVariant;
+import com.electro.entity.inventory.PurchaseOrderVariant;
+import com.electro.entity.inventory.StorageLocation;
 import com.electro.entity.inventory.VariantInventoryLimit;
+import com.electro.entity.order.OrderVariant;
 import com.electro.utils.JsonNodeConverter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -59,12 +62,21 @@ public class Variant extends BaseEntity {
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
 
-    @OneToOne(mappedBy = "variant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "variant", cascade = CascadeType.ALL)
+    private StorageLocation storageLocation;
+
+    @OneToOne(mappedBy = "variant", cascade = CascadeType.ALL)
     private VariantInventoryLimit variantInventoryLimit;
 
     @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
     private Set<CountVariant> countVariants = new HashSet<>();
 
     @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
-    private Set<TransferVariant> transferVariants = new HashSet<>();
+    private Set<DocketVariant> docketVariants = new HashSet<>();
+
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
+    private Set<PurchaseOrderVariant> purchaseOrderVariants = new HashSet<>();
+
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
+    private Set<OrderVariant> orderVariants = new HashSet<>();
 }

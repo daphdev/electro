@@ -280,55 +280,105 @@ insert into image (created_at, updated_at, name, path, content_type, size, `grou
 insert into image (created_at, updated_at, name, path, content_type, size, `group`, is_thumbnail, is_eliminated, product_id) values ('2022-05-06 20:40:45', '2022-04-02 20:30:28', '185x100.png', 'https://dummyimage.com/185x100.png/ff4444/ffffff', 'image/png', 200, 'P', 0, 0, 1);
 insert into image (created_at, updated_at, name, path, content_type, size, `group`, is_thumbnail, is_eliminated, product_id) values ('2021-07-17 02:36:19', '2021-12-14 10:10:42', '144x100.png', 'https://dummyimage.com/144x100.png/cc0000/ffffff', 'image/png', 100, 'P', 0, 0, 1);
 
--- product_inventory_limit TABLE: 5 records
-insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 1, 4, 10);
-insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2022-03-19 07:44:19', '2021-09-18 00:00:22', 2, 4, 10);
-insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2022-04-13 16:55:03', '2021-08-29 12:08:00', 3, 1, 6);
+-- product_inventory_limit TABLE: 3 records
+insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 1, 5, null);
+insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2022-03-19 07:44:19', '2021-09-18 00:00:22', 2, 10, 20);
+insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2022-04-13 16:55:03', '2021-08-29 12:08:00', 3, null, 20);
 
 -- variant_inventory_limit TABLE: 3 records
-insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 1, 4, 10);
-insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 2, 2, 10);
-insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 3, 1, 10);
+insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 1, 5, null);
+insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 2, 10, 20);
+insert into variant_inventory_limit (created_at, updated_at, variant_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 3, null, 20);
 
--- warehouse TABLE: 5 records
-insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2022-03-16 18:12:55', '2021-11-08 04:05:32', '63323-466', 'Wrapsafe', 23, 2);
-insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2022-05-28 12:11:14', '2022-02-25 15:13:22', '35356-773', 'Subin', 22, 2);
-insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2021-10-16 15:47:15', '2021-08-28 18:03:44', '59667-0030', 'Latlux', 25, 1);
-insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2022-04-20 01:31:33', '2021-12-24 04:20:06', '55154-2677', 'Sonair', 26, 3);
-insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2022-03-11 00:56:16', '2022-01-16 14:08:35', '49884-412', 'Viva', 24, 2);
+-- warehouse TABLE: 3 records
+insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2022-03-16 18:12:55', '2021-11-08 04:05:32', 'WARE-A', 'Kho A', 22, 1);
+insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2022-05-28 12:11:14', '2022-02-25 15:13:22', 'WARE-B', 'Kho B', 23, 1);
+insert into warehouse (created_at, updated_at, code, name, address_id, status) values ('2021-10-16 15:47:15', '2021-08-28 18:03:44', 'WARE-C', 'Kho C', null, 2);
 
 -- count TABLE: 5 records
-insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2022-02-11 02:17:56', '2022-06-10 08:38:27', '58118-0268', 4, 'Shikoku Christian College', 3);
-insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-09-27 04:07:17', '2022-06-06 09:44:39', '58517-440', 3, 'Universitas Paramadina Mulya', 3);
-insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-12-23 11:30:25', '2022-03-11 09:56:07', '66097-003', 4, 'Bangladesh University of Engineering and Technology', 2);
-insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-10-04 13:07:06', '2021-11-11 11:42:22', '53808-0672', 4, 'Universidade Federal Fluminense', 3);
-insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-07-10 22:24:16', '2022-03-04 03:33:40', '51668-402', 2, 'Universidad Tecnológica del Peru', 1);
+insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2022-02-11 02:17:56', '2022-06-10 08:38:27', '58118-026', 1, 'Shikoku Christian College', 3);
+insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-09-27 04:07:17', '2022-06-06 09:44:39', '58517-440', 1, null, 3);
+insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-12-23 11:30:25', '2022-03-11 09:56:07', '66097-003', 2, null, 2);
+insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-10-04 13:07:06', '2021-11-11 11:42:22', '53808-067', 2, 'Universidade Federal Fluminense', 3);
+insert into count (created_at, updated_at, code, warehouse_id, note, status) values ('2021-07-10 22:24:16', '2022-03-04 03:33:40', '51668-402', 3, 'Universidad Tecnológica del Peru', 1);
 
 -- count_variant TABLE: 3 records
-insert into count_variant (count_id, variant_id, actual_inventory, inventory) values (1, 1, 32, 80);
-insert into count_variant (count_id, variant_id, actual_inventory, inventory) values (1, 2, 57, 75);
-insert into count_variant (count_id, variant_id, actual_inventory, inventory) values (1, 3, 30, 37);
+insert into count_variant (count_id, variant_id, inventory, actual_inventory) values (1, 1, 80, 80);
+insert into count_variant (count_id, variant_id, inventory, actual_inventory) values (1, 2, 70, 75);
+insert into count_variant (count_id, variant_id, inventory, actual_inventory) values (1, 3, 30, 25);
 
 -- destination TABLE: 4 records
-insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-10-18 02:13:21', '2022-01-15 02:02:33', 'Zoozzy', 'jdaulby0@chron.com', '03123131231', 21, 1);
-insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-08-10 10:26:25', '2021-11-25 01:59:50', 'Jazzy', 'saleksandrov1@twitp   ic.com', '03123131231', 22, 2);
-insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-10-19 18:02:53', '2022-02-25 21:47:06', 'Gabcube', 'gnegus2@nationalgeographic.com', '03123131231', 23, 2);
-insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-12-30 15:41:07', '2021-11-03 07:49:17', 'Vinte', 'gmanders3@bandcamp.com', '03123131231', 24, 3);
+insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-10-18 02:13:21', '2022-01-15 02:02:33', 'Mike Smith', 'jdaulby0@chron.com', '03123131231', 21, 1);
+insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-08-10 10:26:25', '2021-11-25 01:59:50', 'Johny Down', 'saleksandrov1@twitpic.com', '03123131231', 22, 2);
+insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-10-19 18:02:53', '2022-02-25 21:47:06', 'Vin Diesel', 'gnegus2@nationalgeographic.com', '03123131231', 23, 2);
+insert into destination (created_at, updated_at, contact_fullname, contact_email, contact_phone, address_id, status) values ('2021-12-30 15:41:07', '2021-11-03 07:49:17', 'Dan Wellington', 'gmanders3@bandcamp.com', '03123131231', 24, 1);
 
--- docket_reason TABLE: 4 records
-insert into docket_reason (created_at, updated_at, name, status) values ('2022-01-02 15:22:57', '2021-12-18 19:24:30', 'Youspan', 1);
-insert into docket_reason (created_at, updated_at, name, status) values ('2022-03-31 11:59:41', '2021-09-16 04:19:25', 'Gabspot', 3);
-insert into docket_reason (created_at, updated_at, name, status) values ('2022-02-02 14:35:04', '2022-06-11 18:05:41', 'Fanoodle', 3);
-insert into docket_reason (created_at, updated_at, name, status) values ('2021-09-13 15:19:28', '2021-10-11 10:36:10', 'Brainbox', 2);
+-- docket_reason TABLE: 6 records
+insert into docket_reason (created_at, updated_at, name, status) values ('2022-01-02 15:22:57', '2021-12-18 19:24:30', 'Nhập kho', 1);
+insert into docket_reason (created_at, updated_at, name, status) values ('2022-03-31 11:59:41', '2021-09-16 04:19:25', 'Xuất kho', 1);
+insert into docket_reason (created_at, updated_at, name, status) values ('2022-03-31 11:59:41', '2021-09-16 04:19:25', 'Mua hàng', 1);
+insert into docket_reason (created_at, updated_at, name, status) values ('2022-03-31 11:59:41', '2021-09-16 04:19:25', 'Điều chuyển kho', 1);
+insert into docket_reason (created_at, updated_at, name, status) values ('2022-02-02 14:35:04', '2022-06-11 18:05:41', 'Kiểm kho', 1);
+insert into docket_reason (created_at, updated_at, name, status) values ('2021-09-13 15:19:28', '2021-10-11 10:36:10', 'Trả hàng lỗi', 2);
 
---  transfer TABLE: 4 records
-insert into transfer (created_at, updated_at, code, note, status) values ('2022-07-01 14:16:33', '2021-12-02 23:53:14', '0642-0076', 'Excision of Right Lower Leg Tendon, Open Approach', 2);
-insert into transfer (created_at, updated_at, code, note, status) values ('2021-08-20 08:29:19', '2021-07-02 02:52:07', '10812-201', 'Revision of Ext Fix in R Humeral Head, Extern Approach', 3);
-insert into transfer (created_at, updated_at, code, note, status) values ('2021-09-09 05:27:20', '2022-01-29 01:01:33', '48951-3139', 'Resection of Liver, Percutaneous Endoscopic Approach', 1);
-insert into transfer (created_at, updated_at, code, note, status) values ('2022-05-11 01:20:38', '2022-01-05 09:40:39', '68084-784', 'Drainage of R Great Saphenous with Drain Dev, Perc Approach', 3);
+-- storage_location TABLE: 3 records
+insert into storage_location (created_at, updated_at, warehouse_id, variant_id, name) values ('2022-04-03 16:47:22', '2022-06-19 19:19:23', 1, 1, 'Kệ 1 Hàng 1');
+insert into storage_location (created_at, updated_at, warehouse_id, variant_id, name) values ('2022-07-03 03:46:02', '2022-06-06 08:25:05', 2, 2, 'Kệ 2 Hàng 2');
+insert into storage_location (created_at, updated_at, warehouse_id, variant_id, name) values ('2021-10-25 14:11:02', '2021-08-30 18:56:30', 3, 3, 'Kệ 3 Hàng 4');
 
--- transfer_variant TABLE: 4 records
-insert into transfer_variant (quantity, transfer_id, variant_id) values (50, 1, 1);
-insert into transfer_variant (quantity, transfer_id, variant_id) values (51, 1, 2);
-insert into transfer_variant (quantity, transfer_id, variant_id) values (12, 1, 3);
-insert into transfer_variant (quantity, transfer_id, variant_id) values (98, 2, 3);
+-- purchase_order TABLE: 5 records
+insert into purchase_order (created_at, updated_at, code, supplier_id, destination_id, total_amount, note, status) values ('2022-03-19 22:22:03', '2022-04-02 04:27:05', '41520-499', 1, 1, 1000000, 'Revision of Intraluminal Device in Fallopian Tube, Endo', 1);
+insert into purchase_order (created_at, updated_at, code, supplier_id, destination_id, total_amount, note, status) values ('2022-07-13 16:31:05', '2021-09-13 01:47:12', '48951-203', 2, 1, 2500000, null, 2);
+insert into purchase_order (created_at, updated_at, code, supplier_id, destination_id, total_amount, note, status) values ('2021-10-17 00:57:29', '2021-08-07 13:54:28', '68479-116', 2, 2, 3000000, null, 1);
+insert into purchase_order (created_at, updated_at, code, supplier_id, destination_id, total_amount, note, status) values ('2021-12-06 13:14:48', '2021-10-05 13:10:53', '09043-110', 2, 2, 2000000, 'Revision of Drainage Device in L Wrist Jt, Open Approach', 2);
+insert into purchase_order (created_at, updated_at, code, supplier_id, destination_id, total_amount, note, status) values ('2022-05-09 04:34:55', '2022-06-18 05:16:04', '52686-224', 3, 3, 1250000, null, 2);
+
+-- purchase_order_variant TABLE: 5 records
+insert into purchase_order_variant (purchase_order_id, variant_id, cost, quantity, amount) values (1, 1, 250000, 2, 500000);
+insert into purchase_order_variant (purchase_order_id, variant_id, cost, quantity, amount) values (1, 2, 500000, 1, 500000);
+insert into purchase_order_variant (purchase_order_id, variant_id, cost, quantity, amount) values (2, 2, 500000, 2, 1000000);
+insert into purchase_order_variant (purchase_order_id, variant_id, cost, quantity, amount) values (2, 3, 1500000, 1, 1500000);
+insert into purchase_order_variant (purchase_order_id, variant_id, cost, quantity, amount) values (3, 3, 1500000, 2, 3000000);
+
+-- docket TABLE: 5 record
+insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, purchase_order_id, order_id, note, status) values ('2022-07-08 00:17:58', '2022-02-22 22:04:49', 1, '68016-008', 1, 1, 1, null, 'Revision or replacement of artificial spinal disc prosthesis, not otherwise specified', 3);
+insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, purchase_order_id, order_id, note, status) values ('2021-12-05 11:44:55', '2021-10-13 11:24:38', 1, '36987-145', 1, 2, 2, null, 'Repair of retinal tear by xenon arc photocoagulation', 1);
+insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, purchase_order_id, order_id, note, status) values ('2022-02-20 04:04:06', '2021-12-20 00:26:02', 1, '36987-325', 1, 3, 3, null, null, 1);
+insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, purchase_order_id, order_id, note, status) values ('2022-01-27 01:34:39', '2022-04-22 22:26:16', 1, '50436-646', 1, 1, 4, null, 'Carotid sinus stimulation', 2);
+insert into docket (created_at, updated_at, type, code, reason_id, warehouse_id, purchase_order_id, order_id, note, status) values ('2021-12-16 17:41:03', '2021-08-05 17:16:06', 1, '68788-108', 1, 2, 5, null, null, 2);
+
+-- docket_variant TABLE: 5 records
+insert into docket_variant (docket_id, variant_id, quantity) values (1, 1, 2);
+insert into docket_variant (docket_id, variant_id, quantity) values (1, 2, 1);
+insert into docket_variant (docket_id, variant_id, quantity) values (2, 2, 2);
+insert into docket_variant (docket_id, variant_id, quantity) values (2, 3, 1);
+insert into docket_variant (docket_id, variant_id, quantity) values (3, 3, 2);
+
+-- transfer TABLE: 2 records
+insert into transfer (created_at, updated_at, code, export_docket_id, import_docket_id, note) values ('2022-07-01 14:16:33', '2021-12-02 23:53:14', '06420-076', 1, 2, 'Excision of Right Lower Leg Tendon, Open Approach');
+insert into transfer (created_at, updated_at, code, export_docket_id, import_docket_id, note) values ('2021-08-20 08:29:19', '2021-07-02 02:52:07', '10812-201', 3, 4, null);
+
+-- order_resource TABLE: 5 records
+insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2022-04-22 11:46:21', '2022-02-13 04:37:06', 'BIZ', 'Bizweb', 'Orange', null, 1);
+insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2021-08-10 08:25:22', '2021-11-08 03:30:06', 'FBK', 'Facebook', 'Yellow', null, 1);
+insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2021-12-22 20:39:26', '2022-05-17 08:30:22', 'HRV', 'Haravan', 'Blue', 1, 2);
+insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2021-12-31 07:37:30', '2021-09-22 23:11:03', 'POS', 'POS', 'Indigo', 2, 1);
+insert into order_resource (created_at, updated_at, code, name, color, customer_resource_id, status) values ('2021-12-21 07:55:27', '2022-06-03 19:34:58', 'WEB', 'Website', 'Pink', 3, 1);
+
+-- order_cancellation_reason TABLE: 5 records
+insert into order_cancellation_reason (created_at, updated_at, name, note, status) values ('2021-10-03 21:16:01', '2021-11-18 00:55:52', 'Giao hàng nhưng khách không nhận', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 1);
+insert into order_cancellation_reason (created_at, updated_at, name, note, status) values ('2021-12-31 03:37:36', '2021-10-20 05:49:33', 'Hết hàng trong kho', null, 1);
+insert into order_cancellation_reason (created_at, updated_at, name, note, status) values ('2021-09-01 03:46:49', '2022-02-22 10:13:24', 'Khách hàng hủy', null, 1);
+insert into order_cancellation_reason (created_at, updated_at, name, note, status) values ('2022-03-14 10:30:34', '2021-11-16 11:45:21', 'Không liên hệ được', 'Cras felis urna, facilisis at finibus non, pharetra in turpis.', 1);
+insert into order_cancellation_reason (created_at, updated_at, name, note, status) values ('2021-08-26 05:18:38', '2022-02-02 14:58:07', 'Nhân viên làm sai', null, 2);
+
+-- order TABLE: 2 records
+insert into `order` (created_at, updated_at, code, status, order_resource_id, order_cancellation_reason_id, note, customer_id, total_amount, tax, shipping_cost, total_pay)
+    values ('2022-06-30 08:32:41', '2021-08-17 03:28:55', '68400-107', 1, 5, null, null, 1, 500000, 0.1, 50000, 600000);
+insert into `order` (created_at, updated_at, code, status, order_resource_id, order_cancellation_reason_id, note, customer_id, total_amount, tax, shipping_cost, total_pay)
+    values ('2022-05-02 23:20:36', '2022-07-02 09:02:05', '36987-166', 2, 1, null, 'Insertion of Other Device into Left Upper Leg, Perc Approach', 1, 600000, 0.1, 40000, 700000);
+
+-- order_variant TABLE: 3 records
+insert into order_variant (order_id, variant_id, price, quantity, amount) values (1, 1, 100000, 1, 100000);
+insert into order_variant (order_id, variant_id, price, quantity, amount) values (1, 2, 200000, 2, 400000);
+insert into order_variant (order_id, variant_id, price, quantity, amount) values (2, 3, 300000, 2, 600000);

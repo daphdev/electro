@@ -21,21 +21,27 @@ import javax.persistence.Table;
 @Setter
 @Accessors(chain = true)
 @Entity
-@Table(name = "transfer_variant")
-public class TransferVariant {
+@Table(name = "purchase_order_variant")
+public class PurchaseOrderVariant {
     @EmbeddedId
-    private TransferVariantKey transferVariantKey = new TransferVariantKey();
+    private PurchaseOrderVariantKey purchaseOrderVariantKey = new PurchaseOrderVariantKey();
 
     @ManyToOne
-    @MapsId("transferId")
-    @JoinColumn(name = "transfer_id", nullable = false)
-    private Transfer transfer;
+    @MapsId("purchaseOrderId")
+    @JoinColumn(name = "purchase_order_id", nullable = false)
+    private PurchaseOrder purchaseOrder;
 
     @ManyToOne
     @MapsId("variantId")
     @JoinColumn(name = "variant_id", nullable = false)
     private Variant variant;
 
+    @Column(name = "cost", nullable = false)
+    private Double cost;
+
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
+
+    @Column(name = "amount", nullable = false)
+    private Double amount;
 }

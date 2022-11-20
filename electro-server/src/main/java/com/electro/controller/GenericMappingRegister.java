@@ -36,22 +36,32 @@ import com.electro.dto.employee.OfficeRequest;
 import com.electro.dto.employee.OfficeResponse;
 import com.electro.dto.inventory.CountRequest;
 import com.electro.dto.inventory.CountResponse;
-import com.electro.dto.inventory.CountVariantRequest;
-import com.electro.dto.inventory.CountVariantResponse;
 import com.electro.dto.inventory.DestinationRequest;
 import com.electro.dto.inventory.DestinationResponse;
 import com.electro.dto.inventory.DocketReasonRequest;
 import com.electro.dto.inventory.DocketReasonResponse;
+import com.electro.dto.inventory.DocketRequest;
+import com.electro.dto.inventory.DocketResponse;
+import com.electro.dto.inventory.ProductInventoryLimitRequest;
+import com.electro.dto.inventory.ProductInventoryLimitResponse;
+import com.electro.dto.inventory.PurchaseOrderRequest;
+import com.electro.dto.inventory.PurchaseOrderResponse;
+import com.electro.dto.inventory.StorageLocationRequest;
+import com.electro.dto.inventory.StorageLocationResponse;
 import com.electro.dto.inventory.ProductInventoryLimitRequest;
 import com.electro.dto.inventory.ProductInventoryLimitResponse;
 import com.electro.dto.inventory.TransferRequest;
 import com.electro.dto.inventory.TransferResponse;
-import com.electro.dto.inventory.TransferVariantRequest;
-import com.electro.dto.inventory.TransferVariantResponse;
 import com.electro.dto.inventory.VariantInventoryLimitRequest;
 import com.electro.dto.inventory.VariantInventoryLimitResponse;
 import com.electro.dto.inventory.WarehouseRequest;
 import com.electro.dto.inventory.WarehouseResponse;
+import com.electro.dto.order.OrderCancellationReasonRequest;
+import com.electro.dto.order.OrderCancellationReasonResponse;
+import com.electro.dto.order.OrderRequest;
+import com.electro.dto.order.OrderResourceRequest;
+import com.electro.dto.order.OrderResourceResponse;
+import com.electro.dto.order.OrderResponse;
 import com.electro.dto.product.BrandRequest;
 import com.electro.dto.product.BrandResponse;
 import com.electro.dto.product.CategoryRequest;
@@ -88,14 +98,19 @@ import com.electro.entity.employee.JobTitle;
 import com.electro.entity.employee.JobType;
 import com.electro.entity.employee.Office;
 import com.electro.entity.inventory.Count;
-import com.electro.entity.inventory.CountVariant;
 import com.electro.entity.inventory.Destination;
+import com.electro.entity.inventory.Docket;
 import com.electro.entity.inventory.DocketReason;
 import com.electro.entity.inventory.ProductInventoryLimit;
+import com.electro.entity.inventory.PurchaseOrder;
+import com.electro.entity.inventory.StorageLocation;
+import com.electro.entity.inventory.ProductInventoryLimit;
 import com.electro.entity.inventory.Transfer;
-import com.electro.entity.inventory.TransferVariant;
 import com.electro.entity.inventory.VariantInventoryLimit;
 import com.electro.entity.inventory.Warehouse;
+import com.electro.entity.order.Order;
+import com.electro.entity.order.OrderCancellationReason;
+import com.electro.entity.order.OrderResource;
 import com.electro.entity.product.Brand;
 import com.electro.entity.product.Category;
 import com.electro.entity.product.Guarantee;
@@ -122,14 +137,19 @@ import com.electro.mapper.employee.JobTitleMapper;
 import com.electro.mapper.employee.JobTypeMapper;
 import com.electro.mapper.employee.OfficeMapper;
 import com.electro.mapper.inventory.CountMapper;
-import com.electro.mapper.inventory.CountVariantMapper;
 import com.electro.mapper.inventory.DestinationMapper;
+import com.electro.mapper.inventory.DocketMapper;
 import com.electro.mapper.inventory.DocketReasonMapper;
 import com.electro.mapper.inventory.ProductInventoryLimitMapper;
+import com.electro.mapper.inventory.PurchaseOrderMapper;
+import com.electro.mapper.inventory.StorageLocationMapper;
+import com.electro.mapper.inventory.ProductInventoryLimitMapper;
 import com.electro.mapper.inventory.TransferMapper;
-import com.electro.mapper.inventory.TransferVariantMapper;
 import com.electro.mapper.inventory.VariantInventoryLimitMapper;
 import com.electro.mapper.inventory.WarehouseMapper;
+import com.electro.mapper.order.OrderCancellationReasonMapper;
+import com.electro.mapper.order.OrderMapper;
+import com.electro.mapper.order.OrderResourceMapper;
 import com.electro.mapper.product.BrandMapper;
 import com.electro.mapper.product.CategoryMapper;
 import com.electro.mapper.product.GuaranteeMapper;
@@ -156,14 +176,19 @@ import com.electro.repository.employee.JobTitleRepository;
 import com.electro.repository.employee.JobTypeRepository;
 import com.electro.repository.employee.OfficeRepository;
 import com.electro.repository.inventory.CountRepository;
-import com.electro.repository.inventory.CountVariantRepository;
 import com.electro.repository.inventory.DestinationRepository;
 import com.electro.repository.inventory.DocketReasonRepository;
+import com.electro.repository.inventory.DocketRepository;
+import com.electro.repository.inventory.ProductInventoryLimitRepository;
+import com.electro.repository.inventory.PurchaseOrderRepository;
+import com.electro.repository.inventory.StorageLocationRepository;
 import com.electro.repository.inventory.ProductInventoryLimitRepository;
 import com.electro.repository.inventory.TransferRepository;
-import com.electro.repository.inventory.TransferVariantRepository;
 import com.electro.repository.inventory.VariantInventoryLimitRepository;
 import com.electro.repository.inventory.WarehouseRepository;
+import com.electro.repository.order.OrderCancellationReasonRepository;
+import com.electro.repository.order.OrderRepository;
+import com.electro.repository.order.OrderResourceRepository;
 import com.electro.repository.product.BrandRepository;
 import com.electro.repository.product.CategoryRepository;
 import com.electro.repository.product.GuaranteeRepository;
@@ -226,13 +251,17 @@ public class GenericMappingRegister {
     private GenericController<ImageRequest, ImageResponse> imageController;
     private GenericController<ProductInventoryLimitRequest, ProductInventoryLimitResponse> productInventoryLimitController;
     private GenericController<VariantInventoryLimitRequest, VariantInventoryLimitResponse> variantInventoryLimitController;
-    private GenericController<CountVariantRequest, CountVariantResponse> countVariantController;
     private GenericController<WarehouseRequest, WarehouseResponse> warehouseController;
     private GenericController<CountRequest, CountResponse> countController;
     private GenericController<DestinationRequest, DestinationResponse> destinationController;
     private GenericController<DocketReasonRequest, DocketReasonResponse> docketReasonController;
-    private GenericController<TransferVariantRequest, TransferVariantResponse> transferVariantController;
     private GenericController<TransferRequest, TransferResponse> transferController;
+    private GenericController<DocketRequest, DocketResponse> docketController;
+    private GenericController<StorageLocationRequest, StorageLocationResponse> storageLocationController;
+    private GenericController<PurchaseOrderRequest, PurchaseOrderResponse> purchaseOrderController;
+    private GenericController<OrderResourceRequest, OrderResourceResponse> orderResourceController;
+    private GenericController<OrderCancellationReasonRequest, OrderCancellationReasonResponse> orderCancellationReasonController;
+    private GenericController<OrderRequest, OrderResponse> orderController;
 
     // Services
     private GenericService<District, DistrictRequest, DistrictResponse> districtService;
@@ -262,13 +291,17 @@ public class GenericMappingRegister {
     private GenericService<Image, ImageRequest, ImageResponse> imageService;
     private GenericService<ProductInventoryLimit, ProductInventoryLimitRequest, ProductInventoryLimitResponse> productInventoryLimitService;
     private GenericService<VariantInventoryLimit, VariantInventoryLimitRequest, VariantInventoryLimitResponse> variantInventoryLimitService;
-    private GenericService<CountVariant, CountVariantRequest, CountVariantResponse> countVariantService;
     private GenericService<Warehouse, WarehouseRequest, WarehouseResponse> warehouseService;
     private GenericService<Count, CountRequest, CountResponse> countService;
     private GenericService<Destination, DestinationRequest, DestinationResponse> destinationService;
     private GenericService<DocketReason, DocketReasonRequest, DocketReasonResponse> docketReasonService;
-    private GenericService<TransferVariant, TransferVariantRequest, TransferVariantResponse> transferVariantService;
     private GenericService<Transfer, TransferRequest, TransferResponse> transferService;
+    private GenericService<Docket, DocketRequest, DocketResponse> docketService;
+    private GenericService<StorageLocation, StorageLocationRequest, StorageLocationResponse> storageLocationService;
+    private GenericService<PurchaseOrder, PurchaseOrderRequest, PurchaseOrderResponse> purchaseOrderService;
+    private GenericService<OrderResource, OrderResourceRequest, OrderResourceResponse> orderResourceService;
+    private GenericService<OrderCancellationReason, OrderCancellationReasonRequest, OrderCancellationReasonResponse> orderCancellationReasonService;
+    private GenericService<Order, OrderRequest, OrderResponse> orderService;
 
     @PostConstruct
     public void registerControllers() throws NoSuchMethodException {
@@ -464,13 +497,6 @@ public class GenericMappingRegister {
                 ResourceName.VARIANT_INVENTORY_LIMIT
         ), VariantInventoryLimitRequest.class);
 
-        register("count-variants", countVariantController, countVariantService.init(
-                context.getBean(CountVariantRepository.class),
-                context.getBean(CountVariantMapper.class),
-                SearchFields.COUNT_VARIANT,
-                ResourceName.COUNT_VARIANT
-        ), CountVariantRequest.class);
-
         register("warehouses", warehouseController, warehouseService.init(
                 context.getBean(WarehouseRepository.class),
                 context.getBean(WarehouseMapper.class),
@@ -499,13 +525,6 @@ public class GenericMappingRegister {
                 ResourceName.DOCKET_REASON
         ), DocketReasonRequest.class);
 
-        register("transfer-variants", transferVariantController, transferVariantService.init(
-                context.getBean(TransferVariantRepository.class),
-                context.getBean(TransferVariantMapper.class),
-                SearchFields.TRANSFER_VARIANT,
-                ResourceName.TRANSFER_VARIANT
-        ), TransferVariantRequest.class);
-
         register("transfers", transferController, transferService.init(
                 context.getBean(TransferRepository.class),
                 context.getBean(TransferMapper.class),
@@ -513,11 +532,53 @@ public class GenericMappingRegister {
                 ResourceName.TRANSFER
         ), TransferRequest.class);
 
+        register("dockets", docketController, docketService.init(
+                context.getBean(DocketRepository.class),
+                context.getBean(DocketMapper.class),
+                SearchFields.DOCKET,
+                ResourceName.DOCKET
+        ), DocketRequest.class);
+
+        register("storage-locations", storageLocationController, storageLocationService.init(
+                context.getBean(StorageLocationRepository.class),
+                context.getBean(StorageLocationMapper.class),
+                SearchFields.STORAGE_LOCATION,
+                ResourceName.STORAGE_LOCATION
+        ), StorageLocationRequest.class);
+
+        register("purchase-orders", purchaseOrderController, purchaseOrderService.init(
+                context.getBean(PurchaseOrderRepository.class),
+                context.getBean(PurchaseOrderMapper.class),
+                SearchFields.PURCHASE_ORDER,
+                ResourceName.PURCHASE_ORDER
+        ), PurchaseOrderRequest.class);
+
+        register("order-resources", orderResourceController, orderResourceService.init(
+                context.getBean(OrderResourceRepository.class),
+                context.getBean(OrderResourceMapper.class),
+                SearchFields.ORDER_RESOURCE,
+                ResourceName.ORDER_RESOURCE
+        ), OrderResourceRequest.class);
+
+        register("order-cancellation-reasons", orderCancellationReasonController, orderCancellationReasonService.init(
+                context.getBean(OrderCancellationReasonRepository.class),
+                context.getBean(OrderCancellationReasonMapper.class),
+                SearchFields.ORDER_CANCELLATION_REASON,
+                ResourceName.ORDER_CANCELLATION_REASON
+        ), OrderCancellationReasonRequest.class);
+
+        register("orders", orderController, orderService.init(
+                context.getBean(OrderRepository.class),
+                context.getBean(OrderMapper.class),
+                SearchFields.ORDER,
+                ResourceName.ORDER
+        ), OrderRequest.class);
+
     }
 
     private <I, O> void register(String resource,
                                  GenericController<I, O> controller,
-                                 CrudService<I, O> service,
+                                 CrudService<Long, I, O> service,
                                  Class<I> requestType
     ) throws NoSuchMethodException {
         RequestMappingInfo.BuilderConfiguration options = new RequestMappingInfo.BuilderConfiguration();

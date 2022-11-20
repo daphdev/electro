@@ -49,13 +49,17 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("images"))
                 .and(generateRoute("product-inventory-limits"))
                 .and(generateRoute("variant-inventory-limits"))
-                .and(generateRoute("count-variants"))
                 .and(generateRoute("warehouses"))
                 .and(generateRoute("counts"))
                 .and(generateRoute("destinations"))
                 .and(generateRoute("docket-reasons"))
-                .and(generateRoute("transfer-variants"))
-                .and(generateRoute("transfers"));
+                .and(generateRoute("transfers"))
+                .and(generateRoute("dockets"))
+                .and(generateRoute("storage-locations"))
+                .and(generateRoute("purchase-orders"))
+                .and(generateRoute("order-resources"))
+                .and(generateRoute("order-cancellation-reasons"))
+                .and(generateRoute("orders"));
     }
 
     private RouterFunction<ServerResponse> generateRoute(String resource) {
