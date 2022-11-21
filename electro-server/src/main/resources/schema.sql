@@ -45,7 +45,8 @@ DROP TABLE IF EXISTS
     docket,
     docket_variant,
     room,
-    message;
+    message,
+    verification;
 
 -- CREATE TABLES
 
@@ -844,3 +845,23 @@ ALTER TABLE room ADD CONSTRAINT FK_ROOM_ON_USER FOREIGN KEY (user_id) REFERENCES
 ALTER TABLE message ADD CONSTRAINT FK_MESSAGE_ON_ROOM FOREIGN KEY (room_id) REFERENCES room (id);
 
 ALTER TABLE message ADD CONSTRAINT FK_MESSAGE_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE verification (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   user_id BIGINT NOT NULL,
+   token VARCHAR(255) NOT NULL,
+   expired_at datetime NOT NULL,
+   CONSTRAINT pk_verification PRIMARY KEY (id)
+);
+
+ALTER TABLE verification ADD CONSTRAINT uc_verification_user UNIQUE (user_id);
+
+ALTER TABLE verification ADD CONSTRAINT FK_VERIFICATION_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+ALTER TABLE user ADD CONSTRAINT uc_user_email UNIQUE (email);
+
+ALTER TABLE user ADD CONSTRAINT uc_user_username UNIQUE (username);

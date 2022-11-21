@@ -12,7 +12,7 @@ import java.time.Instant;
 @RestControllerAdvice
 public class ApplicationExceptionHandler {
 
-    @ExceptionHandler(AuthenticationException.class)
+    @ExceptionHandler({AuthenticationException.class, CommonException.class, ExpiredTokenException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorMessage authenticationException(AuthenticationException ex, WebRequest request) {
         return new ErrorMessage(

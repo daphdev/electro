@@ -83,6 +83,8 @@
 
     drop table if exists prod.variant_inventory_limit;
 
+    drop table if exists prod.verification;
+
     drop table if exists prod.warehouse;
 
     create table prod.address (
@@ -615,6 +617,18 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.verification (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        expired_at datetime not null,
+        token varchar(255) not null,
+        user_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.warehouse (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -698,6 +712,12 @@
        add constraint UK_pvng2ahmu3ketx3y7xm2cbssc unique (code);
 
     alter table prod.user 
+       add constraint UK_ob8kqyqqgmefl0aco34akdtpe unique (email);
+
+    alter table prod.user 
+       add constraint UK_sb8bbouer5wak8vyiiy4pf2bx unique (username);
+
+    alter table prod.user 
        add constraint UK_dhlcfg8h1drrgu0irs1ro3ohb unique (address_id);
 
     alter table prod.variant 
@@ -705,6 +725,9 @@
 
     alter table prod.variant_inventory_limit 
        add constraint UK_shw9q4qx2l9f0jgminqo19351 unique (variant_id);
+
+    alter table prod.verification 
+       add constraint UK_a0iaxio0f0unln4qmdryyfiqg unique (user_id);
 
     alter table prod.warehouse 
        add constraint UK_9wk4ocyt0wv0hpffpr41aoweu unique (code);
@@ -961,6 +984,11 @@
        add constraint FKmyp7te4img1nhhmfwj7yr1ss7 
        foreign key (variant_id) 
        references prod.variant (id);
+
+    alter table prod.verification 
+       add constraint FKlhkcrvgj83d37uxew4gvjm684 
+       foreign key (user_id) 
+       references prod.user (id);
 
     alter table prod.warehouse 
        add constraint FKp7xymgre8vt94ihf75e9movyt 
