@@ -4,7 +4,7 @@ import { VariantRequest } from 'models/Variant';
 import { CollectionWrapper } from 'types';
 import { ProductPropertyItem } from 'models/Product';
 import MiscUtils from 'utils/MiscUtils';
-import { ProductVariantRow } from 'components/index';
+import { ProductVariantRow } from 'components';
 
 interface ProductVariantsProps {
   variants: VariantRequest[];

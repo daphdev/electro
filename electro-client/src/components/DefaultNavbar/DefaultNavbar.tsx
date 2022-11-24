@@ -152,36 +152,32 @@ const navbarLinks: NavbarLink[] = [
     icon: BuildingWarehouse,
     childLinks: [
       {
-        link: '/admin/inventory',
-        label: 'Quản lý tồn kho',
-      },
-      {
         link: '/admin/inventory/warehouse',
-        label: 'Quản lý nhà kho',
+        label: 'Nhà kho',
       },
       {
         link: '/admin/inventory/purchase-order',
-        label: 'Quản lý đơn mua hàng',
+        label: 'Đơn mua hàng',
       },
       {
         link: '/admin/inventory/destination',
-        label: 'Quản lý điểm nhập hàng',
+        label: 'Điểm nhập hàng',
       },
       {
         link: '/admin/inventory/docket',
-        label: 'Quản lý phiếu nhập xuất kho',
+        label: 'Phiếu nhập xuất kho',
       },
       {
         link: '/admin/inventory/docket-reason',
-        label: 'Quản lý lý do phiếu NXK',
+        label: 'Lý do phiếu NXK',
       },
       {
         link: '/admin/inventory/count',
-        label: 'Quản lý phiếu kiểm kho',
+        label: 'Phiếu kiểm kho',
       },
       {
         link: '/admin/inventory/transfer',
-        label: 'Quản lý phiếu chuyển kho',
+        label: 'Phiếu chuyển kho',
       },
     ],
   },
@@ -191,16 +187,12 @@ const navbarLinks: NavbarLink[] = [
     icon: FileBarcode,
     childLinks: [
       {
-        link: '/admin/order',
-        label: 'Quản lý đơn hàng',
-      },
-      {
         link: '/admin/order/resource',
-        label: 'Quản lý nguồn đơn hàng',
+        label: 'Nguồn đơn hàng',
       },
       {
         link: '/admin/order/cancellation-reason',
-        label: 'Quản lý lý do hủy đơn hàng',
+        label: 'Lý do hủy đơn hàng',
       },
     ],
   },
@@ -210,12 +202,8 @@ const navbarLinks: NavbarLink[] = [
     icon: Car,
     childLinks: [
       {
-        link: '/admin/waybill',
-        label: 'Quản lý vận đơn',
-      },
-      {
         link: '/admin/waybill/shipper',
-        label: 'Quản lý nhà vận chuyển',
+        label: 'Nhà vận chuyển',
       },
     ],
   },
@@ -225,12 +213,8 @@ const navbarLinks: NavbarLink[] = [
     icon: CurrencyDollar,
     childLinks: [
       {
-        link: '/admin/voucher',
-        label: 'Quản lý sổ quỹ',
-      },
-      {
         link: '/admin/payment-method',
-        label: 'Quản lý hình thức thanh toán',
+        label: 'Hình thức thanh toán',
       },
     ],
   },

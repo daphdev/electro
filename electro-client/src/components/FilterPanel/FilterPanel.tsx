@@ -7,7 +7,7 @@ import {
   FilterPanelMain,
   FilterPanelMainLeft,
   FilterPanelMainRight
-} from 'components/index';
+} from 'components';
 import useAppStore from 'stores/use-app-store';
 
 function FilterPanel() {

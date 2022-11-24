@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, Grid, Stack } from '@mantine/core';
-import { SortCriteriaRow } from 'components/index';
+import { SortCriteriaRow } from 'components';
 import useFilterPanelStyles from 'components/FilterPanel/FilterPanel.styles';
 import useFilterPanelMainLeftViewModel from 'components/FilterPanelMainLeft/FilterPanelMainLeft.vm';
 
