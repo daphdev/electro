@@ -35,6 +35,16 @@ import UnitManage, { UnitCreate, UnitUpdate } from 'pages/unit';
 import TagManage, { TagCreate, TagUpdate } from 'pages/tag';
 import GuaranteeManage, { GuaranteeCreate, GuaranteeUpdate } from 'pages/guarantee';
 import SupplierManage, { SupplierCreate, SupplierUpdate } from 'pages/supplier';
+import InventoryManage from 'pages/inventory';
+import WarehouseManage, { WarehouseCreate, WarehouseUpdate } from 'pages/warehouse';
+import DestinationManage, { DestinationCreate, DestinationUpdate } from 'pages/destination';
+import DocketReasonManage, { DocketReasonCreate, DocketReasonUpdate } from 'pages/docket-reason';
+import OrderManage from 'pages/order';
+import OrderResourceManage, { OrderResourceCreate, OrderResourceUpdate } from 'pages/order-resource';
+import OrderCancellationReasonManage, {
+  OrderCancellationReasonCreate,
+  OrderCancellationReasonUpdate
+} from 'pages/order-cancellation-reason';
 
 const queryClient = new QueryClient();
 
@@ -149,6 +159,36 @@ function App() {
                   <Route path={ManagerPath.SPECIFICATION} element={<SpecificationManage/>}/>
                   <Route path={ManagerPath.SPECIFICATION + '/create'} element={<SpecificationCreate/>}/>
                   <Route path={ManagerPath.SPECIFICATION + '/update/:id'} element={<SpecificationUpdate/>}/>
+                  {/* INVENTORY */}
+                  <Route path={ManagerPath.INVENTORY} element={<InventoryManage/>}/>
+                  {/* WAREHOUSE */}
+                  <Route path={ManagerPath.WAREHOUSE} element={<WarehouseManage/>}/>
+                  <Route path={ManagerPath.WAREHOUSE + '/create'} element={<WarehouseCreate/>}/>
+                  <Route path={ManagerPath.WAREHOUSE + '/update/:id'} element={<WarehouseUpdate/>}/>
+                  {/* DESTINATION */}
+                  <Route path={ManagerPath.DESTINATION} element={<DestinationManage/>}/>
+                  <Route path={ManagerPath.DESTINATION + '/create'} element={<DestinationCreate/>}/>
+                  <Route path={ManagerPath.DESTINATION + '/update/:id'} element={<DestinationUpdate/>}/>
+                  {/* DOCKET_REASON */}
+                  <Route path={ManagerPath.DOCKET_REASON} element={<DocketReasonManage/>}/>
+                  <Route path={ManagerPath.DOCKET_REASON + '/create'} element={<DocketReasonCreate/>}/>
+                  <Route path={ManagerPath.DOCKET_REASON + '/update/:id'} element={<DocketReasonUpdate/>}/>
+                  {/* ORDER */}
+                  <Route path={ManagerPath.ORDER} element={<OrderManage/>}/>
+                  {/* ORDER_RESOURCE */}
+                  <Route path={ManagerPath.ORDER_RESOURCE} element={<OrderResourceManage/>}/>
+                  <Route path={ManagerPath.ORDER_RESOURCE + '/create'} element={<OrderResourceCreate/>}/>
+                  <Route path={ManagerPath.ORDER_RESOURCE + '/update/:id'} element={<OrderResourceUpdate/>}/>
+                  {/* ORDER_CANCELLATION_REASON */}
+                  <Route path={ManagerPath.ORDER_CANCELLATION_REASON} element={<OrderCancellationReasonManage/>}/>
+                  <Route
+                    path={ManagerPath.ORDER_CANCELLATION_REASON + '/create'}
+                    element={<OrderCancellationReasonCreate/>}
+                  />
+                  <Route
+                    path={ManagerPath.ORDER_CANCELLATION_REASON + '/update/:id'}
+                    element={<OrderCancellationReasonUpdate/>}
+                  />
                 </Route>
               </Routes>
             </ModalsProvider>

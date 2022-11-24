@@ -27,6 +27,19 @@ class ManagerPath {
   static GUARANTEE = '/admin/product/guarantee';
   static PROPERTY = '/admin/product/property';
   static SPECIFICATION = '/admin/product/specification';
+
+  static INVENTORY = '/admin/inventory';
+  static WAREHOUSE = '/admin/inventory/warehouse';
+  static PURCHASE_ORDER = '/admin/inventory/purchase-order';
+  static DESTINATION = '/admin/inventory/destination';
+  static DOCKET = '/admin/inventory/docket';
+  static DOCKET_REASON = '/admin/inventory/docket-reason';
+  static COUNT = '/admin/inventory/count';
+  static TRANSFER = '/admin/inventory/transfer';
+
+  static ORDER = '/admin/order';
+  static ORDER_RESOURCE = '/admin/order/resource';
+  static ORDER_CANCELLATION_REASON = '/admin/order/cancellation-reason';
 }
 
 export default ManagerPath;

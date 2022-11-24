@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, Grid, Stack } from '@mantine/core';
-import { FilterCriteriaRow } from 'components/index';
+import { FilterCriteriaRow } from 'components';
 import useFilterPanelStyles from 'components/FilterPanel/FilterPanel.styles';
 import useFilterPanelMainRightViewModel from 'components/FilterPanelMainRight/FilterPanelMainRight.vm';
 

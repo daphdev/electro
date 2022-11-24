@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, useMantineTheme } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import useAppStore from 'stores/use-app-store';
-import { EntityDetailTable } from 'components/index';
+import { EntityDetailTable } from 'components';
 import BaseResponse from 'models/BaseResponse';
 import { ManageTableProps } from 'components/ManageTable/ManageTable';
 import useDeleteByIdApi from 'hooks/use-delete-by-id-api';

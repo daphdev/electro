@@ -2,7 +2,7 @@ import { Button, Stack } from '@mantine/core';
 import React from 'react';
 import { CollectionWrapper, SelectOption } from 'types';
 import { ProductPropertyItem } from 'models/Product';
-import { ProductPropertyRow } from 'components/index';
+import { ProductPropertyRow } from 'components';
 
 interface ProductPropertiesProps {
   productProperties: CollectionWrapper<ProductPropertyItem> | null;

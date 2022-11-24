@@ -31,6 +31,19 @@ class ResourceURL {
   static GUARANTEE = apiPath + '/guarantees';
   static PROPERTY = apiPath + '/properties';
   static SPECIFICATION = apiPath + '/specifications';
+
+  static INVENTORY = apiPath + '/inventories';
+  static WAREHOUSE = apiPath + '/warehouses';
+  static PURCHASE_ORDER = apiPath + '/purchase-orders';
+  static DESTINATION = apiPath + '/destinations';
+  static DOCKET = apiPath + '/dockets';
+  static DOCKET_REASON = apiPath + '/docket-reasons';
+  static COUNT = apiPath + '/counts';
+  static TRANSFER = apiPath + '/transfers';
+
+  static ORDER = apiPath + '/orders';
+  static ORDER_RESOURCE = apiPath + '/order-resources';
+  static ORDER_CANCELLATION_REASON = apiPath + '/order-cancellation-reasons';
 }
 
 export default ResourceURL;

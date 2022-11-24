@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { VariantPropertyItem, VariantRequest } from 'models/Variant';
 import { CollectionWrapper } from 'types';
 import { ProductPropertyItem } from 'models/Product';
-import { AddVariantsModal, ProductVariantRow } from 'components/index';
+import { AddVariantsModal, ProductVariantRow } from 'components';
 import MiscUtils from 'utils/MiscUtils';
 import { useModals } from '@mantine/modals';
 
