@@ -9,4 +9,6 @@ public interface VerificationService {
     void resendRegistrationToken(Long userID);
 
     void confirmRegistration(RegistrationRequest registration);
+
+    void changeRegistrationEmail(Long userId, String emailUpdate);
 }

@@ -15,8 +15,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
@@ -57,6 +59,13 @@ public class AuthController {
     @PostMapping("registration-confirm")
     public ResponseEntity<?>  confirmRegistration(@RequestBody RegistrationRequest registration) {
         verificationService.confirmRegistration(registration);
+        return ResponseEntity.ok("successful!");
+    }
+
+    @PostMapping("change-registration-email/{userId}")
+    public ResponseEntity<?>  changeRegistrationEmail(@PathVariable(name = "userId") Long userId, @RequestParam( name = "email") String email) {
+
+        verificationService.changeRegistrationEmail(userId, email);
         return ResponseEntity.ok("successful!");
     }
 }

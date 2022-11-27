@@ -5,11 +5,16 @@ import com.electro.dto.authentication.UserRequest;
 import com.electro.entity.authentication.Role;
 import com.electro.entity.authentication.User;
 import com.electro.entity.authentication.Verification;
+import com.electro.entity.customer.Customer;
+import com.electro.entity.customer.CustomerGroup;
+import com.electro.entity.customer.CustomerResource;
+import com.electro.entity.customer.CustomerStatus;
 import com.electro.exception.CommonException;
 import com.electro.exception.ExpiredTokenException;
 import com.electro.mapper.authentication.UserMapper;
 import com.electro.repository.authentication.UserRepository;
 import com.electro.repository.authentication.VerificationRepository;
+import com.electro.repository.customer.CustomerRepository;
 import com.electro.service.email.EmailSenderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,6 +42,8 @@ public class VerificationServiceImpl implements VerificationService {
 
     private EmailSenderService emailSender;
 
+    private CustomerRepository customerRepo;
+
     @Override
 
     public Long generateTokenVerify(UserRequest userRequest) {
@@ -61,17 +68,16 @@ public class VerificationServiceImpl implements VerificationService {
         user.setRoles(roles);
         userRepository.save(user);
 
-        // step 3 create new verification entity and set user, token
+        // create new verification entity and set user, token and send email
         Verification verification = new Verification();
-        Random ran = new Random();
-        String token = String.format("%04d", ran.nextInt(10000));
+        String token = generateToken();
         verification.setToken(token);
         verification.setUser(user);
         verification.setExpiredAt(Instant.now().plus(5, ChronoUnit.MINUTES));
         verificationRepository.save(verification);
 
-        // send email
-        emailSender.sendTokenVerification(user.getEmail(), token);
+        emailSender.sendTokenVerification(verification.getUser().getEmail(), token);
+
         return user.getId();
     }
 
@@ -79,12 +85,13 @@ public class VerificationServiceImpl implements VerificationService {
     public void resendRegistrationToken(Long userID) {
         Optional<Verification>  verifyOptional = verificationRepository.findVerificationByUserId(userID);
         if(verifyOptional.isPresent()){
-            Random ran = new Random();
-            String token = String.format("%04d", ran.nextInt(10000));
             Verification verification = verifyOptional.get();
+            String token = generateToken();
             verification.setToken(token);
             verification.setExpiredAt(Instant.now().plus(5, ChronoUnit.MINUTES));
+
             verificationRepository.save(verification);
+
             emailSender.sendTokenVerification(verification.getUser().getEmail(), token);
         }else{
             throw new CommonException("user does not exist");
@@ -98,19 +105,39 @@ public class VerificationServiceImpl implements VerificationService {
             Verification verification = verifyOptional.get();
             if (verification.getToken().equals(registration.getTokenRegistration())&&
                     verification.getExpiredAt().isAfter(Instant.now())){
+                // set status code and del row verification
                 User user = verification.getUser();
                 user.setStatus(1);
                 userRepository.save(user);
                 verificationRepository.delete(verification);
+
+                // create customer model
+                Customer customer = new Customer();
+
+                CustomerGroup customerGroup = new CustomerGroup();
+                customerGroup.setId(1L);
+
+                CustomerStatus customerStatus = new CustomerStatus();
+                customerStatus.setId(1L);
+
+                CustomerResource customerResource = new CustomerResource();
+                customerResource.setId(1L);
+
+                customer.setUser(user);
+                customer.setCustomerGroup(customerGroup);
+                customer.setCustomerStatus(customerStatus);
+                customer.setCustomerResource(customerResource);
+                customerRepo.save(customer);
             }
 
             if (verification.getToken().equals(registration.getTokenRegistration())&&
                     !verification.getExpiredAt().isAfter(Instant.now())){
-                Random ran = new Random();
-                String token = String.format("%04d", ran.nextInt(10000));
+                String token = generateToken();
                 verification.setToken(token);
                 verification.setExpiredAt(Instant.now().plus(5, ChronoUnit.MINUTES));
+
                 verificationRepository.save(verification);
+
                 emailSender.sendTokenVerification(verification.getUser().getEmail(), token);
                 throw new ExpiredTokenException("token is expired, please check your email to get new token" );
             }
@@ -121,5 +148,31 @@ public class VerificationServiceImpl implements VerificationService {
         }else{
             throw new CommonException("user does not exist");
         }
+    }
+
+    @Override
+    public void changeRegistrationEmail(Long userId, String emailUpdate) {
+        Optional<Verification>  verifyOptional = verificationRepository.findVerificationByUserId(userId);
+        if(verifyOptional.isPresent()){
+            Verification verification = verifyOptional.get();
+            User user = verification.getUser();
+            user.setEmail(emailUpdate);
+            userRepository.save(user);
+
+            String token = generateToken();
+            verification.setToken(token);
+            verification.setExpiredAt(Instant.now().plus(5, ChronoUnit.MINUTES));
+
+            verificationRepository.save(verification);
+
+            emailSender.sendTokenVerification(verification.getUser().getEmail(), token);
+        }else{
+            throw new CommonException("user does not exist");
+        }
+    }
+
+    public String generateToken(){
+        Random ran = new Random();
+        return String.format("%04d", ran.nextInt(10000));
     }
 }
