@@ -212,9 +212,7 @@ public interface SearchFields {
     List<String> VARIANT = List.of(
             "product.name",
             "product.code",
-            "sku",
-            "cost",
-            "price"
+            "sku"
     );
 
     List<String> IMAGE = List.of(

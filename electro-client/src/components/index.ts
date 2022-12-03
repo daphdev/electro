@@ -41,6 +41,10 @@ import ProductVariantRow from 'components/ProductVariantRow/ProductVariantRow';
 import ProductVariantsForUpdate from 'components/ProductVariantsForUpdate/ProductVariantsForUpdate';
 import AddVariantsModal from 'components/AddVariantsModal/AddVariantsModal';
 
+// Variant
+import VariantFinder from 'components/VariantFinder/VariantFinder';
+import VariantTable from 'components/VariantTable/VariantTable';
+
 // Others
 import FloatingCodeFrame from 'components/FloatingCodeFrame/FloatingCodeFrame';
 
@@ -80,6 +84,9 @@ export {
   ProductVariantRow,
   ProductVariantsForUpdate,
   AddVariantsModal,
+
+  VariantFinder,
+  VariantTable,
 
   FloatingCodeFrame,
 };

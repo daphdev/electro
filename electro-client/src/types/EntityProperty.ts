@@ -6,6 +6,7 @@ export enum EntityPropertyType {
   ARRAY = 'array',
   OPTION = 'option',
   COLLECTION = 'collection',
+  PLACEHOLDER = 'placeholder',
 }
 
 export interface EntityPropertySpec {

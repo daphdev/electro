@@ -31,10 +31,12 @@ class ResourceURL {
   static GUARANTEE = apiPath + '/guarantees';
   static PROPERTY = apiPath + '/properties';
   static SPECIFICATION = apiPath + '/specifications';
+  static VARIANT = apiPath + '/variants';
 
   static INVENTORY = apiPath + '/inventories';
   static WAREHOUSE = apiPath + '/warehouses';
   static PURCHASE_ORDER = apiPath + '/purchase-orders';
+  static PURCHASE_ORDER_VARIANT = apiPath + '/purchase-order-variants';
   static DESTINATION = apiPath + '/destinations';
   static DOCKET = apiPath + '/dockets';
   static DOCKET_REASON = apiPath + '/docket-reasons';

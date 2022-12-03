@@ -8,11 +8,12 @@ import org.springframework.lang.Nullable;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class VariantRequest {
-    private @Nullable Long id;
+    @Nullable
+    private Long id;
     private String sku;
     private Double cost;
     private Double price;
+    @Nullable
     private JsonNode properties;
-    private JsonNode images;
     private Integer status;
 }
