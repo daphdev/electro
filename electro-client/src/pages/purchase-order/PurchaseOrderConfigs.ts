@@ -42,6 +42,8 @@ class PurchaseOrderConfigs extends Configs {
     note: {
       label: 'Ghi chú đơn mua hàng',
       type: EntityPropertyType.STRING,
+      isNotAddToSortCriteria: true,
+      isNotAddToFilterCriteria: true,
     },
     warehouse: {
       label: 'Kho',

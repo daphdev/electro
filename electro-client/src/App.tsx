@@ -46,6 +46,7 @@ import OrderCancellationReasonManage, {
   OrderCancellationReasonUpdate
 } from 'pages/order-cancellation-reason';
 import PurchaseOrderManage, { PurchaseOrderCreate, PurchaseOrderUpdate } from 'pages/purchase-order';
+import DocketManage, { DocketCreate, DocketUpdate } from 'pages/docket';
 
 const queryClient = new QueryClient();
 
@@ -195,6 +196,9 @@ function App() {
                   <Route path={ManagerPath.PURCHASE_ORDER + '/create'} element={<PurchaseOrderCreate/>}/>
                   <Route path={ManagerPath.PURCHASE_ORDER + '/update/:id'} element={<PurchaseOrderUpdate/>}/>
                   {/* DOCKET */}
+                  <Route path={ManagerPath.DOCKET} element={<DocketManage/>}/>
+                  <Route path={ManagerPath.DOCKET + '/create'} element={<DocketCreate/>}/>
+                  <Route path={ManagerPath.DOCKET + '/update/:id'} element={<DocketUpdate/>}/>
                 </Route>
               </Routes>
             </ModalsProvider>

@@ -315,16 +315,9 @@ public interface SearchFields {
             "supplier.contactEmail",
             "supplier.contactPhone",
             "supplier.companyName",
-            "supplier.taxCode",
-            "supplier.email",
-            "supplier.phone",
-            "supplier.fax",
-            "supplier.website",
-            "supplier.address.line",
             "destination.contactFullname",
             "destination.contactEmail",
-            "destination.contactPhone",
-            "destination.address.line"
+            "destination.contactPhone"
     );
 
     List<String> PURCHASE_ORDER_VARIANT = List.of(
@@ -359,12 +352,7 @@ public interface SearchFields {
             "customer.user.username",
             "customer.user.fullname",
             "customer.user.email",
-            "customer.user.phone",
-            "customer.user.address.line",
-            "customer.user.address.province.name",
-            "customer.user.address.province.code",
-            "customer.user.address.district.name",
-            "customer.user.address.district.code"
+            "customer.user.phone"
     );
 
     List<String> ORDER_VARIANT = List.of(

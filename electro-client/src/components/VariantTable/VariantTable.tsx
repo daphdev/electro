@@ -4,17 +4,28 @@ import { VariantResponse } from 'models/Variant';
 import { PurchaseOrderVariantRequest } from 'models/PurchaseOrderVariant';
 import MiscUtils from 'utils/MiscUtils';
 import { Trash } from 'tabler-icons-react';
+import { DocketVariantRequest } from 'models/DocketVariant';
+
+export enum EntityType {
+  PURCHASE_ORDER,
+  DOCKET,
+  TRANSFER,
+  ORDER,
+  COUNT,
+}
 
 interface VariantTableProps {
+  type: EntityType;
   variants: VariantResponse[];
-  purchaseOrderVariantRequests: PurchaseOrderVariantRequest[];
+  variantRequests: Array<PurchaseOrderVariantRequest | DocketVariantRequest>;
   handleQuantityInput: (quantity: number, index: number) => void;
   handleDeleteVariantButton: (index: number) => void;
 }
 
 function VariantTable({
+  type,
   variants,
-  purchaseOrderVariantRequests,
+  variantRequests,
   handleQuantityInput,
   handleDeleteVariantButton,
 }: VariantTableProps) {
@@ -28,9 +39,9 @@ function VariantTable({
         <tr>
           <th style={{ textAlign: 'center' }}>STT</th>
           <th>Mặt hàng</th>
-          <th style={{ textAlign: 'right' }}>Giá vốn</th>
+          {type === EntityType.PURCHASE_ORDER && <th style={{ textAlign: 'right' }}>Giá vốn</th>}
           <th style={{ textAlign: 'center' }}>Số lượng</th>
-          <th style={{ textAlign: 'right' }}>Thành tiền</th>
+          {type === EntityType.PURCHASE_ORDER && <th style={{ textAlign: 'right' }}>Thành tiền</th>}
           <th style={{ textAlign: 'center' }}>Thao tác</th>
         </tr>
       </thead>
@@ -58,15 +69,17 @@ function VariantTable({
                 </Group>
               </Stack>
             </td>
-            <td style={{ textAlign: 'right' }}>
-              {MiscUtils.formatPrice(variant.cost) + ' ₫'}
-            </td>
+            {type === EntityType.PURCHASE_ORDER && (
+              <td style={{ textAlign: 'right' }}>
+                {MiscUtils.formatPrice(variant.cost) + ' ₫'}
+              </td>
+            )}
             <td>
               <Center>
                 <NumberInput
                   size="xs"
                   placeholder="--"
-                  value={purchaseOrderVariantRequests[index].quantity}
+                  value={variantRequests[index].quantity}
                   onChange={(value) => handleQuantityInput(value || 1, index)}
                   min={1}
                   max={1_000_000}
@@ -76,9 +89,11 @@ function VariantTable({
                 />
               </Center>
             </td>
-            <td style={{ textAlign: 'right' }}>
-              {MiscUtils.formatPrice(purchaseOrderVariantRequests[index].amount) + ' ₫'}
-            </td>
+            {type === EntityType.PURCHASE_ORDER && (
+              <td style={{ textAlign: 'right' }}>
+                {MiscUtils.formatPrice((variantRequests[index] as PurchaseOrderVariantRequest).amount) + ' ₫'}
+              </td>
+            )}
             <td>
               <Center>
                 <ActionIcon

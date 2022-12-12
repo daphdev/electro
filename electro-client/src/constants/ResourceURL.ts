@@ -39,11 +39,15 @@ class ResourceURL {
   static PURCHASE_ORDER_VARIANT = apiPath + '/purchase-order-variants';
   static DESTINATION = apiPath + '/destinations';
   static DOCKET = apiPath + '/dockets';
+  static DOCKET_VARIANT = apiPath + '/docket-variants';
   static DOCKET_REASON = apiPath + '/docket-reasons';
   static COUNT = apiPath + '/counts';
+  static COUNT_VARIANT = apiPath + '/count-variants';
   static TRANSFER = apiPath + '/transfers';
+  static TRANSFER_VARIANT = apiPath + '/transfer-variants';
 
   static ORDER = apiPath + '/orders';
+  static ORDER_VARIANT = apiPath + '/order-variants';
   static ORDER_RESOURCE = apiPath + '/order-resources';
   static ORDER_CANCELLATION_REASON = apiPath + '/order-cancellation-reasons';
 }

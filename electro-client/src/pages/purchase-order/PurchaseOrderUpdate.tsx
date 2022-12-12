@@ -5,6 +5,7 @@ import { CreateUpdateTitle, DefaultPropertyPanel, VariantFinder, VariantTable } 
 import PurchaseOrderConfigs from 'pages/purchase-order/PurchaseOrderConfigs';
 import usePurchaseOrderUpdateViewModel from 'pages/purchase-order/PurchaseOrderUpdate.vm';
 import MiscUtils from 'utils/MiscUtils';
+import { EntityType } from 'components/VariantTable/VariantTable';
 
 function PurchaseOrderUpdate() {
   const { id } = useParams();
@@ -52,8 +53,9 @@ function PurchaseOrderUpdate() {
               />
               {variants.length > 0 && (
                 <VariantTable
+                  type={EntityType.PURCHASE_ORDER}
                   variants={variants}
-                  purchaseOrderVariantRequests={form.values.purchaseOrderVariants}
+                  variantRequests={form.values.purchaseOrderVariants}
                   handleQuantityInput={handleQuantityInput}
                   handleDeleteVariantButton={handleDeleteVariantButton}
                 />
