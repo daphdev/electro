@@ -47,6 +47,7 @@ import OrderCancellationReasonManage, {
 } from 'pages/order-cancellation-reason';
 import PurchaseOrderManage, { PurchaseOrderCreate, PurchaseOrderUpdate } from 'pages/purchase-order';
 import DocketManage, { DocketCreate, DocketUpdate } from 'pages/docket';
+import TransferManage, { TransferCreate, TransferUpdate } from 'pages/transfer';
 
 const queryClient = new QueryClient();
 
@@ -199,6 +200,10 @@ function App() {
                   <Route path={ManagerPath.DOCKET} element={<DocketManage/>}/>
                   <Route path={ManagerPath.DOCKET + '/create'} element={<DocketCreate/>}/>
                   <Route path={ManagerPath.DOCKET + '/update/:id'} element={<DocketUpdate/>}/>
+                  {/* TRANSFER */}
+                  <Route path={ManagerPath.TRANSFER} element={<TransferManage/>}/>
+                  <Route path={ManagerPath.TRANSFER + '/create'} element={<TransferCreate/>}/>
+                  <Route path={ManagerPath.TRANSFER + '/update/:id'} element={<TransferUpdate/>}/>
                 </Route>
               </Routes>
             </ModalsProvider>

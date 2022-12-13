@@ -92,7 +92,7 @@ function useDocketUpdateViewModel(id: number) {
         docketVariants: formValues.docketVariants,
         purchaseOrderId: Number(formValues.purchaseOrderId) || null,
         orderId: Number(formValues.orderId) || null,
-        note: formValues.note,
+        note: formValues.note || null,
         status: Number(formValues.status),
       };
       updateApi.mutate(requestBody);
