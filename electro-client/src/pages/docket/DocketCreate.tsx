@@ -9,6 +9,8 @@ import { useDebouncedValue } from '@mantine/hooks';
 import { PurchaseOrderResponse } from 'models/PurchaseOrder';
 import PurchaseOrderConfigs from 'pages/purchase-order/PurchaseOrderConfigs';
 import { SelectOption } from 'types';
+import { OrderResponse } from 'models/Order';
+import OrderConfigs from 'pages/order/OrderConfigs';
 
 function DocketCreate() {
   const {
@@ -29,7 +31,7 @@ function DocketCreate() {
   const [orderSelectKeyword, setOrderSelectKeyword] = useState('');
 
   const [purchaseOrderSelectDebouncedKeyword] = useDebouncedValue(purchaseOrderSelectKeyword, 400);
-  const [orderSelectDebouncedKeyword] = useDebouncedValue(purchaseOrderSelectKeyword, 400);
+  const [orderSelectDebouncedKeyword] = useDebouncedValue(orderSelectKeyword, 400);
 
   const [purchaseOrderSelectList, setPurchaseOrderSelectList] = useState<SelectOption[]>([]);
   const [orderSelectList, setOrderSelectList] = useState<SelectOption[]>([]);
@@ -47,7 +49,18 @@ function DocketCreate() {
     }
   );
 
-  // TODO: useGetAllApi cho orderSelectList
+  const { isFetching: isFetchingOrderListResponse } = useGetAllApi<OrderResponse>(
+    OrderConfigs.resourceUrl,
+    OrderConfigs.resourceKey,
+    { size: 5, search: orderSelectDebouncedKeyword },
+    (orderListResponse) => {
+      const selectList: SelectOption[] = orderListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.code,
+      }));
+      setOrderSelectList(selectList);
+    }
+  );
 
   return (
     <Stack pb={50}>
@@ -133,11 +146,13 @@ function DocketCreate() {
                   </Grid.Col>
                   <Grid.Col>
                     <Select
+                      rightSection={isFetchingOrderListResponse ? <Loader size={16}/> : null}
                       label="Đơn hàng"
                       placeholder="--"
                       searchable
                       clearable
-                      data={[]}
+                      onSearchChange={setOrderSelectKeyword}
+                      data={orderSelectList}
                       {...form.getInputProps('orderId')}
                     />
                   </Grid.Col>

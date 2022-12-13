@@ -10,6 +10,8 @@ import useGetAllApi from 'hooks/use-get-all-api';
 import { PurchaseOrderResponse } from 'models/PurchaseOrder';
 import PurchaseOrderConfigs from 'pages/purchase-order/PurchaseOrderConfigs';
 import { EntityType } from 'components/VariantTable/VariantTable';
+import { OrderResponse } from 'models/Order';
+import OrderConfigs from 'pages/order/OrderConfigs';
 
 function DocketUpdate() {
   const { id } = useParams();
@@ -32,7 +34,7 @@ function DocketUpdate() {
   const [orderSelectKeyword, setOrderSelectKeyword] = useState('');
 
   const [purchaseOrderSelectDebouncedKeyword] = useDebouncedValue(purchaseOrderSelectKeyword, 400);
-  const [orderSelectDebouncedKeyword] = useDebouncedValue(purchaseOrderSelectKeyword, 400);
+  const [orderSelectDebouncedKeyword] = useDebouncedValue(orderSelectKeyword, 400);
 
   const [purchaseOrderSelectList, setPurchaseOrderSelectList] = useState<SelectOption[]>([]);
   const [orderSelectList, setOrderSelectList] = useState<SelectOption[]>([]);
@@ -56,7 +58,22 @@ function DocketUpdate() {
     }
   );
 
-  // TODO: useGetAllApi cho orderSelectList
+  const { isFetching: isFetchingOrderListResponse } = useGetAllApi<OrderResponse>(
+    OrderConfigs.resourceUrl,
+    OrderConfigs.resourceKey,
+    {
+      filter: (form.values.orderId && orderSelectDebouncedKeyword === '') ? `id==${form.values.orderId}` : '',
+      size: 5,
+      search: orderSelectDebouncedKeyword,
+    },
+    (orderListResponse) => {
+      const selectList: SelectOption[] = orderListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.code,
+      }));
+      setOrderSelectList(selectList);
+    }
+  );
 
   if (!docket) {
     return null;
@@ -152,11 +169,13 @@ function DocketUpdate() {
                   </Grid.Col>
                   <Grid.Col>
                     <Select
+                      rightSection={isFetchingOrderListResponse ? <Loader size={16}/> : null}
                       label="Đơn hàng"
                       placeholder="--"
                       searchable
                       clearable
-                      data={[]}
+                      onSearchChange={setOrderSelectKeyword}
+                      data={orderSelectList}
                       {...form.getInputProps('orderId')}
                     />
                   </Grid.Col>

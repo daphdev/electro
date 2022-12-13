@@ -5,6 +5,7 @@ import { PurchaseOrderVariantRequest } from 'models/PurchaseOrderVariant';
 import MiscUtils from 'utils/MiscUtils';
 import { Trash } from 'tabler-icons-react';
 import { DocketVariantRequest } from 'models/DocketVariant';
+import { OrderVariantRequest } from 'models/OrderVariant';
 
 export enum EntityType {
   PURCHASE_ORDER,
@@ -17,7 +18,7 @@ export enum EntityType {
 interface VariantTableProps {
   type: EntityType;
   variants: VariantResponse[];
-  variantRequests: Array<PurchaseOrderVariantRequest | DocketVariantRequest>;
+  variantRequests: Array<PurchaseOrderVariantRequest | DocketVariantRequest | OrderVariantRequest>;
   handleQuantityInput: (quantity: number, index: number) => void;
   handleDeleteVariantButton: (index: number) => void;
 }
@@ -40,8 +41,10 @@ function VariantTable({
           <th style={{ textAlign: 'center' }}>STT</th>
           <th>Mặt hàng</th>
           {type === EntityType.PURCHASE_ORDER && <th style={{ textAlign: 'right' }}>Giá vốn</th>}
+          {type === EntityType.ORDER && <th style={{ textAlign: 'right' }}>Giá bán</th>}
           <th style={{ textAlign: 'center' }}>Số lượng</th>
-          {type === EntityType.PURCHASE_ORDER && <th style={{ textAlign: 'right' }}>Thành tiền</th>}
+          {[EntityType.PURCHASE_ORDER, EntityType.ORDER].includes(type) &&
+            <th style={{ textAlign: 'right' }}>Thành tiền</th>}
           <th style={{ textAlign: 'center' }}>Thao tác</th>
         </tr>
       </thead>
@@ -74,6 +77,11 @@ function VariantTable({
                 {MiscUtils.formatPrice(variant.cost) + ' ₫'}
               </td>
             )}
+            {type === EntityType.ORDER && (
+              <td style={{ textAlign: 'right' }}>
+                {MiscUtils.formatPrice(variant.price) + ' ₫'}
+              </td>
+            )}
             <td>
               <Center>
                 <NumberInput
@@ -89,9 +97,10 @@ function VariantTable({
                 />
               </Center>
             </td>
-            {type === EntityType.PURCHASE_ORDER && (
+            {[EntityType.PURCHASE_ORDER, EntityType.ORDER].includes(type) && (
               <td style={{ textAlign: 'right' }}>
-                {MiscUtils.formatPrice((variantRequests[index] as PurchaseOrderVariantRequest).amount) + ' ₫'}
+                {MiscUtils.formatPrice(
+                  (variantRequests[index] as PurchaseOrderVariantRequest | OrderVariantRequest).amount) + ' ₫'}
               </td>
             )}
             <td>

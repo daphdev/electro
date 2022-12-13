@@ -39,7 +39,7 @@ import InventoryManage from 'pages/inventory';
 import WarehouseManage, { WarehouseCreate, WarehouseUpdate } from 'pages/warehouse';
 import DestinationManage, { DestinationCreate, DestinationUpdate } from 'pages/destination';
 import DocketReasonManage, { DocketReasonCreate, DocketReasonUpdate } from 'pages/docket-reason';
-import OrderManage from 'pages/order';
+import OrderManage, { OrderCreate, OrderUpdate } from 'pages/order';
 import OrderResourceManage, { OrderResourceCreate, OrderResourceUpdate } from 'pages/order-resource';
 import OrderCancellationReasonManage, {
   OrderCancellationReasonCreate,
@@ -178,6 +178,8 @@ function App() {
                   <Route path={ManagerPath.DOCKET_REASON + '/update/:id'} element={<DocketReasonUpdate/>}/>
                   {/* ORDER */}
                   <Route path={ManagerPath.ORDER} element={<OrderManage/>}/>
+                  <Route path={ManagerPath.ORDER + '/create'} element={<OrderCreate/>}/>
+                  <Route path={ManagerPath.ORDER + '/update/:id'} element={<OrderUpdate/>}/>
                   {/* ORDER_RESOURCE */}
                   <Route path={ManagerPath.ORDER_RESOURCE} element={<OrderResourceManage/>}/>
                   <Route path={ManagerPath.ORDER_RESOURCE + '/create'} element={<OrderResourceCreate/>}/>

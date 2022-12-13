@@ -117,13 +117,10 @@ public interface SearchFields {
             "user.address.district.code",
             "customerGroup.code",
             "customerGroup.name",
-            "customerGroup.description",
             "customerResource.code",
             "customerResource.name",
-            "customerResource.description",
             "customerStatus.code",
-            "customerStatus.name",
-            "customerStatus.description"
+            "customerStatus.name"
     );
 
     List<String> PROPERTY = List.of(
@@ -348,11 +345,12 @@ public interface SearchFields {
             "code",
             "orderResource.code",
             "orderResource.name",
-            "orderCancellationReason.name",
             "customer.user.username",
             "customer.user.fullname",
             "customer.user.email",
-            "customer.user.phone"
+            "customer.user.phone",
+            "customer.user.address.district.name",
+            "customer.user.address.province.name"
     );
 
     List<String> ORDER_VARIANT = List.of(
