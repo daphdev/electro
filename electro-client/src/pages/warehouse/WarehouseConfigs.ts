@@ -16,7 +16,7 @@ class WarehouseConfigs extends Configs {
   static manageTitleLinks: TitleLink[] = [
     {
       link: ManagerPath.INVENTORY,
-      label: 'Quản lý tồn kho',
+      label: 'Theo dõi tồn kho',
     },
     {
       link: ManagerPath.WAREHOUSE,

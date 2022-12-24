@@ -199,9 +199,6 @@ public interface SearchFields {
             "supplier.taxCode",
             "supplier.email",
             "supplier.phone",
-            "supplier.fax",
-            "supplier.website",
-            "supplier.address.line",
             "unit.name",
             "guarantee.name"
     );
