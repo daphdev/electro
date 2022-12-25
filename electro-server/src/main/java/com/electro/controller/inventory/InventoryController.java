@@ -66,7 +66,7 @@ public class InventoryController {
 
             Map<String, Integer> inventoryIndices = calculateInventoryIndices(transactions);
 
-            productInventory.setActualInventory(inventoryIndices.get("actualInventory"));
+            productInventory.setInventory(inventoryIndices.get("inventory"));
             productInventory.setWaitingForDelivery(inventoryIndices.get("waitingForDelivery"));
             productInventory.setCanBeSold(inventoryIndices.get("canBeSold"));
             productInventory.setAreComing(inventoryIndices.get("areComing"));
@@ -99,7 +99,7 @@ public class InventoryController {
 
             Map<String, Integer> inventoryIndices = calculateInventoryIndices(transactions);
 
-            variantInventory.setActualInventory(inventoryIndices.get("actualInventory"));
+            variantInventory.setInventory(inventoryIndices.get("inventory"));
             variantInventory.setWaitingForDelivery(inventoryIndices.get("waitingForDelivery"));
             variantInventory.setCanBeSold(inventoryIndices.get("canBeSold"));
             variantInventory.setAreComing(inventoryIndices.get("areComing"));
@@ -126,7 +126,7 @@ public class InventoryController {
 
         Map<String, Integer> inventoryIndices = calculateInventoryIndices(transactions);
 
-        variantInventory.setActualInventory(inventoryIndices.get("actualInventory"));
+        variantInventory.setInventory(inventoryIndices.get("inventory"));
         variantInventory.setWaitingForDelivery(inventoryIndices.get("waitingForDelivery"));
         variantInventory.setCanBeSold(inventoryIndices.get("canBeSold"));
         variantInventory.setAreComing(inventoryIndices.get("areComing"));
@@ -137,7 +137,7 @@ public class InventoryController {
     }
 
     private Map<String, Integer> calculateInventoryIndices(List<DocketVariant> transactions) {
-        int actualInventory = 0;
+        int inventory = 0;
         int waitingForDelivery = 0;
         int canBeSold;
         int areComing = 0;
@@ -145,12 +145,12 @@ public class InventoryController {
         for (DocketVariant transaction : transactions) {
             // Phiếu Nhập và trạng thái phiếu là Hoàn thành (3)
             if (transaction.getDocket().getType().equals(1) && transaction.getDocket().getStatus().equals(3)) {
-                actualInventory += transaction.getQuantity();
+                inventory += transaction.getQuantity();
             }
 
             // Phiếu Xuất và trạng thái phiếu là Hoàn thành (3)
             if (transaction.getDocket().getType().equals(2) && transaction.getDocket().getStatus().equals(3)) {
-                actualInventory -= transaction.getQuantity();
+                inventory -= transaction.getQuantity();
             }
 
             // Phiếu Xuất và trạng thái phiếu là Mới (1) hoặc Đang xử lý (2)
@@ -164,11 +164,11 @@ public class InventoryController {
             }
         }
 
-        canBeSold = actualInventory - waitingForDelivery;
+        canBeSold = inventory - waitingForDelivery;
 
         Map<String, Integer> indices = new HashMap<>();
 
-        indices.put("actualInventory", actualInventory);
+        indices.put("inventory", inventory);
         indices.put("waitingForDelivery", waitingForDelivery);
         indices.put("canBeSold", canBeSold);
         indices.put("areComing", areComing);

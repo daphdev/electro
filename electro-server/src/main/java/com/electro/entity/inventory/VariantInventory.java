@@ -9,7 +9,7 @@ import java.util.List;
 public class VariantInventory {
     private Variant variant;
     private List<DocketVariant> transactions;
-    private Integer actualInventory;
+    private Integer inventory;
     private Integer waitingForDelivery;
     private Integer canBeSold;
     private Integer areComing;

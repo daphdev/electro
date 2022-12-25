@@ -1,15 +1,11 @@
 import BaseResponse from 'models/BaseResponse';
 import { CollectionWrapper } from 'types';
 import { VariantPropertyItem } from 'models/Variant';
-import { DocketVariantEliminatedResponse } from 'models/DocketVariantEliminatedResponse';
 
-export interface VariantInventoryResponse {
+export interface CountVariantResponse {
   variant: VariantResponse;
-  transactions: DocketVariantEliminatedResponse[];
   inventory: number;
-  waitingForDelivery: number;
-  canBeSold: number;
-  areComing: number;
+  actualInventory: number;
 }
 
 interface VariantResponse extends BaseResponse {
@@ -25,4 +21,15 @@ interface ProductResponse extends BaseResponse {
   name: string;
   code: string;
   slug: string;
+}
+
+export interface CountVariantRequest {
+  variantId: number;
+  inventory: number;
+  actualInventory: number;
+}
+
+export interface CountVariantKeyRequest {
+  countId: number;
+  variantId: number;
 }

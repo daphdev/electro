@@ -11,7 +11,7 @@ import java.util.List;
 public class VariantInventoryResponse {
     private VariantInventoryResponse.VariantResponse variant;
     private List<DocketVariantEliminatedResponse> transactions;
-    private Integer actualInventory;
+    private Integer inventory;
     private Integer waitingForDelivery;
     private Integer canBeSold;
     private Integer areComing;

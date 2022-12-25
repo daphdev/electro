@@ -37,8 +37,8 @@ function ProductInventoryTransactionsModal({ transactions }: { transactions: Doc
 
   return (
     <Table
-      horizontalSpacing="sm"
-      verticalSpacing="sm"
+      horizontalSpacing="xs"
+      verticalSpacing="xs"
       highlightOnHover
       striped
     >
@@ -120,7 +120,7 @@ function InventoryManage() {
       <td>{entity.product.name}</td>
       <td>{entity.product.brand?.name}</td>
       <td>{entity.product.supplier?.displayName}</td>
-      <td>{entity.actualInventory}</td>
+      <td>{entity.inventory}</td>
       <td>{entity.waitingForDelivery}</td>
       <td>{entity.canBeSold}</td>
       <td>{entity.areComing}</td>

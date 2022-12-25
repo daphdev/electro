@@ -12,7 +12,7 @@ import java.util.List;
 public class ProductInventoryResponse {
     private ProductInventoryResponse.ProductResponse product;
     private List<DocketVariantExtendedResponse> transactions;
-    private Integer actualInventory;
+    private Integer inventory;
     private Integer waitingForDelivery;
     private Integer canBeSold;
     private Integer areComing;

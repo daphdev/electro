@@ -6,7 +6,7 @@ import { DocketVariantExtendedResponse } from 'models/DocketVariantExtended';
 export interface ProductInventoryResponse {
   product: ProductResponse;
   transactions: DocketVariantExtendedResponse[];
-  actualInventory: number;
+  inventory: number;
   waitingForDelivery: number;
   canBeSold: number;
   areComing: number;
