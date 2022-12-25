@@ -25,7 +25,7 @@ function ProductVariants({
 }: ProductVariantsProps) {
 
   useEffect(() => {
-    const defaultVariant: VariantRequest = { sku: '', cost: 0, price: 0, properties: null, images: null, status: 1 };
+    const defaultVariant: VariantRequest = { sku: '', cost: 0, price: 0, properties: null, status: 1 };
     const currentVariants: VariantRequest[] = [];
     const currentSelectedVariantIndexes: number[] = [];
 

@@ -109,7 +109,7 @@ class FetchUtils {
    * @param resourceUrl
    * @param entityId
    */
-  static async deleteById(resourceUrl: string, entityId: number) {
+  static async deleteById<T>(resourceUrl: string, entityId: T) {
     const response = await fetch(resourceUrl + '/' + entityId, { method: 'DELETE' });
     if (!response.ok) {
       throw await response.json();
@@ -121,7 +121,7 @@ class FetchUtils {
    * @param resourceUrl
    * @param entityIds
    */
-  static async deleteByIds(resourceUrl: string, entityIds: number[]) {
+  static async deleteByIds<T>(resourceUrl: string, entityIds: T[]) {
     const response = await fetch(resourceUrl, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },

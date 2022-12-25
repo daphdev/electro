@@ -39,12 +39,16 @@ import InventoryManage from 'pages/inventory';
 import WarehouseManage, { WarehouseCreate, WarehouseUpdate } from 'pages/warehouse';
 import DestinationManage, { DestinationCreate, DestinationUpdate } from 'pages/destination';
 import DocketReasonManage, { DocketReasonCreate, DocketReasonUpdate } from 'pages/docket-reason';
-import OrderManage from 'pages/order';
+import OrderManage, { OrderCreate, OrderUpdate } from 'pages/order';
 import OrderResourceManage, { OrderResourceCreate, OrderResourceUpdate } from 'pages/order-resource';
 import OrderCancellationReasonManage, {
   OrderCancellationReasonCreate,
   OrderCancellationReasonUpdate
 } from 'pages/order-cancellation-reason';
+import PurchaseOrderManage, { PurchaseOrderCreate, PurchaseOrderUpdate } from 'pages/purchase-order';
+import DocketManage, { DocketCreate, DocketUpdate } from 'pages/docket';
+import TransferManage, { TransferCreate, TransferUpdate } from 'pages/transfer';
+import CountManage, { CountCreate, CountUpdate } from 'pages/count';
 
 const queryClient = new QueryClient();
 
@@ -175,6 +179,8 @@ function App() {
                   <Route path={ManagerPath.DOCKET_REASON + '/update/:id'} element={<DocketReasonUpdate/>}/>
                   {/* ORDER */}
                   <Route path={ManagerPath.ORDER} element={<OrderManage/>}/>
+                  <Route path={ManagerPath.ORDER + '/create'} element={<OrderCreate/>}/>
+                  <Route path={ManagerPath.ORDER + '/update/:id'} element={<OrderUpdate/>}/>
                   {/* ORDER_RESOURCE */}
                   <Route path={ManagerPath.ORDER_RESOURCE} element={<OrderResourceManage/>}/>
                   <Route path={ManagerPath.ORDER_RESOURCE + '/create'} element={<OrderResourceCreate/>}/>
@@ -189,6 +195,22 @@ function App() {
                     path={ManagerPath.ORDER_CANCELLATION_REASON + '/update/:id'}
                     element={<OrderCancellationReasonUpdate/>}
                   />
+                  {/* PURCHASE_ORDER */}
+                  <Route path={ManagerPath.PURCHASE_ORDER} element={<PurchaseOrderManage/>}/>
+                  <Route path={ManagerPath.PURCHASE_ORDER + '/create'} element={<PurchaseOrderCreate/>}/>
+                  <Route path={ManagerPath.PURCHASE_ORDER + '/update/:id'} element={<PurchaseOrderUpdate/>}/>
+                  {/* DOCKET */}
+                  <Route path={ManagerPath.DOCKET} element={<DocketManage/>}/>
+                  <Route path={ManagerPath.DOCKET + '/create'} element={<DocketCreate/>}/>
+                  <Route path={ManagerPath.DOCKET + '/update/:id'} element={<DocketUpdate/>}/>
+                  {/* TRANSFER */}
+                  <Route path={ManagerPath.TRANSFER} element={<TransferManage/>}/>
+                  <Route path={ManagerPath.TRANSFER + '/create'} element={<TransferCreate/>}/>
+                  <Route path={ManagerPath.TRANSFER + '/update/:id'} element={<TransferUpdate/>}/>
+                  {/* COUNT */}
+                  <Route path={ManagerPath.COUNT} element={<CountManage/>}/>
+                  <Route path={ManagerPath.COUNT + '/create'} element={<CountCreate/>}/>
+                  <Route path={ManagerPath.COUNT + '/update/:id'} element={<CountUpdate/>}/>
                 </Route>
               </Routes>
             </ModalsProvider>

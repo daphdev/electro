@@ -6,7 +6,8 @@ function useGetByIdApi<O>(
   resourceUrl: string,
   resourceKey: string,
   entityId: number,
-  successCallback?: (data: O) => void
+  successCallback?: (data: O) => void,
+  options?: { enabled: boolean }
 ) {
   return useQuery<O, ErrorMessage>(
     [resourceKey, 'getById', entityId],
@@ -14,6 +15,7 @@ function useGetByIdApi<O>(
     {
       onSuccess: successCallback,
       onError: () => NotifyUtils.simpleFailed('Lấy dữ liệu không thành công'),
+      ...options,
     }
   );
 }

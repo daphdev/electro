@@ -55,6 +55,7 @@ public class Variant extends BaseEntity {
     @Convert(converter = JsonNodeConverter.class)
     private JsonNode properties;
 
+    @Deprecated
     @Column(name = "images", columnDefinition = "JSON")
     @Convert(converter = JsonNodeConverter.class)
     private JsonNode images;

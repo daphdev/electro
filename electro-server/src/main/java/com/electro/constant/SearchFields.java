@@ -117,13 +117,10 @@ public interface SearchFields {
             "user.address.district.code",
             "customerGroup.code",
             "customerGroup.name",
-            "customerGroup.description",
             "customerResource.code",
             "customerResource.name",
-            "customerResource.description",
             "customerStatus.code",
-            "customerStatus.name",
-            "customerStatus.description"
+            "customerStatus.name"
     );
 
     List<String> PROPERTY = List.of(
@@ -202,9 +199,6 @@ public interface SearchFields {
             "supplier.taxCode",
             "supplier.email",
             "supplier.phone",
-            "supplier.fax",
-            "supplier.website",
-            "supplier.address.line",
             "unit.name",
             "guarantee.name"
     );
@@ -212,9 +206,7 @@ public interface SearchFields {
     List<String> VARIANT = List.of(
             "product.name",
             "product.code",
-            "sku",
-            "cost",
-            "price"
+            "sku"
     );
 
     List<String> IMAGE = List.of(
@@ -317,16 +309,9 @@ public interface SearchFields {
             "supplier.contactEmail",
             "supplier.contactPhone",
             "supplier.companyName",
-            "supplier.taxCode",
-            "supplier.email",
-            "supplier.phone",
-            "supplier.fax",
-            "supplier.website",
-            "supplier.address.line",
             "destination.contactFullname",
             "destination.contactEmail",
-            "destination.contactPhone",
-            "destination.address.line"
+            "destination.contactPhone"
     );
 
     List<String> PURCHASE_ORDER_VARIANT = List.of(
@@ -357,16 +342,12 @@ public interface SearchFields {
             "code",
             "orderResource.code",
             "orderResource.name",
-            "orderCancellationReason.name",
             "customer.user.username",
             "customer.user.fullname",
             "customer.user.email",
             "customer.user.phone",
-            "customer.user.address.line",
-            "customer.user.address.province.name",
-            "customer.user.address.province.code",
             "customer.user.address.district.name",
-            "customer.user.address.district.code"
+            "customer.user.address.province.name"
     );
 
     List<String> ORDER_VARIANT = List.of(
