@@ -13,4 +13,8 @@ public class CollectionWrapper<T> {
         this.content = content;
         this.totalElements = content.size();
     }
+
+    public static <T> CollectionWrapper<T> of(List<T> content) {
+        return new CollectionWrapper<>(content);
+    }
 }

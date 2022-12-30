@@ -49,6 +49,8 @@ import PurchaseOrderManage, { PurchaseOrderCreate, PurchaseOrderUpdate } from 'p
 import DocketManage, { DocketCreate, DocketUpdate } from 'pages/docket';
 import TransferManage, { TransferCreate, TransferUpdate } from 'pages/transfer';
 import CountManage, { CountCreate, CountUpdate } from 'pages/count';
+import ClientHome from 'pages/client-home';
+import ClientAllCategories from 'pages/client-all-categories';
 
 const queryClient = new QueryClient();
 
@@ -64,7 +66,10 @@ function App() {
           <NotificationsProvider>
             <ModalsProvider>
               <Routes>
-                <Route path="/" element={<Client/>}/>
+                <Route path="/" element={<Client/>}>
+                  <Route index element={<ClientHome/>}/>
+                  <Route path="/all-categories" element={<ClientAllCategories/>}/>
+                </Route>
                 <Route path="/admin" element={<Admin/>}>
                   <Route index element={<AdminDashboard/>}/>
                   {/* ADDRESS */}

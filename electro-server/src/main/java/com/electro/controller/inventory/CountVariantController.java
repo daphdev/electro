@@ -1,5 +1,6 @@
 package com.electro.controller.inventory;
 
+import com.electro.constant.AppConstants;
 import com.electro.dto.inventory.CountVariantKeyRequest;
 import com.electro.entity.inventory.CountVariantKey;
 import com.electro.service.inventory.CountVariantService;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/count-variants")
 @AllArgsConstructor
-@CrossOrigin("http://localhost:3000/")
+@CrossOrigin(AppConstants.DOMAIN)
 public class CountVariantController {
 
     private CountVariantService countVariantService;

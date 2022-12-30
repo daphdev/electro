@@ -1,5 +1,6 @@
 package com.electro.controller.inventory;
 
+import com.electro.constant.AppConstants;
 import com.electro.dto.inventory.DocketVariantKeyRequest;
 import com.electro.entity.inventory.DocketVariantKey;
 import com.electro.service.inventory.DocketVariantService;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/docket-variants")
 @AllArgsConstructor
-@CrossOrigin("http://localhost:3000/")
+@CrossOrigin(AppConstants.DOMAIN)
 public class DocketVariantController {
 
     private DocketVariantService docketVariantService;

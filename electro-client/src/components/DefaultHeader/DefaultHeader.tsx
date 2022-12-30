@@ -12,7 +12,7 @@ import {
 import { Bell, Browser, Icon, Messages, MoonStars, Search, Sun, User } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
 import useAppStore from 'stores/use-app-store';
-import ElectroLogo from 'components/DefaultHeader/ElectroLogo';
+import { ElectroLogo } from 'components';
 
 const useStyles = createStyles((theme) => ({
   header: {

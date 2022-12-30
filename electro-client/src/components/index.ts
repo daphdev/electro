@@ -46,7 +46,14 @@ import VariantFinder from 'components/VariantFinder/VariantFinder';
 import VariantTable from 'components/VariantTable/VariantTable';
 
 // Others
+import ElectroLogo from 'components/ElectroLogo/ElectroLogo';
 import FloatingCodeFrame from 'components/FloatingCodeFrame/FloatingCodeFrame';
+
+// Client
+import ClientHeader from 'components/ClientHeader/ClientHeader';
+import ClientFooter from 'components/ClientFooter/ClientFooter';
+import ClientCarousel from 'components/ClientCarousel/ClientCarousel';
+import ClientProductCard from 'components/ClientProductCard/ClientProductCard';
 
 export {
   CreateUpdateTitle,
@@ -88,5 +95,11 @@ export {
   VariantFinder,
   VariantTable,
 
+  ElectroLogo,
   FloatingCodeFrame,
+
+  ClientHeader,
+  ClientFooter,
+  ClientCarousel,
+  ClientProductCard,
 };
