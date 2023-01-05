@@ -48,6 +48,7 @@ import VariantTable from 'components/VariantTable/VariantTable';
 // Others
 import ElectroLogo from 'components/ElectroLogo/ElectroLogo';
 import FloatingCodeFrame from 'components/FloatingCodeFrame/FloatingCodeFrame';
+import LoadingMiddleware from 'components/LoadingMiddleware/LoadingMiddleware';
 
 // Client
 import ClientHeader from 'components/ClientHeader/ClientHeader';
@@ -97,6 +98,7 @@ export {
 
   ElectroLogo,
   FloatingCodeFrame,
+  LoadingMiddleware,
 
   ClientHeader,
   ClientFooter,

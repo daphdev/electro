@@ -361,4 +361,11 @@ public interface SearchFields {
             "quantity",
             "amount"
     );
+
+    List<String> CLIENT_PRODUCT = List.of(
+            "name",
+            "slug",
+            "category.name",
+            "brand.name"
+    );
 }

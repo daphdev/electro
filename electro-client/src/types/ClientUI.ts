@@ -1,16 +1,17 @@
 import { Icon } from 'tabler-icons-react';
 
-export interface CategoryLink {
+export interface ClientCategoryResponse {
   categoryName: string;
   categorySlug: string;
-  categoryChildren?: CategoryLink[];
+  categoryChildren: ClientCategoryResponse[];
+  categoryParent?: ClientCategoryResponse;
 }
 
 export interface CategorySlugIconMap {
   [categorySlug: string]: Icon;
 }
 
-export interface ProductLink {
+export interface ClientListedProductResponse {
   productName: string;
   productSlug: string;
   productThumbnail: string;

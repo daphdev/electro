@@ -38,12 +38,25 @@ export interface ErrorMessage {
 
 class FetchUtils {
   /**
+   * Hàm get cho các trường hợp truy vấn dữ liệu bên client
+   * @param url
+   * @param params
+   */
+  static async get<O>(url: string, params?: Record<string, string | number>): Promise<O> {
+    const response = await fetch(FetchUtils.concatParams(url, params));
+    if (!response.ok) {
+      throw await response.json();
+    }
+    return await response.json();
+  }
+
+  /**
    * Hàm getAll dùng để lấy danh sách tất cả đối tượng (có thể theo một số tiêu chí, cài đặt trong requestParams)
    * @param resourceUrl
    * @param requestParams
    */
   static async getAll<O>(resourceUrl: string, requestParams?: RequestParams): Promise<ListResponse<O>> {
-    const response = await fetch(FetchUtils.concatParams(resourceUrl, requestParams));
+    const response = await fetch(FetchUtils.concatParams(resourceUrl, { ...requestParams }));
     if (!response.ok) {
       throw await response.json();
     }
@@ -156,10 +169,10 @@ class FetchUtils {
    * @param url
    * @param requestParams
    */
-  private static concatParams = (url: string, requestParams?: RequestParams) => {
+  private static concatParams = (url: string, requestParams?: Record<string, string | number>) => {
     if (requestParams) {
       const filteredRequestParams = Object.fromEntries(Object.entries(requestParams)
-        .filter(([, v]) => v != null && String(v).trim() !== ''));
+        .filter(([, v]) => v != null && String(v).trim() !== '')) as Record<string, string>;
       if (Object.keys(filteredRequestParams).length === 0) {
         return url;
       }

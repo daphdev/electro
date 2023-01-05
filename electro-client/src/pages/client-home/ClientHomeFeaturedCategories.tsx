@@ -1,44 +1,9 @@
 import React from 'react';
 import { Button, Card, Grid, Group, Stack, Text, Title, useMantineTheme } from '@mantine/core';
 import { List } from 'tabler-icons-react';
-import { CategoryLink } from 'types';
 import PageConfigs from 'pages/PageConfigs';
 import { Link } from 'react-router-dom';
-
-const categoryLinks: CategoryLink[] = [
-  {
-    categoryName: 'Laptop',
-    categorySlug: 'laptop',
-  },
-  {
-    categoryName: 'Tablet',
-    categorySlug: 'tablet',
-  },
-  {
-    categoryName: 'SmartWatch',
-    categorySlug: 'smartwatch',
-  },
-  {
-    categoryName: 'Âm thanh',
-    categorySlug: 'am-thanh',
-  },
-  {
-    categoryName: 'Bàn phím',
-    categorySlug: 'ban-phim',
-  },
-  {
-    categoryName: 'Chuột',
-    categorySlug: 'chuot',
-  },
-  {
-    categoryName: 'Máy chơi game',
-    categorySlug: 'may-choi-game',
-  },
-  {
-    categoryName: 'CPU',
-    categorySlug: 'cpu',
-  },
-];
+import MockUtils from 'utils/MockUtils';
 
 function ClientHomeFeaturedCategories() {
   const theme = useMantineTheme();
@@ -59,7 +24,7 @@ function ClientHomeFeaturedCategories() {
         </Button>
       </Group>
       <Grid>
-        {categoryLinks.map(category => {
+        {MockUtils.featuredCategories.map(category => {
           const CategoryIcon = PageConfigs.categorySlugIconMap[category.categorySlug];
 
           return (

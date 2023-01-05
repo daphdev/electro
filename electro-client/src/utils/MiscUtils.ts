@@ -1,4 +1,5 @@
 import isEqual from 'lodash.isequal';
+import { ClientCategoryResponse } from 'types';
 
 class MiscUtils {
   static pick = <T>(o: T, arr: string[]) => {
@@ -39,6 +40,13 @@ class MiscUtils {
   static formatterPrice = (value?: string) => !Number.isNaN(parseFloat(value || ''))
     ? (value || '').replace(/\B(?=(\d{3})+(?!\d))/g, '.')
     : '';
+
+  static makeCategoryBreadcrumbs = (category: ClientCategoryResponse): ClientCategoryResponse[] => {
+    if (!category.categoryParent) {
+      return [category];
+    }
+    return [...MiscUtils.makeCategoryBreadcrumbs(category.categoryParent), category];
+  };
 }
 
 export default MiscUtils;

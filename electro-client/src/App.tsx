@@ -6,10 +6,9 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
-import './App.css';
 import ManagerPath from 'constants/ManagerPath';
-import Client from './pages/Client';
-import Admin from './pages/Admin';
+import Client from 'pages/Client';
+import Admin from 'pages/Admin';
 import AdminDashboard from './pages/AdminDashboard';
 import AddressManage, { AddressCreate, AddressUpdate } from 'pages/address';
 import ProvinceManage, { ProvinceCreate, ProvinceUpdate } from 'pages/province';
@@ -51,6 +50,7 @@ import TransferManage, { TransferCreate, TransferUpdate } from 'pages/transfer';
 import CountManage, { CountCreate, CountUpdate } from 'pages/count';
 import ClientHome from 'pages/client-home';
 import ClientAllCategories from 'pages/client-all-categories';
+import ClientCategory from 'pages/client-category/ClientCategory';
 
 const queryClient = new QueryClient();
 
@@ -69,6 +69,7 @@ function App() {
                 <Route path="/" element={<Client/>}>
                   <Route index element={<ClientHome/>}/>
                   <Route path="/all-categories" element={<ClientAllCategories/>}/>
+                  <Route path="/category/:slug" element={<ClientCategory/>}/>
                 </Route>
                 <Route path="/admin" element={<Admin/>}>
                   <Route index element={<AdminDashboard/>}/>

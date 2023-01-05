@@ -139,4 +139,4 @@ function ClientFooter() {
   );
 }
 
-export default ClientFooter;
+export default React.memo(ClientFooter);

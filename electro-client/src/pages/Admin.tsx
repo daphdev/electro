@@ -3,8 +3,11 @@ import { AppShell } from '@mantine/core';
 import { DefaultHeader } from 'components/DefaultHeader/DefaultHeader';
 import { DefaultNavbar } from 'components/DefaultNavbar/DefaultNavbar';
 import { Outlet } from 'react-router-dom';
+import useTitle from 'hooks/use-title';
 
 function Admin() {
+  useTitle();
+
   return (
     <AppShell
       fixed

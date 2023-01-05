@@ -41,8 +41,8 @@ public class ClientCategoryController {
     public ResponseEntity<ClientCategoryResponse> getCategory(@PathVariable("slug") String slug) {
         Category category = categoryRepository.findBySlug(slug)
                 .orElseThrow(() -> new ResourceNotFoundException(ResourceName.CATEGORY, FieldName.SLUG, slug));
-        ClientCategoryResponse categoryResponse = mapToResponse(category, false);
-        return ResponseEntity.status(HttpStatus.OK).body(categoryResponse);
+        ClientCategoryResponse clientCategoryResponse = mapToResponse(category, false);
+        return ResponseEntity.status(HttpStatus.OK).body(clientCategoryResponse);
     }
 
     /**

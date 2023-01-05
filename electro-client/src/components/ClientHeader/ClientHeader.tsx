@@ -22,9 +22,10 @@ import { useElementSize } from '@mantine/hooks';
 
 const useStyles = createStyles((theme) => ({
   header: {
-    boxShadow: 'rgb(0 0 0 / 5%) 0px 1px 3px, rgb(0 0 0 / 5%) 0px 10px 15px -5px, rgb(0 0 0 / 4%) 0px 7px 7px -5px',
+    boxShadow: theme.shadows.sm,
     borderBottom: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]}`,
     marginBottom: theme.spacing.md * 2,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
   },
 
   iconGroup: {
@@ -151,4 +152,4 @@ function ClientHeader() {
   );
 }
 
-export default ClientHeader;
+export default React.memo(ClientHeader);

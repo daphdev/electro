@@ -2,15 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ActionIcon, Box, Card, Group, Image, Stack, Text, useMantineTheme } from '@mantine/core';
 import MiscUtils from 'utils/MiscUtils';
-import { ProductLink } from 'types';
+import { ClientListedProductResponse } from 'types';
 import { HeartPlus, ShoppingCartPlus } from 'tabler-icons-react';
 import { useDisclosure } from '@mantine/hooks';
 
 interface ClientProductCardProps {
-  productLink: ProductLink;
+  product: ClientListedProductResponse;
 }
 
-function ClientProductCard({ productLink }: ClientProductCardProps) {
+function ClientProductCard({ product }: ClientProductCardProps) {
   const theme = useMantineTheme();
 
   const [opened, handlers] = useDisclosure(false);
@@ -21,7 +21,7 @@ function ClientProductCard({ productLink }: ClientProductCardProps) {
       shadow="sm"
       p="lg"
       component={Link}
-      to={'/product/' + productLink.productSlug}
+      to={'/product/' + product.productSlug}
       sx={{ '&:hover': { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0] } }}
       onMouseEnter={handlers.open}
       onMouseLeave={handlers.close}
@@ -30,8 +30,8 @@ function ClientProductCard({ productLink }: ClientProductCardProps) {
         <Box sx={{ position: 'relative' }}>
           <Image
             radius="md"
-            src={productLink.productThumbnail}
-            alt={productLink.productName}
+            src={product.productThumbnail}
+            alt={product.productName}
           />
           <Group
             spacing="xs"
@@ -66,8 +66,8 @@ function ClientProductCard({ productLink }: ClientProductCardProps) {
           </Group>
         </Box>
         <Stack spacing={theme.spacing.xs / 2}>
-          <Text weight={500}>{productLink.productName}</Text>
-          <Text weight={500} color="pink">{MiscUtils.formatPrice(productLink.productPrice) + ' ₫'}</Text>
+          <Text weight={500}>{product.productName}</Text>
+          <Text weight={500} color="pink">{MiscUtils.formatPrice(product.productPrice) + ' ₫'}</Text>
         </Stack>
       </Stack>
     </Card>
