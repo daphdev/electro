@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@badrap/bar-of-progress": "^0.2.2",
     "@mantine/core": "^4.2.12",
     "@mantine/dates": "^4.2.12",
     "@mantine/dropzone": "^4.2.12",
@@ -31,7 +30,6 @@
     "react-router-dom": "^6.3.0",
     "react-router-loading": "^1.0.0",
     "react-scripts": "5.0.1",
-    "react-top-loading-bar": "^2.3.1",
     "react-tracked": "^1.7.9",
     "tabler-icons-react": "^1.48.0",
     "typescript": "^4.6.4",
