@@ -56,8 +56,9 @@ class ResourceURL {
 
   // CLIENT
   static CLIENT_CATEGORY = clientApiPath + '/categories';
-  static CLIENT_FILTER = clientApiPath + '/filters';
   static CLIENT_PRODUCT = clientApiPath + '/products';
+  static CLIENT_FILTER_CATEGORY = clientApiPath + '/filters/category';
+  static CLIENT_FILTER_SEARCH = clientApiPath + '/filters/search';
 }
 
 export default ResourceURL;

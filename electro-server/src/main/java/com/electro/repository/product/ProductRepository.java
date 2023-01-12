@@ -10,6 +10,7 @@ import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 import io.github.perplexhub.rsql.RSQLCustomPredicate;
 import io.github.perplexhub.rsql.RSQLJPASupport;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -142,7 +143,16 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
             return query.getRestriction();
         };
 
-        return findAll(docketable, pageable);
+        /*
+         * Bug:
+         * https://stackoverflow.com/a/59046245
+         * https://stackoverflow.com/a/37771947
+         */
+        List<Product> products = findAll(docketable);
+        final int start = (int) pageable.getOffset();
+        final int end = Math.min((start + pageable.getPageSize()), products.size());
+
+        return new PageImpl<>(products.subList(start, end), pageable, products.size());
     }
 
 }

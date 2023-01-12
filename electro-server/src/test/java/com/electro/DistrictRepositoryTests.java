@@ -74,9 +74,9 @@ public class DistrictRepositoryTests {
                 .setCode("12345")
                 .setProvince(province);
 
-        districtRepository.save(district);
+        District savedDistrict = districtRepository.save(district);
 
-        Optional<District> foundedDistrict = districtRepository.findById(31L);
+        Optional<District> foundedDistrict = districtRepository.findById(savedDistrict.getId());
 
         assertThat(foundedDistrict.orElseGet(District::new).getProvince().getId()).isEqualTo(10L);
 

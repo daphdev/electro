@@ -1,6 +1,7 @@
 import { CategorySlugIconMap, EntityPropertySchema, EntityPropertyType, SelectOption } from 'types';
 import { ListResponse } from 'utils/FetchUtils';
 import {
+  Box,
   Cpu,
   DeviceGamepad2,
   DeviceLaptop,
@@ -71,16 +72,23 @@ class PageConfigs {
     },
   ];
 
-  static categorySlugIconMap: CategorySlugIconMap = {
-    'laptop': DeviceLaptop,
-    'tablet': DeviceTablet,
-    'smartwatch': DeviceWatch,
-    'am-thanh': DeviceSpeaker,
-    'ban-phim': Keyboard,
-    'chuot': Mouse,
-    'may-choi-game': DeviceGamepad2,
-    'cpu': Cpu,
-  };
+  static categorySlugIconMap: CategorySlugIconMap = new Proxy(
+    {
+      'laptop': DeviceLaptop,
+      'tablet': DeviceTablet,
+      'smartwatch': DeviceWatch,
+      'am-thanh': DeviceSpeaker,
+      'ban-phim': Keyboard,
+      'chuot': Mouse,
+      'may-choi-game': DeviceGamepad2,
+      'cpu': Cpu,
+    },
+    {
+      get: function (target: CategorySlugIconMap, name: string) {
+        return Object.prototype.hasOwnProperty.call(target, name) ? target[name] : Box;
+      },
+    }
+  );
 }
 
 export default PageConfigs;

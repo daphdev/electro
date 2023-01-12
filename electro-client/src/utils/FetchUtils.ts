@@ -36,13 +36,15 @@ export interface ErrorMessage {
   description: string;
 }
 
+type BasicRequestParams = Record<string, string | number | null | boolean>;
+
 class FetchUtils {
   /**
    * Hàm get cho các trường hợp truy vấn dữ liệu bên client
    * @param url
    * @param params
    */
-  static async get<O>(url: string, params?: Record<string, string | number>): Promise<O> {
+  static async get<O>(url: string, params?: BasicRequestParams): Promise<O> {
     const response = await fetch(FetchUtils.concatParams(url, params));
     if (!response.ok) {
       throw await response.json();
@@ -169,7 +171,7 @@ class FetchUtils {
    * @param url
    * @param requestParams
    */
-  private static concatParams = (url: string, requestParams?: Record<string, string | number>) => {
+  private static concatParams = (url: string, requestParams?: BasicRequestParams) => {
     if (requestParams) {
       const filteredRequestParams = Object.fromEntries(Object.entries(requestParams)
         .filter(([, v]) => v != null && String(v).trim() !== '')) as Record<string, string>;

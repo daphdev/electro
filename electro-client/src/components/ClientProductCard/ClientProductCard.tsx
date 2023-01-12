@@ -1,19 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ActionIcon, Box, Card, Group, Image, Stack, Text, useMantineTheme } from '@mantine/core';
+import { ActionIcon, Box, Card, Group, Highlight, Image, Stack, Text, useMantineTheme } from '@mantine/core';
 import MiscUtils from 'utils/MiscUtils';
 import { ClientListedProductResponse } from 'types';
 import { HeartPlus, ShoppingCartPlus } from 'tabler-icons-react';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useElementSize } from '@mantine/hooks';
 
 interface ClientProductCardProps {
   product: ClientListedProductResponse;
+  search?: string;
 }
 
-function ClientProductCard({ product }: ClientProductCardProps) {
+function ClientProductCard({ product, search }: ClientProductCardProps) {
   const theme = useMantineTheme();
 
   const [opened, handlers] = useDisclosure(false);
+
+  const { ref: refImage, width: widthImage } = useElementSize();
 
   return (
     <Card
@@ -22,16 +25,27 @@ function ClientProductCard({ product }: ClientProductCardProps) {
       p="lg"
       component={Link}
       to={'/product/' + product.productSlug}
-      sx={{ '&:hover': { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0] } }}
+      sx={{
+        height: '100%',
+        transition: 'box-shadow .2s ease-in',
+        '&:hover': {
+          backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : 'unset',
+          boxShadow: theme.shadows.lg,
+        },
+      }}
       onMouseEnter={handlers.open}
       onMouseLeave={handlers.close}
     >
       <Stack spacing="xs">
         <Box sx={{ position: 'relative' }}>
           <Image
+            ref={refImage}
             radius="md"
-            src={product.productThumbnail}
+            width={widthImage}
+            height={widthImage}
+            src={product.productThumbnail || undefined}
             alt={product.productName}
+            withPlaceholder
           />
           <Group
             spacing="xs"
@@ -66,8 +80,14 @@ function ClientProductCard({ product }: ClientProductCardProps) {
           </Group>
         </Box>
         <Stack spacing={theme.spacing.xs / 2}>
-          <Text weight={500}>{product.productName}</Text>
-          <Text weight={500} color="pink">{MiscUtils.formatPrice(product.productPrice) + ' ₫'}</Text>
+          <Text weight={500}>
+            <Highlight highlight={search || ''}>
+              {product.productName}
+            </Highlight>
+          </Text>
+          <Text weight={500} color="pink">
+            {product.productPriceRange.map(MiscUtils.formatPrice).join('–') + '\u00A0₫'}
+          </Text>
         </Stack>
       </Stack>
     </Card>

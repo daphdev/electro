@@ -55,6 +55,7 @@ import ClientHeader from 'components/ClientHeader/ClientHeader';
 import ClientFooter from 'components/ClientFooter/ClientFooter';
 import ClientCarousel from 'components/ClientCarousel/ClientCarousel';
 import ClientProductCard from 'components/ClientProductCard/ClientProductCard';
+import ClientError from 'components/ClientError/ClientError';
 
 export {
   CreateUpdateTitle,
@@ -104,4 +105,5 @@ export {
   ClientFooter,
   ClientCarousel,
   ClientProductCard,
+  ClientError,
 };

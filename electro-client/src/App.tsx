@@ -51,6 +51,7 @@ import CountManage, { CountCreate, CountUpdate } from 'pages/count';
 import ClientHome from 'pages/client-home';
 import ClientAllCategories from 'pages/client-all-categories';
 import ClientCategory from 'pages/client-category/ClientCategory';
+import ClientSearch from 'pages/client-search/ClientSearch';
 
 const queryClient = new QueryClient();
 
@@ -70,6 +71,7 @@ function App() {
                   <Route index element={<ClientHome/>}/>
                   <Route path="/all-categories" element={<ClientAllCategories/>}/>
                   <Route path="/category/:slug" element={<ClientCategory/>}/>
+                  <Route path="/search" element={<ClientSearch/>}/>
                 </Route>
                 <Route path="/admin" element={<Admin/>}>
                   <Route index element={<AdminDashboard/>}/>

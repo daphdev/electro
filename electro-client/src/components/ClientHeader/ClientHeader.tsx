@@ -14,9 +14,9 @@ import {
   useMantineTheme
 } from '@mantine/core';
 import React, { useState } from 'react';
-import { ElectroLogo } from 'components/index';
+import { ElectroLogo } from 'components';
 import { Bell, FileBarcode, List, Search, ShoppingCart, User } from 'tabler-icons-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CategoryMenu from 'components/ClientHeader/CategoryMenu';
 import { useElementSize } from '@mantine/hooks';
 
@@ -40,7 +40,6 @@ const useStyles = createStyles((theme) => ({
       color: theme.white,
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.blue[8] : theme.colors.blue[6],
     },
-
   },
 }));
 
@@ -51,6 +50,15 @@ function ClientHeader() {
   const [openedCategoryMenu, setOpenedCategoryMenu] = useState(false);
 
   const { ref: refHeaderStack, width: widthHeaderStack } = useElementSize();
+
+  // Search state & function
+  const navigate = useNavigate();
+  const [search, setSearch] = useState('');
+  const handleSearchInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && search.trim() !== '') {
+      navigate('/search?q=' + search.trim());
+    }
+  };
 
   return (
     <header className={classes.header}>
@@ -67,6 +75,9 @@ function ClientHeader() {
               radius="md"
               icon={<Search size={16}/>}
               sx={{ width: 500 }}
+              value={search}
+              onChange={(event) => setSearch(event.currentTarget.value)}
+              onKeyDown={handleSearchInput}
             />
             <Group spacing="xs">
               <Tooltip
@@ -129,7 +140,7 @@ function ClientHeader() {
                 radius="md"
                 shadow="md"
               >
-                <CategoryMenu/>
+                <CategoryMenu setOpenedCategoryMenu={setOpenedCategoryMenu}/>
               </Popover>
               <Button variant="subtle" radius="md">
                 Sản phẩm mới
