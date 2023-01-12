@@ -7,13 +7,13 @@ import com.electro.dto.ListResponse;
 import com.electro.dto.inventory.ProductInventoryResponse;
 import com.electro.dto.inventory.VariantInventoryResponse;
 import com.electro.entity.inventory.DocketVariant;
-import com.electro.entity.inventory.ProductInventory;
-import com.electro.entity.inventory.VariantInventory;
 import com.electro.entity.product.Product;
 import com.electro.entity.product.Variant;
 import com.electro.exception.ResourceNotFoundException;
 import com.electro.mapper.product.ProductInventoryMapper;
 import com.electro.mapper.product.VariantInventoryMapper;
+import com.electro.projection.inventory.ProductInventory;
+import com.electro.projection.inventory.VariantInventory;
 import com.electro.repository.inventory.DocketVariantRepository;
 import com.electro.repository.product.ProductRepository;
 import com.electro.repository.product.VariantRepository;
@@ -37,7 +37,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
-@CrossOrigin("http://localhost:3000/")
+@CrossOrigin(AppConstants.DOMAIN)
 public class InventoryController {
 
     private ProductRepository productRepository;

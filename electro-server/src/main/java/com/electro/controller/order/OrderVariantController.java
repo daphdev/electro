@@ -1,5 +1,6 @@
 package com.electro.controller.order;
 
+import com.electro.constant.AppConstants;
 import com.electro.dto.order.OrderVariantKeyRequest;
 import com.electro.entity.order.OrderVariantKey;
 import com.electro.service.inventory.OrderVariantService;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/order-variants")
 @AllArgsConstructor
-@CrossOrigin("http://localhost:3000/")
+@CrossOrigin(AppConstants.DOMAIN)
 public class OrderVariantController {
 
     private OrderVariantService orderVariantService;

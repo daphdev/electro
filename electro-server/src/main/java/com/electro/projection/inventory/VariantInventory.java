@@ -1,13 +1,14 @@
-package com.electro.entity.inventory;
+package com.electro.projection.inventory;
 
-import com.electro.entity.product.Product;
+import com.electro.entity.inventory.DocketVariant;
+import com.electro.entity.product.Variant;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class ProductInventory {
-    private Product product;
+public class VariantInventory {
+    private Variant variant;
     private List<DocketVariant> transactions;
     private Integer inventory;
     private Integer waitingForDelivery;

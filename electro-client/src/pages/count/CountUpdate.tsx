@@ -103,8 +103,8 @@ function CountUpdate() {
                 <Divider mt="xs"/>
 
                 <Group position="apart" p="sm">
-                  <Button variant="default" onClick={resetForm}>Cập nhật</Button>
-                  <Button type="submit">Thêm</Button>
+                  <Button variant="default" onClick={resetForm}>Mặc định</Button>
+                  <Button type="submit">Cập nhật</Button>
                 </Group>
               </Stack>
             </Paper>

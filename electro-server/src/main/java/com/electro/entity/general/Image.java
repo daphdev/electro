@@ -36,6 +36,14 @@ public class Image extends BaseEntity {
     @Column(name = "size", nullable = false)
     private Long size;
 
+    /**
+     * Có 3 nhóm (group):
+     * <ul>
+     *     <li>P – Product</li>
+     *     <li>C – Category</li>
+     *     <li>U – User</li>
+     * </ul>
+     */
     @Column(name = "`group`", nullable = false)
     private String group;
 

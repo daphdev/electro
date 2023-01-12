@@ -1,7 +1,7 @@
 package com.electro.mapper.product;
 
 import com.electro.dto.inventory.VariantInventoryResponse;
-import com.electro.entity.inventory.VariantInventory;
+import com.electro.projection.inventory.VariantInventory;
 import com.electro.mapper.inventory.DocketVariantMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;

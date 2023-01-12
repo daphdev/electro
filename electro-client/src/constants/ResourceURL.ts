@@ -1,8 +1,10 @@
 import ApplicationConstants from 'constants/ApplicationConstants';
 
 const apiPath = ApplicationConstants.API_PATH;
+const clientApiPath = ApplicationConstants.CLIENT_API_PATH;
 
 class ResourceURL {
+  // ADMIN
   static ADDRESS = apiPath + '/addresses';
   static PROVINCE = apiPath + '/provinces';
   static DISTRICT = apiPath + '/districts';
@@ -51,6 +53,12 @@ class ResourceURL {
   static ORDER_VARIANT = apiPath + '/order-variants';
   static ORDER_RESOURCE = apiPath + '/order-resources';
   static ORDER_CANCELLATION_REASON = apiPath + '/order-cancellation-reasons';
+
+  // CLIENT
+  static CLIENT_CATEGORY = clientApiPath + '/categories';
+  static CLIENT_PRODUCT = clientApiPath + '/products';
+  static CLIENT_FILTER_CATEGORY = clientApiPath + '/filters/category';
+  static CLIENT_FILTER_SEARCH = clientApiPath + '/filters/search';
 }
 
 export default ResourceURL;
