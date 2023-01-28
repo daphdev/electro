@@ -56,6 +56,8 @@ import ClientFooter from 'components/ClientFooter/ClientFooter';
 import ClientCarousel from 'components/ClientCarousel/ClientCarousel';
 import ClientProductCard from 'components/ClientProductCard/ClientProductCard';
 import ClientError from 'components/ClientError/ClientError';
+import ProtectedRoute from 'components/ProtectedRoute/ProtectedRoute';
+import ClientUserNavbar from 'components/ClientUserNavbar/ClientUserNavbar';
 
 export {
   CreateUpdateTitle,
@@ -106,4 +108,6 @@ export {
   ClientCarousel,
   ClientProductCard,
   ClientError,
+  ProtectedRoute,
+  ClientUserNavbar,
 };

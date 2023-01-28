@@ -2,6 +2,9 @@ package com.electro.mapper.authentication;
 
 import com.electro.dto.authentication.UserRequest;
 import com.electro.dto.authentication.UserResponse;
+import com.electro.dto.client.ClientEmailSettingUserRequest;
+import com.electro.dto.client.ClientPersonalSettingUserRequest;
+import com.electro.dto.client.ClientPhoneSettingUserRequest;
 import com.electro.entity.authentication.User;
 import com.electro.mapper.GenericMapper;
 import com.electro.mapper.address.AddressMapper;
@@ -26,5 +29,14 @@ public interface UserMapper extends GenericMapper<User, UserRequest, UserRespons
     @Mapping(source = "password", target = "password", qualifiedByName = "hashPassword",
             nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     User partialUpdate(@MappingTarget User entity, UserRequest request);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    User partialUpdate(@MappingTarget User entity, ClientPersonalSettingUserRequest request);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    User partialUpdate(@MappingTarget User entity, ClientPhoneSettingUserRequest request);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    User partialUpdate(@MappingTarget User entity, ClientEmailSettingUserRequest request);
 
 }

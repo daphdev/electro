@@ -5,6 +5,7 @@ import {
   Container,
   createStyles,
   Group,
+  Menu,
   Popover,
   Stack,
   Text,
@@ -15,10 +16,28 @@ import {
 } from '@mantine/core';
 import React, { useState } from 'react';
 import { ElectroLogo } from 'components';
-import { Bell, FileBarcode, List, Search, ShoppingCart, User } from 'tabler-icons-react';
+import {
+  Alarm,
+  Award,
+  Bell,
+  FileBarcode,
+  Fingerprint,
+  Heart,
+  List,
+  Login,
+  Logout,
+  MessageCircle,
+  Search,
+  Settings,
+  ShoppingCart,
+  Star,
+  User
+} from 'tabler-icons-react';
 import { Link, useNavigate } from 'react-router-dom';
 import CategoryMenu from 'components/ClientHeader/CategoryMenu';
 import { useElementSize } from '@mantine/hooks';
+import useAuthStore from 'stores/use-auth-store';
+import NotifyUtils from 'utils/NotifyUtils';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -51,12 +70,22 @@ function ClientHeader() {
 
   const { ref: refHeaderStack, width: widthHeaderStack } = useElementSize();
 
+  const { user, resetAuthState } = useAuthStore();
+
   // Search state & function
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
+
   const handleSearchInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && search.trim() !== '') {
       navigate('/search?q=' + search.trim());
+    }
+  };
+
+  const handleSignoutMenu = () => {
+    if (user) {
+      resetAuthState();
+      NotifyUtils.simpleSuccess('Đăng xuất thành công');
     }
   };
 
@@ -80,10 +109,7 @@ function ClientHeader() {
               onKeyDown={handleSearchInput}
             />
             <Group spacing="xs">
-              <Tooltip
-                label="Giỏ hàng"
-                position="bottom"
-              >
+              <Tooltip label="Giỏ hàng" position="bottom">
                 <UnstyledButton component={Link} to="/cart">
                   <Group spacing="xs" px={theme.spacing.sm} py={theme.spacing.xs} className={classes.iconGroup}>
                     <ShoppingCart strokeWidth={1}/>
@@ -91,10 +117,8 @@ function ClientHeader() {
                   </Group>
                 </UnstyledButton>
               </Tooltip>
-              <Tooltip
-                label="Đơn hàng"
-                position="bottom"
-              >
+
+              <Tooltip label="Đơn hàng" position="bottom">
                 <UnstyledButton component={Link} to="/order">
                   <Group spacing="xs" px={theme.spacing.sm} py={theme.spacing.xs} className={classes.iconGroup}>
                     <FileBarcode strokeWidth={1}/>
@@ -102,26 +126,72 @@ function ClientHeader() {
                   </Group>
                 </UnstyledButton>
               </Tooltip>
-              <Tooltip
-                label="Thông báo"
-                position="bottom"
-              >
+
+              <Tooltip label="Thông báo" position="bottom">
                 <UnstyledButton component={Link} to="/user/notification">
                   <Group spacing="xs" px={theme.spacing.sm} py={theme.spacing.xs} className={classes.iconGroup}>
                     <Bell strokeWidth={1}/>
                   </Group>
                 </UnstyledButton>
               </Tooltip>
-              <Tooltip
-                label="Tài khoản"
-                position="bottom"
+
+              <Menu
+                placement="end"
+                control={(
+                  <Tooltip label="Tài khoản" position="bottom">
+                    <UnstyledButton>
+                      <Group
+                        spacing="xs"
+                        px={theme.spacing.sm}
+                        py={theme.spacing.xs}
+                        className={classes.iconGroup}
+                        sx={{ color: user ? theme.colors.blue[theme.colorScheme === 'dark' ? 4 : 7] : 'inherit' }}
+                      >
+                        <User strokeWidth={1}/>
+                      </Group>
+                    </UnstyledButton>
+                  </Tooltip>
+                )}
               >
-                <UnstyledButton component={Link} to="/user">
-                  <Group spacing="xs" px={theme.spacing.sm} py={theme.spacing.xs} className={classes.iconGroup}>
-                    <User strokeWidth={1}/>
-                  </Group>
-                </UnstyledButton>
-              </Tooltip>
+                {user && (
+                  <>
+                    <Menu.Item icon={<User size={14}/>} component={Link} to="/user">
+                      Tài khoản
+                    </Menu.Item>
+                    <Menu.Item icon={<Settings size={14}/>} component={Link} to="/user/setting">
+                      Thiết đặt
+                    </Menu.Item>
+                    <Menu.Item icon={<Star size={14}/>} component={Link} to="/user/review">
+                      Đánh giá sản phẩm
+                    </Menu.Item>
+                    <Menu.Item icon={<Heart size={14}/>} component={Link} to="/user/wishlist">
+                      Sản phẩm yêu thích
+                    </Menu.Item>
+                    <Menu.Item icon={<Award size={14}/>} component={Link} to="/user/reward">
+                      Điểm thưởng
+                    </Menu.Item>
+                    <Menu.Item icon={<Alarm size={14}/>} component={Link} to="/user/preorder">
+                      Đặt trước sản phẩm
+                    </Menu.Item>
+                    <Menu.Item icon={<MessageCircle size={14}/>} component={Link} to="/user/chat">
+                      Chat hỏi đáp
+                    </Menu.Item>
+                    <Menu.Item color="pink" icon={<Logout size={14}/>} onClick={handleSignoutMenu}>
+                      Đăng xuất
+                    </Menu.Item>
+                  </>
+                )}
+                {!user && (
+                  <>
+                    <Menu.Item icon={<Login size={14}/>} component={Link} to="/signin">
+                      Đăng nhập
+                    </Menu.Item>
+                    <Menu.Item icon={<Fingerprint size={14}/>} component={Link} to="/signup">
+                      Đăng ký
+                    </Menu.Item>
+                  </>
+                )}
+              </Menu>
             </Group>
           </Group>
           <Group position="apart" mb="md">

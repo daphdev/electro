@@ -50,8 +50,16 @@ import TransferManage, { TransferCreate, TransferUpdate } from 'pages/transfer';
 import CountManage, { CountCreate, CountUpdate } from 'pages/count';
 import ClientHome from 'pages/client-home';
 import ClientAllCategories from 'pages/client-all-categories';
-import ClientCategory from 'pages/client-category/ClientCategory';
-import ClientSearch from 'pages/client-search/ClientSearch';
+import ClientCategory from 'pages/client-category';
+import ClientSearch from 'pages/client-search';
+import ClientSignin from 'pages/client-signin';
+import ClientUser from 'pages/client-user';
+import { ProtectedRoute } from 'components';
+import ClientSetting from 'pages/client-setting';
+import ClientSettingPersonal from 'pages/client-setting-personal';
+import ClientSettingPhone from 'pages/client-setting-phone';
+import ClientSettingEmail from 'pages/client-setting-email';
+import ClientSettingPassword from 'pages/client-setting-password';
 
 const queryClient = new QueryClient();
 
@@ -72,6 +80,37 @@ function App() {
                   <Route path="/all-categories" element={<ClientAllCategories/>}/>
                   <Route path="/category/:slug" element={<ClientCategory/>}/>
                   <Route path="/search" element={<ClientSearch/>}/>
+                  <Route path="/signin" element={<ClientSignin/>}/>
+                  <Route path="/user" element={(
+                    <ProtectedRoute>
+                      <ClientUser/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/setting" element={(
+                    <ProtectedRoute>
+                      <ClientSetting/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/setting/personal" element={(
+                    <ProtectedRoute>
+                      <ClientSettingPersonal/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/setting/phone" element={(
+                    <ProtectedRoute>
+                      <ClientSettingPhone/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/setting/email" element={(
+                    <ProtectedRoute>
+                      <ClientSettingEmail/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/setting/password" element={(
+                    <ProtectedRoute>
+                      <ClientSettingPassword/>
+                    </ProtectedRoute>
+                  )}/>
                 </Route>
                 <Route path="/admin" element={<Admin/>}>
                   <Route index element={<AdminDashboard/>}/>
