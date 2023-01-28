@@ -1,10 +1,16 @@
 package com.electro.constant;
 
-import java.util.List;
-
 public interface SecurityConstants {
-    List<String> ADMIN_API_PATHS = List.of(
+    String[] ADMIN_API_PATHS = {
             "/api/users",
             "/api/roles"
-    );
+    };
+
+    interface Role {
+        String ADMIN = "ADMIN";
+
+        String EMPLOYEE = "EMPLOYEE";
+
+        String CUSTOMER = "CUSTOMER";
+    }
 }

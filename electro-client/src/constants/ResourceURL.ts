@@ -59,6 +59,14 @@ class ResourceURL {
   static CLIENT_PRODUCT = clientApiPath + '/products';
   static CLIENT_FILTER_CATEGORY = clientApiPath + '/filters/category';
   static CLIENT_FILTER_SEARCH = clientApiPath + '/filters/search';
+  static CLIENT_USER_INFO = clientApiPath + '/users/info';
+  static CLIENT_USER_PERSONAL_SETTING = clientApiPath + '/users/personal';
+  static CLIENT_USER_PHONE_SETTING = clientApiPath + '/users/phone';
+  static CLIENT_USER_EMAIL_SETTING = clientApiPath + '/users/email';
+  static CLIENT_USER_PASSWORD_SETTING = clientApiPath + '/users/password';
+
+  // AUTHENTICATION
+  static LOGIN = apiPath + '/auth/login';
 }
 
 export default ResourceURL;

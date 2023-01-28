@@ -1,6 +1,7 @@
 import { Icon } from 'tabler-icons-react';
 import { CollectionWrapper } from 'types/CollectionWrapper';
 import { VariantPropertyItem } from 'models/Variant';
+import { AddressRequest } from 'models/Address';
 
 export interface ClientCategoryResponse {
   categoryName: string;
@@ -37,4 +38,24 @@ export interface ClientFilterResponse {
 interface ClientBrandResponse {
   brandId: number;
   brandName: string;
+}
+
+export interface ClientPersonalSettingUserRequest {
+  username: string;
+  fullname: string;
+  gender: string;
+  address: AddressRequest;
+}
+
+export interface ClientPhoneSettingUserRequest {
+  phone: string;
+}
+
+export interface ClientEmailSettingUserRequest {
+  email: string;
+}
+
+export interface ClientPasswordSettingUserRequest {
+  oldPassword: string;
+  newPassword: string;
 }

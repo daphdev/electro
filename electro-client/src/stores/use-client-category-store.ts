@@ -51,7 +51,8 @@ const useClientCategoryStore = create<ClientCategoryState & ClientCategoryAction
         () => ({ activeSearch: value }), false, 'ClientCategoryStore/updateActiveSearch'),
       updateActiveSaleable: (value) => set(
         () => ({ activeSaleable: value }), false, 'ClientCategoryStore/updateActiveSaleable'),
-      resetClientCategoryState: () => set(initialClientCategoryState, false, 'ClientCategoryStore/resetClientCategoryState'),
+      resetClientCategoryState: () => set(
+        initialClientCategoryState, false, 'ClientCategoryStore/resetClientCategoryState'),
     }),
     {
       name: 'ClientCategoryStore',

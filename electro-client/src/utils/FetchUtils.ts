@@ -41,11 +41,79 @@ type BasicRequestParams = Record<string, string | number | null | boolean>;
 class FetchUtils {
   /**
    * Hàm get cho các trường hợp truy vấn dữ liệu bên client
-   * @param url
-   * @param params
+   * @param resourceUrl
+   * @param requestParams
    */
-  static async get<O>(url: string, params?: BasicRequestParams): Promise<O> {
-    const response = await fetch(FetchUtils.concatParams(url, params));
+  static async get<O>(resourceUrl: string, requestParams?: BasicRequestParams): Promise<O> {
+    const response = await fetch(FetchUtils.concatParams(resourceUrl, requestParams));
+    if (!response.ok) {
+      throw await response.json();
+    }
+    return await response.json();
+  }
+
+  /**
+   * Hàm post cho các trường hợp thực hiện truy vấn POST
+   * @param resourceUrl
+   * @param requestBody
+   */
+  static async post<I, O>(resourceUrl: string, requestBody: I): Promise<O> {
+    const response = await fetch(resourceUrl, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    });
+    if (!response.ok) {
+      throw await response.json();
+    }
+    return await response.json();
+  }
+
+  /**
+   * Hàm getWithToken
+   * @param resourceUrl
+   * @param requestParams
+   */
+  static async getWithToken<O>(resourceUrl: string, requestParams?: BasicRequestParams): Promise<O> {
+    const token = JSON.parse(localStorage.getItem('electro-auth-store') || '{}').state?.jwtToken;
+
+    // Source: https://stackoverflow.com/a/70426220
+    const response = await fetch(FetchUtils.concatParams(resourceUrl, requestParams), {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw await response.json();
+    }
+    return await response.json();
+  }
+
+  /**
+   * Hàm postWithToken
+   * @param resourceUrl
+   * @param requestBody
+   */
+  static async postWithToken<I, O>(resourceUrl: string, requestBody: I): Promise<O> {
+    const token = JSON.parse(localStorage.getItem('electro-auth-store') || '{}').state?.jwtToken;
+
+    const response = await fetch(resourceUrl, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    console.log(response);
     if (!response.ok) {
       throw await response.json();
     }

@@ -33,6 +33,8 @@ import com.electro.entity.product.Product;
 import com.electro.entity.product.Supplier;
 import com.electro.entity.product.Unit;
 import com.electro.entity.product.Variant;
+import com.electro.repository.address.DistrictRepository;
+import com.electro.repository.address.ProvinceRepository;
 import com.electro.repository.authentication.RoleRepository;
 import com.electro.repository.product.ProductRepository;
 import com.electro.repository.product.TagRepository;
@@ -63,10 +65,18 @@ public abstract class MapperUtils {
     private VariantRepository variantRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private ProvinceRepository provinceRepository;
+    @Autowired
+    private DistrictRepository districtRepository;
 
-    public abstract Province mapToProvince(Long id);
+    public Province mapToProvince(Long id) {
+        return provinceRepository.getById(id);
+    }
 
-    public abstract District mapToDistrict(Long id);
+    public District mapToDistrict(Long id) {
+        return districtRepository.getById(id);
+    }
 
     public abstract Office mapToOffice(Long id);
 
