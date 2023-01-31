@@ -155,4 +155,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
         return new PageImpl<>(products.subList(start, end), pageable, products.size());
     }
 
+    Optional<Product> findBySlug(String slug);
+
 }

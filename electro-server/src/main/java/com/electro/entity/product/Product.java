@@ -1,6 +1,9 @@
 package com.electro.entity.product;
 
 import com.electro.entity.BaseEntity;
+import com.electro.entity.client.Preorder;
+import com.electro.entity.client.Review;
+import com.electro.entity.client.Wish;
 import com.electro.entity.general.Image;
 import com.electro.entity.inventory.ProductInventoryLimit;
 import com.electro.utils.JsonNodeConverter;
@@ -110,4 +113,13 @@ public class Product extends BaseEntity {
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private ProductInventoryLimit productInventoryLimit;
+
+    @OneToMany(mappedBy = "product")
+    private List<Wish> wishes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    private List<Preorder> preorders = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    private List<Review> reviews = new ArrayList<>();
 }

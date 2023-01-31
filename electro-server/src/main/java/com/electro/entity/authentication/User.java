@@ -2,6 +2,9 @@ package com.electro.entity.authentication;
 
 import com.electro.entity.BaseEntity;
 import com.electro.entity.address.Address;
+import com.electro.entity.client.Preorder;
+import com.electro.entity.client.Review;
+import com.electro.entity.client.Wish;
 import com.electro.entity.customer.Customer;
 import com.electro.entity.employee.Employee;
 import lombok.AllArgsConstructor;
@@ -17,9 +20,12 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -71,4 +77,13 @@ public class User extends BaseEntity {
 
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     private Customer customer;
+
+    @OneToMany(mappedBy = "user")
+    private List<Wish> wishes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Preorder> preorders = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviews = new ArrayList<>();
 }

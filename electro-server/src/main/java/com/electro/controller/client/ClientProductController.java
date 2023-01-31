@@ -1,11 +1,14 @@
 package com.electro.controller.client;
 
 import com.electro.constant.AppConstants;
+import com.electro.constant.FieldName;
+import com.electro.constant.ResourceName;
 import com.electro.dto.ListResponse;
 import com.electro.dto.client.ClientListedProductResponse;
-import com.electro.entity.general.Image;
+import com.electro.dto.client.ClientProductResponse;
 import com.electro.entity.product.Product;
-import com.electro.entity.product.Variant;
+import com.electro.exception.ResourceNotFoundException;
+import com.electro.mapper.client.ClientProductMapper;
 import com.electro.projection.inventory.SimpleProductInventory;
 import com.electro.repository.ProjectionRepository;
 import com.electro.repository.product.ProductRepository;
@@ -18,12 +21,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/client-api/products")
@@ -33,6 +36,7 @@ public class ClientProductController {
 
     private ProductRepository productRepository;
     private ProjectionRepository projectionRepository;
+    private ClientProductMapper clientProductMapper;
 
     @GetMapping
     public ResponseEntity<ListResponse<ClientListedProductResponse>> getAllProducts(
@@ -55,45 +59,17 @@ public class ClientProductController {
         List<SimpleProductInventory> productInventories = projectionRepository.findSimpleProductInventories(productIds);
 
         List<ClientListedProductResponse> clientListedProductResponses = products
-                .map(product -> mapToResponse(product, productInventories)).toList();
+                .map(product -> clientProductMapper.entityToResponse(product, productInventories)).toList();
 
         return ResponseEntity.status(HttpStatus.OK).body(ListResponse.of(clientListedProductResponses, products));
     }
 
-    private ClientListedProductResponse mapToResponse(Product product, List<SimpleProductInventory> productInventories) {
-        ClientListedProductResponse clientListedProductResponse = new ClientListedProductResponse();
-
-        clientListedProductResponse
-                .setProductId(product.getId())
-                .setProductName(product.getName())
-                .setProductSlug(product.getSlug())
-                .setProductThumbnail(product.getImages().stream()
-                        .filter(Image::getIsThumbnail)
-                        .findAny()
-                        .map(Image::getPath)
-                        .orElse(null));
-
-        List<Double> prices = product.getVariants().stream()
-                .map(Variant::getPrice).distinct().sorted().collect(Collectors.toList());
-
-        clientListedProductResponse.setProductPriceRange(
-                prices.size() == 1 ? List.of(prices.get(0)) : List.of(prices.get(0), prices.get(prices.size() - 1))
-        );
-
-        clientListedProductResponse.setProductVariants(product.getVariants().stream()
-                .map(variant -> new ClientListedProductResponse.ClientListedVariantResponse()
-                        .setVariantId(variant.getId())
-                        .setVariantPrice(variant.getPrice())
-                        .setVariantProperties(variant.getProperties()))
-                .collect(Collectors.toList()));
-
-        clientListedProductResponse.setProductSaleable(productInventories.stream()
-                .filter(productInventory -> productInventory.getProductId().equals(product.getId()))
-                .findAny()
-                .map(productInventory -> productInventory.getCanBeSold() > 0)
-                .orElse(false));
-
-        return clientListedProductResponse;
+    @GetMapping("/{slug}")
+    public ResponseEntity<ClientProductResponse> getProduct(@PathVariable String slug) {
+        ClientProductResponse clientProductResponse = productRepository.findBySlug(slug)
+                .map(clientProductMapper::entityToResponse)
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceName.PRODUCT, FieldName.SLUG, slug));
+        return ResponseEntity.status(HttpStatus.OK).body(clientProductResponse);
     }
 
 }

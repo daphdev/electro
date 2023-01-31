@@ -60,6 +60,7 @@ import ClientSettingPersonal from 'pages/client-setting-personal';
 import ClientSettingPhone from 'pages/client-setting-phone';
 import ClientSettingEmail from 'pages/client-setting-email';
 import ClientSettingPassword from 'pages/client-setting-password';
+import ClientWishlist from 'pages/client-wishlist';
 
 const queryClient = new QueryClient();
 
@@ -109,6 +110,11 @@ function App() {
                   <Route path="/user/setting/password" element={(
                     <ProtectedRoute>
                       <ClientSettingPassword/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/wishlist" element={(
+                    <ProtectedRoute>
+                      <ClientWishlist/>
                     </ProtectedRoute>
                   )}/>
                 </Route>

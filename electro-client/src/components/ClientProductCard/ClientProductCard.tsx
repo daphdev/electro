@@ -1,10 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ActionIcon, Box, Card, Group, Highlight, Image, Stack, Text, useMantineTheme } from '@mantine/core';
+import { ActionIcon, Anchor, Box, Card, Group, Highlight, Image, Stack, Text, useMantineTheme } from '@mantine/core';
 import MiscUtils from 'utils/MiscUtils';
-import { ClientListedProductResponse } from 'types';
+import { ClientListedProductResponse, ClientWishRequest, ClientWishResponse } from 'types';
 import { HeartPlus, ShoppingCartPlus } from 'tabler-icons-react';
 import { useDisclosure, useElementSize } from '@mantine/hooks';
+import { useMutation } from 'react-query';
+import FetchUtils, { ErrorMessage } from 'utils/FetchUtils';
+import ResourceURL from 'constants/ResourceURL';
+import NotifyUtils from 'utils/NotifyUtils';
+import useAuthStore from 'stores/use-auth-store';
 
 interface ClientProductCardProps {
   product: ClientListedProductResponse;
@@ -17,6 +22,23 @@ function ClientProductCard({ product, search }: ClientProductCardProps) {
   const [opened, handlers] = useDisclosure(false);
 
   const { ref: refImage, width: widthImage } = useElementSize();
+
+  const createWishApi = useCreateWishApi();
+
+  const { user } = useAuthStore();
+
+  const handleCreateWishButton = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    if (!user) {
+      NotifyUtils.simple('Vui lòng đăng nhập để sử dụng chức năng');
+    } else {
+      const clientWishRequest: ClientWishRequest = {
+        userId: user.id,
+        productId: product.productId,
+      };
+      createWishApi.mutate(clientWishRequest);
+    }
+  };
 
   return (
     <Card
@@ -64,7 +86,7 @@ function ClientProductCard({ product, search }: ClientProductCardProps) {
               size="lg"
               radius="xl"
               variant="filled"
-              onClick={(event: React.MouseEvent<HTMLElement>) => event.preventDefault()}
+              onClick={handleCreateWishButton}
             >
               <HeartPlus size={18}/>
             </ActionIcon>
@@ -91,6 +113,22 @@ function ClientProductCard({ product, search }: ClientProductCardProps) {
         </Stack>
       </Stack>
     </Card>
+  );
+}
+
+function useCreateWishApi() {
+  return useMutation<ClientWishResponse, ErrorMessage, ClientWishRequest>(
+    (requestBody) => FetchUtils.postWithToken(ResourceURL.CLIENT_WISH, requestBody),
+    {
+      onSuccess: (response) =>
+        NotifyUtils.simpleSuccess(
+          <Text inherit>
+            <span>Đã thêm sản phẩm {response.wishProduct.productName} vào </span>
+            <Anchor component={Link} to="/user/wishlist" inherit>danh sách yêu thích</Anchor>
+          </Text>
+        ),
+      onError: () => NotifyUtils.simpleFailed('Không thêm được sản phẩm vào danh sách yêu thích'),
+    }
   );
 }
 

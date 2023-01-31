@@ -64,6 +64,9 @@ class ResourceURL {
   static CLIENT_USER_PHONE_SETTING = clientApiPath + '/users/phone';
   static CLIENT_USER_EMAIL_SETTING = clientApiPath + '/users/email';
   static CLIENT_USER_PASSWORD_SETTING = clientApiPath + '/users/password';
+  static CLIENT_WISH = clientApiPath + '/wishes';
+  static CLIENT_PREORDER = clientApiPath + '/preorders';
+  static CLIENT_REVIEW = clientApiPath + '/reviews';
 
   // AUTHENTICATION
   static LOGIN = apiPath + '/auth/login';
