@@ -1,9 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ActionIcon, Anchor, Box, Card, Group, Highlight, Image, Stack, Text, useMantineTheme } from '@mantine/core';
+import {
+  ActionIcon,
+  Anchor,
+  Badge,
+  Box,
+  Card,
+  Group,
+  Highlight,
+  Image,
+  Stack,
+  Text,
+  useMantineTheme
+} from '@mantine/core';
 import MiscUtils from 'utils/MiscUtils';
-import { ClientListedProductResponse, ClientWishRequest, ClientWishResponse } from 'types';
-import { HeartPlus, ShoppingCartPlus } from 'tabler-icons-react';
+import {
+  ClientListedProductResponse,
+  ClientPreorderRequest,
+  ClientPreorderResponse,
+  ClientWishRequest,
+  ClientWishResponse
+} from 'types';
+import { BellPlus, HeartPlus, ShoppingCartPlus } from 'tabler-icons-react';
 import { useDisclosure, useElementSize } from '@mantine/hooks';
 import { useMutation } from 'react-query';
 import FetchUtils, { ErrorMessage } from 'utils/FetchUtils';
@@ -24,6 +42,7 @@ function ClientProductCard({ product, search }: ClientProductCardProps) {
   const { ref: refImage, width: widthImage } = useElementSize();
 
   const createWishApi = useCreateWishApi();
+  const createPreorderApi = useCreatePreorderApi();
 
   const { user } = useAuthStore();
 
@@ -37,6 +56,20 @@ function ClientProductCard({ product, search }: ClientProductCardProps) {
         productId: product.productId,
       };
       createWishApi.mutate(clientWishRequest);
+    }
+  };
+
+  const handleCreatePreorderButton = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    if (!user) {
+      NotifyUtils.simple('Vui lòng đăng nhập để sử dụng chức năng');
+    } else {
+      const clientPreorderRequest: ClientPreorderRequest = {
+        userId: user.id,
+        productId: product.productId,
+        status: 1,
+      };
+      createPreorderApi.mutate(clientPreorderRequest);
     }
   };
 
@@ -86,27 +119,47 @@ function ClientProductCard({ product, search }: ClientProductCardProps) {
               size="lg"
               radius="xl"
               variant="filled"
+              title="Thêm vào danh sách yêu thích"
               onClick={handleCreateWishButton}
             >
               <HeartPlus size={18}/>
             </ActionIcon>
-            <ActionIcon
-              color="blue"
-              size="lg"
-              radius="xl"
-              variant="filled"
-              onClick={(event: React.MouseEvent<HTMLElement>) => event.preventDefault()}
-            >
-              <ShoppingCartPlus size={18}/>
-            </ActionIcon>
+            {product.productSaleable
+              ? (
+                <ActionIcon
+                  color="blue"
+                  size="lg"
+                  radius="xl"
+                  variant="filled"
+                  title="Thêm vào giỏ hàng"
+                  onClick={(event: React.MouseEvent<HTMLElement>) => event.preventDefault()}
+                >
+                  <ShoppingCartPlus size={18}/>
+                </ActionIcon>
+              )
+              : (
+                <ActionIcon
+                  color="teal"
+                  size="lg"
+                  radius="xl"
+                  variant="filled"
+                  title="Thông báo khi có hàng"
+                  onClick={handleCreatePreorderButton}
+                >
+                  <BellPlus size={18}/>
+                </ActionIcon>
+              )}
           </Group>
         </Box>
         <Stack spacing={theme.spacing.xs / 2}>
-          <Text weight={500}>
-            <Highlight highlight={search || ''}>
-              {product.productName}
-            </Highlight>
-          </Text>
+          <Group spacing="xs">
+            <Text weight={500}>
+              <Highlight highlight={search || ''}>
+                {product.productName}
+              </Highlight>
+            </Text>
+            {!product.productSaleable && <Badge size="xs" color="red" variant="filled">Hết hàng</Badge>}
+          </Group>
           <Text weight={500} color="pink">
             {product.productPriceRange.map(MiscUtils.formatPrice).join('–') + '\u00A0₫'}
           </Text>
@@ -128,6 +181,22 @@ function useCreateWishApi() {
           </Text>
         ),
       onError: () => NotifyUtils.simpleFailed('Không thêm được sản phẩm vào danh sách yêu thích'),
+    }
+  );
+}
+
+function useCreatePreorderApi() {
+  return useMutation<ClientPreorderResponse, ErrorMessage, ClientPreorderRequest>(
+    (requestBody) => FetchUtils.postWithToken(ResourceURL.CLIENT_PREORDER, requestBody),
+    {
+      onSuccess: (response) =>
+        NotifyUtils.simpleSuccess(
+          <Text inherit>
+            <span>Đã thêm sản phẩm {response.preorderProduct.productName} vào </span>
+            <Anchor component={Link} to="/user/preorder" inherit>danh sách đặt trước</Anchor>
+          </Text>
+        ),
+      onError: () => NotifyUtils.simpleFailed('Không thêm được sản phẩm vào danh sách đặt trước'),
     }
   );
 }

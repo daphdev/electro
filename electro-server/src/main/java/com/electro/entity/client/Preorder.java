@@ -33,7 +33,7 @@ public class Preorder extends BaseEntity {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    // TODO: 3 trạng thái: Chờ thông báo, Thông báo có hàng, Hủy thông báo
+    // TODO: 3 trạng thái: Chờ thông báo, Đã thông báo có hàng, Hủy thông báo
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
 }

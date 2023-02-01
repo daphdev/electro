@@ -61,6 +61,7 @@ import ClientSettingPhone from 'pages/client-setting-phone';
 import ClientSettingEmail from 'pages/client-setting-email';
 import ClientSettingPassword from 'pages/client-setting-password';
 import ClientWishlist from 'pages/client-wishlist';
+import ClientPreorder from 'pages/client-preorder';
 
 const queryClient = new QueryClient();
 
@@ -115,6 +116,11 @@ function App() {
                   <Route path="/user/wishlist" element={(
                     <ProtectedRoute>
                       <ClientWishlist/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/preorder" element={(
+                    <ProtectedRoute>
+                      <ClientPreorder/>
                     </ProtectedRoute>
                   )}/>
                 </Route>

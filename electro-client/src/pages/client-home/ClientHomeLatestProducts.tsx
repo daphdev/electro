@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Grid, Group, Skeleton, Stack, Text, Title, useMantineTheme } from '@mantine/core';
-import { AlertTriangle, List, MoodEmpty } from 'tabler-icons-react';
+import { AlertTriangle, List, Marquee } from 'tabler-icons-react';
 import { ClientProductCard } from 'components';
 import { useQuery } from 'react-query';
 import FetchUtils, { ErrorMessage, ListResponse } from 'utils/FetchUtils';
@@ -52,7 +52,7 @@ function ClientHomeLatestProducts() {
   if (products && products.totalElements === 0) {
     resultFragment = (
       <Stack my={theme.spacing.xl} sx={{ alignItems: 'center', color: theme.colors.blue[6] }}>
-        <MoodEmpty size={125} strokeWidth={1}/>
+        <Marquee size={125} strokeWidth={1}/>
         <Text size="xl" weight={500}>Không có sản phẩm</Text>
       </Stack>
     );

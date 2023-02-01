@@ -110,6 +110,7 @@ export interface ClientWishRequest {
 export interface ClientPreorderResponse {
   preorderId: number;
   preorderCreatedAt: string;
+  preorderUpdatedAt: string;
   preorderProduct: ClientListedProductResponse;
   preorderStatus: number;
 }

@@ -8,12 +8,17 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.Optional;
+
 public interface PreorderRepository extends JpaRepository<Preorder, Long>, JpaSpecificationExecutor<Preorder> {
 
-    default Page<Preorder> findAll(String sort, String filter, Pageable pageable) {
+    default Page<Preorder> findAllByUsername(String username, String sort, String filter, Pageable pageable) {
         Specification<Preorder> sortable = RSQLJPASupport.toSort(sort);
         Specification<Preorder> filterable = RSQLJPASupport.toSpecification(filter);
-        return findAll(sortable.and(filterable), pageable);
+        Specification<Preorder> usernameSpec = RSQLJPASupport.toSpecification("user.username==" + username);
+        return findAll(sortable.and(filterable).and(usernameSpec), pageable);
     }
+
+    Optional<Preorder> findByUser_IdAndProduct_Id(Long userId, Long productId);
 
 }

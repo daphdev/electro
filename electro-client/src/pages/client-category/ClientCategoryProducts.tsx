@@ -7,7 +7,7 @@ import FetchUtils, { ErrorMessage, ListResponse } from 'utils/FetchUtils';
 import { ClientListedProductResponse } from 'types';
 import ResourceURL from 'constants/ResourceURL';
 import NotifyUtils from 'utils/NotifyUtils';
-import { AlertTriangle, MoodEmpty } from 'tabler-icons-react';
+import { AlertTriangle, Marquee } from 'tabler-icons-react';
 import useClientCategoryStore from 'stores/use-client-category-store';
 
 interface ClientCategoryProductsProps {
@@ -48,7 +48,7 @@ function ClientCategoryProducts({ categorySlug }: ClientCategoryProductsProps) {
   if (products.totalElements === 0) {
     return (
       <Stack my={theme.spacing.xl} sx={{ alignItems: 'center', color: theme.colors.blue[6] }}>
-        <MoodEmpty size={125} strokeWidth={1}/>
+        <Marquee size={125} strokeWidth={1}/>
         <Text size="xl" weight={500}>Không có sản phẩm</Text>
       </Stack>
     );

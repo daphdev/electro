@@ -10,6 +10,7 @@ import java.time.Instant;
 public class ClientPreorderResponse {
     private Long preorderId;
     private Instant preorderCreatedAt;
+    private Instant preorderUpdatedAt;
     private ClientListedProductResponse preorderProduct;
     private Integer preorderStatus;
 }

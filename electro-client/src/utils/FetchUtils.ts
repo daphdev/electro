@@ -120,6 +120,30 @@ class FetchUtils {
   }
 
   /**
+   * Hàm putWithToken
+   * @param resourceUrl
+   * @param requestBody
+   */
+  static async putWithToken<I, O>(resourceUrl: string, requestBody: I): Promise<O> {
+    const token = JSON.parse(localStorage.getItem('electro-auth-store') || '{}').state?.jwtToken;
+
+    const response = await fetch(resourceUrl, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (!response.ok) {
+      throw await response.json();
+    }
+    return await response.json();
+  }
+
+  /**
    * Hàm deleteWithToken
    * @param resourceUrl
    * @param entityIds

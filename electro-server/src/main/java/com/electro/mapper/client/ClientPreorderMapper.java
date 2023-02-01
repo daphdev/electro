@@ -8,6 +8,7 @@ import com.electro.repository.product.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.Collections;
 
 @Component
@@ -30,6 +31,7 @@ public class ClientPreorderMapper {
         ClientPreorderResponse response = new ClientPreorderResponse();
         response.setPreorderId(entity.getId());
         response.setPreorderCreatedAt(entity.getCreatedAt());
+        response.setPreorderUpdatedAt(entity.getUpdatedAt());
         // TODO: Triển khai `saleable` cho productResponse ở đây
         response.setPreorderProduct(clientProductMapper.entityToResponse(entity.getProduct(), Collections.emptyList()));
         response.setPreorderStatus(entity.getStatus());
@@ -37,6 +39,7 @@ public class ClientPreorderMapper {
     }
 
     public Preorder partialUpdate(Preorder entity, ClientPreorderRequest request) {
+        entity.setUpdatedAt(Instant.now());
         entity.setStatus(request.getStatus());
         return entity;
     }
