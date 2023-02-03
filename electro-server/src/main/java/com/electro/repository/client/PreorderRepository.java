@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PreorderRepository extends JpaRepository<Preorder, Long>, JpaSpecificationExecutor<Preorder> {
@@ -20,5 +21,7 @@ public interface PreorderRepository extends JpaRepository<Preorder, Long>, JpaSp
     }
 
     Optional<Preorder> findByUser_IdAndProduct_Id(Long userId, Long productId);
+
+    List<Preorder> findByProduct_IdInAndStatus(List<Long> productIds, Integer status);
 
 }

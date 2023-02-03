@@ -387,7 +387,7 @@ insert into order_variant (order_id, variant_id, price, quantity, amount) values
 insert into wish (created_at, updated_at, user_id, product_id) values ('2021-10-03 21:16:01', '2021-11-18 00:55:52', 4, 1);
 
 -- preorder TABLE: 1 records
-insert into preorder (created_at, updated_at, user_id, product_id, status) values ('2021-10-03 21:16:01', '2021-11-18 00:55:52', 4, 3, 1);
+insert into preorder (created_at, updated_at, user_id, product_id, status) values ('2021-10-03 21:16:01', '2021-11-18 00:55:52', 4, 1, 1);
 
 -- review TABLE: 1 records
 insert into review (created_at, updated_at, user_id, product_id, rating_score, content, status) values ('2021-10-03 21:16:01', '2021-11-18 00:55:52', 4, 1, 4, 'Test comment review.', 1);

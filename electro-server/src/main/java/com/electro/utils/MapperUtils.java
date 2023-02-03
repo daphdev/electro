@@ -36,6 +36,7 @@ import com.electro.entity.product.Variant;
 import com.electro.repository.address.DistrictRepository;
 import com.electro.repository.address.ProvinceRepository;
 import com.electro.repository.authentication.RoleRepository;
+import com.electro.repository.authentication.UserRepository;
 import com.electro.repository.product.ProductRepository;
 import com.electro.repository.product.TagRepository;
 import com.electro.repository.product.VariantRepository;
@@ -69,6 +70,8 @@ public abstract class MapperUtils {
     private ProvinceRepository provinceRepository;
     @Autowired
     private DistrictRepository districtRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public Province mapToProvince(Long id) {
         return provinceRepository.getById(id);
@@ -126,6 +129,10 @@ public abstract class MapperUtils {
 
     public Product mapToProduct(Long id) {
         return productRepository.getById(id);
+    }
+
+    public User mapToUser(Long id) {
+        return userRepository.getById(id);
     }
 
     @Named("hashPassword")

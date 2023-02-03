@@ -12,6 +12,7 @@ class ApplicationConstants {
   static DEFAULT_CLIENT_PREORDER_PAGE_SIZE = 5;
   static DEFAULT_CLIENT_USER_REVIEW_PAGE_SIZE = 5;
   static DEFAULT_CLIENT_PRODUCT_REVIEW_PAGE_SIZE = 5;
+  static DEFAULT_CLIENT_NOTIFICATION_PAGE_SIZE = 5;
 }
 
 export default ApplicationConstants;

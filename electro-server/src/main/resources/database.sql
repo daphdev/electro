@@ -41,6 +41,8 @@
 
     drop table if exists prod.job_type;
 
+    drop table if exists prod.notification;
+
     drop table if exists prod.office;
 
     drop table if exists prod.`order`;
@@ -357,6 +359,20 @@
         updated_by bigint,
         name varchar(255) not null,
         status TINYINT not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.notification (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        anchor varchar(255),
+        message varchar(255) not null,
+        status TINYINT not null,
+        type varchar(255) not null,
+        user_id bigint not null,
         primary key (id)
     ) engine=MyISAM;
 
@@ -937,6 +953,11 @@
        add constraint FKgpextbyee3uk9u6o2381m7ft1 
        foreign key (product_id) 
        references prod.product (id);
+
+    alter table prod.notification 
+       add constraint FKb0yvoep4h4k92ipon31wmdf7e 
+       foreign key (user_id) 
+       references prod.user (id);
 
     alter table prod.office 
        add constraint FKak81m3gkj8xq5t48xuflbj0kn 

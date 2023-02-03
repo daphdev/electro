@@ -5,6 +5,7 @@ import {
   Container,
   createStyles,
   Group,
+  Indicator,
   Menu,
   Popover,
   Stack,
@@ -14,7 +15,7 @@ import {
   UnstyledButton,
   useMantineTheme
 } from '@mantine/core';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ElectroLogo } from 'components';
 import {
   Alarm,
@@ -38,6 +39,12 @@ import CategoryMenu from 'components/ClientHeader/CategoryMenu';
 import { useElementSize } from '@mantine/hooks';
 import useAuthStore from 'stores/use-auth-store';
 import NotifyUtils from 'utils/NotifyUtils';
+import { useQuery } from 'react-query';
+import FetchUtils, { ErrorMessage } from 'utils/FetchUtils';
+import ResourceURL from 'constants/ResourceURL';
+import { EventInitiationResponse, NotificationResponse } from 'models/Notification';
+import MiscUtils from 'utils/MiscUtils';
+import useClientSiteStore from 'stores/use-client-site-store';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -76,6 +83,18 @@ function ClientHeader() {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
 
+  useNotificationEvents();
+
+  const { newNotifications } = useClientSiteStore();
+
+  const [disabledNotificationIndicator, setDisabledNotificationIndicator] = useState(true);
+
+  useEffect(() => {
+    if (newNotifications.length > 0) {
+      setDisabledNotificationIndicator(false);
+    }
+  }, [newNotifications.length]);
+
   const handleSearchInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && search.trim() !== '') {
       navigate('/search?q=' + search.trim());
@@ -86,6 +105,15 @@ function ClientHeader() {
     if (user) {
       resetAuthState();
       NotifyUtils.simpleSuccess('Đăng xuất thành công');
+    }
+  };
+
+  const handleNotificationButton = () => {
+    if (user) {
+      setDisabledNotificationIndicator(true);
+      navigate('/user/notification');
+    } else {
+      NotifyUtils.simple('Vui lòng đăng nhập để sử dụng chức năng');
     }
   };
 
@@ -128,10 +156,12 @@ function ClientHeader() {
               </Tooltip>
 
               <Tooltip label="Thông báo" position="bottom">
-                <UnstyledButton component={Link} to="/user/notification">
-                  <Group spacing="xs" px={theme.spacing.sm} py={theme.spacing.xs} className={classes.iconGroup}>
-                    <Bell strokeWidth={1}/>
-                  </Group>
+                <UnstyledButton onClick={handleNotificationButton}>
+                  <Indicator size={14} color="pink" withBorder disabled={disabledNotificationIndicator}>
+                    <Group spacing="xs" px={theme.spacing.sm} py={theme.spacing.xs} className={classes.iconGroup}>
+                      <Bell strokeWidth={1}/>
+                    </Group>
+                  </Indicator>
                 </UnstyledButton>
               </Tooltip>
 
@@ -231,6 +261,41 @@ function ClientHeader() {
       </Container>
     </header>
   );
+}
+
+function useNotificationEvents() {
+  const { user } = useAuthStore();
+
+  const eventSourceRef = useRef<EventSource | null>(null);
+
+  const { pushNewNotification } = useClientSiteStore();
+
+  useQuery<EventInitiationResponse, ErrorMessage>(
+    ['client-api', 'notifications/init-events', 'initNotificationEvents'],
+    () => FetchUtils.getWithToken(ResourceURL.CLIENT_NOTIFICATION_INIT_EVENTS),
+    {
+      onSuccess: (response) => {
+        const eventSource = new EventSource(`${ResourceURL.CLIENT_NOTIFICATION_EVENTS}?eventSourceUuid=${response.eventSourceUuid}`);
+
+        eventSource.onopen = () => MiscUtils.console.log('Opening EventSource of Notifications...');
+
+        eventSource.onerror = () => MiscUtils.console.error('Encountered error with Notifications EventSource!');
+
+        eventSource.onmessage = (event) => {
+          const notificationResponse = JSON.parse(event.data) as NotificationResponse;
+          pushNewNotification(notificationResponse);
+        };
+
+        eventSourceRef.current = eventSource;
+      },
+      onError: () => NotifyUtils.simpleFailed('Lấy dữ liệu không thành công'),
+      refetchOnWindowFocus: false,
+      keepPreviousData: true,
+      enabled: !!user,
+    }
+  );
+
+  useEffect(() => () => eventSourceRef.current?.close(), []);
 }
 
 export default React.memo(ClientHeader);

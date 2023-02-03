@@ -1,7 +1,7 @@
 import { Button, Stack } from '@mantine/core';
 import { Link, useLocation } from 'react-router-dom';
 import React from 'react';
-import { Alarm, Award, Heart, Icon, MessageCircle, Settings, Star, User } from 'tabler-icons-react';
+import { Alarm, Award, Bell, Heart, Icon, MessageCircle, Settings, Star, User } from 'tabler-icons-react';
 
 function ClientUserNavbar() {
   const location = useLocation();
@@ -25,6 +25,7 @@ function ClientUserNavbar() {
       {navButton('Tài khoản', '/user', User)}
       {navButton('Thiết đặt', '/user/setting', Settings,
         ['/user/setting/personal', '/user/setting/phone', '/user/setting/email', '/user/setting/password'])}
+      {navButton('Thông báo', '/user/notification', Bell)}
       {navButton('Đánh giá sản phẩm', '/user/review', Star)}
       {navButton('Sản phẩm yêu thích', '/user/wishlist', Heart)}
       {navButton('Điểm thưởng', '/user/reward', Award)}

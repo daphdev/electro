@@ -135,7 +135,6 @@ import com.electro.mapper.employee.OfficeMapper;
 import com.electro.mapper.general.ImageMapper;
 import com.electro.mapper.inventory.CountMapper;
 import com.electro.mapper.inventory.DestinationMapper;
-import com.electro.mapper.inventory.DocketMapper;
 import com.electro.mapper.inventory.DocketReasonMapper;
 import com.electro.mapper.inventory.ProductInventoryLimitMapper;
 import com.electro.mapper.inventory.PurchaseOrderMapper;
@@ -174,7 +173,6 @@ import com.electro.repository.general.ImageRepository;
 import com.electro.repository.inventory.CountRepository;
 import com.electro.repository.inventory.DestinationRepository;
 import com.electro.repository.inventory.DocketReasonRepository;
-import com.electro.repository.inventory.DocketRepository;
 import com.electro.repository.inventory.ProductInventoryLimitRepository;
 import com.electro.repository.inventory.PurchaseOrderRepository;
 import com.electro.repository.inventory.StorageLocationRepository;
@@ -197,6 +195,7 @@ import com.electro.repository.product.VariantRepository;
 import com.electro.service.CrudService;
 import com.electro.service.GenericService;
 import com.electro.service.address.ProvinceService;
+import com.electro.service.inventory.DocketService;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationContext;
@@ -527,12 +526,7 @@ public class GenericMappingRegister {
                 ResourceName.TRANSFER
         ), TransferRequest.class);
 
-        register("dockets", docketController, docketService.init(
-                context.getBean(DocketRepository.class),
-                context.getBean(DocketMapper.class),
-                SearchFields.DOCKET,
-                ResourceName.DOCKET
-        ), DocketRequest.class);
+        register("dockets", docketController, context.getBean(DocketService.class), DocketRequest.class);
 
         register("storage-locations", storageLocationController, storageLocationService.init(
                 context.getBean(StorageLocationRepository.class),

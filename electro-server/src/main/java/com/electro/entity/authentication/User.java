@@ -7,6 +7,7 @@ import com.electro.entity.client.Review;
 import com.electro.entity.client.Wish;
 import com.electro.entity.customer.Customer;
 import com.electro.entity.employee.Employee;
+import com.electro.entity.general.Notification;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -86,4 +87,7 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Notification> notifications = new ArrayList<>();
 }
