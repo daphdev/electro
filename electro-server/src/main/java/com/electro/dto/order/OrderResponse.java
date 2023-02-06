@@ -14,6 +14,11 @@ public class OrderResponse {
     private Instant createdAt;
     private Instant updatedAt;
     private String code;
+    private String toName;
+    private String toPhone;
+    private String toAddress;
+    private String toWardName;
+    private String toProvinceName;
     private Integer status;
     private OrderResourceResponse orderResource;
     @Nullable

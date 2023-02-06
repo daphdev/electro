@@ -89,6 +89,8 @@
 
     drop table if exists prod.warehouse;
 
+    drop table if exists prod.waybill;
+
     create table prod.address (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -377,6 +379,11 @@
         shipping_cost DECIMAL(15,5) not null,
         status TINYINT not null,
         tax DECIMAL(15,5) not null,
+        to_address varchar(255) not null,
+        to_name varchar(255) not null,
+        to_phone varchar(255) not null,
+        to_province_name varchar(255) not null,
+        to_ward_name varchar(255) not null,
         total_amount DECIMAL(15,5) not null,
         total_pay DECIMAL(15,5) not null,
         customer_id bigint not null,
@@ -668,6 +675,36 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.waybill (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        cod_amount integer not null,
+        code varchar(255) not null,
+        expected_delivery_time datetime,
+        height integer not null,
+        length integer not null,
+        note varchar(255),
+        payment_type_id integer,
+        receipt_date datetime,
+        required_note varchar(255),
+        service_id integer not null,
+        service_type_id integer not null,
+        shipping_date datetime not null,
+        status TINYINT not null,
+        to_address varchar(255) not null,
+        to_name varchar(255) not null,
+        to_phone varchar(255) not null,
+        to_province_name varchar(255) not null,
+        to_ward_name varchar(255) not null,
+        weight integer not null,
+        width integer not null,
+        order_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     alter table prod.brand 
        add constraint UK_g7ft8mes72rnsk746b7ibyln2 unique (code);
 
@@ -760,6 +797,12 @@
 
     alter table prod.warehouse 
        add constraint UK_5hyew1b3bewu839bc54o2jo05 unique (address_id);
+
+    alter table prod.waybill 
+       add constraint UK_o1ajfse9ste901tf5b97l7vm5 unique (code);
+
+    alter table prod.waybill 
+       add constraint UK_qjsm9ff8ehn9sp3brtnvjkdjr unique (order_id);
 
     alter table prod.address 
        add constraint FKqbjwfi50pdenou8j14knnffrh 
@@ -1035,3 +1078,8 @@
        add constraint FKp7xymgre8vt94ihf75e9movyt 
        foreign key (address_id) 
        references prod.address (id);
+
+    alter table prod.waybill 
+       add constraint FKtm4nwydrvd6klhjy7i9slhf83 
+       foreign key (order_id) 
+       references prod.`order` (id);
