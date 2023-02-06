@@ -14,11 +14,6 @@ public class WaybillResponse {
     private Integer status;
     private Integer paymentTypeId;
     private String  requiredNote;
-    private String  toName;
-    private String  toPhone;
-    private String  toAddress;
-    private String  toWardName;
-    private String  toProvinceName;
     private Integer codAmount;
     private Integer weight;
     private Integer length;

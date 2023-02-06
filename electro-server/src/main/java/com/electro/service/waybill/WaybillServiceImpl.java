@@ -68,7 +68,6 @@ public class WaybillServiceImpl implements WaybillService{
             Waybill waybill = waybillMapper.requestToEntity(waybillRequest);
             try{
                 URI uri = new URI(URL_GHN +  "/shipping-order/create");
-
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
                 headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
@@ -90,12 +89,6 @@ public class WaybillServiceImpl implements WaybillService{
                 waybill.setOrder(order);
                 waybill.setStatus(1); // 1: đang đợi lấy hàng -> 2 là đang giao -> 3 đã giao hàng  | 4 là đã hủy
                 waybill.setCodAmount(order.getTotalPay().intValue());
-                waybill.setToName(order.getToName());
-                waybill.setToPhone(order.getToPhone());
-                waybill.setToAddress(order.getToAddress());
-                waybill.setToWardName(order.getToWardName());
-                waybill.setToProvinceName(order.getToProvinceName());
-
                 waybill = waybillRepository.save(waybill);
 
                 // Update waybill and status
@@ -129,18 +122,18 @@ public class WaybillServiceImpl implements WaybillService{
 
     }
 
-    public GhnOrderRequest generateGhnOrderRequest(WaybillRequest waybill, Order order){
+    private GhnOrderRequest generateGhnOrderRequest(WaybillRequest waybill, Order order){
         GhnOrderRequest ghn = new GhnOrderRequest();
         ghn.setPaymentTypeId(waybill.getPaymentTypeId());
         ghn.setRequiredNote(waybill.getRequiredNote());
         ghn.setNote(waybill.getNote());
-        ghn.setToName("mix");
-        ghn.setToPhone("0909998877");
-        ghn.setToAddress("Streaming house");
-        ghn.setToWardName("Phường 14");
-        ghn.setToDistrictName("Quận 10");
-        ghn.setToProvinceName( "TP Hồ Chí Minh");
-        ghn.setCodAmount( order.getTotalPay().intValue());
+        ghn.setToName(order.getToName());
+        ghn.setToPhone(order.getToPhone());
+        ghn.setToAddress(order.getToAddress());
+        ghn.setToWardName(order.getToWardName());
+        ghn.setToDistrictName(order.getToDistrictName());
+        ghn.setToProvinceName(order.getToProvinceName());
+        ghn.setCodAmount(order.getTotalPay().intValue());
         ghn.setWeight(waybill.getWeight());
         ghn.setLength(waybill.getLength());
         ghn.setWidth(waybill.getWidth());

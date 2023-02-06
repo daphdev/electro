@@ -14,6 +14,7 @@ public class OrderRequest {
     private String toPhone;
     private String toAddress;
     private String toWardName;
+    private String toDistrictName;
     private String toProvinceName;
     private Long orderResourceId;
     @Nullable

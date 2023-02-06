@@ -52,20 +52,23 @@ public class Waybill extends BaseEntity {
     @Column(name = "required_note")
     private String requiredNote;
 
-    @Column(name = "to_name", nullable = false)
-    private String toName;
-
-    @Column(name = "to_phone",  nullable = false)
-    private String toPhone;
-
-    @Column(name = "to_address",  nullable = false)
-    private String toAddress;
-
-    @Column(name = "to_ward_name",  nullable = false)
-    private String toWardName;
-
-    @Column(name = "to_province_name",  nullable = false)
-    private String toProvinceName;
+//    @Column(name = "to_name", nullable = false)
+//    private String toName;
+//
+//    @Column(name = "to_phone",  nullable = false)
+//    private String toPhone;
+//
+//    @Column(name = "to_address",  nullable = false)
+//    private String toAddress;
+//
+//    @Column(name = "to_ward_name",  nullable = false)
+//    private String toWardName;
+//
+//    @Column(name = "to_district_name",  nullable = false)
+//    private String toDistrictName;
+//
+//    @Column(name = "to_province_name",  nullable = false)
+//    private String toProvinceName;
 
     @Column(name = "cod_amount",  nullable = false)
     private Integer codAmount;

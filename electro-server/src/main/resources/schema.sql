@@ -882,7 +882,7 @@ CREATE TABLE order_cancellation_reason
 
 CREATE TABLE `order`
 (
-  id BIGINT AUTO_INCREMENT NOT NULL,
+   id BIGINT AUTO_INCREMENT NOT NULL,
    created_at datetime NOT NULL,
    updated_at datetime NOT NULL,
    created_by BIGINT NULL,
@@ -893,6 +893,7 @@ CREATE TABLE `order`
    to_phone VARCHAR(255) NOT NULL,
    to_address VARCHAR(255) NOT NULL,
    to_ward_name VARCHAR(255) NOT NULL,
+   to_district_name VARCHAR(255) NOT NULL,
    to_province_name VARCHAR(255) NOT NULL,
    order_resource_id BIGINT NOT NULL,
    order_cancellation_reason_id BIGINT NULL,
@@ -951,11 +952,6 @@ CREATE TABLE waybill (
    status TINYINT NOT NULL,
    payment_type_id INT NULL,
    required_note VARCHAR(255) NULL,
-   to_name VARCHAR(255) NOT NULL,
-   to_phone VARCHAR(255) NOT NULL,
-   to_address VARCHAR(255) NOT NULL,
-   to_ward_name VARCHAR(255) NOT NULL,
-   to_province_name VARCHAR(255) NOT NULL,
    cod_amount INT NOT NULL,
    weight INT NOT NULL,
    length INT NOT NULL,

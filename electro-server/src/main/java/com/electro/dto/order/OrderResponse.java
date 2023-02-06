@@ -18,6 +18,7 @@ public class OrderResponse {
     private String toPhone;
     private String toAddress;
     private String toWardName;
+    private String toDistrictName;
     private String toProvinceName;
     private Integer status;
     private OrderResourceResponse orderResource;

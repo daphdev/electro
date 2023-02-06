@@ -53,6 +53,9 @@ public class Order extends BaseEntity {
     @Column(name = "to_ward_name", nullable = false)
     private String toWardName;
 
+    @Column(name = "to_district_name",  nullable = false)
+    private String toDistrictName;
+
     @Column(name = "to_province_name", nullable = false)
     private String toProvinceName;
 
