@@ -11,11 +11,8 @@ import com.electro.entity.waybill.Waybill;
 import com.electro.mapper.waybill.WaybillMapper;
 import com.electro.repository.order.OrderRepository;
 import com.electro.repository.waybill.WaybillRepository;
-import com.electro.service.http.RestTemplateAPI;
 import com.sun.jdi.InternalException;
 import lombok.AllArgsConstructor;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -59,11 +57,15 @@ public class WaybillServiceImpl implements WaybillService{
 
     @Override
     public WaybillResponse save(WaybillRequest waybillRequest) {
-        Order order = orderRepository.findById(waybillRequest.getOrderId()).orElseThrow();
+        Optional<Waybill> waybillCheck = waybillRepository.findByOrder_Id(waybillRequest.getOrderId());
+        if (waybillCheck.isPresent()){
+            throw new InternalException("This order already exists waybill. Please choose another order");
+        }
 
+        Order order = orderRepository.findById(waybillRequest.getOrderId()).orElseThrow(()-> new InternalException("Order id: "+ waybillRequest.getOrderId() +" is not exist in database "));
         // waybill can create when order.status = 1 else throw error
         if (order.getStatus() == 1){
-            Waybill waybill = waybillMapper.requestToEntity(waybillRequest); // TODO: implement convert request to entity
+            Waybill waybill = waybillMapper.requestToEntity(waybillRequest);
             try{
                 URI uri = new URI(URL_GHN +  "/shipping-order/create");
 
@@ -119,43 +121,6 @@ public class WaybillServiceImpl implements WaybillService{
 
     @Override
     public void delete(Long id) {
-        Waybill waybill = waybillRepository.getById(id);
-        Order order = waybill.getOrder();
-
-        Integer waybillStatus = waybill.getStatus();
-        Integer orderStatus = order.getStatus();
-        String orderCode = waybill.getCode();
-
-        // nếu trạng thái đợi lấy hàng thì có thể hủy < 2
-        if (waybillStatus > 2 || orderStatus > 3) {
-            throw new InternalException("can not cancel waybill");
-        }else{
-            try{
-                URI uri = new URI(URL_GHN +  "/switch-status/return");
-
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                headers.add("Token", TOKEN);
-                headers.add("ShopId", SHOP_ID);
-                JSONObject body = new JSONObject();
-                JSONArray items = new JSONArray();
-                items.put(orderCode);
-                body.put("order_codes",orderCode);
-
-                RestTemplateAPI restTemplateAPI = new RestTemplateAPI(uri, headers, body);
-                ResponseEntity<String> response = restTemplateAPI.toPost();
-
-
-                // handle response and update status
-                waybill.setStatus(4); // 4 cancel waybill
-                order.setStatus(5); // 5 cancel  order
-                waybillRepository.save(waybill);
-                orderRepository.save(order);
-
-            }catch (URISyntaxException uri){
-                throw new InternalException("incorrect url giao hang nhanh" + uri);
-            }
-        }
 
     }
 
@@ -194,44 +159,4 @@ public class WaybillServiceImpl implements WaybillService{
         return ghn;
     }
 
-//    public JSONObject generateNewWaybill(WaybillRequest waybill, Order order){
-//        JSONObject json = new JSONObject();
-//
-//        // 1 là người gửi trả tiền
-//        // 2 là người mua/ người nhận trả tiền
-//        json.put("payment_type_id", waybill.getPaymentTypeId()); // default 2
-//
-//        // TODO:  về hình thức nhận hàng: CHOTHUHANG, CHOXEMHANGKHONGTHU, KHONGCHOXEMHANG
-//        json.put("required_note", waybill.getRequiredNote()); // default là KHONGCHOXEMHANG
-//
-//        json.put("note", waybill.getNote());
-//        json.put("to_name", "mix");
-//        json.put("to_phone", "0909998877");
-//        json.put("to_address", "Streaming house");
-//        json.put("to_ward_name", "Phường 14");
-//        json.put("to_district_name", "Quận 10");
-//        json.put("to_province_name", "TP Hồ Chí Minh");
-//        json.put("cod_amount", order.getTotalPay());
-//        json.put("weight", waybill.getWeight());
-//        json.put("length",waybill.getLength());
-//        json.put("width", waybill.getWidth());
-//        json.put("height", waybill.getHeight());
-//
-//        // TODO:Mã loại dịch vụ, mặc định là 2. Với  2:Chuyển phát thương mại điện tử
-//        //      - Dựa vào vị trí giao hàng, ghn sẽ có những loại giao hàng khác nhau. cần phải call api để xác định hoặc fix cứng
-//        json.put("service_type_id", 2 );
-//        json.put("service_id", 0 );
-//
-//        // TODO: Get Order by id ra lấy số lượng và tên sp
-//        JSONArray items = new JSONArray();
-//        for(OrderVariant orderVariant : order.getOrderVariants()){
-//            JSONObject item = new JSONObject();
-//            item.put("name",orderVariant.getVariant().getProduct().getName());
-//            item.put("quantity",orderVariant.getQuantity());
-//            item.put("price",orderVariant.getVariant().getPrice());
-//            items.put(item);
-//        }
-//        json.put("items", items);
-//        return json;
-//    }
 }
