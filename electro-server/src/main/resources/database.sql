@@ -550,6 +550,7 @@
         updated_by bigint,
         content varchar(255) not null,
         rating_score TINYINT not null,
+        reply varchar(255),
         status TINYINT not null,
         product_id bigint not null,
         user_id bigint not null,

@@ -6,15 +6,18 @@ import com.electro.constant.ResourceName;
 import com.electro.dto.ListResponse;
 import com.electro.dto.client.ClientReviewRequest;
 import com.electro.dto.client.ClientReviewResponse;
-import com.electro.entity.client.Review;
+import com.electro.dto.client.ClientSimpleReviewResponse;
+import com.electro.entity.review.Review;
 import com.electro.exception.ResourceNotFoundException;
 import com.electro.mapper.client.ClientReviewMapper;
-import com.electro.repository.client.ReviewRepository;
+import com.electro.repository.review.ReviewRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,22 +40,36 @@ public class ClientReviewController {
     private ReviewRepository reviewRepository;
     private ClientReviewMapper clientReviewMapper;
 
-    @GetMapping
-    public ResponseEntity<ListResponse<ClientReviewResponse>> getAllReviews(
+    @GetMapping("/products/{productId}")
+    public ResponseEntity<ListResponse<ClientSimpleReviewResponse>> getAllReviewsByProduct(
+            @PathVariable Long productId,
             @RequestParam(name = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size,
             @RequestParam(name = "sort", defaultValue = AppConstants.DEFAULT_SORT) String sort,
-            @RequestParam(name = "filter") String filter
+            @RequestParam(name = "filter", required = false) @Nullable String filter
     ) {
-        Page<Review> reviews = reviewRepository.findAll(sort, filter, PageRequest.of(page - 1, size));
+        Page<Review> reviews = reviewRepository.findAllByProductId(productId, sort, filter, PageRequest.of(page - 1, size));
+        List<ClientSimpleReviewResponse> clientReviewResponses = reviews.map(clientReviewMapper::entityToSimpleResponse).toList();
+        return ResponseEntity.status(HttpStatus.OK).body(ListResponse.of(clientReviewResponses, reviews));
+    }
+
+    @GetMapping
+    public ResponseEntity<ListResponse<ClientReviewResponse>> getAllReviewsByUser(
+            Authentication authentication,
+            @RequestParam(name = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size,
+            @RequestParam(name = "sort", defaultValue = AppConstants.DEFAULT_SORT) String sort,
+            @RequestParam(name = "filter", required = false) @Nullable String filter
+    ) {
+        String username = authentication.getName();
+        Page<Review> reviews = reviewRepository.findAllByUsername(username, sort, filter, PageRequest.of(page - 1, size));
         List<ClientReviewResponse> clientReviewResponses = reviews.map(clientReviewMapper::entityToResponse).toList();
         return ResponseEntity.status(HttpStatus.OK).body(ListResponse.of(clientReviewResponses, reviews));
     }
 
     @PostMapping
     public ResponseEntity<ClientReviewResponse> createReview(@RequestBody ClientReviewRequest request) {
-        Review entity = clientReviewMapper.requestToEntity(request);
-        entity = reviewRepository.save(entity);
+        Review entity = reviewRepository.save(clientReviewMapper.requestToEntity(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(clientReviewMapper.entityToResponse(entity));
     }
 

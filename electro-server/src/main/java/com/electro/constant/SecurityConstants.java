@@ -7,11 +7,13 @@ public interface SecurityConstants {
             "/client-api/users/**",
             "/client-api/wishes/**",
             "/client-api/preorders/**",
-            "/client-api/notifications/**"
+            "/client-api/notifications/**",
+            "/client-api/reviews/**"
     };
 
     String[] IGNORING_API_PATHS = {
-            "/client-api/notifications/events"
+            "/client-api/notifications/events",
+            "/client-api/reviews/products/**"
     };
 
     interface Role {

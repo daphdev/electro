@@ -2,10 +2,10 @@ package com.electro.entity.product;
 
 import com.electro.entity.BaseEntity;
 import com.electro.entity.client.Preorder;
-import com.electro.entity.client.Review;
 import com.electro.entity.client.Wish;
 import com.electro.entity.general.Image;
 import com.electro.entity.inventory.ProductInventoryLimit;
+import com.electro.entity.review.Review;
 import com.electro.utils.JsonNodeConverter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;

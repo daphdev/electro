@@ -123,6 +123,23 @@ export interface ClientPreorderRequest {
 
 // REVIEW
 
+export interface ClientSimpleReviewResponse {
+  reviewId: number;
+  reviewCreatedAt: string;
+  reviewUpdatedAt: string;
+  reviewUser: ClientSimpleReviewResponse_UserResponse;
+  reviewRatingScore: number;
+  reviewContent: string;
+  reviewReply: string | null;
+  reviewStatus: number;
+}
+
+interface ClientSimpleReviewResponse_UserResponse {
+  userId: number;
+  userUsername: string;
+  userFullname: string;
+}
+
 export interface ClientReviewResponse {
   reviewId: number;
   reviewCreatedAt: string;
@@ -130,6 +147,7 @@ export interface ClientReviewResponse {
   reviewProduct: ClientListedProductResponse;
   reviewRatingScore: number;
   reviewContent: string;
+  reviewReply: string | null;
   reviewStatus: number;
 }
 

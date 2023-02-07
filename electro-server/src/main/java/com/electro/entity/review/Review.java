@@ -1,4 +1,4 @@
-package com.electro.entity.client;
+package com.electro.entity.review;
 
 import com.electro.entity.BaseEntity;
 import com.electro.entity.authentication.User;
@@ -33,11 +33,15 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    // 5 mức đánh giá: 1, 2, 3, 4, 5
     @Column(name = "rating_score", nullable = false, columnDefinition = "TINYINT")
     private Integer ratingScore;
 
     @Column(name = "content", nullable = false)
     private String content;
+
+    @Column(name = "reply")
+    private String reply;
 
     // TODO: 6 trạng thái: Chưa duyệt, Đã duyệt, Không duyệt, Cập nhật chưa duyệt, Cập nhật đã duyệt, Cập nhật không duyệt
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")

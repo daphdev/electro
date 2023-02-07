@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActionIcon, Anchor, Badge, Box, Stack, Table, useMantineTheme } from '@mantine/core';
+import { ActionIcon, Anchor, Badge, Stack, Table, useMantineTheme } from '@mantine/core';
 import { ManageHeader, ManageHeaderTitle, ManageMain, ManagePagination } from 'components';
 import InventoryConfigs from 'pages/inventory/InventoryConfigs';
 import PageConfigs from 'pages/PageConfigs';
@@ -11,68 +11,6 @@ import { Plus } from 'tabler-icons-react';
 import { DocketVariantExtendedResponse } from 'models/DocketVariantExtended';
 import { useModals } from '@mantine/modals';
 import DateUtils from 'utils/DateUtils';
-
-function ProductInventoryTransactionsModal({ transactions }: { transactions: DocketVariantExtendedResponse[] }) {
-  const docketTypeBadgeFragment = (type: number) => {
-    switch (type) {
-    case 1:
-      return <Badge color="blue" variant="filled" size="sm">Nhập</Badge>;
-    case 2:
-      return <Badge color="orange" variant="filled" size="sm">Xuất</Badge>;
-    }
-  };
-
-  const docketStatusBadgeFragment = (status: number) => {
-    switch (status) {
-    case 1:
-      return <Badge color="gray" variant="outline" size="sm">Mới</Badge>;
-    case 2:
-      return <Badge color="blue" variant="outline" size="sm">Đang xử lý</Badge>;
-    case 3:
-      return <Badge color="green" variant="outline" size="sm">Hoàn thành</Badge>;
-    case 4:
-      return <Badge color="red" variant="outline" size="sm">Hủy bỏ</Badge>;
-    }
-  };
-
-  return (
-    <Table
-      horizontalSpacing="xs"
-      verticalSpacing="xs"
-      highlightOnHover
-      striped
-    >
-      <thead>
-        <tr>
-          <th>Phiếu</th>
-          <th>Ngày tạo</th>
-          <th>Lý do</th>
-          <th>Mã đơn nhập hàng</th>
-          <th>Mã đơn hàng</th>
-          <th>Số lượng</th>
-          <th>SKU</th>
-          <th>Kho</th>
-          <th>Trạng thái</th>
-        </tr>
-      </thead>
-      <tbody>
-        {transactions.map(transaction => (
-          <tr key={transaction.docket.code}>
-            <td>{docketTypeBadgeFragment(transaction.docket.type)}</td>
-            <td>{DateUtils.isoDateToString(transaction.docket.createdAt)}</td>
-            <td>{transaction.docket.reason.name}</td>
-            <td>{transaction.docket.purchaseOrder?.code}</td>
-            <td>{transaction.docket.order?.code}</td>
-            <td>{transaction.quantity}</td>
-            <td>{transaction.variant.sku}</td>
-            <td>{transaction.docket.warehouse.name}</td>
-            <td>{docketStatusBadgeFragment(transaction.docket.status)}</td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
-  );
-}
 
 function InventoryManage() {
   useResetManagePageState();
@@ -149,31 +87,91 @@ function InventoryManage() {
           titleLinks={InventoryConfigs.titleLinks}
           title={InventoryConfigs.title}
         />
-
-        <Box sx={{ width: '100%' }}>
-          <ManageMain
-            listResponse={listResponse}
-            isLoading={isLoading}
-          >
-            <Table
-              horizontalSpacing="sm"
-              verticalSpacing="sm"
-              highlightOnHover
-              striped
-              sx={(theme) => ({
-                borderRadius: theme.radius.sm,
-                overflow: 'hidden',
-              })}
-            >
-              <thead>{entitiesTableHeadsFragment}</thead>
-              <tbody>{entitiesTableRowsFragment}</tbody>
-            </Table>
-          </ManageMain>
-        </Box>
       </ManageHeader>
+
+      <ManageMain
+        listResponse={listResponse}
+        isLoading={isLoading}
+      >
+        <Table
+          horizontalSpacing="sm"
+          verticalSpacing="sm"
+          highlightOnHover
+          striped
+          sx={(theme) => ({
+            borderRadius: theme.radius.sm,
+            overflow: 'hidden',
+          })}
+        >
+          <thead>{entitiesTableHeadsFragment}</thead>
+          <tbody>{entitiesTableRowsFragment}</tbody>
+        </Table>
+      </ManageMain>
 
       <ManagePagination listResponse={listResponse}/>
     </Stack>
+  );
+}
+
+function ProductInventoryTransactionsModal({ transactions }: { transactions: DocketVariantExtendedResponse[] }) {
+  const docketTypeBadgeFragment = (type: number) => {
+    switch (type) {
+    case 1:
+      return <Badge color="blue" variant="filled" size="sm">Nhập</Badge>;
+    case 2:
+      return <Badge color="orange" variant="filled" size="sm">Xuất</Badge>;
+    }
+  };
+
+  const docketStatusBadgeFragment = (status: number) => {
+    switch (status) {
+    case 1:
+      return <Badge color="gray" variant="outline" size="sm">Mới</Badge>;
+    case 2:
+      return <Badge color="blue" variant="outline" size="sm">Đang xử lý</Badge>;
+    case 3:
+      return <Badge color="green" variant="outline" size="sm">Hoàn thành</Badge>;
+    case 4:
+      return <Badge color="red" variant="outline" size="sm">Hủy bỏ</Badge>;
+    }
+  };
+
+  return (
+    <Table
+      horizontalSpacing="xs"
+      verticalSpacing="xs"
+      highlightOnHover
+      striped
+    >
+      <thead>
+        <tr>
+          <th>Phiếu</th>
+          <th>Ngày tạo</th>
+          <th>Lý do</th>
+          <th>Mã đơn nhập hàng</th>
+          <th>Mã đơn hàng</th>
+          <th>Số lượng</th>
+          <th>SKU</th>
+          <th>Kho</th>
+          <th>Trạng thái</th>
+        </tr>
+      </thead>
+      <tbody>
+        {transactions.map(transaction => (
+          <tr key={transaction.docket.code}>
+            <td>{docketTypeBadgeFragment(transaction.docket.type)}</td>
+            <td>{DateUtils.isoDateToString(transaction.docket.createdAt)}</td>
+            <td>{transaction.docket.reason.name}</td>
+            <td>{transaction.docket.purchaseOrder?.code}</td>
+            <td>{transaction.docket.order?.code}</td>
+            <td>{transaction.quantity}</td>
+            <td>{transaction.variant.sku}</td>
+            <td>{transaction.docket.warehouse.name}</td>
+            <td>{docketStatusBadgeFragment(transaction.docket.status)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
   );
 }
 

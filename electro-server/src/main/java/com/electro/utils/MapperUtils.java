@@ -47,6 +47,7 @@ import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
@@ -73,12 +74,12 @@ public abstract class MapperUtils {
     @Autowired
     private UserRepository userRepository;
 
-    public Province mapToProvince(Long id) {
-        return provinceRepository.getById(id);
+    public Province mapToProvince(@Nullable Long id) {
+        return id == null ? null : provinceRepository.getById(id);
     }
 
-    public District mapToDistrict(Long id) {
-        return districtRepository.getById(id);
+    public District mapToDistrict(@Nullable Long id) {
+        return id == null ? null : districtRepository.getById(id);
     }
 
     public abstract Office mapToOffice(Long id);

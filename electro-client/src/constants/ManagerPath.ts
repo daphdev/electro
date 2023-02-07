@@ -40,6 +40,12 @@ class ManagerPath {
   static ORDER = '/admin/order';
   static ORDER_RESOURCE = '/admin/order/resource';
   static ORDER_CANCELLATION_REASON = '/admin/order/cancellation-reason';
+
+  static REVIEW = '/admin/review';
+
+  static VOUCHER = '/admin/voucher';
+  static PAYMENT_METHOD = '/admin/payment-method';
+  static PROMOTION = '/admin/promotion';
 }
 
 export default ManagerPath;

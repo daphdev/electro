@@ -2,7 +2,8 @@ package com.electro.mapper.client;
 
 import com.electro.dto.client.ClientReviewRequest;
 import com.electro.dto.client.ClientReviewResponse;
-import com.electro.entity.client.Review;
+import com.electro.dto.client.ClientSimpleReviewResponse;
+import com.electro.entity.review.Review;
 import com.electro.repository.authentication.UserRepository;
 import com.electro.repository.product.ProductRepository;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,7 @@ public class ClientReviewMapper {
         Review entity = new Review();
         entity.setUser(userRepository.getById(request.getUserId()));
         entity.setProduct(productRepository.getById(request.getProductId()));
-        entity.setRatingScore(entity.getRatingScore());
+        entity.setRatingScore(request.getRatingScore());
         entity.setContent(request.getContent());
         entity.setStatus(request.getStatus());
         return entity;
@@ -37,6 +38,23 @@ public class ClientReviewMapper {
         response.setReviewProduct(clientProductMapper.entityToResponse(entity.getProduct(), Collections.emptyList()));
         response.setReviewRatingScore(entity.getRatingScore());
         response.setReviewContent(entity.getContent());
+        response.setReviewReply(entity.getReply());
+        response.setReviewStatus(entity.getStatus());
+        return response;
+    }
+
+    public ClientSimpleReviewResponse entityToSimpleResponse(Review entity) {
+        ClientSimpleReviewResponse response = new ClientSimpleReviewResponse();
+        response.setReviewId(entity.getId());
+        response.setReviewCreatedAt(entity.getCreatedAt());
+        response.setReviewUpdatedAt(entity.getUpdatedAt());
+        response.setReviewUser(new ClientSimpleReviewResponse.UserResponse()
+                .setUserId(entity.getUser().getId())
+                .setUserUsername(entity.getUser().getUsername())
+                .setUserFullname(entity.getUser().getFullname()));
+        response.setReviewRatingScore(entity.getRatingScore());
+        response.setReviewContent(entity.getContent());
+        response.setReviewReply(entity.getReply());
         response.setReviewStatus(entity.getStatus());
         return response;
     }

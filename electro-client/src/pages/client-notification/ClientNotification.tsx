@@ -23,7 +23,7 @@ import FetchUtils, { ErrorMessage, ListResponse } from 'utils/FetchUtils';
 import ResourceURL from 'constants/ResourceURL';
 import NotifyUtils from 'utils/NotifyUtils';
 import { NotificationRequest, NotificationResponse, NotificationType } from 'models/Notification';
-import { Alarm, AlertCircle, AlertTriangle, Bell, FileBarcode, HeartBroken, Icon, Message } from 'tabler-icons-react';
+import { Alarm, AlertCircle, AlertTriangle, Bell, FileBarcode, Icon, Marquee, Message } from 'tabler-icons-react';
 import { ClientUserNavbar } from 'components';
 import DateUtils from 'utils/DateUtils';
 import { Link } from 'react-router-dom';
@@ -69,7 +69,7 @@ function ClientNotification() {
   if (notifications && notifications.totalElements === 0) {
     notificationContentFragment = (
       <Stack my={theme.spacing.xl} sx={{ alignItems: 'center', color: theme.colors.blue[6] }}>
-        <HeartBroken size={125} strokeWidth={1}/>
+        <Marquee size={125} strokeWidth={1}/>
         <Text size="xl" weight={500}>Chưa có thông báo nào</Text>
       </Stack>
     );

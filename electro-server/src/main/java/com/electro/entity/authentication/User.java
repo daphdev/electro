@@ -3,7 +3,7 @@ package com.electro.entity.authentication;
 import com.electro.entity.BaseEntity;
 import com.electro.entity.address.Address;
 import com.electro.entity.client.Preorder;
-import com.electro.entity.client.Review;
+import com.electro.entity.review.Review;
 import com.electro.entity.client.Wish;
 import com.electro.entity.customer.Customer;
 import com.electro.entity.employee.Employee;
