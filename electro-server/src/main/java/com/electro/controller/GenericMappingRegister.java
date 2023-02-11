@@ -80,6 +80,8 @@ import com.electro.dto.product.UnitRequest;
 import com.electro.dto.product.UnitResponse;
 import com.electro.dto.product.VariantRequest;
 import com.electro.dto.product.VariantResponse;
+import com.electro.dto.promotion.PromotionRequest;
+import com.electro.dto.promotion.PromotionResponse;
 import com.electro.entity.address.Address;
 import com.electro.entity.address.District;
 import com.electro.entity.authentication.Role;
@@ -197,6 +199,7 @@ import com.electro.repository.product.VariantRepository;
 import com.electro.service.CrudService;
 import com.electro.service.GenericService;
 import com.electro.service.address.ProvinceService;
+import com.electro.service.promotion.PromotionService;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationContext;
@@ -257,6 +260,7 @@ public class GenericMappingRegister {
     private GenericController<OrderResourceRequest, OrderResourceResponse> orderResourceController;
     private GenericController<OrderCancellationReasonRequest, OrderCancellationReasonResponse> orderCancellationReasonController;
     private GenericController<OrderRequest, OrderResponse> orderController;
+    private GenericController<PromotionRequest, PromotionResponse> promotionController;
 
     // Services
     private GenericService<District, DistrictRequest, DistrictResponse> districtService;
@@ -569,6 +573,7 @@ public class GenericMappingRegister {
                 ResourceName.ORDER
         ), OrderRequest.class);
 
+        register("promotions", promotionController, context.getBean(PromotionService.class), PromotionRequest.class);
     }
 
     private <I, O> void register(String resource,

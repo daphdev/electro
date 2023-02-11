@@ -47,7 +47,9 @@ DROP TABLE IF EXISTS
     order_resource,
     order_cancellation_reason,
     `order`,
-    order_variant;
+    order_variant,
+    promotion,
+    product_promotion;
 
 -- CREATE TABLES
 
@@ -929,3 +931,27 @@ ALTER TABLE order_variant
 
 ALTER TABLE order_variant
     ADD CONSTRAINT FK_ORDER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+
+
+CREATE TABLE product_promotion (
+  product_id BIGINT NOT NULL,
+   promotion_id BIGINT NOT NULL
+);
+
+CREATE TABLE promotion (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   name VARCHAR(255) NOT NULL,
+   start_date datetime NOT NULL,
+   end_date datetime NOT NULL,
+   percent INT NOT NULL,
+   status TINYINT NOT NULL,
+   CONSTRAINT pk_promotion PRIMARY KEY (id)
+);
+
+ALTER TABLE product_promotion ADD CONSTRAINT fk_propro_on_product FOREIGN KEY (product_id) REFERENCES product (id);
+
+ALTER TABLE product_promotion ADD CONSTRAINT fk_propro_on_promotion FOREIGN KEY (promotion_id) REFERENCES promotion (id);

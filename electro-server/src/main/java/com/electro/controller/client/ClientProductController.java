@@ -54,6 +54,9 @@ public class ClientProductController {
         List<Long> productIds = products.map(Product::getId).toList();
         List<SimpleProductInventory> productInventories = projectionRepository.findSimpleProductInventories(productIds);
 
+        // TODO: Load promotion
+
+
         List<ClientListedProductResponse> clientListedProductResponses = products
                 .map(product -> mapToResponse(product, productInventories)).toList();
 

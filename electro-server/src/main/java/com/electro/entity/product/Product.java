@@ -3,6 +3,7 @@ package com.electro.entity.product;
 import com.electro.entity.BaseEntity;
 import com.electro.entity.general.Image;
 import com.electro.entity.inventory.ProductInventoryLimit;
+import com.electro.entity.promotion.Promotion;
 import com.electro.utils.JsonNodeConverter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -110,4 +111,7 @@ public class Product extends BaseEntity {
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private ProductInventoryLimit productInventoryLimit;
+
+    @ManyToMany(mappedBy = "products")
+    private List<Promotion> promotions = new ArrayList<>();
 }
