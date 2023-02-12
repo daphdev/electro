@@ -65,6 +65,8 @@
 
     drop table if exists prod.purchase_order_variant;
 
+    drop table if exists prod.refresh_token;
+
     drop table if exists prod.role;
 
     drop table if exists prod.specification;
@@ -508,6 +510,18 @@
         primary key (purchase_order_id, variant_id)
     ) engine=MyISAM;
 
+    create table prod.refresh_token (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        expiryDate datetime not null,
+        token varchar(255) not null,
+        user_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.role (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -724,6 +738,12 @@
 
     alter table prod.purchase_order 
        add constraint UK_lyhuui3e3rh2a6itktx3rwrpe unique (code);
+
+    alter table prod.refresh_token 
+       add constraint UK_r4k4edos30bx9neoq81mdvwph unique (token);
+
+    alter table prod.refresh_token 
+       add constraint UK_f95ixxe7pa48ryn1awmh2evt7 unique (user_id);
 
     alter table prod.role 
        add constraint UK_c36say97xydpmgigg38qv5l2p unique (code);
@@ -980,6 +1000,11 @@
        add constraint FKs0ol41wsfln8hjuv3pkgkk60i 
        foreign key (variant_id) 
        references prod.variant (id);
+
+    alter table prod.refresh_token 
+       add constraint FKfgk1klcib7i15utalmcqo7krt 
+       foreign key (user_id) 
+       references prod.user (id);
 
     alter table prod.storage_location 
        add constraint FK956y7ykytekn259p907onqkiw 

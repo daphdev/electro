@@ -47,7 +47,8 @@ DROP TABLE IF EXISTS
     order_resource,
     order_cancellation_reason,
     `order`,
-    order_variant;
+    order_variant,
+    refresh_token;
 
 -- CREATE TABLES
 
@@ -929,3 +930,19 @@ ALTER TABLE order_variant
 
 ALTER TABLE order_variant
     ADD CONSTRAINT FK_ORDER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+
+CREATE TABLE refresh_token (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   created_at datetime NOT NULL,
+   updated_at datetime NOT NULL,
+   created_by BIGINT NULL,
+   updated_by BIGINT NULL,
+   user_id BIGINT NULL,
+   token VARCHAR(255) NOT NULL,
+   expiry_date datetime NOT NULL,
+   CONSTRAINT pk_refresh_token PRIMARY KEY (id)
+);
+
+ALTER TABLE refresh_token ADD CONSTRAINT uc_refresh_token_token UNIQUE (token);
+
+ALTER TABLE refresh_token ADD CONSTRAINT FK_REFRESH_TOKEN_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
