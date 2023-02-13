@@ -276,9 +276,9 @@ insert into variant (created_at, updated_at, product_id, sku, cost, price, prope
 insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2021-07-17 02:36:19', '2021-12-14 10:10:42', 1, '48951-8009', 8298634, 9300059, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"L"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 1);
 
 -- image TABLE: 3 records
-insert into image (created_at, updated_at, name, path, content_type, size, `group`, is_thumbnail, is_eliminated, product_id) values ('2021-10-22 20:25:57', '2021-12-14 06:28:15', '233x100.png', 'https://dummyimage.com/233x100.png/ff4444/ffffff', 'image/png', 300, 'P', 1, 0, 1);
-insert into image (created_at, updated_at, name, path, content_type, size, `group`, is_thumbnail, is_eliminated, product_id) values ('2022-05-06 20:40:45', '2022-04-02 20:30:28', '185x100.png', 'https://dummyimage.com/185x100.png/ff4444/ffffff', 'image/png', 200, 'P', 0, 0, 1);
-insert into image (created_at, updated_at, name, path, content_type, size, `group`, is_thumbnail, is_eliminated, product_id) values ('2021-07-17 02:36:19', '2021-12-14 10:10:42', '144x100.png', 'https://dummyimage.com/144x100.png/cc0000/ffffff', 'image/png', 100, 'P', 0, 0, 1);
+insert into image (created_at, updated_at, name, path, content_type, size, `group`, is_thumbnail, is_eliminated, product_id) values ('2021-10-22 20:25:57', '2021-12-14 06:28:15', '233x100.png', 'https://media-api-beta.thinkpro.vn/media/core/products/2022/5/9/xps%2013%20plus%209320%201.png?w=700&h=700', 'image/png', 300, 'P', 1, 0, 1);
+insert into image (created_at, updated_at, name, path, content_type, size, `group`, is_thumbnail, is_eliminated, product_id) values ('2022-05-06 20:40:45', '2022-04-02 20:30:28', '185x100.png', 'https://media-api-beta.thinkpro.vn/media/core/products/2022/5/9/xps%2013%20plus%209320%203.png?w=700&h=700', 'image/png', 200, 'P', 0, 0, 1);
+insert into image (created_at, updated_at, name, path, content_type, size, `group`, is_thumbnail, is_eliminated, product_id) values ('2021-07-17 02:36:19', '2021-12-14 10:10:42', '144x100.png', 'https://media-api-beta.thinkpro.vn/media/core/products/2022/5/9/xps%2013%20plus%209320%202.png?w=700&h=700', 'image/png', 100, 'P', 0, 0, 1);
 
 -- product_inventory_limit TABLE: 3 records
 insert into product_inventory_limit (created_at, updated_at, product_id, minimum_limit, maximum_limit) values ('2021-08-09 01:57:18', '2021-10-24 14:19:47', 1, 5, null);
@@ -382,3 +382,12 @@ insert into `order` (created_at, updated_at, code, status, order_resource_id, or
 insert into order_variant (order_id, variant_id, price, quantity, amount) values (1, 1, 100000, 1, 100000);
 insert into order_variant (order_id, variant_id, price, quantity, amount) values (1, 2, 200000, 2, 400000);
 insert into order_variant (order_id, variant_id, price, quantity, amount) values (2, 3, 300000, 2, 600000);
+
+-- wish TABLE: 1 records
+insert into wish (created_at, updated_at, user_id, product_id) values ('2021-10-03 21:16:01', '2021-11-18 00:55:52', 4, 1);
+
+-- preorder TABLE: 1 records
+insert into preorder (created_at, updated_at, user_id, product_id, status) values ('2021-10-03 21:16:01', '2021-11-18 00:55:52', 4, 1, 1);
+
+-- review TABLE: 1 records
+insert into review (created_at, updated_at, user_id, product_id, rating_score, content, status) values ('2021-10-03 21:16:01', '2021-11-18 00:55:52', 4, 1, 4, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec posuere felis sed justo finibus, eget maximus diam rhoncus. Integer posuere tempor magna, ut dictum massa suscipit vel. Sed quis placerat neque. Etiam urna sapien, accumsan nec nulla in, condimentum venenatis ex.', 2);

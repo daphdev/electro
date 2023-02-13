@@ -368,4 +368,13 @@ public interface SearchFields {
             "category.name",
             "brand.name"
     );
+
+    List<String> REVIEW = List.of(
+            "user.username",
+            "user.fullname",
+            "product.name",
+            "product.code",
+            "product.slug",
+            "content"
+    );
 }

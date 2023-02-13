@@ -113,11 +113,56 @@ class FetchUtils {
       body: JSON.stringify(requestBody),
     });
 
-    console.log(response);
     if (!response.ok) {
       throw await response.json();
     }
     return await response.json();
+  }
+
+  /**
+   * Hàm putWithToken
+   * @param resourceUrl
+   * @param requestBody
+   */
+  static async putWithToken<I, O>(resourceUrl: string, requestBody: I): Promise<O> {
+    const token = JSON.parse(localStorage.getItem('electro-auth-store') || '{}').state?.jwtToken;
+
+    const response = await fetch(resourceUrl, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (!response.ok) {
+      throw await response.json();
+    }
+    return await response.json();
+  }
+
+  /**
+   * Hàm deleteWithToken
+   * @param resourceUrl
+   * @param entityIds
+   */
+  static async deleteWithToken<T>(resourceUrl: string, entityIds: T[]) {
+    const token = JSON.parse(localStorage.getItem('electro-auth-store') || '{}').state?.jwtToken;
+
+    const response = await fetch(resourceUrl, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(entityIds),
+    });
+
+    if (!response.ok) {
+      throw await response.json();
+    }
   }
 
   /**

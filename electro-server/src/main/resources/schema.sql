@@ -47,7 +47,11 @@ DROP TABLE IF EXISTS
     order_resource,
     order_cancellation_reason,
     `order`,
-    order_variant;
+    order_variant,
+    wish,
+    preorder,
+    review,
+    notification;
 
 -- CREATE TABLES
 
@@ -929,3 +933,89 @@ ALTER TABLE order_variant
 
 ALTER TABLE order_variant
     ADD CONSTRAINT FK_ORDER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+
+CREATE TABLE wish
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    user_id    BIGINT                NOT NULL,
+    product_id BIGINT                NOT NULL,
+    CONSTRAINT pk_wish PRIMARY KEY (id)
+);
+
+ALTER TABLE wish
+    ADD CONSTRAINT uc_wish UNIQUE (user_id, product_id);
+
+ALTER TABLE wish
+    ADD CONSTRAINT FK_WISH_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
+
+ALTER TABLE wish
+    ADD CONSTRAINT FK_WISH_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE preorder
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    user_id    BIGINT                NOT NULL,
+    product_id BIGINT                NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_preorder PRIMARY KEY (id)
+);
+
+ALTER TABLE preorder
+    ADD CONSTRAINT uc_preorder UNIQUE (user_id, product_id);
+
+ALTER TABLE preorder
+    ADD CONSTRAINT FK_PREORDER_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
+
+ALTER TABLE preorder
+    ADD CONSTRAINT FK_PREORDER_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE review
+(
+    id           BIGINT AUTO_INCREMENT NOT NULL,
+    created_at   datetime              NOT NULL,
+    updated_at   datetime              NOT NULL,
+    created_by   BIGINT                NULL,
+    updated_by   BIGINT                NULL,
+    user_id      BIGINT                NOT NULL,
+    product_id   BIGINT                NOT NULL,
+    rating_score TINYINT               NOT NULL,
+    content      TEXT                  NOT NULL,
+    reply        TEXT                  NULL,
+    status       TINYINT               NOT NULL,
+    CONSTRAINT pk_review PRIMARY KEY (id)
+);
+
+ALTER TABLE review
+    ADD CONSTRAINT uc_review UNIQUE (user_id, product_id);
+
+ALTER TABLE review
+    ADD CONSTRAINT FK_REVIEW_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
+
+ALTER TABLE review
+    ADD CONSTRAINT FK_REVIEW_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE notification
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    user_id    BIGINT                NOT NULL,
+    type       VARCHAR(255)          NOT NULL,
+    message    VARCHAR(255)          NOT NULL,
+    anchor     VARCHAR(255)          NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_notification PRIMARY KEY (id)
+);
+
+ALTER TABLE notification
+    ADD CONSTRAINT FK_NOTIFICATION_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);

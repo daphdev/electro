@@ -54,6 +54,8 @@ class ResourceURL {
   static ORDER_RESOURCE = apiPath + '/order-resources';
   static ORDER_CANCELLATION_REASON = apiPath + '/order-cancellation-reasons';
 
+  static REVIEW = apiPath + '/reviews';
+
   // CLIENT
   static CLIENT_CATEGORY = clientApiPath + '/categories';
   static CLIENT_PRODUCT = clientApiPath + '/products';
@@ -64,6 +66,13 @@ class ResourceURL {
   static CLIENT_USER_PHONE_SETTING = clientApiPath + '/users/phone';
   static CLIENT_USER_EMAIL_SETTING = clientApiPath + '/users/email';
   static CLIENT_USER_PASSWORD_SETTING = clientApiPath + '/users/password';
+  static CLIENT_WISH = clientApiPath + '/wishes';
+  static CLIENT_PREORDER = clientApiPath + '/preorders';
+  static CLIENT_REVIEW = clientApiPath + '/reviews';
+  static CLIENT_REVIEW_PRODUCT = ResourceURL.CLIENT_REVIEW + '/products';
+  static CLIENT_NOTIFICATION = clientApiPath + '/notifications';
+  static CLIENT_NOTIFICATION_INIT_EVENTS = ResourceURL.CLIENT_NOTIFICATION + '/init-events';
+  static CLIENT_NOTIFICATION_EVENTS = ResourceURL.CLIENT_NOTIFICATION + '/events';
 
   // AUTHENTICATION
   static LOGIN = apiPath + '/auth/login';

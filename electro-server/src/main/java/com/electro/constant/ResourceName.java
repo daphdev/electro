@@ -44,4 +44,7 @@ public interface ResourceName {
     String ORDER_CANCELLATION_REASON = "OrderCancellationReason";
     String ORDER = "Order";
     String ORDER_VARIANT = "OrderVariant";
+    String PREORDER = "Preorder";
+    String REVIEW = "Review";
+    String NOTIFICATION = "Notification";
 }

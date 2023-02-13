@@ -54,12 +54,21 @@ import ClientCategory from 'pages/client-category';
 import ClientSearch from 'pages/client-search';
 import ClientSignin from 'pages/client-signin';
 import ClientUser from 'pages/client-user';
-import { ProtectedRoute } from 'components';
+import { ClientError, ProtectedRoute, ScrollToTop } from 'components';
 import ClientSetting from 'pages/client-setting';
 import ClientSettingPersonal from 'pages/client-setting-personal';
 import ClientSettingPhone from 'pages/client-setting-phone';
 import ClientSettingEmail from 'pages/client-setting-email';
 import ClientSettingPassword from 'pages/client-setting-password';
+import ClientWishlist from 'pages/client-wishlist';
+import ClientPreorder from 'pages/client-preorder';
+import ClientNotification from 'pages/client-notification';
+import ClientReview from 'pages/client-review';
+import ReviewManage from 'pages/review';
+import VoucherManage from 'pages/voucher';
+import PaymentMethodManage from 'pages/payment-method';
+import PromotionManage from 'pages/promotion';
+import ClientProduct from 'pages/client-product';
 
 const queryClient = new QueryClient();
 
@@ -74,9 +83,11 @@ function App() {
         <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
           <NotificationsProvider>
             <ModalsProvider>
+              <ScrollToTop/>
               <Routes>
                 <Route path="/" element={<Client/>}>
                   <Route index element={<ClientHome/>}/>
+                  <Route path="/*" element={<ClientError/>}/>
                   <Route path="/all-categories" element={<ClientAllCategories/>}/>
                   <Route path="/category/:slug" element={<ClientCategory/>}/>
                   <Route path="/search" element={<ClientSearch/>}/>
@@ -111,6 +122,27 @@ function App() {
                       <ClientSettingPassword/>
                     </ProtectedRoute>
                   )}/>
+                  <Route path="/user/wishlist" element={(
+                    <ProtectedRoute>
+                      <ClientWishlist/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/preorder" element={(
+                    <ProtectedRoute>
+                      <ClientPreorder/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/notification" element={(
+                    <ProtectedRoute>
+                      <ClientNotification/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/review" element={(
+                    <ProtectedRoute>
+                      <ClientReview/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/product/:slug" element={<ClientProduct/>}/>
                 </Route>
                 <Route path="/admin" element={<Admin/>}>
                   <Route index element={<AdminDashboard/>}/>
@@ -258,6 +290,14 @@ function App() {
                   <Route path={ManagerPath.COUNT} element={<CountManage/>}/>
                   <Route path={ManagerPath.COUNT + '/create'} element={<CountCreate/>}/>
                   <Route path={ManagerPath.COUNT + '/update/:id'} element={<CountUpdate/>}/>
+                  {/* REVIEW */}
+                  <Route path={ManagerPath.REVIEW} element={<ReviewManage/>}/>
+                  {/* VOUCHER */}
+                  <Route path={ManagerPath.VOUCHER} element={<VoucherManage/>}/>
+                  {/* PAYMENT_METHOD */}
+                  <Route path={ManagerPath.PAYMENT_METHOD} element={<PaymentMethodManage/>}/>
+                  {/* PROMOTION */}
+                  <Route path={ManagerPath.PROMOTION} element={<PromotionManage/>}/>
                 </Route>
               </Routes>
             </ModalsProvider>

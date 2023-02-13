@@ -15,7 +15,7 @@ import {
   useMantineTheme
 } from '@mantine/core';
 import { useLocation } from 'react-router-dom';
-import { AlertTriangle, ArrowsDownUp, ChartCandle, MoodEmpty } from 'tabler-icons-react';
+import { AlertTriangle, ArrowsDownUp, ChartCandle, Marquee } from 'tabler-icons-react';
 import { ClientProductCard } from 'components';
 import ApplicationConstants from 'constants/ApplicationConstants';
 import { useQuery } from 'react-query';
@@ -84,7 +84,7 @@ function ClientSearch() {
   if (products && products.totalElements === 0) {
     resultFragment = (
       <Stack my={theme.spacing.xl} sx={{ alignItems: 'center', color: theme.colors.blue[6] }}>
-        <MoodEmpty size={125} strokeWidth={1}/>
+        <Marquee size={125} strokeWidth={1}/>
         <Text size="xl" weight={500}>Không có sản phẩm</Text>
       </Stack>
     );
