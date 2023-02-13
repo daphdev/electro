@@ -25,8 +25,11 @@ public class ClientProductResponse {
     private ClientBrandResponse productBrand;
     @Nullable
     private JsonNode productSpecifications;
-    @Nullable
     private List<ClientVariantResponse> productVariants;
+    private boolean productSaleable;
+    private int productAverageRatingScore;
+    private int productCountReviews;
+    private List<ClientListedProductResponse> productRelatedProducts;
 
     @Data
     @Accessors(chain = true)

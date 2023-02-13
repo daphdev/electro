@@ -548,7 +548,7 @@
         created_by bigint,
         updated_at datetime not null,
         updated_by bigint,
-        content varchar(255) not null,
+        content TEXT not null,
         rating_score TINYINT not null,
         reply varchar(255),
         status TINYINT not null,

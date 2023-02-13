@@ -17,7 +17,7 @@ import {
   ThemeIcon,
   useMantineTheme
 } from '@mantine/core';
-import { ManageHeader, ManageHeaderTitle, ManageMain, ManagePagination } from 'components';
+import { ManageHeader, ManageHeaderTitle, ManageMain, ManagePagination, ReviewStarGroup } from 'components';
 import ReviewConfigs from 'pages/client-review/ReviewConfigs';
 import { useModals } from '@mantine/modals';
 import useGetAllApi from 'hooks/use-get-all-api';
@@ -364,28 +364,15 @@ function ReplyReviewModal({ review }: { review: ReviewResponse }) {
         <Button variant="default" onClick={modals.closeAll}>
           Đóng
         </Button>
-        <Button color="grape" onClick={handleReplyReviewButton} disabled={!review.reply && reply.length === 0}>
+        <Button
+          color="grape"
+          onClick={handleReplyReviewButton}
+          disabled={(!review.reply && reply.length === 0) || (!!review.reply && review.reply === reply)}
+        >
           {!review.reply ? 'Thêm phản hồi' : (reply.length === 0 ? 'Xóa phản hồi' : 'Sửa phản hồi')}
         </Button>
       </Group>
     </Stack>
-  );
-}
-
-function ReviewStarGroup({ ratingScore }: { ratingScore: number }) {
-  const theme = useMantineTheme();
-
-  return (
-    <Group spacing={5}>
-      {Array(5).fill(0).map((_, index) => (
-        <Star
-          key={index}
-          color={index < ratingScore ? theme.colors.yellow[5] : theme.colors.gray[5]}
-          fill={index < ratingScore ? theme.colors.yellow[5] : theme.colors.gray[5]}
-          size={14}
-        />
-      ))}
-    </Group>
   );
 }
 

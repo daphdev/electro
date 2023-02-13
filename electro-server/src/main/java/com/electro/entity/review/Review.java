@@ -37,10 +37,11 @@ public class Review extends BaseEntity {
     @Column(name = "rating_score", nullable = false, columnDefinition = "TINYINT")
     private Integer ratingScore;
 
-    @Column(name = "content", nullable = false)
+    // Reference: https://stackoverflow.com/a/31610134
+    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "reply")
+    @Column(name = "reply", columnDefinition = "TEXT")
     private String reply;
 
     // TODO: 6 trạng thái: Chưa duyệt, Đã duyệt, Không duyệt, Cập nhật chưa duyệt, Cập nhật đã duyệt, Cập nhật không duyệt

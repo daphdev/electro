@@ -33,7 +33,7 @@ public class ClientPreorderMapper {
         response.setPreorderCreatedAt(entity.getCreatedAt());
         response.setPreorderUpdatedAt(entity.getUpdatedAt());
         // TODO: Triển khai `saleable` cho productResponse ở đây
-        response.setPreorderProduct(clientProductMapper.entityToResponse(entity.getProduct(), Collections.emptyList()));
+        response.setPreorderProduct(clientProductMapper.entityToListedResponse(entity.getProduct(), Collections.emptyList()));
         response.setPreorderStatus(entity.getStatus());
         return response;
     }

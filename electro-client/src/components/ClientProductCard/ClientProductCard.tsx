@@ -1,33 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  ActionIcon,
-  Anchor,
-  Badge,
-  Box,
-  Card,
-  Group,
-  Highlight,
-  Image,
-  Stack,
-  Text,
-  useMantineTheme
-} from '@mantine/core';
+import { ActionIcon, Badge, Box, Card, Group, Highlight, Image, Stack, Text, useMantineTheme } from '@mantine/core';
 import MiscUtils from 'utils/MiscUtils';
-import {
-  ClientListedProductResponse,
-  ClientPreorderRequest,
-  ClientPreorderResponse,
-  ClientWishRequest,
-  ClientWishResponse
-} from 'types';
+import { ClientListedProductResponse, ClientPreorderRequest, ClientWishRequest } from 'types';
 import { BellPlus, HeartPlus, ShoppingCartPlus } from 'tabler-icons-react';
-import { useDisclosure, useElementSize } from '@mantine/hooks';
-import { useMutation } from 'react-query';
-import FetchUtils, { ErrorMessage } from 'utils/FetchUtils';
-import ResourceURL from 'constants/ResourceURL';
+import { useDisclosure } from '@mantine/hooks';
 import NotifyUtils from 'utils/NotifyUtils';
 import useAuthStore from 'stores/use-auth-store';
+import useCreateWishApi from 'hooks/use-create-wish-api';
+import useCreatePreorderApi from 'hooks/use-create-preorder-api';
 
 interface ClientProductCardProps {
   product: ClientListedProductResponse;
@@ -38,8 +19,6 @@ function ClientProductCard({ product, search }: ClientProductCardProps) {
   const theme = useMantineTheme();
 
   const [opened, handlers] = useDisclosure(false);
-
-  const { ref: refImage, width: widthImage } = useElementSize();
 
   const createWishApi = useCreateWishApi();
   const createPreorderApi = useCreatePreorderApi();
@@ -94,13 +73,10 @@ function ClientProductCard({ product, search }: ClientProductCardProps) {
       <Stack spacing="xs">
         <Box sx={{ position: 'relative' }}>
           <Image
-            ref={refImage}
             radius="md"
-            width={widthImage}
-            height={widthImage}
             src={product.productThumbnail || undefined}
             alt={product.productName}
-            withPlaceholder
+            styles={{ image: { aspectRatio: '1 / 1' } }}
           />
           <Group
             spacing="xs"
@@ -166,38 +142,6 @@ function ClientProductCard({ product, search }: ClientProductCardProps) {
         </Stack>
       </Stack>
     </Card>
-  );
-}
-
-function useCreateWishApi() {
-  return useMutation<ClientWishResponse, ErrorMessage, ClientWishRequest>(
-    (requestBody) => FetchUtils.postWithToken(ResourceURL.CLIENT_WISH, requestBody),
-    {
-      onSuccess: (response) =>
-        NotifyUtils.simpleSuccess(
-          <Text inherit>
-            <span>Đã thêm sản phẩm {response.wishProduct.productName} vào </span>
-            <Anchor component={Link} to="/user/wishlist" inherit>danh sách yêu thích</Anchor>
-          </Text>
-        ),
-      onError: () => NotifyUtils.simpleFailed('Không thêm được sản phẩm vào danh sách yêu thích'),
-    }
-  );
-}
-
-function useCreatePreorderApi() {
-  return useMutation<ClientPreorderResponse, ErrorMessage, ClientPreorderRequest>(
-    (requestBody) => FetchUtils.postWithToken(ResourceURL.CLIENT_PREORDER, requestBody),
-    {
-      onSuccess: (response) =>
-        NotifyUtils.simpleSuccess(
-          <Text inherit>
-            <span>Đã thêm sản phẩm {response.preorderProduct.productName} vào </span>
-            <Anchor component={Link} to="/user/preorder" inherit>danh sách đặt trước</Anchor>
-          </Text>
-        ),
-      onError: () => NotifyUtils.simpleFailed('Không thêm được sản phẩm vào danh sách đặt trước'),
-    }
   );
 }
 

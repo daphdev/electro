@@ -17,6 +17,8 @@ const formSchema = z.object({
     .min(1, MessageUtils.min('Mật khẩu', 1)),
   newPassword: z.string({ invalid_type_error: 'Vui lòng không bỏ trống' })
     .min(1, MessageUtils.min('Mật khẩu', 1)),
+  newPasswordAgain: z.string({ invalid_type_error: 'Vui lòng không bỏ trống' })
+    .min(1, MessageUtils.min('Mật khẩu', 1)),
 });
 
 function ClientSettingPassword() {
@@ -25,6 +27,7 @@ function ClientSettingPassword() {
   const initialFormValues = {
     oldPassword: '',
     newPassword: '',
+    newPasswordAgain: '',
   };
 
   const form = useForm({
@@ -41,12 +44,16 @@ function ClientSettingPassword() {
   );
 
   const handleFormSubmit = form.onSubmit((formValues) => {
-    const requestBody: ClientPasswordSettingUserRequest = {
-      oldPassword: formValues.oldPassword,
-      newPassword: formValues.newPassword,
-    };
+    if (formValues.newPassword !== formValues.newPasswordAgain) {
+      form.setFieldError('newPasswordAgain', 'Mật khẩu không trùng khớp');
+    } else {
+      const requestBody: ClientPasswordSettingUserRequest = {
+        oldPassword: formValues.oldPassword,
+        newPassword: formValues.newPassword,
+      };
 
-    updatePasswordSettingApi.mutate(requestBody);
+      updatePasswordSettingApi.mutate(requestBody);
+    }
   });
 
   return (
@@ -80,6 +87,13 @@ function ClientSettingPassword() {
                           label="Mật khẩu mới"
                           placeholder="Nhập mật khẩu mới"
                           {...form.getInputProps('newPassword')}
+                        />
+                        <PasswordInput
+                          required
+                          radius="md"
+                          label="Nhập lại mật khẩu mới"
+                          placeholder="Nhập lại mật khẩu mới"
+                          {...form.getInputProps('newPasswordAgain')}
                         />
                         <Button
                           radius="md"

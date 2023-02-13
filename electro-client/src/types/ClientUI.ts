@@ -75,10 +75,14 @@ export interface ClientProductResponse {
   productShortDescription: string | null;
   productDescription: string | null;
   productImages: ImageResponse[];
-  productCategory: ClientCategoryResponse;
-  productBrand: ClientBrandResponse;
+  productCategory: ClientCategoryResponse | null;
+  productBrand: ClientBrandResponse | null;
   productSpecifications: CollectionWrapper<SpecificationItem> | null;
   productVariants: ClientVariantResponse[];
+  productSaleable: boolean;
+  productAverageRatingScore: number;
+  productCountReviews: number;
+  productRelatedProducts: ClientListedProductResponse[];
 }
 
 interface ClientBrandResponse {

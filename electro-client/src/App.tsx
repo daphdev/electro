@@ -54,7 +54,7 @@ import ClientCategory from 'pages/client-category';
 import ClientSearch from 'pages/client-search';
 import ClientSignin from 'pages/client-signin';
 import ClientUser from 'pages/client-user';
-import { ProtectedRoute } from 'components';
+import { ClientError, ProtectedRoute, ScrollToTop } from 'components';
 import ClientSetting from 'pages/client-setting';
 import ClientSettingPersonal from 'pages/client-setting-personal';
 import ClientSettingPhone from 'pages/client-setting-phone';
@@ -68,6 +68,7 @@ import ReviewManage from 'pages/review';
 import VoucherManage from 'pages/voucher';
 import PaymentMethodManage from 'pages/payment-method';
 import PromotionManage from 'pages/promotion';
+import ClientProduct from 'pages/client-product';
 
 const queryClient = new QueryClient();
 
@@ -82,9 +83,11 @@ function App() {
         <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
           <NotificationsProvider>
             <ModalsProvider>
+              <ScrollToTop/>
               <Routes>
                 <Route path="/" element={<Client/>}>
                   <Route index element={<ClientHome/>}/>
+                  <Route path="/*" element={<ClientError/>}/>
                   <Route path="/all-categories" element={<ClientAllCategories/>}/>
                   <Route path="/category/:slug" element={<ClientCategory/>}/>
                   <Route path="/search" element={<ClientSearch/>}/>
@@ -139,6 +142,7 @@ function App() {
                       <ClientReview/>
                     </ProtectedRoute>
                   )}/>
+                  <Route path="/product/:slug" element={<ClientProduct/>}/>
                 </Route>
                 <Route path="/admin" element={<Admin/>}>
                   <Route index element={<AdminDashboard/>}/>

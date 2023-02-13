@@ -21,7 +21,7 @@ public class ClientProductMapper {
     private ImageMapper imageMapper;
     private ClientCategoryMapper clientCategoryMapper;
 
-    public ClientListedProductResponse entityToResponse(Product product, List<SimpleProductInventory> productInventories) {
+    public ClientListedProductResponse entityToListedResponse(Product product, List<SimpleProductInventory> productInventories) {
         ClientListedProductResponse clientListedProductResponse = new ClientListedProductResponse();
 
         clientListedProductResponse
@@ -61,7 +61,11 @@ public class ClientProductMapper {
         return clientListedProductResponse;
     }
 
-    public ClientProductResponse entityToResponse(Product product) {
+    public ClientProductResponse entityToResponse(Product product,
+                                                  List<SimpleProductInventory> productInventories,
+                                                  int averageRatingScore,
+                                                  int countReviews,
+                                                  List<ClientListedProductResponse> relatedProductResponses) {
         ClientProductResponse clientProductResponse = new ClientProductResponse();
 
         clientProductResponse.setProductId(product.getId());
@@ -71,7 +75,7 @@ public class ClientProductMapper {
         clientProductResponse.setProductDescription(product.getDescription());
         clientProductResponse.setProductImages(imageMapper.entityToResponse(product.getImages()));
         clientProductResponse.setProductCategory(clientCategoryMapper.entityToResponse(product.getCategory(), false));
-        clientProductResponse.setProductBrand(new ClientProductResponse.ClientBrandResponse()
+        clientProductResponse.setProductBrand(product.getBrand() == null ? null : new ClientProductResponse.ClientBrandResponse()
                 .setBrandId(product.getBrand().getId())
                 .setBrandName(product.getBrand().getName()));
         clientProductResponse.setProductSpecifications(product.getSpecifications());
@@ -81,6 +85,14 @@ public class ClientProductMapper {
                         .setVariantPrice(variant.getPrice())
                         .setVariantProperties(variant.getProperties()))
                 .collect(Collectors.toList()));
+        clientProductResponse.setProductSaleable(productInventories.stream()
+                .filter(productInventory -> productInventory.getProductId().equals(product.getId()))
+                .findAny()
+                .map(productInventory -> productInventory.getCanBeSold() > 0)
+                .orElse(false));
+        clientProductResponse.setProductAverageRatingScore(averageRatingScore);
+        clientProductResponse.setProductCountReviews(countReviews);
+        clientProductResponse.setProductRelatedProducts(relatedProductResponses);
 
         return clientProductResponse;
     }

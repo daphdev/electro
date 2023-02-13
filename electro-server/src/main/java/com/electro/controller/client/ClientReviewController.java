@@ -40,15 +40,15 @@ public class ClientReviewController {
     private ReviewRepository reviewRepository;
     private ClientReviewMapper clientReviewMapper;
 
-    @GetMapping("/products/{productId}")
+    @GetMapping("/products/{productSlug}")
     public ResponseEntity<ListResponse<ClientSimpleReviewResponse>> getAllReviewsByProduct(
-            @PathVariable Long productId,
+            @PathVariable String productSlug,
             @RequestParam(name = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size,
             @RequestParam(name = "sort", defaultValue = AppConstants.DEFAULT_SORT) String sort,
             @RequestParam(name = "filter", required = false) @Nullable String filter
     ) {
-        Page<Review> reviews = reviewRepository.findAllByProductId(productId, sort, filter, PageRequest.of(page - 1, size));
+        Page<Review> reviews = reviewRepository.findAllByProductSlug(productSlug, sort, filter, PageRequest.of(page - 1, size));
         List<ClientSimpleReviewResponse> clientReviewResponses = reviews.map(clientReviewMapper::entityToSimpleResponse).toList();
         return ResponseEntity.status(HttpStatus.OK).body(ListResponse.of(clientReviewResponses, reviews));
     }

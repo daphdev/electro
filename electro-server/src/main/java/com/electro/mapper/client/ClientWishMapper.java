@@ -30,7 +30,7 @@ public class ClientWishMapper {
         response.setWishId(entity.getId());
         response.setWishCreatedAt(entity.getCreatedAt());
         // TODO: Triển khai `saleable` cho productResponse ở đây
-        response.setWishProduct(clientProductMapper.entityToResponse(entity.getProduct(), Collections.emptyList()));
+        response.setWishProduct(clientProductMapper.entityToListedResponse(entity.getProduct(), Collections.emptyList()));
         return response;
     }
 

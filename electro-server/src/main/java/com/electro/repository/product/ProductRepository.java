@@ -125,6 +125,10 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
                 orders.add(cb.desc(cb.max(variant.get("price"))));
             }
 
+            if ("random".equals(sort)) {
+                orders.add(cb.asc(cb.function("RAND", Void.class)));
+            }
+
             if (newable) {
                 wheres.add(cb.equal(docket.get("type"), 1));
                 wheres.add(cb.equal(docket.get("status"), 3));
@@ -147,10 +151,12 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
          * Bug:
          * https://stackoverflow.com/a/59046245
          * https://stackoverflow.com/a/37771947
+         *
+         * TODO: Cần tìm cách hiệu quả hơn (sử dụng EntityManager)
          */
         List<Product> products = findAll(docketable);
         final int start = (int) pageable.getOffset();
-        final int end = Math.min((start + pageable.getPageSize()), products.size());
+        final int end = Math.min(start + pageable.getPageSize(), products.size());
 
         return new PageImpl<>(products.subList(start, end), pageable, products.size());
     }

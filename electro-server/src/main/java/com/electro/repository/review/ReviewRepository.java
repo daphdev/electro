@@ -7,13 +7,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface ReviewRepository extends JpaRepository<Review, Long>, JpaSpecificationExecutor<Review> {
 
-    default Page<Review> findAllByProductId(Long productId, String sort, String filter, Pageable pageable) {
+    default Page<Review> findAllByProductSlug(String productSlug, String sort, String filter, Pageable pageable) {
         Specification<Review> sortable = RSQLJPASupport.toSort(sort);
         Specification<Review> filterable = RSQLJPASupport.toSpecification(filter);
-        Specification<Review> productIdSpec = RSQLJPASupport.toSpecification("product.id==" + productId);
+        Specification<Review> productIdSpec = RSQLJPASupport.toSpecification("product.slug==" + productSlug);
         return findAll(sortable.and(filterable).and(productIdSpec), pageable);
     }
 
@@ -23,5 +25,11 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, JpaSpecif
         Specification<Review> usernameSpec = RSQLJPASupport.toSpecification("user.username==" + username);
         return findAll(sortable.and(filterable).and(usernameSpec), pageable);
     }
+
+    @Query("SELECT COALESCE(CEILING(AVG(r.ratingScore)), 0) FROM Review r WHERE r.product.id = :productId")
+    int findAverageRatingScoreByProductId(@Param("productId") Long productId);
+
+    @Query("SELECT COUNT(r.id) FROM Review r WHERE r.product.id = :productId")
+    int countByProductId(@Param("productId") Long productId);
 
 }

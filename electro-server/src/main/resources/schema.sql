@@ -987,8 +987,8 @@ CREATE TABLE review
     user_id      BIGINT                NOT NULL,
     product_id   BIGINT                NOT NULL,
     rating_score TINYINT               NOT NULL,
-    content      VARCHAR(255)          NOT NULL,
-    reply        VARCHAR(255)          NULL,
+    content      TEXT                  NOT NULL,
+    reply        TEXT                  NULL,
     status       TINYINT               NOT NULL,
     CONSTRAINT pk_review PRIMARY KEY (id)
 );

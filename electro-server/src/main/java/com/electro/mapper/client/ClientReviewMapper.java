@@ -35,7 +35,7 @@ public class ClientReviewMapper {
         response.setReviewCreatedAt(entity.getCreatedAt());
         response.setReviewUpdatedAt(entity.getUpdatedAt());
         // TODO: Triển khai `saleable` cho productResponse ở đây
-        response.setReviewProduct(clientProductMapper.entityToResponse(entity.getProduct(), Collections.emptyList()));
+        response.setReviewProduct(clientProductMapper.entityToListedResponse(entity.getProduct(), Collections.emptyList()));
         response.setReviewRatingScore(entity.getRatingScore());
         response.setReviewContent(entity.getContent());
         response.setReviewReply(entity.getReply());

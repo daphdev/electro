@@ -2,6 +2,7 @@ package com.electro.mapper.client;
 
 import com.electro.dto.client.ClientCategoryResponse;
 import com.electro.entity.product.Category;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -31,7 +32,11 @@ public class ClientCategoryMapper {
     /**
      * Thông tin category gồm có name, slug, danh sách con cấp 1 và cha xa nhất (tạo breadcrumb)
      */
-    public ClientCategoryResponse entityToResponse(Category category, boolean isParent) {
+    public ClientCategoryResponse entityToResponse(@Nullable Category category, boolean isParent) {
+        if (category == null) {
+            return null;
+        }
+
         ClientCategoryResponse categoryResponse = new ClientCategoryResponse();
 
         categoryResponse
