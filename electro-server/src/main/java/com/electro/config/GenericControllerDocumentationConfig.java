@@ -23,6 +23,7 @@ public class GenericControllerDocumentationConfig {
     public RouterFunction<ServerResponse> route() {
         return generateRoute("provinces")
                 .and(generateRoute("districts"))
+                .and(generateRoute("wards"))
                 .and(generateRoute("addresses"))
                 .and(generateRoute("users"))
                 .and(generateRoute("roles"))

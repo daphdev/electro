@@ -76,24 +76,25 @@ export interface ClientProductResponse {
   productDescription: string | null;
   productImages: ImageResponse[];
   productCategory: ClientCategoryResponse | null;
-  productBrand: ClientBrandResponse | null;
+  productBrand: ClientProductResponse_ClientBrandResponse | null;
   productSpecifications: CollectionWrapper<SpecificationItem> | null;
-  productVariants: ClientVariantResponse[];
+  productVariants: ClientProductResponse_ClientVariantResponse[];
   productSaleable: boolean;
   productAverageRatingScore: number;
   productCountReviews: number;
   productRelatedProducts: ClientListedProductResponse[];
 }
 
-interface ClientBrandResponse {
+interface ClientProductResponse_ClientBrandResponse {
   brandId: number;
   brandName: string;
 }
 
-interface ClientVariantResponse {
+interface ClientProductResponse_ClientVariantResponse {
   variantId: number;
   variantPrice: number;
   variantProperties: CollectionWrapper<VariantPropertyItem> | null;
+  variantInventory: number;
 }
 
 // WISH
@@ -161,4 +162,54 @@ export interface ClientReviewRequest {
   ratingScore: number;
   content: string;
   status: number;
+}
+
+// CART
+
+export interface ClientCartResponse {
+  cartId: number;
+  cartItems: ClientCartVariantResponse[];
+}
+
+export interface ClientCartVariantResponse {
+  cartItemVariant: ClientCartVariantResponse_ClientVariantResponse;
+  cartItemQuantity: number;
+}
+
+interface ClientCartVariantResponse_ClientVariantResponse {
+  variantId: number;
+  variantProduct: ClientCartVariantResponse_ClientVariantResponse_ClientProductResponse;
+  variantPrice: number;
+  variantProperties: CollectionWrapper<VariantPropertyItem> | null;
+  variantInventory: number;
+}
+
+interface ClientCartVariantResponse_ClientVariantResponse_ClientProductResponse {
+  productId: number;
+  productName: string;
+  productSlug: string;
+  productThumbnail: string | null;
+}
+
+export interface ClientCartRequest {
+  cartId: number | null;
+  userId: number;
+  cartItems: ClientCartVariantRequest[];
+  status: number;
+  updateQuantityType: UpdateQuantityType;
+}
+
+interface ClientCartVariantRequest {
+  variantId: number;
+  quantity: number;
+}
+
+export interface ClientCartVariantKeyRequest {
+  cartId: number;
+  variantId: number;
+}
+
+export enum UpdateQuantityType {
+  OVERRIDE = 'OVERRIDE',
+  INCREMENTAL = 'INCREMENTAL'
 }

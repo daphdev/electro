@@ -2,12 +2,12 @@ package com.electro.entity.authentication;
 
 import com.electro.entity.BaseEntity;
 import com.electro.entity.address.Address;
+import com.electro.entity.cart.Cart;
 import com.electro.entity.client.Preorder;
-import com.electro.entity.review.Review;
 import com.electro.entity.client.Wish;
-import com.electro.entity.customer.Customer;
-import com.electro.entity.employee.Employee;
 import com.electro.entity.general.Notification;
+import com.electro.entity.review.Review;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -73,11 +73,11 @@ public class User extends BaseEntity {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-    private Employee employee;
-
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-    private Customer customer;
+//    @OneToOne(mappedBy = "user")
+//    private Employee employee;
+//
+//    @OneToOne(mappedBy = "user")
+//    private Customer customer;
 
     @OneToMany(mappedBy = "user")
     private List<Wish> wishes = new ArrayList<>();
@@ -90,4 +90,8 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Notification> notifications = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Cart> carts = new ArrayList<>();
 }

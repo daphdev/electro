@@ -3,8 +3,6 @@ USE electro;
 -- DROP TABLES
 
 DROP TABLE IF EXISTS
-    province,
-    district,
     address,
     user,
     role,
@@ -51,37 +49,11 @@ DROP TABLE IF EXISTS
     wish,
     preorder,
     review,
-    notification;
+    notification,
+    cart,
+    cart_variant;
 
 -- CREATE TABLES
-
-CREATE TABLE province
-(
-    id         BIGINT AUTO_INCREMENT NOT NULL,
-    created_at datetime              NOT NULL,
-    updated_at datetime              NOT NULL,
-    created_by BIGINT                NULL,
-    updated_by BIGINT                NULL,
-    name       VARCHAR(255)          NOT NULL,
-    code       VARCHAR(35)           NOT NULL,
-    CONSTRAINT pk_province PRIMARY KEY (id)
-);
-
-CREATE TABLE district
-(
-    id          BIGINT AUTO_INCREMENT NOT NULL,
-    created_at  datetime              NOT NULL,
-    updated_at  datetime              NOT NULL,
-    created_by  BIGINT                NULL,
-    updated_by  BIGINT                NULL,
-    name        VARCHAR(255)          NOT NULL,
-    code        VARCHAR(35)           NOT NULL,
-    province_id BIGINT                NOT NULL,
-    CONSTRAINT pk_district PRIMARY KEY (id)
-);
-
-ALTER TABLE district
-    ADD CONSTRAINT FK_DISTRICT_ON_PROVINCE FOREIGN KEY (province_id) REFERENCES province (id);
 
 CREATE TABLE address
 (
@@ -93,6 +65,7 @@ CREATE TABLE address
     line        VARCHAR(255)          NULL,
     province_id BIGINT                NULL,
     district_id BIGINT                NULL,
+    ward_id     BIGINT                NULL,
     CONSTRAINT pk_address PRIMARY KEY (id)
 );
 
@@ -101,6 +74,9 @@ ALTER TABLE address
 
 ALTER TABLE address
     ADD CONSTRAINT FK_ADDRESS_ON_PROVINCE FOREIGN KEY (province_id) REFERENCES province (id);
+
+ALTER TABLE address
+    ADD CONSTRAINT FK_ADDRESS_ON_WARD FOREIGN KEY (ward_id) REFERENCES ward (id);
 
 CREATE TABLE user
 (
@@ -1019,3 +995,33 @@ CREATE TABLE notification
 
 ALTER TABLE notification
     ADD CONSTRAINT FK_NOTIFICATION_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE cart
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    user_id    BIGINT                NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_cart PRIMARY KEY (id)
+);
+
+ALTER TABLE cart
+    ADD CONSTRAINT FK_CART_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE cart_variant
+(
+    cart_id    BIGINT   NOT NULL,
+    variant_id BIGINT   NOT NULL,
+    created_at datetime NOT NULL,
+    quantity   INT      NOT NULL,
+    CONSTRAINT pk_cart_variant PRIMARY KEY (cart_id, variant_id)
+);
+
+ALTER TABLE cart_variant
+    ADD CONSTRAINT FK_CART_VARIANT_ON_CART FOREIGN KEY (cart_id) REFERENCES cart (id);
+
+ALTER TABLE cart_variant
+    ADD CONSTRAINT FK_CART_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);

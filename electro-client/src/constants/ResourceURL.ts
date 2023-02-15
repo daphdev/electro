@@ -8,6 +8,7 @@ class ResourceURL {
   static ADDRESS = apiPath + '/addresses';
   static PROVINCE = apiPath + '/provinces';
   static DISTRICT = apiPath + '/districts';
+  static WARD = apiPath + '/wards';
 
   static USER = apiPath + '/users';
   static ROLE = apiPath + '/roles';
@@ -73,6 +74,7 @@ class ResourceURL {
   static CLIENT_NOTIFICATION = clientApiPath + '/notifications';
   static CLIENT_NOTIFICATION_INIT_EVENTS = ResourceURL.CLIENT_NOTIFICATION + '/init-events';
   static CLIENT_NOTIFICATION_EVENTS = ResourceURL.CLIENT_NOTIFICATION + '/events';
+  static CLIENT_CART = clientApiPath + '/carts';
 
   // AUTHENTICATION
   static LOGIN = apiPath + '/auth/login';

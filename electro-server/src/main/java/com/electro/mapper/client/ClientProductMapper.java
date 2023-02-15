@@ -7,6 +7,8 @@ import com.electro.entity.product.Product;
 import com.electro.entity.product.Variant;
 import com.electro.mapper.general.ImageMapper;
 import com.electro.projection.inventory.SimpleProductInventory;
+import com.electro.repository.inventory.DocketVariantRepository;
+import com.electro.utils.InventoryUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +22,7 @@ public class ClientProductMapper {
 
     private ImageMapper imageMapper;
     private ClientCategoryMapper clientCategoryMapper;
+    private DocketVariantRepository docketVariantRepository;
 
     public ClientListedProductResponse entityToListedResponse(Product product, List<SimpleProductInventory> productInventories) {
         ClientListedProductResponse clientListedProductResponse = new ClientListedProductResponse();
@@ -83,7 +86,10 @@ public class ClientProductMapper {
                 .map(variant -> new ClientProductResponse.ClientVariantResponse()
                         .setVariantId(variant.getId())
                         .setVariantPrice(variant.getPrice())
-                        .setVariantProperties(variant.getProperties()))
+                        .setVariantProperties(variant.getProperties())
+                        .setVariantInventory(InventoryUtils
+                                .calculateInventoryIndices(docketVariantRepository.findByVariantId(variant.getId()))
+                                .get("canBeSold")))
                 .collect(Collectors.toList()));
         clientProductResponse.setProductSaleable(productInventories.stream()
                 .filter(productInventory -> productInventory.getProductId().equals(product.getId()))

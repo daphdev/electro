@@ -1,14 +1,33 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ActionIcon, Badge, Box, Card, Group, Highlight, Image, Stack, Text, useMantineTheme } from '@mantine/core';
+import {
+  ActionIcon,
+  Anchor,
+  Badge,
+  Box,
+  Card,
+  Group,
+  Highlight,
+  Image,
+  Stack,
+  Text,
+  useMantineTheme
+} from '@mantine/core';
 import MiscUtils from 'utils/MiscUtils';
-import { ClientListedProductResponse, ClientPreorderRequest, ClientWishRequest } from 'types';
+import {
+  ClientCartRequest,
+  ClientListedProductResponse,
+  ClientPreorderRequest,
+  ClientWishRequest,
+  UpdateQuantityType
+} from 'types';
 import { BellPlus, HeartPlus, ShoppingCartPlus } from 'tabler-icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import NotifyUtils from 'utils/NotifyUtils';
 import useAuthStore from 'stores/use-auth-store';
 import useCreateWishApi from 'hooks/use-create-wish-api';
 import useCreatePreorderApi from 'hooks/use-create-preorder-api';
+import useSaveCartApi from 'hooks/use-save-cart-api';
 
 interface ClientProductCardProps {
   product: ClientListedProductResponse;
@@ -22,8 +41,9 @@ function ClientProductCard({ product, search }: ClientProductCardProps) {
 
   const createWishApi = useCreateWishApi();
   const createPreorderApi = useCreatePreorderApi();
+  const saveCartApi = useSaveCartApi();
 
-  const { user } = useAuthStore();
+  const { user, currentCartId } = useAuthStore();
 
   const handleCreateWishButton = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -49,6 +69,34 @@ function ClientProductCard({ product, search }: ClientProductCardProps) {
         status: 1,
       };
       createPreorderApi.mutate(clientPreorderRequest);
+    }
+  };
+
+  const handleAddToCartButton = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    if (!user) {
+      NotifyUtils.simple('Vui lòng đăng nhập để sử dụng chức năng');
+    } else {
+      const cartRequest: ClientCartRequest = {
+        cartId: currentCartId,
+        userId: user.id,
+        cartItems: [
+          {
+            variantId: product.productVariants[0].variantId,
+            quantity: 1,
+          },
+        ],
+        status: 1,
+        updateQuantityType: UpdateQuantityType.INCREMENTAL,
+      };
+      saveCartApi.mutate(cartRequest, {
+        onSuccess: () => NotifyUtils.simpleSuccess(
+          <Text inherit>
+            <span>Đã thêm 1 sản phẩm {product.productName} (phiên bản mặc định) vào </span>
+            <Anchor component={Link} to="/cart" inherit>giỏ hàng</Anchor>
+          </Text>
+        ),
+      });
     }
   };
 
@@ -108,7 +156,7 @@ function ClientProductCard({ product, search }: ClientProductCardProps) {
                   radius="xl"
                   variant="filled"
                   title="Thêm vào giỏ hàng"
-                  onClick={(event: React.MouseEvent<HTMLElement>) => event.preventDefault()}
+                  onClick={handleAddToCartButton}
                 >
                   <ShoppingCartPlus size={18}/>
                 </ActionIcon>
@@ -138,6 +186,9 @@ function ClientProductCard({ product, search }: ClientProductCardProps) {
           </Group>
           <Text weight={500} color="pink">
             {product.productPriceRange.map(MiscUtils.formatPrice).join('–') + '\u00A0₫'}
+          </Text>
+          <Text size="sm" color="dimmed">
+            {product.productVariants.length} phiên bản
           </Text>
         </Stack>
       </Stack>

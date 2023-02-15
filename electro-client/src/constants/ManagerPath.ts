@@ -2,6 +2,7 @@ class ManagerPath {
   static ADDRESS = '/admin/address';
   static PROVINCE = '/admin/address/province';
   static DISTRICT = '/admin/address/district';
+  static WARD = '/admin/address/ward';
 
   static USER = '/admin/user';
   static ROLE = '/admin/user/role';

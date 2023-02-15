@@ -248,7 +248,7 @@ function ClientReviewCard({ review }: { review: ClientReviewResponse }) {
 
         <Blockquote
           color={review.reviewStatus === 1 ? 'gray' : (review.reviewStatus === 2 ? 'teal' : 'pink')}
-          sx={{ fontSize: theme.fontSizes.md }}
+          sx={{ fontSize: theme.fontSizes.sm }}
         >
           {review.reviewContent}
         </Blockquote>
