@@ -15,6 +15,13 @@ public interface SearchFields {
             "province.code"
     );
 
+    List<String> WARD = List.of(
+            "name",
+            "code",
+            "district.name",
+            "district.code"
+    );
+
     List<String> ADDRESS = List.of(
             "line",
             "province.name",

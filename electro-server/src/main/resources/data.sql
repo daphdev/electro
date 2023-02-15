@@ -1,53 +1,9 @@
--- province TABLE: 10 records
-insert into province (created_at, updated_at, name, code) values ('2021-12-13 00:45:37', '2021-05-23 06:08:23', 'Ohio', '44111');
-insert into province (created_at, updated_at, name, code) values ('2021-05-27 13:31:51', '2021-07-11 13:59:28', 'Texas', '77090');
-insert into province (created_at, updated_at, name, code) values ('2021-10-21 16:31:59', '2021-10-23 06:46:37', 'Nevada', '89519');
-insert into province (created_at, updated_at, name, code) values ('2022-03-01 02:22:22', '2022-03-10 03:29:02', 'California', '91199');
-insert into province (created_at, updated_at, name, code) values ('2021-06-19 01:33:20', '2022-01-08 10:57:54', 'Florida', '33075');
-insert into province (created_at, updated_at, name, code) values ('2021-10-22 22:40:25', '2021-08-30 18:12:08', 'New Jersey', '08638');
-insert into province (created_at, updated_at, name, code) values ('2021-09-28 17:42:31', '2022-01-06 00:19:36', 'Pennsylvania', '19136');
-insert into province (created_at, updated_at, name, code) values ('2022-05-08 08:21:42', '2021-12-19 04:51:37', 'Texas', '79105');
-insert into province (created_at, updated_at, name, code) values ('2022-04-14 20:12:37', '2021-07-28 00:15:46', 'Connecticut', '06127');
-insert into province (created_at, updated_at, name, code) values ('2022-04-11 20:14:28', '2021-10-03 15:28:38', 'Illinois', '60158');
-
--- district TABLE: 30 records
-insert into district (created_at, updated_at, name, code, province_id) values ('2022-04-21 10:13:00', '2021-05-16 21:13:23', 'Shelley', '#5169de', 7);
-insert into district (created_at, updated_at, name, code, province_id) values ('2022-04-22 00:20:29', '2021-09-19 14:41:03', 'Morningstar', '#fce716', 10);
-insert into district (created_at, updated_at, name, code, province_id) values ('2021-05-16 04:15:24', '2021-07-06 18:41:58', 'Pepper Wood', '#0ebaa3', 8);
-insert into district (created_at, updated_at, name, code, province_id) values ('2021-06-30 01:43:40', '2021-08-15 10:58:29', 'Hudson', '#5a420c', 8);
-insert into district (created_at, updated_at, name, code, province_id) values ('2021-10-13 20:25:13', '2022-05-13 14:52:14', 'Basil', '#fd9dbc', 10);
-insert into district (created_at, updated_at, name, code, province_id) values ('2022-03-09 17:55:03', '2021-05-18 06:09:14', 'Veith', '#620d36', 2);
-insert into district (created_at, updated_at, name, code, province_id) values ('2021-11-29 03:17:01', '2022-02-25 18:49:34', 'Rowland', '#9bf485', 5);
-insert into district (created_at, updated_at, name, code, province_id) values ('2021-10-23 16:00:21', '2021-06-28 22:37:00', 'Shelley', '#0ddc7b', 2);
-insert into district (created_at, updated_at, name, code, province_id) values ('2022-05-02 00:01:45', '2021-08-10 18:24:20', 'Weeping Birch', '#93430f', 2);
-insert into district (created_at, updated_at, name, code, province_id) values ('2021-06-30 10:01:15', '2021-08-16 13:01:14', 'Crest Line', '#27b37d', 8);
-insert into district (created_at, updated_at, name, code, province_id) values ('2021-10-05 20:20:43', '2021-11-15 23:27:52', 'Sugar', '#6ebc85', 3);
-insert into district (created_at, updated_at, name, code, province_id) values ('2022-02-07 12:30:25', '2022-02-07 08:33:53', 'Oriole', '#5e2d0e', 2);
-insert into district (created_at, updated_at, name, code, province_id) values ('2022-03-17 17:14:15', '2022-02-08 22:34:31', 'Sunfield', '#fc5b89', 7);
-insert into district (created_at, updated_at, name, code, province_id) values ('2022-02-04 08:11:12', '2021-06-27 19:05:45', 'Rowland', '#b9d019', 3);
-insert into district (created_at, updated_at, name, code, province_id) values ('2021-09-03 04:28:15', '2022-04-07 13:03:15', 'Upham', '#318ec6', 9);
-insert into district (created_at, updated_at, name, code, province_id) values ('2022-01-15 15:44:22', '2021-05-26 19:17:13', 'Westport', '#eb6f70', 8);
-insert into district (created_at, updated_at, name, code, province_id) values ('2022-01-20 07:13:22', '2022-04-27 12:56:24', 'Boyd', '#295b5b', 9);
-insert into district (created_at, updated_at, name, code, province_id) values ('2022-04-20 15:13:35', '2022-01-18 19:03:51', 'Maple', '#d29ef8', 3);
-insert into district (created_at, updated_at, name, code, province_id) values ('2021-10-27 13:31:20', '2021-11-13 01:06:36', 'Golf Course', '#ad726e', 8);
-insert into district (created_at, updated_at, name, code, province_id) values ('2021-12-07 01:38:29', '2021-10-01 01:26:44', 'Manitowish', '#a26f26', 5);
-insert into district (created_at, updated_at, name, code, province_id) values ('2021-05-19 08:58:45', '2021-08-24 05:16:19', 'Old Gate', '#eb1d4a', 6);
-insert into district (created_at, updated_at, name, code, province_id) values ('2022-01-03 14:35:59', '2021-08-13 01:50:04', 'Fallview', '#40b9fb', 8);
-insert into district (created_at, updated_at, name, code, province_id) values ('2021-07-30 12:14:19', '2021-10-15 23:58:51', 'Dwight', '#430906', 5);
-insert into district (created_at, updated_at, name, code, province_id) values ('2021-11-21 19:11:02', '2021-07-31 20:18:04', 'Harbort', '#988919', 10);
-insert into district (created_at, updated_at, name, code, province_id) values ('2021-12-01 01:40:39', '2021-10-25 05:43:50', 'Gina', '#f959a3', 1);
-insert into district (created_at, updated_at, name, code, province_id) values ('2021-05-27 12:37:21', '2021-11-01 01:18:58', 'Hintze', '#8625af', 8);
-insert into district (created_at, updated_at, name, code, province_id) values ('2022-03-10 17:59:30', '2022-04-08 10:13:45', 'Commercial', '#1a286c', 4);
-insert into district (created_at, updated_at, name, code, province_id) values ('2022-05-10 05:18:58', '2021-10-03 07:02:43', 'La Follette', '#f68bc1', 8);
-insert into district (created_at, updated_at, name, code, province_id) values ('2021-09-20 07:16:39', '2022-02-25 15:58:42', 'Beilfuss', '#6ba330', 1);
-insert into district (created_at, updated_at, name, code, province_id) values ('2021-12-17 21:50:15', '2021-06-29 08:19:03', 'Mallard', '#ef7968', 2);
-
 -- address TABLE: 30 records
-insert into address (created_at, updated_at, line, province_id, district_id) values ('2021-09-29 21:58:33', '2021-07-30 14:27:56', '140 Commercial Way', 7, 28);
-insert into address (created_at, updated_at, line, province_id, district_id) values ('2021-08-22 21:08:28', '2021-08-31 07:42:14', '9121 Calypso Street', 7, 26);
-insert into address (created_at, updated_at, line, province_id, district_id) values ('2021-08-15 21:35:21', '2022-04-08 22:22:57', '59 Del Sol Road', 10, 2);
-insert into address (created_at, updated_at, line, province_id, district_id) values ('2022-03-20 14:32:29', '2021-08-27 23:10:58', '3918 Bashford Junction', 1, 2);
-insert into address (created_at, updated_at, line, province_id, district_id) values ('2021-11-01 05:12:07', '2021-06-21 06:36:16', '18726 Delaware Parkway', 1, 26);
+insert into address (created_at, updated_at, line, province_id, district_id, ward_id) values ('2021-09-29 21:58:33', '2021-07-30 14:27:56', '140 Commercial Way', 7, 28, 1);
+insert into address (created_at, updated_at, line, province_id, district_id, ward_id) values ('2021-08-22 21:08:28', '2021-08-31 07:42:14', '9121 Calypso Street', 7, 26, 2);
+insert into address (created_at, updated_at, line, province_id, district_id, ward_id) values ('2021-08-15 21:35:21', '2022-04-08 22:22:57', '59 Del Sol Road', 10, 2, 3);
+insert into address (created_at, updated_at, line, province_id, district_id, ward_id) values ('2022-03-20 14:32:29', '2021-08-27 23:10:58', '3918 Bashford Junction', 29, 1, 8937);
+insert into address (created_at, updated_at, line, province_id, district_id, ward_id) values ('2021-11-01 05:12:07', '2021-06-21 06:36:16', '18726 Delaware Parkway', 1, 26, 4);
 insert into address (created_at, updated_at, line, province_id, district_id) values ('2021-11-26 06:31:10', '2021-07-01 07:54:22', '83027 Ludington Center', 6, 25);
 insert into address (created_at, updated_at, line, province_id, district_id) values ('2022-05-13 06:41:51', '2021-12-19 08:19:18', '85044 Troy Place', 2, 28);
 insert into address (created_at, updated_at, line, province_id, district_id) values ('2022-03-28 17:20:12', '2022-01-22 14:17:25', '72 Thackeray Plaza', 4, 23);
@@ -80,21 +36,6 @@ insert into user (created_at, updated_at, username, password, fullname, email, p
 insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2021-11-30 21:45:42', '2022-03-05 17:40:25', 'ethuillier2', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Ermin Thuillier', 'ethuillier2@jimdo.com', '783-937-1723', 'M', 3, null, 2);
 insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2022-01-27 04:22:37', '2022-05-04 02:25:59', 'dtreat3', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Danila Treat', 'dtreat3@nymag.com', '682-966-2575', 'F', 4, null, 3);
 insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2022-03-27 11:16:32', '2021-10-03 12:04:10', 'tkorting4', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Tanya Korting', 'tkorting4@livejournal.com', '691-138-7064', 'F', 5, null, 2);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2022-01-12 23:13:03', '2022-01-23 08:32:20', 'amclese5', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Armand McLese', 'amclese5@nbcnews.com', '612-791-2288', 'M', 6, null, 2);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2021-09-02 02:03:36', '2022-01-28 10:33:39', 'hdarlasson6', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Hart Darlasson', 'hdarlasson6@rakuten.co.jp', '897-360-9277', 'F', 7, 'http://dummyimage.com/121x100.png/ff4444/ffffff', 1);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2021-11-02 12:22:44', '2021-11-26 14:12:59', 'gpeskett7', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Gayle Peskett', 'gpeskett7@sogou.com', '196-955-5572', 'M', 8, 'http://dummyimage.com/249x100.png/dddddd/000000', 3);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2021-06-14 00:07:16', '2021-06-12 08:24:49', 'vraison8', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Virginie Raison', 'vraison8@photobucket.com', '511-190-4155', 'M', 9, null, 2);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2022-01-06 08:23:20', '2021-11-10 20:53:25', 'mgibb9', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Maddy Gibb', 'mgibb9@blogtalkradio.com', '274-346-3382', 'F', 10, 'http://dummyimage.com/172x100.png/dddddd/000000', 2);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2021-09-13 10:09:09', '2022-01-11 04:49:29', 'ccarea', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Chlo Care', 'ccarea@pagesperso-orange.fr', '213-728-7079', 'M', 11, 'http://dummyimage.com/103x100.png/cc0000/ffffff', 1);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2021-11-25 06:41:00', '2022-04-28 12:48:05', 'dmarquissb', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Devlin Marquiss', 'dmarquissb@newsvine.com', '500-161-3612', 'F', 12, 'http://dummyimage.com/115x100.png/5fa2dd/ffffff', 1);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2022-02-17 22:04:47', '2022-04-28 05:33:44', 'droskamsc', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Delia Roskams', 'droskamsc@sina.com.cn', '682-269-0884', 'M', 13, null, 1);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2021-08-31 23:25:05', '2021-06-26 09:24:36', 'pmarinid', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Prudy Marini', 'pmarinid@i2i.jp', '606-453-6302', 'F', 14, null, 1);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2021-09-29 14:57:06', '2022-01-13 12:09:47', 'llowdese', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Loni Lowdes', 'llowdese@ustream.tv', '969-881-5856', 'M', 15, 'http://dummyimage.com/135x100.png/dddddd/000000', 1);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2022-01-31 03:31:45', '2022-03-22 08:51:01', 'bjardinef', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Brigham Jardine', 'bjardinef@sciencedaily.com', '534-290-6139', 'F', 16, null, 1);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2021-07-01 04:07:27', '2022-02-25 13:54:17', 'djirkag', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Dore Jirka', 'djirkag@theglobeandmail.com', '253-358-4359', 'F', 17, 'http://dummyimage.com/229x100.png/cc0000/ffffff', 1);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2022-03-10 13:48:33', '2022-05-12 13:28:16', 'ecluseh', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Elane Cluse', 'ecluseh@infoseek.co.jp', '876-497-9496', 'M', 18, 'http://dummyimage.com/189x100.png/cc0000/ffffff', 1);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2021-05-30 10:09:21', '2021-06-03 21:30:19', 'mcaili', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Millicent Cail', 'mcaili@friendfeed.com', '743-141-7532', 'M', 19, null, 3);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2022-04-09 11:43:10', '2021-12-29 05:46:21', 'jclearj', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Jsandye Clear', 'jclearj@shinystat.com', '256-635-2585', 'M', 20, null, 3);
 
 -- role TABLE: 3 records
 INSERT INTO `role` (`created_at`, `updated_at`, `code`, `name`, `status`) VALUES ('1971-04-11 07:45:46', '2006-04-26 03:05:23', 'ADMIN', 'Quản trị viên', 1);
@@ -167,11 +108,11 @@ insert into customer_status (created_at, updated_at, code, name, description, co
 insert into customer_status (created_at, updated_at, code, name, description, color, status) values ('2022-03-27 06:15:17', '2021-09-29 17:49:37', '49281-395', 'None', 'Other lymphedema', 'Maroon', 2);
 
 -- customer TABLE: 5 records
-insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 10, 4, 5, 3);
-insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-22 12:52:55', '2022-03-05 09:30:21', 6, 2, 4, 2);
-insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-16 21:25:31', '2021-09-13 07:36:37', 8, 5, 2, 2);
-insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-07-05 20:51:32', '2022-01-24 03:31:41', 7, 5, 4, 1);
-insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-03 13:27:34', '2022-01-17 05:56:02', 11, 5, 5, 1);
+insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 1, 4, 5, 3);
+insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-22 12:52:55', '2022-03-05 09:30:21', 2, 2, 4, 2);
+insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-16 21:25:31', '2021-09-13 07:36:37', 3, 5, 2, 2);
+insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-07-05 20:51:32', '2022-01-24 03:31:41', 4, 5, 4, 1);
+insert into customer (created_at, updated_at, user_id, customer_group_id, customer_resource_id, customer_status_id) values ('2021-08-03 13:27:34', '2022-01-17 05:56:02', 5, 5, 5, 1);
 
 -- property TABLE: 2 records
 insert into property (created_at, updated_at, name, code, description, status) values ('2022-05-01 13:27:06', '2022-02-02 16:18:00', 'Kích cỡ', 'size', 'Lorem ipsum dolor sit amet', 1);

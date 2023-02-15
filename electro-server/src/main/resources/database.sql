@@ -3,6 +3,10 @@
 
     drop table if exists prod.brand;
 
+    drop table if exists prod.cart;
+
+    drop table if exists prod.cart_variant;
+
     drop table if exists prod.category;
 
     drop table if exists prod.count;
@@ -93,6 +97,8 @@
 
     drop table if exists prod.variant_inventory_limit;
 
+    drop table if exists prod.ward;
+
     drop table if exists prod.warehouse;
 
     drop table if exists prod.wish;
@@ -106,6 +112,7 @@
         line varchar(255),
         district_id bigint,
         province_id bigint,
+        ward_id bigint,
         primary key (id)
     ) engine=MyISAM;
 
@@ -120,6 +127,25 @@
         name varchar(255) not null,
         status TINYINT not null,
         primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.cart (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        status TINYINT not null,
+        user_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.cart_variant (
+       cart_id bigint not null,
+        variant_id bigint not null,
+        created_at datetime not null,
+        quantity integer not null,
+        primary key (cart_id, variant_id)
     ) engine=MyISAM;
 
     create table prod.category (
@@ -550,7 +576,7 @@
         updated_by bigint,
         content TEXT not null,
         rating_score TINYINT not null,
-        reply varchar(255),
+        reply TEXT,
         status TINYINT not null,
         product_id bigint not null,
         user_id bigint not null,
@@ -704,6 +730,18 @@
         primary key (variant_id)
     ) engine=MyISAM;
 
+    create table prod.ward (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(35) not null,
+        name varchar(255) not null,
+        district_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.warehouse (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -839,6 +877,26 @@
        add constraint FKf8x0jfwoo94op8u88og1ohdcn 
        foreign key (province_id) 
        references prod.province (id);
+
+    alter table prod.address 
+       add constraint FKq7vspx6bqxq5lawbv2calw5lb 
+       foreign key (ward_id) 
+       references prod.ward (id);
+
+    alter table prod.cart 
+       add constraint FKl70asp4l4w0jmbm1tqyofho4o 
+       foreign key (user_id) 
+       references prod.user (id);
+
+    alter table prod.cart_variant 
+       add constraint FKhmyixkomygkkdpbgkpewg6bdx 
+       foreign key (cart_id) 
+       references prod.cart (id);
+
+    alter table prod.cart_variant 
+       add constraint FKgn4wklrcnmghvlwccghh6l3fm 
+       foreign key (variant_id) 
+       references prod.variant (id);
 
     alter table prod.category 
        add constraint FKap0cnk1255oj4bwam7in1hxxv 
@@ -1124,6 +1182,11 @@
        add constraint FKmyp7te4img1nhhmfwj7yr1ss7 
        foreign key (variant_id) 
        references prod.variant (id);
+
+    alter table prod.ward 
+       add constraint FKslko72wj5nauqvsgefqkvwpsb 
+       foreign key (district_id) 
+       references prod.district (id);
 
     alter table prod.warehouse 
        add constraint FKp7xymgre8vt94ihf75e9movyt 

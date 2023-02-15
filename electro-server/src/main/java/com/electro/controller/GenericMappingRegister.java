@@ -8,6 +8,8 @@ import com.electro.dto.address.DistrictRequest;
 import com.electro.dto.address.DistrictResponse;
 import com.electro.dto.address.ProvinceRequest;
 import com.electro.dto.address.ProvinceResponse;
+import com.electro.dto.address.WardRequest;
+import com.electro.dto.address.WardResponse;
 import com.electro.dto.authentication.RoleRequest;
 import com.electro.dto.authentication.RoleResponse;
 import com.electro.dto.authentication.UserRequest;
@@ -84,6 +86,7 @@ import com.electro.dto.review.ReviewRequest;
 import com.electro.dto.review.ReviewResponse;
 import com.electro.entity.address.Address;
 import com.electro.entity.address.District;
+import com.electro.entity.address.Ward;
 import com.electro.entity.authentication.Role;
 import com.electro.entity.authentication.User;
 import com.electro.entity.customer.Customer;
@@ -122,6 +125,7 @@ import com.electro.entity.product.Variant;
 import com.electro.entity.review.Review;
 import com.electro.mapper.address.AddressMapper;
 import com.electro.mapper.address.DistrictMapper;
+import com.electro.mapper.address.WardMapper;
 import com.electro.mapper.authentication.RoleMapper;
 import com.electro.mapper.authentication.UserMapper;
 import com.electro.mapper.customer.CustomerGroupMapper;
@@ -160,6 +164,7 @@ import com.electro.mapper.product.VariantMapper;
 import com.electro.mapper.review.ReviewMapper;
 import com.electro.repository.address.AddressRepository;
 import com.electro.repository.address.DistrictRepository;
+import com.electro.repository.address.WardRepository;
 import com.electro.repository.authentication.RoleRepository;
 import com.electro.repository.authentication.UserRepository;
 import com.electro.repository.customer.CustomerGroupRepository;
@@ -223,6 +228,7 @@ public class GenericMappingRegister {
     // Controllers
     private GenericController<ProvinceRequest, ProvinceResponse> provinceController;
     private GenericController<DistrictRequest, DistrictResponse> districtController;
+    private GenericController<WardRequest, WardResponse> wardController;
     private GenericController<AddressRequest, AddressResponse> addressController;
     private GenericController<UserRequest, UserResponse> userController;
     private GenericController<RoleRequest, RoleResponse> roleController;
@@ -264,6 +270,7 @@ public class GenericMappingRegister {
 
     // Services
     private GenericService<District, DistrictRequest, DistrictResponse> districtService;
+    private GenericService<Ward, WardRequest, WardResponse> wardService;
     private GenericService<Address, AddressRequest, AddressResponse> addressService;
     private GenericService<User, UserRequest, UserResponse> userService;
     private GenericService<Role, RoleRequest, RoleResponse> roleService;
@@ -313,6 +320,13 @@ public class GenericMappingRegister {
                 SearchFields.DISTRICT,
                 ResourceName.DISTRICT
         ), DistrictRequest.class);
+
+        register("wards", wardController, wardService.init(
+                context.getBean(WardRepository.class),
+                context.getBean(WardMapper.class),
+                SearchFields.WARD,
+                ResourceName.WARD
+        ), WardRequest.class);
 
         register("addresses", addressController, addressService.init(
                 context.getBean(AddressRepository.class),

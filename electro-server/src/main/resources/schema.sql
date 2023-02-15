@@ -3,8 +3,6 @@ USE electro;
 -- DROP TABLES
 
 DROP TABLE IF EXISTS
-    province,
-    district,
     address,
     user,
     role,
@@ -57,34 +55,6 @@ DROP TABLE IF EXISTS
 
 -- CREATE TABLES
 
-CREATE TABLE province
-(
-    id         BIGINT AUTO_INCREMENT NOT NULL,
-    created_at datetime              NOT NULL,
-    updated_at datetime              NOT NULL,
-    created_by BIGINT                NULL,
-    updated_by BIGINT                NULL,
-    name       VARCHAR(255)          NOT NULL,
-    code       VARCHAR(35)           NOT NULL,
-    CONSTRAINT pk_province PRIMARY KEY (id)
-);
-
-CREATE TABLE district
-(
-    id          BIGINT AUTO_INCREMENT NOT NULL,
-    created_at  datetime              NOT NULL,
-    updated_at  datetime              NOT NULL,
-    created_by  BIGINT                NULL,
-    updated_by  BIGINT                NULL,
-    name        VARCHAR(255)          NOT NULL,
-    code        VARCHAR(35)           NOT NULL,
-    province_id BIGINT                NOT NULL,
-    CONSTRAINT pk_district PRIMARY KEY (id)
-);
-
-ALTER TABLE district
-    ADD CONSTRAINT FK_DISTRICT_ON_PROVINCE FOREIGN KEY (province_id) REFERENCES province (id);
-
 CREATE TABLE address
 (
     id          BIGINT AUTO_INCREMENT NOT NULL,
@@ -95,6 +65,7 @@ CREATE TABLE address
     line        VARCHAR(255)          NULL,
     province_id BIGINT                NULL,
     district_id BIGINT                NULL,
+    ward_id     BIGINT                NULL,
     CONSTRAINT pk_address PRIMARY KEY (id)
 );
 
@@ -103,6 +74,9 @@ ALTER TABLE address
 
 ALTER TABLE address
     ADD CONSTRAINT FK_ADDRESS_ON_PROVINCE FOREIGN KEY (province_id) REFERENCES province (id);
+
+ALTER TABLE address
+    ADD CONSTRAINT FK_ADDRESS_ON_WARD FOREIGN KEY (ward_id) REFERENCES ward (id);
 
 CREATE TABLE user
 (

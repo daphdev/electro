@@ -3,6 +3,7 @@ package com.electro.constant;
 public interface ResourceName {
     String PROVINCE = "Province";
     String DISTRICT = "District";
+    String WARD = "Ward";
     String ADDRESS = "Address";
     String USER = "User";
     String ROLE = "Role";

@@ -16,11 +16,13 @@ public interface AddressMapper extends GenericMapper<Address, AddressRequest, Ad
     @Override
     @Mapping(source = "provinceId", target = "province")
     @Mapping(source = "districtId", target = "district")
+    @Mapping(source = "wardId", target = "ward")
     Address requestToEntity(AddressRequest request);
 
     @Override
     @Mapping(source = "provinceId", target = "province")
     @Mapping(source = "districtId", target = "district")
+    @Mapping(source = "wardId", target = "ward")
     Address partialUpdate(@MappingTarget Address entity, AddressRequest request);
 
 }

@@ -3,6 +3,7 @@ package com.electro.utils;
 import com.electro.entity.BaseEntity;
 import com.electro.entity.address.District;
 import com.electro.entity.address.Province;
+import com.electro.entity.address.Ward;
 import com.electro.entity.authentication.User;
 import com.electro.entity.customer.Customer;
 import com.electro.entity.customer.CustomerGroup;
@@ -35,6 +36,7 @@ import com.electro.entity.product.Unit;
 import com.electro.entity.product.Variant;
 import com.electro.repository.address.DistrictRepository;
 import com.electro.repository.address.ProvinceRepository;
+import com.electro.repository.address.WardRepository;
 import com.electro.repository.authentication.RoleRepository;
 import com.electro.repository.authentication.UserRepository;
 import com.electro.repository.product.ProductRepository;
@@ -72,6 +74,8 @@ public abstract class MapperUtils {
     @Autowired
     private DistrictRepository districtRepository;
     @Autowired
+    private WardRepository wardRepository;
+    @Autowired
     private UserRepository userRepository;
 
     public Province mapToProvince(@Nullable Long id) {
@@ -80,6 +84,10 @@ public abstract class MapperUtils {
 
     public District mapToDistrict(@Nullable Long id) {
         return id == null ? null : districtRepository.getById(id);
+    }
+
+    public Ward mapToWard(@Nullable Long id) {
+        return id == null ? null : wardRepository.getById(id);
     }
 
     public abstract Office mapToOffice(Long id);

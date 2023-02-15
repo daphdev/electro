@@ -8,6 +8,7 @@ class ResourceURL {
   static ADDRESS = apiPath + '/addresses';
   static PROVINCE = apiPath + '/provinces';
   static DISTRICT = apiPath + '/districts';
+  static WARD = apiPath + '/wards';
 
   static USER = apiPath + '/users';
   static ROLE = apiPath + '/roles';

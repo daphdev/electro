@@ -65,14 +65,16 @@ function ClientUser() {
                         </Stack>
                       </Group>
 
-                      <Group spacing="sm">
+                      <Group spacing="sm" sx={{ flexWrap: 'nowrap' }}>
                         <ThemeIcon radius="xl" size="lg" variant="light">
                           <Home size={20} strokeWidth={1.5}/>
                         </ThemeIcon>
                         <Stack spacing={0}>
                           <Text weight={500}>Địa chỉ</Text>
                           <Text>
-                            {[user?.address.line, user?.address.district?.name, user?.address.province?.name].join(', ')}
+                            {[user?.address.line, user?.address.ward?.name, user?.address.district?.name, user?.address.province?.name]
+                              .filter(Boolean)
+                              .join(', ')}
                           </Text>
                         </Stack>
                       </Group>

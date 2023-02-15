@@ -147,7 +147,9 @@ function ClientCart() {
                   </Text>
                   <Text weight={500} size="sm">{user?.phone}</Text>
                   <Text size="sm" color="dimmed">
-                    {[user?.address.line, user?.address.district?.name, user?.address.province?.name].join(', ')}
+                    {[user?.address.line, user?.address.ward?.name, user?.address.district?.name, user?.address.province?.name]
+                      .filter(Boolean)
+                      .join(', ')}
                   </Text>
                 </Stack>
               </Stack>
