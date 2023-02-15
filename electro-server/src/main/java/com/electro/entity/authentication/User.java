@@ -5,8 +5,6 @@ import com.electro.entity.address.Address;
 import com.electro.entity.cart.Cart;
 import com.electro.entity.client.Preorder;
 import com.electro.entity.client.Wish;
-import com.electro.entity.customer.Customer;
-import com.electro.entity.employee.Employee;
 import com.electro.entity.general.Notification;
 import com.electro.entity.review.Review;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -75,11 +73,11 @@ public class User extends BaseEntity {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-    private Employee employee;
-
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-    private Customer customer;
+//    @OneToOne(mappedBy = "user")
+//    private Employee employee;
+//
+//    @OneToOne(mappedBy = "user")
+//    private Customer customer;
 
     @OneToMany(mappedBy = "user")
     private List<Wish> wishes = new ArrayList<>();
