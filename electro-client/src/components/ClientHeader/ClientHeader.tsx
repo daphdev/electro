@@ -32,7 +32,8 @@ import {
   Settings,
   ShoppingCart,
   Star,
-  User
+  User,
+  UserCircle
 } from 'tabler-icons-react';
 import { Link, useNavigate } from 'react-router-dom';
 import CategoryMenu from 'components/ClientHeader/CategoryMenu';
@@ -77,7 +78,7 @@ function ClientHeader() {
 
   const { ref: refHeaderStack, width: widthHeaderStack } = useElementSize();
 
-  const { user, resetAuthState } = useAuthStore();
+  const { user, resetAuthState, currentTotalCartItems } = useAuthStore();
 
   // Search state & function
   const navigate = useNavigate();
@@ -131,29 +132,32 @@ function ClientHeader() {
               size="md"
               radius="md"
               icon={<Search size={16}/>}
-              sx={{ width: 500 }}
+              sx={{ width: 600 }}
               value={search}
               onChange={(event) => setSearch(event.currentTarget.value)}
               onKeyDown={handleSearchInput}
             />
             <Group spacing="xs">
-              <Tooltip label="Giỏ hàng" position="bottom">
-                <UnstyledButton component={Link} to="/cart">
-                  <Group spacing="xs" px={theme.spacing.sm} py={theme.spacing.xs} className={classes.iconGroup}>
-                    <ShoppingCart strokeWidth={1}/>
-                    <Text weight={500} size="sm">2</Text>
-                  </Group>
-                </UnstyledButton>
-              </Tooltip>
+              {user && (
+                <>
+                  <Tooltip label="Giỏ hàng" position="bottom">
+                    <UnstyledButton component={Link} to="/cart">
+                      <Group spacing="xs" px={theme.spacing.sm} py={theme.spacing.xs} className={classes.iconGroup}>
+                        <ShoppingCart strokeWidth={1}/>
+                        <Text weight={500} size="sm">{currentTotalCartItems}</Text>
+                      </Group>
+                    </UnstyledButton>
+                  </Tooltip>
 
-              <Tooltip label="Đơn hàng" position="bottom">
-                <UnstyledButton component={Link} to="/order">
-                  <Group spacing="xs" px={theme.spacing.sm} py={theme.spacing.xs} className={classes.iconGroup}>
-                    <FileBarcode strokeWidth={1}/>
-                    <Text weight={500} size="sm">5</Text>
-                  </Group>
-                </UnstyledButton>
-              </Tooltip>
+                  <Tooltip label="Đơn hàng" position="bottom">
+                    <UnstyledButton component={Link} to="/order">
+                      <Group spacing="xs" px={theme.spacing.sm} py={theme.spacing.xs} className={classes.iconGroup}>
+                        <FileBarcode strokeWidth={1}/>
+                      </Group>
+                    </UnstyledButton>
+                  </Tooltip>
+                </>
+              )}
 
               <Tooltip label="Thông báo" position="bottom">
                 <UnstyledButton onClick={handleNotificationButton}>
@@ -177,7 +181,7 @@ function ClientHeader() {
                         className={classes.iconGroup}
                         sx={{ color: user ? theme.colors.blue[theme.colorScheme === 'dark' ? 4 : 7] : 'inherit' }}
                       >
-                        <User strokeWidth={1}/>
+                        <UserCircle strokeWidth={1}/>
                       </Group>
                     </UnstyledButton>
                   </Tooltip>

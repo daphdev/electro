@@ -51,7 +51,9 @@ DROP TABLE IF EXISTS
     wish,
     preorder,
     review,
-    notification;
+    notification,
+    cart,
+    cart_variant;
 
 -- CREATE TABLES
 
@@ -1019,3 +1021,33 @@ CREATE TABLE notification
 
 ALTER TABLE notification
     ADD CONSTRAINT FK_NOTIFICATION_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE cart
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    user_id    BIGINT                NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_cart PRIMARY KEY (id)
+);
+
+ALTER TABLE cart
+    ADD CONSTRAINT FK_CART_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE cart_variant
+(
+    cart_id    BIGINT   NOT NULL,
+    variant_id BIGINT   NOT NULL,
+    created_at datetime NOT NULL,
+    quantity   INT      NOT NULL,
+    CONSTRAINT pk_cart_variant PRIMARY KEY (cart_id, variant_id)
+);
+
+ALTER TABLE cart_variant
+    ADD CONSTRAINT FK_CART_VARIANT_ON_CART FOREIGN KEY (cart_id) REFERENCES cart (id);
+
+ALTER TABLE cart_variant
+    ADD CONSTRAINT FK_CART_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);

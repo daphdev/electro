@@ -69,6 +69,7 @@ import VoucherManage from 'pages/voucher';
 import PaymentMethodManage from 'pages/payment-method';
 import PromotionManage from 'pages/promotion';
 import ClientProduct from 'pages/client-product';
+import ClientCart from 'pages/client-cart';
 
 const queryClient = new QueryClient();
 
@@ -143,6 +144,11 @@ function App() {
                     </ProtectedRoute>
                   )}/>
                   <Route path="/product/:slug" element={<ClientProduct/>}/>
+                  <Route path="/cart" element={(
+                    <ProtectedRoute>
+                      <ClientCart/>
+                    </ProtectedRoute>
+                  )}/>
                 </Route>
                 <Route path="/admin" element={<Admin/>}>
                   <Route index element={<AdminDashboard/>}/>

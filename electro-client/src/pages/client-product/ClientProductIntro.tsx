@@ -22,11 +22,18 @@ import MiscUtils from 'utils/MiscUtils';
 import { ClientCarousel, ReviewStarGroup } from 'components';
 import { BellPlus, Heart, PhotoOff, ShoppingCart } from 'tabler-icons-react';
 import React, { useRef, useState } from 'react';
-import { ClientPreorderRequest, ClientProductResponse, ClientWishRequest } from 'types';
+import {
+  ClientCartRequest,
+  ClientPreorderRequest,
+  ClientProductResponse,
+  ClientWishRequest,
+  UpdateQuantityType
+} from 'types';
 import useCreateWishApi from 'hooks/use-create-wish-api';
 import NotifyUtils from 'utils/NotifyUtils';
 import useAuthStore from 'stores/use-auth-store';
 import useCreatePreorderApi from 'hooks/use-create-preorder-api';
+import useSaveCartApi from 'hooks/use-save-cart-api';
 
 interface ClientProductIntroProps {
   product: ClientProductResponse;
@@ -36,11 +43,20 @@ function ClientProductIntro({ product }: ClientProductIntroProps) {
   const theme = useMantineTheme();
 
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
-  const { user } = useAuthStore();
+  const quantityInputHandlers = useRef<NumberInputHandlers>();
+
+  const { user, currentCartId } = useAuthStore();
 
   const createWishApi = useCreateWishApi();
   const createPreorderApi = useCreatePreorderApi();
+  const saveCartApi = useSaveCartApi();
+
+  const handleSelectVariantButton = (variantIndex: number) => {
+    setSelectedVariantIndex(variantIndex);
+    setQuantity(1);
+  };
 
   const handleCreateWishButton = () => {
     if (!user) {
@@ -64,6 +80,32 @@ function ClientProductIntro({ product }: ClientProductIntroProps) {
         status: 1,
       };
       createPreorderApi.mutate(clientPreorderRequest);
+    }
+  };
+
+  const handleAddToCartButton = () => {
+    if (!user) {
+      NotifyUtils.simple('Vui lòng đăng nhập để sử dụng chức năng');
+    } else {
+      const cartRequest: ClientCartRequest = {
+        cartId: currentCartId,
+        userId: user.id,
+        cartItems: [
+          {
+            variantId: product.productVariants[selectedVariantIndex].variantId,
+            quantity: quantity,
+          },
+        ],
+        status: 1,
+        updateQuantityType: UpdateQuantityType.INCREMENTAL,
+      };
+      saveCartApi.mutate(cartRequest, {
+        onSuccess: () => NotifyUtils.simpleSuccess(
+          <Text inherit>
+            Đã thêm mặt hàng vừa chọn vào <Anchor component={Link} to="/cart" inherit>giỏ hàng</Anchor>
+          </Text>
+        ),
+      });
     }
   };
 
@@ -188,22 +230,27 @@ function ClientProductIntro({ product }: ClientProductIntroProps) {
                                   ? theme.fn.rgba(theme.colors.blue[9], 0.25)
                                   : theme.colors.blue[0])
                                 : 'unset',
+                              opacity: variant.variantInventory === 0 ? 0.5 : 'unset',
                             }}
-                            onClick={() => setSelectedVariantIndex(index)}
+                            onClick={() => handleSelectVariantButton(index)}
+                            disabled={selectedVariantIndex === index || variant.variantInventory === 0}
                           >
-                            <SimpleGrid cols={2} spacing={5}>
-                              {variant.variantProperties?.content.map(property => (
-                                <React.Fragment key={property.id}>
-                                  <Text size="sm">{property.name}</Text>
-                                  <Text
-                                    size="sm"
-                                    sx={{ textAlign: 'right', fontWeight: 500 }}
-                                  >
-                                    {property.value}
-                                  </Text>
-                                </React.Fragment>
-                              ))}
-                            </SimpleGrid>
+                            <Stack spacing={5}>
+                              <SimpleGrid cols={2} spacing={5}>
+                                {variant.variantProperties?.content.map(property => (
+                                  <React.Fragment key={property.id}>
+                                    <Text size="sm">{property.name}</Text>
+                                    <Text
+                                      size="sm"
+                                      sx={{ textAlign: 'right', fontWeight: 500 }}
+                                    >
+                                      {property.value}
+                                    </Text>
+                                  </React.Fragment>
+                                ))}
+                              </SimpleGrid>
+                              <Text size="xs" color="dimmed">Tồn kho: {variant.variantInventory}</Text>
+                            </Stack>
                           </UnstyledButton>
                         ))}
                       </Group>
@@ -215,7 +262,25 @@ function ClientProductIntro({ product }: ClientProductIntroProps) {
               {product.productSaleable && (
                 <Stack spacing="xs">
                   <Text weight={500}>Số lượng</Text>
-                  <ClientProductQuantityInput/>
+                  <Group spacing={5}>
+                    <ActionIcon size={36} variant="default" onClick={() => quantityInputHandlers.current?.decrement()}>
+                      –
+                    </ActionIcon>
+
+                    <NumberInput
+                      hideControls
+                      value={quantity}
+                      onChange={(value) => setQuantity(value || 1)}
+                      handlersRef={quantityInputHandlers}
+                      max={product.productVariants[selectedVariantIndex].variantInventory}
+                      min={1}
+                      styles={{ input: { width: 54, textAlign: 'center' } }}
+                    />
+
+                    <ActionIcon size={36} variant="default" onClick={() => quantityInputHandlers.current?.increment()}>
+                      +
+                    </ActionIcon>
+                  </Group>
                 </Stack>
               )}
 
@@ -238,6 +303,7 @@ function ClientProductIntro({ product }: ClientProductIntroProps) {
                       size="lg"
                       color="pink"
                       leftIcon={<ShoppingCart/>}
+                      onClick={handleAddToCartButton}
                     >
                       Chọn mua
                     </Button>
@@ -258,33 +324,6 @@ function ClientProductIntro({ product }: ClientProductIntroProps) {
         </Grid>
       </Stack>
     </Card>
-  );
-}
-
-function ClientProductQuantityInput() {
-  const [value, setValue] = useState(1);
-  const handlers = useRef<NumberInputHandlers>();
-
-  return (
-    <Group spacing={5}>
-      <ActionIcon size={36} variant="default" onClick={() => handlers.current?.decrement()}>
-        –
-      </ActionIcon>
-
-      <NumberInput
-        hideControls
-        value={value}
-        onChange={(val) => setValue(val || 1)}
-        handlersRef={handlers}
-        max={100}
-        min={1}
-        styles={{ input: { width: 54, textAlign: 'center' } }}
-      />
-
-      <ActionIcon size={36} variant="default" onClick={() => handlers.current?.increment()}>
-        +
-      </ActionIcon>
-    </Group>
   );
 }
 

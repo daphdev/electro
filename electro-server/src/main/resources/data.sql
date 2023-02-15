@@ -107,6 +107,7 @@ insert into user_role (user_id, role_id) values (1, 2);
 insert into user_role (user_id, role_id) values (2, 1);
 insert into user_role (user_id, role_id) values (3, 2);
 insert into user_role (user_id, role_id) values (4, 3);
+insert into user_role (user_id, role_id) values (5, 3);
 
 -- office TABLE: 5 records
 insert into office (created_at, updated_at, name, address_id, status) values ('2021-09-21 07:19:24', '2021-08-26 17:40:14', 'Talane', 1, 3);
@@ -391,3 +392,10 @@ insert into preorder (created_at, updated_at, user_id, product_id, status) value
 
 -- review TABLE: 1 records
 insert into review (created_at, updated_at, user_id, product_id, rating_score, content, status) values ('2021-10-03 21:16:01', '2021-11-18 00:55:52', 4, 1, 4, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec posuere felis sed justo finibus, eget maximus diam rhoncus. Integer posuere tempor magna, ut dictum massa suscipit vel. Sed quis placerat neque. Etiam urna sapien, accumsan nec nulla in, condimentum venenatis ex.', 2);
+
+-- cart TABLE: 1 records
+insert into cart (created_at, updated_at, user_id, status) values ('2021-10-03 21:16:01', '2021-11-18 00:55:52', 4, 1);
+
+-- cart_variant TABLE: 1 records
+insert into cart_variant (cart_id, variant_id, created_at, quantity) values (1, 1, '2021-10-03 21:16:01', 2);
+insert into cart_variant (cart_id, variant_id, created_at, quantity) values (1, 2, '2022-10-03 21:16:01', 1);

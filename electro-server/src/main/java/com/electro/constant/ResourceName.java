@@ -47,4 +47,5 @@ public interface ResourceName {
     String PREORDER = "Preorder";
     String REVIEW = "Review";
     String NOTIFICATION = "Notification";
+    String CART = "Cart";
 }

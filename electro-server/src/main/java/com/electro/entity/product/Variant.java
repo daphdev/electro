@@ -1,6 +1,7 @@
 package com.electro.entity.product;
 
 import com.electro.entity.BaseEntity;
+import com.electro.entity.cart.CartVariant;
 import com.electro.entity.inventory.CountVariant;
 import com.electro.entity.inventory.DocketVariant;
 import com.electro.entity.inventory.PurchaseOrderVariant;
@@ -80,4 +81,7 @@ public class Variant extends BaseEntity {
 
     @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
     private Set<OrderVariant> orderVariants = new HashSet<>();
+
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
+    private Set<CartVariant> cartVariants = new HashSet<>();
 }

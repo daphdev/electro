@@ -13,6 +13,8 @@ const titles: Record<string, string> = {
   '/user/preorder': 'Đặt trước sản phẩm',
   '/user/review': 'Đánh giá sản phẩm',
   '/user/notification': 'Thông báo',
+  '/cart': 'Giỏ hàng',
+  '/order': 'Đơn hàng',
 
   '/admin': 'Admin',
 };
