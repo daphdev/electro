@@ -2,6 +2,7 @@ class ManagerPath {
   static ADDRESS = '/admin/address';
   static PROVINCE = '/admin/address/province';
   static DISTRICT = '/admin/address/district';
+  static WARD = '/admin/address/ward';
 
   static USER = '/admin/user';
   static ROLE = '/admin/user/role';
@@ -40,6 +41,12 @@ class ManagerPath {
   static ORDER = '/admin/order';
   static ORDER_RESOURCE = '/admin/order/resource';
   static ORDER_CANCELLATION_REASON = '/admin/order/cancellation-reason';
+
+  static REVIEW = '/admin/review';
+
+  static VOUCHER = '/admin/voucher';
+  static PAYMENT_METHOD = '/admin/payment-method';
+  static PROMOTION = '/admin/promotion';
 }
 
 export default ManagerPath;

@@ -43,7 +43,7 @@ public class DistrictRepositoryTests {
     void findDistrictById() {
         Optional<District> district = districtRepository.findById(1L);
 
-        assertThat(district.orElseGet(District::new).getName()).isEqualTo("Shelley");
+        assertThat(district.orElseGet(District::new).getName()).isEqualTo("Quận 1");
     }
 
     @Test

@@ -90,6 +90,9 @@ class MiscUtils {
 
     return replaceMillion(priceOption[0]) + ' đến ' + replaceMillion(priceOption[1]);
   };
+
+  // eslint-disable-next-line no-console
+  static console = console;
 }
 
 export default MiscUtils;

@@ -49,6 +49,7 @@ import VariantTable from 'components/VariantTable/VariantTable';
 import ElectroLogo from 'components/ElectroLogo/ElectroLogo';
 import FloatingCodeFrame from 'components/FloatingCodeFrame/FloatingCodeFrame';
 import LoadingMiddleware from 'components/LoadingMiddleware/LoadingMiddleware';
+import ScrollToTop from 'components/ScrollToTop/ScrollToTop';
 
 // Client
 import ClientHeader from 'components/ClientHeader/ClientHeader';
@@ -56,6 +57,9 @@ import ClientFooter from 'components/ClientFooter/ClientFooter';
 import ClientCarousel from 'components/ClientCarousel/ClientCarousel';
 import ClientProductCard from 'components/ClientProductCard/ClientProductCard';
 import ClientError from 'components/ClientError/ClientError';
+import ProtectedRoute from 'components/ProtectedRoute/ProtectedRoute';
+import ClientUserNavbar from 'components/ClientUserNavbar/ClientUserNavbar';
+import ReviewStarGroup from 'components/ReviewStarGroup/ReviewStarGroup';
 
 export {
   CreateUpdateTitle,
@@ -100,10 +104,14 @@ export {
   ElectroLogo,
   FloatingCodeFrame,
   LoadingMiddleware,
+  ScrollToTop,
 
   ClientHeader,
   ClientFooter,
   ClientCarousel,
   ClientProductCard,
   ClientError,
+  ProtectedRoute,
+  ClientUserNavbar,
+  ReviewStarGroup,
 };

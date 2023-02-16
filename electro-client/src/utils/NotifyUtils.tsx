@@ -3,7 +3,7 @@ import { showNotification } from '@mantine/notifications';
 import { Check, X } from 'tabler-icons-react';
 
 class NotifyUtils {
-  static simple = (message: string) => {
+  static simple = (message: React.ReactNode) => {
     showNotification({
       title: 'Thông báo',
       message: message,
@@ -11,7 +11,7 @@ class NotifyUtils {
     });
   };
 
-  static simpleSuccess = (message: string) => {
+  static simpleSuccess = (message: React.ReactNode) => {
     showNotification({
       title: 'Thông báo',
       message: message,
@@ -21,7 +21,7 @@ class NotifyUtils {
     });
   };
 
-  static simpleFailed = (message: string) => {
+  static simpleFailed = (message: React.ReactNode) => {
     showNotification({
       title: 'Thông báo',
       message: message,
