@@ -20,10 +20,10 @@ import useOrderUpdateViewModel from 'pages/order/OrderUpdate.vm';
 import { useDebouncedValue } from '@mantine/hooks';
 import { SelectOption } from 'types';
 import useGetAllApi from 'hooks/use-get-all-api';
-import { CustomerResponse } from 'models/Customer';
-import CustomerConfigs from 'pages/customer/CustomerConfigs';
 import { EntityType } from 'components/VariantTable/VariantTable';
 import MiscUtils from 'utils/MiscUtils';
+import { UserResponse } from 'models/User';
+import UserConfigs from 'pages/user/UserConfigs';
 
 function OrderUpdate() {
   const { id } = useParams();
@@ -42,26 +42,26 @@ function OrderUpdate() {
     variants,
   } = useOrderUpdateViewModel(Number(id));
 
-  const [customerSelectKeyword, setCustomerSelectKeyword] = useState('');
+  const [userSelectKeyword, setUserSelectKeyword] = useState('');
 
-  const [customerSelectDebouncedKeyword] = useDebouncedValue(customerSelectKeyword, 400);
+  const [userSelectDebouncedKeyword] = useDebouncedValue(userSelectKeyword, 400);
 
-  const [customerSelectList, setCustomerSelectList] = useState<SelectOption[]>([]);
+  const [userSelectList, setUserSelectList] = useState<SelectOption[]>([]);
 
-  const { isFetching: isFetchingCustomerListResponse } = useGetAllApi<CustomerResponse>(
-    CustomerConfigs.resourceUrl,
-    CustomerConfigs.resourceKey,
+  const { isFetching: isFetchingUserListResponse } = useGetAllApi<UserResponse>(
+    UserConfigs.resourceUrl,
+    UserConfigs.resourceKey,
     {
-      filter: (form.values.customerId && customerSelectDebouncedKeyword === '') ? `id==${form.values.customerId}` : '',
+      filter: (form.values.userId && userSelectDebouncedKeyword === '') ? `id==${form.values.userId}` : '',
       size: 5,
-      search: customerSelectDebouncedKeyword,
+      search: userSelectDebouncedKeyword,
     },
-    (customerListResponse) => {
-      const selectList: SelectOption[] = customerListResponse.content.map((item) => ({
+    (userListResponse) => {
+      const selectList: SelectOption[] = userListResponse.content.map((item) => ({
         value: String(item.id),
-        label: item.user.fullname,
+        label: item.fullname,
       }));
-      setCustomerSelectList(selectList);
+      setUserSelectList(selectList);
     }
   );
 
@@ -162,13 +162,13 @@ function OrderUpdate() {
                   <Grid.Col>
                     <Select
                       required
-                      rightSection={isFetchingCustomerListResponse ? <Loader size={16}/> : null}
-                      label="Khách hàng"
+                      rightSection={isFetchingUserListResponse ? <Loader size={16}/> : null}
+                      label="Người đặt hàng"
                       placeholder="--"
                       searchable
-                      onSearchChange={setCustomerSelectKeyword}
-                      data={customerSelectList}
-                      {...form.getInputProps('customerId')}
+                      onSearchChange={setUserSelectKeyword}
+                      data={userSelectList}
+                      {...form.getInputProps('userId')}
                     />
                   </Grid.Col>
                   <Grid.Col>
@@ -185,6 +185,48 @@ function OrderUpdate() {
                       placeholder="--"
                       data={statusSelectList}
                       {...form.getInputProps('status')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Tên người nhận"
+                      {...form.getInputProps('toName')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Số điện thoại người nhận"
+                      {...form.getInputProps('toPhone')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Tỉnh thành người nhận"
+                      {...form.getInputProps('toProvinceName')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Quận huyện người nhận"
+                      {...form.getInputProps('toDistrictName')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Phường xã người nhận"
+                      {...form.getInputProps('toWardName')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Địa chỉ người nhận"
+                      {...form.getInputProps('toAddress')}
                     />
                   </Grid.Col>
                   <Grid.Col>

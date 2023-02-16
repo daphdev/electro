@@ -21,7 +21,7 @@ public class OrderRequest {
     private Long orderCancellationReasonId;
     @Nullable
     private String note;
-    private Long customerId;
+    private Long userId;
     private Set<OrderVariantRequest> orderVariants;
     private BigDecimal totalAmount;
     private BigDecimal tax;

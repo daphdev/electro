@@ -878,7 +878,7 @@ CREATE TABLE `order`
     order_resource_id            BIGINT                NOT NULL,
     order_cancellation_reason_id BIGINT                NULL,
     note                         VARCHAR(255)          NULL,
-    customer_id                  BIGINT                NOT NULL,
+    user_id                      BIGINT                NOT NULL,
     total_amount                 DECIMAL(15, 5)        NOT NULL,
     tax                          DECIMAL(15, 5)        NOT NULL,
     shipping_cost                DECIMAL(15, 5)        NOT NULL,
@@ -890,13 +890,13 @@ ALTER TABLE `order`
     ADD CONSTRAINT uc_order_code UNIQUE (code);
 
 ALTER TABLE `order`
-    ADD CONSTRAINT FK_ORDER_ON_CUSTOMER FOREIGN KEY (customer_id) REFERENCES customer (id);
-
-ALTER TABLE `order`
     ADD CONSTRAINT FK_ORDER_ON_ORDER_CANCELLATION_REASON FOREIGN KEY (order_cancellation_reason_id) REFERENCES order_cancellation_reason (id);
 
 ALTER TABLE `order`
     ADD CONSTRAINT FK_ORDER_ON_ORDER_RESOURCE FOREIGN KEY (order_resource_id) REFERENCES order_resource (id);
+
+ALTER TABLE `order`
+    ADD CONSTRAINT FK_ORDER_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
 
 ALTER TABLE docket
     ADD CONSTRAINT FK_DOCKET_ON_ORDER FOREIGN KEY (order_id) REFERENCES `order` (id);

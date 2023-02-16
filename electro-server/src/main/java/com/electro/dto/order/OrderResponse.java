@@ -26,18 +26,10 @@ public class OrderResponse {
     private OrderCancellationReasonResponse orderCancellationReason;
     @Nullable
     private String note;
-    private OrderResponse.CustomerResponse customer;
+    private UserResponse user;
     private Set<OrderVariantResponse> orderVariants;
     private BigDecimal totalAmount;
     private BigDecimal tax;
     private BigDecimal shippingCost;
     private BigDecimal totalPay;
-
-    @Data
-    public static class CustomerResponse {
-        private Long id;
-        private Instant createdAt;
-        private Instant updatedAt;
-        private UserResponse user;
-    }
 }

@@ -7,10 +7,16 @@ import { OrderVariantRequest, OrderVariantResponse } from 'models/OrderVariant';
 export interface OrderResponse extends BaseResponse {
   code: string;
   status: number;
+  toName: string;
+  toPhone: string;
+  toAddress: string;
+  toWardName: string;
+  toDistrictName: string;
+  toProvinceName: string;
   orderResource: OrderResourceResponse;
   orderCancellationReason: OrderCancellationReasonResponse | null;
   note: string | null;
-  customer: CustomerResponse;
+  user: UserResponse;
   orderVariants: OrderVariantResponse[];
   totalAmount: number;
   tax: number;
@@ -18,17 +24,19 @@ export interface OrderResponse extends BaseResponse {
   totalPay: number;
 }
 
-interface CustomerResponse extends BaseResponse {
-  user: UserResponse;
-}
-
 export interface OrderRequest {
   code: string;
   status: number;
+  toName: string;
+  toPhone: string;
+  toAddress: string;
+  toWardName: string;
+  toDistrictName: string;
+  toProvinceName: string;
   orderResourceId: number;
   orderCancellationReasonId: number | null;
   note: string | null;
-  customerId: number;
+  userId: number;
   orderVariants: OrderVariantRequest[];
   totalAmount: number;
   tax: number;

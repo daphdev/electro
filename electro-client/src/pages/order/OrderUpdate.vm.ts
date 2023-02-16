@@ -38,11 +38,17 @@ function useOrderUpdateViewModel(id: number) {
       const formValues: typeof form.values = {
         code: orderResponse.code,
         status: String(orderResponse.status),
+        toName: orderResponse.toName,
+        toPhone: orderResponse.toPhone,
+        toAddress: orderResponse.toAddress,
+        toWardName: orderResponse.toWardName,
+        toDistrictName: orderResponse.toDistrictName,
+        toProvinceName: orderResponse.toProvinceName,
         orderResourceId: String(orderResponse.orderResource.id),
         orderCancellationReasonId: orderResponse.orderCancellationReason
           ? String(orderResponse.orderCancellationReason.id) : null,
         note: orderResponse.note || '',
-        customerId: String(orderResponse.customer.id),
+        userId: String(orderResponse.user.id),
         orderVariants: orderResponse.orderVariants
           .map(orderVariantResponse => ({
             variantId: orderVariantResponse.variant.id,
@@ -92,10 +98,16 @@ function useOrderUpdateViewModel(id: number) {
       const requestBody: OrderRequest = {
         code: formValues.code,
         status: Number(formValues.status),
+        toName: formValues.toName,
+        toPhone: formValues.toPhone,
+        toAddress: formValues.toAddress,
+        toWardName: formValues.toWardName,
+        toDistrictName: formValues.toDistrictName,
+        toProvinceName: formValues.toProvinceName,
         orderResourceId: Number(formValues.orderResourceId),
         orderCancellationReasonId: Number(formValues.orderCancellationReasonId) || null,
         note: formValues.note || null,
-        customerId: Number(formValues.customerId),
+        userId: Number(formValues.userId),
         orderVariants: formValues.orderVariants,
         totalAmount: formValues.totalAmount,
         tax: formValues.tax,

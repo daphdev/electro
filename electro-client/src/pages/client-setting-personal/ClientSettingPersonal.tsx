@@ -30,7 +30,7 @@ const formSchema = z.object({
   'address.line': z.string({ invalid_type_error: 'Vui lòng không bỏ trống' }),
   'address.provinceId': z.string({ invalid_type_error: 'Vui lòng không bỏ trống' }),
   'address.districtId': z.string({ invalid_type_error: 'Vui lòng không bỏ trống' }),
-  'address.wardId': z.string().nullable(),
+  'address.wardId': z.string({ invalid_type_error: 'Vui lòng không bỏ trống' }),
 });
 
 const genderSelectList: SelectOption[] = [
@@ -56,7 +56,7 @@ function ClientSettingPersonal() {
     'address.line': user?.address.line as string,
     'address.provinceId': String(user?.address.province?.id) as string | null,
     'address.districtId': String(user?.address.district?.id) as string | null,
-    'address.wardId': user?.address.ward ? String(user?.address.ward.id) : null,
+    'address.wardId': String(user?.address.ward?.id) as string | null,
   };
 
   const form = useForm({
@@ -121,7 +121,7 @@ function ClientSettingPersonal() {
         line: formValues['address.line'],
         provinceId: Number(formValues['address.provinceId']),
         districtId: Number(formValues['address.districtId']),
-        wardId: Number(formValues['address.wardId']) || null,
+        wardId: Number(formValues['address.wardId']),
       },
     };
 
@@ -188,7 +188,7 @@ function ClientSettingPersonal() {
                           {...form.getInputProps('address.districtId')}
                         />
                         <Select
-                          clearable
+                          required
                           radius="md"
                           label="Phường xã"
                           placeholder="Chọn phường xã"

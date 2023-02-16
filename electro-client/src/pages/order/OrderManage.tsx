@@ -70,18 +70,10 @@ function OrderManage() {
       <td>
         <Stack spacing={0}>
           <Highlight highlight={searchToken} highlightColor="blue" size="sm">
-            {entity.customer.user.fullname}
-          </Highlight>
-          <Highlight highlight={searchToken} highlightColor="blue" size="xs">
-            {[entity.customer.user.address.district?.name, entity.customer.user.address.province?.name]
-              .filter(Boolean)
-              .join(', ')}
+            {entity.user.fullname}
           </Highlight>
           <Highlight highlight={searchToken} highlightColor="blue" size="xs" color="dimmed">
-            {entity.customer.user.phone}
-          </Highlight>
-          <Highlight highlight={searchToken} highlightColor="blue" size="xs" color="dimmed">
-            {entity.customer.user.email}
+            {entity.user.username}
           </Highlight>
         </Stack>
       </td>
@@ -142,17 +134,11 @@ function OrderManage() {
         <td style={{ maxWidth: 300 }}>{entity.note}</td>
       </tr>
       <tr>
-        <td>Khách hàng</td>
+        <td>Người đặt hàng</td>
         <td>
           <Stack spacing={0}>
-            <Text size="sm">{entity.customer.user.fullname}</Text>
-            <Text size="xs">
-              {[entity.customer.user.address.district?.name, entity.customer.user.address.province?.name]
-                .filter(Boolean)
-                .join(', ')}
-            </Text>
-            <Text size="xs" color="dimmed">{entity.customer.user.phone}</Text>
-            <Text size="xs" color="dimmed">{entity.customer.user.email}</Text>
+            <Text size="sm">{entity.user.fullname}</Text>
+            <Text size="xs" color="dimmed">{entity.user.username}</Text>
           </Stack>
         </td>
       </tr>
