@@ -353,6 +353,7 @@ public interface SearchFields {
             "toWardName",
             "toDistrictName",
             "toProvinceName",
+            "orderResource.name",
             "user.username",
             "user.fullname"
     );

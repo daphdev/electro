@@ -227,8 +227,8 @@ function OrderCreate() {
                       placeholder="--"
                       clearable
                       data={orderCancellationReasonSelectList}
-                      // Chỉ bật khi trạng thái đơn hàng là "Hủy bỏ" (6)
-                      disabled={form.values.status !== '6'}
+                      // Chỉ bật khi trạng thái đơn hàng là "Hủy bỏ" (5)
+                      disabled={form.values.status !== '5'}
                       {...form.getInputProps('orderCancellationReasonId')}
                     />
                   </Grid.Col>

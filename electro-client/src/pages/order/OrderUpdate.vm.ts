@@ -205,10 +205,6 @@ function useOrderUpdateViewModel(id: number) {
     },
     {
       value: '5',
-      label: 'Hoàn thành',
-    },
-    {
-      value: '6',
       label: 'Hủy bỏ',
     },
   ];

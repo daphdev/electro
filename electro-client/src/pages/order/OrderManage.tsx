@@ -40,12 +40,10 @@ function OrderManage() {
     case 2:
       return <Badge color="blue" variant="outline" size="sm">Đang xử lý</Badge>;
     case 3:
-      return <Badge color="teal" variant="outline" size="sm">Đang giao hàng</Badge>;
+      return <Badge color="violet" variant="outline" size="sm">Đang giao hàng</Badge>;
     case 4:
-      return <Badge color="violet" variant="outline" size="sm">Đã giao hàng</Badge>;
+      return <Badge color="green" variant="outline" size="sm">Đã giao hàng</Badge>;
     case 5:
-      return <Badge color="green" variant="outline" size="sm">Hoàn thành</Badge>;
-    case 6:
       return <Badge color="red" variant="outline" size="sm">Hủy bỏ</Badge>;
     }
   };
