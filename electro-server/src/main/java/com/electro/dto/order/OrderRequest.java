@@ -10,6 +10,12 @@ import java.util.Set;
 public class OrderRequest {
     private String code;
     private Integer status;
+    private String toName;
+    private String toPhone;
+    private String toAddress;
+    private String toWardName;
+    private String toDistrictName;
+    private String toProvinceName;
     private Long orderResourceId;
     @Nullable
     private Long orderCancellationReasonId;

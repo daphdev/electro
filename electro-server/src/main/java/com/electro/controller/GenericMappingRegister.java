@@ -84,6 +84,8 @@ import com.electro.dto.product.VariantRequest;
 import com.electro.dto.product.VariantResponse;
 import com.electro.dto.review.ReviewRequest;
 import com.electro.dto.review.ReviewResponse;
+import com.electro.dto.waybill.WaybillRequest;
+import com.electro.dto.waybill.WaybillResponse;
 import com.electro.entity.address.Address;
 import com.electro.entity.address.District;
 import com.electro.entity.address.Ward;
@@ -205,6 +207,7 @@ import com.electro.service.CrudService;
 import com.electro.service.GenericService;
 import com.electro.service.address.ProvinceService;
 import com.electro.service.inventory.DocketService;
+import com.electro.service.waybill.WaybillService;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationContext;
@@ -266,6 +269,7 @@ public class GenericMappingRegister {
     private GenericController<OrderResourceRequest, OrderResourceResponse> orderResourceController;
     private GenericController<OrderCancellationReasonRequest, OrderCancellationReasonResponse> orderCancellationReasonController;
     private GenericController<OrderRequest, OrderResponse> orderController;
+    private GenericController<WaybillRequest, WaybillResponse> waybillController;
     private GenericController<ReviewRequest, ReviewResponse> reviewController;
 
     // Services
@@ -581,6 +585,8 @@ public class GenericMappingRegister {
                 SearchFields.ORDER,
                 ResourceName.ORDER
         ), OrderRequest.class);
+
+        register("waybills", waybillController, context.getBean(WaybillService.class), WaybillRequest.class);
 
         register("reviews", reviewController, reviewService.init(
                 context.getBean(ReviewRepository.class),

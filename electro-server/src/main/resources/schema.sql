@@ -46,6 +46,7 @@ DROP TABLE IF EXISTS
     order_cancellation_reason,
     `order`,
     order_variant,
+    waybill,
     wish,
     preorder,
     review,
@@ -868,6 +869,12 @@ CREATE TABLE `order`
     updated_by                   BIGINT                NULL,
     code                         VARCHAR(255)          NOT NULL,
     status                       TINYINT               NOT NULL,
+    to_name                      VARCHAR(255)          NOT NULL,
+    to_phone                     VARCHAR(255)          NOT NULL,
+    to_address                   VARCHAR(255)          NOT NULL,
+    to_ward_name                 VARCHAR(255)          NOT NULL,
+    to_district_name             VARCHAR(255)          NOT NULL,
+    to_province_name             VARCHAR(255)          NOT NULL,
     order_resource_id            BIGINT                NOT NULL,
     order_cancellation_reason_id BIGINT                NULL,
     note                         VARCHAR(255)          NULL,
@@ -909,6 +916,41 @@ ALTER TABLE order_variant
 
 ALTER TABLE order_variant
     ADD CONSTRAINT FK_ORDER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+
+CREATE TABLE waybill
+(
+    id                     BIGINT AUTO_INCREMENT NOT NULL,
+    created_at             datetime              NOT NULL,
+    updated_at             datetime              NOT NULL,
+    created_by             BIGINT                NULL,
+    updated_by             BIGINT                NULL,
+    code                   VARCHAR(255)          NOT NULL,
+    order_id               BIGINT                NOT NULL,
+    receipt_date           datetime              NULL,
+    shipping_date          datetime              NOT NULL,
+    expected_delivery_time datetime              NULL,
+    note                   VARCHAR(255)          NULL,
+    status                 TINYINT               NOT NULL,
+    payment_type_id        INT                   NOT NULL,
+    required_note          INT                   NOT NULL,
+    cod_amount             INT                   NOT NULL,
+    weight                 INT                   NOT NULL,
+    length                 INT                   NOT NULL,
+    width                  INT                   NOT NULL,
+    height                 INT                   NOT NULL,
+    service_type_id        INT                   NOT NULL,
+    service_id             INT                   NOT NULL,
+    CONSTRAINT pk_waybill PRIMARY KEY (id)
+);
+
+ALTER TABLE waybill
+    ADD CONSTRAINT uc_waybill_code UNIQUE (code);
+
+ALTER TABLE waybill
+    ADD CONSTRAINT uc_waybill_order UNIQUE (order_id);
+
+ALTER TABLE waybill
+    ADD CONSTRAINT FK_WAYBILL_ON_ORDER FOREIGN KEY (order_id) REFERENCES `order` (id);
 
 CREATE TABLE wish
 (

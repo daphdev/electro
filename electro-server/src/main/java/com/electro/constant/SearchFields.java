@@ -376,6 +376,10 @@ public interface SearchFields {
             "brand.name"
     );
 
+    List<String> WAYBILL = List.of(
+            "code"
+    );
+
     List<String> REVIEW = List.of(
             "user.username",
             "user.fullname",

@@ -61,6 +61,7 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("order-resources"))
                 .and(generateRoute("order-cancellation-reasons"))
                 .and(generateRoute("orders"))
+                .and(generateRoute("waybills"))
                 .and(generateRoute("reviews"));
     }
 
