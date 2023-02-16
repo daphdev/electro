@@ -15,7 +15,7 @@ import com.electro.exception.ResourceNotFoundException;
 import com.electro.mapper.waybill.WaybillMapper;
 import com.electro.repository.order.OrderRepository;
 import com.electro.repository.waybill.WaybillRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -30,20 +30,20 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 public class WaybillServiceImpl implements WaybillService {
 
     @Value("${electro.app.shipping.ghnToken}")
-    private final String ghnToken;
+    private String ghnToken;
     @Value("${electro.app.shipping.ghnShopId}")
-    private final String ghnShopId;
+    private String ghnShopId;
     @Value("${electro.app.shipping.ghnApiPath}")
-    private final String ghnApiPath;
+    private String ghnApiPath;
 
-    private OrderRepository orderRepository;
-    private WaybillRepository waybillRepository;
-    private WaybillMapper waybillMapper;
+    private final OrderRepository orderRepository;
+    private final WaybillRepository waybillRepository;
+    private final WaybillMapper waybillMapper;
 
     @Override
     public ListResponse<WaybillResponse> findAll(int page, int size, String sort, String filter, String search, boolean all) {

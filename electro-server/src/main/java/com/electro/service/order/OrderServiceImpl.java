@@ -9,7 +9,7 @@ import com.electro.entity.waybill.Waybill;
 import com.electro.exception.ResourceNotFoundException;
 import com.electro.repository.order.OrderRepository;
 import com.electro.repository.waybill.WaybillRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -22,19 +22,19 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 public class OrderServiceImpl implements OrderService {
 
     @Value("${electro.app.shipping.ghnToken}")
-    private final String ghnToken;
+    private String ghnToken;
     @Value("${electro.app.shipping.ghnShopId}")
-    private final String ghnShopId;
+    private String ghnShopId;
     @Value("${electro.app.shipping.ghnApiPath}")
-    private final String ghnApiPath;
+    private String ghnApiPath;
 
-    private OrderRepository orderRepository;
-    private WaybillRepository waybillRepository;
+    private final OrderRepository orderRepository;
+    private final WaybillRepository waybillRepository;
 
     @Override
     public void cancelOrder(Long id) {
