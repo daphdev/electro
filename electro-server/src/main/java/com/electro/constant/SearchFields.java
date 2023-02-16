@@ -347,14 +347,14 @@ public interface SearchFields {
 
     List<String> ORDER = List.of(
             "code",
-            "orderResource.code",
-            "orderResource.name",
+            "toName",
+            "toPhone",
+            "toAddress",
+            "toWardName",
+            "toDistrictName",
+            "toProvinceName",
             "user.username",
-            "user.fullname",
-            "user.email",
-            "user.phone",
-            "user.address.district.name",
-            "user.address.province.name"
+            "user.fullname"
     );
 
     List<String> ORDER_VARIANT = List.of(

@@ -77,6 +77,25 @@ function OrderManage() {
           </Highlight>
         </Stack>
       </td>
+      <td>
+        <Stack spacing={0}>
+          <Highlight highlight={searchToken} highlightColor="blue" size="sm">
+            {entity.toName}
+          </Highlight>
+          <Highlight highlight={searchToken} highlightColor="blue" size="xs" color="dimmed">
+            {entity.toPhone}
+          </Highlight>
+          <Highlight highlight={searchToken} highlightColor="blue" size="xs" color="dimmed">
+            {entity.toAddress}
+          </Highlight>
+          <Highlight highlight={searchToken} highlightColor="blue" size="xs" color="dimmed">
+            {[entity.toWardName, entity.toDistrictName].join(', ')}
+          </Highlight>
+          <Highlight highlight={searchToken} highlightColor="blue" size="xs" color="dimmed">
+            {entity.toProvinceName}
+          </Highlight>
+        </Stack>
+      </td>
       <td style={{ textAlign: 'right' }}>
         {MiscUtils.formatPrice(entity.totalPay) + ' ₫'}
       </td>
@@ -139,6 +158,18 @@ function OrderManage() {
           <Stack spacing={0}>
             <Text size="sm">{entity.user.fullname}</Text>
             <Text size="xs" color="dimmed">{entity.user.username}</Text>
+          </Stack>
+        </td>
+      </tr>
+      <tr>
+        <td>Người nhận hàng</td>
+        <td>
+          <Stack spacing={0}>
+            <Text size="sm">{entity.toName}</Text>
+            <Text size="xs" color="dimmed">{entity.toPhone}</Text>
+            <Text size="xs" color="dimmed">
+              {[entity.toAddress, entity.toWardName, entity.toDistrictName, entity.toProvinceName].join(', ')}
+            </Text>
           </Stack>
         </td>
       </tr>
