@@ -6,6 +6,7 @@ import com.electro.entity.cart.Cart;
 import com.electro.entity.client.Preorder;
 import com.electro.entity.client.Wish;
 import com.electro.entity.general.Notification;
+import com.electro.entity.order.Order;
 import com.electro.entity.review.Review;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
@@ -94,4 +95,8 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Cart> carts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Order> orders = new ArrayList<>();
 }

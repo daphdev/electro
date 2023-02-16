@@ -349,12 +349,12 @@ public interface SearchFields {
             "code",
             "orderResource.code",
             "orderResource.name",
-            "customer.user.username",
-            "customer.user.fullname",
-            "customer.user.email",
-            "customer.user.phone",
-            "customer.user.address.district.name",
-            "customer.user.address.province.name"
+            "user.username",
+            "user.fullname",
+            "user.email",
+            "user.phone",
+            "user.address.district.name",
+            "user.address.province.name"
     );
 
     List<String> ORDER_VARIANT = List.of(

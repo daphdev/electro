@@ -316,16 +316,16 @@ insert into order_cancellation_reason (created_at, updated_at, name, note, statu
 
 -- order TABLE: 2 records
 insert into `order` (created_at, updated_at, to_name, to_phone, to_address, to_ward_name, to_district_name,
-                     to_province_name, code, status, order_resource_id, order_cancellation_reason_id, note, customer_id,
+                     to_province_name, code, status, order_resource_id, order_cancellation_reason_id, note, user_id,
                      total_amount, tax, shipping_cost, total_pay)
 values ('2022-06-30 08:32:41', '2021-08-17 03:28:55', 'thang', '0909998877', 'Streaming house', 'Phường 14', 'Quận 10',
-        'TP Hồ Chí Minh', '68400-107', 1, 5, null, null, 1, 500000, 0.1, 50000, 600000);
+        'TP Hồ Chí Minh', '68400-107', 1, 5, null, null, 4, 500000, 0.1, 50000, 600000);
 insert into `order` (created_at, updated_at, to_name, to_phone, to_address, to_ward_name, to_district_name,
-                     to_province_name, code, status, order_resource_id, order_cancellation_reason_id, note, customer_id,
+                     to_province_name, code, status, order_resource_id, order_cancellation_reason_id, note, user_id,
                      total_amount, tax, shipping_cost, total_pay)
 values ('2022-05-02 23:20:36', '2022-07-02 09:02:05', 'do mixi', '0909998877', 'Streaming house', 'Phường 14',
         'Quận 10', 'TP Hồ Chí Minh', '36987-166', 2, 1, null,
-        'Insertion of Other Device into Left Upper Leg, Perc Approach', 1, 600000, 0.1, 40000, 700000);
+        'Insertion of Other Device into Left Upper Leg, Perc Approach', 4, 600000, 0.1, 40000, 700000);
 
 -- order_variant TABLE: 3 records
 insert into order_variant (order_id, variant_id, price, quantity, amount) values (1, 1, 100000, 1, 100000);

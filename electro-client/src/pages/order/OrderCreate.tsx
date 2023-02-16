@@ -21,8 +21,8 @@ import MiscUtils from 'utils/MiscUtils';
 import { useDebouncedValue } from '@mantine/hooks';
 import { SelectOption } from 'types';
 import useGetAllApi from 'hooks/use-get-all-api';
-import { CustomerResponse } from 'models/Customer';
-import CustomerConfigs from 'pages/customer/CustomerConfigs';
+import { UserResponse } from 'models/User';
+import UserConfigs from 'pages/user/UserConfigs';
 
 function OrderCreate() {
   const {
@@ -39,22 +39,22 @@ function OrderCreate() {
     variants,
   } = useOrderCreateViewModel();
 
-  const [customerSelectKeyword, setCustomerSelectKeyword] = useState('');
+  const [userSelectKeyword, setUserSelectKeyword] = useState('');
 
-  const [customerSelectDebouncedKeyword] = useDebouncedValue(customerSelectKeyword, 400);
+  const [userSelectDebouncedKeyword] = useDebouncedValue(userSelectKeyword, 400);
 
-  const [customerSelectList, setCustomerSelectList] = useState<SelectOption[]>([]);
+  const [userSelectList, setUserSelectList] = useState<SelectOption[]>([]);
 
-  const { isFetching: isFetchingCustomerListResponse } = useGetAllApi<CustomerResponse>(
-    CustomerConfigs.resourceUrl,
-    CustomerConfigs.resourceKey,
-    { size: 5, search: customerSelectDebouncedKeyword },
-    (customerListResponse) => {
-      const selectList: SelectOption[] = customerListResponse.content.map((item) => ({
+  const { isFetching: isFetchingUserListResponse } = useGetAllApi<UserResponse>(
+    UserConfigs.resourceUrl,
+    UserConfigs.resourceKey,
+    { size: 5, search: userSelectDebouncedKeyword },
+    (userListResponse) => {
+      const selectList: SelectOption[] = userListResponse.content.map((item) => ({
         value: String(item.id),
-        label: item.user.fullname,
+        label: item.fullname,
       }));
-      setCustomerSelectList(selectList);
+      setUserSelectList(selectList);
     }
   );
 
@@ -145,13 +145,13 @@ function OrderCreate() {
                   <Grid.Col>
                     <Select
                       required
-                      rightSection={isFetchingCustomerListResponse ? <Loader size={16}/> : null}
-                      label="Khách hàng"
+                      rightSection={isFetchingUserListResponse ? <Loader size={16}/> : null}
+                      label="Người đặt hàng"
                       placeholder="--"
                       searchable
-                      onSearchChange={setCustomerSelectKeyword}
-                      data={customerSelectList}
-                      {...form.getInputProps('customerId')}
+                      onSearchChange={setUserSelectKeyword}
+                      data={userSelectList}
+                      {...form.getInputProps('userId')}
                     />
                   </Grid.Col>
                   <Grid.Col>
@@ -168,6 +168,48 @@ function OrderCreate() {
                       placeholder="--"
                       data={statusSelectList}
                       {...form.getInputProps('status')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Tên người nhận"
+                      {...form.getInputProps('toName')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Số điện thoại người nhận"
+                      {...form.getInputProps('toPhone')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Tỉnh thành người nhận"
+                      {...form.getInputProps('toProvinceName')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Quận huyện người nhận"
+                      {...form.getInputProps('toDistrictName')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Phường xã người nhận"
+                      {...form.getInputProps('toWardName')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Địa chỉ người nhận"
+                      {...form.getInputProps('toAddress')}
                     />
                   </Grid.Col>
                   <Grid.Col>

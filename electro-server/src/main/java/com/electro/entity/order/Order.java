@@ -1,7 +1,7 @@
 package com.electro.entity.order;
 
 import com.electro.entity.BaseEntity;
-import com.electro.entity.customer.Customer;
+import com.electro.entity.authentication.User;
 import com.electro.entity.inventory.Docket;
 import com.electro.entity.waybill.Waybill;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -73,9 +73,9 @@ public class Order extends BaseEntity {
     private String note;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonBackReference
-    private Customer customer;
+    private User user;
 
     // paymentMethod: PaymentMethod
 

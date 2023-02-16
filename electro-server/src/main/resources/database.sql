@@ -435,9 +435,9 @@
         to_ward_name varchar(255) not null,
         total_amount DECIMAL(15,5) not null,
         total_pay DECIMAL(15,5) not null,
-        customer_id bigint not null,
         order_cancellation_reason_id bigint,
         order_resource_id bigint not null,
+        user_id bigint not null,
         primary key (id)
     ) engine=MyISAM;
 
@@ -1063,11 +1063,6 @@
        references prod.address (id);
 
     alter table prod.`order` 
-       add constraint FK1oduxyuuo3n2g98l3j7754vym 
-       foreign key (customer_id) 
-       references prod.customer (id);
-
-    alter table prod.`order` 
        add constraint FK1kb7gv71fjr6lrhy901bn9fy6 
        foreign key (order_cancellation_reason_id) 
        references prod.order_cancellation_reason (id);
@@ -1076,6 +1071,11 @@
        add constraint FKgr04wlw4hnfsloesmls7q4prc 
        foreign key (order_resource_id) 
        references prod.order_resource (id);
+
+    alter table prod.`order` 
+       add constraint FKcpl0mjoeqhxvgeeeq5piwpd3i 
+       foreign key (user_id) 
+       references prod.user (id);
 
     alter table prod.order_resource 
        add constraint FKee6qcbh5rwnq9ecbajwmr8051 
