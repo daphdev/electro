@@ -14,13 +14,13 @@ public class OrderResponse {
     private Instant createdAt;
     private Instant updatedAt;
     private String code;
+    private Integer status;
     private String toName;
     private String toPhone;
     private String toAddress;
     private String toWardName;
     private String toDistrictName;
     private String toProvinceName;
-    private Integer status;
     private OrderResourceResponse orderResource;
     @Nullable
     private OrderCancellationReasonResponse orderCancellationReason;

@@ -53,7 +53,7 @@ public class Order extends BaseEntity {
     @Column(name = "to_ward_name", nullable = false)
     private String toWardName;
 
-    @Column(name = "to_district_name",  nullable = false)
+    @Column(name = "to_district_name", nullable = false)
     private String toDistrictName;
 
     @Column(name = "to_province_name", nullable = false)
@@ -94,8 +94,7 @@ public class Order extends BaseEntity {
     @Column(name = "total_pay", nullable = false, columnDefinition = "DECIMAL(15,5)")
     private BigDecimal totalPay;
 
-    // waybill: Waybill
-    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "order")
     private Waybill waybill;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)

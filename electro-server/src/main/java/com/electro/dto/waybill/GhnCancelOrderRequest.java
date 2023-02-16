@@ -6,9 +6,10 @@ import lombok.Data;
 
 import java.util.List;
 
+// Reference: https://api.ghn.vn/home/docs/detail?id=102
 @Data
 @AllArgsConstructor
-public class GhnCancelOrder {
+public class GhnCancelOrderRequest {
     @JsonProperty("order_codes")
     private List<String> orderCodes;
 }

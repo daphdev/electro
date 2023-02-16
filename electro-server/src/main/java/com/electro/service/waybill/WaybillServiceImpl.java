@@ -1,5 +1,8 @@
 package com.electro.service.waybill;
 
+import com.electro.constant.FieldName;
+import com.electro.constant.ResourceName;
+import com.electro.constant.SearchFields;
 import com.electro.dto.ListResponse;
 import com.electro.dto.waybill.GhnOrderRequest;
 import com.electro.dto.waybill.GhnOrderResponse;
@@ -8,148 +11,147 @@ import com.electro.dto.waybill.WaybillResponse;
 import com.electro.entity.order.Order;
 import com.electro.entity.order.OrderVariant;
 import com.electro.entity.waybill.Waybill;
+import com.electro.exception.ResourceNotFoundException;
 import com.electro.mapper.waybill.WaybillMapper;
 import com.electro.repository.order.OrderRepository;
 import com.electro.repository.waybill.WaybillRepository;
-import com.sun.jdi.InternalException;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-@Transactional(rollbackOn = {Exception.class, Throwable.class, SQLException.class})
-public class WaybillServiceImpl implements WaybillService{
-    public  static final String TOKEN="cee52cd3-8a9d-11ed-9ccc-a2c11deda90c";
-    public  static final String SHOP_ID="121327";
-    public  static final String URL_GHN="https://dev-online-gateway.ghn.vn/shiip/public-api/v2";
+@Transactional
+public class WaybillServiceImpl implements WaybillService {
+
+    @Value("${electro.app.shipping.ghnToken}")
+    private final String ghnToken;
+    @Value("${electro.app.shipping.ghnShopId}")
+    private final String ghnShopId;
+    @Value("${electro.app.shipping.ghnApiPath}")
+    private final String ghnApiPath;
 
     private OrderRepository orderRepository;
     private WaybillRepository waybillRepository;
     private WaybillMapper waybillMapper;
 
-
     @Override
     public ListResponse<WaybillResponse> findAll(int page, int size, String sort, String filter, String search, boolean all) {
-        return null;
+        return defaultFindAll(page, size, sort, filter, search, all, SearchFields.WAYBILL, waybillRepository, waybillMapper);
     }
 
     @Override
-    public WaybillResponse findById(Long aLong) {
-        return null;
+    public WaybillResponse findById(Long id) {
+        return defaultFindById(id, waybillRepository, waybillMapper, ResourceName.WAYBILL);
     }
 
     @Override
     public WaybillResponse save(WaybillRequest waybillRequest) {
-        Optional<Waybill> waybillCheck = waybillRepository.findByOrder_Id(waybillRequest.getOrderId());
-        if (waybillCheck.isPresent()){
-            throw new InternalException("This order already exists waybill. Please choose another order");
+        Optional<Waybill> waybillOpt = waybillRepository.findByOrderId(waybillRequest.getOrderId());
+
+        if (waybillOpt.isPresent()) {
+            throw new RuntimeException("This order already exists waybill. Please choose another order!");
         }
 
-        Order order = orderRepository.findById(waybillRequest.getOrderId()).orElseThrow(()-> new InternalException("Order id: "+ waybillRequest.getOrderId() +" is not exist in database "));
-        // waybill can create when order.status = 1 else throw error
-        if (order.getStatus() == 1){
-            Waybill waybill = waybillMapper.requestToEntity(waybillRequest);
-            try{
-                URI uri = new URI(URL_GHN +  "/shipping-order/create");
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-                headers.add("Token", TOKEN);
-                headers.add("ShopId", SHOP_ID);
+        Order order = orderRepository.findById(waybillRequest.getOrderId())
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceName.ORDER, FieldName.ID, waybillRequest.getOrderId()));
 
-                GhnOrderRequest body = generateGhnOrderRequest(waybillRequest, order);
+        // Tạo Waybill khi Order.status == 1
+        if (order.getStatus() == 1) {
+            String createOrderApiPath = ghnApiPath + "/shipping-order/create";
 
-                //  RestTemplateAPI restTemplateAPI = new RestTemplateAPI(uri, headers, body);
-                RestTemplate restTemplate = new RestTemplate();
-                HttpEntity<GhnOrderRequest> request = new HttpEntity<GhnOrderRequest>(body, headers);
-                ResponseEntity<GhnOrderResponse> response = restTemplate.postForEntity(uri, request, GhnOrderResponse.class);
-                if(response.getStatusCode() != HttpStatus.OK){
-                    throw new Exception("Error GHN API: " + Objects.requireNonNull(response.getBody()).getMessage());
-                }
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+            headers.add("Token", ghnToken);
+            headers.add("ShopId", ghnShopId);
 
-                waybill.setCode(response.getBody().getData().getOrderCode()); // TODO: Update code from ghn
-                waybill.setExpectedDelivery(response.getBody().getData().getExpectedDeliveryTime()); // TODO: get fieldExpectedDelivery from response
-                waybill.setOrder(order);
-                waybill.setStatus(1); // 1: đang đợi lấy hàng -> 2 là đang giao -> 3 đã giao hàng  | 4 là đã hủy
-                waybill.setCodAmount(order.getTotalPay().intValue());
-                waybill = waybillRepository.save(waybill);
+            RestTemplate restTemplate = new RestTemplate();
 
-                // Update waybill and status
-                order.setStatus(2); // 1 chờ -> 2 đang đợi lấy hàng -> 3 đang giao  -> 4  đã giao hàng | 5 hủy
-                orderRepository.save(order);
-            }catch (URISyntaxException uri){
-                throw new InternalException("incorrect url giao hang nhanh" + uri);
-            }catch (RestClientException rest){
-                throw new InternalException("something wrong when call giaohangnhanh api" + rest);
-            } catch (Exception e) {
-                e.printStackTrace();
+            var request = new HttpEntity<>(buildGhnOrderRequest(waybillRequest, order), headers);
+            var response = restTemplate.postForEntity(createOrderApiPath, request, GhnOrderResponse.class);
+
+            if (response.getStatusCode() != HttpStatus.OK) {
+                throw new RuntimeException("Error when calling Create Order GHN API");
             }
-            return waybillMapper.entityToResponse(waybill);
-        }else{
-            throw new InternalException("Cannot create new waybill. Order already have waybill or cancel " );
+
+            if (response.getBody() != null) {
+                Waybill waybill = waybillMapper.requestToEntity(waybillRequest);
+                waybill.setCode(response.getBody().getData().getOrderCode()); // TODO: Update code from GHN
+                waybill.setOrder(order);
+                waybill.setExpectedDelivery(response.getBody().getData().getExpectedDeliveryTime()); // TODO: Get field expectedDelivery from response
+                waybill.setStatus(1); // Status 1: Đang đợi lấy hàng
+                waybill.setCodAmount(order.getTotalPay().intValue());
+                Waybill waybillAfterSave = waybillRepository.save(waybill);
+
+                order.setStatus(2); // Status 2: Đang đợi lấy hàng
+                orderRepository.save(order);
+
+                return waybillMapper.entityToResponse(waybillAfterSave);
+            } else {
+                throw new RuntimeException("Response from Create Order GHN API cannot use");
+            }
+        } else {
+            throw new RuntimeException("Cannot create new waybill. Order already had waybill or cancelled before.");
         }
     }
 
     @Override
-    public WaybillResponse save(Long aLong, WaybillRequest request) {
-        return null;
+    public WaybillResponse save(Long id, WaybillRequest request) {
+        return defaultSave(id, request, waybillRepository, waybillMapper, ResourceName.WAYBILL);
     }
 
     @Override
     public void delete(Long id) {
-
+        waybillRepository.deleteById(id);
     }
 
     @Override
-    public void delete(List<Long> longs) {
-
+    public void delete(List<Long> ids) {
+        waybillRepository.deleteAllById(ids);
     }
 
-    private GhnOrderRequest generateGhnOrderRequest(WaybillRequest waybill, Order order){
-        GhnOrderRequest ghn = new GhnOrderRequest();
-        ghn.setPaymentTypeId(waybill.getPaymentTypeId());
-        ghn.setRequiredNote(waybill.getRequiredNote());
-        ghn.setNote(waybill.getNote());
-        ghn.setToName(order.getToName());
-        ghn.setToPhone(order.getToPhone());
-        ghn.setToAddress(order.getToAddress());
-        ghn.setToWardName(order.getToWardName());
-        ghn.setToDistrictName(order.getToDistrictName());
-        ghn.setToProvinceName(order.getToProvinceName());
-        ghn.setCodAmount(order.getTotalPay().intValue());
-        ghn.setWeight(waybill.getWeight());
-        ghn.setLength(waybill.getLength());
-        ghn.setWidth(waybill.getWidth());
-        ghn.setHeight(waybill.getHeight());
-        ghn.setServiceTypeId(2);
-        ghn.setServiceId(0);
-        List<GhnOrderRequest.Item> items = new ArrayList<GhnOrderRequest.Item>();
-        for(OrderVariant orderVariant : order.getOrderVariants()){
-            GhnOrderRequest.Item item  = new GhnOrderRequest.Item();
+    private GhnOrderRequest buildGhnOrderRequest(WaybillRequest waybillRequest, Order order) {
+        GhnOrderRequest ghnOrderRequest = new GhnOrderRequest();
+        ghnOrderRequest.setPaymentTypeId(waybillRequest.getPaymentTypeId());
+        ghnOrderRequest.setNote(waybillRequest.getNote());
+        ghnOrderRequest.setRequiredNote(waybillRequest.getRequiredNote());
+        ghnOrderRequest.setToName(order.getToName());
+        ghnOrderRequest.setToPhone(order.getToPhone());
+        ghnOrderRequest.setToAddress(order.getToAddress());
+        ghnOrderRequest.setToWardName(order.getToWardName());
+        ghnOrderRequest.setToDistrictName(order.getToDistrictName());
+        ghnOrderRequest.setToProvinceName(order.getToProvinceName());
+        ghnOrderRequest.setCodAmount(order.getTotalPay().intValue());
+        ghnOrderRequest.setWeight(waybillRequest.getWeight());
+        ghnOrderRequest.setLength(waybillRequest.getLength());
+        ghnOrderRequest.setWidth(waybillRequest.getWidth());
+        ghnOrderRequest.setHeight(waybillRequest.getHeight());
+        ghnOrderRequest.setServiceTypeId(2);
+        ghnOrderRequest.setServiceId(0);
+
+        List<GhnOrderRequest.Item> items = new ArrayList<>();
+        for (OrderVariant orderVariant : order.getOrderVariants()) {
+            GhnOrderRequest.Item item = new GhnOrderRequest.Item();
+            // TODO: Tên cần kết hợp với variantProperties
             item.setName(orderVariant.getVariant().getProduct().getName());
             item.setQuantity(orderVariant.getQuantity());
-            item.setPrice((int) Math.round(orderVariant.getVariant().getPrice()));
+            item.setPrice(orderVariant.getVariant().getPrice().intValue());
             items.add(item);
         }
-        ghn.setItems(items);
-        return ghn;
+        ghnOrderRequest.setItems(items);
+
+        return ghnOrderRequest;
     }
 
 }

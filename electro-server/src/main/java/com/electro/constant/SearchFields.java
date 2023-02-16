@@ -368,4 +368,8 @@ public interface SearchFields {
             "category.name",
             "brand.name"
     );
+
+    List<String> WAYBILL = List.of(
+            "code"
+    );
 }

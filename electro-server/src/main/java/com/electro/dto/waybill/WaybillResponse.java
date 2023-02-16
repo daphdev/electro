@@ -1,19 +1,27 @@
 package com.electro.dto.waybill;
 
 import com.electro.dto.order.OrderResponse;
+import com.electro.entity.waybill.RequiredNote;
 import lombok.Data;
+import org.springframework.lang.Nullable;
 
 import java.time.Instant;
 
 @Data
 public class WaybillResponse {
-    private String  code;
+    private Long id;
+    private Instant createdAt;
+    private Instant updatedAt;
+    private String code;
+    private OrderResponse order;
     private Instant shippingDate;
+    @Nullable
     private Instant expectedDelivery;
-    private String  note;
+    @Nullable
+    private String note;
     private Integer status;
     private Integer paymentTypeId;
-    private String  requiredNote;
+    private RequiredNote requiredNote;
     private Integer codAmount;
     private Integer weight;
     private Integer length;
@@ -21,5 +29,4 @@ public class WaybillResponse {
     private Integer height;
     private Integer serviceTypeId;
     private Integer serviceId;
-    private OrderResponse order;
 }

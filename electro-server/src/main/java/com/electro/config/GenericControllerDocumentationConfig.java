@@ -59,7 +59,8 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("purchase-orders"))
                 .and(generateRoute("order-resources"))
                 .and(generateRoute("order-cancellation-reasons"))
-                .and(generateRoute("orders"));
+                .and(generateRoute("orders"))
+                .and(generateRoute("waybills"));
     }
 
     private RouterFunction<ServerResponse> generateRoute(String resource) {

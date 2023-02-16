@@ -1,13 +1,16 @@
 package com.electro.dto.waybill;
 
+import com.electro.entity.waybill.RequiredNote;
 import lombok.Data;
+import org.springframework.lang.Nullable;
 
 @Data
 public class WaybillRequest {
-    private Long    orderId;
-    private String  note;
+    private Long orderId;
+    @Nullable
+    private String note;
     private Integer paymentTypeId;
-    private String  requiredNote;
+    private RequiredNote requiredNote;
     private Integer weight;
     private Integer length;
     private Integer width;
