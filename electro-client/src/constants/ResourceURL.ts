@@ -57,6 +57,10 @@ class ResourceURL {
 
   static REVIEW = apiPath + '/reviews';
 
+  static VOUCHER = apiPath + '/vouchers';
+  static PAYMENT_METHOD = apiPath + '/payment-methods';
+  static PROMOTION = apiPath + '/promotions';
+
   // CLIENT
   static CLIENT_CATEGORY = clientApiPath + '/categories';
   static CLIENT_PRODUCT = clientApiPath + '/products';
@@ -75,6 +79,7 @@ class ResourceURL {
   static CLIENT_NOTIFICATION_INIT_EVENTS = ResourceURL.CLIENT_NOTIFICATION + '/init-events';
   static CLIENT_NOTIFICATION_EVENTS = ResourceURL.CLIENT_NOTIFICATION + '/events';
   static CLIENT_CART = clientApiPath + '/carts';
+  static CLIENT_PAYMENT_METHOD = clientApiPath + '/payment-methods';
 
   // AUTHENTICATION
   static LOGIN = apiPath + '/auth/login';

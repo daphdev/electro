@@ -22,13 +22,15 @@ import {
   useMantineTheme
 } from '@mantine/core';
 import React, { useRef } from 'react';
-import { AlertTriangle, BrandPaypal, Cash, Home, Marquee, ShoppingCart, Trash } from 'tabler-icons-react';
+import { AlertTriangle, Home, Marquee, ShoppingCart, Trash } from 'tabler-icons-react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
   ClientCartRequest,
   ClientCartResponse,
   ClientCartVariantKeyRequest,
   ClientCartVariantResponse,
+  ClientPaymentMethodResponse,
+  CollectionWrapper,
   Empty,
   UpdateQuantityType
 } from 'types';
@@ -42,6 +44,7 @@ import useAuthStore from 'stores/use-auth-store';
 import { useModals } from '@mantine/modals';
 import ApplicationConstants from 'constants/ApplicationConstants';
 import useSaveCartApi from 'hooks/use-save-cart-api';
+import PageConfigs from 'pages/PageConfigs';
 
 const ghnLogoPath = 'https://file.hstatic.net/200000472237/file/logo_b8515d08a6d14b09bce4e39221712e15.png';
 
@@ -53,10 +56,18 @@ function ClientCart() {
   const { user, currentPaymentMethod, updateCurrentPaymentMethod } = useAuthStore();
 
   const { cartResponse, isLoadingCartResponse, isErrorCartResponse } = useGetCartApi();
+  const {
+    paymentMethodResponses,
+    isLoadingPaymentMethodResponses,
+    isErrorPaymentMethodResponses,
+  } = useGetAllPaymentMethodsApi();
+
+  const isLoading = isLoadingCartResponse || isLoadingPaymentMethodResponses;
+  const isError = isErrorCartResponse || isErrorPaymentMethodResponses;
 
   let cartContentFragment;
 
-  if (isLoadingCartResponse) {
+  if (isLoading) {
     cartContentFragment = (
       <Stack>
         {Array(5).fill(0).map((_, index) => (
@@ -66,7 +77,7 @@ function ClientCart() {
     );
   }
 
-  if (isErrorCartResponse) {
+  if (isError) {
     cartContentFragment = (
       <Stack my={theme.spacing.xl} sx={{ alignItems: 'center', color: theme.colors.pink[6] }}>
         <AlertTriangle size={125} strokeWidth={1}/>
@@ -75,7 +86,7 @@ function ClientCart() {
     );
   }
 
-  if (cartResponse) {
+  if (cartResponse && paymentMethodResponses) {
     let cart: ClientCartResponse;
 
     if (Object.hasOwn(cartResponse, 'cartId')) {
@@ -90,16 +101,16 @@ function ClientCart() {
 
     const taxCost = Number((totalAmount * ApplicationConstants.DEFAULT_TAX).toFixed(0));
 
-    const shippingCost = 30_000;
+    const shippingCost = ApplicationConstants.DEFAULT_SHIPPING_COST;
 
     const totalPay = totalAmount + taxCost + shippingCost;
 
     cartContentFragment = (
       <Grid>
         <Grid.Col md={9}>
-          <Card radius="md" shadow="sm" px="md" pt={3.5} pb="md">
+          <Card radius="md" shadow="sm" p={0}>
             <ScrollArea>
-              <Table verticalSpacing="md">
+              <Table verticalSpacing="md" horizontalSpacing="lg">
                 <thead>
                   <tr>
                     <th style={{ minWidth: 325 }}><Text weight="initial" size="sm" color="dimmed">Mặt hàng</Text></th>
@@ -136,7 +147,9 @@ function ClientCart() {
               <Stack spacing="xs">
                 <Group position="apart">
                   <Text weight={500} color="dimmed">Giao tới</Text>
-                  <Button size="xs" variant="light" compact>Thay đổi</Button>
+                  <Button size="xs" variant="light" compact component={Link} to="/user/setting/personal">
+                    Thay đổi
+                  </Button>
                 </Group>
                 <Stack spacing={3.5}>
                   <Text weight={500} size="sm">
@@ -176,24 +189,22 @@ function ClientCart() {
                   orientation="vertical"
                   size="sm"
                 >
-                  <Radio
-                    value="cod"
-                    label={(
-                      <Group spacing="xs">
-                        <Cash size={24}/>
-                        <Text size="sm">Tiền mặt</Text>
-                      </Group>
-                    )}
-                  />
-                  <Radio
-                    value="paypal"
-                    label={(
-                      <Group spacing="xs">
-                        <BrandPaypal size={24}/>
-                        <Text size="sm">PayPal</Text>
-                      </Group>
-                    )}
-                  />
+                  {paymentMethodResponses.content.map(paymentMethod => {
+                    const PaymentMethodIcon = PageConfigs.paymentMethodIconMap[paymentMethod.paymentMethodCode];
+
+                    return (
+                      <Radio
+                        key={paymentMethod.paymentMethodId}
+                        value={paymentMethod.paymentMethodCode}
+                        label={(
+                          <Group spacing="xs">
+                            <PaymentMethodIcon size={24}/>
+                            <Text size="sm">{paymentMethod.paymentMethodName}</Text>
+                          </Group>
+                        )}
+                      />
+                    );
+                  })}
                 </RadioGroup>
               </Stack>
             </Card>
@@ -395,6 +406,24 @@ function useGetCartApi() {
   );
 
   return { cartResponse, isLoadingCartResponse, isErrorCartResponse };
+}
+
+function useGetAllPaymentMethodsApi() {
+  const {
+    data: paymentMethodResponses,
+    isLoading: isLoadingPaymentMethodResponses,
+    isError: isErrorPaymentMethodResponses,
+  } = useQuery<CollectionWrapper<ClientPaymentMethodResponse>, ErrorMessage>(
+    ['client-api', 'payment-methods', 'getAllPaymentMethods'],
+    () => FetchUtils.get(ResourceURL.CLIENT_PAYMENT_METHOD),
+    {
+      onError: () => NotifyUtils.simpleFailed('Lấy dữ liệu không thành công'),
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  return { paymentMethodResponses, isLoadingPaymentMethodResponses, isErrorPaymentMethodResponses };
 }
 
 function useDeleteCartItemsApi() {

@@ -52,7 +52,8 @@ DROP TABLE IF EXISTS
     review,
     notification,
     cart,
-    cart_variant;
+    cart_variant,
+    payment_method;
 
 -- CREATE TABLES
 
@@ -883,6 +884,8 @@ CREATE TABLE `order`
     tax                          DECIMAL(15, 5)        NOT NULL,
     shipping_cost                DECIMAL(15, 5)        NOT NULL,
     total_pay                    DECIMAL(15, 5)        NOT NULL,
+    payment_method_type          VARCHAR(255)          NOT NULL,
+    payment_status               TINYINT               NOT NULL,
     CONSTRAINT pk_order PRIMARY KEY (id)
 );
 
@@ -932,7 +935,7 @@ CREATE TABLE waybill
     note                   VARCHAR(255)          NULL,
     status                 TINYINT               NOT NULL,
     payment_type_id        INT                   NOT NULL,
-    required_note          INT                   NOT NULL,
+    required_note          VARCHAR(255)          NOT NULL,
     cod_amount             INT                   NOT NULL,
     weight                 INT                   NOT NULL,
     length                 INT                   NOT NULL,
@@ -1067,3 +1070,16 @@ ALTER TABLE cart_variant
 
 ALTER TABLE cart_variant
     ADD CONSTRAINT FK_CART_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+
+CREATE TABLE payment_method
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    name       VARCHAR(255)          NOT NULL,
+    code       VARCHAR(255)          NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_payment_method PRIMARY KEY (id)
+);

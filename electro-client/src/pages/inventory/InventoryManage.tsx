@@ -84,8 +84,8 @@ function InventoryManage() {
     <Stack>
       <ManageHeader>
         <ManageHeaderTitle
-          titleLinks={InventoryConfigs.titleLinks}
-          title={InventoryConfigs.title}
+          titleLinks={InventoryConfigs.manageTitleLinks}
+          title={InventoryConfigs.manageTitle}
         />
       </ManageHeader>
 

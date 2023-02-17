@@ -389,4 +389,9 @@ public interface SearchFields {
             "product.slug",
             "content"
     );
+
+    List<String> PAYMENT_METHOD = List.of(
+            "name",
+            "code"
+    );
 }

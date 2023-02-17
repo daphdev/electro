@@ -57,6 +57,8 @@
 
     drop table if exists prod.order_variant;
 
+    drop table if exists prod.payment_method;
+
     drop table if exists prod.preorder;
 
     drop table if exists prod.product;
@@ -424,6 +426,8 @@
         updated_by bigint,
         code varchar(255) not null,
         note varchar(255),
+        payment_method_type varchar(255) not null,
+        payment_status TINYINT not null,
         shipping_cost DECIMAL(15,5) not null,
         status TINYINT not null,
         tax DECIMAL(15,5) not null,
@@ -474,6 +478,18 @@
         price DECIMAL(15,5) not null,
         quantity integer not null,
         primary key (order_id, variant_id)
+    ) engine=MyISAM;
+
+    create table prod.payment_method (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255) not null,
+        name varchar(255) not null,
+        status TINYINT not null,
+        primary key (id)
     ) engine=MyISAM;
 
     create table prod.preorder (
@@ -777,7 +793,7 @@
         note varchar(255),
         payment_type_id integer not null,
         receipt_date datetime,
-        required_note integer not null,
+        required_note varchar(255) not null,
         service_id integer not null,
         service_type_id integer not null,
         shipping_date datetime not null,

@@ -7,6 +7,7 @@ import ManagerPath from 'constants/ManagerPath';
 import OrderResourceConfigs from 'pages/order-resource/OrderResourceConfigs';
 import { OrderVariantRequest } from 'models/OrderVariant';
 import ApplicationConstants from 'constants/ApplicationConstants';
+import { PaymentMethodType } from 'models/PaymentMethod';
 
 class OrderConfigs extends Configs {
   static managerPath = ManagerPath.ORDER;
@@ -84,6 +85,8 @@ class OrderConfigs extends Configs {
     tax: ApplicationConstants.DEFAULT_TAX,
     shippingCost: ApplicationConstants.DEFAULT_SHIPPING_COST,
     totalPay: ApplicationConstants.DEFAULT_SHIPPING_COST,
+    paymentMethodType: PaymentMethodType.CASH,
+    paymentStatus: '1',
   };
 
   static createUpdateFormSchema = z.object({
@@ -109,6 +112,8 @@ class OrderConfigs extends Configs {
     tax: z.number().min(0),
     shippingCost: z.number().min(0),
     totalPay: z.number().min(0),
+    paymentMethodType: z.string(),
+    paymentStatus: z.string(),
   });
 }
 

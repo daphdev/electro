@@ -1,9 +1,9 @@
-import { Icon } from 'tabler-icons-react';
 import { CollectionWrapper } from 'types/CollectionWrapper';
 import { VariantPropertyItem } from 'models/Variant';
 import { AddressRequest } from 'models/Address';
 import { ImageResponse } from 'models/Image';
 import { SpecificationItem } from 'models/Product';
+import { PaymentMethodType } from 'models/PaymentMethod';
 
 // CATEGORY
 
@@ -12,10 +12,6 @@ export interface ClientCategoryResponse {
   categorySlug: string;
   categoryChildren: ClientCategoryResponse[];
   categoryParent?: ClientCategoryResponse;
-}
-
-export interface CategorySlugIconMap {
-  [categorySlug: string]: Icon;
 }
 
 export interface ClientListedProductResponse {
@@ -212,4 +208,12 @@ export interface ClientCartVariantKeyRequest {
 export enum UpdateQuantityType {
   OVERRIDE = 'OVERRIDE',
   INCREMENTAL = 'INCREMENTAL'
+}
+
+// PAYMENT_METHOD
+
+export interface ClientPaymentMethodResponse {
+  paymentMethodId: number;
+  paymentMethodName: string;
+  paymentMethodCode: PaymentMethodType;
 }

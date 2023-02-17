@@ -38,7 +38,9 @@ function OrderUpdate() {
     resetForm,
     orderResourceSelectList,
     orderCancellationReasonSelectList,
+    paymentMethodSelectList,
     statusSelectList,
+    paymentStatusSelectList,
     variants,
   } = useOrderUpdateViewModel(Number(id));
 
@@ -253,6 +255,24 @@ function OrderUpdate() {
                     <Textarea
                       label="Ghi chú đơn hàng"
                       {...form.getInputProps('note')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <Select
+                      required
+                      label="Hình thức thanh toán"
+                      placeholder="--"
+                      data={paymentMethodSelectList}
+                      {...form.getInputProps('paymentMethodType')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <Select
+                      required
+                      label="Trạng thái thanh toán"
+                      placeholder="--"
+                      data={paymentStatusSelectList}
+                      {...form.getInputProps('paymentStatus')}
                     />
                   </Grid.Col>
                 </Grid>

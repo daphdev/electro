@@ -11,6 +11,8 @@ import lombok.experimental.Accessors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -50,6 +52,7 @@ public class Waybill extends BaseEntity {
     private Integer paymentTypeId;
 
     @Column(name = "required_note", nullable = false)
+    @Enumerated(EnumType.STRING)
     private RequiredNote requiredNote;
 
     @Column(name = "cod_amount", nullable = false)

@@ -21,7 +21,8 @@ export enum NotificationType {
   WARNING = 'WARNING',
   PREORDER = 'PREORDER',
   REVIEW = 'REVIEW',
-  ORDER = 'ORDER'
+  ORDER = 'ORDER',
+  CHECKOUT_PAYPAL_SUCCESS = 'CHECKOUT_PAYPAL_SUCCESS'
 }
 
 export interface EventInitiationResponse {
