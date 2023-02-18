@@ -94,6 +94,12 @@ public class Order extends BaseEntity {
     @Column(name = "total_pay", nullable = false, columnDefinition = "DECIMAL(15,5)")
     private BigDecimal totalPay;
 
+    @Column(name = "paypal_order_id")
+    private String paypalOrderId;
+
+    @Column(name = "paypal_order_status")
+    private String paypalOrderStatus;
+
     @OneToOne(mappedBy = "order")
     private Waybill waybill;
 

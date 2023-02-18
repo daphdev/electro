@@ -424,6 +424,8 @@
         updated_by bigint,
         code varchar(255) not null,
         note varchar(255),
+        paypal_order_id varchar(255),
+        paypal_order_status varchar(255),
         shipping_cost DECIMAL(15,5) not null,
         status TINYINT not null,
         tax DECIMAL(15,5) not null,
