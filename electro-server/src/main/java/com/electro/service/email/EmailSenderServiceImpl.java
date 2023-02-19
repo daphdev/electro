@@ -16,7 +16,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
     private JavaMailSender javaMailSender;
 
     @Override
-    public void sendTokenVerification(String toEmail, String token){
+    public void sendTokenVerification(String toEmail, String token) {
         String text = "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "\n" +
@@ -165,7 +165,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
                 "                            style=\"padding: 36px 24px 0; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; border-top: 3px solid #d4dadf;\">\n" +
                 "                            <h1\n" +
                 "                                style=\"margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;\">\n" +
-                "                                Verify your email address</h1>\n" +
+                "                                Xác minh địa chỉ email</h1>\n" +
                 "                        </td>\n" +
                 "                    </tr>\n" +
                 "                </table>\n" +
@@ -181,10 +181,9 @@ public class EmailSenderServiceImpl implements EmailSenderService {
                 "                    <tr>\n" +
                 "                        <td align=\"left\" bgcolor=\"#ffffff\"\n" +
                 "                            style=\"padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;\">\n" +
-                "                            <p style=\"margin: 0;\">Thanks for starting the new Electro account creation process. We want\n" +
-                "                                to make sure it's really you. Please enter the following verification code when\n" +
-                "                                prompted. If you don’t want to create an account, you can ignore this message. (This\n" +
-                "                                code is valid for 10 minutes).\n" +
+                "                            <p style=\"margin: 0;\">\n" + "Cảm ơn bạn đã bắt đầu quy trình tạo tài khoản của" +
+                "Electro Shop. Chúng tôi muốn chắc chắn rằng đây thực sự là bạn. Vui lòng nhập mã xác minh sau khi nhận thông báo này. " +
+                "Nếu không muốn tạo tài khoản, bạn có thể bỏ qua thông báo này. (Mã này có hiệu lực trong 10 phút).\n" +
                 "                        </td>\n" +
                 "                    </tr>\n" +
                 "                    <tr>\n" +
@@ -198,7 +197,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
                 "                                                <td align=\"center\" bgcolor=\"#1a82e2\" style=\"border-radius: 6px;\">\n" +
                 "                                                    <div\n" +
                 "                                                        style=\"display: inline-block; padding: 16px 36px; font-family: tahoma; font-size: 26px; color: black; font-weight: bold; text-decoration: none; border-radius: 6px;\">\n" +
-                "                                                       "+token+"</div>\n" +
+                "                                                       " + token + "</div>\n" +
                 "                                                </td>\n" +
                 "                                            </tr>\n" +
                 "                                        </table>\n" +
@@ -213,8 +212,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
                 "                    <tr>\n" +
                 "                        <td align=\"left\" bgcolor=\"#ffffff\"\n" +
                 "                            style=\"padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;\">\n" +
-                "                            <p style=\"margin: 0;\">Electro Shop will never email you and ask you to disclose or verify\n" +
-                "                                your password.</p>\n" +
+                "                            <p style=\"margin: 0;\">Electro Shop sẽ không bao giờ gửi email cho bạn và yêu cầu bạn tiết lộ hoặc xác minh mật khẩu của bạn.</p>\n" +
                 "                        </td>\n" +
                 "                    </tr>\n" +
                 "                    <!-- end copy -->\n" +
@@ -223,7 +221,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
                 "                    <tr>\n" +
                 "                        <td align=\"left\" bgcolor=\"#ffffff\"\n" +
                 "                            style=\"padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf\">\n" +
-                "                            <p style=\"margin: 0;\">Thanks,<br> Electro Shop</p>\n" +
+                "                            <p style=\"margin: 0;\">Trân thành cảm ơn,<br> Electro Shop</p>\n" +
                 "                        </td>\n" +
                 "                    </tr>\n" +
                 "                    <!-- end copy -->\n" +
@@ -264,12 +262,12 @@ public class EmailSenderServiceImpl implements EmailSenderService {
                 "\n" +
                 "</html>";
         try {
-            MimeMessage mimeMessage  = javaMailSender.createMimeMessage();
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
             helper.setFrom("electroshopnlu2022@gmail.com");
             helper.setTo(toEmail);
-            helper.setSubject("Electro Email Verification");
-            helper.setText(text,true);
+            helper.setSubject("[Electro Shop] Xác Thực Email");
+            helper.setText(text, true);
             javaMailSender.send(mimeMessage);
         } catch (MessagingException ex) {
             throw new CommonException(ex.toString());
@@ -277,7 +275,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
     }
 
     @Override
-    public void sendTokenForgetPassword(String toEmail, String link){
+    public void sendTokenForgetPassword(String toEmail, String link) {
         String text = "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "\n" +
@@ -426,7 +424,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
                 "                            style=\"padding: 36px 24px 0; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; border-top: 3px solid #d4dadf;\">\n" +
                 "                            <h1\n" +
                 "                                style=\"margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;\">\n" +
-                "                                Reset your password</h1>\n" +
+                "                               Quên mật khẩu</h1>\n" +
                 "                        </td>\n" +
                 "                    </tr>\n" +
                 "                </table>\n" +
@@ -442,7 +440,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
                 "                    <tr>\n" +
                 "                        <td align=\"left\" bgcolor=\"#ffffff\"\n" +
                 "                            style=\"padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;\">\n" +
-                "                            <p style=\"margin: 0;\">You have requested to reset your password. Click the link below to change your password:" +
+                "                            <p style=\"margin: 0;\">Bạn đã yêu cầu đặt lại mật khẩu. Nhấp vào liên kết bên dưới để thay đổi mật khẩu của bạn:" +
                 "                        </td>\n" +
                 "                    </tr>\n" +
                 "                    <tr>\n" +
@@ -455,7 +453,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
                 "\n" +
                 "                                                <td align=\"center\" bgcolor=\"#1a82e2\" style=\"border-radius: 6px;\">\n" +
                 "                                                    <div style=\"display: inline-block; padding: 16px 36px; font-family: tahoma; font-size: 26px; color: black; font-weight: bold; text-decoration: none; border-radius: 6px;\">" +
-                "                                                      <a href=\"" + link + "\">Change password</a></p>" +
+                "                                                      <a href=\"" + link + "\">Đổi mật khẩu</a></p>" +
                 "                                                   </div>\n" +
                 "                                                </td>\n" +
                 "                                            </tr>\n" +
@@ -471,8 +469,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
                 "                    <tr>\n" +
                 "                        <td align=\"left\" bgcolor=\"#ffffff\"\n" +
                 "                            style=\"padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;\">\n" +
-                "                            <p style=\"margin: 0;\">Electro Shop will never email you and ask you to disclose or verify\n" +
-                "                                your password.</p>\n" +
+                "                            <p style=\"margin: 0;\">Electro Shop sẽ không bao giờ gửi email cho bạn và yêu cầu bạn tiết lộ hoặc xác minh mật khẩu của bạn.</p>\n" +
                 "                        </td>\n" +
                 "                    </tr>\n" +
                 "                    <!-- end copy -->\n" +
@@ -481,7 +478,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
                 "                    <tr>\n" +
                 "                        <td align=\"left\" bgcolor=\"#ffffff\"\n" +
                 "                            style=\"padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf\">\n" +
-                "                            <p style=\"margin: 0;\">Thanks,<br> Electro Shop</p>\n" +
+                "                            <p style=\"margin: 0;\">Trân thành cảm ơn,<br> Electro Shop</p>\n" +
                 "                        </td>\n" +
                 "                    </tr>\n" +
                 "                    <!-- end copy -->\n" +
@@ -522,12 +519,12 @@ public class EmailSenderServiceImpl implements EmailSenderService {
                 "\n" +
                 "</html>";
         try {
-            MimeMessage mimeMessage  = javaMailSender.createMimeMessage();
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
             helper.setFrom("electroshopnlu2022@gmail.com");
             helper.setTo(toEmail);
-            helper.setSubject("[Electro Shop] Reset Password");
-            helper.setText(text,true);
+            helper.setSubject("[Electro Shop] Quên Mật Khẩu");
+            helper.setText(text, true);
             javaMailSender.send(mimeMessage);
         } catch (MessagingException ex) {
             throw new CommonException(ex.toString());
