@@ -115,6 +115,7 @@ CREATE TABLE user
     address_id BIGINT                NOT NULL,
     avatar     VARCHAR(255)          NULL,
     status     TINYINT               NOT NULL,
+    reset_password_token VARCHAR(255)NULL,
     CONSTRAINT pk_user PRIMARY KEY (id)
 );
 
@@ -940,6 +941,7 @@ CREATE TABLE verification (
    user_id BIGINT NOT NULL,
    token VARCHAR(255) NOT NULL,
    expired_at datetime NOT NULL,
+   type VARCHAR(255) NOT NULL,
    CONSTRAINT pk_verification PRIMARY KEY (id)
 );
 

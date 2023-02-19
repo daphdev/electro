@@ -58,6 +58,9 @@ public class User extends BaseEntity {
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
 
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
     @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(
             name = "user_role",

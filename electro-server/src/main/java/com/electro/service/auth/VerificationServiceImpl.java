@@ -1,6 +1,7 @@
 package com.electro.service.auth;
 
 import com.electro.dto.authentication.RegistrationRequest;
+import com.electro.dto.authentication.ResetPasswordRequest;
 import com.electro.dto.authentication.UserRequest;
 import com.electro.entity.authentication.Role;
 import com.electro.entity.authentication.User;
@@ -9,6 +10,7 @@ import com.electro.entity.customer.Customer;
 import com.electro.entity.customer.CustomerGroup;
 import com.electro.entity.customer.CustomerResource;
 import com.electro.entity.customer.CustomerStatus;
+import com.electro.entity.general.VerificationType;
 import com.electro.exception.CommonException;
 import com.electro.exception.ExpiredTokenException;
 import com.electro.mapper.authentication.UserMapper;
@@ -17,6 +19,8 @@ import com.electro.repository.authentication.VerificationRepository;
 import com.electro.repository.customer.CustomerRepository;
 import com.electro.service.email.EmailSenderService;
 import lombok.AllArgsConstructor;
+import net.bytebuddy.utility.RandomString;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -44,8 +48,9 @@ public class VerificationServiceImpl implements VerificationService {
 
     private CustomerRepository customerRepo;
 
-    @Override
+    private PasswordEncoder passwordEncoder;
 
+    @Override
     public Long generateTokenVerify(UserRequest userRequest) {
         // check if username existing in database
         if (userRepository.existsUserByUsername(userRequest.getUsername())){
@@ -61,7 +66,7 @@ public class VerificationServiceImpl implements VerificationService {
         User user = userMapper.requestToEntity(userRequest);
         user.setStatus(2);
 
-        Set<Role> roles = new HashSet<Role>();
+        Set<Role> roles = new HashSet<>();
         Role role = new Role();
         role.setId(3L);
         roles.add(role);
@@ -70,10 +75,11 @@ public class VerificationServiceImpl implements VerificationService {
 
         // create new verification entity and set user, token and send email
         Verification verification = new Verification();
-        String token = generateToken();
+        String token = generateVerificationToken();
         verification.setToken(token);
         verification.setUser(user);
         verification.setExpiredAt(Instant.now().plus(5, ChronoUnit.MINUTES));
+        verification.setType(VerificationType.REGISTRATION);
         verificationRepository.save(verification);
 
         emailSender.sendTokenVerification(verification.getUser().getEmail(), token);
@@ -86,7 +92,7 @@ public class VerificationServiceImpl implements VerificationService {
         Optional<Verification>  verifyOptional = verificationRepository.findVerificationByUserId(userID);
         if(verifyOptional.isPresent()){
             Verification verification = verifyOptional.get();
-            String token = generateToken();
+            String token = generateVerificationToken();
             verification.setToken(token);
             verification.setExpiredAt(Instant.now().plus(5, ChronoUnit.MINUTES));
 
@@ -94,7 +100,7 @@ public class VerificationServiceImpl implements VerificationService {
 
             emailSender.sendTokenVerification(verification.getUser().getEmail(), token);
         }else{
-            throw new CommonException("user does not exist");
+            throw new CommonException("user id invalid. Please try again");
         }
     }
 
@@ -103,8 +109,10 @@ public class VerificationServiceImpl implements VerificationService {
         Optional<Verification>  verifyOptional = verificationRepository.findVerificationByUserId(registration.getUserID());
         if(verifyOptional.isPresent()){
             Verification verification = verifyOptional.get();
-            if (verification.getToken().equals(registration.getTokenRegistration())&&
-                    verification.getExpiredAt().isAfter(Instant.now())){
+            //
+            if (verification.getToken().equals(registration.getToken()) &&
+                    verification.getExpiredAt().isAfter(Instant.now()) &&
+                    verification.getType().equals(VerificationType.REGISTRATION)){
                 // set status code and del row verification
                 User user = verification.getUser();
                 user.setStatus(1);
@@ -130,9 +138,11 @@ public class VerificationServiceImpl implements VerificationService {
                 customerRepo.save(customer);
             }
 
-            if (verification.getToken().equals(registration.getTokenRegistration())&&
-                    !verification.getExpiredAt().isAfter(Instant.now())){
-                String token = generateToken();
+            // If token is expired
+            if (verification.getToken().equals(registration.getToken())&&
+                    !verification.getExpiredAt().isAfter(Instant.now())&&
+                    verification.getType().equals(VerificationType.REGISTRATION)){
+                String token = generateVerificationToken();
                 verification.setToken(token);
                 verification.setExpiredAt(Instant.now().plus(5, ChronoUnit.MINUTES));
 
@@ -142,8 +152,8 @@ public class VerificationServiceImpl implements VerificationService {
                 throw new ExpiredTokenException("token is expired, please check your email to get new token" );
             }
 
-            if (!verification.getToken().equals(registration.getTokenRegistration())){
-                throw new CommonException("Invalid token");
+            if (!verification.getToken().equals(registration.getToken())){
+                throw new CommonException("invalid token");
             }
         }else{
             throw new CommonException("user does not exist");
@@ -159,10 +169,9 @@ public class VerificationServiceImpl implements VerificationService {
             user.setEmail(emailUpdate);
             userRepository.save(user);
 
-            String token = generateToken();
+            String token = generateVerificationToken();
             verification.setToken(token);
             verification.setExpiredAt(Instant.now().plus(5, ChronoUnit.MINUTES));
-
             verificationRepository.save(verification);
 
             emailSender.sendTokenVerification(verification.getUser().getEmail(), token);
@@ -171,7 +180,32 @@ public class VerificationServiceImpl implements VerificationService {
         }
     }
 
-    public String generateToken(){
+    @Override
+    public void forgetPassword(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() ->  new RuntimeException("email not exist"));
+
+        // 1: active
+        if(user.getStatus() == 1) {
+            String token = RandomString.make(10);
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+
+            // TODO: Using enum localhost in frontend
+            String link = "http://localhost:3000/change-password?token=" + token +"&email=" + email;
+            emailSender.sendTokenForgetPassword(user.getEmail(), link);
+        }else{
+            throw new CommonException("account not activated");
+        }
+    }
+
+    @Override
+    public void resetPassword(ResetPasswordRequest req) {
+        User user = userRepository.findByEmailAndResetPasswordToken(req.getEmail(), req.getToken()).orElseThrow(() ->  new RuntimeException("email and token invalid"));
+        user.setPassword(passwordEncoder.encode(req.getPassword()));
+        userRepository.save(user);
+    }
+
+    public String generateVerificationToken(){
         Random ran = new Random();
         return String.format("%04d", ran.nextInt(10000));
     }

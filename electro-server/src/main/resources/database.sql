@@ -618,6 +618,7 @@
         gender CHAR not null,
         password varchar(255) not null,
         phone varchar(255) not null,
+        reset_password_token varchar(255),
         status TINYINT not null,
         username varchar(255) not null,
         address_id bigint not null,
@@ -665,6 +666,7 @@
         updated_by bigint,
         expired_at datetime not null,
         token varchar(255) not null,
+        type varchar(255) not null,
         user_id bigint not null,
         primary key (id)
     ) engine=MyISAM;
