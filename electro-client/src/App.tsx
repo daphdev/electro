@@ -71,6 +71,7 @@ import PromotionManage from 'pages/promotion';
 import ClientProduct from 'pages/client-product';
 import ClientCart from 'pages/client-cart';
 import WaybillManage, { WaybillCreate, WaybillUpdate } from 'pages/waybill';
+import ClientOrder from 'pages/client-order';
 
 const queryClient = new QueryClient();
 
@@ -148,6 +149,11 @@ function App() {
                   <Route path="/cart" element={(
                     <ProtectedRoute>
                       <ClientCart/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/order" element={(
+                    <ProtectedRoute>
+                      <ClientOrder/>
                     </ProtectedRoute>
                   )}/>
                 </Route>

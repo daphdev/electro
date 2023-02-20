@@ -11,7 +11,7 @@ import { PurchaseOrderResponse } from 'models/PurchaseOrder';
 import PurchaseOrderConfigs from 'pages/purchase-order/PurchaseOrderConfigs';
 import { EntityType } from 'components/VariantTable/VariantTable';
 import { OrderResponse } from 'models/Order';
-import OrderConfigs from 'pages/order/OrderConfigs';
+import DefaultOrderConfigs from 'pages/order/DefaultOrderConfigs';
 
 function DocketUpdate() {
   const { id } = useParams();
@@ -59,8 +59,8 @@ function DocketUpdate() {
   );
 
   const { isFetching: isFetchingOrderListResponse } = useGetAllApi<OrderResponse>(
-    OrderConfigs.resourceUrl,
-    OrderConfigs.resourceKey,
+    DefaultOrderConfigs.resourceUrl,
+    DefaultOrderConfigs.resourceKey,
     {
       filter: (form.values.orderId && orderSelectDebouncedKeyword === '') ? `id==${form.values.orderId}` : '',
       size: 5,
