@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActionIcon, Badge, ColorSwatch, Group, Highlight, Stack, Text, useMantineTheme } from '@mantine/core';
+import { ActionIcon, ColorSwatch, Group, Highlight, Stack, Text, useMantineTheme } from '@mantine/core';
 import {
   FilterPanel,
   ManageHeader,
@@ -36,30 +36,6 @@ function OrderManage() {
   } = useGetAllApi<OrderResponse>(OrderConfigs.resourceUrl, OrderConfigs.resourceKey);
 
   const { searchToken } = useAppStore();
-
-  const orderStatusBadgeFragment = (status: number) => {
-    switch (status) {
-    case 1:
-      return <Badge color="gray" variant="outline" size="sm">Đơn hàng mới</Badge>;
-    case 2:
-      return <Badge color="blue" variant="outline" size="sm">Đang xử lý</Badge>;
-    case 3:
-      return <Badge color="violet" variant="outline" size="sm">Đang giao hàng</Badge>;
-    case 4:
-      return <Badge color="green" variant="outline" size="sm">Đã giao hàng</Badge>;
-    case 5:
-      return <Badge color="red" variant="outline" size="sm">Hủy bỏ</Badge>;
-    }
-  };
-
-  const orderPaymentStatusBadgeFragment = (paymentStatus: number) => {
-    switch (paymentStatus) {
-    case 1:
-      return <Badge color="gray" variant="outline" size="sm">Chưa thanh toán</Badge>;
-    case 2:
-      return <Badge color="green" variant="outline" size="sm">Đã thanh toán</Badge>;
-    }
-  };
 
   const showedPropertiesFragment = (entity: OrderResponse) => {
     const PaymentMethodIcon = PageConfigs.paymentMethodIconMap[entity.paymentMethodType];
@@ -150,106 +126,10 @@ function OrderManage() {
         </td>
         <td>
           <Stack spacing="xs" sx={{ alignItems: 'start' }}>
-            {orderStatusBadgeFragment(entity.status)}
-            {orderPaymentStatusBadgeFragment(entity.paymentStatus)}
+            {OrderConfigs.orderStatusBadgeFragment(entity.status)}
+            {OrderConfigs.orderPaymentStatusBadgeFragment(entity.paymentStatus)}
           </Stack>
         </td>
-      </>
-    );
-  };
-
-  const entityDetailTableRowsFragment = (entity: OrderResponse) => {
-    const PaymentMethodIcon = PageConfigs.paymentMethodIconMap[entity.paymentMethodType];
-
-    return (
-
-      <>
-        <tr>
-          <td>{OrderConfigs.properties.id.label}</td>
-          <td>{entity.id}</td>
-        </tr>
-        <tr>
-          <td>{OrderConfigs.properties.createdAt.label}</td>
-          <td>{DateUtils.isoDateToString(entity.createdAt)}</td>
-        </tr>
-        <tr>
-          <td>{OrderConfigs.properties.updatedAt.label}</td>
-          <td>{DateUtils.isoDateToString(entity.updatedAt)}</td>
-        </tr>
-        <tr>
-          <td>{OrderConfigs.properties.code.label}</td>
-          <td>{entity.code}</td>
-        </tr>
-        <tr>
-          <td>{OrderConfigs.properties.status.label}</td>
-          <td>{orderStatusBadgeFragment(entity.status)}</td>
-        </tr>
-        <tr>
-          <td>{OrderConfigs.properties['orderResource.name'].label}</td>
-          <td>
-            <Group spacing="xs">
-              <ColorSwatch color={entity.orderResource.color}/>
-              {entity.orderResource.name}
-            </Group>
-          </td>
-        </tr>
-        <tr>
-          <td>Tên lý do hủy đơn hàng</td>
-          <td>{entity.orderCancellationReason?.name}</td>
-        </tr>
-        <tr>
-          <td>Ghi chú đơn hàng</td>
-          <td style={{ maxWidth: 300 }}>{entity.note}</td>
-        </tr>
-        <tr>
-          <td>Người đặt hàng</td>
-          <td>
-            <Stack spacing={0}>
-              <Text size="sm">{entity.user.fullname}</Text>
-              <Text size="xs" color="dimmed">{entity.user.username}</Text>
-            </Stack>
-          </td>
-        </tr>
-        <tr>
-          <td>Người nhận hàng</td>
-          <td>
-            <Stack spacing={0}>
-              <Text size="sm">{entity.toName}</Text>
-              <Text size="xs">{entity.toPhone}</Text>
-              <Text size="xs" color="dimmed">
-                {[entity.toAddress, entity.toWardName, entity.toDistrictName, entity.toProvinceName].join(', ')}
-              </Text>
-            </Stack>
-          </td>
-        </tr>
-        <tr>
-          <td>Số mặt hàng</td>
-          <td>{entity.orderVariants.length} SKU</td>
-        </tr>
-        <tr>
-          <td>Tổng thành tiền</td>
-          <td>{MiscUtils.formatPrice(entity.totalAmount) + ' ₫'}</td>
-        </tr>
-        <tr>
-          <td>Thuế</td>
-          <td>{entity.tax * 100 + '%'}</td>
-        </tr>
-        <tr>
-          <td>Phí vận chuyển</td>
-          <td>{MiscUtils.formatPrice(entity.shippingCost) + ' ₫'}</td>
-        </tr>
-        <tr>
-          <td>{OrderConfigs.properties.totalPay.label}</td>
-          <td>{MiscUtils.formatPrice(entity.totalPay) + ' ₫'}</td>
-        </tr>
-        <tr>
-          <td>Hình thức thanh toán</td>
-          <td><PaymentMethodIcon/></td>
-        </tr>
-        <tr>
-          <td>Trạng thái thanh toán</td>
-          <td>{orderPaymentStatusBadgeFragment(entity.paymentStatus)}</td>
-        </tr>
       </>
     );
   };
@@ -282,7 +162,7 @@ function OrderManage() {
           resourceUrl={OrderConfigs.resourceUrl}
           resourceKey={OrderConfigs.resourceKey}
           showedPropertiesFragment={showedPropertiesFragment}
-          entityDetailTableRowsFragment={entityDetailTableRowsFragment}
+          entityDetailTableRowsFragment={OrderConfigs.entityDetailTableRowsFragment}
         />
       </ManageMain>
 

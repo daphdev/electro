@@ -1,6 +1,7 @@
 import React from 'react';
-import { Badge, Highlight, Stack, Text, useMantineTheme } from '@mantine/core';
+import { Anchor, Badge, Highlight, Stack, Text, useMantineTheme } from '@mantine/core';
 import {
+  EntityDetailTable,
   FilterPanel,
   ManageHeader,
   ManageHeaderButtons,
@@ -20,12 +21,15 @@ import useInitFilterPanelState from 'hooks/use-init-filter-panel-state';
 import useGetAllApi from 'hooks/use-get-all-api';
 import useAppStore from 'stores/use-app-store';
 import MiscUtils from 'utils/MiscUtils';
+import { useModals } from '@mantine/modals';
+import OrderConfigs from 'pages/order/OrderConfigs';
 
 function WaybillManage() {
   useResetManagePageState();
   useInitFilterPanelState(WaybillConfigs.properties);
 
   const theme = useMantineTheme();
+  const modals = useModals();
 
   const {
     isLoading,
@@ -47,6 +51,24 @@ function WaybillManage() {
     }
   };
 
+  const handleViewOrderAnchor = (orderId: number) => {
+    modals.openModal({
+      size: 'lg',
+      overlayColor: theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2],
+      overlayOpacity: 0.55,
+      overlayBlur: 3,
+      title: <strong>Thông tin đơn hàng</strong>,
+      children: (
+        <EntityDetailTable
+          entityDetailTableRowsFragment={OrderConfigs.entityDetailTableRowsFragment}
+          resourceUrl={OrderConfigs.resourceUrl}
+          resourceKey={OrderConfigs.resourceKey}
+          entityId={orderId}
+        />
+      ),
+    });
+  };
+
   const showedPropertiesFragment = (entity: WaybillResponse) => {
     const PaymentMethodIcon = PageConfigs.paymentMethodIconMap[entity.order.paymentMethodType];
 
@@ -65,14 +87,16 @@ function WaybillManage() {
         </td>
         <td>
           <Stack spacing={2.5}>
-            <Highlight
-              highlight={searchToken}
-              highlightColor="blue"
-              size="sm"
-              sx={{ fontFamily: theme.fontFamilyMonospace }}
-            >
-              {entity.order.code}
-            </Highlight>
+            <Anchor onClick={() => handleViewOrderAnchor(entity.order.id)}>
+              <Highlight
+                highlight={searchToken}
+                highlightColor="blue"
+                size="sm"
+                sx={{ fontFamily: theme.fontFamilyMonospace }}
+              >
+                {entity.order.code}
+              </Highlight>
+            </Anchor>
             <PaymentMethodIcon color={theme.colors.gray[5]}/>
           </Stack>
         </td>
