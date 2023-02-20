@@ -25,7 +25,7 @@ function WaybillCreate() {
   const { isFetching: isFetchingOrderListResponse } = useGetAllApi<OrderResponse>(
     OrderConfigs.resourceUrl,
     OrderConfigs.resourceKey,
-    { size: 5, search: orderSelectDebouncedKeyword },
+    { size: 5, filter: 'status==1', search: orderSelectDebouncedKeyword },
     (orderListResponse) => {
       const selectList: SelectOption[] = orderListResponse.content.map((item) => ({
         value: String(item.id),
