@@ -32,11 +32,11 @@ class PageConfigs {
     },
     createdBy: {
       label: 'Người tạo',
-      type: EntityPropertyType.STRING,
+      type: EntityPropertyType.NUMBER,
     },
     updatedBy: {
       label: 'Người cập nhật',
-      type: EntityPropertyType.STRING,
+      type: EntityPropertyType.NUMBER,
     },
   };
 

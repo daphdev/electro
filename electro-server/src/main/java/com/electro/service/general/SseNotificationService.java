@@ -19,6 +19,7 @@ public class SseNotificationService implements NotificationService {
     private final EmitterRepository emitterRepository;
     private final EventMapper eventMapper;
 
+    // uniqueKey thường là username
     @Override
     public void pushNotification(String uniqueKey, NotificationResponse notification) {
         emitterRepository

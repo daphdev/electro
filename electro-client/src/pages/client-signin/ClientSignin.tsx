@@ -79,7 +79,7 @@ function ClientSignin() {
     updateCurrentTotalCartItems,
   } = useAuthStore();
 
-  const [counter, setCounter] = useState(5);
+  const [counter, setCounter] = useState(3);
   const [openedAlert, setOpenedAlert] = useState(false);
 
   const navigate = useNavigate();

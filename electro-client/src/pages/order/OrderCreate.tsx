@@ -124,15 +124,19 @@ function OrderCreate() {
                     icon={'₫'}
                     parser={MiscUtils.parserPrice}
                     formatter={MiscUtils.formatterPrice}
+                    disabled
                   />
                 </Grid.Col>
                 <Grid.Col span={6}>
                   <Text size="sm" weight={500}>Tổng tiền trả:</Text>
                 </Grid.Col>
                 <Grid.Col span={6}>
-                  <Text size="md" color="blue" weight={500} sx={{ textAlign: 'right' }}>
-                    {MiscUtils.formatPrice(form.values.totalPay) + ' ₫'}
-                  </Text>
+                  <Stack spacing={2.5} sx={{ textAlign: 'right' }}>
+                    <Text size="md" color="blue" weight={500}>
+                      {MiscUtils.formatPrice(form.values.totalPay) + ' ₫'}
+                    </Text>
+                    <Text size="xs" color="dimmed">(chưa tính phí vận chuyển)</Text>
+                  </Stack>
                 </Grid.Col>
               </Grid>
             </Group>

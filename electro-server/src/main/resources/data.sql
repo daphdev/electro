@@ -351,3 +351,10 @@ insert into cart_variant (cart_id, variant_id, created_at, quantity) values (1, 
 -- payment_method TABLE: 2 records
 insert into payment_method (created_at, updated_at, name, code, status) values ('2023-02-16 00:00:00', '2023-02-16 00:00:00', 'Tiền mặt', 'CASH', 1);
 insert into payment_method (created_at, updated_at, name, code, status) values ('2023-02-16 00:00:00', '2023-02-16 00:00:00', 'Paypal', 'PAYPAL', 1);
+
+-- waybill TABLE: 1 records
+insert into waybill (created_at, updated_at, code, order_id, shipping_date, expected_delivery_time, status,
+                     cod_amount, shipping_fee, weight, length, width, height, note, ghn_payment_type_id,
+                     ghn_required_note)
+values ('2023-02-16 00:00:00', '2023-02-16 00:00:00', 'LL939X', 1, '2023-02-16 00:00:00', '2023-02-18 00:00:00', 1,
+        200000, 20000, 1, 50, 50, 50, null, 2, 'KHONGCHOXEMHANG')

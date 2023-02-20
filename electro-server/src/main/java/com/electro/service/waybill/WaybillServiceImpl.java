@@ -3,31 +3,49 @@ package com.electro.service.waybill;
 import com.electro.constant.FieldName;
 import com.electro.constant.ResourceName;
 import com.electro.constant.SearchFields;
+import com.electro.dto.CollectionWrapper;
 import com.electro.dto.ListResponse;
-import com.electro.dto.waybill.GhnOrderRequest;
-import com.electro.dto.waybill.GhnOrderResponse;
+import com.electro.dto.waybill.GhnCreateOrderRequest;
+import com.electro.dto.waybill.GhnCreateOrderResponse;
+import com.electro.dto.waybill.GhnUpdateOrderRequest;
+import com.electro.dto.waybill.GhnUpdateOrderResponse;
 import com.electro.dto.waybill.WaybillRequest;
 import com.electro.dto.waybill.WaybillResponse;
+import com.electro.entity.cashbook.PaymentMethodType;
+import com.electro.entity.general.Notification;
+import com.electro.entity.general.NotificationType;
 import com.electro.entity.order.Order;
 import com.electro.entity.order.OrderVariant;
 import com.electro.entity.waybill.Waybill;
 import com.electro.exception.ResourceNotFoundException;
+import com.electro.mapper.general.NotificationMapper;
 import com.electro.mapper.waybill.WaybillMapper;
+import com.electro.repository.general.NotificationRepository;
 import com.electro.repository.order.OrderRepository;
 import com.electro.repository.waybill.WaybillRepository;
+import com.electro.service.general.NotificationService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.StringJoiner;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +62,9 @@ public class WaybillServiceImpl implements WaybillService {
     private final OrderRepository orderRepository;
     private final WaybillRepository waybillRepository;
     private final WaybillMapper waybillMapper;
+    private final NotificationService notificationService;
+    private final NotificationRepository notificationRepository;
+    private final NotificationMapper notificationMapper;
 
     @Override
     public ListResponse<WaybillResponse> findAll(int page, int size, String sort, String filter, String search, boolean all) {
@@ -60,7 +81,7 @@ public class WaybillServiceImpl implements WaybillService {
         Optional<Waybill> waybillOpt = waybillRepository.findByOrderId(waybillRequest.getOrderId());
 
         if (waybillOpt.isPresent()) {
-            throw new RuntimeException("This order already exists waybill. Please choose another order!");
+            throw new RuntimeException("This order already had a waybill. Please choose another order!");
         }
 
         Order order = orderRepository.findById(waybillRequest.getOrderId())
@@ -68,7 +89,7 @@ public class WaybillServiceImpl implements WaybillService {
 
         // Tạo Waybill khi Order.status == 1
         if (order.getStatus() == 1) {
-            String createOrderApiPath = ghnApiPath + "/shipping-order/create";
+            String createGhnOrderApiPath = ghnApiPath + "/shipping-order/create";
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -78,37 +99,94 @@ public class WaybillServiceImpl implements WaybillService {
 
             RestTemplate restTemplate = new RestTemplate();
 
-            var request = new HttpEntity<>(buildGhnOrderRequest(waybillRequest, order), headers);
-            var response = restTemplate.postForEntity(createOrderApiPath, request, GhnOrderResponse.class);
+            var request = new HttpEntity<>(buildGhnCreateOrderRequest(waybillRequest, order), headers);
+            var response = restTemplate.postForEntity(createGhnOrderApiPath, request, GhnCreateOrderResponse.class);
 
             if (response.getStatusCode() != HttpStatus.OK) {
                 throw new RuntimeException("Error when calling Create Order GHN API");
             }
 
             if (response.getBody() != null) {
+                var ghnCreateOrderResponse = response.getBody();
+
+                // (1) Tạo waybill
                 Waybill waybill = waybillMapper.requestToEntity(waybillRequest);
-                waybill.setCode(response.getBody().getData().getOrderCode()); // TODO: Update code from GHN
+
+                waybill.setCode(ghnCreateOrderResponse.getData().getOrderCode());
                 waybill.setOrder(order);
-                waybill.setExpectedDelivery(response.getBody().getData().getExpectedDeliveryTime()); // TODO: Get field expectedDelivery from response
+                waybill.setExpectedDeliveryTime(ghnCreateOrderResponse.getData().getExpectedDeliveryTime());
                 waybill.setStatus(1); // Status 1: Đang đợi lấy hàng
                 waybill.setCodAmount(order.getTotalPay().intValue());
+                waybill.setShippingFee(ghnCreateOrderResponse.getData().getTotalFee());
+                waybill.setGhnPaymentTypeId(chooseGhnPaymentTypeId(order.getPaymentMethodType()));
+
                 Waybill waybillAfterSave = waybillRepository.save(waybill);
 
+                // (2) Sửa order
+                order.setShippingCost(BigDecimal.valueOf(ghnCreateOrderResponse.getData().getTotalFee()));
+                order.setTotalPay(BigDecimal.valueOf(
+                        order.getTotalPay().intValue() + ghnCreateOrderResponse.getData().getTotalFee()));
                 order.setStatus(2); // Status 2: Đang đợi lấy hàng
+
                 orderRepository.save(order);
+
+                // (3) Thông báo cho người dùng về việc đơn hàng đã được duyệt
+                // với thông tin phí vận chuyển và sự thay đổi tổng tiền trả
+                Notification notification = new Notification()
+                        .setUser(order.getUser())
+                        .setType(NotificationType.ORDER)
+                        .setMessage(String.format(
+                                "Đơn hàng %s của bạn đã được duyệt. Phí vận chuyển là %s. Tổng tiền cần trả là %s.",
+                                order.getCode(),
+                                NumberFormat.getCurrencyInstance(new Locale("vi", "VN"))
+                                        .format(order.getShippingCost()),
+                                NumberFormat.getCurrencyInstance(new Locale("vi", "VN"))
+                                        .format(order.getTotalPay())))
+                        .setAnchor("/order/detail/" + order.getCode())
+                        .setStatus(1);
+
+                notificationRepository.save(notification);
+
+                notificationService.pushNotification(order.getUser().getUsername(),
+                        notificationMapper.entityToResponse(notification));
 
                 return waybillMapper.entityToResponse(waybillAfterSave);
             } else {
                 throw new RuntimeException("Response from Create Order GHN API cannot use");
             }
         } else {
-            throw new RuntimeException("Cannot create new waybill. Order already had waybill or cancelled before.");
+            throw new RuntimeException("Cannot create a new waybill. Order already had a waybill or was cancelled before.");
         }
     }
 
     @Override
-    public WaybillResponse save(Long id, WaybillRequest request) {
-        return defaultSave(id, request, waybillRepository, waybillMapper, ResourceName.WAYBILL);
+    public WaybillResponse save(Long id, WaybillRequest waybillRequest) {
+        Waybill waybill = waybillRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceName.WAYBILL, FieldName.ID, id));
+
+        String updateGhnOrderApiPath = ghnApiPath + "/shipping-order/update";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        headers.add("Token", ghnToken);
+        headers.add("ShopId", ghnShopId);
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        var request = new HttpEntity<>(buildGhnUpdateOrderRequest(waybillRequest, waybill), headers);
+        var response = restTemplate.postForEntity(updateGhnOrderApiPath, request, GhnUpdateOrderResponse.class);
+
+        if (response.getStatusCode() != HttpStatus.OK) {
+            throw new RuntimeException("Error when calling Update Order GHN API");
+        }
+
+        if (response.getBody() != null) {
+            Waybill waybillAfterSave = waybillRepository.save(waybillMapper.partialUpdate(waybill, waybillRequest));
+            return waybillMapper.entityToResponse(waybillAfterSave);
+        } else {
+            throw new RuntimeException("Response from Update Order GHN API cannot use");
+        }
     }
 
     @Override
@@ -121,37 +199,83 @@ public class WaybillServiceImpl implements WaybillService {
         waybillRepository.deleteAllById(ids);
     }
 
-    private GhnOrderRequest buildGhnOrderRequest(WaybillRequest waybillRequest, Order order) {
-        GhnOrderRequest ghnOrderRequest = new GhnOrderRequest();
-        ghnOrderRequest.setPaymentTypeId(waybillRequest.getPaymentTypeId());
-        ghnOrderRequest.setNote(waybillRequest.getNote());
-        ghnOrderRequest.setRequiredNote(waybillRequest.getRequiredNote());
-        ghnOrderRequest.setToName(order.getToName());
-        ghnOrderRequest.setToPhone(order.getToPhone());
-        ghnOrderRequest.setToAddress(order.getToAddress());
-        ghnOrderRequest.setToWardName(order.getToWardName());
-        ghnOrderRequest.setToDistrictName(order.getToDistrictName());
-        ghnOrderRequest.setToProvinceName(order.getToProvinceName());
-        ghnOrderRequest.setCodAmount(order.getTotalPay().intValue());
-        ghnOrderRequest.setWeight(waybillRequest.getWeight());
-        ghnOrderRequest.setLength(waybillRequest.getLength());
-        ghnOrderRequest.setWidth(waybillRequest.getWidth());
-        ghnOrderRequest.setHeight(waybillRequest.getHeight());
-        ghnOrderRequest.setServiceTypeId(2);
-        ghnOrderRequest.setServiceId(0);
+    private GhnCreateOrderRequest buildGhnCreateOrderRequest(WaybillRequest waybillRequest, Order order) {
+        GhnCreateOrderRequest ghnCreateOrderRequest = new GhnCreateOrderRequest();
 
-        List<GhnOrderRequest.Item> items = new ArrayList<>();
+        ghnCreateOrderRequest.setPaymentTypeId(chooseGhnPaymentTypeId(order.getPaymentMethodType()));
+        ghnCreateOrderRequest.setNote(waybillRequest.getNote());
+        ghnCreateOrderRequest.setRequiredNote(waybillRequest.getGhnRequiredNote());
+        ghnCreateOrderRequest.setToName(order.getToName());
+        ghnCreateOrderRequest.setToPhone(order.getToPhone());
+        ghnCreateOrderRequest.setToAddress(order.getToAddress());
+        ghnCreateOrderRequest.setToWardName(order.getToWardName());
+        ghnCreateOrderRequest.setToDistrictName(order.getToDistrictName());
+        ghnCreateOrderRequest.setToProvinceName(order.getToProvinceName());
+        ghnCreateOrderRequest.setCodAmount(order.getTotalPay().intValue()); // totalPay lúc này là tổng tiền tạm thời
+        ghnCreateOrderRequest.setWeight(waybillRequest.getWeight());
+        ghnCreateOrderRequest.setLength(waybillRequest.getLength());
+        ghnCreateOrderRequest.setWidth(waybillRequest.getWidth());
+        ghnCreateOrderRequest.setHeight(waybillRequest.getHeight());
+        ghnCreateOrderRequest.setServiceTypeId(2);
+        ghnCreateOrderRequest.setServiceId(0);
+        ghnCreateOrderRequest.setPickupTime(waybillRequest.getShippingDate().getEpochSecond());
+
+        List<GhnCreateOrderRequest.Item> items = new ArrayList<>();
         for (OrderVariant orderVariant : order.getOrderVariants()) {
-            GhnOrderRequest.Item item = new GhnOrderRequest.Item();
-            // TODO: Tên cần kết hợp với variantProperties
-            item.setName(orderVariant.getVariant().getProduct().getName());
+            var item = new GhnCreateOrderRequest.Item();
+            item.setName(buildGhnProductName(orderVariant.getVariant().getProduct().getName(),
+                    orderVariant.getVariant().getProperties()));
             item.setQuantity(orderVariant.getQuantity());
-            item.setPrice(orderVariant.getVariant().getPrice().intValue());
+            item.setPrice(orderVariant.getPrice().intValue());
             items.add(item);
         }
-        ghnOrderRequest.setItems(items);
+        ghnCreateOrderRequest.setItems(items);
 
-        return ghnOrderRequest;
+        return ghnCreateOrderRequest;
+    }
+
+    // Trả về tên sản phẩm không trùng nhau
+    // TH1: Chỉ có 1 phiên bản mặc định không có thuộc tính: Laptop Lenovo
+    // TH2: Có ít nhất 1 phiên bản với thuộc tính: Laptop Lenovo (Kích cỡ: S, Màu sắc: Đỏ)
+    @SuppressWarnings("unchecked")
+    private String buildGhnProductName(String productName, @Nullable JsonNode variantProperties) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        CollectionWrapper<LinkedHashMap<String, Object>> variantPropertiesObj;
+
+        try {
+            variantPropertiesObj = mapper.treeToValue(variantProperties, CollectionWrapper.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Cannot build product name for GHN order");
+        }
+
+        if (variantPropertiesObj == null) {
+            return productName;
+        }
+
+        StringJoiner joiner = new StringJoiner(", ", "(", ")");
+
+        for (var variantProperty : variantPropertiesObj.getContent()) {
+            joiner.add(String.format("%s: %s", variantProperty.get("name"), variantProperty.get("value")));
+        }
+
+        return String.format("%s %s", productName, joiner);
+    }
+
+    private int chooseGhnPaymentTypeId(PaymentMethodType paymentMethodType) {
+        return paymentMethodType == PaymentMethodType.CASH
+                ? 2 // Thanh toán tiền mặt, người nhận trả tiền vận chuyển và tiền thu hộ
+                : 1; // Thanh toán Paypal, Người gửi trả tiền vận chuyển
+    }
+
+    private GhnUpdateOrderRequest buildGhnUpdateOrderRequest(WaybillRequest waybillRequest, Waybill waybill) {
+        GhnUpdateOrderRequest ghnUpdateOrderRequest = new GhnUpdateOrderRequest();
+
+        ghnUpdateOrderRequest.setOrderCode(waybill.getCode());
+        ghnUpdateOrderRequest.setNote(waybillRequest.getNote());
+        ghnUpdateOrderRequest.setRequiredNote(waybillRequest.getGhnRequiredNote());
+
+        return ghnUpdateOrderRequest;
     }
 
 }

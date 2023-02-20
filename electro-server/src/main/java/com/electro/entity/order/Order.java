@@ -95,7 +95,7 @@ public class Order extends BaseEntity {
     @Column(name = "total_pay", nullable = false, columnDefinition = "DECIMAL(15,5)")
     private BigDecimal totalPay;
 
-    @OneToOne(mappedBy = "order")
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private Waybill waybill;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)

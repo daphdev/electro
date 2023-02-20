@@ -12,17 +12,17 @@ import {
   Radio,
   RadioGroup,
   ScrollArea,
-  SimpleGrid,
   Skeleton,
   Stack,
   Table,
   Text,
   ThemeIcon,
   Title,
+  Tooltip,
   useMantineTheme
 } from '@mantine/core';
 import React, { useRef } from 'react';
-import { AlertTriangle, Home, Marquee, ShoppingCart, Trash } from 'tabler-icons-react';
+import { AlertTriangle, Home, InfoCircle, Marquee, ShoppingCart, Trash } from 'tabler-icons-react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
   ClientCartRequest,
@@ -211,18 +211,29 @@ function ClientCart() {
 
             <Card radius="md" shadow="sm" p="lg">
               <Stack spacing="xs">
-                <SimpleGrid cols={2} spacing="xs">
-                  <Text size="sm" color="dimmed">Tạm tính</Text>
-                  <Text size="sm" sx={{ textAlign: 'right' }}>{MiscUtils.formatPrice(totalAmount) + '\u00A0₫'}</Text>
-                  <Text size="sm" color="dimmed">Thuế (10%)</Text>
-                  <Text size="sm" sx={{ textAlign: 'right' }}>{MiscUtils.formatPrice(taxCost) + '\u00A0₫'}</Text>
-                  <Text size="sm" color="dimmed">Phí vận chuyển</Text>
-                  <Text size="sm" sx={{ textAlign: 'right' }}>{MiscUtils.formatPrice(shippingCost) + '\u00A0₫'}</Text>
-                  <Text size="sm" weight={500}>Tổng tiền</Text>
-                  <Text size="lg" weight={700} color="blue" sx={{ textAlign: 'right' }}>
-                    {MiscUtils.formatPrice(totalPay) + '\u00A0₫'}
-                  </Text>
-                </SimpleGrid>
+                <Stack spacing="sm">
+                  <Group position="apart">
+                    <Text size="sm" color="dimmed">Tạm tính</Text>
+                    <Text size="sm" sx={{ textAlign: 'right' }}>{MiscUtils.formatPrice(totalAmount) + '\u00A0₫'}</Text>
+                  </Group>
+                  <Group position="apart">
+                    <Text size="sm" color="dimmed">Thuế (10%)</Text>
+                    <Text size="sm" sx={{ textAlign: 'right' }}>{MiscUtils.formatPrice(taxCost) + '\u00A0₫'}</Text>
+                  </Group>
+                  <Group position="apart">
+                    <Group spacing="xs">
+                      <Text size="sm" weight={500}>Tổng tiền</Text>
+                      <Tooltip label="Chưa tính phí vận chuyển" withArrow sx={{ height: 20 }}>
+                        <ThemeIcon variant="light" color="blue" size="sm">
+                          <InfoCircle size={14}/>
+                        </ThemeIcon>
+                      </Tooltip>
+                    </Group>
+                    <Text size="lg" weight={700} color="blue" sx={{ textAlign: 'right' }}>
+                      {MiscUtils.formatPrice(totalPay) + '\u00A0₫'}
+                    </Text>
+                  </Group>
+                </Stack>
               </Stack>
             </Card>
 

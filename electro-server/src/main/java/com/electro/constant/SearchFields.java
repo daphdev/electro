@@ -378,7 +378,8 @@ public interface SearchFields {
     );
 
     List<String> WAYBILL = List.of(
-            "code"
+            "code",
+            "order.code"
     );
 
     List<String> REVIEW = List.of(

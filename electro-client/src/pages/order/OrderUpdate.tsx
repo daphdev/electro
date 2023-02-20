@@ -141,6 +141,7 @@ function OrderUpdate() {
                     icon={'₫'}
                     parser={MiscUtils.parserPrice}
                     formatter={MiscUtils.formatterPrice}
+                    disabled
                   />
                 </Grid.Col>
                 <Grid.Col span={6}>

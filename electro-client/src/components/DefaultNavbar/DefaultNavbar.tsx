@@ -202,12 +202,7 @@ const navbarLinks: NavbarLink[] = [
     link: '/admin/waybill',
     label: 'Vận đơn',
     icon: Car,
-    childLinks: [
-      {
-        link: '/admin/waybill/shipper',
-        label: 'Nhà vận chuyển',
-      },
-    ],
+    childLinks: [],
   },
   {
     link: '/admin/review',

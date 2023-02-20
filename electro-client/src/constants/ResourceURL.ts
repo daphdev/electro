@@ -55,6 +55,8 @@ class ResourceURL {
   static ORDER_RESOURCE = apiPath + '/order-resources';
   static ORDER_CANCELLATION_REASON = apiPath + '/order-cancellation-reasons';
 
+  static WAYBILL = apiPath + '/waybills';
+
   static REVIEW = apiPath + '/reviews';
 
   static VOUCHER = apiPath + '/vouchers';
