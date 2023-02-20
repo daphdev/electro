@@ -2,6 +2,7 @@ package com.electro.entity.order;
 
 import com.electro.entity.BaseEntity;
 import com.electro.entity.authentication.User;
+import com.electro.entity.cashbook.PaymentMethodType;
 import com.electro.entity.inventory.Docket;
 import com.electro.entity.waybill.Waybill;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -15,6 +16,8 @@ import lombok.experimental.Accessors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -77,8 +80,6 @@ public class Order extends BaseEntity {
     @JsonBackReference
     private User user;
 
-    // paymentMethod: PaymentMethod
-
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderVariant> orderVariants = new HashSet<>();
 
@@ -94,12 +95,20 @@ public class Order extends BaseEntity {
     @Column(name = "total_pay", nullable = false, columnDefinition = "DECIMAL(15,5)")
     private BigDecimal totalPay;
 
-    @OneToOne(mappedBy = "order")
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private Waybill waybill;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Docket> dockets = new ArrayList<>();
+
+    @Column(name = "payment_method_type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PaymentMethodType paymentMethodType;
+
+    // 2 trạng thái: (1) Chưa thanh toán, (2) Đã thanh toán
+    @Column(name = "payment_status", nullable = false, columnDefinition = "TINYINT")
+    private Integer paymentStatus;
 
     // vouchers: List<Voucher>
 }

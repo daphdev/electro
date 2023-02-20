@@ -1,13 +1,14 @@
 import { useQuery } from 'react-query';
 import FetchUtils, { ErrorMessage } from 'utils/FetchUtils';
 import NotifyUtils from 'utils/NotifyUtils';
+import { UseQueryOptions } from 'react-query/types/react/types';
 
 function useGetByIdApi<O>(
   resourceUrl: string,
   resourceKey: string,
   entityId: number,
   successCallback?: (data: O) => void,
-  options?: { enabled: boolean }
+  options?: UseQueryOptions<O, ErrorMessage>
 ) {
   return useQuery<O, ErrorMessage>(
     [resourceKey, 'getById', entityId],

@@ -18,7 +18,7 @@ import {
   useMantineTheme
 } from '@mantine/core';
 import { ManageHeader, ManageHeaderTitle, ManageMain, ManagePagination, ReviewStarGroup } from 'components';
-import ReviewConfigs from 'pages/client-review/ReviewConfigs';
+import ReviewConfigs from 'pages/review/ReviewConfigs';
 import { useModals } from '@mantine/modals';
 import useGetAllApi from 'hooks/use-get-all-api';
 import { ReviewRequest, ReviewResponse } from 'models/Review';
@@ -181,8 +181,8 @@ function ReviewManage() {
     <Stack>
       <ManageHeader>
         <ManageHeaderTitle
-          titleLinks={ReviewConfigs.titleLinks}
-          title={ReviewConfigs.title}
+          titleLinks={ReviewConfigs.manageTitleLinks}
+          title={ReviewConfigs.manageTitle}
         />
       </ManageHeader>
 

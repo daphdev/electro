@@ -15,18 +15,16 @@ public class WaybillResponse {
     private String code;
     private OrderResponse order;
     private Instant shippingDate;
-    @Nullable
-    private Instant expectedDelivery;
-    @Nullable
-    private String note;
+    private Instant expectedDeliveryTime;
     private Integer status;
-    private Integer paymentTypeId;
-    private RequiredNote requiredNote;
     private Integer codAmount;
+    private Integer shippingFee;
     private Integer weight;
     private Integer length;
     private Integer width;
     private Integer height;
-    private Integer serviceTypeId;
-    private Integer serviceId;
+    @Nullable
+    private String note;
+    private Integer ghnPaymentTypeId;
+    private RequiredNote ghnRequiredNote;
 }

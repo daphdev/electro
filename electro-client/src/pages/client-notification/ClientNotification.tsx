@@ -23,7 +23,17 @@ import FetchUtils, { ErrorMessage, ListResponse } from 'utils/FetchUtils';
 import ResourceURL from 'constants/ResourceURL';
 import NotifyUtils from 'utils/NotifyUtils';
 import { NotificationRequest, NotificationResponse, NotificationType } from 'models/Notification';
-import { Alarm, AlertCircle, AlertTriangle, Bell, FileBarcode, Icon, Marquee, Message } from 'tabler-icons-react';
+import {
+  Alarm,
+  AlertCircle,
+  AlertTriangle,
+  Bell,
+  BrandPaypal,
+  FileBarcode,
+  Icon,
+  Marquee,
+  Message
+} from 'tabler-icons-react';
 import { ClientUserNavbar } from 'components';
 import DateUtils from 'utils/DateUtils';
 import { Link } from 'react-router-dom';
@@ -152,6 +162,10 @@ const notificationIconMap: Record<NotificationType, NotificationFigure> = {
   [NotificationType.ORDER]: {
     icon: FileBarcode,
     color: 'indigo',
+  },
+  [NotificationType.CHECKOUT_PAYPAL_SUCCESS]: {
+    icon: BrandPaypal,
+    color: 'cyan',
   },
 };
 

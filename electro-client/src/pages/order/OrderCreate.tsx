@@ -35,7 +35,9 @@ function OrderCreate() {
     resetForm,
     orderResourceSelectList,
     orderCancellationReasonSelectList,
+    paymentMethodSelectList,
     statusSelectList,
+    paymentStatusSelectList,
     variants,
   } = useOrderCreateViewModel();
 
@@ -122,15 +124,19 @@ function OrderCreate() {
                     icon={'₫'}
                     parser={MiscUtils.parserPrice}
                     formatter={MiscUtils.formatterPrice}
+                    disabled
                   />
                 </Grid.Col>
                 <Grid.Col span={6}>
                   <Text size="sm" weight={500}>Tổng tiền trả:</Text>
                 </Grid.Col>
                 <Grid.Col span={6}>
-                  <Text size="md" color="blue" weight={500} sx={{ textAlign: 'right' }}>
-                    {MiscUtils.formatPrice(form.values.totalPay) + ' ₫'}
-                  </Text>
+                  <Stack spacing={2.5} sx={{ textAlign: 'right' }}>
+                    <Text size="md" color="blue" weight={500}>
+                      {MiscUtils.formatPrice(form.values.totalPay) + ' ₫'}
+                    </Text>
+                    <Text size="xs" color="dimmed">(chưa tính phí vận chuyển)</Text>
+                  </Stack>
                 </Grid.Col>
               </Grid>
             </Group>
@@ -236,6 +242,24 @@ function OrderCreate() {
                     <Textarea
                       label="Ghi chú đơn hàng"
                       {...form.getInputProps('note')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <Select
+                      required
+                      label="Hình thức thanh toán"
+                      placeholder="--"
+                      data={paymentMethodSelectList}
+                      {...form.getInputProps('paymentMethodType')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <Select
+                      required
+                      label="Trạng thái thanh toán"
+                      placeholder="--"
+                      data={paymentStatusSelectList}
+                      {...form.getInputProps('paymentStatus')}
                     />
                   </Grid.Col>
                 </Grid>

@@ -50,4 +50,5 @@ public interface ResourceName {
     String REVIEW = "Review";
     String NOTIFICATION = "Notification";
     String CART = "Cart";
+    String PAYMENT_METHOD = "PaymentMethod";
 }

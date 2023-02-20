@@ -70,6 +70,7 @@ import PaymentMethodManage from 'pages/payment-method';
 import PromotionManage from 'pages/promotion';
 import ClientProduct from 'pages/client-product';
 import ClientCart from 'pages/client-cart';
+import WaybillManage, { WaybillCreate, WaybillUpdate } from 'pages/waybill';
 
 const queryClient = new QueryClient();
 
@@ -296,6 +297,10 @@ function App() {
                   <Route path={ManagerPath.COUNT} element={<CountManage/>}/>
                   <Route path={ManagerPath.COUNT + '/create'} element={<CountCreate/>}/>
                   <Route path={ManagerPath.COUNT + '/update/:id'} element={<CountUpdate/>}/>
+                  {/* WAYBILL */}
+                  <Route path={ManagerPath.WAYBILL} element={<WaybillManage/>}/>
+                  <Route path={ManagerPath.WAYBILL + '/create'} element={<WaybillCreate/>}/>
+                  <Route path={ManagerPath.WAYBILL + '/update/:id'} element={<WaybillUpdate/>}/>
                   {/* REVIEW */}
                   <Route path={ManagerPath.REVIEW} element={<ReviewManage/>}/>
                   {/* VOUCHER */}

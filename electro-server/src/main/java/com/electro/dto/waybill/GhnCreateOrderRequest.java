@@ -9,7 +9,7 @@ import java.util.List;
 
 // Reference: https://api.ghn.vn/home/docs/detail?id=122
 @Data
-public class GhnOrderRequest {
+public class GhnCreateOrderRequest {
     @JsonProperty("payment_type_id")
     private Integer paymentTypeId;
     @JsonProperty("note")
@@ -44,6 +44,8 @@ public class GhnOrderRequest {
     private Integer serviceTypeId;
     @JsonProperty("service_id")
     private Integer serviceId;
+    @JsonProperty("pickup_time")
+    private Long pickupTime;
     @JsonProperty("items")
     private List<Item> items;
 

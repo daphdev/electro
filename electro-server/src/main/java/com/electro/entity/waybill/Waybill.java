@@ -8,9 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -27,33 +28,25 @@ public class Waybill extends BaseEntity {
     @Column(name = "code", nullable = false, unique = true)
     private String code;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    // Hiện tại, không thể xóa Waybill được
+    @OneToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = false, unique = true)
     private Order order;
 
-    @Column(name = "receipt_date")
-    private Instant receiptDate;
-
     @Column(name = "shipping_date", nullable = false, updatable = false)
-    private Instant shippingDate = Instant.now();
+    private Instant shippingDate;
 
-    @Column(name = "expected_delivery_time")
-    private Instant expectedDelivery;
-
-    @Column(name = "note")
-    private String note;
+    @Column(name = "expected_delivery_time", nullable = false)
+    private Instant expectedDeliveryTime;
 
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
 
-    @Column(name = "payment_type_id", nullable = false)
-    private Integer paymentTypeId;
-
-    @Column(name = "required_note", nullable = false)
-    private RequiredNote requiredNote;
-
     @Column(name = "cod_amount", nullable = false)
     private Integer codAmount;
+
+    @Column(name = "shipping_fee", nullable = false)
+    private Integer shippingFee;
 
     @Column(name = "weight", nullable = false)
     private Integer weight;
@@ -67,9 +60,13 @@ public class Waybill extends BaseEntity {
     @Column(name = "height", nullable = false)
     private Integer height;
 
-    @Column(name = "service_type_id", nullable = false)
-    private Integer serviceTypeId;
+    @Column(name = "note")
+    private String note;
 
-    @Column(name = "service_id", nullable = false)
-    private Integer serviceId;
+    @Column(name = "ghn_payment_type_id", nullable = false)
+    private Integer ghnPaymentTypeId;
+
+    @Column(name = "ghn_required_note", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private RequiredNote ghnRequiredNote;
 }

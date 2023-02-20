@@ -378,7 +378,8 @@ public interface SearchFields {
     );
 
     List<String> WAYBILL = List.of(
-            "code"
+            "code",
+            "order.code"
     );
 
     List<String> REVIEW = List.of(
@@ -388,5 +389,10 @@ public interface SearchFields {
             "product.code",
             "product.slug",
             "content"
+    );
+
+    List<String> PAYMENT_METHOD = List.of(
+            "name",
+            "code"
     );
 }
