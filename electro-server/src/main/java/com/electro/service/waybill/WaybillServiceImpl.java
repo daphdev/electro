@@ -126,7 +126,7 @@ public class WaybillServiceImpl implements WaybillService {
                 order.setShippingCost(BigDecimal.valueOf(ghnCreateOrderResponse.getData().getTotalFee()));
                 order.setTotalPay(BigDecimal.valueOf(
                         order.getTotalPay().intValue() + ghnCreateOrderResponse.getData().getTotalFee()));
-                order.setStatus(2); // Status 2: Đang đợi lấy hàng
+                order.setStatus(2); // Status 2: Đang xử lý
 
                 orderRepository.save(order);
 
