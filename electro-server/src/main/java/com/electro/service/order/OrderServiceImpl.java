@@ -6,8 +6,10 @@ import com.electro.dto.waybill.GhnCancelOrderRequest;
 import com.electro.dto.waybill.GhnCancelOrderResponse;
 import com.electro.entity.order.Order;
 import com.electro.entity.waybill.Waybill;
+import com.electro.entity.waybill.WaybillLog;
 import com.electro.exception.ResourceNotFoundException;
 import com.electro.repository.order.OrderRepository;
+import com.electro.repository.waybill.WaybillLogRepository;
 import com.electro.repository.waybill.WaybillRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +37,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final WaybillRepository waybillRepository;
+    private final WaybillLogRepository waybillLogRepository;
 
     @Override
     public void cancelOrder(Long id) {
@@ -69,8 +72,15 @@ public class OrderServiceImpl implements OrderService {
                 if (response.getBody() != null) {
                     for (var data : response.getBody().getData()) {
                         if (data.getResult()) {
+                            WaybillLog waybillLog = new WaybillLog();
+                            waybillLog.setWaybill(waybill);
+                            waybillLog.setPreviousStatus(waybill.getStatus()); // Status 1: Đang đợi lấy hàng
+
                             waybill.setStatus(4); // Status 4 là trạng thái Hủy
+                            waybillLog.setCurrentStatus(4);
+
                             waybillRepository.save(waybill);
+                            waybillLogRepository.save(waybillLog);
                         }
                     }
                 }

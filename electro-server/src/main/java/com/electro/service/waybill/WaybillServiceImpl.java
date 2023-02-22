@@ -5,6 +5,7 @@ import com.electro.constant.ResourceName;
 import com.electro.constant.SearchFields;
 import com.electro.dto.CollectionWrapper;
 import com.electro.dto.ListResponse;
+import com.electro.dto.waybill.GHNCallbackOrderRequest;
 import com.electro.dto.waybill.GhnCreateOrderRequest;
 import com.electro.dto.waybill.GhnCreateOrderResponse;
 import com.electro.dto.waybill.GhnUpdateOrderRequest;
@@ -17,11 +18,13 @@ import com.electro.entity.general.NotificationType;
 import com.electro.entity.order.Order;
 import com.electro.entity.order.OrderVariant;
 import com.electro.entity.waybill.Waybill;
+import com.electro.entity.waybill.WaybillLog;
 import com.electro.exception.ResourceNotFoundException;
 import com.electro.mapper.general.NotificationMapper;
 import com.electro.mapper.waybill.WaybillMapper;
 import com.electro.repository.general.NotificationRepository;
 import com.electro.repository.order.OrderRepository;
+import com.electro.repository.waybill.WaybillLogRepository;
 import com.electro.repository.waybill.WaybillRepository;
 import com.electro.service.general.NotificationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -41,9 +44,11 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import java.util.StringJoiner;
 
@@ -59,12 +64,47 @@ public class WaybillServiceImpl implements WaybillService {
     @Value("${electro.app.shipping.ghnApiPath}")
     private String ghnApiPath;
 
+    private static final int WAITING = 1;
+    private static final int SHIPPING = 2;
+    private static final int SUCCESS = 3;
+    private static final int FAILED = 4;
+    private static final int RETURN = 5;
+
     private final OrderRepository orderRepository;
     private final WaybillRepository waybillRepository;
     private final WaybillMapper waybillMapper;
     private final NotificationService notificationService;
     private final NotificationRepository notificationRepository;
     private final NotificationMapper notificationMapper;
+    private final WaybillLogRepository waybillLogRepository;
+    private static Map<String, Integer> statusCode;
+
+    static {
+        statusCode = new HashMap<>();
+        statusCode.put("ready_to_pick", WAITING); //Mới tạo đơn hàng
+        statusCode.put("picking", WAITING); //Nhân viên đang lấy hàng
+        statusCode.put("cancel", FAILED); //Hủy đơn hàng
+        statusCode.put("money_collect_picking", SHIPPING); //Đang thu tiền người gửi
+        statusCode.put("picked", SHIPPING); //Nhân viên đã lấy hàng
+        statusCode.put("transporting", SHIPPING); //Đang luân chuyển hàng
+        statusCode.put("sorting", SHIPPING); //Đang phân loại hàng hóa
+        statusCode.put("delivering", SHIPPING); //Nhân viên đang giao cho người nhận
+        statusCode.put("money_collect_delivering", SHIPPING); //Nhân viên đang thu tiền người nhận
+        statusCode.put("delivered", SUCCESS);   // Nhân viên đã giao hàng thành công
+        statusCode.put("delivery_fail", FAILED); // Nhân viên giao hàng thất bại
+        statusCode.put("waiting_to_return", RETURN); // Đang đợi trả hàng về cho người gửi
+        statusCode.put("return", RETURN); //Trả hàng
+        statusCode.put("return_transporting", RETURN); // Đang luân chuyển hàng trả
+        statusCode.put("return_sorting", RETURN); // Đang phân loại hàng trả
+        statusCode.put("returning", RETURN); // Nhân viên đang đi trả hàng
+        statusCode.put("return_fail", RETURN); // Nhân viên trả hàng thất bại
+        statusCode.put("returned", SUCCESS); // Nhân viên trả hàng thành công
+        statusCode.put("exception", FAILED); // Đơn hàng ngoại lệ không nằm trong quy trình
+        statusCode.put("damage", FAILED); // Hàng bị hư hỏng
+        statusCode.put("lost", FAILED); // Hàng bị mất
+
+
+    }
 
     @Override
     public ListResponse<WaybillResponse> findAll(int page, int size, String sort, String filter, String search, boolean all) {
@@ -129,6 +169,11 @@ public class WaybillServiceImpl implements WaybillService {
                 order.setStatus(2); // Status 2: Đang xử lý
 
                 orderRepository.save(order);
+
+                WaybillLog waybillLog = new WaybillLog();
+                waybillLog.setWaybill(waybillAfterSave);
+                waybillLog.setCurrentStatus(1); // Status 1: Đang đợi lấy hàng
+                waybillLogRepository.save(waybillLog);
 
                 // (3) Thông báo cho người dùng về việc đơn hàng đã được duyệt
                 // với thông tin phí vận chuyển và sự thay đổi tổng tiền trả
@@ -278,4 +323,50 @@ public class WaybillServiceImpl implements WaybillService {
         return ghnUpdateOrderRequest;
     }
 
+    @Override
+    public void callbackStatusWaybillGHN(GHNCallbackOrderRequest callback) {
+        if (callback.getShopID().equals(ghnShopId)){
+        Waybill waybill = waybillRepository.findByCode(callback.getOrderCode()).orElseThrow(() -> new RuntimeException("Waybill not exist in db with code: " + callback.getOrderCode()));
+        Order order = waybill.getOrder();
+        WaybillLog waybillLog = new WaybillLog();
+        waybillLog.setWaybill(waybill);
+        int status = statusCode.get(callback.getStatus());
+        switch (status) {
+            case WAITING:
+                waybillLog.setPreviousStatus(waybill.getStatus());
+                waybillLog.setCurrentStatus(1);
+                waybill.setStatus(1);
+                order.setStatus(2);
+                break;
+            case SHIPPING:
+                waybillLog.setPreviousStatus(waybill.getStatus());
+                waybillLog.setCurrentStatus(2);
+                waybill.setStatus(2);
+                order.setStatus(3);
+                break;
+            case SUCCESS:
+                // TODO: KHI HOÀN THÀNH ĐƠN HÀNG CẦN GỬI MAIL CHO KHÁCH HÀNG
+                waybillLog.setPreviousStatus(waybill.getStatus());
+                waybillLog.setCurrentStatus(3);
+                waybill.setStatus(3);
+                order.setStatus(4);
+                break;
+            case RETURN:
+                // TODO: CẦN THỐNG NHẤT VỀ CÁCH TRẢ HÀNG. HOẶC HỦY ĐƠN HÀNG
+                waybillLog.setPreviousStatus(waybill.getStatus());
+                waybillLog.setCurrentStatus(4);
+                waybill.setStatus(4);
+                order.setStatus(5);
+                break;
+            default:
+                throw new RuntimeException("Something went wrong!!");
+        }
+
+        waybillLogRepository.save(waybillLog);
+        orderRepository.save(order);
+        waybillRepository.save(waybill);
+        }else{
+            throw new RuntimeException("ShopId is not valid");
+        }
+    }
 }

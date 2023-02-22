@@ -105,6 +105,8 @@
 
     drop table if exists prod.waybill;
 
+    drop table if exists prod.waybill_log;
+
     drop table if exists prod.wish;
 
     create table prod.address (
@@ -802,6 +804,18 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.waybill_log (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        currentStatus integer,
+        previousStatus integer,
+        waybill_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.wish (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -1250,6 +1264,11 @@
        add constraint FKtm4nwydrvd6klhjy7i9slhf83 
        foreign key (order_id) 
        references prod.`order` (id);
+
+    alter table prod.waybill_log 
+       add constraint FKp2i7b3xbv4u8593g4tdds790w 
+       foreign key (waybill_id) 
+       references prod.waybill (id);
 
     alter table prod.wish 
        add constraint FKh3bvkvkslnehbxqma1x2eynqb 
