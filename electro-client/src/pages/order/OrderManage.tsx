@@ -14,7 +14,7 @@ import DateUtils from 'utils/DateUtils';
 import { OrderResponse } from 'models/Order';
 import { ListResponse } from 'utils/FetchUtils';
 import PageConfigs from 'pages/PageConfigs';
-import OrderConfigs from 'pages/order/OrderConfigs';
+import DefaultOrderConfigs from 'pages/order/DefaultOrderConfigs';
 import useResetManagePageState from 'hooks/use-reset-manage-page-state';
 import useInitFilterPanelState from 'hooks/use-init-filter-panel-state';
 import useGetAllApi from 'hooks/use-get-all-api';
@@ -28,12 +28,12 @@ function OrderManage() {
   const theme = useMantineTheme();
 
   useResetManagePageState();
-  useInitFilterPanelState(OrderConfigs.properties);
+  useInitFilterPanelState(DefaultOrderConfigs.properties);
 
   const {
     isLoading,
     data: listResponse = PageConfigs.initialListResponse as ListResponse<OrderResponse>,
-  } = useGetAllApi<OrderResponse>(OrderConfigs.resourceUrl, OrderConfigs.resourceKey);
+  } = useGetAllApi<OrderResponse>(DefaultOrderConfigs.resourceUrl, DefaultOrderConfigs.resourceKey);
 
   const { searchToken } = useAppStore();
 
@@ -126,8 +126,8 @@ function OrderManage() {
         </td>
         <td>
           <Stack spacing="xs" sx={{ alignItems: 'start' }}>
-            {OrderConfigs.orderStatusBadgeFragment(entity.status)}
-            {OrderConfigs.orderPaymentStatusBadgeFragment(entity.paymentStatus)}
+            {DefaultOrderConfigs.orderStatusBadgeFragment(entity.status)}
+            {DefaultOrderConfigs.orderPaymentStatusBadgeFragment(entity.paymentStatus)}
           </Stack>
         </td>
       </>
@@ -138,13 +138,13 @@ function OrderManage() {
     <Stack>
       <ManageHeader>
         <ManageHeaderTitle
-          titleLinks={OrderConfigs.manageTitleLinks}
-          title={OrderConfigs.manageTitle}
+          titleLinks={DefaultOrderConfigs.manageTitleLinks}
+          title={DefaultOrderConfigs.manageTitle}
         />
         <ManageHeaderButtons
           listResponse={listResponse}
-          resourceUrl={OrderConfigs.resourceUrl}
-          resourceKey={OrderConfigs.resourceKey}
+          resourceUrl={DefaultOrderConfigs.resourceUrl}
+          resourceKey={DefaultOrderConfigs.resourceKey}
         />
       </ManageHeader>
 
@@ -158,11 +158,11 @@ function OrderManage() {
       >
         <ManageTable
           listResponse={listResponse}
-          properties={OrderConfigs.properties}
-          resourceUrl={OrderConfigs.resourceUrl}
-          resourceKey={OrderConfigs.resourceKey}
+          properties={DefaultOrderConfigs.properties}
+          resourceUrl={DefaultOrderConfigs.resourceUrl}
+          resourceKey={DefaultOrderConfigs.resourceKey}
           showedPropertiesFragment={showedPropertiesFragment}
-          entityDetailTableRowsFragment={OrderConfigs.entityDetailTableRowsFragment}
+          entityDetailTableRowsFragment={DefaultOrderConfigs.entityDetailTableRowsFragment}
         />
       </ManageMain>
 

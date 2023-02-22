@@ -2,6 +2,6 @@ package com.electro.service.order;
 
 public interface OrderService {
 
-    void cancelOrder(Long Id);
+    void cancelOrder(String code);
 
 }
