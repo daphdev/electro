@@ -37,9 +37,9 @@ public class OrderServiceImpl implements OrderService {
     private final WaybillRepository waybillRepository;
 
     @Override
-    public void cancelOrder(Long id) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(ResourceName.ORDER, FieldName.ID, id));
+    public void cancelOrder(String code) {
+        Order order = orderRepository.findByCode(code)
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceName.ORDER, FieldName.ORDER_CODE, code));
 
         // Hủy đơn hàng khi status = 1 hoặc 2
         if (order.getStatus() < 3) {
@@ -77,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
             }
         } else {
             throw new RuntimeException(String
-                    .format("Order with ID %s is in delivery or has been cancelled. Please check again!", id));
+                    .format("Order with code %s is in delivery or has been cancelled. Please check again!", code));
         }
     }
 

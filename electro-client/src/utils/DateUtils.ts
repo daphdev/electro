@@ -1,9 +1,11 @@
 import dayjs from 'dayjs';
 
+type DateFormat = 'HH:mm:ss DD/MM/YYYY' | 'DD/MM/YYYY';
+
 class DateUtils {
   static now = () => dayjs().toISOString();
 
-  static isoDateToString = (isoDate: string, format = 'HH:mm:ss DD/MM/YYYY') => {
+  static isoDateToString = (isoDate: string, format: DateFormat = 'HH:mm:ss DD/MM/YYYY') => {
     const date = dayjs(isoDate);
     return date.isValid() ? date.format(format).toString() : isoDate;
   };

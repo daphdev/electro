@@ -46,8 +46,6 @@ import ApplicationConstants from 'constants/ApplicationConstants';
 import useSaveCartApi from 'hooks/use-save-cart-api';
 import PageConfigs from 'pages/PageConfigs';
 
-const ghnLogoPath = 'https://file.hstatic.net/200000472237/file/logo_b8515d08a6d14b09bce4e39221712e15.png';
-
 function ClientCart() {
   useTitle();
 
@@ -174,7 +172,7 @@ function ClientCart() {
                 <RadioGroup value="ghn" orientation="vertical" size="sm">
                   <Radio
                     value="ghn"
-                    label={<Image src={ghnLogoPath} styles={{ image: { maxWidth: 170 } }}/>}
+                    label={<Image src={MiscUtils.ghnLogoPath} styles={{ image: { maxWidth: 170 } }}/>}
                   />
                 </RadioGroup>
               </Stack>

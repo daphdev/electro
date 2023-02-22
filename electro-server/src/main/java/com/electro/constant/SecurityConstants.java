@@ -9,7 +9,8 @@ public interface SecurityConstants {
             "/client-api/preorders/**",
             "/client-api/notifications/**",
             "/client-api/reviews/**",
-            "/client-api/carts/**"
+            "/client-api/carts/**",
+            "/client-api/orders/**"
     };
 
     String[] IGNORING_API_PATHS = {
