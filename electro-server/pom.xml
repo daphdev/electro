@@ -22,7 +22,6 @@
         <rsql-jpa-spring-boot-starter.version>5.0.19</rsql-jpa-spring-boot-starter.version>
         <maven-surefire-plugin.version>3.0.0-M6</maven-surefire-plugin.version>
         <springdoc-openapi-ui.version>1.6.8</springdoc-openapi-ui.version>
-        <jpa2ddl-maven-plugin.version>0.9.12</jpa2ddl-maven-plugin.version>
         <io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
         <sockjs-client.version>1.0.2</sockjs-client.version>
         <stomp-websocket.version>2.3.3</stomp-websocket.version>
@@ -120,7 +119,7 @@
             <version>${springdoc-openapi-ui.version}</version>
         </dependency>
 
-        <!--socket-->
+        <!-- socket -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
@@ -198,33 +197,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
-            </plugin>
-
-            <plugin>
-                <groupId>com.devskiller.jpa2ddl</groupId>
-                <artifactId>jpa2ddl-maven-plugin</artifactId>
-                <version>${jpa2ddl-maven-plugin.version}</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <outputPath>${basedir}/src/main/resources/database.sql</outputPath>
-                    <packages>
-                        <package>com.electro.entity</package>
-                    </packages>
-                    <jpaProperties>
-                        <property>
-                            <name>hibernate.dialect</name>
-                            <value>org.hibernate.dialect.MySQL5Dialect</value>
-                        </property>
-                        <property>
-                            <name>hibernate.default_schema</name>
-                            <value>prod</value>
-                        </property>
-                    </jpaProperties>
-                    <formatOutput>true</formatOutput>
-                    <skipSequences>true</skipSequences>
-                    <delimiter>;</delimiter>
-                    <action>DROP_AND_CREATE</action>
-                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -34,5 +34,4 @@ build/
 
 ### Custom ###
 /image-dir/
-/src/main/resources/database.sql
 /src/main/java/com/electro/Test.java

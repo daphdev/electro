@@ -277,7 +277,7 @@ public class WaybillServiceImpl implements WaybillService {
     private int chooseGhnPaymentTypeId(PaymentMethodType paymentMethodType) {
         return paymentMethodType == PaymentMethodType.CASH
                 ? 2 // Thanh toán tiền mặt, người nhận trả tiền vận chuyển và tiền thu hộ
-                : 1; // Thanh toán Paypal, Người gửi trả tiền vận chuyển
+                : 1; // Thanh toán PayPal, Người gửi trả tiền vận chuyển
     }
 
     private GhnUpdateOrderRequest buildGhnUpdateOrderRequest(WaybillRequest waybillRequest, Waybill waybill) {

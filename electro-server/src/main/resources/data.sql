@@ -357,7 +357,7 @@ insert into waybill (created_at, updated_at, code, order_id, shipping_date, expe
                      cod_amount, shipping_fee, weight, length, width, height, note, ghn_payment_type_id,
                      ghn_required_note)
 values ('2023-02-16 00:00:00', '2023-02-16 00:00:00', 'LL939X', 1, '2023-02-16 00:00:00', '2023-02-18 00:00:00', 1,
-        200000, 20000, 1, 50, 50, 50, null, 2, 'KHONGCHOXEMHANG')
+        200000, 20000, 1, 50, 50, 50, null, 2, 'KHONGCHOXEMHANG');
 
 -- room TABLE: 2 records
 insert into room (created_at, updated_at, name, user_id) values ('2021-12-16 17:41:03', '2021-08-05 17:16:06', 'Thang', 1);
