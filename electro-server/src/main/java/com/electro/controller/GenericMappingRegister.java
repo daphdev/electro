@@ -305,7 +305,6 @@ public class GenericMappingRegister {
     private GenericService<PurchaseOrderVariant, PurchaseOrderVariantRequest, PurchaseOrderVariantResponse> purchaseOrderVariantService;
     private GenericService<Room, RoomRequest, RoomResponse> roomService;
 
-
     @PostConstruct
     public void registerControllers() throws NoSuchMethodException {
 
@@ -583,6 +582,7 @@ public class GenericMappingRegister {
                 SearchFields.ROOM,
                 ResourceName.ROOM
         ), RoomRequest.class);
+
     }
 
     private <I, O> void register(String resource,

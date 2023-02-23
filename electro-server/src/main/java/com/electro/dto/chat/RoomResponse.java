@@ -12,14 +12,15 @@ public class RoomResponse {
     private Instant createdAt;
     private Instant updatedAt;
     private String name;
-    private RoomResponse.UserRoomResponse user;
+    private UserResponse user;
     private MessageResponse lastMessage;
+
     @Data
     @AllArgsConstructor
-    public static class  UserRoomResponse{
+    public static class UserResponse {
         private Long id;
+        private String username;
         private String fullname;
         private String email;
     }
-
 }

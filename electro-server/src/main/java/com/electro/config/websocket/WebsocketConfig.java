@@ -10,21 +10,22 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
 
-    //setApplicationDestinationPrefixes("/app"): la gui tin nhan len voi duong dan /app/...
-    //topic la noi nhan message voi duong dan bat dau la /topic/...
+    // setApplicationDestinationPrefixes("/app"): Gửi tin nhắn lên với đường dẫn /app/...
+    // topic là nơi nhắn message với đường dẫn bắt đầu là /topic/...
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/chat/sent");
         registry.enableSimpleBroker("/chat/receive");
-
     }
 
-    // duong dan /app-chat de connect vao socket.
-    // setAllowedOriginPatterns("*")  la cac duong dan tat ca url host co the connect duoc.
-    // dung thu vien socketjs de connect
+    // Đường dẫn /app-chat để connect vào WebSocket
+    // setAllowedOriginPatterns("*") là các đường dẫn tất cả URL host có thể connect được
+    // Dùng thư viện socketjs để connect
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
+        registry.addEndpoint("/ws")
+                .setAllowedOriginPatterns("*")
+                .withSockJS();
     }
 
 }

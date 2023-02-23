@@ -13,10 +13,11 @@ public class MessageResponse {
     private Instant updatedAt;
     private String content;
     private Integer status;
-    private MessageResponse.UserChatResponse user;
+    private UserResponse user;
+
     @Data
     @AllArgsConstructor
-    public static class UserChatResponse {
+    public static class UserResponse {
         private Long id;
         private String username;
         private String fullname;

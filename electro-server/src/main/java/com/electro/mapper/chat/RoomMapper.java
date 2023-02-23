@@ -10,9 +10,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {MapperUtils.class, UserMapper.class})
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        uses = {MapperUtils.class, UserMapper.class})
 public interface RoomMapper extends GenericMapper<Room, RoomRequest, RoomResponse> {
+
     @Override
     @Mapping(source = "userId", target = "user")
     Room requestToEntity(RoomRequest request);
+
 }

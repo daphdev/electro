@@ -41,4 +41,5 @@ public interface ResourceName {
     String PURCHASE_ORDER = "PurchaseOrder";
     String PURCHASE_ORDER_VARIANT = "PurchaseOrderVariant";
     String ROOM = "Room";
+    String MESSAGE = "Message";
 }

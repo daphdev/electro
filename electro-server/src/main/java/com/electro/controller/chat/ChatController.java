@@ -22,26 +22,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 @AllArgsConstructor
 public class ChatController {
-    private SimpMessagingTemplate simpMessagingTemplate;
 
+    private SimpMessagingTemplate simpMessagingTemplate;
     private MessageService messageService;
 
     @MessageMapping("/{roomId}")
     public void sendMessage(@DestinationVariable String roomId, @Payload MessageRequest message) {
-        MessageResponse msgResponse =  messageService.save(message);
-        simpMessagingTemplate.convertAndSend("/chat/receive/" + roomId, msgResponse);
+        MessageResponse messageResponse = messageService.save(message);
+        simpMessagingTemplate.convertAndSend("/chat/receive/" + roomId, messageResponse);
     }
 
     @GetMapping("/chat")
-    public ResponseEntity<ListResponse<MessageResponse>> getAllProvinces(
+    public ResponseEntity<ListResponse<MessageResponse>> getAllMessages(
             @RequestParam(name = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
-            @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size,
-            @RequestParam(name = "sort", defaultValue = AppConstants.DEFAULT_SORT) String sort,
+            @RequestParam(name = "size", defaultValue = "20") int size,
+            @RequestParam(name = "sort", defaultValue = "createdAt,desc") String sort,
             @RequestParam(name = "filter", required = false) @Nullable String filter,
             @RequestParam(name = "search", required = false) @Nullable String search,
             @RequestParam(name = "all", required = false) boolean all
     ) {
-        return ResponseEntity.status(HttpStatus.OK).body(messageService.findAll(page, size, sort, filter, search, all));
+        ListResponse<MessageResponse> messageResponses = messageService.findAll(page, size, sort, filter, search, all);
+        return ResponseEntity.status(HttpStatus.OK).body(messageResponses);
     }
 
 }

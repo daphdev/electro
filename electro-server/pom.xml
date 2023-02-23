@@ -119,7 +119,8 @@
             <artifactId>springdoc-openapi-webflux-ui</artifactId>
             <version>${springdoc-openapi-ui.version}</version>
         </dependency>
-    <!--socket-->
+
+        <!--socket-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
@@ -138,7 +139,6 @@
             <artifactId>stomp-websocket</artifactId>
             <version>${stomp-websocket.version}</version>
         </dependency>
-    <!--socket-->
     </dependencies>
 
     <build>

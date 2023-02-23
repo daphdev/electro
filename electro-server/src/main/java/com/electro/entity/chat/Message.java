@@ -26,23 +26,22 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "message")
 public class Message extends BaseEntity {
-    @Column(name = "content")
+    @Column(name = "content", nullable = false)
     private String content;
 
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
 
-    @OneToOne(mappedBy = "lastMessage",  cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Room roomFlat;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonBackReference
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id")
+    @JoinColumn(name = "room_id", nullable = false)
     @JsonBackReference
     private Room room;
 
+    @OneToOne(mappedBy = "lastMessage", cascade = CascadeType.ALL)
+    private Room roomFlat;
 }

@@ -345,7 +345,7 @@ public interface SearchFields {
 
     List<String> MESSAGE = List.of(
             "createdAt",
-            "roomId"
+            "room.id"
     );
 
     List<String> ROOM = List.of(

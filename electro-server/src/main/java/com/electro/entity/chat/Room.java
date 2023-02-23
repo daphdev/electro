@@ -28,12 +28,11 @@ import java.util.List;
 @Entity
 @Table(name = "room")
 public class Room extends BaseEntity {
-
     @Column(name = "name", nullable = false)
     private String name;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true , nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true, nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -43,5 +42,4 @@ public class Room extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "last_message_id", referencedColumnName = "id", unique = true)
     private Message lastMessage;
-
 }

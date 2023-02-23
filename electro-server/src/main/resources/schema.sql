@@ -808,39 +808,47 @@ ALTER TABLE docket_variant ADD CONSTRAINT FK_DOCKET_VARIANT_ON_DOCKET FOREIGN KE
 
 ALTER TABLE docket_variant ADD CONSTRAINT FK_DOCKET_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
 
-CREATE TABLE room (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   name VARCHAR(255) NOT NULL,
-   user_id BIGINT NOT NULL,
-   last_message_id BIGINT NULL,
-   CONSTRAINT pk_room PRIMARY KEY (id)
+CREATE TABLE room
+(
+    id              BIGINT AUTO_INCREMENT NOT NULL,
+    created_at      datetime              NOT NULL,
+    updated_at      datetime              NOT NULL,
+    created_by      BIGINT                NULL,
+    updated_by      BIGINT                NULL,
+    name            VARCHAR(255)          NOT NULL,
+    user_id         BIGINT                NOT NULL,
+    last_message_id BIGINT                NULL,
+    CONSTRAINT pk_room PRIMARY KEY (id)
 );
 
-CREATE TABLE message (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   content VARCHAR(255) NULL,
-   status TINYINT NOT NULL,
-   user_id BIGINT NULL,
-   room_id BIGINT NULL,
-   CONSTRAINT pk_message PRIMARY KEY (id)
+ALTER TABLE room
+    ADD CONSTRAINT uc_room_last_message UNIQUE (last_message_id);
+
+ALTER TABLE room
+    ADD CONSTRAINT uc_room_user UNIQUE (user_id);
+
+ALTER TABLE room
+    ADD CONSTRAINT FK_ROOM_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE message
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    content    VARCHAR(255)          NOT NULL,
+    status     TINYINT               NOT NULL,
+    user_id    BIGINT                NOT NULL,
+    room_id    BIGINT                NOT NULL,
+    CONSTRAINT pk_message PRIMARY KEY (id)
 );
 
-ALTER TABLE room ADD CONSTRAINT uc_room_last_message UNIQUE (last_message_id);
+ALTER TABLE message
+    ADD CONSTRAINT FK_MESSAGE_ON_ROOM FOREIGN KEY (room_id) REFERENCES room (id);
 
-ALTER TABLE room ADD CONSTRAINT uc_room_user UNIQUE (user_id);
+ALTER TABLE message
+    ADD CONSTRAINT FK_MESSAGE_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
 
-ALTER TABLE room ADD CONSTRAINT FK_ROOM_ON_LAST_MESSAGE FOREIGN KEY (last_message_id) REFERENCES message (id);
-
-ALTER TABLE room ADD CONSTRAINT FK_ROOM_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
-
-ALTER TABLE message ADD CONSTRAINT FK_MESSAGE_ON_ROOM FOREIGN KEY (room_id) REFERENCES room (id);
-
-ALTER TABLE message ADD CONSTRAINT FK_MESSAGE_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+ALTER TABLE room
+    ADD CONSTRAINT FK_ROOM_ON_LAST_MESSAGE FOREIGN KEY (last_message_id) REFERENCES message (id);
