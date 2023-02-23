@@ -58,7 +58,8 @@ DROP TABLE IF EXISTS
     promotion_product,
     room,
     message,
-    verification;
+    verification,
+    refresh_token;
 
 -- CREATE TABLES
 
@@ -1186,3 +1187,22 @@ ALTER TABLE verification
 
 ALTER TABLE verification
     ADD CONSTRAINT FK_VERIFICATION_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE refresh_token
+(
+    id          BIGINT AUTO_INCREMENT NOT NULL,
+    created_at  datetime              NOT NULL,
+    updated_at  datetime              NOT NULL,
+    created_by  BIGINT                NULL,
+    updated_by  BIGINT                NULL,
+    user_id     BIGINT                NOT NULL,
+    token       VARCHAR(255)          NOT NULL,
+    expiry_date datetime              NOT NULL,
+    CONSTRAINT pk_refresh_token PRIMARY KEY (id)
+);
+
+ALTER TABLE refresh_token
+    ADD CONSTRAINT uc_refresh_token_token UNIQUE (token);
+
+ALTER TABLE refresh_token
+    ADD CONSTRAINT FK_REFRESH_TOKEN_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);

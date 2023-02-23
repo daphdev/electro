@@ -634,6 +634,18 @@
         primary key (purchase_order_id, variant_id)
     ) engine=MyISAM;
 
+    create table prod.refresh_token (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        expiryDate datetime not null,
+        token varchar(255) not null,
+        user_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.review (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -943,6 +955,13 @@
 
     alter table prod.review
        add constraint uc_review unique (user_id, product_id);
+
+    alter table prod.role
+    alter table prod.refresh_token
+       add constraint UK_r4k4edos30bx9neoq81mdvwph unique (token);
+
+    alter table prod.refresh_token
+       add constraint UK_f95ixxe7pa48ryn1awmh2evt7 unique (user_id);
 
     alter table prod.role
        add constraint UK_c36say97xydpmgigg38qv5l2p unique (code);
@@ -1300,7 +1319,13 @@
        references prod.user (id);
 
     alter table prod.storage_location
-       add constraint FK956y7ykytekn259p907onqkiw 
+    alter table prod.refresh_token
+       add constraint FKfgk1klcib7i15utalmcqo7krt
+       foreign key (user_id)
+       references prod.user (id);
+
+    alter table prod.storage_location
+       add constraint FK956y7ykytekn259p907onqkiw
        foreign key (warehouse_id) 
        references prod.warehouse (id);
 

@@ -4,11 +4,16 @@ import com.electro.config.security.JwtUtils;
 import com.electro.constant.AppConstants;
 import com.electro.dto.authentication.JwtResponse;
 import com.electro.dto.authentication.LoginRequest;
+import com.electro.dto.authentication.RefreshTokenRequest;
 import com.electro.dto.authentication.RegistrationRequest;
 import com.electro.dto.authentication.RegistrationResponse;
 import com.electro.dto.authentication.ResetPasswordRequest;
 import com.electro.dto.authentication.UserRequest;
+import com.electro.entity.authentication.RefreshToken;
+import com.electro.entity.authentication.User;
+import com.electro.exception.RefreshTokenException;
 import com.electro.service.auth.VerificationService;
+import com.electro.service.authetication.RefreshTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,16 +40,32 @@ public class AuthController {
 
     private AuthenticationManager authenticationManager;
     private VerificationService verificationService;
+    private RefreshTokenService refreshTokenService;
     private JwtUtils jwtUtils;
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity<JwtResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         String jwt = jwtUtils.generateJwtToken(authentication);
+        String refreshToken = refreshTokenService.createRefreshToken(authentication).getToken();
 
-        return ResponseEntity.ok(new JwtResponse("Login success!", jwt, Instant.now()));
+        return ResponseEntity.ok(new JwtResponse("Login success!", jwt, refreshToken, Instant.now()));
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<JwtResponse> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+        String refreshToken = refreshTokenRequest.getRefreshToken();
+
+        String jwt = refreshTokenService.findByToken(refreshToken)
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(User::getUsername)
+                .map(jwtUtils::generateTokenFromUsername)
+                .orElseThrow(() -> new RefreshTokenException("Refresh token was expired. Please make a new signin request!"));
+
+        return ResponseEntity.ok(new JwtResponse("Refresh token", jwt, refreshToken, Instant.now()));
     }
 
     @PostMapping("/registration")
