@@ -17,6 +17,7 @@ import com.electro.projection.inventory.VariantInventory;
 import com.electro.repository.inventory.DocketVariantRepository;
 import com.electro.repository.product.ProductRepository;
 import com.electro.repository.product.VariantRepository;
+import com.electro.utils.InventoryUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,7 +64,7 @@ public class InventoryController {
             List<DocketVariant> transactions = docketVariantRepository.findByProductId(product.getId());
             productInventory.setTransactions(transactions);
 
-            Map<String, Integer> inventoryIndices = calculateInventoryIndices(transactions);
+            Map<String, Integer> inventoryIndices = InventoryUtils.calculateInventoryIndices(transactions);
 
             productInventory.setInventory(inventoryIndices.get("inventory"));
             productInventory.setWaitingForDelivery(inventoryIndices.get("waitingForDelivery"));
@@ -97,7 +97,7 @@ public class InventoryController {
             List<DocketVariant> transactions = docketVariantRepository.findByVariantId(variant.getId());
             variantInventory.setTransactions(transactions);
 
-            Map<String, Integer> inventoryIndices = calculateInventoryIndices(transactions);
+            Map<String, Integer> inventoryIndices = InventoryUtils.calculateInventoryIndices(transactions);
 
             variantInventory.setInventory(inventoryIndices.get("inventory"));
             variantInventory.setWaitingForDelivery(inventoryIndices.get("waitingForDelivery"));
@@ -124,7 +124,7 @@ public class InventoryController {
         List<DocketVariant> transactions = docketVariantRepository.findByVariantId(variant.getId());
         variantInventory.setTransactions(transactions);
 
-        Map<String, Integer> inventoryIndices = calculateInventoryIndices(transactions);
+        Map<String, Integer> inventoryIndices = InventoryUtils.calculateInventoryIndices(transactions);
 
         variantInventory.setInventory(inventoryIndices.get("inventory"));
         variantInventory.setWaitingForDelivery(inventoryIndices.get("waitingForDelivery"));
@@ -134,46 +134,6 @@ public class InventoryController {
         VariantInventoryResponse variantInventoryResponse = variantInventoryMapper.toResponse(variantInventory);
 
         return ResponseEntity.status(HttpStatus.OK).body(variantInventoryResponse);
-    }
-
-    private Map<String, Integer> calculateInventoryIndices(List<DocketVariant> transactions) {
-        int inventory = 0;
-        int waitingForDelivery = 0;
-        int canBeSold;
-        int areComing = 0;
-
-        for (DocketVariant transaction : transactions) {
-            // Phiếu Nhập và trạng thái phiếu là Hoàn thành (3)
-            if (transaction.getDocket().getType().equals(1) && transaction.getDocket().getStatus().equals(3)) {
-                inventory += transaction.getQuantity();
-            }
-
-            // Phiếu Xuất và trạng thái phiếu là Hoàn thành (3)
-            if (transaction.getDocket().getType().equals(2) && transaction.getDocket().getStatus().equals(3)) {
-                inventory -= transaction.getQuantity();
-            }
-
-            // Phiếu Xuất và trạng thái phiếu là Mới (1) hoặc Đang xử lý (2)
-            if (transaction.getDocket().getType().equals(2) && List.of(1, 2).contains(transaction.getDocket().getStatus())) {
-                waitingForDelivery += transaction.getQuantity();
-            }
-
-            // Phiếu Nhập và trạng thái phiếu là Mới (1) hoặc Đang xử lý (2)
-            if (transaction.getDocket().getType().equals(1) && List.of(1, 2).contains(transaction.getDocket().getStatus())) {
-                areComing += transaction.getQuantity();
-            }
-        }
-
-        canBeSold = inventory - waitingForDelivery;
-
-        Map<String, Integer> indices = new HashMap<>();
-
-        indices.put("inventory", inventory);
-        indices.put("waitingForDelivery", waitingForDelivery);
-        indices.put("canBeSold", canBeSold);
-        indices.put("areComing", areComing);
-
-        return indices;
     }
 
 }

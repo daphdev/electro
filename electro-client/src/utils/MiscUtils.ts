@@ -90,6 +90,11 @@ class MiscUtils {
 
     return replaceMillion(priceOption[0]) + ' đến ' + replaceMillion(priceOption[1]);
   };
+
+  // eslint-disable-next-line no-console
+  static console = console;
+
+  static ghnLogoPath = 'https://file.hstatic.net/200000472237/file/logo_b8515d08a6d14b09bce4e39221712e15.png';
 }
 
 export default MiscUtils;

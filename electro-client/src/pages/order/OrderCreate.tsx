@@ -14,15 +14,15 @@ import {
   TextInput
 } from '@mantine/core';
 import { CreateUpdateTitle, DefaultPropertyPanel, VariantFinder, VariantTable } from 'components';
-import OrderConfigs from 'pages/order/OrderConfigs';
+import DefaultOrderConfigs from 'pages/order/DefaultOrderConfigs';
 import useOrderCreateViewModel from 'pages/order/OrderCreate.vm';
 import { EntityType } from 'components/VariantTable/VariantTable';
 import MiscUtils from 'utils/MiscUtils';
 import { useDebouncedValue } from '@mantine/hooks';
 import { SelectOption } from 'types';
 import useGetAllApi from 'hooks/use-get-all-api';
-import { CustomerResponse } from 'models/Customer';
-import CustomerConfigs from 'pages/customer/CustomerConfigs';
+import { UserResponse } from 'models/User';
+import UserConfigs from 'pages/user/UserConfigs';
 
 function OrderCreate() {
   const {
@@ -35,34 +35,36 @@ function OrderCreate() {
     resetForm,
     orderResourceSelectList,
     orderCancellationReasonSelectList,
+    paymentMethodSelectList,
     statusSelectList,
+    paymentStatusSelectList,
     variants,
   } = useOrderCreateViewModel();
 
-  const [customerSelectKeyword, setCustomerSelectKeyword] = useState('');
+  const [userSelectKeyword, setUserSelectKeyword] = useState('');
 
-  const [customerSelectDebouncedKeyword] = useDebouncedValue(customerSelectKeyword, 400);
+  const [userSelectDebouncedKeyword] = useDebouncedValue(userSelectKeyword, 400);
 
-  const [customerSelectList, setCustomerSelectList] = useState<SelectOption[]>([]);
+  const [userSelectList, setUserSelectList] = useState<SelectOption[]>([]);
 
-  const { isFetching: isFetchingCustomerListResponse } = useGetAllApi<CustomerResponse>(
-    CustomerConfigs.resourceUrl,
-    CustomerConfigs.resourceKey,
-    { size: 5, search: customerSelectDebouncedKeyword },
-    (customerListResponse) => {
-      const selectList: SelectOption[] = customerListResponse.content.map((item) => ({
+  const { isFetching: isFetchingUserListResponse } = useGetAllApi<UserResponse>(
+    UserConfigs.resourceUrl,
+    UserConfigs.resourceKey,
+    { size: 5, search: userSelectDebouncedKeyword },
+    (userListResponse) => {
+      const selectList: SelectOption[] = userListResponse.content.map((item) => ({
         value: String(item.id),
-        label: item.user.fullname,
+        label: item.fullname,
       }));
-      setCustomerSelectList(selectList);
+      setUserSelectList(selectList);
     }
   );
 
   return (
     <Stack pb={50}>
       <CreateUpdateTitle
-        managerPath={OrderConfigs.managerPath}
-        title={OrderConfigs.createTitle}
+        managerPath={DefaultOrderConfigs.managerPath}
+        title={DefaultOrderConfigs.createTitle}
       />
 
       <DefaultPropertyPanel/>
@@ -122,15 +124,19 @@ function OrderCreate() {
                     icon={'₫'}
                     parser={MiscUtils.parserPrice}
                     formatter={MiscUtils.formatterPrice}
+                    disabled
                   />
                 </Grid.Col>
                 <Grid.Col span={6}>
                   <Text size="sm" weight={500}>Tổng tiền trả:</Text>
                 </Grid.Col>
                 <Grid.Col span={6}>
-                  <Text size="md" color="blue" weight={500} sx={{ textAlign: 'right' }}>
-                    {MiscUtils.formatPrice(form.values.totalPay) + ' ₫'}
-                  </Text>
+                  <Stack spacing={2.5} sx={{ textAlign: 'right' }}>
+                    <Text size="md" color="blue" weight={500}>
+                      {MiscUtils.formatPrice(form.values.totalPay) + ' ₫'}
+                    </Text>
+                    <Text size="xs" color="dimmed">(chưa tính phí vận chuyển)</Text>
+                  </Stack>
                 </Grid.Col>
               </Grid>
             </Group>
@@ -145,29 +151,71 @@ function OrderCreate() {
                   <Grid.Col>
                     <Select
                       required
-                      rightSection={isFetchingCustomerListResponse ? <Loader size={16}/> : null}
-                      label="Khách hàng"
+                      rightSection={isFetchingUserListResponse ? <Loader size={16}/> : null}
+                      label="Người đặt hàng"
                       placeholder="--"
                       searchable
-                      onSearchChange={setCustomerSelectKeyword}
-                      data={customerSelectList}
-                      {...form.getInputProps('customerId')}
+                      onSearchChange={setUserSelectKeyword}
+                      data={userSelectList}
+                      {...form.getInputProps('userId')}
                     />
                   </Grid.Col>
                   <Grid.Col>
                     <TextInput
                       required
-                      label={OrderConfigs.properties.code.label}
+                      label={DefaultOrderConfigs.properties.code.label}
                       {...form.getInputProps('code')}
                     />
                   </Grid.Col>
                   <Grid.Col>
                     <Select
                       required
-                      label={OrderConfigs.properties.status.label}
+                      label={DefaultOrderConfigs.properties.status.label}
                       placeholder="--"
                       data={statusSelectList}
                       {...form.getInputProps('status')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Tên người nhận"
+                      {...form.getInputProps('toName')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Số điện thoại người nhận"
+                      {...form.getInputProps('toPhone')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Tỉnh thành người nhận"
+                      {...form.getInputProps('toProvinceName')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Quận huyện người nhận"
+                      {...form.getInputProps('toDistrictName')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Phường xã người nhận"
+                      {...form.getInputProps('toWardName')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <TextInput
+                      required
+                      label="Địa chỉ người nhận"
+                      {...form.getInputProps('toAddress')}
                     />
                   </Grid.Col>
                   <Grid.Col>
@@ -185,8 +233,8 @@ function OrderCreate() {
                       placeholder="--"
                       clearable
                       data={orderCancellationReasonSelectList}
-                      // Chỉ bật khi trạng thái đơn hàng là "Hủy bỏ" (6)
-                      disabled={form.values.status !== '6'}
+                      // Chỉ bật khi trạng thái đơn hàng là "Hủy bỏ" (5)
+                      disabled={form.values.status !== '5'}
                       {...form.getInputProps('orderCancellationReasonId')}
                     />
                   </Grid.Col>
@@ -194,6 +242,24 @@ function OrderCreate() {
                     <Textarea
                       label="Ghi chú đơn hàng"
                       {...form.getInputProps('note')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <Select
+                      required
+                      label="Hình thức thanh toán"
+                      placeholder="--"
+                      data={paymentMethodSelectList}
+                      {...form.getInputProps('paymentMethodType')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <Select
+                      required
+                      label="Trạng thái thanh toán"
+                      placeholder="--"
+                      data={paymentStatusSelectList}
+                      {...form.getInputProps('paymentStatus')}
                     />
                   </Grid.Col>
                 </Grid>

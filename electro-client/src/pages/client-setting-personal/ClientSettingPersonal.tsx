@@ -18,6 +18,9 @@ import FetchUtils, { ErrorMessage } from 'utils/FetchUtils';
 import ResourceURL from 'constants/ResourceURL';
 import NotifyUtils from 'utils/NotifyUtils';
 import { UserResponse } from 'models/User';
+import { WardResponse } from 'models/Ward';
+import WardConfigs from 'pages/ward/WardConfigs';
+import useSelectAddress from 'hooks/use-select-address';
 
 const formSchema = z.object({
   username: z.string({ invalid_type_error: 'Vui lòng không bỏ trống' })
@@ -27,6 +30,7 @@ const formSchema = z.object({
   'address.line': z.string({ invalid_type_error: 'Vui lòng không bỏ trống' }),
   'address.provinceId': z.string({ invalid_type_error: 'Vui lòng không bỏ trống' }),
   'address.districtId': z.string({ invalid_type_error: 'Vui lòng không bỏ trống' }),
+  'address.wardId': z.string({ invalid_type_error: 'Vui lòng không bỏ trống' }),
 });
 
 const genderSelectList: SelectOption[] = [
@@ -50,8 +54,9 @@ function ClientSettingPersonal() {
     fullname: user?.fullname as string,
     gender: user?.gender as 'M' | 'F',
     'address.line': user?.address.line as string,
-    'address.provinceId': String(user?.address.province?.id),
-    'address.districtId': String(user?.address.district?.id),
+    'address.provinceId': String(user?.address.province?.id) as string | null,
+    'address.districtId': String(user?.address.district?.id) as string | null,
+    'address.wardId': String(user?.address.ward?.id) as string | null,
   };
 
   const form = useForm({
@@ -59,8 +64,12 @@ function ClientSettingPersonal() {
     schema: zodResolver(formSchema),
   });
 
+  useSelectAddress(form, 'address.provinceId', 'address.districtId', 'address.wardId');
+
   const [provinceSelectList, setProvinceSelectList] = useState<SelectOption[]>([]);
   const [districtSelectList, setDistrictSelectList] = useState<SelectOption[]>([]);
+  const [wardSelectList, setWardSelectList] = useState<SelectOption[]>([]);
+
   useGetAllApi<ProvinceResponse>(ProvinceConfigs.resourceUrl, ProvinceConfigs.resourceKey,
     { all: 1 },
     (provinceListResponse) => {
@@ -72,13 +81,23 @@ function ClientSettingPersonal() {
     }
   );
   useGetAllApi<DistrictResponse>(DistrictConfigs.resourceUrl, DistrictConfigs.resourceKey,
-    { all: 1 },
+    { all: 1, filter: `province.id==${form.values['address.provinceId'] || 0}` },
     (districtListResponse) => {
       const selectList: SelectOption[] = districtListResponse.content.map((item) => ({
         value: String(item.id),
         label: item.name,
       }));
       setDistrictSelectList(selectList);
+    }
+  );
+  useGetAllApi<WardResponse>(WardConfigs.resourceUrl, WardConfigs.resourceKey,
+    { all: 1, filter: `district.id==${form.values['address.districtId'] || 0}` },
+    (wardListResponse) => {
+      const selectList: SelectOption[] = wardListResponse.content.map((item) => ({
+        value: String(item.id),
+        label: item.name,
+      }));
+      setWardSelectList(selectList);
     }
   );
 
@@ -102,6 +121,7 @@ function ClientSettingPersonal() {
         line: formValues['address.line'],
         provinceId: Number(formValues['address.provinceId']),
         districtId: Number(formValues['address.districtId']),
+        wardId: Number(formValues['address.wardId']),
       },
     };
 
@@ -150,30 +170,38 @@ function ClientSettingPersonal() {
                           data={genderSelectList}
                           {...form.getInputProps('gender')}
                         />
-                        <TextInput
+                        <Select
                           required
                           radius="md"
-                          label="Địa chỉ"
-                          placeholder="Nhập địa chỉ của bạn"
-                          {...form.getInputProps('address.line')}
+                          label="Tỉnh thành"
+                          placeholder="Chọn tỉnh thành"
+                          data={provinceSelectList}
+                          {...form.getInputProps('address.provinceId')}
                         />
                         <Select
                           required
                           radius="md"
                           label="Quận huyện"
                           placeholder="Chọn quận huyện"
-                          searchable
                           data={districtSelectList}
+                          disabled={form.values['address.provinceId'] === null}
                           {...form.getInputProps('address.districtId')}
                         />
                         <Select
                           required
                           radius="md"
-                          label="Tỉnh thành"
-                          placeholder="Chọn tỉnh thành"
-                          searchable
-                          data={provinceSelectList}
-                          {...form.getInputProps('address.provinceId')}
+                          label="Phường xã"
+                          placeholder="Chọn phường xã"
+                          data={wardSelectList}
+                          disabled={form.values['address.districtId'] === null}
+                          {...form.getInputProps('address.wardId')}
+                        />
+                        <TextInput
+                          required
+                          radius="md"
+                          label="Địa chỉ"
+                          placeholder="Nhập địa chỉ của bạn"
+                          {...form.getInputProps('address.line')}
                         />
                         <Button
                           radius="md"

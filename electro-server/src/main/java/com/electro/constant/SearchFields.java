@@ -15,6 +15,13 @@ public interface SearchFields {
             "province.code"
     );
 
+    List<String> WARD = List.of(
+            "name",
+            "code",
+            "district.name",
+            "district.code"
+    );
+
     List<String> ADDRESS = List.of(
             "line",
             "province.name",
@@ -340,14 +347,15 @@ public interface SearchFields {
 
     List<String> ORDER = List.of(
             "code",
-            "orderResource.code",
+            "toName",
+            "toPhone",
+            "toAddress",
+            "toWardName",
+            "toDistrictName",
+            "toProvinceName",
             "orderResource.name",
-            "customer.user.username",
-            "customer.user.fullname",
-            "customer.user.email",
-            "customer.user.phone",
-            "customer.user.address.district.name",
-            "customer.user.address.province.name"
+            "user.username",
+            "user.fullname"
     );
 
     List<String> ORDER_VARIANT = List.of(
@@ -367,5 +375,39 @@ public interface SearchFields {
             "slug",
             "category.name",
             "brand.name"
+    );
+
+    List<String> WAYBILL = List.of(
+            "code",
+            "order.code"
+    );
+
+    List<String> REVIEW = List.of(
+            "user.username",
+            "user.fullname",
+            "product.name",
+            "product.code",
+            "product.slug",
+            "content"
+    );
+
+    List<String> PAYMENT_METHOD = List.of(
+            "name",
+            "code"
+    );
+
+    List<String> PROMOTION = List.of(
+            "name"
+    );
+
+    List<String> MESSAGE = List.of(
+            "createdAt",
+            "room.id"
+    );
+
+    List<String> ROOM = List.of(
+            "id",
+            "name",
+            "user.id"
     );
 }

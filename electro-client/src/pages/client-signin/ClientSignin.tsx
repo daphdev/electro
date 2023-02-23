@@ -25,6 +25,7 @@ import NotifyUtils from 'utils/NotifyUtils';
 import useAuthStore from 'stores/use-auth-store';
 import { UserResponse } from 'models/User';
 import { AlertCircle } from 'tabler-icons-react';
+import { ClientCartResponse, Empty } from 'types';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -69,9 +70,16 @@ function ClientSignin() {
 
   useTitle();
 
-  const { user, updateJwtToken, updateUser, resetAuthState } = useAuthStore();
+  const {
+    user,
+    updateJwtToken,
+    updateUser,
+    resetAuthState,
+    updateCurrentCartId,
+    updateCurrentTotalCartItems,
+  } = useAuthStore();
 
-  const [counter, setCounter] = useState(5);
+  const [counter, setCounter] = useState(3);
   const [openedAlert, setOpenedAlert] = useState(false);
 
   const navigate = useNavigate();
@@ -87,6 +95,10 @@ function ClientSignin() {
 
   const userInfoApi = useMutation<UserResponse, ErrorMessage>(
     _ => FetchUtils.getWithToken(ResourceURL.CLIENT_USER_INFO)
+  );
+
+  const cartApi = useMutation<ClientCartResponse | Empty, ErrorMessage>(
+    _ => FetchUtils.getWithToken(ResourceURL.CLIENT_CART)
   );
 
   useEffect(() => {
@@ -112,6 +124,16 @@ function ClientSignin() {
 
         const userResponse = await userInfoApi.mutateAsync();
         updateUser(userResponse);
+
+        const cartResponse = await cartApi.mutateAsync();
+        // Reference: https://stackoverflow.com/a/136411
+        if (Object.hasOwn(cartResponse, 'cartId')) {
+          updateCurrentCartId(cartResponse.cartId);
+          updateCurrentTotalCartItems(cartResponse.cartItems.length);
+        } else {
+          updateCurrentCartId(null);
+          updateCurrentTotalCartItems(0);
+        }
 
         NotifyUtils.simpleSuccess('Đăng nhập thành công');
         setOpenedAlert(true);

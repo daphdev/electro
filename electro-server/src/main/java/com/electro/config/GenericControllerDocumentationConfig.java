@@ -23,6 +23,7 @@ public class GenericControllerDocumentationConfig {
     public RouterFunction<ServerResponse> route() {
         return generateRoute("provinces")
                 .and(generateRoute("districts"))
+                .and(generateRoute("wards"))
                 .and(generateRoute("addresses"))
                 .and(generateRoute("users"))
                 .and(generateRoute("roles"))
@@ -59,7 +60,12 @@ public class GenericControllerDocumentationConfig {
                 .and(generateRoute("purchase-orders"))
                 .and(generateRoute("order-resources"))
                 .and(generateRoute("order-cancellation-reasons"))
-                .and(generateRoute("orders"));
+                .and(generateRoute("orders"))
+                .and(generateRoute("waybills"))
+                .and(generateRoute("reviews"))
+                .and(generateRoute("payment-methods"))
+                .and(generateRoute("promotions"))
+                .and(generateRoute("rooms"));
     }
 
     private RouterFunction<ServerResponse> generateRoute(String resource) {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import 'dayjs/locale/vi';
+import '@smastrom/react-rating/style.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core';
@@ -54,12 +55,25 @@ import ClientCategory from 'pages/client-category';
 import ClientSearch from 'pages/client-search';
 import ClientSignin from 'pages/client-signin';
 import ClientUser from 'pages/client-user';
-import { ProtectedRoute } from 'components';
+import { ClientError, ProtectedRoute, ScrollToTop } from 'components';
 import ClientSetting from 'pages/client-setting';
 import ClientSettingPersonal from 'pages/client-setting-personal';
 import ClientSettingPhone from 'pages/client-setting-phone';
 import ClientSettingEmail from 'pages/client-setting-email';
 import ClientSettingPassword from 'pages/client-setting-password';
+import ClientWishlist from 'pages/client-wishlist';
+import ClientPreorder from 'pages/client-preorder';
+import ClientNotification from 'pages/client-notification';
+import ClientReview from 'pages/client-review';
+import ReviewManage from 'pages/review';
+import VoucherManage from 'pages/voucher';
+import PaymentMethodManage from 'pages/payment-method';
+import PromotionManage from 'pages/promotion';
+import ClientProduct from 'pages/client-product';
+import ClientCart from 'pages/client-cart';
+import WaybillManage, { WaybillCreate, WaybillUpdate } from 'pages/waybill';
+import ClientOrder from 'pages/client-order';
+import ClientOrderDetail from 'pages/client-order-detail';
 
 const queryClient = new QueryClient();
 
@@ -74,9 +88,11 @@ function App() {
         <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
           <NotificationsProvider>
             <ModalsProvider>
+              <ScrollToTop/>
               <Routes>
                 <Route path="/" element={<Client/>}>
                   <Route index element={<ClientHome/>}/>
+                  <Route path="/*" element={<ClientError/>}/>
                   <Route path="/all-categories" element={<ClientAllCategories/>}/>
                   <Route path="/category/:slug" element={<ClientCategory/>}/>
                   <Route path="/search" element={<ClientSearch/>}/>
@@ -109,6 +125,42 @@ function App() {
                   <Route path="/user/setting/password" element={(
                     <ProtectedRoute>
                       <ClientSettingPassword/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/wishlist" element={(
+                    <ProtectedRoute>
+                      <ClientWishlist/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/preorder" element={(
+                    <ProtectedRoute>
+                      <ClientPreorder/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/notification" element={(
+                    <ProtectedRoute>
+                      <ClientNotification/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/review" element={(
+                    <ProtectedRoute>
+                      <ClientReview/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/product/:slug" element={<ClientProduct/>}/>
+                  <Route path="/cart" element={(
+                    <ProtectedRoute>
+                      <ClientCart/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/order" element={(
+                    <ProtectedRoute>
+                      <ClientOrder/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/order/detail/:code" element={(
+                    <ProtectedRoute>
+                      <ClientOrderDetail/>
                     </ProtectedRoute>
                   )}/>
                 </Route>
@@ -258,6 +310,18 @@ function App() {
                   <Route path={ManagerPath.COUNT} element={<CountManage/>}/>
                   <Route path={ManagerPath.COUNT + '/create'} element={<CountCreate/>}/>
                   <Route path={ManagerPath.COUNT + '/update/:id'} element={<CountUpdate/>}/>
+                  {/* WAYBILL */}
+                  <Route path={ManagerPath.WAYBILL} element={<WaybillManage/>}/>
+                  <Route path={ManagerPath.WAYBILL + '/create'} element={<WaybillCreate/>}/>
+                  <Route path={ManagerPath.WAYBILL + '/update/:id'} element={<WaybillUpdate/>}/>
+                  {/* REVIEW */}
+                  <Route path={ManagerPath.REVIEW} element={<ReviewManage/>}/>
+                  {/* VOUCHER */}
+                  <Route path={ManagerPath.VOUCHER} element={<VoucherManage/>}/>
+                  {/* PAYMENT_METHOD */}
+                  <Route path={ManagerPath.PAYMENT_METHOD} element={<PaymentMethodManage/>}/>
+                  {/* PROMOTION */}
+                  <Route path={ManagerPath.PROMOTION} element={<PromotionManage/>}/>
                 </Route>
               </Routes>
             </ModalsProvider>

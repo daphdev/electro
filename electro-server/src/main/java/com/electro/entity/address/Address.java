@@ -35,4 +35,9 @@ public class Address extends BaseEntity {
     @JoinColumn(name = "district_id")
     @JsonBackReference
     private District district;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ward_id")
+    @JsonBackReference
+    private Ward ward;
 }

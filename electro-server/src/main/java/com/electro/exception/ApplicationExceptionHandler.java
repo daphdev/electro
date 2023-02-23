@@ -23,7 +23,7 @@ public class ApplicationExceptionHandler {
                 request.getDescription(false));
     }
 
-    @ExceptionHandler(AuthenticationException.class)
+    @ExceptionHandler({AuthenticationException.class, VerificationException.class, ExpiredTokenException.class})
     @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
     public ErrorMessage authenticationException(AuthenticationException ex, WebRequest request) {
         return new ErrorMessage(

@@ -8,6 +8,7 @@ class ResourceURL {
   static ADDRESS = apiPath + '/addresses';
   static PROVINCE = apiPath + '/provinces';
   static DISTRICT = apiPath + '/districts';
+  static WARD = apiPath + '/wards';
 
   static USER = apiPath + '/users';
   static ROLE = apiPath + '/roles';
@@ -54,6 +55,14 @@ class ResourceURL {
   static ORDER_RESOURCE = apiPath + '/order-resources';
   static ORDER_CANCELLATION_REASON = apiPath + '/order-cancellation-reasons';
 
+  static WAYBILL = apiPath + '/waybills';
+
+  static REVIEW = apiPath + '/reviews';
+
+  static VOUCHER = apiPath + '/vouchers';
+  static PAYMENT_METHOD = apiPath + '/payment-methods';
+  static PROMOTION = apiPath + '/promotions';
+
   // CLIENT
   static CLIENT_CATEGORY = clientApiPath + '/categories';
   static CLIENT_PRODUCT = clientApiPath + '/products';
@@ -64,6 +73,17 @@ class ResourceURL {
   static CLIENT_USER_PHONE_SETTING = clientApiPath + '/users/phone';
   static CLIENT_USER_EMAIL_SETTING = clientApiPath + '/users/email';
   static CLIENT_USER_PASSWORD_SETTING = clientApiPath + '/users/password';
+  static CLIENT_WISH = clientApiPath + '/wishes';
+  static CLIENT_PREORDER = clientApiPath + '/preorders';
+  static CLIENT_REVIEW = clientApiPath + '/reviews';
+  static CLIENT_REVIEW_PRODUCT = ResourceURL.CLIENT_REVIEW + '/products';
+  static CLIENT_NOTIFICATION = clientApiPath + '/notifications';
+  static CLIENT_NOTIFICATION_INIT_EVENTS = ResourceURL.CLIENT_NOTIFICATION + '/init-events';
+  static CLIENT_NOTIFICATION_EVENTS = ResourceURL.CLIENT_NOTIFICATION + '/events';
+  static CLIENT_CART = clientApiPath + '/carts';
+  static CLIENT_PAYMENT_METHOD = clientApiPath + '/payment-methods';
+  static CLIENT_ORDER = clientApiPath + '/orders';
+  static CLIENT_ORDER_CANCEL = ResourceURL.CLIENT_ORDER + '/cancel';
 
   // AUTHENTICATION
   static LOGIN = apiPath + '/auth/login';

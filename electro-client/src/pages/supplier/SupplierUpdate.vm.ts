@@ -79,6 +79,7 @@ function useSupplierUpdateViewModel(id: number) {
         line: formValues['address.line'] || null,
         provinceId: Number(formValues['address.provinceId']) || null,
         districtId: Number(formValues['address.districtId']) || null,
+        wardId: null,
       };
       const requestBody: SupplierRequest = {
         displayName: formValues.displayName,
