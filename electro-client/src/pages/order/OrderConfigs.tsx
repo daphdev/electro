@@ -14,7 +14,7 @@ import { Badge, ColorSwatch, Group, Stack, Text } from '@mantine/core';
 import MiscUtils from 'utils/MiscUtils';
 import React from 'react';
 
-class DefaultOrderConfigs extends Configs {
+class OrderConfigs extends Configs {
   static managerPath = ManagerPath.ORDER;
   static resourceUrl = ResourceURL.ORDER;
   static resourceKey = 'orders';
@@ -69,8 +69,8 @@ class DefaultOrderConfigs extends Configs {
     },
   };
 
-  static properties = DefaultOrderConfigs._rawProperties as
-    EntityPropertySchema<typeof DefaultOrderConfigs._rawProperties & typeof PageConfigs.properties>;
+  static properties = OrderConfigs._rawProperties as
+    EntityPropertySchema<typeof OrderConfigs._rawProperties & typeof PageConfigs.properties>;
 
   static initialCreateUpdateFormValues = {
     code: '',
@@ -95,7 +95,7 @@ class DefaultOrderConfigs extends Configs {
   };
 
   static createUpdateFormSchema = z.object({
-    code: z.string().min(5, MessageUtils.min(DefaultOrderConfigs.properties.code.label, 5)),
+    code: z.string().min(5, MessageUtils.min(OrderConfigs.properties.code.label, 5)),
     status: z.string(),
     toName: z.string(),
     toPhone: z.string(),
@@ -151,27 +151,27 @@ class DefaultOrderConfigs extends Configs {
     return (
       <>
         <tr>
-          <td>{DefaultOrderConfigs.properties.id.label}</td>
+          <td>{OrderConfigs.properties.id.label}</td>
           <td>{entity.id}</td>
         </tr>
         <tr>
-          <td>{DefaultOrderConfigs.properties.createdAt.label}</td>
+          <td>{OrderConfigs.properties.createdAt.label}</td>
           <td>{DateUtils.isoDateToString(entity.createdAt)}</td>
         </tr>
         <tr>
-          <td>{DefaultOrderConfigs.properties.updatedAt.label}</td>
+          <td>{OrderConfigs.properties.updatedAt.label}</td>
           <td>{DateUtils.isoDateToString(entity.updatedAt)}</td>
         </tr>
         <tr>
-          <td>{DefaultOrderConfigs.properties.code.label}</td>
+          <td>{OrderConfigs.properties.code.label}</td>
           <td>{entity.code}</td>
         </tr>
         <tr>
-          <td>{DefaultOrderConfigs.properties.status.label}</td>
-          <td>{DefaultOrderConfigs.orderStatusBadgeFragment(entity.status)}</td>
+          <td>{OrderConfigs.properties.status.label}</td>
+          <td>{OrderConfigs.orderStatusBadgeFragment(entity.status)}</td>
         </tr>
         <tr>
-          <td>{DefaultOrderConfigs.properties['orderResource.name'].label}</td>
+          <td>{OrderConfigs.properties['orderResource.name'].label}</td>
           <td>
             <Group spacing="xs">
               <ColorSwatch color={entity.orderResource.color}/>
@@ -225,7 +225,7 @@ class DefaultOrderConfigs extends Configs {
           <td>{MiscUtils.formatPrice(entity.shippingCost) + ' ₫'}</td>
         </tr>
         <tr>
-          <td>{DefaultOrderConfigs.properties.totalPay.label}</td>
+          <td>{OrderConfigs.properties.totalPay.label}</td>
           <td>{MiscUtils.formatPrice(entity.totalPay) + ' ₫'}</td>
         </tr>
         <tr>
@@ -234,11 +234,11 @@ class DefaultOrderConfigs extends Configs {
         </tr>
         <tr>
           <td>Trạng thái thanh toán</td>
-          <td>{DefaultOrderConfigs.orderPaymentStatusBadgeFragment(entity.paymentStatus)}</td>
+          <td>{OrderConfigs.orderPaymentStatusBadgeFragment(entity.paymentStatus)}</td>
         </tr>
       </>
     );
   };
 }
 
-export default DefaultOrderConfigs;
+export default OrderConfigs;

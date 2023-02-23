@@ -10,7 +10,7 @@ import { PurchaseOrderResponse } from 'models/PurchaseOrder';
 import PurchaseOrderConfigs from 'pages/purchase-order/PurchaseOrderConfigs';
 import { SelectOption } from 'types';
 import { OrderResponse } from 'models/Order';
-import DefaultOrderConfigs from 'pages/order/DefaultOrderConfigs';
+import OrderConfigs from 'pages/order/OrderConfigs';
 
 function DocketCreate() {
   const {
@@ -50,8 +50,8 @@ function DocketCreate() {
   );
 
   const { isFetching: isFetchingOrderListResponse } = useGetAllApi<OrderResponse>(
-    DefaultOrderConfigs.resourceUrl,
-    DefaultOrderConfigs.resourceKey,
+    OrderConfigs.resourceUrl,
+    OrderConfigs.resourceKey,
     { size: 5, search: orderSelectDebouncedKeyword },
     (orderListResponse) => {
       const selectList: SelectOption[] = orderListResponse.content.map((item) => ({

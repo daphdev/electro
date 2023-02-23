@@ -22,7 +22,7 @@ import useGetAllApi from 'hooks/use-get-all-api';
 import useAppStore from 'stores/use-app-store';
 import MiscUtils from 'utils/MiscUtils';
 import { useModals } from '@mantine/modals';
-import DefaultOrderConfigs from 'pages/order/DefaultOrderConfigs';
+import OrderConfigs from 'pages/order/OrderConfigs';
 
 function WaybillManage() {
   useResetManagePageState();
@@ -60,9 +60,9 @@ function WaybillManage() {
       title: <strong>Thông tin đơn hàng</strong>,
       children: (
         <EntityDetailTable
-          entityDetailTableRowsFragment={DefaultOrderConfigs.entityDetailTableRowsFragment}
-          resourceUrl={DefaultOrderConfigs.resourceUrl}
-          resourceKey={DefaultOrderConfigs.resourceKey}
+          entityDetailTableRowsFragment={OrderConfigs.entityDetailTableRowsFragment}
+          resourceUrl={OrderConfigs.resourceUrl}
+          resourceKey={OrderConfigs.resourceKey}
           entityId={orderId}
         />
       ),

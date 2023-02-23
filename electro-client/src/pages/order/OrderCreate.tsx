@@ -14,7 +14,7 @@ import {
   TextInput
 } from '@mantine/core';
 import { CreateUpdateTitle, DefaultPropertyPanel, VariantFinder, VariantTable } from 'components';
-import DefaultOrderConfigs from 'pages/order/DefaultOrderConfigs';
+import OrderConfigs from 'pages/order/OrderConfigs';
 import useOrderCreateViewModel from 'pages/order/OrderCreate.vm';
 import { EntityType } from 'components/VariantTable/VariantTable';
 import MiscUtils from 'utils/MiscUtils';
@@ -63,8 +63,8 @@ function OrderCreate() {
   return (
     <Stack pb={50}>
       <CreateUpdateTitle
-        managerPath={DefaultOrderConfigs.managerPath}
-        title={DefaultOrderConfigs.createTitle}
+        managerPath={OrderConfigs.managerPath}
+        title={OrderConfigs.createTitle}
       />
 
       <DefaultPropertyPanel/>
@@ -163,14 +163,14 @@ function OrderCreate() {
                   <Grid.Col>
                     <TextInput
                       required
-                      label={DefaultOrderConfigs.properties.code.label}
+                      label={OrderConfigs.properties.code.label}
                       {...form.getInputProps('code')}
                     />
                   </Grid.Col>
                   <Grid.Col>
                     <Select
                       required
-                      label={DefaultOrderConfigs.properties.status.label}
+                      label={OrderConfigs.properties.status.label}
                       placeholder="--"
                       data={statusSelectList}
                       {...form.getInputProps('status')}

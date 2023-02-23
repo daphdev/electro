@@ -1,5 +1,5 @@
 import { useForm, zodResolver } from '@mantine/form';
-import DefaultOrderConfigs from 'pages/order/DefaultOrderConfigs';
+import OrderConfigs from 'pages/order/OrderConfigs';
 import { OrderRequest, OrderResponse } from 'models/Order';
 import useCreateApi from 'hooks/use-create-api';
 import { useState } from 'react';
@@ -17,8 +17,8 @@ import PaymentMethodConfigs from 'pages/payment-method/PaymentMethodConfigs';
 
 function useOrderCreateViewModel() {
   const form = useForm({
-    initialValues: DefaultOrderConfigs.initialCreateUpdateFormValues,
-    schema: zodResolver(DefaultOrderConfigs.createUpdateFormSchema),
+    initialValues: OrderConfigs.initialCreateUpdateFormValues,
+    schema: zodResolver(OrderConfigs.createUpdateFormSchema),
   });
 
   const [orderResourceSelectList, setOrderResourceSelectList] = useState<SelectOption[]>([]);
@@ -27,7 +27,7 @@ function useOrderCreateViewModel() {
 
   const [variants, setVariants] = useState<VariantResponse[]>([]);
 
-  const createApi = useCreateApi<OrderRequest, OrderResponse>(DefaultOrderConfigs.resourceUrl);
+  const createApi = useCreateApi<OrderRequest, OrderResponse>(OrderConfigs.resourceUrl);
   useGetAllApi<OrderResourceResponse>(OrderResourceConfigs.resourceUrl, OrderResourceConfigs.resourceKey,
     { sort: 'id,asc', all: 1 },
     (orderResourceListResponse) => {

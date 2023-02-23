@@ -15,7 +15,7 @@ import {
 } from '@mantine/core';
 import { useParams } from 'react-router-dom';
 import { CreateUpdateTitle, DefaultPropertyPanel, VariantFinder, VariantTable } from 'components';
-import DefaultOrderConfigs from 'pages/order/DefaultOrderConfigs';
+import OrderConfigs from 'pages/order/OrderConfigs';
 import useOrderUpdateViewModel from 'pages/order/OrderUpdate.vm';
 import { useDebouncedValue } from '@mantine/hooks';
 import { SelectOption } from 'types';
@@ -74,8 +74,8 @@ function OrderUpdate() {
   return (
     <Stack pb={50}>
       <CreateUpdateTitle
-        managerPath={DefaultOrderConfigs.managerPath}
-        title={DefaultOrderConfigs.updateTitle}
+        managerPath={OrderConfigs.managerPath}
+        title={OrderConfigs.updateTitle}
       />
 
       <DefaultPropertyPanel
@@ -177,14 +177,14 @@ function OrderUpdate() {
                   <Grid.Col>
                     <TextInput
                       required
-                      label={DefaultOrderConfigs.properties.code.label}
+                      label={OrderConfigs.properties.code.label}
                       {...form.getInputProps('code')}
                     />
                   </Grid.Col>
                   <Grid.Col>
                     <Select
                       required
-                      label={DefaultOrderConfigs.properties.status.label}
+                      label={OrderConfigs.properties.status.label}
                       placeholder="--"
                       data={statusSelectList}
                       {...form.getInputProps('status')}

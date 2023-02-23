@@ -181,15 +181,11 @@ function useEmployeeUpdateViewModel(id: number) {
   const userStatusSelectList: SelectOption[] = [
     {
       value: '1',
-      label: 'Đang hoạt động',
+      label: 'Đã kích hoạt',
     },
     {
       value: '2',
-      label: 'Ít hoạt động',
-    },
-    {
-      value: '3',
-      label: 'Không hoạt động',
+      label: 'Chưa kích hoạt',
     },
   ];
 

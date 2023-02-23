@@ -33,14 +33,10 @@ function CustomerManage() {
 
   const userStatusBadgeFragment = (status: number) => {
     if (status === 1) {
-      return <Badge variant="outline" size="sm">Đang hoạt động</Badge>;
+      return <Badge color="blue" variant="outline" size="sm">Đã kích hoạt</Badge>;
     }
 
-    if (status === 2) {
-      return <Badge color="teal" variant="outline" size="sm">Ít hoạt động</Badge>;
-    }
-
-    return <Badge color="red" variant="outline" size="sm">Không hoạt động</Badge>;
+    return <Badge color="red" variant="outline" size="sm">Chưa kích hoạt</Badge>;
   };
 
   const showedPropertiesFragment = (entity: CustomerResponse) => (
