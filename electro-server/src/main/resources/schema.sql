@@ -87,21 +87,21 @@ ALTER TABLE address
 
 CREATE TABLE user
 (
-    id         BIGINT AUTO_INCREMENT NOT NULL,
-    created_at datetime              NOT NULL,
-    updated_at datetime              NOT NULL,
-    created_by BIGINT                NULL,
-    updated_by BIGINT                NULL,
-    username   VARCHAR(255)          NOT NULL,
-    password   VARCHAR(255)          NOT NULL,
-    fullname   VARCHAR(255)          NOT NULL,
-    email      VARCHAR(255)          NOT NULL,
-    phone      VARCHAR(255)          NOT NULL,
-    gender     CHAR                  NOT NULL,
-    address_id BIGINT                NOT NULL,
-    avatar     VARCHAR(255)          NULL,
-    status     TINYINT               NOT NULL,
-    reset_password_token VARCHAR(255)NULL,
+    id                   BIGINT AUTO_INCREMENT NOT NULL,
+    created_at           datetime              NOT NULL,
+    updated_at           datetime              NOT NULL,
+    created_by           BIGINT                NULL,
+    updated_by           BIGINT                NULL,
+    username             VARCHAR(255)          NOT NULL,
+    password             VARCHAR(255)          NOT NULL,
+    fullname             VARCHAR(255)          NOT NULL,
+    email                VARCHAR(255)          NOT NULL,
+    phone                VARCHAR(255)          NOT NULL,
+    gender               CHAR                  NOT NULL,
+    address_id           BIGINT                NOT NULL,
+    avatar               VARCHAR(255)          NULL,
+    status               TINYINT               NOT NULL,
+    reset_password_token VARCHAR(255)          NULL,
     CONSTRAINT pk_user PRIMARY KEY (id)
 );
 

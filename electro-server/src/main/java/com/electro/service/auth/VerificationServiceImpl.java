@@ -1,5 +1,6 @@
 package com.electro.service.auth;
 
+import com.electro.constant.AppConstants;
 import com.electro.dto.authentication.RegistrationRequest;
 import com.electro.dto.authentication.ResetPasswordRequest;
 import com.electro.dto.authentication.UserRequest;
@@ -24,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.MessageFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
@@ -180,8 +182,7 @@ public class VerificationServiceImpl implements VerificationService {
             user.setResetPasswordToken(token);
             userRepository.save(user);
 
-            // TODO: Using enum localhost in frontend
-            String link = String.format("http://localhost:3000/change-password?token=%s&email=%s", token, email);
+            String link = MessageFormat.format("{0}/change-password?token={1}&email={2}", AppConstants.DOMAIN, token, email);
             emailSenderService.sendForgetPasswordToken(user.getEmail(), link);
         } else {
             throw new VerificationException("Account is not activated");
