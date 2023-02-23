@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Center, Navbar, ScrollArea, Stack, useMantineTheme } from '@mantine/core';
 import {
   AddressBook,
+  Award,
   Box,
   Building,
   BuildingWarehouse,
@@ -11,6 +12,7 @@ import {
   Fingerprint,
   Home,
   Icon,
+  Message,
   Users
 } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
@@ -200,12 +202,19 @@ const navbarLinks: NavbarLink[] = [
     link: '/admin/waybill',
     label: 'Vận đơn',
     icon: Car,
-    childLinks: [
-      {
-        link: '/admin/waybill/shipper',
-        label: 'Nhà vận chuyển',
-      },
-    ],
+    childLinks: [],
+  },
+  {
+    link: '/admin/review',
+    label: 'Đánh giá',
+    icon: Message,
+    childLinks: [],
+  },
+  {
+    link: '/admin/reward',
+    label: 'Điểm thưởng',
+    icon: Award,
+    childLinks: [],
   },
   {
     link: '/admin/voucher',
@@ -215,6 +224,10 @@ const navbarLinks: NavbarLink[] = [
       {
         link: '/admin/payment-method',
         label: 'Hình thức thanh toán',
+      },
+      {
+        link: '/admin/promotion',
+        label: 'Khuyến mãi',
       },
     ],
   },

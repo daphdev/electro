@@ -2,6 +2,7 @@ import React from 'react';
 import {
   ActionIcon,
   Autocomplete,
+  Box,
   Burger,
   createStyles,
   Group,
@@ -82,7 +83,7 @@ const headerLinks: HeaderLink[] = [
     icon: Bell,
   },
   {
-    link: '/admin/message',
+    link: '/admin/chat',
     label: 'Tin nhắn',
     icon: Messages,
   },
@@ -121,7 +122,9 @@ export function DefaultHeader() {
           <MediaQuery largerThan="md" styles={{ display: 'none' }}>
             <Burger opened={opened} onClick={toggleOpened} size="sm"/>
           </MediaQuery>
-          <ElectroLogo/>
+          <Box component={Link} to="/admin">
+            <ElectroLogo/>
+          </Box>
         </Group>
 
         <Group>

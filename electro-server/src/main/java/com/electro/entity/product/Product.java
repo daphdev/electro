@@ -1,7 +1,10 @@
 package com.electro.entity.product;
 
 import com.electro.entity.BaseEntity;
+import com.electro.entity.client.Preorder;
+import com.electro.entity.client.Wish;
 import com.electro.entity.general.Image;
+import com.electro.entity.review.Review;
 import com.electro.entity.inventory.ProductInventoryLimit;
 import com.electro.entity.promotion.Promotion;
 import com.electro.utils.JsonNodeConverter;
@@ -24,7 +27,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -109,8 +111,17 @@ public class Product extends BaseEntity {
     @JsonBackReference
     private Guarantee guarantee;
 
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
-    private ProductInventoryLimit productInventoryLimit;
+//    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+//    private ProductInventoryLimit productInventoryLimit;
+
+    @OneToMany(mappedBy = "product")
+    private List<Wish> wishes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    private List<Preorder> preorders = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    private List<Review> reviews = new ArrayList<>();
 
     @ManyToMany(mappedBy = "products")
     private Set<Promotion> promotions = new HashSet<>();

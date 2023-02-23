@@ -1,6 +1,7 @@
 package com.electro.dto.order;
 
 import com.electro.dto.authentication.UserResponse;
+import com.electro.entity.cashbook.PaymentMethodType;
 import lombok.Data;
 import org.springframework.lang.Nullable;
 
@@ -15,23 +16,23 @@ public class OrderResponse {
     private Instant updatedAt;
     private String code;
     private Integer status;
+    private String toName;
+    private String toPhone;
+    private String toAddress;
+    private String toWardName;
+    private String toDistrictName;
+    private String toProvinceName;
     private OrderResourceResponse orderResource;
     @Nullable
     private OrderCancellationReasonResponse orderCancellationReason;
     @Nullable
     private String note;
-    private OrderResponse.CustomerResponse customer;
+    private UserResponse user;
     private Set<OrderVariantResponse> orderVariants;
     private BigDecimal totalAmount;
     private BigDecimal tax;
     private BigDecimal shippingCost;
     private BigDecimal totalPay;
-
-    @Data
-    public static class CustomerResponse {
-        private Long id;
-        private Instant createdAt;
-        private Instant updatedAt;
-        private UserResponse user;
-    }
+    private PaymentMethodType paymentMethodType;
+    private Integer paymentStatus;
 }

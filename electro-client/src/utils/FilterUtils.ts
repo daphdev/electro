@@ -232,16 +232,20 @@ class FilterUtils {
           return filterCriteria.property + '==\'*' + filterCriteria.value + '\'';
 
         case NumberOperator.EQUALS:
+        case DateOperator.EQUALS:
           return filterCriteria.property + '==' + filterCriteria.value;
         case NumberOperator.NOT_EQUALS:
+        case DateOperator.NOT_EQUALS:
           return filterCriteria.property + '!=' + filterCriteria.value;
         case NumberOperator.LESS_THAN:
           return filterCriteria.property + '=lt=' + filterCriteria.value;
         case NumberOperator.LESS_THAN_OR_EQUAL_TO:
+        case DateOperator.BEFORE:
           return filterCriteria.property + '=le=' + filterCriteria.value;
         case NumberOperator.GREATER_THAN:
           return filterCriteria.property + '=gt=' + filterCriteria.value;
         case NumberOperator.GREATER_THAN_OR_EQUAL_TO:
+        case DateOperator.AFTER:
           return filterCriteria.property + '=ge=' + filterCriteria.value;
         }
       } else {

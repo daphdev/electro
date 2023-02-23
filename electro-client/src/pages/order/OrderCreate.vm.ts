@@ -1,5 +1,5 @@
 import { useForm, zodResolver } from '@mantine/form';
-import OrderConfigs from 'pages/order/OrderConfigs';
+import DefaultOrderConfigs from 'pages/order/DefaultOrderConfigs';
 import { OrderRequest, OrderResponse } from 'models/Order';
 import useCreateApi from 'hooks/use-create-api';
 import { useState } from 'react';
@@ -12,19 +12,22 @@ import { OrderCancellationReasonResponse } from 'models/OrderCancellationReason'
 import OrderCancellationReasonConfigs from 'pages/order-cancellation-reason/OrderCancellationReasonConfigs';
 import { OrderVariantRequest } from 'models/OrderVariant';
 import produce from 'immer';
+import { PaymentMethodResponse } from 'models/PaymentMethod';
+import PaymentMethodConfigs from 'pages/payment-method/PaymentMethodConfigs';
 
 function useOrderCreateViewModel() {
   const form = useForm({
-    initialValues: OrderConfigs.initialCreateUpdateFormValues,
-    schema: zodResolver(OrderConfigs.createUpdateFormSchema),
+    initialValues: DefaultOrderConfigs.initialCreateUpdateFormValues,
+    schema: zodResolver(DefaultOrderConfigs.createUpdateFormSchema),
   });
 
   const [orderResourceSelectList, setOrderResourceSelectList] = useState<SelectOption[]>([]);
   const [orderCancellationReasonSelectList, setOrderCancellationReasonSelectList] = useState<SelectOption[]>([]);
+  const [paymentMethodSelectList, setPaymentMethodSelectList] = useState<SelectOption[]>([]);
 
   const [variants, setVariants] = useState<VariantResponse[]>([]);
 
-  const createApi = useCreateApi<OrderRequest, OrderResponse>(OrderConfigs.resourceUrl);
+  const createApi = useCreateApi<OrderRequest, OrderResponse>(DefaultOrderConfigs.resourceUrl);
   useGetAllApi<OrderResourceResponse>(OrderResourceConfigs.resourceUrl, OrderResourceConfigs.resourceKey,
     { sort: 'id,asc', all: 1 },
     (orderResourceListResponse) => {
@@ -45,20 +48,38 @@ function useOrderCreateViewModel() {
       setOrderCancellationReasonSelectList(selectList);
     }
   );
+  useGetAllApi<PaymentMethodResponse>(PaymentMethodConfigs.resourceUrl, PaymentMethodConfigs.resourceKey,
+    { sort: 'id,asc', all: 1 },
+    (paymentMethodListResponse) => {
+      const selectList: SelectOption[] = paymentMethodListResponse.content.map((item) => ({
+        value: item.code,
+        label: item.name,
+      }));
+      setPaymentMethodSelectList(selectList);
+    }
+  );
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     const requestBody: OrderRequest = {
       code: formValues.code,
       status: Number(formValues.status),
+      toName: formValues.toName,
+      toPhone: formValues.toPhone,
+      toAddress: formValues.toAddress,
+      toWardName: formValues.toWardName,
+      toDistrictName: formValues.toDistrictName,
+      toProvinceName: formValues.toProvinceName,
       orderResourceId: Number(formValues.orderResourceId),
       orderCancellationReasonId: Number(formValues.orderCancellationReasonId) || null,
       note: formValues.note || null,
-      customerId: Number(formValues.customerId),
+      userId: Number(formValues.userId),
       orderVariants: formValues.orderVariants,
       totalAmount: formValues.totalAmount,
       tax: formValues.tax,
       shippingCost: formValues.shippingCost,
       totalPay: formValues.totalPay,
+      paymentMethodType: formValues.paymentMethodType,
+      paymentStatus: Number(formValues.paymentStatus),
     };
     createApi.mutate(requestBody);
   });
@@ -141,11 +162,18 @@ function useOrderCreateViewModel() {
     },
     {
       value: '5',
-      label: 'Hoàn thành',
+      label: 'Hủy bỏ',
+    },
+  ];
+
+  const paymentStatusSelectList: SelectOption[] = [
+    {
+      value: '1',
+      label: 'Chưa thanh toán',
     },
     {
-      value: '6',
-      label: 'Hủy bỏ',
+      value: '2',
+      label: 'Đã thanh toán',
     },
   ];
 
@@ -159,7 +187,9 @@ function useOrderCreateViewModel() {
     resetForm,
     orderResourceSelectList,
     orderCancellationReasonSelectList,
+    paymentMethodSelectList,
     statusSelectList,
+    paymentStatusSelectList,
     variants,
   };
 }

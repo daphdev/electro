@@ -17,7 +17,9 @@ const useStyles = createStyles((theme) => ({
     height: 40,
     width: 40,
     cursor: 'pointer',
-    color: theme.white,
+    color: theme.colors.gray[5],
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[0],
+    borderRadius: theme.radius.md,
     opacity: .75,
     transition: 'opacity .2s ease-in',
 
@@ -28,7 +30,7 @@ const useStyles = createStyles((theme) => ({
 
   indicator: {
     borderRadius: 5,
-    background: theme.white,
+    background: theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[2],
     opacity: .5,
     width: 30,
     height: 5,
@@ -52,7 +54,8 @@ function ClientCarousel({ children }: { children: React.ReactElement[] }) {
       className={classes.carousel}
       infiniteLoop
       autoPlay
-      interval={5000}
+      emulateTouch
+      interval={10_000}
       showStatus={false}
       showThumbs={false}
       renderArrowPrev={(onClickHandler, hasPrev, label) =>
@@ -64,7 +67,7 @@ function ClientCarousel({ children }: { children: React.ReactElement[] }) {
             className={classes.arrow}
             style={{ left: 15 }}
           >
-            <ChevronLeft size={40} strokeWidth={1.5}/>
+            <ChevronLeft size={30} strokeWidth={1.5}/>
           </ActionIcon>
         )
       }
@@ -77,7 +80,7 @@ function ClientCarousel({ children }: { children: React.ReactElement[] }) {
             className={classes.arrow}
             style={{ right: 15 }}
           >
-            <ChevronRight size={40} strokeWidth={1.5}/>
+            <ChevronRight size={30} strokeWidth={1.5}/>
           </ActionIcon>
         )
       }

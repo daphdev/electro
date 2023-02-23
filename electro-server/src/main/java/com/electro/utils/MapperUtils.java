@@ -3,6 +3,7 @@ package com.electro.utils;
 import com.electro.entity.BaseEntity;
 import com.electro.entity.address.District;
 import com.electro.entity.address.Province;
+import com.electro.entity.address.Ward;
 import com.electro.entity.authentication.User;
 import com.electro.entity.customer.Customer;
 import com.electro.entity.customer.CustomerGroup;
@@ -35,7 +36,9 @@ import com.electro.entity.product.Unit;
 import com.electro.entity.product.Variant;
 import com.electro.repository.address.DistrictRepository;
 import com.electro.repository.address.ProvinceRepository;
+import com.electro.repository.address.WardRepository;
 import com.electro.repository.authentication.RoleRepository;
+import com.electro.repository.authentication.UserRepository;
 import com.electro.repository.product.ProductRepository;
 import com.electro.repository.product.TagRepository;
 import com.electro.repository.product.VariantRepository;
@@ -46,6 +49,7 @@ import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
@@ -69,13 +73,21 @@ public abstract class MapperUtils {
     private ProvinceRepository provinceRepository;
     @Autowired
     private DistrictRepository districtRepository;
+    @Autowired
+    private WardRepository wardRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public Province mapToProvince(Long id) {
-        return provinceRepository.getById(id);
+    public Province mapToProvince(@Nullable Long id) {
+        return id == null ? null : provinceRepository.getById(id);
     }
 
-    public District mapToDistrict(Long id) {
-        return districtRepository.getById(id);
+    public District mapToDistrict(@Nullable Long id) {
+        return id == null ? null : districtRepository.getById(id);
+    }
+
+    public Ward mapToWard(@Nullable Long id) {
+        return id == null ? null : wardRepository.getById(id);
     }
 
     public abstract Office mapToOffice(Long id);
@@ -126,6 +138,10 @@ public abstract class MapperUtils {
 
     public Product mapToProduct(Long id) {
         return productRepository.getById(id);
+    }
+
+    public User mapToUser(Long id) {
+        return userRepository.getById(id);
     }
 
     @Named("hashPassword")

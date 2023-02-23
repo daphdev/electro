@@ -66,6 +66,7 @@ function useUserCreateViewModel() {
         line: formValues['address.line'],
         provinceId: Number(formValues['address.provinceId']),
         districtId: Number(formValues['address.districtId']),
+        wardId: null,
       },
       avatar: formValues.avatar.trim() || null,
       status: Number(formValues.status),

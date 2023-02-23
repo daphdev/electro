@@ -8,10 +8,14 @@ import com.electro.dto.address.DistrictRequest;
 import com.electro.dto.address.DistrictResponse;
 import com.electro.dto.address.ProvinceRequest;
 import com.electro.dto.address.ProvinceResponse;
+import com.electro.dto.address.WardRequest;
+import com.electro.dto.address.WardResponse;
 import com.electro.dto.authentication.RoleRequest;
 import com.electro.dto.authentication.RoleResponse;
 import com.electro.dto.authentication.UserRequest;
 import com.electro.dto.authentication.UserResponse;
+import com.electro.dto.cashbook.PaymentMethodRequest;
+import com.electro.dto.cashbook.PaymentMethodResponse;
 import com.electro.dto.customer.CustomerGroupRequest;
 import com.electro.dto.customer.CustomerGroupResponse;
 import com.electro.dto.customer.CustomerRequest;
@@ -80,12 +84,18 @@ import com.electro.dto.product.UnitRequest;
 import com.electro.dto.product.UnitResponse;
 import com.electro.dto.product.VariantRequest;
 import com.electro.dto.product.VariantResponse;
+import com.electro.dto.review.ReviewRequest;
+import com.electro.dto.review.ReviewResponse;
+import com.electro.dto.waybill.WaybillRequest;
+import com.electro.dto.waybill.WaybillResponse;
 import com.electro.dto.promotion.PromotionRequest;
 import com.electro.dto.promotion.PromotionResponse;
 import com.electro.entity.address.Address;
 import com.electro.entity.address.District;
+import com.electro.entity.address.Ward;
 import com.electro.entity.authentication.Role;
 import com.electro.entity.authentication.User;
+import com.electro.entity.cashbook.PaymentMethod;
 import com.electro.entity.customer.Customer;
 import com.electro.entity.customer.CustomerGroup;
 import com.electro.entity.customer.CustomerResource;
@@ -99,7 +109,6 @@ import com.electro.entity.employee.Office;
 import com.electro.entity.general.Image;
 import com.electro.entity.inventory.Count;
 import com.electro.entity.inventory.Destination;
-import com.electro.entity.inventory.Docket;
 import com.electro.entity.inventory.DocketReason;
 import com.electro.entity.inventory.ProductInventoryLimit;
 import com.electro.entity.inventory.PurchaseOrder;
@@ -120,10 +129,13 @@ import com.electro.entity.product.Supplier;
 import com.electro.entity.product.Tag;
 import com.electro.entity.product.Unit;
 import com.electro.entity.product.Variant;
+import com.electro.entity.review.Review;
 import com.electro.mapper.address.AddressMapper;
 import com.electro.mapper.address.DistrictMapper;
+import com.electro.mapper.address.WardMapper;
 import com.electro.mapper.authentication.RoleMapper;
 import com.electro.mapper.authentication.UserMapper;
+import com.electro.mapper.cashbook.PaymentMethodMapper;
 import com.electro.mapper.customer.CustomerGroupMapper;
 import com.electro.mapper.customer.CustomerMapper;
 import com.electro.mapper.customer.CustomerResourceMapper;
@@ -137,7 +149,6 @@ import com.electro.mapper.employee.OfficeMapper;
 import com.electro.mapper.general.ImageMapper;
 import com.electro.mapper.inventory.CountMapper;
 import com.electro.mapper.inventory.DestinationMapper;
-import com.electro.mapper.inventory.DocketMapper;
 import com.electro.mapper.inventory.DocketReasonMapper;
 import com.electro.mapper.inventory.ProductInventoryLimitMapper;
 import com.electro.mapper.inventory.PurchaseOrderMapper;
@@ -158,10 +169,13 @@ import com.electro.mapper.product.SupplierMapper;
 import com.electro.mapper.product.TagMapper;
 import com.electro.mapper.product.UnitMapper;
 import com.electro.mapper.product.VariantMapper;
+import com.electro.mapper.review.ReviewMapper;
 import com.electro.repository.address.AddressRepository;
 import com.electro.repository.address.DistrictRepository;
+import com.electro.repository.address.WardRepository;
 import com.electro.repository.authentication.RoleRepository;
 import com.electro.repository.authentication.UserRepository;
+import com.electro.repository.cashbook.PaymentMethodRepository;
 import com.electro.repository.customer.CustomerGroupRepository;
 import com.electro.repository.customer.CustomerRepository;
 import com.electro.repository.customer.CustomerResourceRepository;
@@ -176,7 +190,6 @@ import com.electro.repository.general.ImageRepository;
 import com.electro.repository.inventory.CountRepository;
 import com.electro.repository.inventory.DestinationRepository;
 import com.electro.repository.inventory.DocketReasonRepository;
-import com.electro.repository.inventory.DocketRepository;
 import com.electro.repository.inventory.ProductInventoryLimitRepository;
 import com.electro.repository.inventory.PurchaseOrderRepository;
 import com.electro.repository.inventory.StorageLocationRepository;
@@ -196,9 +209,12 @@ import com.electro.repository.product.SupplierRepository;
 import com.electro.repository.product.TagRepository;
 import com.electro.repository.product.UnitRepository;
 import com.electro.repository.product.VariantRepository;
+import com.electro.repository.review.ReviewRepository;
 import com.electro.service.CrudService;
 import com.electro.service.GenericService;
 import com.electro.service.address.ProvinceService;
+import com.electro.service.inventory.DocketService;
+import com.electro.service.waybill.WaybillService;
 import com.electro.service.promotion.PromotionService;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
@@ -223,6 +239,7 @@ public class GenericMappingRegister {
     // Controllers
     private GenericController<ProvinceRequest, ProvinceResponse> provinceController;
     private GenericController<DistrictRequest, DistrictResponse> districtController;
+    private GenericController<WardRequest, WardResponse> wardController;
     private GenericController<AddressRequest, AddressResponse> addressController;
     private GenericController<UserRequest, UserResponse> userController;
     private GenericController<RoleRequest, RoleResponse> roleController;
@@ -260,10 +277,14 @@ public class GenericMappingRegister {
     private GenericController<OrderResourceRequest, OrderResourceResponse> orderResourceController;
     private GenericController<OrderCancellationReasonRequest, OrderCancellationReasonResponse> orderCancellationReasonController;
     private GenericController<OrderRequest, OrderResponse> orderController;
+    private GenericController<WaybillRequest, WaybillResponse> waybillController;
+    private GenericController<ReviewRequest, ReviewResponse> reviewController;
+    private GenericController<PaymentMethodRequest, PaymentMethodResponse> paymentMethodController;
     private GenericController<PromotionRequest, PromotionResponse> promotionController;
 
     // Services
     private GenericService<District, DistrictRequest, DistrictResponse> districtService;
+    private GenericService<Ward, WardRequest, WardResponse> wardService;
     private GenericService<Address, AddressRequest, AddressResponse> addressService;
     private GenericService<User, UserRequest, UserResponse> userService;
     private GenericService<Role, RoleRequest, RoleResponse> roleService;
@@ -295,12 +316,13 @@ public class GenericMappingRegister {
     private GenericService<Destination, DestinationRequest, DestinationResponse> destinationService;
     private GenericService<DocketReason, DocketReasonRequest, DocketReasonResponse> docketReasonService;
     private GenericService<Transfer, TransferRequest, TransferResponse> transferService;
-    private GenericService<Docket, DocketRequest, DocketResponse> docketService;
     private GenericService<StorageLocation, StorageLocationRequest, StorageLocationResponse> storageLocationService;
     private GenericService<PurchaseOrder, PurchaseOrderRequest, PurchaseOrderResponse> purchaseOrderService;
     private GenericService<OrderResource, OrderResourceRequest, OrderResourceResponse> orderResourceService;
     private GenericService<OrderCancellationReason, OrderCancellationReasonRequest, OrderCancellationReasonResponse> orderCancellationReasonService;
     private GenericService<Order, OrderRequest, OrderResponse> orderService;
+    private GenericService<Review, ReviewRequest, ReviewResponse> reviewService;
+    private GenericService<PaymentMethod, PaymentMethodRequest, PaymentMethodResponse> paymentMethodService;
 
     @PostConstruct
     public void registerControllers() throws NoSuchMethodException {
@@ -313,6 +335,13 @@ public class GenericMappingRegister {
                 SearchFields.DISTRICT,
                 ResourceName.DISTRICT
         ), DistrictRequest.class);
+
+        register("wards", wardController, wardService.init(
+                context.getBean(WardRepository.class),
+                context.getBean(WardMapper.class),
+                SearchFields.WARD,
+                ResourceName.WARD
+        ), WardRequest.class);
 
         register("addresses", addressController, addressService.init(
                 context.getBean(AddressRepository.class),
@@ -531,12 +560,7 @@ public class GenericMappingRegister {
                 ResourceName.TRANSFER
         ), TransferRequest.class);
 
-        register("dockets", docketController, docketService.init(
-                context.getBean(DocketRepository.class),
-                context.getBean(DocketMapper.class),
-                SearchFields.DOCKET,
-                ResourceName.DOCKET
-        ), DocketRequest.class);
+        register("dockets", docketController, context.getBean(DocketService.class), DocketRequest.class);
 
         register("storage-locations", storageLocationController, storageLocationService.init(
                 context.getBean(StorageLocationRepository.class),
@@ -572,6 +596,22 @@ public class GenericMappingRegister {
                 SearchFields.ORDER,
                 ResourceName.ORDER
         ), OrderRequest.class);
+
+        register("waybills", waybillController, context.getBean(WaybillService.class), WaybillRequest.class);
+
+        register("reviews", reviewController, reviewService.init(
+                context.getBean(ReviewRepository.class),
+                context.getBean(ReviewMapper.class),
+                SearchFields.REVIEW,
+                ResourceName.REVIEW
+        ), ReviewRequest.class);
+
+        register("payment-methods", paymentMethodController, paymentMethodService.init(
+                context.getBean(PaymentMethodRepository.class),
+                context.getBean(PaymentMethodMapper.class),
+                SearchFields.PAYMENT_METHOD,
+                ResourceName.PAYMENT_METHOD
+        ), PaymentMethodRequest.class);
 
         register("promotions", promotionController, context.getBean(PromotionService.class), PromotionRequest.class);
 

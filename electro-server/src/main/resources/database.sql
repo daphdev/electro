@@ -3,6 +3,10 @@
 
     drop table if exists prod.brand;
 
+    drop table if exists prod.cart;
+
+    drop table if exists prod.cart_variant;
+
     drop table if exists prod.category;
 
     drop table if exists prod.count;
@@ -41,6 +45,8 @@
 
     drop table if exists prod.job_type;
 
+    drop table if exists prod.notification;
+
     drop table if exists prod.office;
 
     drop table if exists prod.`order`;
@@ -50,6 +56,10 @@
     drop table if exists prod.order_resource;
 
     drop table if exists prod.order_variant;
+
+    drop table if exists prod.payment_method;
+
+    drop table if exists prod.preorder;
 
     drop table if exists prod.product;
 
@@ -68,6 +78,8 @@
     drop table if exists prod.purchase_order;
 
     drop table if exists prod.purchase_order_variant;
+
+    drop table if exists prod.review;
 
     drop table if exists prod.role;
 
@@ -91,7 +103,13 @@
 
     drop table if exists prod.variant_inventory_limit;
 
+    drop table if exists prod.ward;
+
     drop table if exists prod.warehouse;
+
+    drop table if exists prod.waybill;
+
+    drop table if exists prod.wish;
 
     create table prod.address (
        id bigint not null auto_increment,
@@ -102,6 +120,7 @@
         line varchar(255),
         district_id bigint,
         province_id bigint,
+        ward_id bigint,
         primary key (id)
     ) engine=MyISAM;
 
@@ -116,6 +135,25 @@
         name varchar(255) not null,
         status TINYINT not null,
         primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.cart (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        status TINYINT not null,
+        user_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.cart_variant (
+       cart_id bigint not null,
+        variant_id bigint not null,
+        created_at datetime not null,
+        quantity integer not null,
+        primary key (cart_id, variant_id)
     ) engine=MyISAM;
 
     create table prod.category (
@@ -358,6 +396,20 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.notification (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        anchor varchar(255),
+        message varchar(255) not null,
+        status TINYINT not null,
+        type varchar(255) not null,
+        user_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.office (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -378,14 +430,22 @@
         updated_by bigint,
         code varchar(255) not null,
         note varchar(255),
+        payment_method_type varchar(255) not null,
+        payment_status TINYINT not null,
         shipping_cost DECIMAL(15,5) not null,
         status TINYINT not null,
         tax DECIMAL(15,5) not null,
+        to_address varchar(255) not null,
+        to_district_name varchar(255) not null,
+        to_name varchar(255) not null,
+        to_phone varchar(255) not null,
+        to_province_name varchar(255) not null,
+        to_ward_name varchar(255) not null,
         total_amount DECIMAL(15,5) not null,
         total_pay DECIMAL(15,5) not null,
-        customer_id bigint not null,
         order_cancellation_reason_id bigint,
         order_resource_id bigint not null,
+        user_id bigint not null,
         primary key (id)
     ) engine=MyISAM;
 
@@ -422,6 +482,30 @@
         price DECIMAL(15,5) not null,
         quantity integer not null,
         primary key (order_id, variant_id)
+    ) engine=MyISAM;
+
+    create table prod.payment_method (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255) not null,
+        name varchar(255) not null,
+        status TINYINT not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.preorder (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        status TINYINT not null,
+        product_id bigint not null,
+        user_id bigint not null,
+        primary key (id)
     ) engine=MyISAM;
 
     create table prod.product (
@@ -529,6 +613,21 @@
         cost double precision not null,
         quantity integer not null,
         primary key (purchase_order_id, variant_id)
+    ) engine=MyISAM;
+
+    create table prod.review (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        content TEXT not null,
+        rating_score TINYINT not null,
+        reply TEXT,
+        status TINYINT not null,
+        product_id bigint not null,
+        user_id bigint not null,
+        primary key (id)
     ) engine=MyISAM;
 
     create table prod.role (
@@ -678,6 +777,18 @@
         primary key (variant_id)
     ) engine=MyISAM;
 
+    create table prod.ward (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(35) not null,
+        name varchar(255) not null,
+        district_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.warehouse (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -688,6 +799,40 @@
         name varchar(255) not null,
         status TINYINT not null,
         address_id bigint,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.waybill (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        cod_amount integer not null,
+        code varchar(255) not null,
+        expected_delivery_time datetime not null,
+        ghn_payment_type_id integer not null,
+        ghn_required_note varchar(255) not null,
+        height integer not null,
+        length integer not null,
+        note varchar(255),
+        shipping_date datetime not null,
+        shipping_fee integer not null,
+        status TINYINT not null,
+        weight integer not null,
+        width integer not null,
+        order_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.wish (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        product_id bigint not null,
+        user_id bigint not null,
         primary key (id)
     ) engine=MyISAM;
 
@@ -736,6 +881,9 @@
     alter table prod.order_resource 
        add constraint UK_t9tuhf1vpiqqfyr9cr6nnu7yv unique (code);
 
+    alter table prod.preorder 
+       add constraint uc_preorder unique (user_id, product_id);
+
     alter table prod.product 
        add constraint UK_h3w5r1mx6d0e5c6um32dgyjej unique (code);
 
@@ -747,6 +895,9 @@
 
     alter table prod.purchase_order 
        add constraint UK_lyhuui3e3rh2a6itktx3rwrpe unique (code);
+
+    alter table prod.review 
+       add constraint uc_review unique (user_id, product_id);
 
     alter table prod.role 
        add constraint UK_c36say97xydpmgigg38qv5l2p unique (code);
@@ -784,6 +935,15 @@
     alter table prod.warehouse 
        add constraint UK_5hyew1b3bewu839bc54o2jo05 unique (address_id);
 
+    alter table prod.waybill 
+       add constraint UK_o1ajfse9ste901tf5b97l7vm5 unique (code);
+
+    alter table prod.waybill 
+       add constraint UK_qjsm9ff8ehn9sp3brtnvjkdjr unique (order_id);
+
+    alter table prod.wish 
+       add constraint uc_wish unique (user_id, product_id);
+
     alter table prod.address 
        add constraint FKqbjwfi50pdenou8j14knnffrh 
        foreign key (district_id) 
@@ -793,6 +953,26 @@
        add constraint FKf8x0jfwoo94op8u88og1ohdcn 
        foreign key (province_id) 
        references prod.province (id);
+
+    alter table prod.address 
+       add constraint FKq7vspx6bqxq5lawbv2calw5lb 
+       foreign key (ward_id) 
+       references prod.ward (id);
+
+    alter table prod.cart 
+       add constraint FKl70asp4l4w0jmbm1tqyofho4o 
+       foreign key (user_id) 
+       references prod.user (id);
+
+    alter table prod.cart_variant 
+       add constraint FKhmyixkomygkkdpbgkpewg6bdx 
+       foreign key (cart_id) 
+       references prod.cart (id);
+
+    alter table prod.cart_variant 
+       add constraint FKgn4wklrcnmghvlwccghh6l3fm 
+       foreign key (variant_id) 
+       references prod.variant (id);
 
     alter table prod.category 
        add constraint FKap0cnk1255oj4bwam7in1hxxv 
@@ -909,15 +1089,15 @@
        foreign key (product_id) 
        references prod.product (id);
 
+    alter table prod.notification 
+       add constraint FKb0yvoep4h4k92ipon31wmdf7e 
+       foreign key (user_id) 
+       references prod.user (id);
+
     alter table prod.office 
        add constraint FKak81m3gkj8xq5t48xuflbj0kn 
        foreign key (address_id) 
        references prod.address (id);
-
-    alter table prod.`order` 
-       add constraint FK1oduxyuuo3n2g98l3j7754vym 
-       foreign key (customer_id) 
-       references prod.customer (id);
 
     alter table prod.`order` 
        add constraint FK1kb7gv71fjr6lrhy901bn9fy6 
@@ -928,6 +1108,11 @@
        add constraint FKgr04wlw4hnfsloesmls7q4prc 
        foreign key (order_resource_id) 
        references prod.order_resource (id);
+
+    alter table prod.`order` 
+       add constraint FKcpl0mjoeqhxvgeeeq5piwpd3i 
+       foreign key (user_id) 
+       references prod.user (id);
 
     alter table prod.order_resource 
        add constraint FKee6qcbh5rwnq9ecbajwmr8051 
@@ -943,6 +1128,16 @@
        add constraint FKe57gamff0q357714my3ibs6a 
        foreign key (variant_id) 
        references prod.variant (id);
+
+    alter table prod.preorder 
+       add constraint FKnl5u7s90vitdf2fyb8vtnp7i2 
+       foreign key (product_id) 
+       references prod.product (id);
+
+    alter table prod.preorder 
+       add constraint FKl0pm6jiq78m1rhg2ntmoacemw 
+       foreign key (user_id) 
+       references prod.user (id);
 
     alter table prod.product 
        add constraint FKs6cydsualtsrprvlf2bb3lcam 
@@ -1014,6 +1209,16 @@
        foreign key (variant_id) 
        references prod.variant (id);
 
+    alter table prod.review 
+       add constraint FKiyof1sindb9qiqr9o8npj8klt 
+       foreign key (product_id) 
+       references prod.product (id);
+
+    alter table prod.review 
+       add constraint FKiyf57dy48lyiftdrf7y87rnxi 
+       foreign key (user_id) 
+       references prod.user (id);
+
     alter table prod.storage_location 
        add constraint FK956y7ykytekn259p907onqkiw 
        foreign key (warehouse_id) 
@@ -1064,7 +1269,27 @@
        foreign key (variant_id) 
        references prod.variant (id);
 
+    alter table prod.ward 
+       add constraint FKslko72wj5nauqvsgefqkvwpsb 
+       foreign key (district_id) 
+       references prod.district (id);
+
     alter table prod.warehouse 
        add constraint FKp7xymgre8vt94ihf75e9movyt 
        foreign key (address_id) 
        references prod.address (id);
+
+    alter table prod.waybill 
+       add constraint FKtm4nwydrvd6klhjy7i9slhf83 
+       foreign key (order_id) 
+       references prod.`order` (id);
+
+    alter table prod.wish 
+       add constraint FKh3bvkvkslnehbxqma1x2eynqb 
+       foreign key (product_id) 
+       references prod.product (id);
+
+    alter table prod.wish 
+       add constraint FKkqi4lso34o5xjkhiw71uadwvu 
+       foreign key (user_id) 
+       references prod.user (id);
