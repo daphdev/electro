@@ -1,11 +1,13 @@
 package com.electro.controller.inventory;
 
+import com.electro.constant.AppConstants;
 import com.electro.dto.inventory.PurchaseOrderVariantKeyRequest;
 import com.electro.entity.inventory.PurchaseOrderVariantKey;
 import com.electro.service.inventory.PurchaseOrderVariantService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/purchase-order-variants")
 @AllArgsConstructor
+@CrossOrigin(AppConstants.DOMAIN)
 public class PurchaseOrderVariantController {
 
     private PurchaseOrderVariantService purchaseOrderVariantService;

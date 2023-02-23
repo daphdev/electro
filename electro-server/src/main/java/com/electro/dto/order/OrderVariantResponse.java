@@ -2,6 +2,7 @@ package com.electro.dto.order;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
+import org.springframework.lang.Nullable;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -22,8 +23,8 @@ public class OrderVariantResponse {
         private String sku;
         private Double cost;
         private Double price;
+        @Nullable
         private JsonNode properties;
-        private JsonNode images;
         private Integer status;
 
         @Data

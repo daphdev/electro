@@ -48,6 +48,7 @@ function useOfficeCreateViewModel() {
         line: formValues['address.line'],
         provinceId: Number(formValues['address.provinceId']),
         districtId: Number(formValues['address.districtId']),
+        wardId: null,
       },
       status: Number(formValues.status),
     };

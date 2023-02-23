@@ -46,6 +46,7 @@ function useAddressCreateViewModel() {
       line: formValues.line || null,
       provinceId: Number(formValues.provinceId) || null,
       districtId: Number(formValues.districtId) || null,
+      wardId: null,
     };
     createApi.mutate(requestBody);
   });

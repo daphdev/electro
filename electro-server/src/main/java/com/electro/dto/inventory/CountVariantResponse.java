@@ -2,6 +2,7 @@ package com.electro.dto.inventory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
+import org.springframework.lang.Nullable;
 
 import java.time.Instant;
 
@@ -20,8 +21,8 @@ public class CountVariantResponse {
         private String sku;
         private Double cost;
         private Double price;
+        @Nullable
         private JsonNode properties;
-        private JsonNode images;
         private Integer status;
 
         @Data

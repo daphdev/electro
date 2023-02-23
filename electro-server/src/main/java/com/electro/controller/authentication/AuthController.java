@@ -1,6 +1,7 @@
 package com.electro.controller.authentication;
 
 import com.electro.config.security.JwtUtils;
+import com.electro.constant.AppConstants;
 import com.electro.dto.authentication.JwtResponse;
 import com.electro.dto.authentication.LoginRequest;
 import com.electro.dto.authentication.RegistrationRequest;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +30,7 @@ import java.time.Instant;
 @RestController
 @RequestMapping("/api/auth")
 @AllArgsConstructor
+@CrossOrigin(AppConstants.DOMAIN)
 public class AuthController {
 
     private AuthenticationManager authenticationManager;
@@ -35,7 +38,7 @@ public class AuthController {
     private JwtUtils jwtUtils;
 
     @PostMapping("login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<JwtResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 

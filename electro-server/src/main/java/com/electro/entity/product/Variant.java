@@ -1,11 +1,10 @@
 package com.electro.entity.product;
 
 import com.electro.entity.BaseEntity;
+import com.electro.entity.cart.CartVariant;
 import com.electro.entity.inventory.CountVariant;
 import com.electro.entity.inventory.DocketVariant;
 import com.electro.entity.inventory.PurchaseOrderVariant;
-import com.electro.entity.inventory.StorageLocation;
-import com.electro.entity.inventory.VariantInventoryLimit;
 import com.electro.entity.order.OrderVariant;
 import com.electro.utils.JsonNodeConverter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -24,7 +23,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
@@ -55,6 +53,7 @@ public class Variant extends BaseEntity {
     @Convert(converter = JsonNodeConverter.class)
     private JsonNode properties;
 
+    @Deprecated
     @Column(name = "images", columnDefinition = "JSON")
     @Convert(converter = JsonNodeConverter.class)
     private JsonNode images;
@@ -62,11 +61,11 @@ public class Variant extends BaseEntity {
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
 
-    @OneToOne(mappedBy = "variant", cascade = CascadeType.ALL)
-    private StorageLocation storageLocation;
-
-    @OneToOne(mappedBy = "variant", cascade = CascadeType.ALL)
-    private VariantInventoryLimit variantInventoryLimit;
+//    @OneToOne(mappedBy = "variant", cascade = CascadeType.ALL)
+//    private StorageLocation storageLocation;
+//
+//    @OneToOne(mappedBy = "variant", cascade = CascadeType.ALL)
+//    private VariantInventoryLimit variantInventoryLimit;
 
     @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
     private Set<CountVariant> countVariants = new HashSet<>();
@@ -79,4 +78,7 @@ public class Variant extends BaseEntity {
 
     @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
     private Set<OrderVariant> orderVariants = new HashSet<>();
+
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
+    private Set<CartVariant> cartVariants = new HashSet<>();
 }

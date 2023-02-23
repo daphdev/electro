@@ -151,6 +151,7 @@ function useEmployeeUpdateViewModel(id: number) {
             line: formValues['user.address.line'],
             provinceId: Number(formValues['user.address.provinceId']),
             districtId: Number(formValues['user.address.districtId']),
+            wardId: null,
           },
           avatar: formValues['user.avatar'].trim() || null,
           status: Number(formValues['user.status']),

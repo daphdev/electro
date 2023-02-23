@@ -22,4 +22,8 @@ public class ListResponse<T> {
         this.totalPages = page.getTotalPages();
         this.last = page.isLast();
     }
+
+    public static <T, E> ListResponse<T> of(List<T> content, Page<E> page) {
+        return new ListResponse<>(content, page);
+    }
 }

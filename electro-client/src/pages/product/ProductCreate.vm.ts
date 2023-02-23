@@ -3,9 +3,9 @@ import ProductConfigs from 'pages/product/ProductConfigs';
 import {
   ProductPropertyItem,
   ProductRequest,
+  ProductRequest_TagRequest,
   ProductResponse,
-  SpecificationItem,
-  Tag_ProductRequest
+  SpecificationItem
 } from 'models/Product';
 import useCreateApi from 'hooks/use-create-api';
 import { CollectionWrapper, FileWithPreview, SelectOption } from 'types';
@@ -140,7 +140,7 @@ function useProductCreateViewModel() {
     }
   );
 
-  const transformTags = (tags: string[]): Tag_ProductRequest[] => tags.map((tagIdOrName) => {
+  const transformTags = (tags: string[]): ProductRequest_TagRequest[] => tags.map((tagIdOrName) => {
     if (tagIdOrName.includes('#ORIGINAL')) {
       return { id: Number(tagIdOrName.split('#')[0]) };
     }

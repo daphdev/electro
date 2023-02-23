@@ -1,6 +1,7 @@
 package com.electro.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -12,11 +13,21 @@ import java.time.Instant;
 @RestControllerAdvice
 public class ApplicationExceptionHandler {
 
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    public ErrorMessage accessDeniedException(AccessDeniedException ex, WebRequest request) {
+        return new ErrorMessage(
+                HttpStatus.FORBIDDEN.value(),
+                Instant.now(),
+                ex.getMessage(),
+                request.getDescription(false));
+    }
+
     @ExceptionHandler({AuthenticationException.class, VerificationException.class, ExpiredTokenException.class})
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
     public ErrorMessage authenticationException(AuthenticationException ex, WebRequest request) {
         return new ErrorMessage(
-                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.UNAUTHORIZED.value(),
                 Instant.now(),
                 ex.getMessage(),
                 request.getDescription(false));

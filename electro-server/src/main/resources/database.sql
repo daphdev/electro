@@ -3,6 +3,10 @@
 
     drop table if exists prod.brand;
 
+    drop table if exists prod.cart;
+
+    drop table if exists prod.cart_variant;
+
     drop table if exists prod.category;
 
     drop table if exists prod.count;
@@ -41,6 +45,10 @@
 
     drop table if exists prod.job_type;
 
+    drop table if exists prod.notification;
+
+    drop table if exists prod.message;
+
     drop table if exists prod.office;
 
     drop table if exists prod.`order`;
@@ -51,11 +59,19 @@
 
     drop table if exists prod.order_variant;
 
+    drop table if exists prod.payment_method;
+
+    drop table if exists prod.preorder;
+
     drop table if exists prod.product;
 
     drop table if exists prod.product_inventory_limit;
 
+    drop table if exists prod.product_promotion;
+
     drop table if exists prod.product_tag;
+
+    drop table if exists prod.promotion;
 
     drop table if exists prod.property;
 
@@ -65,7 +81,11 @@
 
     drop table if exists prod.purchase_order_variant;
 
+    drop table if exists prod.review;
+
     drop table if exists prod.role;
+
+    drop table if exists prod.room;
 
     drop table if exists prod.specification;
 
@@ -87,9 +107,15 @@
 
     drop table if exists prod.variant_inventory_limit;
 
+    drop table if exists prod.ward;
+
     drop table if exists prod.verification;
 
     drop table if exists prod.warehouse;
+
+    drop table if exists prod.waybill;
+
+    drop table if exists prod.wish;
 
     create table prod.address (
        id bigint not null auto_increment,
@@ -100,6 +126,7 @@
         line varchar(255),
         district_id bigint,
         province_id bigint,
+        ward_id bigint,
         primary key (id)
     ) engine=MyISAM;
 
@@ -114,6 +141,25 @@
         name varchar(255) not null,
         status TINYINT not null,
         primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.cart (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        status TINYINT not null,
+        user_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.cart_variant (
+       cart_id bigint not null,
+        variant_id bigint not null,
+        created_at datetime not null,
+        quantity integer not null,
+        primary key (cart_id, variant_id)
     ) engine=MyISAM;
 
     create table prod.category (
@@ -356,6 +402,33 @@
         primary key (id)
     ) engine=MyISAM;
 
+    create table prod.notification (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        anchor varchar(255),
+        message varchar(255) not null,
+        status TINYINT not null,
+        type varchar(255) not null,
+        user_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.message (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        content varchar(255),
+        status TINYINT not null,
+        room_id bigint,
+        user_id bigint,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.office (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -376,14 +449,22 @@
         updated_by bigint,
         code varchar(255) not null,
         note varchar(255),
+        payment_method_type varchar(255) not null,
+        payment_status TINYINT not null,
         shipping_cost DECIMAL(15,5) not null,
         status TINYINT not null,
         tax DECIMAL(15,5) not null,
+        to_address varchar(255) not null,
+        to_district_name varchar(255) not null,
+        to_name varchar(255) not null,
+        to_phone varchar(255) not null,
+        to_province_name varchar(255) not null,
+        to_ward_name varchar(255) not null,
         total_amount DECIMAL(15,5) not null,
         total_pay DECIMAL(15,5) not null,
-        customer_id bigint not null,
         order_cancellation_reason_id bigint,
         order_resource_id bigint not null,
+        user_id bigint not null,
         primary key (id)
     ) engine=MyISAM;
 
@@ -422,6 +503,30 @@
         primary key (order_id, variant_id)
     ) engine=MyISAM;
 
+    create table prod.payment_method (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(255) not null,
+        name varchar(255) not null,
+        status TINYINT not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.preorder (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        status TINYINT not null,
+        product_id bigint not null,
+        user_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.product (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -456,10 +561,29 @@
         primary key (product_id)
     ) engine=MyISAM;
 
+    create table prod.product_promotion (
+       promotion_id bigint not null,
+        product_id bigint not null
+    ) engine=MyISAM;
+
     create table prod.product_tag (
        product_id bigint not null,
         tag_id bigint not null,
         primary key (product_id, tag_id)
+    ) engine=MyISAM;
+
+    create table prod.promotion (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        end_date datetime not null,
+        name varchar(255) not null,
+        percent integer not null,
+        start_date datetime not null,
+        status TINYINT not null,
+        primary key (id)
     ) engine=MyISAM;
 
     create table prod.property (
@@ -510,6 +634,21 @@
         primary key (purchase_order_id, variant_id)
     ) engine=MyISAM;
 
+    create table prod.review (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        content TEXT not null,
+        rating_score TINYINT not null,
+        reply TEXT,
+        status TINYINT not null,
+        product_id bigint not null,
+        user_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.role (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -519,6 +658,18 @@
         code varchar(35) not null,
         name varchar(255) not null,
         status TINYINT not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.room (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        name varchar(255) not null,
+        last_message_id bigint,
+        user_id bigint not null,
         primary key (id)
     ) engine=MyISAM;
 
@@ -658,6 +809,18 @@
         primary key (variant_id)
     ) engine=MyISAM;
 
+    create table prod.ward (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        code varchar(35) not null,
+        name varchar(255) not null,
+        district_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
     create table prod.verification (
        id bigint not null auto_increment,
         created_at datetime not null,
@@ -684,7 +847,41 @@
         primary key (id)
     ) engine=MyISAM;
 
-    alter table prod.brand 
+    create table prod.waybill (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        cod_amount integer not null,
+        code varchar(255) not null,
+        expected_delivery_time datetime not null,
+        ghn_payment_type_id integer not null,
+        ghn_required_note varchar(255) not null,
+        height integer not null,
+        length integer not null,
+        note varchar(255),
+        shipping_date datetime not null,
+        shipping_fee integer not null,
+        status TINYINT not null,
+        weight integer not null,
+        width integer not null,
+        order_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.wish (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        product_id bigint not null,
+        user_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    alter table prod.brand
        add constraint UK_g7ft8mes72rnsk746b7ibyln2 unique (code);
 
     alter table prod.category 
@@ -708,28 +905,31 @@
     alter table prod.destination 
        add constraint UK_a99mkfyhl65vc2n78ijodyoje unique (address_id);
 
-    alter table prod.docket 
+    alter table prod.docket
        add constraint UK_m8eoh52affco74plnewadng8j unique (code);
 
-    alter table prod.employee 
+    alter table prod.employee
        add constraint UK_mpps3d3r9pdvyjx3iqixi96fi unique (user_id);
 
-    alter table prod.image 
+    alter table prod.image
        add constraint UK_2o7ijfxp9nv014xfgn93go7cd unique (name);
 
-    alter table prod.image 
+    alter table prod.image
        add constraint UK_ctehsuv9mudy26ep17efcbj4h unique (path);
 
-    alter table prod.office 
+    alter table prod.office
        add constraint UK_mlsa2m6po5222mgtojis7rnow unique (address_id);
 
-    alter table prod.`order` 
+    alter table prod.`order`
        add constraint UK_28dgdc5siorptevhwl566i27v unique (code);
 
-    alter table prod.order_resource 
+    alter table prod.order_resource
        add constraint UK_t9tuhf1vpiqqfyr9cr6nnu7yv unique (code);
 
-    alter table prod.product 
+    alter table prod.preorder
+       add constraint uc_preorder unique (user_id, product_id);
+
+    alter table prod.product
        add constraint UK_h3w5r1mx6d0e5c6um32dgyjej unique (code);
 
     alter table prod.product 
@@ -738,13 +938,22 @@
     alter table prod.property 
        add constraint UK_17f03s5ron7wrua25qyg8tx2v unique (code);
 
-    alter table prod.purchase_order 
+    alter table prod.purchase_order
        add constraint UK_lyhuui3e3rh2a6itktx3rwrpe unique (code);
 
-    alter table prod.role 
+    alter table prod.review
+       add constraint uc_review unique (user_id, product_id);
+
+    alter table prod.role
        add constraint UK_c36say97xydpmgigg38qv5l2p unique (code);
 
-    alter table prod.specification 
+    alter table prod.room
+       add constraint UK_p6gc8ipudo7mwq8wwq2t05iov unique (last_message_id);
+
+    alter table prod.room
+       add constraint UK_q0m921ecs8v2s58xh95nppp5c unique (user_id);
+
+    alter table prod.specification
        add constraint UK_3lssqgpri39w9a5y932fgdvsa unique (code);
 
     alter table prod.supplier 
@@ -759,34 +968,43 @@
     alter table prod.transfer 
        add constraint UK_pvng2ahmu3ketx3y7xm2cbssc unique (code);
 
-    alter table prod.transfer 
+    alter table prod.transfer
        add constraint UK_m24yqnms2wjuxyv59bbpyf8hn unique (export_docket_id);
 
-    alter table prod.transfer 
+    alter table prod.transfer
        add constraint UK_7wdrpgv6fc6dycm0ymhkgxhsr unique (import_docket_id);
 
-    alter table prod.user 
+    alter table prod.user
        add constraint UK_ob8kqyqqgmefl0aco34akdtpe unique (email);
 
-    alter table prod.user 
+    alter table prod.user
        add constraint UK_sb8bbouer5wak8vyiiy4pf2bx unique (username);
 
-    alter table prod.user 
+    alter table prod.user
        add constraint UK_dhlcfg8h1drrgu0irs1ro3ohb unique (address_id);
 
     alter table prod.variant 
        add constraint UK_llpabmolrn143l5uh3dp92bgy unique (sku);
 
-    alter table prod.verification 
+    alter table prod.verification
        add constraint UK_a0iaxio0f0unln4qmdryyfiqg unique (user_id);
 
-    alter table prod.warehouse 
+    alter table prod.warehouse
        add constraint UK_9wk4ocyt0wv0hpffpr41aoweu unique (code);
 
     alter table prod.warehouse 
        add constraint UK_5hyew1b3bewu839bc54o2jo05 unique (address_id);
 
-    alter table prod.address 
+    alter table prod.waybill
+       add constraint UK_o1ajfse9ste901tf5b97l7vm5 unique (code);
+
+    alter table prod.waybill
+       add constraint UK_qjsm9ff8ehn9sp3brtnvjkdjr unique (order_id);
+
+    alter table prod.wish
+       add constraint uc_wish unique (user_id, product_id);
+
+    alter table prod.address
        add constraint FKqbjwfi50pdenou8j14knnffrh 
        foreign key (district_id) 
        references prod.district (id);
@@ -796,7 +1014,27 @@
        foreign key (province_id) 
        references prod.province (id);
 
-    alter table prod.category 
+    alter table prod.address
+       add constraint FKq7vspx6bqxq5lawbv2calw5lb
+       foreign key (ward_id)
+       references prod.ward (id);
+
+    alter table prod.cart
+       add constraint FKl70asp4l4w0jmbm1tqyofho4o
+       foreign key (user_id)
+       references prod.user (id);
+
+    alter table prod.cart_variant
+       add constraint FKhmyixkomygkkdpbgkpewg6bdx
+       foreign key (cart_id)
+       references prod.cart (id);
+
+    alter table prod.cart_variant
+       add constraint FKgn4wklrcnmghvlwccghh6l3fm
+       foreign key (variant_id)
+       references prod.variant (id);
+
+    alter table prod.category
        add constraint FKap0cnk1255oj4bwam7in1hxxv 
        foreign key (category_id) 
        references prod.category (id);
@@ -846,12 +1084,12 @@
        foreign key (province_id) 
        references prod.province (id);
 
-    alter table prod.docket 
-       add constraint FKlo46fav5ci97xbr53a67pc0wh 
-       foreign key (order_id) 
+    alter table prod.docket
+       add constraint FKlo46fav5ci97xbr53a67pc0wh
+       foreign key (order_id)
        references prod.`order` (id);
 
-    alter table prod.docket 
+    alter table prod.docket
        add constraint FKckq6rph63qir38nenagh535vb 
        foreign key (purchase_order_id) 
        references prod.purchase_order (id);
@@ -906,47 +1144,72 @@
        foreign key (user_id) 
        references prod.user (id);
 
-    alter table prod.image 
-       add constraint FKgpextbyee3uk9u6o2381m7ft1 
-       foreign key (product_id) 
+    alter table prod.image
+       add constraint FKgpextbyee3uk9u6o2381m7ft1
+       foreign key (product_id)
        references prod.product (id);
 
-    alter table prod.office 
+    alter table prod.notification
+       add constraint FKb0yvoep4h4k92ipon31wmdf7e
+       foreign key (user_id)
+       references prod.user (id);
+
+    alter table prod.message
+       add constraint FKl1kg5a2471cv6pkew0gdgjrmo
+       foreign key (room_id)
+       references prod.room (id);
+
+    alter table prod.message
+       add constraint FKb3y6etti1cfougkdr0qiiemgv
+       foreign key (user_id)
+       references prod.user (id);
+
+    alter table prod.office
        add constraint FKak81m3gkj8xq5t48xuflbj0kn 
        foreign key (address_id) 
        references prod.address (id);
 
-    alter table prod.`order` 
-       add constraint FK1oduxyuuo3n2g98l3j7754vym 
-       foreign key (customer_id) 
-       references prod.customer (id);
-
-    alter table prod.`order` 
-       add constraint FK1kb7gv71fjr6lrhy901bn9fy6 
-       foreign key (order_cancellation_reason_id) 
+    alter table prod.`order`
+       add constraint FK1kb7gv71fjr6lrhy901bn9fy6
+       foreign key (order_cancellation_reason_id)
        references prod.order_cancellation_reason (id);
 
-    alter table prod.`order` 
-       add constraint FKgr04wlw4hnfsloesmls7q4prc 
-       foreign key (order_resource_id) 
+    alter table prod.`order`
+       add constraint FKgr04wlw4hnfsloesmls7q4prc
+       foreign key (order_resource_id)
        references prod.order_resource (id);
 
-    alter table prod.order_resource 
-       add constraint FKee6qcbh5rwnq9ecbajwmr8051 
-       foreign key (customer_resource_id) 
+    alter table prod.`order`
+       add constraint FKcpl0mjoeqhxvgeeeq5piwpd3i
+       foreign key (user_id)
+       references prod.user (id);
+
+    alter table prod.order_resource
+       add constraint FKee6qcbh5rwnq9ecbajwmr8051
+       foreign key (customer_resource_id)
        references prod.customer_resource (id);
 
-    alter table prod.order_variant 
-       add constraint FKtmpuci143q76w888a66xradw2 
-       foreign key (order_id) 
+    alter table prod.order_variant
+       add constraint FKtmpuci143q76w888a66xradw2
+       foreign key (order_id)
        references prod.`order` (id);
 
-    alter table prod.order_variant 
-       add constraint FKe57gamff0q357714my3ibs6a 
-       foreign key (variant_id) 
+    alter table prod.order_variant
+       add constraint FKe57gamff0q357714my3ibs6a
+       foreign key (variant_id)
        references prod.variant (id);
 
-    alter table prod.product 
+    alter table prod.preorder
+       add constraint FKnl5u7s90vitdf2fyb8vtnp7i2
+       foreign key (product_id)
+       references prod.product (id);
+
+    alter table prod.preorder
+       add constraint FKl0pm6jiq78m1rhg2ntmoacemw
+       foreign key (user_id)
+       references prod.user (id);
+
+    alter table prod.product
        add constraint FKs6cydsualtsrprvlf2bb3lcam 
        foreign key (brand_id) 
        references prod.brand (id);
@@ -976,7 +1239,17 @@
        foreign key (product_id) 
        references prod.product (id);
 
-    alter table prod.product_tag 
+    alter table prod.product_promotion
+       add constraint FKmpv6380a8ouxwxa99taru2luq
+       foreign key (product_id)
+       references prod.product (id);
+
+    alter table prod.product_promotion
+       add constraint FKfhoeub2merr6yp1vnp4eft0jh
+       foreign key (promotion_id)
+       references prod.promotion (id);
+
+    alter table prod.product_tag
        add constraint FK3b3a7hu5g2kh24wf0cwv3lgsm 
        foreign key (tag_id) 
        references prod.tag (id);
@@ -1006,29 +1279,49 @@
        foreign key (variant_id) 
        references prod.variant (id);
 
-    alter table prod.storage_location 
+    alter table prod.room
+       add constraint FKgklsfkcs5o94kiti4qlrsb3pq
+       foreign key (last_message_id)
+       references prod.message (id);
+
+    alter table prod.room
+       add constraint FKj8a5tk6wghd3x2sxgksj2fv3o
+       foreign key (user_id)
+       references prod.user (id);
+
+    alter table prod.review
+       add constraint FKiyof1sindb9qiqr9o8npj8klt
+       foreign key (product_id)
+       references prod.product (id);
+
+    alter table prod.review
+       add constraint FKiyf57dy48lyiftdrf7y87rnxi
+       foreign key (user_id)
+       references prod.user (id);
+
+    alter table prod.storage_location
        add constraint FK956y7ykytekn259p907onqkiw 
        foreign key (warehouse_id) 
        references prod.warehouse (id);
 
-    alter table prod.storage_location 
-       add constraint FK7iurgk8f1wiounw6mur8fhc6 
-       foreign key (variant_id) 
+    alter table prod.storage_location
+       add constraint FK7iurgk8f1wiounw6mur8fhc6
+       foreign key (variant_id)
        references prod.variant (id);
 
-    alter table prod.supplier 
+    alter table prod.supplier
        add constraint FK95a8oipih48obtbhltjy7hgvb 
        foreign key (address_id) 
        references prod.address (id);
 
-    alter table prod.transfer 
-       add constraint FKkpskc38eu9e36app8iaquigbg 
-       foreign key (export_docket_id) 
+    alter table prod.transfer
+       add constraint FKkpskc38eu9e36app8iaquigbg
+       foreign key (export_docket_id)
        references prod.docket (id);
 
-    alter table prod.transfer 
-       add constraint FKd8wk8ohuol7ap3unjrsq1hc2i 
-       foreign key (import_docket_id) 
+    alter table prod.transfer
+       add constraint FKd8wk8ohuol7ap3unjrsq1hc2i
+       foreign key (import_docket_id)
        references prod.docket (id);
 
     alter table prod.user 
@@ -1056,12 +1349,33 @@
        foreign key (variant_id) 
        references prod.variant (id);
 
-    alter table prod.verification 
-       add constraint FKlhkcrvgj83d37uxew4gvjm684 
-       foreign key (user_id) 
+    alter table prod.ward
+       add constraint FKslko72wj5nauqvsgefqkvwpsb
+       foreign key (district_id)
+       references prod.district (id);
+
+    alter table prod.warehouse
+    alter table prod.verification
+       add constraint FKlhkcrvgj83d37uxew4gvjm684
+       foreign key (user_id)
        references prod.user (id);
 
-    alter table prod.warehouse 
-       add constraint FKp7xymgre8vt94ihf75e9movyt 
+    alter table prod.warehouse
+       add constraint FKp7xymgre8vt94ihf75e9movyt
        foreign key (address_id) 
        references prod.address (id);
+
+    alter table prod.waybill
+       add constraint FKtm4nwydrvd6klhjy7i9slhf83
+       foreign key (order_id)
+       references prod.`order` (id);
+
+    alter table prod.wish
+       add constraint FKh3bvkvkslnehbxqma1x2eynqb
+       foreign key (product_id)
+       references prod.product (id);
+
+    alter table prod.wish
+       add constraint FKkqi4lso34o5xjkhiw71uadwvu
+       foreign key (user_id)
+       references prod.user (id);

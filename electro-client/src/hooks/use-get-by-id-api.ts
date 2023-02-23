@@ -1,12 +1,14 @@
 import { useQuery } from 'react-query';
 import FetchUtils, { ErrorMessage } from 'utils/FetchUtils';
 import NotifyUtils from 'utils/NotifyUtils';
+import { UseQueryOptions } from 'react-query/types/react/types';
 
 function useGetByIdApi<O>(
   resourceUrl: string,
   resourceKey: string,
   entityId: number,
-  successCallback?: (data: O) => void
+  successCallback?: (data: O) => void,
+  options?: UseQueryOptions<O, ErrorMessage>
 ) {
   return useQuery<O, ErrorMessage>(
     [resourceKey, 'getById', entityId],
@@ -14,6 +16,7 @@ function useGetByIdApi<O>(
     {
       onSuccess: successCallback,
       onError: () => NotifyUtils.simpleFailed('Lấy dữ liệu không thành công'),
+      ...options,
     }
   );
 }

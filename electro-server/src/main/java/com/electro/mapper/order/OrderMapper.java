@@ -22,14 +22,14 @@ public interface OrderMapper extends GenericMapper<Order, OrderRequest, OrderRes
     @BeanMapping(qualifiedByName = "attachOrder")
     @Mapping(source = "orderResourceId", target = "orderResource")
     @Mapping(source = "orderCancellationReasonId", target = "orderCancellationReason")
-    @Mapping(source = "customerId", target = "customer")
+    @Mapping(source = "userId", target = "user")
     Order requestToEntity(OrderRequest request);
 
     @Override
     @BeanMapping(qualifiedByName = "attachOrder")
     @Mapping(source = "orderResourceId", target = "orderResource")
     @Mapping(source = "orderCancellationReasonId", target = "orderCancellationReason")
-    @Mapping(source = "customerId", target = "customer")
+    @Mapping(source = "userId", target = "user")
     Order partialUpdate(@MappingTarget Order entity, OrderRequest request);
 
 }

@@ -1,11 +1,13 @@
 package com.electro.controller.inventory;
 
+import com.electro.constant.AppConstants;
 import com.electro.dto.inventory.CountVariantKeyRequest;
 import com.electro.entity.inventory.CountVariantKey;
 import com.electro.service.inventory.CountVariantService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/count-variants")
 @AllArgsConstructor
+@CrossOrigin(AppConstants.DOMAIN)
 public class CountVariantController {
 
     private CountVariantService countVariantService;

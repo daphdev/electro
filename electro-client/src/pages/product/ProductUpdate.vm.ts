@@ -6,7 +6,7 @@ import {
   ProductRequest,
   ProductResponse,
   SpecificationItem,
-  Tag_ProductRequest
+  ProductRequest_TagRequest
 } from 'models/Product';
 import useUpdateApi from 'hooks/use-update-api';
 import useGetByIdApi from 'hooks/use-get-by-id-api';
@@ -189,7 +189,7 @@ function useProductUpdateViewModel(id: number) {
     }
   );
 
-  const transformTags = (tags: string[]): Tag_ProductRequest[] => tags.map((tagIdOrName) => {
+  const transformTags = (tags: string[]): ProductRequest_TagRequest[] => tags.map((tagIdOrName) => {
     if (tagIdOrName.includes('#ORIGINAL')) {
       return { id: Number(tagIdOrName.split('#')[0]) };
     }
