@@ -4,4 +4,4 @@ import com.electro.dto.chat.MessageRequest;
 import com.electro.dto.chat.MessageResponse;
 import com.electro.service.CrudService;
 
-public interface MessageService extends CrudService<MessageRequest, MessageResponse> {}
+public interface MessageService extends CrudService<Long, MessageRequest, MessageResponse> {}

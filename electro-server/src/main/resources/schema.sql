@@ -53,7 +53,7 @@ DROP TABLE IF EXISTS
     notification,
     cart,
     cart_variant,
-    payment_method;
+    payment_method,
     promotion,
     promotion_product,
     room,
@@ -1113,6 +1113,7 @@ ALTER TABLE promotion_product
 
 ALTER TABLE promotion_product
     ADD CONSTRAINT FK_PROMOTION_PRODUCT_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
+
 CREATE TABLE room
 (
     id              BIGINT AUTO_INCREMENT NOT NULL,
