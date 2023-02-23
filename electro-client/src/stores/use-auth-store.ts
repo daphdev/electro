@@ -2,13 +2,14 @@ import { UserResponse } from 'models/User';
 import create from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { createTrackedSelector } from 'react-tracked';
+import { PaymentMethodType } from 'models/PaymentMethod';
 
 interface AuthState {
   jwtToken: string | null;
   user: UserResponse | null;
   currentCartId: number | null;
   currentTotalCartItems: number;
-  currentPaymentMethod: 'cod' | 'paypal';
+  currentPaymentMethod: PaymentMethodType;
 }
 
 interface AuthAction {
@@ -17,7 +18,7 @@ interface AuthAction {
   resetAuthState: () => void;
   updateCurrentCartId: (value: number | null) => void;
   updateCurrentTotalCartItems: (value: number) => void;
-  updateCurrentPaymentMethod: (value: 'cod' | 'paypal') => void;
+  updateCurrentPaymentMethod: (value: PaymentMethodType) => void;
 }
 
 const initialAuthState: AuthState = {
@@ -25,7 +26,7 @@ const initialAuthState: AuthState = {
   user: null,
   currentCartId: null,
   currentTotalCartItems: 0,
-  currentPaymentMethod: 'cod',
+  currentPaymentMethod: PaymentMethodType.CASH,
 };
 
 const useAuthStore = create<AuthState & AuthAction>()(

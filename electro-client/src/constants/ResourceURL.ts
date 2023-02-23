@@ -55,7 +55,13 @@ class ResourceURL {
   static ORDER_RESOURCE = apiPath + '/order-resources';
   static ORDER_CANCELLATION_REASON = apiPath + '/order-cancellation-reasons';
 
+  static WAYBILL = apiPath + '/waybills';
+
   static REVIEW = apiPath + '/reviews';
+
+  static VOUCHER = apiPath + '/vouchers';
+  static PAYMENT_METHOD = apiPath + '/payment-methods';
+  static PROMOTION = apiPath + '/promotions';
 
   // CLIENT
   static CLIENT_CATEGORY = clientApiPath + '/categories';
@@ -75,6 +81,9 @@ class ResourceURL {
   static CLIENT_NOTIFICATION_INIT_EVENTS = ResourceURL.CLIENT_NOTIFICATION + '/init-events';
   static CLIENT_NOTIFICATION_EVENTS = ResourceURL.CLIENT_NOTIFICATION + '/events';
   static CLIENT_CART = clientApiPath + '/carts';
+  static CLIENT_PAYMENT_METHOD = clientApiPath + '/payment-methods';
+  static CLIENT_ORDER = clientApiPath + '/orders';
+  static CLIENT_ORDER_CANCEL = ResourceURL.CLIENT_ORDER + '/cancel';
 
   // AUTHENTICATION
   static LOGIN = apiPath + '/auth/login';

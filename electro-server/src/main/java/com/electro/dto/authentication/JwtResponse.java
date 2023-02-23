@@ -10,5 +10,6 @@ import java.time.Instant;
 public class JwtResponse {
     private String message;
     private String token;
+    private String refreshToken;
     private Instant createdAt;
 }

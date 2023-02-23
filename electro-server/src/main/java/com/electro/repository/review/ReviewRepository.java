@@ -32,4 +32,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, JpaSpecif
     @Query("SELECT COUNT(r.id) FROM Review r WHERE r.product.id = :productId")
     int countByProductId(@Param("productId") Long productId);
 
+    @Query("SELECT CASE WHEN COUNT(r) > 0 THEN TRUE ELSE FALSE END " +
+            "FROM Review r JOIN r.user u WHERE r.product.id = :productId AND u.username = :username")
+    boolean existsByProductIdAndUsername(@Param("productId") Long productId, @Param("username") String username);
+
 }

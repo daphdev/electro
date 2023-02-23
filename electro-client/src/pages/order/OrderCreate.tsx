@@ -14,7 +14,7 @@ import {
   TextInput
 } from '@mantine/core';
 import { CreateUpdateTitle, DefaultPropertyPanel, VariantFinder, VariantTable } from 'components';
-import OrderConfigs from 'pages/order/OrderConfigs';
+import DefaultOrderConfigs from 'pages/order/DefaultOrderConfigs';
 import useOrderCreateViewModel from 'pages/order/OrderCreate.vm';
 import { EntityType } from 'components/VariantTable/VariantTable';
 import MiscUtils from 'utils/MiscUtils';
@@ -35,7 +35,9 @@ function OrderCreate() {
     resetForm,
     orderResourceSelectList,
     orderCancellationReasonSelectList,
+    paymentMethodSelectList,
     statusSelectList,
+    paymentStatusSelectList,
     variants,
   } = useOrderCreateViewModel();
 
@@ -61,8 +63,8 @@ function OrderCreate() {
   return (
     <Stack pb={50}>
       <CreateUpdateTitle
-        managerPath={OrderConfigs.managerPath}
-        title={OrderConfigs.createTitle}
+        managerPath={DefaultOrderConfigs.managerPath}
+        title={DefaultOrderConfigs.createTitle}
       />
 
       <DefaultPropertyPanel/>
@@ -122,15 +124,19 @@ function OrderCreate() {
                     icon={'₫'}
                     parser={MiscUtils.parserPrice}
                     formatter={MiscUtils.formatterPrice}
+                    disabled
                   />
                 </Grid.Col>
                 <Grid.Col span={6}>
                   <Text size="sm" weight={500}>Tổng tiền trả:</Text>
                 </Grid.Col>
                 <Grid.Col span={6}>
-                  <Text size="md" color="blue" weight={500} sx={{ textAlign: 'right' }}>
-                    {MiscUtils.formatPrice(form.values.totalPay) + ' ₫'}
-                  </Text>
+                  <Stack spacing={2.5} sx={{ textAlign: 'right' }}>
+                    <Text size="md" color="blue" weight={500}>
+                      {MiscUtils.formatPrice(form.values.totalPay) + ' ₫'}
+                    </Text>
+                    <Text size="xs" color="dimmed">(chưa tính phí vận chuyển)</Text>
+                  </Stack>
                 </Grid.Col>
               </Grid>
             </Group>
@@ -157,14 +163,14 @@ function OrderCreate() {
                   <Grid.Col>
                     <TextInput
                       required
-                      label={OrderConfigs.properties.code.label}
+                      label={DefaultOrderConfigs.properties.code.label}
                       {...form.getInputProps('code')}
                     />
                   </Grid.Col>
                   <Grid.Col>
                     <Select
                       required
-                      label={OrderConfigs.properties.status.label}
+                      label={DefaultOrderConfigs.properties.status.label}
                       placeholder="--"
                       data={statusSelectList}
                       {...form.getInputProps('status')}
@@ -236,6 +242,24 @@ function OrderCreate() {
                     <Textarea
                       label="Ghi chú đơn hàng"
                       {...form.getInputProps('note')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <Select
+                      required
+                      label="Hình thức thanh toán"
+                      placeholder="--"
+                      data={paymentMethodSelectList}
+                      {...form.getInputProps('paymentMethodType')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <Select
+                      required
+                      label="Trạng thái thanh toán"
+                      placeholder="--"
+                      data={paymentStatusSelectList}
+                      {...form.getInputProps('paymentStatus')}
                     />
                   </Grid.Col>
                 </Grid>

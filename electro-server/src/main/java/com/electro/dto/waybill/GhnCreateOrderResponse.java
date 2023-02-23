@@ -7,7 +7,7 @@ import java.time.Instant;
 
 // Reference: https://api.ghn.vn/home/docs/detail?id=122
 @Data
-public class GhnOrderResponse {
+public class GhnCreateOrderResponse {
     @JsonAlias("code")
     private Integer code;
     @JsonAlias("code_message_value")

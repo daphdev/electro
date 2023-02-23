@@ -4,7 +4,7 @@ import com.electro.dto.client.ClientOrderRequest;
 
 public interface OrderService {
 
-    void cancelOrder(Long Id);
+    void cancelOrder(String code);
 
     String createClientOrder(ClientOrderRequest clientOrderRequest);
 

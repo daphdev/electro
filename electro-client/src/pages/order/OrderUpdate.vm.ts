@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm, zodResolver } from '@mantine/form';
-import OrderConfigs from 'pages/order/OrderConfigs';
+import DefaultOrderConfigs from 'pages/order/DefaultOrderConfigs';
 import { OrderRequest, OrderResponse } from 'models/Order';
 import useUpdateApi from 'hooks/use-update-api';
 import useGetByIdApi from 'hooks/use-get-by-id-api';
@@ -16,11 +16,13 @@ import { OrderVariantKeyRequest, OrderVariantRequest } from 'models/OrderVariant
 import produce from 'immer';
 import useDeleteByIdsApi from 'hooks/use-delete-by-ids-api';
 import ResourceURL from 'constants/ResourceURL';
+import { PaymentMethodResponse } from 'models/PaymentMethod';
+import PaymentMethodConfigs from 'pages/payment-method/PaymentMethodConfigs';
 
 function useOrderUpdateViewModel(id: number) {
   const form = useForm({
-    initialValues: OrderConfigs.initialCreateUpdateFormValues,
-    schema: zodResolver(OrderConfigs.createUpdateFormSchema),
+    initialValues: DefaultOrderConfigs.initialCreateUpdateFormValues,
+    schema: zodResolver(DefaultOrderConfigs.createUpdateFormSchema),
   });
 
   const [order, setOrder] = useState<OrderResponse>();
@@ -28,11 +30,12 @@ function useOrderUpdateViewModel(id: number) {
 
   const [orderResourceSelectList, setOrderResourceSelectList] = useState<SelectOption[]>([]);
   const [orderCancellationReasonSelectList, setOrderCancellationReasonSelectList] = useState<SelectOption[]>([]);
+  const [paymentMethodSelectList, setPaymentMethodSelectList] = useState<SelectOption[]>([]);
 
   const [variants, setVariants] = useState<VariantResponse[]>([]);
 
-  const updateApi = useUpdateApi<OrderRequest, OrderResponse>(OrderConfigs.resourceUrl, OrderConfigs.resourceKey, id);
-  useGetByIdApi<OrderResponse>(OrderConfigs.resourceUrl, OrderConfigs.resourceKey, id,
+  const updateApi = useUpdateApi<OrderRequest, OrderResponse>(DefaultOrderConfigs.resourceUrl, DefaultOrderConfigs.resourceKey, id);
+  useGetByIdApi<OrderResponse>(DefaultOrderConfigs.resourceUrl, DefaultOrderConfigs.resourceKey, id,
     (orderResponse) => {
       setOrder(orderResponse);
       const formValues: typeof form.values = {
@@ -60,6 +63,8 @@ function useOrderUpdateViewModel(id: number) {
         tax: orderResponse.tax,
         shippingCost: orderResponse.shippingCost,
         totalPay: orderResponse.totalPay,
+        paymentMethodType: orderResponse.paymentMethodType,
+        paymentStatus: String(orderResponse.paymentStatus),
       };
       form.setValues(formValues);
       setPrevFormValues(formValues);
@@ -84,6 +89,16 @@ function useOrderUpdateViewModel(id: number) {
         label: item.name,
       }));
       setOrderCancellationReasonSelectList(selectList);
+    }
+  );
+  useGetAllApi<PaymentMethodResponse>(PaymentMethodConfigs.resourceUrl, PaymentMethodConfigs.resourceKey,
+    { sort: 'id,asc', all: 1 },
+    (paymentMethodListResponse) => {
+      const selectList: SelectOption[] = paymentMethodListResponse.content.map((item) => ({
+        value: item.code,
+        label: item.name,
+      }));
+      setPaymentMethodSelectList(selectList);
     }
   );
 
@@ -113,6 +128,8 @@ function useOrderUpdateViewModel(id: number) {
         tax: formValues.tax,
         shippingCost: formValues.shippingCost,
         totalPay: formValues.totalPay,
+        paymentMethodType: formValues.paymentMethodType,
+        paymentStatus: Number(formValues.paymentStatus),
       };
       updateApi.mutate(requestBody);
 
@@ -209,6 +226,17 @@ function useOrderUpdateViewModel(id: number) {
     },
   ];
 
+  const paymentStatusSelectList: SelectOption[] = [
+    {
+      value: '1',
+      label: 'Chưa thanh toán',
+    },
+    {
+      value: '2',
+      label: 'Đã thanh toán',
+    },
+  ];
+
   return {
     order,
     form,
@@ -220,7 +248,9 @@ function useOrderUpdateViewModel(id: number) {
     resetForm,
     orderResourceSelectList,
     orderCancellationReasonSelectList,
+    paymentMethodSelectList,
     statusSelectList,
+    paymentStatusSelectList,
     variants,
   };
 }

@@ -1,16 +1,20 @@
-import { CategorySlugIconMap, EntityPropertySchema, EntityPropertyType, SelectOption } from 'types';
+import { EntityPropertySchema, EntityPropertyType, SelectOption } from 'types';
 import { ListResponse } from 'utils/FetchUtils';
 import {
   Box,
+  BrandPaypal,
+  Cash,
   Cpu,
   DeviceGamepad2,
   DeviceLaptop,
   DeviceSpeaker,
   DeviceTablet,
   DeviceWatch,
+  Icon,
   Keyboard,
   Mouse
 } from 'tabler-icons-react';
+import { PaymentMethodType } from 'models/PaymentMethod';
 
 class PageConfigs {
   static properties = {
@@ -28,11 +32,11 @@ class PageConfigs {
     },
     createdBy: {
       label: 'Người tạo',
-      type: EntityPropertyType.STRING,
+      type: EntityPropertyType.NUMBER,
     },
     updatedBy: {
       label: 'Người cập nhật',
-      type: EntityPropertyType.STRING,
+      type: EntityPropertyType.NUMBER,
     },
   };
 
@@ -72,7 +76,7 @@ class PageConfigs {
     },
   ];
 
-  static categorySlugIconMap: CategorySlugIconMap = new Proxy(
+  static categorySlugIconMap: Record<string, Icon> = new Proxy(
     {
       'laptop': DeviceLaptop,
       'tablet': DeviceTablet,
@@ -84,11 +88,21 @@ class PageConfigs {
       'cpu': Cpu,
     },
     {
-      get: function (target: CategorySlugIconMap, name: string) {
+      get: function (target: Record<string, Icon>, name: string) {
         return Object.prototype.hasOwnProperty.call(target, name) ? target[name] : Box;
       },
     }
   );
+
+  static paymentMethodIconMap: Record<PaymentMethodType, Icon> = {
+    [PaymentMethodType.CASH]: Cash,
+    [PaymentMethodType.PAYPAL]: BrandPaypal,
+  };
+
+  static paymentMethodNameMap: Record<PaymentMethodType, string> = {
+    [PaymentMethodType.CASH]: 'Thanh toán tiền mặt',
+    [PaymentMethodType.PAYPAL]: 'Thanh toán Paypal',
+  };
 }
 
 export default PageConfigs;

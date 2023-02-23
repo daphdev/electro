@@ -12,6 +12,7 @@ import com.electro.exception.ResourceNotFoundException;
 import com.electro.mapper.general.NotificationMapper;
 import com.electro.repository.general.NotificationRepository;
 import com.electro.service.general.EmitterService;
+import com.electro.service.general.NotificationService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +45,7 @@ public class ClientNotificationController {
     private final NotificationRepository notificationRepository;
     private final NotificationMapper notificationMapper;
     private final EmitterService emitterService;
+    private final NotificationService notificationService;
 
     @GetMapping
     public ResponseEntity<ListResponse<NotificationResponse>> getAllNotifications(
@@ -91,6 +94,14 @@ public class ClientNotificationController {
                 .map(notificationMapper::entityToResponse)
                 .orElseThrow(() -> new ResourceNotFoundException(ResourceName.NOTIFICATION, FieldName.ID, id));
         return ResponseEntity.status(HttpStatus.OK).body(notificationResponse);
+    }
+
+    @PostMapping("/push-events")
+    public ResponseEntity<NotificationResponse> pushNotification(@RequestBody NotificationRequest request) {
+        Notification notification = notificationRepository.save(notificationMapper.requestToEntity(request));
+        NotificationResponse notificationResponse = notificationMapper.entityToResponse(notification);
+        notificationService.pushNotification(notification.getUser().getUsername(), notificationResponse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(notificationResponse);
     }
 
 }

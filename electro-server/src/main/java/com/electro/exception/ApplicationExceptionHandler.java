@@ -13,7 +13,7 @@ import java.time.Instant;
 @RestControllerAdvice
 public class ApplicationExceptionHandler {
 
-    @ExceptionHandler(AccessDeniedException.class)
+    @ExceptionHandler({AccessDeniedException.class, RefreshTokenException.class})
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
     public ErrorMessage accessDeniedException(AccessDeniedException ex, WebRequest request) {
         return new ErrorMessage(
@@ -23,7 +23,7 @@ public class ApplicationExceptionHandler {
                 request.getDescription(false));
     }
 
-    @ExceptionHandler(AuthenticationException.class)
+    @ExceptionHandler({AuthenticationException.class, VerificationException.class, ExpiredTokenException.class})
     @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
     public ErrorMessage authenticationException(AuthenticationException ex, WebRequest request) {
         return new ErrorMessage(

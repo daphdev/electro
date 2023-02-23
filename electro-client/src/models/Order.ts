@@ -3,6 +3,7 @@ import { OrderResourceResponse } from 'models/OrderResource';
 import { OrderCancellationReasonResponse } from 'models/OrderCancellationReason';
 import { UserResponse } from 'models/User';
 import { OrderVariantRequest, OrderVariantResponse } from 'models/OrderVariant';
+import { PaymentMethodType } from 'models/PaymentMethod';
 
 export interface OrderResponse extends BaseResponse {
   code: string;
@@ -22,6 +23,8 @@ export interface OrderResponse extends BaseResponse {
   tax: number;
   shippingCost: number;
   totalPay: number;
+  paymentMethodType: PaymentMethodType;
+  paymentStatus: number;
 }
 
 export interface OrderRequest {
@@ -42,4 +45,6 @@ export interface OrderRequest {
   tax: number;
   shippingCost: number;
   totalPay: number;
+  paymentMethodType: PaymentMethodType;
+  paymentStatus: number;
 }

@@ -42,6 +42,8 @@ class ManagerPath {
   static ORDER_RESOURCE = '/admin/order/resource';
   static ORDER_CANCELLATION_REASON = '/admin/order/cancellation-reason';
 
+  static WAYBILL = '/admin/waybill';
+
   static REVIEW = '/admin/review';
 
   static VOUCHER = '/admin/voucher';

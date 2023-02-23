@@ -6,5 +6,6 @@ public enum NotificationType {
     WARNING,
     PREORDER,
     REVIEW,
-    ORDER
+    ORDER,
+    CHECKOUT_PAYPAL_SUCCESS
 }

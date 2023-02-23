@@ -15,7 +15,7 @@ import {
 } from '@mantine/core';
 import { useParams } from 'react-router-dom';
 import { CreateUpdateTitle, DefaultPropertyPanel, VariantFinder, VariantTable } from 'components';
-import OrderConfigs from 'pages/order/OrderConfigs';
+import DefaultOrderConfigs from 'pages/order/DefaultOrderConfigs';
 import useOrderUpdateViewModel from 'pages/order/OrderUpdate.vm';
 import { useDebouncedValue } from '@mantine/hooks';
 import { SelectOption } from 'types';
@@ -38,7 +38,9 @@ function OrderUpdate() {
     resetForm,
     orderResourceSelectList,
     orderCancellationReasonSelectList,
+    paymentMethodSelectList,
     statusSelectList,
+    paymentStatusSelectList,
     variants,
   } = useOrderUpdateViewModel(Number(id));
 
@@ -72,8 +74,8 @@ function OrderUpdate() {
   return (
     <Stack pb={50}>
       <CreateUpdateTitle
-        managerPath={OrderConfigs.managerPath}
-        title={OrderConfigs.updateTitle}
+        managerPath={DefaultOrderConfigs.managerPath}
+        title={DefaultOrderConfigs.updateTitle}
       />
 
       <DefaultPropertyPanel
@@ -139,6 +141,7 @@ function OrderUpdate() {
                     icon={'₫'}
                     parser={MiscUtils.parserPrice}
                     formatter={MiscUtils.formatterPrice}
+                    disabled
                   />
                 </Grid.Col>
                 <Grid.Col span={6}>
@@ -174,14 +177,14 @@ function OrderUpdate() {
                   <Grid.Col>
                     <TextInput
                       required
-                      label={OrderConfigs.properties.code.label}
+                      label={DefaultOrderConfigs.properties.code.label}
                       {...form.getInputProps('code')}
                     />
                   </Grid.Col>
                   <Grid.Col>
                     <Select
                       required
-                      label={OrderConfigs.properties.status.label}
+                      label={DefaultOrderConfigs.properties.status.label}
                       placeholder="--"
                       data={statusSelectList}
                       {...form.getInputProps('status')}
@@ -253,6 +256,24 @@ function OrderUpdate() {
                     <Textarea
                       label="Ghi chú đơn hàng"
                       {...form.getInputProps('note')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <Select
+                      required
+                      label="Hình thức thanh toán"
+                      placeholder="--"
+                      data={paymentMethodSelectList}
+                      {...form.getInputProps('paymentMethodType')}
+                    />
+                  </Grid.Col>
+                  <Grid.Col>
+                    <Select
+                      required
+                      label="Trạng thái thanh toán"
+                      placeholder="--"
+                      data={paymentStatusSelectList}
+                      {...form.getInputProps('paymentStatus')}
                     />
                   </Grid.Col>
                 </Grid>

@@ -1,6 +1,7 @@
 package com.electro.dto.order;
 
 import com.electro.dto.authentication.UserResponse;
+import com.electro.entity.cashbook.PaymentMethodType;
 import lombok.Data;
 import org.springframework.lang.Nullable;
 
@@ -32,4 +33,6 @@ public class OrderResponse {
     private BigDecimal tax;
     private BigDecimal shippingCost;
     private BigDecimal totalPay;
+    private PaymentMethodType paymentMethodType;
+    private Integer paymentStatus;
 }
