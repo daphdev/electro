@@ -22,6 +22,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
+        // Status 1: Activated/Verified
+        if (user.getStatus() != 1) {
+            throw new RuntimeException("[Error] Account has not been activated");
+        }
+
         return UserDetailsImpl.build(user);
     }
 

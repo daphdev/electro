@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm, zodResolver } from '@mantine/form';
-import OrderConfigs from 'pages/order/OrderConfigs';
+import DefaultOrderConfigs from 'pages/order/DefaultOrderConfigs';
 import { OrderRequest, OrderResponse } from 'models/Order';
 import useUpdateApi from 'hooks/use-update-api';
 import useGetByIdApi from 'hooks/use-get-by-id-api';
@@ -21,8 +21,8 @@ import PaymentMethodConfigs from 'pages/payment-method/PaymentMethodConfigs';
 
 function useOrderUpdateViewModel(id: number) {
   const form = useForm({
-    initialValues: OrderConfigs.initialCreateUpdateFormValues,
-    schema: zodResolver(OrderConfigs.createUpdateFormSchema),
+    initialValues: DefaultOrderConfigs.initialCreateUpdateFormValues,
+    schema: zodResolver(DefaultOrderConfigs.createUpdateFormSchema),
   });
 
   const [order, setOrder] = useState<OrderResponse>();
@@ -34,8 +34,8 @@ function useOrderUpdateViewModel(id: number) {
 
   const [variants, setVariants] = useState<VariantResponse[]>([]);
 
-  const updateApi = useUpdateApi<OrderRequest, OrderResponse>(OrderConfigs.resourceUrl, OrderConfigs.resourceKey, id);
-  useGetByIdApi<OrderResponse>(OrderConfigs.resourceUrl, OrderConfigs.resourceKey, id,
+  const updateApi = useUpdateApi<OrderRequest, OrderResponse>(DefaultOrderConfigs.resourceUrl, DefaultOrderConfigs.resourceKey, id);
+  useGetByIdApi<OrderResponse>(DefaultOrderConfigs.resourceUrl, DefaultOrderConfigs.resourceKey, id,
     (orderResponse) => {
       setOrder(orderResponse);
       const formValues: typeof form.values = {

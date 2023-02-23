@@ -54,6 +54,12 @@ DROP TABLE IF EXISTS
     cart,
     cart_variant,
     payment_method,
+    promotion,
+    promotion_product,
+    room,
+    message,
+    verification,
+    refresh_token,
     waybill_log;
 
 -- CREATE TABLES
@@ -83,25 +89,32 @@ ALTER TABLE address
 
 CREATE TABLE user
 (
-    id         BIGINT AUTO_INCREMENT NOT NULL,
-    created_at datetime              NOT NULL,
-    updated_at datetime              NOT NULL,
-    created_by BIGINT                NULL,
-    updated_by BIGINT                NULL,
-    username   VARCHAR(255)          NOT NULL,
-    password   VARCHAR(255)          NOT NULL,
-    fullname   VARCHAR(255)          NOT NULL,
-    email      VARCHAR(255)          NOT NULL,
-    phone      VARCHAR(255)          NOT NULL,
-    gender     CHAR                  NOT NULL,
-    address_id BIGINT                NOT NULL,
-    avatar     VARCHAR(255)          NULL,
-    status     TINYINT               NOT NULL,
+    id                   BIGINT AUTO_INCREMENT NOT NULL,
+    created_at           datetime              NOT NULL,
+    updated_at           datetime              NOT NULL,
+    created_by           BIGINT                NULL,
+    updated_by           BIGINT                NULL,
+    username             VARCHAR(255)          NOT NULL,
+    password             VARCHAR(255)          NOT NULL,
+    fullname             VARCHAR(255)          NOT NULL,
+    email                VARCHAR(255)          NOT NULL,
+    phone                VARCHAR(255)          NOT NULL,
+    gender               CHAR                  NOT NULL,
+    address_id           BIGINT                NOT NULL,
+    avatar               VARCHAR(255)          NULL,
+    status               TINYINT               NOT NULL,
+    reset_password_token VARCHAR(255)          NULL,
     CONSTRAINT pk_user PRIMARY KEY (id)
 );
 
 ALTER TABLE user
     ADD CONSTRAINT uc_user_address UNIQUE (address_id);
+
+ALTER TABLE user
+    ADD CONSTRAINT uc_user_email UNIQUE (email);
+
+ALTER TABLE user
+    ADD CONSTRAINT uc_user_username UNIQUE (username);
 
 ALTER TABLE user
     ADD CONSTRAINT FK_USER_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES address (id);
@@ -124,9 +137,9 @@ ALTER TABLE `role`
 
 CREATE TABLE user_role
 (
-    user_id bigint not null,
-    role_id bigint not null,
-    primary key (user_id, role_id)
+    user_id BIGINT NOT NULL,
+    role_id BIGINT NOT NULL,
+    CONSTRAINT pk_user_role PRIMARY KEY (user_id, role_id)
 );
 
 ALTER TABLE user_role
@@ -514,9 +527,9 @@ ALTER TABLE product
 
 CREATE TABLE product_tag
 (
-    product_id bigint not null,
-    tag_id     bigint not null,
-    primary key (product_id, tag_id)
+    product_id BIGINT NOT NULL,
+    tag_id     BIGINT NOT NULL,
+    CONSTRAINT pk_product_tag PRIMARY KEY (product_id, tag_id)
 );
 
 ALTER TABLE product_tag
@@ -887,6 +900,8 @@ CREATE TABLE `order`
     total_pay                    DECIMAL(15, 5)        NOT NULL,
     payment_method_type          VARCHAR(255)          NOT NULL,
     payment_status               TINYINT               NOT NULL,
+    paypal_order_id              VARCHAR(255)          NULL,
+    paypal_order_status          VARCHAR(255)          NULL,
     CONSTRAINT pk_order PRIMARY KEY (id)
 );
 
@@ -1082,6 +1097,118 @@ CREATE TABLE payment_method
     status     TINYINT               NOT NULL,
     CONSTRAINT pk_payment_method PRIMARY KEY (id)
 );
+
+CREATE TABLE promotion
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    name       VARCHAR(255)          NOT NULL,
+    start_date datetime              NOT NULL,
+    end_date   datetime              NOT NULL,
+    percent    INT                   NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_promotion PRIMARY KEY (id)
+);
+
+CREATE TABLE promotion_product
+(
+    promotion_id BIGINT NOT NULL,
+    product_id   BIGINT NOT NULL,
+    CONSTRAINT pk_promotion_product PRIMARY KEY (promotion_id, product_id)
+);
+
+ALTER TABLE promotion_product
+    ADD CONSTRAINT FK_PROMOTION_PRODUCT_ON_PROMOTION FOREIGN KEY (promotion_id) REFERENCES promotion (id);
+
+ALTER TABLE promotion_product
+    ADD CONSTRAINT FK_PROMOTION_PRODUCT_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
+
+CREATE TABLE room
+(
+    id              BIGINT AUTO_INCREMENT NOT NULL,
+    created_at      datetime              NOT NULL,
+    updated_at      datetime              NOT NULL,
+    created_by      BIGINT                NULL,
+    updated_by      BIGINT                NULL,
+    name            VARCHAR(255)          NOT NULL,
+    user_id         BIGINT                NOT NULL,
+    last_message_id BIGINT                NULL,
+    CONSTRAINT pk_room PRIMARY KEY (id)
+);
+
+ALTER TABLE room
+    ADD CONSTRAINT uc_room_last_message UNIQUE (last_message_id);
+
+ALTER TABLE room
+    ADD CONSTRAINT uc_room_user UNIQUE (user_id);
+
+ALTER TABLE room
+    ADD CONSTRAINT FK_ROOM_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE message
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    content    VARCHAR(255)          NOT NULL,
+    status     TINYINT               NOT NULL,
+    user_id    BIGINT                NOT NULL,
+    room_id    BIGINT                NOT NULL,
+    CONSTRAINT pk_message PRIMARY KEY (id)
+);
+
+ALTER TABLE message
+    ADD CONSTRAINT FK_MESSAGE_ON_ROOM FOREIGN KEY (room_id) REFERENCES room (id);
+
+ALTER TABLE message
+    ADD CONSTRAINT FK_MESSAGE_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+ALTER TABLE room
+    ADD CONSTRAINT FK_ROOM_ON_LAST_MESSAGE FOREIGN KEY (last_message_id) REFERENCES message (id);
+
+CREATE TABLE verification
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    user_id    BIGINT                NOT NULL,
+    token      VARCHAR(255)          NOT NULL,
+    expired_at datetime              NOT NULL,
+    type       VARCHAR(255)          NOT NULL,
+    CONSTRAINT pk_verification PRIMARY KEY (id)
+);
+
+ALTER TABLE verification
+    ADD CONSTRAINT uc_verification_user UNIQUE (user_id);
+
+ALTER TABLE verification
+    ADD CONSTRAINT FK_VERIFICATION_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE refresh_token
+(
+    id          BIGINT AUTO_INCREMENT NOT NULL,
+    created_at  datetime              NOT NULL,
+    updated_at  datetime              NOT NULL,
+    created_by  BIGINT                NULL,
+    updated_by  BIGINT                NULL,
+    user_id     BIGINT                NOT NULL,
+    token       VARCHAR(255)          NOT NULL,
+    expiry_date datetime              NOT NULL,
+    CONSTRAINT pk_refresh_token PRIMARY KEY (id)
+);
+
+ALTER TABLE refresh_token
+    ADD CONSTRAINT uc_refresh_token_token UNIQUE (token);
+
+ALTER TABLE refresh_token
+    ADD CONSTRAINT FK_REFRESH_TOKEN_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
 
 CREATE TABLE waybill_log
 (

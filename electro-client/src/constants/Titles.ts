@@ -15,6 +15,7 @@ const titles: Record<string, string> = {
   '/user/notification': 'Thông báo',
   '/cart': 'Giỏ hàng',
   '/order': 'Đơn hàng',
+  '/order/detail/:code': 'Chi tiết đơn hàng',
 
   '/admin': 'Admin',
 };

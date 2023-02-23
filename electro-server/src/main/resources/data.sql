@@ -324,8 +324,8 @@ insert into `order` (created_at, updated_at, to_name, to_phone, to_address, to_w
                      to_province_name, code, status, order_resource_id, order_cancellation_reason_id, note, user_id,
                      total_amount, tax, shipping_cost, total_pay, payment_method_type, payment_status)
 values ('2022-05-02 23:20:36', '2022-07-02 09:02:05', 'do mixi', '0909998877', 'Streaming house', 'Phường 14',
-        'Quận 10', 'TP Hồ Chí Minh', '36987-166', 2, 1, null,
-        'Insertion of Other Device into Left Upper Leg, Perc Approach', 4, 600000, 0.1, 40000, 700000, 'CASH', 1);
+        'Quận 10', 'TP Hồ Chí Minh', '36987-166', 4, 1, null,
+        'Insertion of Other Device into Left Upper Leg, Perc Approach', 4, 600000, 0.1, 40000, 700000, 'CASH', 2);
 
 -- order_variant TABLE: 3 records
 insert into order_variant (order_id, variant_id, price, quantity, amount) values (1, 1, 100000, 1, 100000);
@@ -358,3 +358,7 @@ insert into waybill (created_at, updated_at, code, order_id, shipping_date, expe
                      ghn_required_note)
 values ('2023-02-16 00:00:00', '2023-02-16 00:00:00', 'LL939X', 1, '2023-02-16 00:00:00', '2023-02-18 00:00:00', 1,
         200000, 20000, 1, 50, 50, 50, null, 2, 'KHONGCHOXEMHANG')
+
+-- room TABLE: 2 records
+insert into room (created_at, updated_at, name, user_id) values ('2021-12-16 17:41:03', '2021-08-05 17:16:06', 'Thang', 1);
+insert into room (created_at, updated_at, name, user_id) values ('2022-01-27 01:34:39', '2022-04-22 22:26:16', 'Dang', 2);

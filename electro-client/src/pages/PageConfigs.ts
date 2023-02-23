@@ -98,6 +98,11 @@ class PageConfigs {
     [PaymentMethodType.CASH]: Cash,
     [PaymentMethodType.PAYPAL]: BrandPaypal,
   };
+
+  static paymentMethodNameMap: Record<PaymentMethodType, string> = {
+    [PaymentMethodType.CASH]: 'Thanh toán tiền mặt',
+    [PaymentMethodType.PAYPAL]: 'Thanh toán Paypal',
+  };
 }
 
 export default PageConfigs;

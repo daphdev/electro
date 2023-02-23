@@ -1,7 +1,13 @@
 package com.electro.service.order;
 
+import com.electro.dto.client.ClientOrderRequest;
+
 public interface OrderService {
 
-    void cancelOrder(Long Id);
+    void cancelOrder(String code);
+
+    String createClientOrder(ClientOrderRequest clientOrderRequest);
+
+    void captureTransactionPaypal(String paypalOrderId, String payerId);
 
 }

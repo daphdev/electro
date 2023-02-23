@@ -6,8 +6,8 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 
 // Reference: https://github.com/FasterXML/jackson-datatype-jsr310/blob/master/src/main/java/com/fasterxml/jackson/datatype/jsr310/deser/InstantDeserializer.java#L53
-public class ActiveInstantDeserializer extends InstantDeserializer<Instant> {
-    public ActiveInstantDeserializer() {
+public class DefaultInstantDeserializer extends InstantDeserializer<Instant> {
+    public DefaultInstantDeserializer() {
         super(Instant.class, DateTimeFormatter.ISO_INSTANT,
                 Instant::from,
                 a -> Instant.ofEpochMilli(a.value),

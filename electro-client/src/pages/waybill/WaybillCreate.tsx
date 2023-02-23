@@ -8,7 +8,7 @@ import { useDebouncedValue } from '@mantine/hooks';
 import { SelectOption } from 'types';
 import useGetAllApi from 'hooks/use-get-all-api';
 import { OrderResponse } from 'models/Order';
-import OrderConfigs from 'pages/order/OrderConfigs';
+import DefaultOrderConfigs from 'pages/order/DefaultOrderConfigs';
 import DateUtils from 'utils/DateUtils';
 
 function WaybillCreate() {
@@ -23,8 +23,8 @@ function WaybillCreate() {
   const [orderSelectList, setOrderSelectList] = useState<SelectOption[]>([]);
 
   const { isFetching: isFetchingOrderListResponse } = useGetAllApi<OrderResponse>(
-    OrderConfigs.resourceUrl,
-    OrderConfigs.resourceKey,
+    DefaultOrderConfigs.resourceUrl,
+    DefaultOrderConfigs.resourceKey,
     { size: 5, filter: 'status==1', search: orderSelectDebouncedKeyword },
     (orderListResponse) => {
       const selectList: SelectOption[] = orderListResponse.content.map((item) => ({

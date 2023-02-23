@@ -5,6 +5,8 @@ import com.electro.entity.client.Preorder;
 import com.electro.entity.client.Wish;
 import com.electro.entity.general.Image;
 import com.electro.entity.review.Review;
+import com.electro.entity.inventory.ProductInventoryLimit;
+import com.electro.entity.promotion.Promotion;
 import com.electro.utils.JsonNodeConverter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -120,4 +122,7 @@ public class Product extends BaseEntity {
 
     @OneToMany(mappedBy = "product")
     private List<Review> reviews = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "products")
+    private Set<Promotion> promotions = new HashSet<>();
 }

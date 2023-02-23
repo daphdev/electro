@@ -51,4 +51,7 @@ public interface ResourceName {
     String NOTIFICATION = "Notification";
     String CART = "Cart";
     String PAYMENT_METHOD = "PaymentMethod";
+    String PROMOTION = "Promotion";
+    String ROOM = "Room";
+    String MESSAGE = "Message";
 }
