@@ -3,6 +3,6 @@ package com.electro.dto.authentication;
 import lombok.Data;
 
 @Data
-public class TokenRefreshRequest {
+public class RefreshTokenRequest {
     private String refreshToken;
 }

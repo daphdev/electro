@@ -6,10 +6,11 @@ import org.springframework.security.core.Authentication;
 import java.util.Optional;
 
 public interface RefreshTokenService {
+
     Optional<RefreshToken> findByToken(String token);
 
     RefreshToken createRefreshToken(Authentication authentication);
 
-    RefreshToken verifyExpiration(RefreshToken token);
+    RefreshToken verifyExpiration(RefreshToken refreshToken);
 
 }

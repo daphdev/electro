@@ -22,15 +22,13 @@ import java.time.Instant;
 @Entity
 @Table(name = "refresh_token")
 public class RefreshToken extends BaseEntity {
-
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "token", nullable = false, unique = true)
     private String token;
 
-    @Column(nullable = false)
+    @Column(name = "expiry_date", nullable = false)
     private Instant expiryDate;
-
 }

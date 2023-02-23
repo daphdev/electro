@@ -4,9 +4,10 @@ import com.electro.config.security.JwtUtils;
 import com.electro.constant.AppConstants;
 import com.electro.dto.authentication.JwtResponse;
 import com.electro.dto.authentication.LoginRequest;
-import com.electro.dto.authentication.TokenRefreshRequest;
+import com.electro.dto.authentication.RefreshTokenRequest;
 import com.electro.entity.authentication.RefreshToken;
-import com.electro.exception.TokenRefreshException;
+import com.electro.entity.authentication.User;
+import com.electro.exception.RefreshTokenException;
 import com.electro.service.authetication.RefreshTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +29,7 @@ import java.time.Instant;
 public class AuthController {
 
     private AuthenticationManager authenticationManager;
-
     private JwtUtils jwtUtils;
-
     private RefreshTokenService refreshTokenService;
 
     @PostMapping("/login")
@@ -39,24 +38,23 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         String jwt = jwtUtils.generateJwtToken(authentication);
+        String refreshToken = refreshTokenService.createRefreshToken(authentication).getToken();
 
-        // create token refresh token
-        RefreshToken refreshToken = refreshTokenService.createRefreshToken(authentication);
-
-        return ResponseEntity.ok(new JwtResponse("Login success!", jwt, refreshToken.getToken(), Instant.now()));
+        return ResponseEntity.ok(new JwtResponse("Login success!", jwt, refreshToken, Instant.now()));
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity<?> refreshToken(@RequestBody TokenRefreshRequest request) {
-        String requestRefreshToken = request.getRefreshToken();
+    public ResponseEntity<JwtResponse> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+        String refreshToken = refreshTokenRequest.getRefreshToken();
 
-        return refreshTokenService.findByToken(requestRefreshToken)
+        String jwt = refreshTokenService.findByToken(refreshToken)
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshToken::getUser)
-                .map(user -> {
-                    String token = jwtUtils.generateTokenFromUsername(user.getUsername());
-                    return ResponseEntity.ok(new JwtResponse("Refresh Token ", token, requestRefreshToken, Instant.now()));
-                })
-                .orElseThrow(() -> new TokenRefreshException("Refresh token was expired. Please make a new signin request"));
+                .map(User::getUsername)
+                .map(jwtUtils::generateTokenFromUsername)
+                .orElseThrow(() -> new RefreshTokenException("Refresh token was expired. Please make a new signin request!"));
+
+        return ResponseEntity.ok(new JwtResponse("Refresh token", jwt, refreshToken, Instant.now()));
     }
+
 }

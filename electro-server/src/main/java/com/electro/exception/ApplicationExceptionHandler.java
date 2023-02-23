@@ -13,7 +13,7 @@ import java.time.Instant;
 @RestControllerAdvice
 public class ApplicationExceptionHandler {
 
-    @ExceptionHandler({AccessDeniedException.class, TokenRefreshException.class})
+    @ExceptionHandler({AccessDeniedException.class, RefreshTokenException.class})
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
     public ErrorMessage accessDeniedException(AccessDeniedException ex, WebRequest request) {
         return new ErrorMessage(
