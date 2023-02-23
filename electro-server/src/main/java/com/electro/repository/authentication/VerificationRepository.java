@@ -7,5 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.Optional;
 
 public interface VerificationRepository extends JpaRepository<Verification, Long>, JpaSpecificationExecutor<Verification> {
-    Optional<Verification> findVerificationByUserId(Long id);
+
+    Optional<Verification> findByUserId(Long userId);
+
 }

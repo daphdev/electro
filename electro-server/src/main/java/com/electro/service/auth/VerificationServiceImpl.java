@@ -6,13 +6,13 @@ import com.electro.dto.authentication.UserRequest;
 import com.electro.entity.authentication.Role;
 import com.electro.entity.authentication.User;
 import com.electro.entity.authentication.Verification;
+import com.electro.entity.authentication.VerificationType;
 import com.electro.entity.customer.Customer;
 import com.electro.entity.customer.CustomerGroup;
 import com.electro.entity.customer.CustomerResource;
 import com.electro.entity.customer.CustomerStatus;
-import com.electro.entity.general.VerificationType;
-import com.electro.exception.CommonException;
 import com.electro.exception.ExpiredTokenException;
+import com.electro.exception.VerificationException;
 import com.electro.mapper.authentication.UserMapper;
 import com.electro.repository.authentication.UserRepository;
 import com.electro.repository.authentication.VerificationRepository;
@@ -24,147 +24,138 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.SQLException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
 @Service
 @AllArgsConstructor
-@Transactional(rollbackOn = {Exception.class, Throwable.class, SQLException.class, CommonException.class},
-        dontRollbackOn = {ExpiredTokenException.class})
+@Transactional(rollbackOn = VerificationException.class, dontRollbackOn = ExpiredTokenException.class)
 public class VerificationServiceImpl implements VerificationService {
 
     private UserRepository userRepository;
-
     private VerificationRepository verificationRepository;
-
     private UserMapper userMapper;
-
-    private EmailSenderService emailSender;
-
-    private CustomerRepository customerRepo;
-
+    private EmailSenderService emailSenderService;
+    private CustomerRepository customerRepository;
     private PasswordEncoder passwordEncoder;
 
     @Override
     public Long generateTokenVerify(UserRequest userRequest) {
-        // check if username existing in database
-        if (userRepository.existsUserByUsername(userRequest.getUsername())){
-            throw new CommonException("username is existing");
+        // (1) Check if username exists in database
+        if (userRepository.existsUserByUsername(userRequest.getUsername())) {
+            throw new VerificationException("Username is existing");
         }
 
-        // check if email existing in database
-        if (userRepository.existsUserByEmail(userRequest.getEmail())){
-            throw new CommonException("email is existing");
+        // (2) Check if email existing in database
+        if (userRepository.existsUserByEmail(userRequest.getEmail())) {
+            throw new VerificationException("Email is existing");
         }
 
-        // create user entity(status = false) and set role Customer
+        // (3) Create user entity with status 2 (non-verified) and set role Customer
         User user = userMapper.requestToEntity(userRequest);
-        user.setStatus(2);
+        user.setStatus(2); // Non-verified
+        user.setRoles(Set.of((Role) new Role().setId(3L)));
 
-        Set<Role> roles = new HashSet<>();
-        Role role = new Role();
-        role.setId(3L);
-        roles.add(role);
-        user.setRoles(roles);
         userRepository.save(user);
 
-        // create new verification entity and set user, token and send email
+        // (4) Create new verification entity and set user, token
         Verification verification = new Verification();
         String token = generateVerificationToken();
-        verification.setToken(token);
+
         verification.setUser(user);
+        verification.setToken(token);
         verification.setExpiredAt(Instant.now().plus(5, ChronoUnit.MINUTES));
         verification.setType(VerificationType.REGISTRATION);
+
         verificationRepository.save(verification);
 
-        emailSender.sendTokenVerification(verification.getUser().getEmail(), token);
+        // (5) Send email
+        emailSenderService.sendVerificationToken(user.getEmail(), token);
 
         return user.getId();
     }
 
     @Override
-    public void resendRegistrationToken(Long userID) {
-        Optional<Verification>  verifyOptional = verificationRepository.findVerificationByUserId(userID);
-        if(verifyOptional.isPresent()){
-            Verification verification = verifyOptional.get();
+    public void resendRegistrationToken(Long userId) {
+        Optional<Verification> verifyOpt = verificationRepository.findByUserId(userId);
+
+        if (verifyOpt.isPresent()) {
+            Verification verification = verifyOpt.get();
             String token = generateVerificationToken();
+
             verification.setToken(token);
             verification.setExpiredAt(Instant.now().plus(5, ChronoUnit.MINUTES));
 
             verificationRepository.save(verification);
 
-            emailSender.sendTokenVerification(verification.getUser().getEmail(), token);
-        }else{
-            throw new CommonException("user id invalid. Please try again");
+            emailSenderService.sendVerificationToken(verification.getUser().getEmail(), token);
+        } else {
+            throw new VerificationException("User ID is invalid. Please try again!");
         }
     }
 
     @Override
     public void confirmRegistration(RegistrationRequest registration) {
-        Optional<Verification>  verifyOptional = verificationRepository.findVerificationByUserId(registration.getUserID());
-        if(verifyOptional.isPresent()){
-            Verification verification = verifyOptional.get();
-            //
-            if (verification.getToken().equals(registration.getToken()) &&
-                    verification.getExpiredAt().isAfter(Instant.now()) &&
-                    verification.getType().equals(VerificationType.REGISTRATION)){
-                // set status code and del row verification
+        Optional<Verification> verifyOpt = verificationRepository.findByUserId(registration.getUserId());
+
+        if (verifyOpt.isPresent()) {
+            Verification verification = verifyOpt.get();
+
+            boolean validVerification = verification.getToken().equals(registration.getToken())
+                    && verification.getExpiredAt().isAfter(Instant.now())
+                    && verification.getType().equals(VerificationType.REGISTRATION);
+
+            if (validVerification) {
+                // (1) Set status code and delete row verification
                 User user = verification.getUser();
-                user.setStatus(1);
+                user.setStatus(1); // Verified
                 userRepository.save(user);
                 verificationRepository.delete(verification);
 
-                // create customer model
+                // (2) Create customer entity
                 Customer customer = new Customer();
-
-                CustomerGroup customerGroup = new CustomerGroup();
-                customerGroup.setId(1L);
-
-                CustomerStatus customerStatus = new CustomerStatus();
-                customerStatus.setId(1L);
-
-                CustomerResource customerResource = new CustomerResource();
-                customerResource.setId(1L);
-
                 customer.setUser(user);
-                customer.setCustomerGroup(customerGroup);
-                customer.setCustomerStatus(customerStatus);
-                customer.setCustomerResource(customerResource);
-                customerRepo.save(customer);
+                customer.setCustomerGroup((CustomerGroup) new CustomerGroup().setId(1L));
+                customer.setCustomerStatus((CustomerStatus) new CustomerStatus().setId(1L));
+                customer.setCustomerResource((CustomerResource) new CustomerResource().setId(1L));
+                customerRepository.save(customer);
             }
 
-            // If token is expired
-            if (verification.getToken().equals(registration.getToken())&&
-                    !verification.getExpiredAt().isAfter(Instant.now())&&
-                    verification.getType().equals(VerificationType.REGISTRATION)){
+            boolean tokenIsExpired = verification.getToken().equals(registration.getToken())
+                    && !verification.getExpiredAt().isAfter(Instant.now())
+                    && verification.getType().equals(VerificationType.REGISTRATION);
+
+            if (tokenIsExpired) {
                 String token = generateVerificationToken();
+
                 verification.setToken(token);
                 verification.setExpiredAt(Instant.now().plus(5, ChronoUnit.MINUTES));
 
                 verificationRepository.save(verification);
 
-                emailSender.sendTokenVerification(verification.getUser().getEmail(), token);
-                throw new ExpiredTokenException("token is expired, please check your email to get new token" );
+                emailSenderService.sendVerificationToken(verification.getUser().getEmail(), token);
+
+                throw new ExpiredTokenException("Token is expired, please check your email to get new token!");
             }
 
-            if (!verification.getToken().equals(registration.getToken())){
-                throw new CommonException("invalid token");
+            if (!verification.getToken().equals(registration.getToken())) {
+                throw new VerificationException("Invalid token");
             }
-        }else{
-            throw new CommonException("user does not exist");
+        } else {
+            throw new VerificationException("User does not exist");
         }
     }
 
     @Override
     public void changeRegistrationEmail(Long userId, String emailUpdate) {
-        Optional<Verification>  verifyOptional = verificationRepository.findVerificationByUserId(userId);
-        if(verifyOptional.isPresent()){
-            Verification verification = verifyOptional.get();
+        Optional<Verification> verifyOpt = verificationRepository.findByUserId(userId);
+
+        if (verifyOpt.isPresent()) {
+            Verification verification = verifyOpt.get();
+
             User user = verification.getUser();
             user.setEmail(emailUpdate);
             userRepository.save(user);
@@ -174,39 +165,41 @@ public class VerificationServiceImpl implements VerificationService {
             verification.setExpiredAt(Instant.now().plus(5, ChronoUnit.MINUTES));
             verificationRepository.save(verification);
 
-            emailSender.sendTokenVerification(verification.getUser().getEmail(), token);
-        }else{
-            throw new CommonException("user does not exist");
+            emailSenderService.sendVerificationToken(verification.getUser().getEmail(), token);
+        } else {
+            throw new VerificationException("User does not exist");
         }
     }
 
     @Override
     public void forgetPassword(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() ->  new RuntimeException("email not exist"));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Email doesn't exist"));
 
-        // 1: active
-        if(user.getStatus() == 1) {
+        if (user.getStatus() == 1) {
             String token = RandomString.make(10);
             user.setResetPasswordToken(token);
             userRepository.save(user);
 
             // TODO: Using enum localhost in frontend
-            String link = "http://localhost:3000/change-password?token=" + token +"&email=" + email;
-            emailSender.sendTokenForgetPassword(user.getEmail(), link);
-        }else{
-            throw new CommonException("account not activated");
+            String link = String.format("http://localhost:3000/change-password?token=%s&email=%s", token, email);
+            emailSenderService.sendForgetPasswordToken(user.getEmail(), link);
+        } else {
+            throw new VerificationException("Account is not activated");
         }
     }
 
     @Override
-    public void resetPassword(ResetPasswordRequest req) {
-        User user = userRepository.findByEmailAndResetPasswordToken(req.getEmail(), req.getToken()).orElseThrow(() ->  new RuntimeException("email and token invalid"));
-        user.setPassword(passwordEncoder.encode(req.getPassword()));
+    public void resetPassword(ResetPasswordRequest resetPasswordRequest) {
+        User user = userRepository
+                .findByEmailAndResetPasswordToken(resetPasswordRequest.getEmail(), resetPasswordRequest.getToken())
+                .orElseThrow(() -> new RuntimeException("Email and/or token are invalid"));
+        user.setPassword(passwordEncoder.encode(resetPasswordRequest.getPassword()));
         userRepository.save(user);
     }
 
-    public String generateVerificationToken(){
-        Random ran = new Random();
-        return String.format("%04d", ran.nextInt(10000));
+    private String generateVerificationToken() {
+        Random random = new Random();
+        return String.format("%04d", random.nextInt(10000));
     }
+
 }

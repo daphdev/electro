@@ -31,9 +31,7 @@ import java.time.Instant;
 public class AuthController {
 
     private AuthenticationManager authenticationManager;
-
     private VerificationService verificationService;
-
     private JwtUtils jwtUtils;
 
     @PostMapping("login")
@@ -46,26 +44,26 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse("Login success!", jwt, Instant.now()));
     }
 
-    @PostMapping("registration")
-    public ResponseEntity<?> registerUser(@RequestBody UserRequest userRequest) {
+    @PostMapping("/registration")
+    public ResponseEntity<RegistrationResponse> registerUser(@RequestBody UserRequest userRequest) {
         Long userId = verificationService.generateTokenVerify(userRequest);
-        return ResponseEntity.ok(new RegistrationResponse(userId));
+        return ResponseEntity.status(HttpStatus.OK).body(new RegistrationResponse(userId));
     }
 
-    @GetMapping("registration/{userId}/resend-token")
-    public ResponseEntity<Void> resendRegistrationToken(@PathVariable(name = "userId") Long userId) {
+    @GetMapping("/registration/{userId}/resend-token")
+    public ResponseEntity<Void> resendRegistrationToken(@PathVariable Long userId) {
         verificationService.resendRegistrationToken(userId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PostMapping("registration/confirm")
-    public ResponseEntity<Void>  confirmRegistration(@RequestBody RegistrationRequest registration) {
+    @PostMapping("/registration/confirm")
+    public ResponseEntity<Void> confirmRegistration(@RequestBody RegistrationRequest registration) {
         verificationService.confirmRegistration(registration);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PutMapping("registration/{userId}/change-email")
-    public ResponseEntity<Void>  changeRegistrationEmail(@PathVariable(name = "userId") Long userId, @RequestParam( name = "email") String email) {
+    @PutMapping("/registration/{userId}/change-email")
+    public ResponseEntity<Void> changeRegistrationEmail(@PathVariable Long userId, @RequestParam String email) {
         verificationService.changeRegistrationEmail(userId, email);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

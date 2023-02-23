@@ -117,12 +117,16 @@
             <artifactId>springdoc-openapi-webflux-ui</artifactId>
             <version>${springdoc-openapi-ui.version}</version>
         </dependency>
-        <!--mail-->
+
+        <!-- mail -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
-        <!--mail-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

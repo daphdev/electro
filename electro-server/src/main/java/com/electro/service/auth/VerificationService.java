@@ -5,9 +5,10 @@ import com.electro.dto.authentication.ResetPasswordRequest;
 import com.electro.dto.authentication.UserRequest;
 
 public interface VerificationService {
+
     Long generateTokenVerify(UserRequest userRequest);
 
-    void resendRegistrationToken(Long userID);
+    void resendRegistrationToken(Long userId);
 
     void confirmRegistration(RegistrationRequest registration);
 
@@ -16,4 +17,5 @@ public interface VerificationService {
     void forgetPassword(String email);
 
     void resetPassword(ResetPasswordRequest resetPasswordRequest);
+
 }

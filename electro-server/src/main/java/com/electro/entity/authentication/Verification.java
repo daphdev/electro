@@ -1,7 +1,6 @@
 package com.electro.entity.authentication;
 
 import com.electro.entity.BaseEntity;
-import com.electro.entity.general.VerificationType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

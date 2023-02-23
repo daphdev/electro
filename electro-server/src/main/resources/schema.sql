@@ -123,6 +123,12 @@ ALTER TABLE user
     ADD CONSTRAINT uc_user_address UNIQUE (address_id);
 
 ALTER TABLE user
+    ADD CONSTRAINT uc_user_email UNIQUE (email);
+
+ALTER TABLE user
+    ADD CONSTRAINT uc_user_username UNIQUE (username);
+
+ALTER TABLE user
     ADD CONSTRAINT FK_USER_ON_ADDRESS FOREIGN KEY (address_id) REFERENCES address (id);
 
 CREATE TABLE `role`
@@ -932,23 +938,22 @@ ALTER TABLE order_variant
 ALTER TABLE order_variant
     ADD CONSTRAINT FK_ORDER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
 
-CREATE TABLE verification (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   user_id BIGINT NOT NULL,
-   token VARCHAR(255) NOT NULL,
-   expired_at datetime NOT NULL,
-   type VARCHAR(255) NOT NULL,
-   CONSTRAINT pk_verification PRIMARY KEY (id)
+CREATE TABLE verification
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    user_id    BIGINT                NOT NULL,
+    token      VARCHAR(255)          NOT NULL,
+    expired_at datetime              NOT NULL,
+    type       VARCHAR(255)          NOT NULL,
+    CONSTRAINT pk_verification PRIMARY KEY (id)
 );
 
-ALTER TABLE verification ADD CONSTRAINT uc_verification_user UNIQUE (user_id);
+ALTER TABLE verification
+    ADD CONSTRAINT uc_verification_user UNIQUE (user_id);
 
-ALTER TABLE verification ADD CONSTRAINT FK_VERIFICATION_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
-
-ALTER TABLE user ADD CONSTRAINT uc_user_email UNIQUE (email);
-
-ALTER TABLE user ADD CONSTRAINT uc_user_username UNIQUE (username);
+ALTER TABLE verification
+    ADD CONSTRAINT FK_VERIFICATION_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);

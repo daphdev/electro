@@ -1,7 +1,9 @@
 package com.electro.service.email;
 
 public interface EmailSenderService {
-    void sendTokenVerification(String toEmail, String token);
 
-    void sendTokenForgetPassword(String toEmail, String link);
+    void sendVerificationToken(String toEmail, String token);
+
+    void sendForgetPasswordToken(String toEmail, String link);
+
 }
