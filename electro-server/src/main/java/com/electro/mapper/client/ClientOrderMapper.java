@@ -1,13 +1,16 @@
 package com.electro.mapper.client;
 
 import com.electro.dto.client.ClientOrderDetailResponse;
+import com.electro.dto.client.ClientOrderRequest;
 import com.electro.dto.client.ClientOrderVariantResponse;
 import com.electro.dto.client.ClientSimpleOrderResponse;
 import com.electro.entity.general.Image;
 import com.electro.entity.order.Order;
 import com.electro.entity.order.OrderVariant;
 import com.electro.repository.review.ReviewRepository;
+import com.electro.utils.MapperUtils;
 import org.mapstruct.AfterMapping;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -18,7 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = MapperUtils.class)
 public abstract class ClientOrderMapper {
 
     @Autowired
@@ -79,5 +82,17 @@ public abstract class ClientOrderMapper {
 
         return clientOrderDetailResponse;
     }
+
+    @BeanMapping(qualifiedByName = "attachOrder")
+    @Mapping(source = "orderResourceId", target = "orderResource")
+    @Mapping(source = "orderCancellationReasonId", target = "orderCancellationReason")
+    @Mapping(source = "userId", target = "user")
+    public abstract Order requestToEntity(ClientOrderRequest request);
+
+    @BeanMapping(qualifiedByName = "attachOrder")
+    @Mapping(source = "orderResourceId", target = "orderResource")
+    @Mapping(source = "orderCancellationReasonId", target = "orderCancellationReason")
+    @Mapping(source = "userId", target = "user")
+    public abstract Order partialUpdate(@MappingTarget Order entity, ClientOrderRequest request);
 
 }

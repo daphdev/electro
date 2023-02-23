@@ -21,4 +21,6 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
 
     Optional<Order> findByCode(String code);
 
+    Optional<Order> findByPaypalOrderId(String paypalOrderId);
+
 }

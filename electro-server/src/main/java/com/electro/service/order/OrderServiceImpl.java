@@ -1,15 +1,25 @@
 package com.electro.service.order;
 
+import com.electro.config.payment.paypal.PayPalHttpClient;
+import com.electro.constant.AppConstants;
 import com.electro.constant.FieldName;
 import com.electro.constant.ResourceName;
+import com.electro.dto.client.ClientOrderRequest;
+import com.electro.dto.payment.OrderIntent;
+import com.electro.dto.payment.OrderStatus;
+import com.electro.dto.payment.PaymentLandingPage;
+import com.electro.dto.payment.PaypalRequest;
+import com.electro.dto.payment.PaypalResponse;
 import com.electro.dto.waybill.GhnCancelOrderRequest;
 import com.electro.dto.waybill.GhnCancelOrderResponse;
 import com.electro.entity.order.Order;
 import com.electro.entity.waybill.Waybill;
 import com.electro.exception.ResourceNotFoundException;
+import com.electro.mapper.client.ClientOrderMapper;
 import com.electro.repository.order.OrderRepository;
 import com.electro.repository.waybill.WaybillRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,11 +29,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class OrderServiceImpl implements OrderService {
 
     @Value("${electro.app.shipping.ghnToken}")
@@ -35,6 +48,10 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final WaybillRepository waybillRepository;
+    private final PayPalHttpClient payPalHttpClient;
+    private final ClientOrderMapper clientOrderMapper;
+
+    private static final int USD_VND_RATE = 23_000;
 
     @Override
     public void cancelOrder(String code) {
@@ -79,6 +96,70 @@ public class OrderServiceImpl implements OrderService {
             throw new RuntimeException(String
                     .format("Order with code %s is in delivery or has been cancelled. Please check again!", code));
         }
+    }
+
+    @Override
+    public String createClientOrder(ClientOrderRequest clientOrderRequest) {
+        // TODO: CHECK PAYMENT TYPE [CASH OR PAYPAL]
+
+        try {
+            // TODO: NEED CHECK RATE AND ROUND NUMBER
+            // (0) Tính tổng tiền theo USD
+            BigDecimal totalPayUSD = clientOrderRequest.getTotalPay()
+                    .divide(BigDecimal.valueOf(USD_VND_RATE), 0, RoundingMode.HALF_UP);
+
+            // (1) Tạo một yêu cầu giao dịch PayPal
+            PaypalRequest paypalRequest = new PaypalRequest();
+            paypalRequest.setIntent(OrderIntent.CAPTURE);
+            paypalRequest.setPurchaseUnits(List.of(
+                    new PaypalRequest.PurchaseUnit(
+                            new PaypalRequest.PurchaseUnit.Money("USD", totalPayUSD.toString())
+                    )
+            ));
+            // TODO: UPDATE CANCEL AND SUCCESS URL
+            paypalRequest.setApplicationContext(new PaypalRequest.PayPalAppContext()
+                    .setReturnUrl(AppConstants.SERVER + "/client-api/orders/success") // url backend
+                    .setCancelUrl(AppConstants.SERVER + "/api/checkout/cancel") // url frontend
+                    .setBrandName("Electro")
+                    .setLandingPage(PaymentLandingPage.BILLING));
+
+            PaypalResponse paypalResponse = payPalHttpClient.createPaypalTransaction(paypalRequest);
+
+            // (2) Lưu order
+            Order order = clientOrderMapper.requestToEntity(clientOrderRequest);
+            order.setPaypalOrderId(paypalResponse.getId());
+            order.setPaypalOrderStatus(paypalResponse.getStatus().toString());
+            orderRepository.save(order);
+
+            // (3) Trả về đường dẫn checkout cho user
+            for (PaypalResponse.Link link : paypalResponse.getLinks()) {
+                if (link.getRel().equals("approve")) {
+                    return link.getHref();
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot create PayPal transaction request!" + e);
+        }
+
+        return "";
+    }
+
+    @Override
+    public void captureTransactionPaypal(String paypalOrderId, String payerId) {
+        Order order = orderRepository.findByPaypalOrderId(paypalOrderId)
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceName.ORDER, FieldName.PAYPAL_ORDER_ID, paypalOrderId));
+
+        order.setPaypalOrderStatus(OrderStatus.APPROVED.toString());
+
+        try {
+            payPalHttpClient.capturePaypalTransaction(paypalOrderId, payerId);
+            order.setPaypalOrderStatus(OrderStatus.COMPLETED.toString());
+            // TODO: Update order.paymentStatus = 2;
+        } catch (Exception e) {
+            log.error("Cannot capture transaction: {0}", e);
+        }
+
+        orderRepository.save(order);
     }
 
 }

@@ -451,6 +451,8 @@
         note varchar(255),
         payment_method_type varchar(255) not null,
         payment_status TINYINT not null,
+        paypal_order_id varchar(255),
+        paypal_order_status varchar(255),
         shipping_cost DECIMAL(15,5) not null,
         status TINYINT not null,
         tax DECIMAL(15,5) not null,

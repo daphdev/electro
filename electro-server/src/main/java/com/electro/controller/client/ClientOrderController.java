@@ -5,7 +5,9 @@ import com.electro.constant.FieldName;
 import com.electro.constant.ResourceName;
 import com.electro.dto.ListResponse;
 import com.electro.dto.client.ClientOrderDetailResponse;
+import com.electro.dto.client.ClientOrderRequest;
 import com.electro.dto.client.ClientSimpleOrderResponse;
+import com.electro.dto.payment.PaypalCheckoutResponse;
 import com.electro.entity.order.Order;
 import com.electro.exception.ResourceNotFoundException;
 import com.electro.mapper.client.ClientOrderMapper;
@@ -23,11 +25,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -66,6 +72,24 @@ public class ClientOrderController {
     public ResponseEntity<ObjectNode> cancelOrder(@PathVariable String code) {
         orderService.cancelOrder(code);
         return ResponseEntity.status(HttpStatus.OK).body(new ObjectNode(JsonNodeFactory.instance));
+    }
+
+    @PostMapping
+    public ResponseEntity<PaypalCheckoutResponse> createClientOrder(@RequestBody ClientOrderRequest orderRequest) {
+        PaypalCheckoutResponse paypalCheckoutResponse = new PaypalCheckoutResponse(orderService.createClientOrder(orderRequest));
+        return ResponseEntity.status(HttpStatus.OK).body(paypalCheckoutResponse);
+    }
+
+    @GetMapping(value = "/success")
+    public RedirectView paymentSuccessAndCaptureTransaction(HttpServletRequest request) {
+        String paypalOrderId = request.getParameter("token");
+        String payerId = request.getParameter("PayerID");
+
+        orderService.captureTransactionPaypal(paypalOrderId, payerId);
+
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl(AppConstants.DOMAIN);
+        return redirectView;
     }
 
 }

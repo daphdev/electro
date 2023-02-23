@@ -899,6 +899,8 @@ CREATE TABLE `order`
     total_pay                    DECIMAL(15, 5)        NOT NULL,
     payment_method_type          VARCHAR(255)          NOT NULL,
     payment_status               TINYINT               NOT NULL,
+    paypal_order_id              VARCHAR(255)          NULL,
+    paypal_order_status          VARCHAR(255)          NULL,
     CONSTRAINT pk_order PRIMARY KEY (id)
 );
 
