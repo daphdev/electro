@@ -20,10 +20,10 @@ import java.util.List;
 @Component
 @Setter
 @Scope("prototype")
-@CrossOrigin("http://localhost:3000/")
+@CrossOrigin(AppConstants.DOMAIN)
 public class GenericController<I, O> {
 
-    private CrudService<I, O> crudService;
+    private CrudService<Long, I, O> crudService;
     private Class<I> requestType;
 
     public ResponseEntity<ListResponse<O>> getAllResources(

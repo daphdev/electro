@@ -2,6 +2,7 @@ class ManagerPath {
   static ADDRESS = '/admin/address';
   static PROVINCE = '/admin/address/province';
   static DISTRICT = '/admin/address/district';
+  static WARD = '/admin/address/ward';
 
   static USER = '/admin/user';
   static ROLE = '/admin/user/role';
@@ -27,6 +28,27 @@ class ManagerPath {
   static GUARANTEE = '/admin/product/guarantee';
   static PROPERTY = '/admin/product/property';
   static SPECIFICATION = '/admin/product/specification';
+
+  static INVENTORY = '/admin/inventory';
+  static WAREHOUSE = '/admin/inventory/warehouse';
+  static PURCHASE_ORDER = '/admin/inventory/purchase-order';
+  static DESTINATION = '/admin/inventory/destination';
+  static DOCKET = '/admin/inventory/docket';
+  static DOCKET_REASON = '/admin/inventory/docket-reason';
+  static COUNT = '/admin/inventory/count';
+  static TRANSFER = '/admin/inventory/transfer';
+
+  static ORDER = '/admin/order';
+  static ORDER_RESOURCE = '/admin/order/resource';
+  static ORDER_CANCELLATION_REASON = '/admin/order/cancellation-reason';
+
+  static WAYBILL = '/admin/waybill';
+
+  static REVIEW = '/admin/review';
+
+  static VOUCHER = '/admin/voucher';
+  static PAYMENT_METHOD = '/admin/payment-method';
+  static PROMOTION = '/admin/promotion';
 }
 
 export default ManagerPath;

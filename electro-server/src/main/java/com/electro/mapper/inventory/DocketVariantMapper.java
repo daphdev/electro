@@ -1,5 +1,7 @@
 package com.electro.mapper.inventory;
 
+import com.electro.dto.inventory.DocketVariantEliminatedResponse;
+import com.electro.dto.inventory.DocketVariantExtendedResponse;
 import com.electro.dto.inventory.DocketVariantRequest;
 import com.electro.dto.inventory.DocketVariantResponse;
 import com.electro.entity.inventory.DocketVariant;
@@ -10,7 +12,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = MapperUtils.class)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        uses = {DocketReasonMapper.class, WarehouseMapper.class, MapperUtils.class})
 public interface DocketVariantMapper extends GenericMapper<DocketVariant, DocketVariantRequest, DocketVariantResponse> {
 
     @Override
@@ -20,4 +23,9 @@ public interface DocketVariantMapper extends GenericMapper<DocketVariant, Docket
     @Override
     @Mapping(source = "variantId", target = "variant")
     DocketVariant partialUpdate(@MappingTarget DocketVariant entity, DocketVariantRequest request);
+
+    DocketVariantExtendedResponse docketVariantToDocketVariantExtendedResponse(DocketVariant docketVariant);
+
+    DocketVariantEliminatedResponse docketVariantToDocketVariantEliminatedResponse(DocketVariant docketVariant);
+
 }

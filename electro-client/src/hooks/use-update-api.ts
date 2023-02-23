@@ -11,6 +11,7 @@ function useUpdateApi<I, O>(resourceUrl: string, resourceKey: string, entityId: 
       onSuccess: () => {
         NotifyUtils.simpleSuccess('Cập nhật thành công');
         void queryClient.invalidateQueries([resourceKey, 'getById', entityId]);
+        void queryClient.invalidateQueries([resourceKey, 'getAll']);
       },
       onError: () => NotifyUtils.simpleFailed('Cập nhật không thành công'),
     }

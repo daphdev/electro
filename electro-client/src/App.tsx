@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import 'dayjs/locale/vi';
+import '@smastrom/react-rating/style.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
-import './App.css';
 import ManagerPath from 'constants/ManagerPath';
-import Client from './pages/Client';
-import Admin from './pages/Admin';
+import Client from 'pages/Client';
+import Admin from 'pages/Admin';
 import AdminDashboard from './pages/AdminDashboard';
 import AddressManage, { AddressCreate, AddressUpdate } from 'pages/address';
 import ProvinceManage, { ProvinceCreate, ProvinceUpdate } from 'pages/province';
@@ -35,6 +35,45 @@ import UnitManage, { UnitCreate, UnitUpdate } from 'pages/unit';
 import TagManage, { TagCreate, TagUpdate } from 'pages/tag';
 import GuaranteeManage, { GuaranteeCreate, GuaranteeUpdate } from 'pages/guarantee';
 import SupplierManage, { SupplierCreate, SupplierUpdate } from 'pages/supplier';
+import InventoryManage from 'pages/inventory';
+import WarehouseManage, { WarehouseCreate, WarehouseUpdate } from 'pages/warehouse';
+import DestinationManage, { DestinationCreate, DestinationUpdate } from 'pages/destination';
+import DocketReasonManage, { DocketReasonCreate, DocketReasonUpdate } from 'pages/docket-reason';
+import OrderManage, { OrderCreate, OrderUpdate } from 'pages/order';
+import OrderResourceManage, { OrderResourceCreate, OrderResourceUpdate } from 'pages/order-resource';
+import OrderCancellationReasonManage, {
+  OrderCancellationReasonCreate,
+  OrderCancellationReasonUpdate
+} from 'pages/order-cancellation-reason';
+import PurchaseOrderManage, { PurchaseOrderCreate, PurchaseOrderUpdate } from 'pages/purchase-order';
+import DocketManage, { DocketCreate, DocketUpdate } from 'pages/docket';
+import TransferManage, { TransferCreate, TransferUpdate } from 'pages/transfer';
+import CountManage, { CountCreate, CountUpdate } from 'pages/count';
+import ClientHome from 'pages/client-home';
+import ClientAllCategories from 'pages/client-all-categories';
+import ClientCategory from 'pages/client-category';
+import ClientSearch from 'pages/client-search';
+import ClientSignin from 'pages/client-signin';
+import ClientUser from 'pages/client-user';
+import { ClientError, ProtectedRoute, ScrollToTop } from 'components';
+import ClientSetting from 'pages/client-setting';
+import ClientSettingPersonal from 'pages/client-setting-personal';
+import ClientSettingPhone from 'pages/client-setting-phone';
+import ClientSettingEmail from 'pages/client-setting-email';
+import ClientSettingPassword from 'pages/client-setting-password';
+import ClientWishlist from 'pages/client-wishlist';
+import ClientPreorder from 'pages/client-preorder';
+import ClientNotification from 'pages/client-notification';
+import ClientReview from 'pages/client-review';
+import ReviewManage from 'pages/review';
+import VoucherManage from 'pages/voucher';
+import PaymentMethodManage from 'pages/payment-method';
+import PromotionManage from 'pages/promotion';
+import ClientProduct from 'pages/client-product';
+import ClientCart from 'pages/client-cart';
+import WaybillManage, { WaybillCreate, WaybillUpdate } from 'pages/waybill';
+import ClientOrder from 'pages/client-order';
+import ClientOrderDetail from 'pages/client-order-detail';
 
 const queryClient = new QueryClient();
 
@@ -49,8 +88,82 @@ function App() {
         <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
           <NotificationsProvider>
             <ModalsProvider>
+              <ScrollToTop/>
               <Routes>
-                <Route path="/" element={<Client/>}/>
+                <Route path="/" element={<Client/>}>
+                  <Route index element={<ClientHome/>}/>
+                  <Route path="/*" element={<ClientError/>}/>
+                  <Route path="/all-categories" element={<ClientAllCategories/>}/>
+                  <Route path="/category/:slug" element={<ClientCategory/>}/>
+                  <Route path="/search" element={<ClientSearch/>}/>
+                  <Route path="/signin" element={<ClientSignin/>}/>
+                  <Route path="/user" element={(
+                    <ProtectedRoute>
+                      <ClientUser/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/setting" element={(
+                    <ProtectedRoute>
+                      <ClientSetting/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/setting/personal" element={(
+                    <ProtectedRoute>
+                      <ClientSettingPersonal/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/setting/phone" element={(
+                    <ProtectedRoute>
+                      <ClientSettingPhone/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/setting/email" element={(
+                    <ProtectedRoute>
+                      <ClientSettingEmail/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/setting/password" element={(
+                    <ProtectedRoute>
+                      <ClientSettingPassword/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/wishlist" element={(
+                    <ProtectedRoute>
+                      <ClientWishlist/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/preorder" element={(
+                    <ProtectedRoute>
+                      <ClientPreorder/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/notification" element={(
+                    <ProtectedRoute>
+                      <ClientNotification/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/review" element={(
+                    <ProtectedRoute>
+                      <ClientReview/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/product/:slug" element={<ClientProduct/>}/>
+                  <Route path="/cart" element={(
+                    <ProtectedRoute>
+                      <ClientCart/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/order" element={(
+                    <ProtectedRoute>
+                      <ClientOrder/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/order/detail/:code" element={(
+                    <ProtectedRoute>
+                      <ClientOrderDetail/>
+                    </ProtectedRoute>
+                  )}/>
+                </Route>
                 <Route path="/admin" element={<Admin/>}>
                   <Route index element={<AdminDashboard/>}/>
                   {/* ADDRESS */}
@@ -149,6 +262,66 @@ function App() {
                   <Route path={ManagerPath.SPECIFICATION} element={<SpecificationManage/>}/>
                   <Route path={ManagerPath.SPECIFICATION + '/create'} element={<SpecificationCreate/>}/>
                   <Route path={ManagerPath.SPECIFICATION + '/update/:id'} element={<SpecificationUpdate/>}/>
+                  {/* INVENTORY */}
+                  <Route path={ManagerPath.INVENTORY} element={<InventoryManage/>}/>
+                  {/* WAREHOUSE */}
+                  <Route path={ManagerPath.WAREHOUSE} element={<WarehouseManage/>}/>
+                  <Route path={ManagerPath.WAREHOUSE + '/create'} element={<WarehouseCreate/>}/>
+                  <Route path={ManagerPath.WAREHOUSE + '/update/:id'} element={<WarehouseUpdate/>}/>
+                  {/* DESTINATION */}
+                  <Route path={ManagerPath.DESTINATION} element={<DestinationManage/>}/>
+                  <Route path={ManagerPath.DESTINATION + '/create'} element={<DestinationCreate/>}/>
+                  <Route path={ManagerPath.DESTINATION + '/update/:id'} element={<DestinationUpdate/>}/>
+                  {/* DOCKET_REASON */}
+                  <Route path={ManagerPath.DOCKET_REASON} element={<DocketReasonManage/>}/>
+                  <Route path={ManagerPath.DOCKET_REASON + '/create'} element={<DocketReasonCreate/>}/>
+                  <Route path={ManagerPath.DOCKET_REASON + '/update/:id'} element={<DocketReasonUpdate/>}/>
+                  {/* ORDER */}
+                  <Route path={ManagerPath.ORDER} element={<OrderManage/>}/>
+                  <Route path={ManagerPath.ORDER + '/create'} element={<OrderCreate/>}/>
+                  <Route path={ManagerPath.ORDER + '/update/:id'} element={<OrderUpdate/>}/>
+                  {/* ORDER_RESOURCE */}
+                  <Route path={ManagerPath.ORDER_RESOURCE} element={<OrderResourceManage/>}/>
+                  <Route path={ManagerPath.ORDER_RESOURCE + '/create'} element={<OrderResourceCreate/>}/>
+                  <Route path={ManagerPath.ORDER_RESOURCE + '/update/:id'} element={<OrderResourceUpdate/>}/>
+                  {/* ORDER_CANCELLATION_REASON */}
+                  <Route path={ManagerPath.ORDER_CANCELLATION_REASON} element={<OrderCancellationReasonManage/>}/>
+                  <Route
+                    path={ManagerPath.ORDER_CANCELLATION_REASON + '/create'}
+                    element={<OrderCancellationReasonCreate/>}
+                  />
+                  <Route
+                    path={ManagerPath.ORDER_CANCELLATION_REASON + '/update/:id'}
+                    element={<OrderCancellationReasonUpdate/>}
+                  />
+                  {/* PURCHASE_ORDER */}
+                  <Route path={ManagerPath.PURCHASE_ORDER} element={<PurchaseOrderManage/>}/>
+                  <Route path={ManagerPath.PURCHASE_ORDER + '/create'} element={<PurchaseOrderCreate/>}/>
+                  <Route path={ManagerPath.PURCHASE_ORDER + '/update/:id'} element={<PurchaseOrderUpdate/>}/>
+                  {/* DOCKET */}
+                  <Route path={ManagerPath.DOCKET} element={<DocketManage/>}/>
+                  <Route path={ManagerPath.DOCKET + '/create'} element={<DocketCreate/>}/>
+                  <Route path={ManagerPath.DOCKET + '/update/:id'} element={<DocketUpdate/>}/>
+                  {/* TRANSFER */}
+                  <Route path={ManagerPath.TRANSFER} element={<TransferManage/>}/>
+                  <Route path={ManagerPath.TRANSFER + '/create'} element={<TransferCreate/>}/>
+                  <Route path={ManagerPath.TRANSFER + '/update/:id'} element={<TransferUpdate/>}/>
+                  {/* COUNT */}
+                  <Route path={ManagerPath.COUNT} element={<CountManage/>}/>
+                  <Route path={ManagerPath.COUNT + '/create'} element={<CountCreate/>}/>
+                  <Route path={ManagerPath.COUNT + '/update/:id'} element={<CountUpdate/>}/>
+                  {/* WAYBILL */}
+                  <Route path={ManagerPath.WAYBILL} element={<WaybillManage/>}/>
+                  <Route path={ManagerPath.WAYBILL + '/create'} element={<WaybillCreate/>}/>
+                  <Route path={ManagerPath.WAYBILL + '/update/:id'} element={<WaybillUpdate/>}/>
+                  {/* REVIEW */}
+                  <Route path={ManagerPath.REVIEW} element={<ReviewManage/>}/>
+                  {/* VOUCHER */}
+                  <Route path={ManagerPath.VOUCHER} element={<VoucherManage/>}/>
+                  {/* PAYMENT_METHOD */}
+                  <Route path={ManagerPath.PAYMENT_METHOD} element={<PaymentMethodManage/>}/>
+                  {/* PROMOTION */}
+                  <Route path={ManagerPath.PROMOTION} element={<PromotionManage/>}/>
                 </Route>
               </Routes>
             </ModalsProvider>

@@ -11,7 +11,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {MapperUtils.class, CountVariantMapper.class})
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        uses = {MapperUtils.class, WarehouseMapper.class, CountVariantMapper.class})
 public interface CountMapper extends GenericMapper<Count, CountRequest, CountResponse> {
 
     @Override

@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,16 +26,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "storage_location")
 public class StorageLocation extends BaseEntity {
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "storage_location_id", referencedColumnName = "id", nullable = false, unique = true)
-    private Variant variant;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "warehouse_id", nullable = false)
     @JsonBackReference
     private Warehouse warehouse;
 
-    @Column(name = "name")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "variant_id", referencedColumnName = "id", nullable = false, unique = true)
+    @MapsId
+    private Variant variant;
+
+    @Column(name = "name", nullable = false)
     private String name;
 }

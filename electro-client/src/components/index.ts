@@ -31,6 +31,35 @@ import ManagePagination from 'components/ManagePagination/ManagePagination';
 
 // Product
 import VariantTablePopover from 'components/VariantTablePopover/VariantTablePopover';
+import ProductImagesDropzone from 'components/ProductImagesDropzone/ProductImagesDropzone';
+import ProductSpecifications from 'components/ProductSpecifications/ProductSpecifications';
+import ProductSpecificationRow from 'components/ProductSpecificationRow/ProductSpecificationRow';
+import ProductProperties from 'components/ProductProperties/ProductProperties';
+import ProductPropertyRow from 'components/ProductPropertyRow/ProductPropertyRow';
+import ProductVariants from 'components/ProductVariants/ProductVariants';
+import ProductVariantRow from 'components/ProductVariantRow/ProductVariantRow';
+import ProductVariantsForUpdate from 'components/ProductVariantsForUpdate/ProductVariantsForUpdate';
+import AddVariantsModal from 'components/AddVariantsModal/AddVariantsModal';
+
+// Variant
+import VariantFinder from 'components/VariantFinder/VariantFinder';
+import VariantTable from 'components/VariantTable/VariantTable';
+
+// Others
+import ElectroLogo from 'components/ElectroLogo/ElectroLogo';
+import FloatingCodeFrame from 'components/FloatingCodeFrame/FloatingCodeFrame';
+import LoadingMiddleware from 'components/LoadingMiddleware/LoadingMiddleware';
+import ScrollToTop from 'components/ScrollToTop/ScrollToTop';
+
+// Client
+import ClientHeader from 'components/ClientHeader/ClientHeader';
+import ClientFooter from 'components/ClientFooter/ClientFooter';
+import ClientCarousel from 'components/ClientCarousel/ClientCarousel';
+import ClientProductCard from 'components/ClientProductCard/ClientProductCard';
+import ClientError from 'components/ClientError/ClientError';
+import ProtectedRoute from 'components/ProtectedRoute/ProtectedRoute';
+import ClientUserNavbar from 'components/ClientUserNavbar/ClientUserNavbar';
+import ReviewStarGroup from 'components/ReviewStarGroup/ReviewStarGroup';
 
 export {
   CreateUpdateTitle,
@@ -59,4 +88,30 @@ export {
   ManagePagination,
 
   VariantTablePopover,
+  ProductImagesDropzone,
+  ProductSpecifications,
+  ProductSpecificationRow,
+  ProductProperties,
+  ProductPropertyRow,
+  ProductVariants,
+  ProductVariantRow,
+  ProductVariantsForUpdate,
+  AddVariantsModal,
+
+  VariantFinder,
+  VariantTable,
+
+  ElectroLogo,
+  FloatingCodeFrame,
+  LoadingMiddleware,
+  ScrollToTop,
+
+  ClientHeader,
+  ClientFooter,
+  ClientCarousel,
+  ClientProductCard,
+  ClientError,
+  ProtectedRoute,
+  ClientUserNavbar,
+  ReviewStarGroup,
 };

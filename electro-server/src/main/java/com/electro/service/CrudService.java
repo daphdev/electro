@@ -17,19 +17,19 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 
-public interface CrudService<I, O> {
+public interface CrudService<ID, I, O> {
 
     ListResponse<O> findAll(int page, int size, String sort, String filter, String search, boolean all);
 
-    O findById(Long id);
+    O findById(ID id);
 
     O save(I request);
 
-    O save(Long id, I request);
+    O save(ID id, I request);
 
-    void delete(Long id);
+    void delete(ID id);
 
-    void delete(List<Long> ids);
+    void delete(List<ID> ids);
 
     default O save(JsonNode request, Class<I> requestType) {
         ObjectMapper mapper = new ObjectMapper();
@@ -37,7 +37,7 @@ public interface CrudService<I, O> {
         return save(typedRequest);
     }
 
-    default O save(Long id, JsonNode request, Class<I> requestType) {
+    default O save(ID id, JsonNode request, Class<I> requestType) {
         ObjectMapper mapper = new ObjectMapper();
         I typedRequest = mapper.convertValue(request, requestType);
         return save(id, typedRequest);
@@ -58,8 +58,8 @@ public interface CrudService<I, O> {
         return new ListResponse<>(entityResponses, entities);
     }
 
-    default <E> O defaultFindById(Long id,
-                                  JpaRepository<E, Long> repository,
+    default <E> O defaultFindById(ID id,
+                                  JpaRepository<E, ID> repository,
                                   GenericMapper<E, I, O> mapper,
                                   String resourceName) {
         return repository.findById(id)
@@ -68,15 +68,15 @@ public interface CrudService<I, O> {
     }
 
     default <E> O defaultSave(I request,
-                              JpaRepository<E, Long> repository,
+                              JpaRepository<E, ID> repository,
                               GenericMapper<E, I, O> mapper) {
         E entity = mapper.requestToEntity(request);
         entity = repository.save(entity);
         return mapper.entityToResponse(entity);
     }
 
-    default <E> O defaultSave(Long id, I request,
-                              JpaRepository<E, Long> repository,
+    default <E> O defaultSave(ID id, I request,
+                              JpaRepository<E, ID> repository,
                               GenericMapper<E, I, O> mapper,
                               String resourceName) {
         return repository.findById(id)

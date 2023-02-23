@@ -3,8 +3,6 @@ USE electro;
 -- DROP TABLES
 
 DROP TABLE IF EXISTS
-    province,
-    district,
     address,
     user,
     role,
@@ -30,6 +28,7 @@ DROP TABLE IF EXISTS
     product,
     product_tag,
     variant,
+    image,
     product_inventory_limit,
     variant_inventory_limit,
     warehouse,
@@ -37,45 +36,30 @@ DROP TABLE IF EXISTS
     count_variant,
     destination,
     docket_reason,
-    transfer,
-    transfer_variant,
     storage_location,
     purchase_order,
     purchase_order_variant,
     docket,
     docket_variant,
+    transfer,
+    order_resource,
+    order_cancellation_reason,
+    `order`,
+    order_variant,
+    waybill,
+    wish,
+    preorder,
+    review,
+    notification,
+    cart,
+    cart_variant,
+    payment_method;
+    promotion,
+    promotion_product,
     room,
     message;
 
 -- CREATE TABLES
-
-CREATE TABLE province
-(
-    id         BIGINT AUTO_INCREMENT NOT NULL,
-    created_at datetime              NOT NULL,
-    updated_at datetime              NOT NULL,
-    created_by BIGINT                NULL,
-    updated_by BIGINT                NULL,
-    name       VARCHAR(255)          NOT NULL,
-    code       VARCHAR(35)           NOT NULL,
-    CONSTRAINT pk_province PRIMARY KEY (id)
-);
-
-CREATE TABLE district
-(
-    id          BIGINT AUTO_INCREMENT NOT NULL,
-    created_at  datetime              NOT NULL,
-    updated_at  datetime              NOT NULL,
-    created_by  BIGINT                NULL,
-    updated_by  BIGINT                NULL,
-    name        VARCHAR(255)          NOT NULL,
-    code        VARCHAR(35)           NOT NULL,
-    province_id BIGINT                NOT NULL,
-    CONSTRAINT pk_district PRIMARY KEY (id)
-);
-
-ALTER TABLE district
-    ADD CONSTRAINT FK_DISTRICT_ON_PROVINCE FOREIGN KEY (province_id) REFERENCES province (id);
 
 CREATE TABLE address
 (
@@ -87,6 +71,7 @@ CREATE TABLE address
     line        VARCHAR(255)          NULL,
     province_id BIGINT                NULL,
     district_id BIGINT                NULL,
+    ward_id     BIGINT                NULL,
     CONSTRAINT pk_address PRIMARY KEY (id)
 );
 
@@ -95,6 +80,9 @@ ALTER TABLE address
 
 ALTER TABLE address
     ADD CONSTRAINT FK_ADDRESS_ON_PROVINCE FOREIGN KEY (province_id) REFERENCES province (id);
+
+ALTER TABLE address
+    ADD CONSTRAINT FK_ADDRESS_ON_WARD FOREIGN KEY (ward_id) REFERENCES ward (id);
 
 CREATE TABLE user
 (
@@ -139,9 +127,9 @@ ALTER TABLE `role`
 
 CREATE TABLE user_role
 (
-    user_id bigint not null,
-    role_id bigint not null,
-    primary key (user_id, role_id)
+    user_id BIGINT NOT NULL,
+    role_id BIGINT NOT NULL,
+    CONSTRAINT pk_user_role PRIMARY KEY (user_id, role_id)
 );
 
 ALTER TABLE user_role
@@ -494,8 +482,6 @@ CREATE TABLE product
     slug              VARCHAR(255)          NOT NULL,
     short_description VARCHAR(255)          NULL,
     `description`     VARCHAR(255)          NULL,
-    thumbnail         VARCHAR(255)          NULL,
-    images            JSON                  NULL,
     status            TINYINT               NOT NULL,
     category_id       BIGINT                NULL,
     brand_id          BIGINT                NULL,
@@ -531,9 +517,9 @@ ALTER TABLE product
 
 CREATE TABLE product_tag
 (
-    product_id bigint not null,
-    tag_id     bigint not null,
-    primary key (product_id, tag_id)
+    product_id BIGINT NOT NULL,
+    tag_id     BIGINT NOT NULL,
+    CONSTRAINT pk_product_tag PRIMARY KEY (product_id, tag_id)
 );
 
 ALTER TABLE product_tag
@@ -565,40 +551,59 @@ ALTER TABLE variant
 ALTER TABLE variant
     ADD CONSTRAINT FK_VARIANT_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
 
-CREATE TABLE product_inventory_limit
+CREATE TABLE image
 (
     id            BIGINT AUTO_INCREMENT NOT NULL,
     created_at    datetime              NOT NULL,
     updated_at    datetime              NOT NULL,
     created_by    BIGINT                NULL,
     updated_by    BIGINT                NULL,
-    product_id    BIGINT                NOT NULL,
-    minimum_limit INT                   NULL,
-    maximum_limit INT                   NULL,
-    CONSTRAINT pk_product_inventory_limit PRIMARY KEY (id)
+    name          VARCHAR(255)          NOT NULL,
+    `path`        VARCHAR(255)          NOT NULL,
+    content_type  VARCHAR(255)          NOT NULL,
+    size          BIGINT                NOT NULL,
+    `group`       VARCHAR(255)          NOT NULL,
+    is_thumbnail  BIT(1)                NOT NULL,
+    is_eliminated BIT(1)                NOT NULL,
+    product_id    BIGINT                NULL,
+    CONSTRAINT pk_image PRIMARY KEY (id)
 );
 
-ALTER TABLE product_inventory_limit
-    ADD CONSTRAINT uc_product_inventory_limit_product UNIQUE (product_id);
+ALTER TABLE image
+    ADD CONSTRAINT uc_image_name UNIQUE (name);
+
+ALTER TABLE image
+    ADD CONSTRAINT uc_image_path UNIQUE (`path`);
+
+ALTER TABLE image
+    ADD CONSTRAINT FK_IMAGE_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
+
+CREATE TABLE product_inventory_limit
+(
+    product_id    BIGINT   NOT NULL,
+    created_at    datetime NOT NULL,
+    updated_at    datetime NOT NULL,
+    created_by    BIGINT   NULL,
+    updated_by    BIGINT   NULL,
+    minimum_limit INT      NULL,
+    maximum_limit INT      NULL,
+    CONSTRAINT pk_product_inventory_limit PRIMARY KEY (product_id)
+);
 
 ALTER TABLE product_inventory_limit
     ADD CONSTRAINT FK_PRODUCT_INVENTORY_LIMIT_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
 
 CREATE TABLE variant_inventory_limit
 (
-    id            BIGINT AUTO_INCREMENT NOT NULL,
-    created_at    datetime              NOT NULL,
-    updated_at    datetime              NOT NULL,
-    created_by    BIGINT                NULL,
-    updated_by    BIGINT                NULL,
-    variant_id    BIGINT                NOT NULL,
-    minimum_limit INT                   NULL,
-    maximum_limit INT                   NULL,
-    CONSTRAINT pk_variant_inventory_limit PRIMARY KEY (id)
+    variant_id    BIGINT   NOT NULL,
+    created_at    datetime NOT NULL,
+    updated_at    datetime NOT NULL,
+    created_by    BIGINT   NULL,
+    updated_by    BIGINT   NULL,
+    minimum_limit INT      NULL,
+    maximum_limit INT      NULL,
+    CONSTRAINT pk_variant_inventory_limit PRIMARY KEY (variant_id)
 );
-
-ALTER TABLE variant_inventory_limit
-    ADD CONSTRAINT uc_variant_inventory_limit_variant UNIQUE (variant_id);
 
 ALTER TABLE variant_inventory_limit
     ADD CONSTRAINT FK_VARIANT_INVENTORY_LIMIT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
@@ -694,120 +699,420 @@ CREATE TABLE docket_reason
     CONSTRAINT pk_docket_reason PRIMARY KEY (id)
 );
 
+CREATE TABLE storage_location
+(
+    variant_id   BIGINT       NOT NULL,
+    created_at   datetime     NOT NULL,
+    updated_at   datetime     NOT NULL,
+    created_by   BIGINT       NULL,
+    updated_by   BIGINT       NULL,
+    warehouse_id BIGINT       NOT NULL,
+    name         VARCHAR(255) NOT NULL,
+    CONSTRAINT pk_storage_location PRIMARY KEY (variant_id)
+);
+
+ALTER TABLE storage_location
+    ADD CONSTRAINT FK_STORAGE_LOCATION_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+
+ALTER TABLE storage_location
+    ADD CONSTRAINT FK_STORAGE_LOCATION_ON_WAREHOUSE FOREIGN KEY (warehouse_id) REFERENCES warehouse (id);
+
+CREATE TABLE purchase_order
+(
+    id             BIGINT AUTO_INCREMENT NOT NULL,
+    created_at     datetime              NOT NULL,
+    updated_at     datetime              NOT NULL,
+    created_by     BIGINT                NULL,
+    updated_by     BIGINT                NULL,
+    code           VARCHAR(255)          NOT NULL,
+    supplier_id    BIGINT                NOT NULL,
+    destination_id BIGINT                NOT NULL,
+    total_amount   DOUBLE                NOT NULL,
+    note           VARCHAR(255)          NULL,
+    status         TINYINT               NOT NULL,
+    CONSTRAINT pk_purchase_order PRIMARY KEY (id)
+);
+
+ALTER TABLE purchase_order
+    ADD CONSTRAINT uc_purchase_order_code UNIQUE (code);
+
+ALTER TABLE purchase_order
+    ADD CONSTRAINT FK_PURCHASE_ORDER_ON_DESTINATION FOREIGN KEY (destination_id) REFERENCES destination (id);
+
+ALTER TABLE purchase_order
+    ADD CONSTRAINT FK_PURCHASE_ORDER_ON_SUPPLIER FOREIGN KEY (supplier_id) REFERENCES supplier (id);
+
+CREATE TABLE purchase_order_variant
+(
+    purchase_order_id BIGINT NOT NULL,
+    variant_id        BIGINT NOT NULL,
+    cost              DOUBLE NOT NULL,
+    quantity          INT    NOT NULL,
+    amount            DOUBLE NOT NULL,
+    CONSTRAINT pk_purchase_order_variant PRIMARY KEY (purchase_order_id, variant_id)
+);
+
+ALTER TABLE purchase_order_variant
+    ADD CONSTRAINT FK_PURCHASE_ORDER_VARIANT_ON_PURCHASE_ORDER FOREIGN KEY (purchase_order_id) REFERENCES purchase_order (id);
+
+ALTER TABLE purchase_order_variant
+    ADD CONSTRAINT FK_PURCHASE_ORDER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+
+CREATE TABLE docket
+(
+    id                BIGINT AUTO_INCREMENT NOT NULL,
+    created_at        datetime              NOT NULL,
+    updated_at        datetime              NOT NULL,
+    created_by        BIGINT                NULL,
+    updated_by        BIGINT                NULL,
+    type              INT                   NOT NULL,
+    code              VARCHAR(255)          NOT NULL,
+    reason_id         BIGINT                NOT NULL,
+    warehouse_id      BIGINT                NOT NULL,
+    purchase_order_id BIGINT                NULL,
+    order_id          BIGINT                NULL,
+    note              VARCHAR(255)          NULL,
+    status            TINYINT               NOT NULL,
+    CONSTRAINT pk_docket PRIMARY KEY (id)
+);
+
+ALTER TABLE docket
+    ADD CONSTRAINT uc_docket_code UNIQUE (code);
+
+ALTER TABLE docket
+    ADD CONSTRAINT FK_DOCKET_ON_PURCHASE_ORDER FOREIGN KEY (purchase_order_id) REFERENCES purchase_order (id);
+
+ALTER TABLE docket
+    ADD CONSTRAINT FK_DOCKET_ON_REASON FOREIGN KEY (reason_id) REFERENCES docket_reason (id);
+
+ALTER TABLE docket
+    ADD CONSTRAINT FK_DOCKET_ON_WAREHOUSE FOREIGN KEY (warehouse_id) REFERENCES warehouse (id);
+
+CREATE TABLE docket_variant
+(
+    docket_id  BIGINT NOT NULL,
+    variant_id BIGINT NOT NULL,
+    quantity   INT    NOT NULL,
+    CONSTRAINT pk_docket_variant PRIMARY KEY (docket_id, variant_id)
+);
+
+ALTER TABLE docket_variant
+    ADD CONSTRAINT FK_DOCKET_VARIANT_ON_DOCKET FOREIGN KEY (docket_id) REFERENCES docket (id);
+
+ALTER TABLE docket_variant
+    ADD CONSTRAINT FK_DOCKET_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+
 CREATE TABLE transfer
 (
-    id         BIGINT AUTO_INCREMENT NOT NULL,
-    created_at datetime              NOT NULL,
-    updated_at datetime              NOT NULL,
-    created_by BIGINT                NULL,
-    updated_by BIGINT                NULL,
-    code       VARCHAR(255)          NOT NULL,
-    note       VARCHAR(255)          NULL,
-    status     TINYINT               NOT NULL,
+    id               BIGINT AUTO_INCREMENT NOT NULL,
+    created_at       datetime              NOT NULL,
+    updated_at       datetime              NOT NULL,
+    created_by       BIGINT                NULL,
+    updated_by       BIGINT                NULL,
+    code             VARCHAR(255)          NOT NULL,
+    export_docket_id BIGINT                NOT NULL,
+    import_docket_id BIGINT                NOT NULL,
+    note             VARCHAR(255)          NULL,
     CONSTRAINT pk_transfer PRIMARY KEY (id)
 );
 
 ALTER TABLE transfer
     ADD CONSTRAINT uc_transfer_code UNIQUE (code);
 
-CREATE TABLE transfer_variant
+ALTER TABLE transfer
+    ADD CONSTRAINT uc_transfer_export_docket UNIQUE (export_docket_id);
+
+ALTER TABLE transfer
+    ADD CONSTRAINT uc_transfer_import_docket UNIQUE (import_docket_id);
+
+ALTER TABLE transfer
+    ADD CONSTRAINT FK_TRANSFER_ON_EXPORT_DOCKET FOREIGN KEY (export_docket_id) REFERENCES docket (id);
+
+ALTER TABLE transfer
+    ADD CONSTRAINT FK_TRANSFER_ON_IMPORT_DOCKET FOREIGN KEY (import_docket_id) REFERENCES docket (id);
+
+CREATE TABLE order_resource
 (
-    transfer_id BIGINT NOT NULL,
-    variant_id  BIGINT NOT NULL,
-    quantity    INT    NOT NULL,
-    CONSTRAINT pk_transfer_variant PRIMARY KEY (transfer_id, variant_id)
+    id                   BIGINT AUTO_INCREMENT NOT NULL,
+    created_at           datetime              NOT NULL,
+    updated_at           datetime              NOT NULL,
+    created_by           BIGINT                NULL,
+    updated_by           BIGINT                NULL,
+    code                 VARCHAR(255)          NOT NULL,
+    name                 VARCHAR(255)          NOT NULL,
+    color                VARCHAR(255)          NOT NULL,
+    customer_resource_id BIGINT                NULL,
+    status               TINYINT               NOT NULL,
+    CONSTRAINT pk_order_resource PRIMARY KEY (id)
 );
 
-ALTER TABLE transfer_variant
-    ADD CONSTRAINT FK_TRANSFER_VARIANT_ON_TRANSFER FOREIGN KEY (transfer_id) REFERENCES transfer (id);
+ALTER TABLE order_resource
+    ADD CONSTRAINT uc_order_resource_code UNIQUE (code);
 
-ALTER TABLE transfer_variant
-    ADD CONSTRAINT FK_TRANSFER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+ALTER TABLE order_resource
+    ADD CONSTRAINT FK_ORDER_RESOURCE_ON_CUSTOMER_RESOURCE FOREIGN KEY (customer_resource_id) REFERENCES customer_resource (id);
 
-CREATE TABLE storage_location (
-   id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   storage_location_id BIGINT NOT NULL,
-   warehouse_id BIGINT NOT NULL,
-   name VARCHAR(255) NULL,
-   CONSTRAINT pk_storage_location PRIMARY KEY (id)
+CREATE TABLE order_cancellation_reason
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    name       VARCHAR(255)          NOT NULL,
+    note       VARCHAR(255)          NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_order_cancellation_reason PRIMARY KEY (id)
 );
 
-ALTER TABLE storage_location ADD CONSTRAINT uc_storage_location_storage_location UNIQUE (storage_location_id);
-
-ALTER TABLE storage_location ADD CONSTRAINT FK_STORAGE_LOCATION_ON_STORAGE_LOCATION FOREIGN KEY (storage_location_id) REFERENCES variant (id);
-
-ALTER TABLE storage_location ADD CONSTRAINT FK_STORAGE_LOCATION_ON_WAREHOUSE FOREIGN KEY (warehouse_id) REFERENCES warehouse (id);
-
-
-CREATE TABLE purchase_order (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   code VARCHAR(255) NULL,
-   supplier_id BIGINT NOT NULL,
-   destination_id BIGINT NOT NULL,
-   total_amount DOUBLE NULL,
-   note VARCHAR(255) NULL,
-   status TINYINT NOT NULL,
-   CONSTRAINT pk_purchase_order PRIMARY KEY (id)
+CREATE TABLE `order`
+(
+    id                           BIGINT AUTO_INCREMENT NOT NULL,
+    created_at                   datetime              NOT NULL,
+    updated_at                   datetime              NOT NULL,
+    created_by                   BIGINT                NULL,
+    updated_by                   BIGINT                NULL,
+    code                         VARCHAR(255)          NOT NULL,
+    status                       TINYINT               NOT NULL,
+    to_name                      VARCHAR(255)          NOT NULL,
+    to_phone                     VARCHAR(255)          NOT NULL,
+    to_address                   VARCHAR(255)          NOT NULL,
+    to_ward_name                 VARCHAR(255)          NOT NULL,
+    to_district_name             VARCHAR(255)          NOT NULL,
+    to_province_name             VARCHAR(255)          NOT NULL,
+    order_resource_id            BIGINT                NOT NULL,
+    order_cancellation_reason_id BIGINT                NULL,
+    note                         VARCHAR(255)          NULL,
+    user_id                      BIGINT                NOT NULL,
+    total_amount                 DECIMAL(15, 5)        NOT NULL,
+    tax                          DECIMAL(15, 5)        NOT NULL,
+    shipping_cost                DECIMAL(15, 5)        NOT NULL,
+    total_pay                    DECIMAL(15, 5)        NOT NULL,
+    payment_method_type          VARCHAR(255)          NOT NULL,
+    payment_status               TINYINT               NOT NULL,
+    CONSTRAINT pk_order PRIMARY KEY (id)
 );
 
-ALTER TABLE purchase_order ADD CONSTRAINT FK_PURCHASE_ORDER_ON_DESTINATION FOREIGN KEY (destination_id) REFERENCES destination (id);
+ALTER TABLE `order`
+    ADD CONSTRAINT uc_order_code UNIQUE (code);
 
-ALTER TABLE purchase_order ADD CONSTRAINT FK_PURCHASE_ORDER_ON_SUPPLIER FOREIGN KEY (supplier_id) REFERENCES supplier (id);
+ALTER TABLE `order`
+    ADD CONSTRAINT FK_ORDER_ON_ORDER_CANCELLATION_REASON FOREIGN KEY (order_cancellation_reason_id) REFERENCES order_cancellation_reason (id);
 
-CREATE TABLE purchase_order_variant (
-   cost DOUBLE NOT NULL,
-   quantity INT NOT NULL,
-   amount DOUBLE NOT NULL,
-   purchase_order_id BIGINT NOT NULL,
-   variant_id BIGINT NOT NULL,
-   CONSTRAINT pk_purchase_order_variant PRIMARY KEY (purchase_order_id, variant_id)
+ALTER TABLE `order`
+    ADD CONSTRAINT FK_ORDER_ON_ORDER_RESOURCE FOREIGN KEY (order_resource_id) REFERENCES order_resource (id);
+
+ALTER TABLE `order`
+    ADD CONSTRAINT FK_ORDER_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+ALTER TABLE docket
+    ADD CONSTRAINT FK_DOCKET_ON_ORDER FOREIGN KEY (order_id) REFERENCES `order` (id);
+
+CREATE TABLE order_variant
+(
+    order_id   BIGINT         NOT NULL,
+    variant_id BIGINT         NOT NULL,
+    price      DECIMAL(15, 5) NOT NULL,
+    quantity   INT            NOT NULL,
+    amount     DECIMAL(15, 5) NOT NULL,
+    CONSTRAINT pk_order_variant PRIMARY KEY (order_id, variant_id)
 );
 
-ALTER TABLE purchase_order_variant ADD CONSTRAINT FK_PURCHASE_ORDER_VARIANT_ON_PURCHASE_ORDER FOREIGN KEY (purchase_order_id) REFERENCES purchase_order (id);
+ALTER TABLE order_variant
+    ADD CONSTRAINT FK_ORDER_VARIANT_ON_ORDER FOREIGN KEY (order_id) REFERENCES `order` (id);
 
-ALTER TABLE purchase_order_variant ADD CONSTRAINT FK_PURCHASE_ORDER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+ALTER TABLE order_variant
+    ADD CONSTRAINT FK_ORDER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
 
-CREATE TABLE docket (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   type INT NULL,
-   code VARCHAR(255) NULL,
-   reason_id BIGINT NULL,
-   warehouse_id BIGINT NOT NULL,
-   note VARCHAR(255) NULL,
-   status TINYINT NOT NULL,
-   purchase_order_id BIGINT NOT NULL,
-   CONSTRAINT pk_docket PRIMARY KEY (id)
+CREATE TABLE waybill
+(
+    id                     BIGINT AUTO_INCREMENT NOT NULL,
+    created_at             datetime              NOT NULL,
+    updated_at             datetime              NOT NULL,
+    created_by             BIGINT                NULL,
+    updated_by             BIGINT                NULL,
+    code                   VARCHAR(255)          NOT NULL,
+    order_id               BIGINT                NOT NULL,
+    shipping_date          datetime              NOT NULL,
+    expected_delivery_time datetime              NOT NULL,
+    status                 TINYINT               NOT NULL,
+    cod_amount             INT                   NOT NULL,
+    shipping_fee           INT                   NOT NULL,
+    weight                 INT                   NOT NULL,
+    length                 INT                   NOT NULL,
+    width                  INT                   NOT NULL,
+    height                 INT                   NOT NULL,
+    note                   VARCHAR(255)          NULL,
+    ghn_payment_type_id    INT                   NOT NULL,
+    ghn_required_note      VARCHAR(255)          NOT NULL,
+    CONSTRAINT pk_waybill PRIMARY KEY (id)
 );
 
-ALTER TABLE docket ADD CONSTRAINT FK_DOCKET_ON_PURCHASE_ORDER FOREIGN KEY (purchase_order_id) REFERENCES purchase_order (id);
+ALTER TABLE waybill
+    ADD CONSTRAINT uc_waybill_code UNIQUE (code);
 
-ALTER TABLE docket ADD CONSTRAINT FK_DOCKET_ON_REASON FOREIGN KEY (reason_id) REFERENCES docket_reason (id);
+ALTER TABLE waybill
+    ADD CONSTRAINT uc_waybill_order UNIQUE (order_id);
 
-ALTER TABLE docket ADD CONSTRAINT FK_DOCKET_ON_WAREHOUSE FOREIGN KEY (warehouse_id) REFERENCES warehouse (id);
+ALTER TABLE waybill
+    ADD CONSTRAINT FK_WAYBILL_ON_ORDER FOREIGN KEY (order_id) REFERENCES `order` (id);
 
-CREATE TABLE docket_variant (
-   quantity INT NOT NULL,
-   docket_id BIGINT NOT NULL,
-   variant_id BIGINT NOT NULL,
-   CONSTRAINT pk_docket_variant PRIMARY KEY (docket_id, variant_id)
+CREATE TABLE wish
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    user_id    BIGINT                NOT NULL,
+    product_id BIGINT                NOT NULL,
+    CONSTRAINT pk_wish PRIMARY KEY (id)
 );
 
-ALTER TABLE docket_variant ADD CONSTRAINT FK_DOCKET_VARIANT_ON_DOCKET FOREIGN KEY (docket_id) REFERENCES docket (id);
+ALTER TABLE wish
+    ADD CONSTRAINT uc_wish UNIQUE (user_id, product_id);
 
-ALTER TABLE docket_variant ADD CONSTRAINT FK_DOCKET_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+ALTER TABLE wish
+    ADD CONSTRAINT FK_WISH_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
 
+ALTER TABLE wish
+    ADD CONSTRAINT FK_WISH_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE preorder
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    user_id    BIGINT                NOT NULL,
+    product_id BIGINT                NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_preorder PRIMARY KEY (id)
+);
+
+ALTER TABLE preorder
+    ADD CONSTRAINT uc_preorder UNIQUE (user_id, product_id);
+
+ALTER TABLE preorder
+    ADD CONSTRAINT FK_PREORDER_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
+
+ALTER TABLE preorder
+    ADD CONSTRAINT FK_PREORDER_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE review
+(
+    id           BIGINT AUTO_INCREMENT NOT NULL,
+    created_at   datetime              NOT NULL,
+    updated_at   datetime              NOT NULL,
+    created_by   BIGINT                NULL,
+    updated_by   BIGINT                NULL,
+    user_id      BIGINT                NOT NULL,
+    product_id   BIGINT                NOT NULL,
+    rating_score TINYINT               NOT NULL,
+    content      TEXT                  NOT NULL,
+    reply        TEXT                  NULL,
+    status       TINYINT               NOT NULL,
+    CONSTRAINT pk_review PRIMARY KEY (id)
+);
+
+ALTER TABLE review
+    ADD CONSTRAINT uc_review UNIQUE (user_id, product_id);
+
+ALTER TABLE review
+    ADD CONSTRAINT FK_REVIEW_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
+
+ALTER TABLE review
+    ADD CONSTRAINT FK_REVIEW_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE notification
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    user_id    BIGINT                NOT NULL,
+    type       VARCHAR(255)          NOT NULL,
+    message    VARCHAR(255)          NOT NULL,
+    anchor     VARCHAR(255)          NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_notification PRIMARY KEY (id)
+);
+
+ALTER TABLE notification
+    ADD CONSTRAINT FK_NOTIFICATION_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE cart
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    user_id    BIGINT                NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_cart PRIMARY KEY (id)
+);
+
+ALTER TABLE cart
+    ADD CONSTRAINT FK_CART_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+CREATE TABLE cart_variant
+(
+    cart_id    BIGINT   NOT NULL,
+    variant_id BIGINT   NOT NULL,
+    created_at datetime NOT NULL,
+    quantity   INT      NOT NULL,
+    CONSTRAINT pk_cart_variant PRIMARY KEY (cart_id, variant_id)
+);
+
+ALTER TABLE cart_variant
+    ADD CONSTRAINT FK_CART_VARIANT_ON_CART FOREIGN KEY (cart_id) REFERENCES cart (id);
+
+ALTER TABLE cart_variant
+    ADD CONSTRAINT FK_CART_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+
+CREATE TABLE payment_method
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    name       VARCHAR(255)          NOT NULL,
+    code       VARCHAR(255)          NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_payment_method PRIMARY KEY (id)
+);
+
+CREATE TABLE promotion
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    name       VARCHAR(255)          NOT NULL,
+    start_date datetime              NOT NULL,
+    end_date   datetime              NOT NULL,
+    percent    INT                   NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_promotion PRIMARY KEY (id)
+);
+
+CREATE TABLE promotion_product
+(
+    promotion_id BIGINT NOT NULL,
+    product_id   BIGINT NOT NULL,
+    CONSTRAINT pk_promotion_product PRIMARY KEY (promotion_id, product_id)
+);
+
+ALTER TABLE promotion_product
+    ADD CONSTRAINT FK_PROMOTION_PRODUCT_ON_PROMOTION FOREIGN KEY (promotion_id) REFERENCES promotion (id);
+
+ALTER TABLE promotion_product
+    ADD CONSTRAINT FK_PROMOTION_PRODUCT_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
 CREATE TABLE room
 (
     id              BIGINT AUTO_INCREMENT NOT NULL,

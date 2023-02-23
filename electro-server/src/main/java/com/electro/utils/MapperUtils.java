@@ -3,7 +3,9 @@ package com.electro.utils;
 import com.electro.entity.BaseEntity;
 import com.electro.entity.address.District;
 import com.electro.entity.address.Province;
+import com.electro.entity.address.Ward;
 import com.electro.entity.authentication.User;
+import com.electro.entity.customer.Customer;
 import com.electro.entity.chat.Room;
 import com.electro.entity.customer.CustomerGroup;
 import com.electro.entity.customer.CustomerResource;
@@ -14,12 +16,18 @@ import com.electro.entity.employee.JobTitle;
 import com.electro.entity.employee.JobType;
 import com.electro.entity.employee.Office;
 import com.electro.entity.inventory.Count;
+import com.electro.entity.inventory.CountVariantKey;
 import com.electro.entity.inventory.Destination;
 import com.electro.entity.inventory.Docket;
 import com.electro.entity.inventory.DocketReason;
+import com.electro.entity.inventory.DocketVariantKey;
 import com.electro.entity.inventory.PurchaseOrder;
-import com.electro.entity.inventory.Transfer;
+import com.electro.entity.inventory.PurchaseOrderVariantKey;
 import com.electro.entity.inventory.Warehouse;
+import com.electro.entity.order.Order;
+import com.electro.entity.order.OrderCancellationReason;
+import com.electro.entity.order.OrderResource;
+import com.electro.entity.order.OrderVariantKey;
 import com.electro.entity.product.Brand;
 import com.electro.entity.product.Category;
 import com.electro.entity.product.Guarantee;
@@ -27,7 +35,12 @@ import com.electro.entity.product.Product;
 import com.electro.entity.product.Supplier;
 import com.electro.entity.product.Unit;
 import com.electro.entity.product.Variant;
+import com.electro.repository.address.DistrictRepository;
+import com.electro.repository.address.ProvinceRepository;
+import com.electro.repository.address.WardRepository;
 import com.electro.repository.authentication.RoleRepository;
+import com.electro.repository.authentication.UserRepository;
+import com.electro.repository.product.ProductRepository;
 import com.electro.repository.product.TagRepository;
 import com.electro.repository.product.VariantRepository;
 import org.mapstruct.AfterMapping;
@@ -37,6 +50,7 @@ import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
@@ -54,10 +68,28 @@ public abstract class MapperUtils {
     private TagRepository tagRepository;
     @Autowired
     private VariantRepository variantRepository;
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    private ProvinceRepository provinceRepository;
+    @Autowired
+    private DistrictRepository districtRepository;
+    @Autowired
+    private WardRepository wardRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public abstract Province mapToProvince(Long id);
+    public Province mapToProvince(@Nullable Long id) {
+        return id == null ? null : provinceRepository.getById(id);
+    }
 
-    public abstract District mapToDistrict(Long id);
+    public District mapToDistrict(@Nullable Long id) {
+        return id == null ? null : districtRepository.getById(id);
+    }
+
+    public Ward mapToWard(@Nullable Long id) {
+        return id == null ? null : wardRepository.getById(id);
+    }
 
     public abstract Office mapToOffice(Long id);
 
@@ -85,8 +117,6 @@ public abstract class MapperUtils {
 
     public abstract Guarantee mapToGuarantee(Long id);
 
-    public abstract Product mapToProduct(Long id);
-
     public abstract Warehouse mapToWarehouse(Long id);
 
     public abstract DocketReason mapToDocketReason(Long id);
@@ -95,12 +125,26 @@ public abstract class MapperUtils {
 
     public abstract PurchaseOrder mapToPurchaseOrder(Long id);
 
-    public abstract Room mapToRoom(Long id);
+    public abstract OrderResource mapToOrderResource(Long id);
 
-    public abstract User mapToUser(Long id);
+    public abstract OrderCancellationReason mapToOrderCancellationReason(Long id);
+
+    public abstract Customer mapToCustomer(Long id);
+
+    public abstract Order mapToOrder(Long id);
+
+    public abstract Room mapToRoom(Long id);
 
     public Variant mapToVariant(Long id) {
         return variantRepository.getById(id);
+    }
+
+    public Product mapToProduct(Long id) {
+        return productRepository.getById(id);
+    }
+
+    public User mapToUser(Long id) {
+        return userRepository.getById(id);
     }
 
     @Named("hashPassword")
@@ -117,34 +161,50 @@ public abstract class MapperUtils {
     @AfterMapping
     @Named("attachProduct")
     public Product attachProduct(@MappingTarget Product product) {
-        return product.setTags(attachSet(product.getTags(), tagRepository));
+        product.getImages().forEach(image -> image.setProduct(product));
+        product.setTags(attachSet(product.getTags(), tagRepository));
+        product.getVariants().forEach(variant -> variant.setProduct(product));
+        return product;
     }
 
     @AfterMapping
     @Named("attachCount")
     public Count attachCount(@MappingTarget Count count) {
-        count.getCountVariants().forEach(countVariant -> countVariant.setCount(count));
+        count.getCountVariants().forEach(countVariant -> {
+            countVariant.setCountVariantKey(new CountVariantKey(count.getId(), countVariant.getVariant().getId()));
+            countVariant.setCount(count);
+        });
         return count;
     }
 
     @AfterMapping
-    @Named("attachTransfer")
-    public Transfer attachTransfer(@MappingTarget Transfer transfer) {
-        transfer.getTransferVariants().forEach(transferVariant -> transferVariant.setTransfer(transfer));
-        return transfer;
+    @Named("attachOrder")
+    public Order attachOrder(@MappingTarget Order order) {
+        order.getOrderVariants().forEach(orderVariant -> {
+            orderVariant.setOrderVariantKey(new OrderVariantKey(order.getId(), orderVariant.getVariant().getId()));
+            orderVariant.setOrder(order);
+        });
+        return order;
     }
 
     @AfterMapping
     @Named("attachDocket")
     public Docket attachDocket(@MappingTarget Docket docket) {
-        docket.getDocketVariants().forEach(docketVariant -> docketVariant.setDocket(docket));
+        docket.getDocketVariants().forEach(docketVariant -> {
+            docketVariant.setDocketVariantKey(new DocketVariantKey(docket.getId(), docketVariant.getVariant().getId()));
+            docketVariant.setDocket(docket);
+        });
         return docket;
     }
 
     @AfterMapping
     @Named("attachPurchaseOrder")
     public PurchaseOrder attachPurchaseOrder(@MappingTarget PurchaseOrder purchaseOrder) {
-        purchaseOrder.getVariants().forEach(purchaseOrderVariant -> purchaseOrderVariant.setPurchaseOrder(purchaseOrder));
+        purchaseOrder.getPurchaseOrderVariants().forEach(purchaseOrderVariant -> {
+            purchaseOrderVariant.setPurchaseOrderVariantKey(
+                    new PurchaseOrderVariantKey(purchaseOrder.getId(), purchaseOrderVariant.getVariant().getId()));
+            purchaseOrderVariant.setPurchaseOrder(purchaseOrder);
+        });
         return purchaseOrder;
     }
 

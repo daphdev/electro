@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, Grid, Stack } from '@mantine/core';
-import { SortCriteriaRow } from 'components/index';
+import { SortCriteriaRow } from 'components';
 import useFilterPanelStyles from 'components/FilterPanel/FilterPanel.styles';
 import useFilterPanelMainLeftViewModel from 'components/FilterPanelMainLeft/FilterPanelMainLeft.vm';
 
@@ -9,7 +9,7 @@ function FilterPanelMainLeft() {
 
   const {
     sortCriteriaList,
-    isDisabledDeleteSortCriteriaButton,
+    isDisabledCreateSortCriteriaButton,
     handleCreateSortCriteriaButton,
   } = useFilterPanelMainLeftViewModel();
 
@@ -31,7 +31,7 @@ function FilterPanelMainLeft() {
         <Button
           variant="outline"
           onClick={handleCreateSortCriteriaButton}
-          disabled={isDisabledDeleteSortCriteriaButton}
+          disabled={isDisabledCreateSortCriteriaButton}
         >
           Thêm tiêu chí sắp xếp
         </Button>

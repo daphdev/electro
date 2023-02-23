@@ -3,6 +3,7 @@ package com.electro.entity.inventory;
 import com.electro.entity.BaseEntity;
 import com.electro.entity.product.Supplier;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -28,8 +31,7 @@ import java.util.Set;
 @Entity
 @Table(name = "purchase_order")
 public class PurchaseOrder extends BaseEntity {
-
-    @Column(name = "code")
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,14 +40,14 @@ public class PurchaseOrder extends BaseEntity {
     private Supplier supplier;
 
     @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL)
-    private Set<PurchaseOrderVariant> variants = new HashSet<>();
+    private Set<PurchaseOrderVariant> purchaseOrderVariants = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "destination_id", nullable = false)
     @JsonBackReference
     private Destination destination;
 
-    @Column(name = "total_amount")
+    @Column(name = "total_amount", nullable = false)
     private Double totalAmount;
 
     @Column(name = "note")
@@ -54,6 +56,7 @@ public class PurchaseOrder extends BaseEntity {
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
 
-    @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL)
-    private Set<Docket> dockets = new HashSet<>();
+    @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Docket> dockets = new ArrayList<>();
 }

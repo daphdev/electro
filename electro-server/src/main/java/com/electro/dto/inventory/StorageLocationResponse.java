@@ -10,7 +10,7 @@ public class StorageLocationResponse {
     private Long id;
     private Instant createdAt;
     private Instant updatedAt;
-    private VariantResponse variant;
     private WarehouseResponse warehouse;
+    private VariantResponse variant;
     private String name;
 }

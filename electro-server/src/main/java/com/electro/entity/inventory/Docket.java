@@ -1,6 +1,7 @@
 package com.electro.entity.inventory;
 
 import com.electro.entity.BaseEntity;
+import com.electro.entity.order.Order;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,15 +28,14 @@ import java.util.Set;
 @Entity
 @Table(name = "docket")
 public class Docket extends BaseEntity {
-
-    @Column(name = "type")
+    @Column(name = "type", nullable = false)
     private Integer type;
 
-    @Column(name = "code")
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reason_id")
+    @JoinColumn(name = "reason_id", nullable = false)
     @JsonBackReference
     private DocketReason reason;
 
@@ -47,14 +47,19 @@ public class Docket extends BaseEntity {
     @OneToMany(mappedBy = "docket", cascade = CascadeType.ALL)
     private Set<DocketVariant> docketVariants = new HashSet<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "purchase_order_id")
+    @JsonBackReference
+    private PurchaseOrder purchaseOrder;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    @JsonBackReference
+    private Order order;
+
     @Column(name = "note")
     private String note;
 
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "purchase_order_id", nullable = false)
-    @JsonBackReference
-    private PurchaseOrder purchaseOrder;
 }

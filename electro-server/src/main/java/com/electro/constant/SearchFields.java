@@ -15,6 +15,13 @@ public interface SearchFields {
             "province.code"
     );
 
+    List<String> WARD = List.of(
+            "name",
+            "code",
+            "district.name",
+            "district.code"
+    );
+
     List<String> ADDRESS = List.of(
             "line",
             "province.name",
@@ -117,13 +124,10 @@ public interface SearchFields {
             "user.address.district.code",
             "customerGroup.code",
             "customerGroup.name",
-            "customerGroup.description",
             "customerResource.code",
             "customerResource.name",
-            "customerResource.description",
             "customerStatus.code",
-            "customerStatus.name",
-            "customerStatus.description"
+            "customerStatus.name"
     );
 
     List<String> PROPERTY = List.of(
@@ -202,9 +206,6 @@ public interface SearchFields {
             "supplier.taxCode",
             "supplier.email",
             "supplier.phone",
-            "supplier.fax",
-            "supplier.website",
-            "supplier.address.line",
             "unit.name",
             "guarantee.name"
     );
@@ -212,9 +213,12 @@ public interface SearchFields {
     List<String> VARIANT = List.of(
             "product.name",
             "product.code",
-            "sku",
-            "cost",
-            "price"
+            "sku"
+    );
+
+    List<String> IMAGE = List.of(
+            "name",
+            "contentType"
     );
 
     List<String> PRODUCT_INVENTORY_LIMIT = List.of(
@@ -277,24 +281,15 @@ public interface SearchFields {
             "name"
     );
 
-    List<String> TRANSFER_VARIANT = List.of(
-            "transfer.code",
-            "variant.product.name",
-            "variant.product.code",
-            "variant.sku",
-            "variant.cost",
-            "variant.price",
-            "quantity"
-    );
-
     List<String> TRANSFER = List.of(
             "code"
     );
 
     List<String> DOCKET = List.of(
             "code",
-            "type",
-            "reason.name"
+            "reason.name",
+            "warehouse.code",
+            "warehouse.name"
     );
 
     List<String> STORAGE_LOCATION = List.of(
@@ -321,26 +316,88 @@ public interface SearchFields {
             "supplier.contactEmail",
             "supplier.contactPhone",
             "supplier.companyName",
-            "supplier.taxCode",
-            "supplier.email",
-            "supplier.phone",
-            "supplier.fax",
-            "supplier.website",
-            "supplier.address.line",
             "destination.contactFullname",
             "destination.contactEmail",
-            "destination.contactPhone",
-            "destination.address.line",
-            "destination.address.province.name",
-            "destination.address.province.code",
-            "destination.address.district.name",
-            "destination.address.district.code"
+            "destination.contactPhone"
     );
 
     List<String> PURCHASE_ORDER_VARIANT = List.of(
+            "purchaseOrder.code",
+            "variant.product.name",
+            "variant.product.code",
+            "variant.sku",
+            "variant.cost",
+            "variant.price",
             "cost",
             "quantity",
             "amount"
+    );
+
+    List<String> ORDER_RESOURCE = List.of(
+            "code",
+            "name",
+            "color",
+            "customerResource.code",
+            "customerResource.name"
+    );
+
+    List<String> ORDER_CANCELLATION_REASON = List.of(
+            "name"
+    );
+
+    List<String> ORDER = List.of(
+            "code",
+            "toName",
+            "toPhone",
+            "toAddress",
+            "toWardName",
+            "toDistrictName",
+            "toProvinceName",
+            "orderResource.name",
+            "user.username",
+            "user.fullname"
+    );
+
+    List<String> ORDER_VARIANT = List.of(
+            "order.code",
+            "variant.product.name",
+            "variant.product.code",
+            "variant.sku",
+            "variant.cost",
+            "variant.price",
+            "price",
+            "quantity",
+            "amount"
+    );
+
+    List<String> CLIENT_PRODUCT = List.of(
+            "name",
+            "slug",
+            "category.name",
+            "brand.name"
+    );
+
+    List<String> WAYBILL = List.of(
+            "code",
+            "order.code"
+    );
+
+    List<String> REVIEW = List.of(
+            "user.username",
+            "user.fullname",
+            "product.name",
+            "product.code",
+            "product.slug",
+            "content"
+    );
+
+    List<String> PAYMENT_METHOD = List.of(
+            "name",
+            "code"
+    );
+
+    List<String> PROMOTION = List.of(
+            "name"
     );
 
     List<String> MESSAGE = List.of(

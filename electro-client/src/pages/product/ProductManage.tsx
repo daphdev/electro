@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Badge, Grid, Group, Highlight, Stack } from '@mantine/core';
+import { Avatar, Badge, Grid, Group, Highlight, Stack, useMantineTheme } from '@mantine/core';
 import {
   FilterPanel,
   ManageHeader,
@@ -23,6 +23,8 @@ import useAppStore from 'stores/use-app-store';
 import { QuestionMark } from 'tabler-icons-react';
 
 function ProductManage() {
+  const theme = useMantineTheme();
+
   useResetManagePageState();
   useInitFilterPanelState(ProductConfigs.properties);
 
@@ -55,7 +57,13 @@ function ProductManage() {
         </Highlight>
       </td>
       <td>
-        <Avatar src={entity.thumbnail} alt={entity.name} radius="lg" size="lg" color="grape">
+        <Avatar
+          src={(entity.images.find((image) => image.isThumbnail) || {}).path}
+          alt={entity.name}
+          radius="lg"
+          size="lg"
+          color="grape"
+        >
           <QuestionMark size={30}/>
         </Avatar>
       </td>
@@ -134,7 +142,13 @@ function ProductManage() {
       <tr>
         <td>{ProductConfigs.properties.thumbnail.label}</td>
         <td>
-          <Avatar src={entity.thumbnail} alt={entity.name} radius="lg" size="lg" color="grape">
+          <Avatar
+            src={(entity.images.find((image) => image.isThumbnail) || {}).path}
+            alt={entity.name}
+            radius="lg"
+            size="lg"
+            color="grape"
+          >
             <QuestionMark size={30}/>
           </Avatar>
         </td>
@@ -143,8 +157,16 @@ function ProductManage() {
         <td>{ProductConfigs.properties.images.label}</td>
         <td style={{ maxWidth: 300 }}>
           <Group spacing="xs">
-            {entity.images && entity.images.content.map((image, index) => (
-              <Avatar key={index} src={image.url} radius="lg" size="lg" color="grape">
+            {entity.images.filter((image) => !image.isEliminated).map((image) => (
+              <Avatar
+                key={image.name}
+                src={image.path}
+                alt={image.name}
+                radius="lg"
+                size="lg"
+                color="grape"
+                sx={{ boxShadow: image.isThumbnail ? '0 0 0 2px ' + theme.colors.teal[theme.colorScheme === 'dark' ? 4 : 6] : 'none' }}
+              >
                 <QuestionMark size={30}/>
               </Avatar>
             ))}

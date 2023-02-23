@@ -64,6 +64,7 @@ function useAddressUpdateViewModel(id: number) {
         line: formValues.line || null,
         provinceId: Number(formValues.provinceId) || null,
         districtId: Number(formValues.districtId) || null,
+        wardId: null,
       };
       updateApi.mutate(requestBody);
     }

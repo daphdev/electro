@@ -4,7 +4,9 @@ import { SupplierResponse } from 'models/Supplier';
 import { UnitResponse } from 'models/Unit';
 import { TagResponse } from 'models/Tag';
 import { GuaranteeResponse } from 'models/Guarantee';
-import { VariantRequest, VariantResponse } from 'models/Variant';
+import { VariantPropertyItem, VariantRequest } from 'models/Variant';
+import { CollectionWrapper } from 'types';
+import { ImageRequest, ImageResponse } from 'models/Image';
 
 export interface ProductResponse extends BaseResponse {
   name: string;
@@ -12,29 +14,34 @@ export interface ProductResponse extends BaseResponse {
   slug: string;
   shortDescription: string | null;
   description: string | null;
-  thumbnail: string | null;
-  images: CollectionWrapper<ImageItem> | null;
+  images: ImageResponse[];
   status: number;
-  category: Category_ProductResponse | null;
+  category: CategoryResponse | null;
   brand: BrandResponse | null;
   supplier: SupplierResponse | null;
   unit: UnitResponse | null;
   tags: TagResponse[];
   specifications: CollectionWrapper<SpecificationItem> | null;
   properties: CollectionWrapper<ProductPropertyItem> | null;
-  variants: VariantResponse[];
+  variants: ProductResponse_VariantResponse[];
   weight: number | null;
   guarantee: GuaranteeResponse | null;
 }
 
-export interface CollectionWrapper<T> {
-  content: T[];
-  totalElements: number;
+interface CategoryResponse extends BaseResponse {
+  name: string;
+  slug: string;
+  description: string | null;
+  thumbnail: string | null;
+  status: number;
 }
 
-export interface ImageItem {
-  url: string;
-  isThumbnail?: boolean;
+export interface ProductResponse_VariantResponse extends BaseResponse {
+  sku: string;
+  cost: number;
+  price: number;
+  properties: CollectionWrapper<VariantPropertyItem> | null;
+  status: number;
 }
 
 export interface SpecificationItem {
@@ -51,28 +58,19 @@ export interface ProductPropertyItem {
   value: string[];
 }
 
-interface Category_ProductResponse extends BaseResponse {
-  name: string;
-  slug: string;
-  description: string | null;
-  thumbnail: string | null;
-  status: number;
-}
-
 export interface ProductRequest {
   name: string;
   code: string;
   slug: string;
   shortDescription: string | null;
   description: string | null;
-  thumbnail: string | null;
-  images: CollectionWrapper<ImageItem> | null;
+  images: ImageRequest[];
   status: number;
   categoryId: number | null;
   brandId: number | null;
   supplierId: number | null;
   unitId: number | null;
-  tags: Tag_ProductRequest[];
+  tags: ProductRequest_TagRequest[];
   specifications: CollectionWrapper<SpecificationItem> | null;
   properties: CollectionWrapper<ProductPropertyItem> | null;
   variants: VariantRequest[];
@@ -80,7 +78,7 @@ export interface ProductRequest {
   guaranteeId: number | null;
 }
 
-export interface Tag_ProductRequest {
+export interface ProductRequest_TagRequest {
   id?: number;
   name?: string;
   slug?: string;
