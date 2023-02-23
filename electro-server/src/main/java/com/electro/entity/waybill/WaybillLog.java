@@ -23,16 +23,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "waybill_log")
 public class WaybillLog extends BaseEntity {
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "waybill_id", nullable = false)
     @JsonBackReference
     private Waybill waybill;
 
-    @Column(name = "previousStatus")
+    @Column(name = "previous_status")
     private Integer previousStatus;
 
-    @Column(name = "currentStatus")
+    @Column(name = "current_status")
     private Integer currentStatus;
-
 }

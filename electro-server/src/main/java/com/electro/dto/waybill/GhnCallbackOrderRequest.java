@@ -5,10 +5,10 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class GHNCallbackOrderRequest {
-    private BigDecimal codAmount; // Tiền thu hộ.
-    private String orderCode; // Mã vận đơn ghn
-    private String Description; // mô tả từ phía ghn
+public class GhnCallbackOrderRequest {
+    private BigDecimal codAmount; // Tiền thu hộ
+    private String orderCode; // Mã vận đơn GHN
+    private String description; // Mô tả từ phía GHN
     private String reason;
     private String reasonCode;
     private Integer shopID;

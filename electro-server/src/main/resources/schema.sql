@@ -1082,16 +1082,19 @@ CREATE TABLE payment_method
     status     TINYINT               NOT NULL,
     CONSTRAINT pk_payment_method PRIMARY KEY (id)
 );
-CREATE TABLE waybill_log (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   waybill_id BIGINT NOT NULL,
-   previous_status INT NULL,
-   current_status INT NULL,
-   CONSTRAINT pk_waybill_log PRIMARY KEY (id)
+
+CREATE TABLE waybill_log
+(
+    id              BIGINT AUTO_INCREMENT NOT NULL,
+    created_at      datetime              NOT NULL,
+    updated_at      datetime              NOT NULL,
+    created_by      BIGINT                NULL,
+    updated_by      BIGINT                NULL,
+    waybill_id      BIGINT                NOT NULL,
+    previous_status INT                   NULL,
+    current_status  INT                   NULL,
+    CONSTRAINT pk_waybill_log PRIMARY KEY (id)
 );
 
-ALTER TABLE waybill_log ADD CONSTRAINT FK_WAYBILL_LOG_ON_WAYBILL FOREIGN KEY (waybill_id) REFERENCES waybill (id);
+ALTER TABLE waybill_log
+    ADD CONSTRAINT FK_WAYBILL_LOG_ON_WAYBILL FOREIGN KEY (waybill_id) REFERENCES waybill (id);
