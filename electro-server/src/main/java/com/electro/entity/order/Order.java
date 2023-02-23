@@ -95,13 +95,6 @@ public class Order extends BaseEntity {
     @Column(name = "total_pay", nullable = false, columnDefinition = "DECIMAL(15,5)")
     private BigDecimal totalPay;
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
-    @Column(name = "paypal_order_id")
-    private String paypalOrderId;
-
-    @Column(name = "paypal_order_status")
-    private String paypalOrderStatus;
-
     @OneToOne(mappedBy = "order")
     private Waybill waybill;
 
@@ -116,6 +109,12 @@ public class Order extends BaseEntity {
     // 2 trạng thái: (1) Chưa thanh toán, (2) Đã thanh toán
     @Column(name = "payment_status", nullable = false, columnDefinition = "TINYINT")
     private Integer paymentStatus;
+
+    @Column(name = "paypal_order_id")
+    private String paypalOrderId;
+
+    @Column(name = "paypal_order_status")
+    private String paypalOrderStatus;
 
     // vouchers: List<Voucher>
 }
