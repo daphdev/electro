@@ -109,6 +109,8 @@
 
     drop table if exists prod.ward;
 
+    drop table if exists prod.verification;
+
     drop table if exists prod.warehouse;
 
     drop table if exists prod.waybill;
@@ -767,6 +769,7 @@
         gender CHAR not null,
         password varchar(255) not null,
         phone varchar(255) not null,
+        reset_password_token varchar(255),
         status TINYINT not null,
         username varchar(255) not null,
         address_id bigint not null,
@@ -815,6 +818,19 @@
         code varchar(35) not null,
         name varchar(255) not null,
         district_id bigint not null,
+        primary key (id)
+    ) engine=MyISAM;
+
+    create table prod.verification (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        expired_at datetime not null,
+        token varchar(255) not null,
+        type varchar(255) not null,
+        user_id bigint not null,
         primary key (id)
     ) engine=MyISAM;
 
@@ -959,12 +975,21 @@
        add constraint UK_7wdrpgv6fc6dycm0ymhkgxhsr unique (import_docket_id);
 
     alter table prod.user
+       add constraint UK_ob8kqyqqgmefl0aco34akdtpe unique (email);
+
+    alter table prod.user
+       add constraint UK_sb8bbouer5wak8vyiiy4pf2bx unique (username);
+
+    alter table prod.user
        add constraint UK_dhlcfg8h1drrgu0irs1ro3ohb unique (address_id);
 
     alter table prod.variant 
        add constraint UK_llpabmolrn143l5uh3dp92bgy unique (sku);
 
-    alter table prod.warehouse 
+    alter table prod.verification
+       add constraint UK_a0iaxio0f0unln4qmdryyfiqg unique (user_id);
+
+    alter table prod.warehouse
        add constraint UK_9wk4ocyt0wv0hpffpr41aoweu unique (code);
 
     alter table prod.warehouse 
@@ -1274,7 +1299,7 @@
        foreign key (user_id)
        references prod.user (id);
 
-    alter table prod.storage_location 
+    alter table prod.storage_location
        add constraint FK956y7ykytekn259p907onqkiw 
        foreign key (warehouse_id) 
        references prod.warehouse (id);
@@ -1330,7 +1355,13 @@
        references prod.district (id);
 
     alter table prod.warehouse
-       add constraint FKp7xymgre8vt94ihf75e9movyt 
+    alter table prod.verification
+       add constraint FKlhkcrvgj83d37uxew4gvjm684
+       foreign key (user_id)
+       references prod.user (id);
+
+    alter table prod.warehouse
+       add constraint FKp7xymgre8vt94ihf75e9movyt
        foreign key (address_id) 
        references prod.address (id);
 

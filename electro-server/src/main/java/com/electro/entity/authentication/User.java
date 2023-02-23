@@ -40,7 +40,7 @@ import java.util.Set;
 @Entity
 @Table(name = "user")
 public class User extends BaseEntity {
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @Column(name = "password", nullable = false)
@@ -49,7 +49,7 @@ public class User extends BaseEntity {
     @Column(name = "fullname", nullable = false)
     private String fullname;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "phone", nullable = false)
@@ -108,4 +108,10 @@ public class User extends BaseEntity {
 
     @OneToOne(mappedBy = "user")
     private Room room;
+
+    @OneToOne(mappedBy = "user")
+    private Verification verification;
+
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
 }
