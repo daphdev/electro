@@ -8,4 +8,5 @@ public interface FieldName {
     String ORDER_CODE = "order_code";
     String USERNAME = "username";
     String PAYPAL_ORDER_ID = "paypal_order_id";
+    String WAYBILL_CODE = "waybill_code";
 }

@@ -13,4 +13,6 @@ public interface WaybillRepository extends JpaRepository<Waybill, Long>, JpaSpec
     @Query("SELECT w FROM Waybill w WHERE w.order.id = :orderId")
     Optional<Waybill> findByOrderId(@Param("orderId") Long orderId);
 
+    Optional<Waybill> findByCode(String code);
+
 }

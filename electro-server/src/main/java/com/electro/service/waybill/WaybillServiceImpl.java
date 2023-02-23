@@ -5,6 +5,7 @@ import com.electro.constant.ResourceName;
 import com.electro.constant.SearchFields;
 import com.electro.dto.CollectionWrapper;
 import com.electro.dto.ListResponse;
+import com.electro.dto.waybill.GhnCallbackOrderRequest;
 import com.electro.dto.waybill.GhnCreateOrderRequest;
 import com.electro.dto.waybill.GhnCreateOrderResponse;
 import com.electro.dto.waybill.GhnUpdateOrderRequest;
@@ -17,11 +18,13 @@ import com.electro.entity.general.NotificationType;
 import com.electro.entity.order.Order;
 import com.electro.entity.order.OrderVariant;
 import com.electro.entity.waybill.Waybill;
+import com.electro.entity.waybill.WaybillLog;
 import com.electro.exception.ResourceNotFoundException;
 import com.electro.mapper.general.NotificationMapper;
 import com.electro.mapper.waybill.WaybillMapper;
 import com.electro.repository.general.NotificationRepository;
 import com.electro.repository.order.OrderRepository;
+import com.electro.repository.waybill.WaybillLogRepository;
 import com.electro.repository.waybill.WaybillRepository;
 import com.electro.service.general.NotificationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -44,6 +47,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.StringJoiner;
 
@@ -65,6 +69,7 @@ public class WaybillServiceImpl implements WaybillService {
     private final NotificationService notificationService;
     private final NotificationRepository notificationRepository;
     private final NotificationMapper notificationMapper;
+    private final WaybillLogRepository waybillLogRepository;
 
     @Override
     public ListResponse<WaybillResponse> findAll(int page, int size, String sort, String filter, String search, boolean all) {
@@ -129,6 +134,13 @@ public class WaybillServiceImpl implements WaybillService {
                 order.setStatus(2); // Status 2: Đang xử lý
 
                 orderRepository.save(order);
+
+                // (2.1) Thêm waybill log
+                WaybillLog waybillLog = new WaybillLog();
+                waybillLog.setWaybill(waybillAfterSave);
+                waybillLog.setCurrentStatus(1); // Status 1: Đang đợi lấy hàng
+
+                waybillLogRepository.save(waybillLog);
 
                 // (3) Thông báo cho người dùng về việc đơn hàng đã được duyệt
                 // với thông tin phí vận chuyển và sự thay đổi tổng tiền trả
@@ -276,6 +288,59 @@ public class WaybillServiceImpl implements WaybillService {
         ghnUpdateOrderRequest.setRequiredNote(waybillRequest.getGhnRequiredNote());
 
         return ghnUpdateOrderRequest;
+    }
+
+    @Override
+    public void callbackStatusWaybillFromGHN(GhnCallbackOrderRequest ghnCallbackOrderRequest) {
+        if (Objects.equals(ghnCallbackOrderRequest.getShopID().toString(), ghnShopId)) {
+            Waybill waybill = waybillRepository.findByCode(ghnCallbackOrderRequest.getOrderCode())
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            ResourceName.WAYBILL, FieldName.WAYBILL_CODE, ghnCallbackOrderRequest.getOrderCode()));
+
+            Order order = waybill.getOrder();
+
+            WaybillLog waybillLog = new WaybillLog();
+            waybillLog.setWaybill(waybill);
+            waybillLog.setPreviousStatus(waybill.getStatus());
+
+            int currentWaybillStatus = WaybillCallbackConstants.WAYBILL_STATUS_CODE
+                    .get(ghnCallbackOrderRequest.getStatus());
+
+            switch (currentWaybillStatus) {
+                case WaybillCallbackConstants.WAITING:
+                    waybillLog.setCurrentStatus(1);
+                    waybill.setStatus(1);
+                    order.setStatus(2);
+                    break;
+                case WaybillCallbackConstants.SHIPPING:
+                    // TODO: CẦN THÔNG BÁO NOTIFICATION
+                    waybillLog.setCurrentStatus(2);
+                    waybill.setStatus(2);
+                    order.setStatus(3);
+                    break;
+                case WaybillCallbackConstants.SUCCESS:
+                    // TODO: KHI HOÀN THÀNH ĐƠN HÀNG CẦN GỬI MAIL CHO KHÁCH HÀNG
+                    waybillLog.setCurrentStatus(3);
+                    waybill.setStatus(3);
+                    order.setStatus(4);
+                    break;
+                case WaybillCallbackConstants.FAILED:
+                case WaybillCallbackConstants.RETURN:
+                    // TODO: CẦN THỐNG NHẤT VỀ CÁCH TRẢ HÀNG HOẶC HỦY ĐƠN HÀNG
+                    waybillLog.setCurrentStatus(4);
+                    waybill.setStatus(4);
+                    order.setStatus(5);
+                    break;
+                default:
+                    throw new RuntimeException("There is no waybill status corresponding to GHN status code");
+            }
+
+            waybillRepository.save(waybill);
+            orderRepository.save(order);
+            waybillLogRepository.save(waybillLog);
+        } else {
+            throw new RuntimeException("ShopId is not valid");
+        }
     }
 
 }

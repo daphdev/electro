@@ -2,20 +2,25 @@ package com.electro.entity.waybill;
 
 import com.electro.entity.BaseEntity;
 import com.electro.entity.order.Order;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -69,4 +74,8 @@ public class Waybill extends BaseEntity {
     @Column(name = "ghn_required_note", nullable = false)
     @Enumerated(EnumType.STRING)
     private RequiredNote ghnRequiredNote;
+
+    @OneToMany(mappedBy = "waybill", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<WaybillLog> waybillLogs = new ArrayList<>();
 }

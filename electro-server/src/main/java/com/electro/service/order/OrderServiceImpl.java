@@ -14,9 +14,11 @@ import com.electro.dto.waybill.GhnCancelOrderRequest;
 import com.electro.dto.waybill.GhnCancelOrderResponse;
 import com.electro.entity.order.Order;
 import com.electro.entity.waybill.Waybill;
+import com.electro.entity.waybill.WaybillLog;
 import com.electro.exception.ResourceNotFoundException;
 import com.electro.mapper.client.ClientOrderMapper;
 import com.electro.repository.order.OrderRepository;
+import com.electro.repository.waybill.WaybillLogRepository;
 import com.electro.repository.waybill.WaybillRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +50,8 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final WaybillRepository waybillRepository;
+    private final WaybillLogRepository waybillLogRepository;
+
     private final PayPalHttpClient payPalHttpClient;
     private final ClientOrderMapper clientOrderMapper;
 
@@ -88,6 +92,12 @@ public class OrderServiceImpl implements OrderService {
                         if (data.getResult()) {
                             waybill.setStatus(4); // Status 4 là trạng thái Hủy
                             waybillRepository.save(waybill);
+
+                            WaybillLog waybillLog = new WaybillLog();
+                            waybillLog.setWaybill(waybill);
+                            waybillLog.setPreviousStatus(waybill.getStatus()); // Status 1: Đang đợi lấy hàng
+                            waybillLog.setCurrentStatus(4);
+                            waybillLogRepository.save(waybillLog);
                         }
                     }
                 }
