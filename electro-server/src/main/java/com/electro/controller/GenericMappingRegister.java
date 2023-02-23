@@ -574,6 +574,7 @@ public class GenericMappingRegister {
         ), OrderRequest.class);
 
         register("promotions", promotionController, context.getBean(PromotionService.class), PromotionRequest.class);
+
     }
 
     private <I, O> void register(String resource,

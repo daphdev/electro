@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
 import java.time.Instant;
-import java.util.List;
+import java.util.Set;
 
 @Data
 public class PromotionRequest {
@@ -16,5 +16,5 @@ public class PromotionRequest {
     private Instant endDate;
     private Integer percent;
     private Integer status;
-    private List<Long> productIds;
+    private Set<Long> productIds;
 }

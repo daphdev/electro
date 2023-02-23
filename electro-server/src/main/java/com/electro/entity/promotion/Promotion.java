@@ -16,8 +16,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,7 +27,6 @@ import java.util.List;
 @Entity
 @Table(name = "promotion")
 public class Promotion extends BaseEntity {
-
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -45,9 +44,9 @@ public class Promotion extends BaseEntity {
 
     @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(
-            name = "product_promotion",
+            name = "promotion_product",
             joinColumns = @JoinColumn(name = "promotion_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "product_id", nullable = false)
     )
-    private List<Product> products = new ArrayList<>();
+    private Set<Product> products = new HashSet<>();
 }

@@ -12,8 +12,9 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {MapperUtils.class})
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = MapperUtils.class)
 public interface PromotionMapper extends GenericMapper<Promotion, PromotionRequest, PromotionResponse> {
+
     @Override
     @Mapping(source = "productIds", target = "products")
     Promotion requestToEntity(PromotionRequest request);
@@ -22,4 +23,5 @@ public interface PromotionMapper extends GenericMapper<Promotion, PromotionReque
     @Mapping(source = "productIds", target = "products")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Promotion partialUpdate(@MappingTarget Promotion entity, PromotionRequest request);
+
 }

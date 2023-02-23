@@ -56,7 +56,6 @@ public class ClientProductController {
 
         // TODO: Load promotion
 
-
         List<ClientListedProductResponse> clientListedProductResponses = products
                 .map(product -> mapToResponse(product, productInventories)).toList();
 

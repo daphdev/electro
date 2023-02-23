@@ -9,7 +9,6 @@ import com.electro.entity.product.Product;
 import com.electro.entity.promotion.Promotion;
 import com.electro.mapper.promotion.PromotionMapper;
 import com.electro.repository.promotion.PromotionRepository;
-import com.sun.jdi.InternalException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +20,11 @@ import java.util.List;
 public class PromotionServiceImpl implements PromotionService {
 
     private PromotionRepository promotionRepository;
-
     private PromotionMapper promotionMapper;
 
     @Override
     public ListResponse<PromotionResponse> findAll(int page, int size, String sort, String filter, String search, boolean all) {
         return defaultFindAll(page, size, sort, filter, search, all, SearchFields.PROMOTION, promotionRepository, promotionMapper);
-
     }
 
     @Override
@@ -38,12 +35,15 @@ public class PromotionServiceImpl implements PromotionService {
     @Override
     public PromotionResponse save(PromotionRequest request) {
         Promotion promotion = promotionMapper.requestToEntity(request);
-        List<Product> products = promotion.getProducts();
-        for (Product product : products) {
-            List<Promotion> promotions = promotionRepository.findByProductId(product.getId(), promotion.getStartDate(), promotion.getEndDate());
-            if (promotions.size() > 0)
-                throw new InternalException("Overlap promotion with product id: " + product.getId());
+
+        for (Product product : promotion.getProducts()) {
+            List<Promotion> promotions = promotionRepository
+                    .findByProductId(product.getId(), promotion.getStartDate(), promotion.getEndDate());
+            if (promotions.size() > 0) {
+                throw new RuntimeException("Overlap promotion with product id: " + product.getId());
+            }
         }
+
         return promotionMapper.entityToResponse(promotionRepository.save(promotion));
     }
 
@@ -63,8 +63,9 @@ public class PromotionServiceImpl implements PromotionService {
     }
 
     @Override
-    public boolean checkProductHavePromotionEnable(Long productId, Instant startDate, Instant endDate) {
+    public boolean checkCanCreatePromotionForProduct(Long productId, Instant startDate, Instant endDate) {
         List<Promotion> promotions = promotionRepository.findByProductId(productId, startDate, endDate);
         return promotions.size() == 0;
     }
+
 }

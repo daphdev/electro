@@ -12,7 +12,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public interface PromotionRepository extends JpaRepository<Promotion, Long>, JpaSpecificationExecutor<Promotion> {
 
     default List<Promotion> findByProductId(Long productId, Instant startDate, Instant endDate) {
@@ -32,4 +31,5 @@ public interface PromotionRepository extends JpaRepository<Promotion, Long>, Jpa
 
         return findAll(spec);
     }
+
 }

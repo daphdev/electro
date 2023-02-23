@@ -143,9 +143,9 @@ ALTER TABLE `role`
 
 CREATE TABLE user_role
 (
-    user_id bigint not null,
-    role_id bigint not null,
-    primary key (user_id, role_id)
+    user_id BIGINT NOT NULL,
+    role_id BIGINT NOT NULL,
+    CONSTRAINT pk_user_role PRIMARY KEY (user_id, role_id)
 );
 
 ALTER TABLE user_role
@@ -533,9 +533,9 @@ ALTER TABLE product
 
 CREATE TABLE product_tag
 (
-    product_id bigint not null,
-    tag_id     bigint not null,
-    primary key (product_id, tag_id)
+    product_id BIGINT NOT NULL,
+    tag_id     BIGINT NOT NULL,
+    CONSTRAINT pk_product_tag PRIMARY KEY (product_id, tag_id)
 );
 
 ALTER TABLE product_tag
@@ -932,26 +932,30 @@ ALTER TABLE order_variant
 ALTER TABLE order_variant
     ADD CONSTRAINT FK_ORDER_VARIANT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
 
-
-CREATE TABLE product_promotion (
-  product_id BIGINT NOT NULL,
-   promotion_id BIGINT NOT NULL
+CREATE TABLE promotion
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    name       VARCHAR(255)          NOT NULL,
+    start_date datetime              NOT NULL,
+    end_date   datetime              NOT NULL,
+    percent    INT                   NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_promotion PRIMARY KEY (id)
 );
 
-CREATE TABLE promotion (
-  id BIGINT AUTO_INCREMENT NOT NULL,
-   created_at datetime NOT NULL,
-   updated_at datetime NOT NULL,
-   created_by BIGINT NULL,
-   updated_by BIGINT NULL,
-   name VARCHAR(255) NOT NULL,
-   start_date datetime NOT NULL,
-   end_date datetime NOT NULL,
-   percent INT NOT NULL,
-   status TINYINT NOT NULL,
-   CONSTRAINT pk_promotion PRIMARY KEY (id)
+CREATE TABLE promotion_product
+(
+    promotion_id BIGINT NOT NULL,
+    product_id   BIGINT NOT NULL,
+    CONSTRAINT pk_promotion_product PRIMARY KEY (promotion_id, product_id)
 );
 
-ALTER TABLE product_promotion ADD CONSTRAINT fk_propro_on_product FOREIGN KEY (product_id) REFERENCES product (id);
+ALTER TABLE promotion_product
+    ADD CONSTRAINT FK_PROMOTION_PRODUCT_ON_PROMOTION FOREIGN KEY (promotion_id) REFERENCES promotion (id);
 
-ALTER TABLE product_promotion ADD CONSTRAINT fk_propro_on_promotion FOREIGN KEY (promotion_id) REFERENCES promotion (id);
+ALTER TABLE promotion_product
+    ADD CONSTRAINT FK_PROMOTION_PRODUCT_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);

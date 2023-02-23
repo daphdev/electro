@@ -23,12 +23,13 @@ public class PromotionController {
     private PromotionService promotionService;
 
     @GetMapping("/checking")
-    public ResponseEntity<PromotionCheckingResponse> checkProductHavePromotionEnable(
+    public ResponseEntity<PromotionCheckingResponse> checkCanCreatePromotionForProduct(
             @RequestParam Long productId,
             @RequestParam Instant startDate,
             @RequestParam Instant endDate
     ) {
-        boolean promotionChecking = promotionService.checkProductHavePromotionEnable(productId, startDate, endDate);
-        return ResponseEntity.status(HttpStatus.OK).body(new PromotionCheckingResponse(promotionChecking));
+        boolean promotionable = promotionService.checkCanCreatePromotionForProduct(productId, startDate, endDate);
+        return ResponseEntity.status(HttpStatus.OK).body(new PromotionCheckingResponse(promotionable));
     }
+
 }

@@ -113,5 +113,5 @@ public class Product extends BaseEntity {
     private ProductInventoryLimit productInventoryLimit;
 
     @ManyToMany(mappedBy = "products")
-    private List<Promotion> promotions = new ArrayList<>();
+    private Set<Promotion> promotions = new HashSet<>();
 }
