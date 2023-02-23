@@ -399,4 +399,15 @@ public interface SearchFields {
     List<String> PROMOTION = List.of(
             "name"
     );
+
+    List<String> MESSAGE = List.of(
+            "createdAt",
+            "room.id"
+    );
+
+    List<String> ROOM = List.of(
+            "id",
+            "name",
+            "user.id"
+    );
 }

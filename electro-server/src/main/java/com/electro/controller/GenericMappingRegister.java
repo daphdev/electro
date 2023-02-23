@@ -16,6 +16,8 @@ import com.electro.dto.authentication.UserRequest;
 import com.electro.dto.authentication.UserResponse;
 import com.electro.dto.cashbook.PaymentMethodRequest;
 import com.electro.dto.cashbook.PaymentMethodResponse;
+import com.electro.dto.chat.RoomRequest;
+import com.electro.dto.chat.RoomResponse;
 import com.electro.dto.customer.CustomerGroupRequest;
 import com.electro.dto.customer.CustomerGroupResponse;
 import com.electro.dto.customer.CustomerRequest;
@@ -95,6 +97,7 @@ import com.electro.entity.address.District;
 import com.electro.entity.address.Ward;
 import com.electro.entity.authentication.Role;
 import com.electro.entity.authentication.User;
+import com.electro.entity.chat.Room;
 import com.electro.entity.cashbook.PaymentMethod;
 import com.electro.entity.customer.Customer;
 import com.electro.entity.customer.CustomerGroup;
@@ -136,6 +139,7 @@ import com.electro.mapper.address.WardMapper;
 import com.electro.mapper.authentication.RoleMapper;
 import com.electro.mapper.authentication.UserMapper;
 import com.electro.mapper.cashbook.PaymentMethodMapper;
+import com.electro.mapper.chat.RoomMapper;
 import com.electro.mapper.customer.CustomerGroupMapper;
 import com.electro.mapper.customer.CustomerMapper;
 import com.electro.mapper.customer.CustomerResourceMapper;
@@ -176,6 +180,7 @@ import com.electro.repository.address.WardRepository;
 import com.electro.repository.authentication.RoleRepository;
 import com.electro.repository.authentication.UserRepository;
 import com.electro.repository.cashbook.PaymentMethodRepository;
+import com.electro.repository.chat.RoomRepository;
 import com.electro.repository.customer.CustomerGroupRepository;
 import com.electro.repository.customer.CustomerRepository;
 import com.electro.repository.customer.CustomerResourceRepository;
@@ -281,6 +286,7 @@ public class GenericMappingRegister {
     private GenericController<ReviewRequest, ReviewResponse> reviewController;
     private GenericController<PaymentMethodRequest, PaymentMethodResponse> paymentMethodController;
     private GenericController<PromotionRequest, PromotionResponse> promotionController;
+    private GenericController<RoomRequest, RoomResponse> roomController;
 
     // Services
     private GenericService<District, DistrictRequest, DistrictResponse> districtService;
@@ -323,6 +329,8 @@ public class GenericMappingRegister {
     private GenericService<Order, OrderRequest, OrderResponse> orderService;
     private GenericService<Review, ReviewRequest, ReviewResponse> reviewService;
     private GenericService<PaymentMethod, PaymentMethodRequest, PaymentMethodResponse> paymentMethodService;
+    private GenericService<PurchaseOrderVariant, PurchaseOrderVariantRequest, PurchaseOrderVariantResponse> purchaseOrderVariantService;
+    private GenericService<Room, RoomRequest, RoomResponse> roomService;
 
     @PostConstruct
     public void registerControllers() throws NoSuchMethodException {
@@ -614,6 +622,13 @@ public class GenericMappingRegister {
         ), PaymentMethodRequest.class);
 
         register("promotions", promotionController, context.getBean(PromotionService.class), PromotionRequest.class);
+
+        register("rooms", roomController, roomService.init(
+                context.getBean(RoomRepository.class),
+                context.getBean(RoomMapper.class),
+                SearchFields.ROOM,
+                ResourceName.ROOM
+        ), RoomRequest.class);
 
     }
 

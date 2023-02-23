@@ -9,6 +9,11 @@ import com.electro.entity.general.Notification;
 import com.electro.entity.order.Order;
 import com.electro.entity.review.Review;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.electro.entity.chat.Message;
+import com.electro.entity.chat.Room;
+import com.electro.entity.customer.Customer;
+import com.electro.entity.employee.Employee;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -99,4 +104,11 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Order> orders = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Message> messages = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user")
+    private Room room;
 }
