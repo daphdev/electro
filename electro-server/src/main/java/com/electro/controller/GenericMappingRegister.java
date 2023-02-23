@@ -88,6 +88,8 @@ import com.electro.dto.review.ReviewRequest;
 import com.electro.dto.review.ReviewResponse;
 import com.electro.dto.waybill.WaybillRequest;
 import com.electro.dto.waybill.WaybillResponse;
+import com.electro.dto.promotion.PromotionRequest;
+import com.electro.dto.promotion.PromotionResponse;
 import com.electro.entity.address.Address;
 import com.electro.entity.address.District;
 import com.electro.entity.address.Ward;
@@ -213,6 +215,7 @@ import com.electro.service.GenericService;
 import com.electro.service.address.ProvinceService;
 import com.electro.service.inventory.DocketService;
 import com.electro.service.waybill.WaybillService;
+import com.electro.service.promotion.PromotionService;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationContext;
@@ -277,6 +280,7 @@ public class GenericMappingRegister {
     private GenericController<WaybillRequest, WaybillResponse> waybillController;
     private GenericController<ReviewRequest, ReviewResponse> reviewController;
     private GenericController<PaymentMethodRequest, PaymentMethodResponse> paymentMethodController;
+    private GenericController<PromotionRequest, PromotionResponse> promotionController;
 
     // Services
     private GenericService<District, DistrictRequest, DistrictResponse> districtService;
@@ -608,6 +612,8 @@ public class GenericMappingRegister {
                 SearchFields.PAYMENT_METHOD,
                 ResourceName.PAYMENT_METHOD
         ), PaymentMethodRequest.class);
+
+        register("promotions", promotionController, context.getBean(PromotionService.class), PromotionRequest.class);
 
     }
 

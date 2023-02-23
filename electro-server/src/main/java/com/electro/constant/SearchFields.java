@@ -395,4 +395,8 @@ public interface SearchFields {
             "name",
             "code"
     );
+
+    List<String> PROMOTION = List.of(
+            "name"
+    );
 }

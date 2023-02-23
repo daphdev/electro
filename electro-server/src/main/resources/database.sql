@@ -65,7 +65,11 @@
 
     drop table if exists prod.product_inventory_limit;
 
+    drop table if exists prod.product_promotion;
+
     drop table if exists prod.product_tag;
+
+    drop table if exists prod.promotion;
 
     drop table if exists prod.property;
 
@@ -538,10 +542,29 @@
         primary key (product_id)
     ) engine=MyISAM;
 
+    create table prod.product_promotion (
+       promotion_id bigint not null,
+        product_id bigint not null
+    ) engine=MyISAM;
+
     create table prod.product_tag (
        product_id bigint not null,
         tag_id bigint not null,
         primary key (product_id, tag_id)
+    ) engine=MyISAM;
+
+    create table prod.promotion (
+       id bigint not null auto_increment,
+        created_at datetime not null,
+        created_by bigint,
+        updated_at datetime not null,
+        updated_by bigint,
+        end_date datetime not null,
+        name varchar(255) not null,
+        percent integer not null,
+        start_date datetime not null,
+        status TINYINT not null,
+        primary key (id)
     ) engine=MyISAM;
 
     create table prod.property (
@@ -1145,6 +1168,16 @@
        add constraint FKgty8thbjnwann6fcm9q5gibvx 
        foreign key (product_id) 
        references prod.product (id);
+
+    alter table prod.product_promotion 
+       add constraint FKmpv6380a8ouxwxa99taru2luq 
+       foreign key (product_id) 
+       references prod.product (id);
+
+    alter table prod.product_promotion 
+       add constraint FKfhoeub2merr6yp1vnp4eft0jh 
+       foreign key (promotion_id) 
+       references prod.promotion (id);
 
     alter table prod.product_tag 
        add constraint FK3b3a7hu5g2kh24wf0cwv3lgsm 
