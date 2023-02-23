@@ -90,14 +90,14 @@ public class OrderServiceImpl implements OrderService {
                 if (response.getBody() != null) {
                     for (var data : response.getBody().getData()) {
                         if (data.getResult()) {
-                            waybill.setStatus(4); // Status 4 là trạng thái Hủy
-                            waybillRepository.save(waybill);
-
                             WaybillLog waybillLog = new WaybillLog();
                             waybillLog.setWaybill(waybill);
                             waybillLog.setPreviousStatus(waybill.getStatus()); // Status 1: Đang đợi lấy hàng
                             waybillLog.setCurrentStatus(4);
                             waybillLogRepository.save(waybillLog);
+
+                            waybill.setStatus(4); // Status 4 là trạng thái Hủy
+                            waybillRepository.save(waybill);
                         }
                     }
                 }
