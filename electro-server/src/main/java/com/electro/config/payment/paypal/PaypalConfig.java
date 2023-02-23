@@ -5,9 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
-@RequiredArgsConstructor
 @Data
 @Configuration
+@RequiredArgsConstructor
 public class PaypalConfig {
 
     @Value("${paypal.baseUrl}")

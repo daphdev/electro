@@ -5,6 +5,7 @@ import com.electro.dto.client.ClientOrderRequest;
 import com.electro.dto.payment.PaypalCheckoutResponse;
 import com.electro.service.order.OrderService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,17 +26,17 @@ public class ClientOrderController {
     private OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<PaypalCheckoutResponse> createClientOrder(@RequestBody ClientOrderRequest orderRequest) throws Exception {
-        return ResponseEntity.ok(new PaypalCheckoutResponse(orderService.createClientOrder(orderRequest)));
+    public ResponseEntity<PaypalCheckoutResponse> createClientOrder(@RequestBody ClientOrderRequest orderRequest) {
+        PaypalCheckoutResponse paypalCheckoutResponse = new PaypalCheckoutResponse(orderService.createClientOrder(orderRequest));
+        return ResponseEntity.status(HttpStatus.OK).body(paypalCheckoutResponse);
     }
 
     @GetMapping(value = "/success")
     public RedirectView paymentSuccessAndCaptureTransaction(HttpServletRequest request) {
-        // Capture transaction
         String paypalOrderId = request.getParameter("token");
-        String payerID = request.getParameter("PayerID");
+        String payerId = request.getParameter("PayerID");
 
-        orderService.captureTransactionPaypal(paypalOrderId, payerID);
+        orderService.captureTransactionPaypal(paypalOrderId, payerId);
 
         RedirectView redirectView = new RedirectView();
         redirectView.setUrl(AppConstants.DOMAIN);

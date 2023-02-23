@@ -6,7 +6,8 @@ public interface OrderService {
 
     void cancelOrder(Long Id);
 
-    String createClientOrder(ClientOrderRequest orderRequest);
+    String createClientOrder(ClientOrderRequest clientOrderRequest);
 
-    void captureTransactionPaypal(String token, String payerId);
+    void captureTransactionPaypal(String paypalOrderId, String payerId);
+
 }

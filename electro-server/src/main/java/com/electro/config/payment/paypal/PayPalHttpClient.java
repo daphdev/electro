@@ -1,7 +1,7 @@
 package com.electro.config.payment.paypal;
 
-import com.electro.dto.payment.AccessTokenResponseDTO;
-import com.electro.dto.payment.ClientTokenDTO;
+import com.electro.dto.payment.AccessTokenResponse;
+import com.electro.dto.payment.ClientTokenResponse;
 import com.electro.dto.payment.PaypalRequest;
 import com.electro.dto.payment.PaypalResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,13 +22,12 @@ import java.util.Base64;
 @AllArgsConstructor
 @Slf4j
 public class PayPalHttpClient {
-    private final HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).build();;
 
+    private final HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).build();
     private final PaypalConfig paypalConfig;
-
     private final ObjectMapper objectMapper;
 
-    public AccessTokenResponseDTO getPaypalAccessToken() throws Exception {
+    public AccessTokenResponse getPaypalAccessToken() throws Exception {
         var request = HttpRequest.newBuilder()
                 .uri(URI.create(PayPalEndpoints.createUrl(paypalConfig.getBaseUrl(), PayPalEndpoints.GET_ACCESS_TOKEN)))
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
@@ -39,61 +38,62 @@ public class PayPalHttpClient {
                 .build();
         var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         var content = response.body();
-        return objectMapper.readValue(content, AccessTokenResponseDTO.class);
+
+        return objectMapper.readValue(content, AccessTokenResponse.class);
     }
 
-    public ClientTokenDTO getClientToken() throws Exception {
-        var accessTokenDto = getPaypalAccessToken();
+    public ClientTokenResponse getClientToken() throws Exception {
+        var accessTokenResponse = getPaypalAccessToken();
+
         var request = HttpRequest.newBuilder()
                 .uri(URI.create(PayPalEndpoints.createUrl(paypalConfig.getBaseUrl(), PayPalEndpoints.GET_CLIENT_TOKEN)))
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessTokenDto.getAccessToken())
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessTokenResponse.getAccessToken())
                 .header(HttpHeaders.ACCEPT_LANGUAGE, "en_US")
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
         var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         var content = response.body();
 
-        return objectMapper.readValue(content, ClientTokenDTO.class);
+        return objectMapper.readValue(content, ClientTokenResponse.class);
     }
 
     public PaypalResponse createPaypalTransaction(PaypalRequest paypalRequest) throws Exception {
-        var accessTokenDto = getPaypalAccessToken();
+        var accessTokenResponse = getPaypalAccessToken();
         var payload = objectMapper.writeValueAsString(paypalRequest);
 
         var request = HttpRequest.newBuilder()
                 .uri(URI.create(PayPalEndpoints.createUrl(paypalConfig.getBaseUrl(), PayPalEndpoints.ORDER_CHECKOUT)))
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessTokenDto.getAccessToken())
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessTokenResponse.getAccessToken())
                 .header("Prefer", "return=representation")
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
                 .build();
         var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         var content = response.body();
+
         return objectMapper.readValue(content, PaypalResponse.class);
     }
 
-    public PaypalResponse capturePaypalTransaction(String id, String payerId) throws Exception {
-        var accessTokenDto = getPaypalAccessToken();
+    public void capturePaypalTransaction(String paypalOrderId, String payerId) throws Exception {
+        var accessTokenResponse = getPaypalAccessToken();
+
         var request = HttpRequest.newBuilder()
-                .uri(URI.create(PayPalEndpoints.createCaptureUrl(paypalConfig.getBaseUrl(), PayPalEndpoints.ORDER_CHECKOUT, id)))
+                .uri(URI.create(PayPalEndpoints.createCaptureUrl(paypalConfig.getBaseUrl(), PayPalEndpoints.ORDER_CHECKOUT, paypalOrderId)))
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessTokenDto.getAccessToken())
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessTokenResponse.getAccessToken())
                 .header("Prefer", "return=representation")
                 .header("PayPal-Request-Id", payerId)
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
-        var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-        // TODO: convert json response to object if we need (Using debug to check propeties response)
-        //var content = response.body();
-        //return objectMapper.readValue(content, PaypalResponse.class);
-        return null;
+        // TODO: Convert response to object if we need (Using debugger to check propeties response)
     }
-
 
     private String encodeBasicCredentials() {
         var input = paypalConfig.getClientId() + ":" + paypalConfig.getSecret();
         return "Basic " + Base64.getEncoder().encodeToString(input.getBytes(StandardCharsets.UTF_8));
     }
+
 }

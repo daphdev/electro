@@ -6,5 +6,5 @@ public enum OrderStatus {
     APPROVED,
     VOIDED,
     COMPLETED,
-    PAYER_ACTION_REQUIRED;
+    PAYER_ACTION_REQUIRED
 }

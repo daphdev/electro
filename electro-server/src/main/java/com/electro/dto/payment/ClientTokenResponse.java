@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class ClientTokenDTO {
+public class ClientTokenResponse {
     @JsonProperty("client_token")
     private String clientToken;
-
     @JsonProperty("expires_in")
     private Long expiresIn;
 }

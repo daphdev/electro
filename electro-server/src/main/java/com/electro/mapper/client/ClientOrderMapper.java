@@ -18,7 +18,7 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
         uses = {MapperUtils.class, OrderResourceMapper.class, OrderCancellationReasonMapper.class, UserMapper.class,
                 OrderVariantMapper.class})
-public interface ClientOrderMapper  extends GenericMapper<Order, ClientOrderRequest, ClientOrderResponse> {
+public interface ClientOrderMapper extends GenericMapper<Order, ClientOrderRequest, ClientOrderResponse> {
 
     @Override
     @BeanMapping(qualifiedByName = "attachOrder")

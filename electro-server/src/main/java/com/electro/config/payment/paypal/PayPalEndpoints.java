@@ -16,12 +16,10 @@ public enum PayPalEndpoints {
     }
 
     public static String createUrl(String baseUrl, PayPalEndpoints endpoint, String... params) {
-        return baseUrl + String.format(endpoint.path, params);
+        return baseUrl + String.format(endpoint.path, (Object[]) params);
     }
 
     public static String createCaptureUrl(String baseUrl, PayPalEndpoints endpoint, String token) {
         return baseUrl + endpoint.path + "/" + token + "/capture";
     }
-
-
 }

@@ -9,21 +9,17 @@ import java.util.List;
 public class PaypalResponse {
     @JsonProperty("id")
     private String id;
-
     @JsonProperty("status")
     private OrderStatus status;
-
     @JsonProperty("links")
-    private List<LinkDTO> links;
+    private List<Link> links;
 
     @Data
-    public static class LinkDTO {
+    public static class Link {
         @JsonProperty("href")
         private String href;
-
         @JsonProperty("rel")
         private String rel;
-
         @JsonProperty("method")
         private String method;
     }
