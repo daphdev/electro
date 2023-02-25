@@ -17,7 +17,7 @@ import java.time.Instant;
 @RestController
 @RequestMapping("/api/promotions")
 @AllArgsConstructor
-@CrossOrigin(AppConstants.DOMAIN)
+@CrossOrigin(AppConstants.FRONTEND_HOST)
 public class PromotionController {
 
     private PromotionService promotionService;

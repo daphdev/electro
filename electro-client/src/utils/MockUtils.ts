@@ -356,6 +356,10 @@ class MockUtils {
     productPriceRange: [10_000_000, 12_000_000],
     productVariants: [],
     productSaleable: true,
+    productPromotion: {
+      promotionId: 1,
+      promotionPercent: 10,
+    },
   };
 }
 

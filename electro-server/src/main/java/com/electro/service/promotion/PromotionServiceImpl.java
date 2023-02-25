@@ -1,5 +1,6 @@
 package com.electro.service.promotion;
 
+import com.electro.constant.FieldName;
 import com.electro.constant.ResourceName;
 import com.electro.constant.SearchFields;
 import com.electro.dto.ListResponse;
@@ -7,6 +8,7 @@ import com.electro.dto.promotion.PromotionRequest;
 import com.electro.dto.promotion.PromotionResponse;
 import com.electro.entity.product.Product;
 import com.electro.entity.promotion.Promotion;
+import com.electro.exception.ResourceNotFoundException;
 import com.electro.mapper.promotion.PromotionMapper;
 import com.electro.repository.promotion.PromotionRepository;
 import lombok.AllArgsConstructor;
@@ -36,6 +38,10 @@ public class PromotionServiceImpl implements PromotionService {
     public PromotionResponse save(PromotionRequest request) {
         Promotion promotion = promotionMapper.requestToEntity(request);
 
+        if (promotion.getProducts().size() == 0) {
+            throw new RuntimeException("Product list of promotion is empty");
+        }
+
         for (Product product : promotion.getProducts()) {
             List<Promotion> promotions = promotionRepository
                     .findByProductId(product.getId(), promotion.getStartDate(), promotion.getEndDate());
@@ -49,7 +55,15 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Override
     public PromotionResponse save(Long id, PromotionRequest request) {
-        return defaultSave(id, request, promotionRepository, promotionMapper, ResourceName.PROMOTION);
+        Promotion promotion = promotionRepository.findById(id)
+                .map(existingEntity -> promotionMapper.partialUpdate(existingEntity, request))
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceName.PROMOTION, FieldName.ID, id));
+
+        if (promotion.getProducts().size() == 0) {
+            throw new RuntimeException("Product list of promotion is empty");
+        }
+
+        return promotionMapper.entityToResponse(promotionRepository.save(promotion));
     }
 
     @Override

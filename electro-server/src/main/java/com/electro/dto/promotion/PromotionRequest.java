@@ -17,4 +17,5 @@ public class PromotionRequest {
     private Integer percent;
     private Integer status;
     private Set<Long> productIds;
+    private Set<Long> categoryIds;
 }

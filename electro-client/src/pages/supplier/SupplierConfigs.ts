@@ -101,7 +101,7 @@ class SupplierConfigs extends Configs {
     },
     status: {
       label: 'Trạng thái nhà cung cấp',
-      type: EntityPropertyType.STRING,
+      type: EntityPropertyType.NUMBER,
       isShowInTable: true,
     },
   };

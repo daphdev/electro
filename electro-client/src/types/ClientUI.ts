@@ -22,6 +22,7 @@ export interface ClientListedProductResponse {
   productPriceRange: number[];
   productVariants: ClientListedVariantResponse[];
   productSaleable: boolean;
+  productPromotion: ClientPromotionResponse | null;
 }
 
 interface ClientListedVariantResponse {
@@ -79,6 +80,7 @@ export interface ClientProductResponse {
   productAverageRatingScore: number;
   productCountReviews: number;
   productRelatedProducts: ClientListedProductResponse[];
+  productPromotion: ClientPromotionResponse | null;
 }
 
 interface ClientProductResponse_ClientBrandResponse {
@@ -185,6 +187,7 @@ interface ClientCartVariantResponse_ClientVariantResponse_ClientProductResponse 
   productName: string;
   productSlug: string;
   productThumbnail: string | null;
+  productPromotion: ClientPromotionResponse | null;
 }
 
 export interface ClientCartRequest {
@@ -268,4 +271,11 @@ export interface ClientOrderDetailResponse {
   orderPaymentMethodType: PaymentMethodType;
   orderPaymentStatus: number;
   orderItems: ClientOrderVariantResponse[];
+}
+
+// PROMOTION
+
+export interface ClientPromotionResponse {
+  promotionId: number;
+  promotionPercent: number;
 }

@@ -194,7 +194,8 @@ function ClientOrderDetail() {
                   <th style={{ minWidth: 325 }}><Text weight="initial" size="sm" color="dimmed">Mặt hàng</Text></th>
                   <th style={{ minWidth: 125 }}><Text weight="initial" size="sm" color="dimmed">Đơn giá</Text></th>
                   <th style={{ minWidth: 150 }}><Text weight="initial" size="sm" color="dimmed">Số lượng</Text></th>
-                  <th style={{ minWidth: 125 }}><Text weight="initial" size="sm" color="dimmed">Giảm giá</Text></th>
+                  {/* TODO: Thêm discountPercent cho OrderVariant */}
+                  {/*<th style={{ minWidth: 125 }}><Text weight="initial" size="sm" color="dimmed">Giảm giá</Text></th>*/}
                   <th style={{ minWidth: 125 }}><Text weight="initial" size="sm" color="dimmed">Thành tiền</Text></th>
                 </tr>
               </thead>
@@ -369,12 +370,12 @@ function OrderItemTableRow({ orderItem, canReview }: { orderItem: ClientOrderVar
           {orderItem.orderItemQuantity}
         </Text>
       </td>
-      <td>
-        <Text size="sm">
-          {/* TODO */}
-          {MiscUtils.formatPrice(0) + ' ₫'}
-        </Text>
-      </td>
+      {/* TODO: Thêm discountPercent cho OrderVariant */}
+      {/*<td>*/}
+      {/*  <Text size="sm">*/}
+      {/*    {MiscUtils.formatPrice(0) + ' ₫'}*/}
+      {/*  </Text>*/}
+      {/*</td>*/}
       <td>
         <Text weight={500} size="sm" color="blue">
           {MiscUtils.formatPrice(orderItem.orderItemAmount) + ' ₫'}

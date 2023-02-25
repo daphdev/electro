@@ -128,8 +128,8 @@ public class OrderServiceImpl implements OrderService {
             ));
             // TODO: UPDATE CANCEL AND SUCCESS URL
             paypalRequest.setApplicationContext(new PaypalRequest.PayPalAppContext()
-                    .setReturnUrl(AppConstants.SERVER + "/client-api/orders/success") // url backend
-                    .setCancelUrl(AppConstants.SERVER + "/api/checkout/cancel") // url frontend
+                    .setReturnUrl(AppConstants.BACKEND_HOST + "/client-api/orders/success") // url backend
+                    .setCancelUrl(AppConstants.BACKEND_HOST + "/api/checkout/cancel") // url frontend
                     .setBrandName("Electro")
                     .setLandingPage(PaymentLandingPage.BILLING));
 

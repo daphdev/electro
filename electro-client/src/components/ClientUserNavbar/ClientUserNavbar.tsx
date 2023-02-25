@@ -32,7 +32,7 @@ function ClientUserNavbar() {
       {navButton('Sản phẩm yêu thích', '/user/wishlist', Heart)}
       {navButton('Điểm thưởng', '/user/reward', Award)}
       {navButton('Đặt trước sản phẩm', '/user/preorder', Alarm)}
-      {navButton('Chat hỏi đáp', '/user/chat', MessageCircle)}
+      {navButton('Yêu cầu tư vấn', '/user/chat', MessageCircle)}
     </Stack>
   );
 }

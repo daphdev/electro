@@ -106,7 +106,7 @@ function WaybillManage() {
         <td style={{ textAlign: 'right' }}>{MiscUtils.formatPrice(entity.codAmount) + ' ₫'}</td>
         <td style={{ textAlign: 'right' }}>{MiscUtils.formatPrice(entity.shippingFee) + ' ₫'}</td>
         <td>
-          <Stack spacing={5}>
+          <Stack spacing={0}>
             <Text size="xs">Khối lượng: <b>{entity.weight}</b> (gram)</Text>
             <Text size="xs">Chiều dài: <b>{entity.length}</b> (cm)</Text>
             <Text size="xs">Chiều rộng: <b>{entity.width}</b> (cm)</Text>
@@ -162,7 +162,7 @@ function WaybillManage() {
       <tr>
         <td>{WaybillConfigs.properties.size.label}</td>
         <td>
-          <Stack spacing={5}>
+          <Stack spacing={0}>
             <Text size="xs">Khối lượng: <b>{entity.weight}</b> (gram)</Text>
             <Text size="xs">Chiều dài: <b>{entity.length}</b> (cm)</Text>
             <Text size="xs">Chiều rộng: <b>{entity.width}</b> (cm)</Text>
