@@ -197,6 +197,10 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
+                <!-- Reference: https://stackoverflow.com/a/65941154 -->
+                <configuration>
+                    <argLine>-Dfile.encoding=UTF-8</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </build>

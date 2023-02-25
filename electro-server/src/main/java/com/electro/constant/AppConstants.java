@@ -4,6 +4,6 @@ public interface AppConstants {
     String DEFAULT_PAGE_NUMBER = "1";
     String DEFAULT_PAGE_SIZE = "5";
     String DEFAULT_SORT = "id,desc";
-    String DOMAIN = "http://localhost:3000";
-    String SERVER = "http://localhost:8085";
+    String FRONTEND_HOST = "http://localhost:3000";
+    String BACKEND_HOST = "http://localhost:8085";
 }

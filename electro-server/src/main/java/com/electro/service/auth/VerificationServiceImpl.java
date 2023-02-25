@@ -182,7 +182,7 @@ public class VerificationServiceImpl implements VerificationService {
             user.setResetPasswordToken(token);
             userRepository.save(user);
 
-            String link = MessageFormat.format("{0}/change-password?token={1}&email={2}", AppConstants.DOMAIN, token, email);
+            String link = MessageFormat.format("{0}/change-password?token={1}&email={2}", AppConstants.FRONTEND_HOST, token, email);
             emailSenderService.sendForgetPasswordToken(user.getEmail(), link);
         } else {
             throw new VerificationException("Account is not activated");

@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/client-api/users")
 @AllArgsConstructor
-@CrossOrigin(AppConstants.DOMAIN)
+@CrossOrigin(AppConstants.FRONTEND_HOST)
 public class ClientUserController {
 
     private UserRepository userRepository;

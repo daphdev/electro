@@ -30,6 +30,8 @@ public class ClientProductResponse {
     private int productAverageRatingScore;
     private int productCountReviews;
     private List<ClientListedProductResponse> productRelatedProducts;
+    @Nullable
+    private ClientPromotionResponse productPromotion;
 
     @Data
     @Accessors(chain = true)

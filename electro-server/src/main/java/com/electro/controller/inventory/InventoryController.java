@@ -37,7 +37,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
-@CrossOrigin(AppConstants.DOMAIN)
+@CrossOrigin(AppConstants.FRONTEND_HOST)
 public class InventoryController {
 
     private ProductRepository productRepository;

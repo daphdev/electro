@@ -29,7 +29,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/client-api/wishes")
 @AllArgsConstructor
-@CrossOrigin(AppConstants.DOMAIN)
+@CrossOrigin(AppConstants.FRONTEND_HOST)
 public class ClientWishController {
 
     private WishRepository wishRepository;

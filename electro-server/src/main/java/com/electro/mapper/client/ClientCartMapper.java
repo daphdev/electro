@@ -11,9 +11,11 @@ import com.electro.entity.cart.CartVariantKey;
 import com.electro.entity.general.Image;
 import com.electro.entity.product.Product;
 import com.electro.entity.product.Variant;
+import com.electro.mapper.promotion.PromotionMapper;
 import com.electro.repository.authentication.UserRepository;
 import com.electro.repository.inventory.DocketVariantRepository;
 import com.electro.repository.product.VariantRepository;
+import com.electro.repository.promotion.PromotionRepository;
 import com.electro.utils.InventoryUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -33,6 +35,8 @@ public class ClientCartMapper {
     private UserRepository userRepository;
     private VariantRepository variantRepository;
     private DocketVariantRepository docketVariantRepository;
+    private PromotionRepository promotionRepository;
+    private PromotionMapper promotionMapper;
 
     public Cart requestToEntity(ClientCartRequest request) {
         var entity = new Cart();
@@ -44,26 +48,16 @@ public class ClientCartMapper {
     }
 
     public Cart partialUpdate(Cart entity, ClientCartRequest request) {
-        // Cộng dồn quantity cho những mặt hàng đã có trong giỏ hàng
         List<Long> currentVariantIds = entity.getCartVariants().stream()
                 .map(CartVariant::getCartVariantKey)
                 .map(CartVariantKey::getVariantId)
                 .collect(Collectors.toList());
         Set<CartVariant> newCartVariants = new HashSet<>();
 
-        // TH1: Mảng entity.getCartVariants() rỗng
-        if (entity.getCartVariants().size() == 0) {
-            for (ClientCartVariantRequest clientCartVariantRequest : request.getCartItems()) {
-                newCartVariants.add(requestToEntity(clientCartVariantRequest));
-            }
-        }
-
-        // TH2: Mảng entity.getCartVariants() không rỗng
+        // (1) Cập nhật các cartVariant đang có trong cart
         for (CartVariant cartVariant : entity.getCartVariants()) {
             for (ClientCartVariantRequest clientCartVariantRequest : request.getCartItems()) {
-                if (!currentVariantIds.contains(clientCartVariantRequest.getVariantId())) {
-                    newCartVariants.add(requestToEntity(clientCartVariantRequest));
-                } else if (Objects.equals(cartVariant.getCartVariantKey().getVariantId(), clientCartVariantRequest.getVariantId())) {
+                if (Objects.equals(cartVariant.getCartVariantKey().getVariantId(), clientCartVariantRequest.getVariantId())) {
                     if (request.getUpdateQuantityType() == UpdateQuantityType.OVERRIDE) {
                         cartVariant.setQuantity(clientCartVariantRequest.getQuantity());
                     } else {
@@ -71,6 +65,13 @@ public class ClientCartMapper {
                     }
                     break;
                 }
+            }
+        }
+
+        // (2) Thêm những cartVariant mới từ request
+        for (ClientCartVariantRequest clientCartVariantRequest : request.getCartItems()) {
+            if (!currentVariantIds.contains(clientCartVariantRequest.getVariantId())) {
+                newCartVariants.add(requestToEntity(clientCartVariantRequest));
             }
         }
 
@@ -111,6 +112,12 @@ public class ClientCartMapper {
         response.setProductName(entity.getName());
         response.setProductSlug(entity.getSlug());
         response.setProductThumbnail(entity.getImages().stream().filter(Image::getIsThumbnail).findAny().map(Image::getPath).orElse(null));
+        response.setProductPromotion(promotionRepository
+                .findActivePromotionByProductId(entity.getId())
+                .stream()
+                .findFirst()
+                .map(promotionMapper::entityToClientResponse)
+                .orElse(null));
         return response;
     }
 

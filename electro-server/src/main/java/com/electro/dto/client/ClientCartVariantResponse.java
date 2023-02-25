@@ -25,6 +25,8 @@ public class ClientCartVariantResponse {
             private String productSlug;
             @Nullable
             private String productThumbnail;
+            @Nullable
+            private ClientPromotionResponse productPromotion;
         }
     }
 }

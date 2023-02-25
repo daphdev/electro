@@ -68,12 +68,13 @@ import ClientReview from 'pages/client-review';
 import ReviewManage from 'pages/review';
 import VoucherManage from 'pages/voucher';
 import PaymentMethodManage from 'pages/payment-method';
-import PromotionManage from 'pages/promotion';
+import PromotionManage, { PromotionCreate, PromotionUpdate } from 'pages/promotion';
 import ClientProduct from 'pages/client-product';
 import ClientCart from 'pages/client-cart';
 import WaybillManage, { WaybillCreate, WaybillUpdate } from 'pages/waybill';
 import ClientOrder from 'pages/client-order';
 import ClientOrderDetail from 'pages/client-order-detail';
+import ClientChat from 'pages/client-chat';
 
 const queryClient = new QueryClient();
 
@@ -161,6 +162,11 @@ function App() {
                   <Route path="/order/detail/:code" element={(
                     <ProtectedRoute>
                       <ClientOrderDetail/>
+                    </ProtectedRoute>
+                  )}/>
+                  <Route path="/user/chat" element={(
+                    <ProtectedRoute>
+                      <ClientChat/>
                     </ProtectedRoute>
                   )}/>
                 </Route>
@@ -322,6 +328,8 @@ function App() {
                   <Route path={ManagerPath.PAYMENT_METHOD} element={<PaymentMethodManage/>}/>
                   {/* PROMOTION */}
                   <Route path={ManagerPath.PROMOTION} element={<PromotionManage/>}/>
+                  <Route path={ManagerPath.PROMOTION + '/create'} element={<PromotionCreate/>}/>
+                  <Route path={ManagerPath.PROMOTION + '/update/:id'} element={<PromotionUpdate/>}/>
                 </Route>
               </Routes>
             </ModalsProvider>

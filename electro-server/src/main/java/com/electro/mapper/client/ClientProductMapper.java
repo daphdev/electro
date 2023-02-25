@@ -6,8 +6,10 @@ import com.electro.entity.general.Image;
 import com.electro.entity.product.Product;
 import com.electro.entity.product.Variant;
 import com.electro.mapper.general.ImageMapper;
+import com.electro.mapper.promotion.PromotionMapper;
 import com.electro.projection.inventory.SimpleProductInventory;
 import com.electro.repository.inventory.DocketVariantRepository;
+import com.electro.repository.promotion.PromotionRepository;
 import com.electro.utils.InventoryUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -23,6 +25,8 @@ public class ClientProductMapper {
     private ImageMapper imageMapper;
     private ClientCategoryMapper clientCategoryMapper;
     private DocketVariantRepository docketVariantRepository;
+    private PromotionRepository promotionRepository;
+    private PromotionMapper promotionMapper;
 
     public ClientListedProductResponse entityToListedResponse(Product product, List<SimpleProductInventory> productInventories) {
         ClientListedProductResponse clientListedProductResponse = new ClientListedProductResponse();
@@ -60,6 +64,13 @@ public class ClientProductMapper {
                 .findAny()
                 .map(productInventory -> productInventory.getCanBeSold() > 0)
                 .orElse(false));
+
+        clientListedProductResponse.setProductPromotion(promotionRepository
+                .findActivePromotionByProductId(product.getId())
+                .stream()
+                .findFirst()
+                .map(promotionMapper::entityToClientResponse)
+                .orElse(null));
 
         return clientListedProductResponse;
     }
@@ -99,6 +110,12 @@ public class ClientProductMapper {
         clientProductResponse.setProductAverageRatingScore(averageRatingScore);
         clientProductResponse.setProductCountReviews(countReviews);
         clientProductResponse.setProductRelatedProducts(relatedProductResponses);
+        clientProductResponse.setProductPromotion(promotionRepository
+                .findActivePromotionByProductId(product.getId())
+                .stream()
+                .findFirst()
+                .map(promotionMapper::entityToClientResponse)
+                .orElse(null));
 
         return clientProductResponse;
     }

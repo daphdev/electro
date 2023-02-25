@@ -18,6 +18,8 @@ public class ClientListedProductResponse {
     private List<Double> productPriceRange;
     private List<ClientListedVariantResponse> productVariants;
     private boolean productSaleable;
+    @Nullable
+    private ClientPromotionResponse productPromotion;
 
     @Data
     @Accessors(chain = true)

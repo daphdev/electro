@@ -1,5 +1,6 @@
 package com.electro.dto.promotion;
 
+import com.electro.dto.product.ProductResponse;
 import lombok.Data;
 
 import java.time.Instant;
@@ -16,14 +17,4 @@ public class PromotionResponse {
     private Integer percent;
     private Integer status;
     private Set<ProductResponse> products;
-
-    @Data
-    public static class ProductResponse {
-        private Long id;
-        private Instant createdAt;
-        private Instant updatedAt;
-        private String name;
-        private String code;
-        private String slug;
-    }
 }

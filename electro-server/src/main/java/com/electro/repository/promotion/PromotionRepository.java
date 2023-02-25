@@ -5,6 +5,8 @@ import com.electro.entity.promotion.Promotion;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
@@ -31,5 +33,9 @@ public interface PromotionRepository extends JpaRepository<Promotion, Long>, Jpa
 
         return findAll(spec);
     }
+
+    @Query("SELECT pr FROM Promotion pr JOIN pr.products p WHERE p.id = :productId AND pr.status = 1 AND " +
+            "CURRENT_DATE BETWEEN pr.startDate AND pr.endDate")
+    List<Promotion> findActivePromotionByProductId(@Param("productId") Long productId);
 
 }

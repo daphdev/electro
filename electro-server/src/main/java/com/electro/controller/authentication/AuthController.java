@@ -35,7 +35,7 @@ import java.time.Instant;
 @RestController
 @RequestMapping("/api/auth")
 @AllArgsConstructor
-@CrossOrigin(AppConstants.DOMAIN)
+@CrossOrigin(AppConstants.FRONTEND_HOST)
 public class AuthController {
 
     private AuthenticationManager authenticationManager;

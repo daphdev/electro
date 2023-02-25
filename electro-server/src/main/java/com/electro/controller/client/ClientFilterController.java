@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/client-api/filters")
 @AllArgsConstructor
-@CrossOrigin(AppConstants.DOMAIN)
+@CrossOrigin(AppConstants.FRONTEND_HOST)
 public class ClientFilterController {
 
     private BrandRepository brandRepository;
