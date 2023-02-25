@@ -4,6 +4,8 @@ import { AddressRequest } from 'models/Address';
 import { ImageResponse } from 'models/Image';
 import { SpecificationItem } from 'models/Product';
 import { PaymentMethodType } from 'models/PaymentMethod';
+import { RoomResponse } from 'models/Room';
+import { MessageResponse } from 'models/Message';
 
 // CATEGORY
 
@@ -278,4 +280,12 @@ export interface ClientOrderDetailResponse {
 export interface ClientPromotionResponse {
   promotionId: number;
   promotionPercent: number;
+}
+
+// CHAT
+
+export interface ClientRoomExistenceResponse {
+  roomExistence: boolean;
+  roomResponse: RoomResponse;
+  roomRecentMessages: MessageResponse[];
 }

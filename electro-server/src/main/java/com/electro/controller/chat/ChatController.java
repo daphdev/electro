@@ -34,11 +34,11 @@ public class ChatController {
         simpMessagingTemplate.convertAndSend("/chat/receive/" + roomId, messageResponse);
     }
 
-    @GetMapping("/chat")
+    @GetMapping("/messages")
     public ResponseEntity<ListResponse<MessageResponse>> getAllMessages(
             @RequestParam(name = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(name = "size", defaultValue = "20") int size,
-            @RequestParam(name = "sort", defaultValue = "createdAt,desc") String sort,
+            @RequestParam(name = "sort", defaultValue = AppConstants.DEFAULT_SORT) String sort,
             @RequestParam(name = "filter", required = false) @Nullable String filter,
             @RequestParam(name = "search", required = false) @Nullable String search,
             @RequestParam(name = "all", required = false) boolean all

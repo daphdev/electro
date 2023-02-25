@@ -63,6 +63,9 @@ class ResourceURL {
   static PAYMENT_METHOD = apiPath + '/payment-methods';
   static PROMOTION = apiPath + '/promotions';
 
+  static ROOM = apiPath + '/rooms';
+  static MESSAGE = apiPath + '/messages';
+
   // CLIENT
   static CLIENT_CATEGORY = clientApiPath + '/categories';
   static CLIENT_PRODUCT = clientApiPath + '/products';
@@ -84,6 +87,9 @@ class ResourceURL {
   static CLIENT_PAYMENT_METHOD = clientApiPath + '/payment-methods';
   static CLIENT_ORDER = clientApiPath + '/orders';
   static CLIENT_ORDER_CANCEL = ResourceURL.CLIENT_ORDER + '/cancel';
+  static CLIENT_CHAT = clientApiPath + '/chat';
+  static CLIENT_CHAT_GET_ROOM = ResourceURL.CLIENT_CHAT + '/get-room';
+  static CLIENT_CHAT_CREATE_ROOM = ResourceURL.CLIENT_CHAT + '/create-room';
 
   // AUTHENTICATION
   static LOGIN = apiPath + '/auth/login';

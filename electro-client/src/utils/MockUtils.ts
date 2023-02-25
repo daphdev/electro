@@ -1,4 +1,5 @@
 import { ClientCategoryResponse, ClientListedProductResponse } from 'types';
+import { MessageResponse } from 'models/Message';
 
 class MockUtils {
   static featuredCategories: ClientCategoryResponse[] = [
@@ -361,6 +362,35 @@ class MockUtils {
       promotionPercent: 10,
     },
   };
+
+  static sampleMessages: MessageResponse[] = [
+    {
+      id: 2,
+      createdAt: '',
+      updatedAt: '',
+      content: 'This is a content',
+      status: 1,
+      user: {
+        id: 1,
+        username: 'dtreat3',
+        fullname: 'Admin',
+        email: '',
+      },
+    },
+    {
+      id: 1,
+      createdAt: '',
+      updatedAt: '',
+      content: 'This is a content',
+      status: 1,
+      user: {
+        id: 4,
+        username: 'dtreat3',
+        fullname: 'Daniel',
+        email: '',
+      },
+    },
+  ];
 }
 
 export default MockUtils;
