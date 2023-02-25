@@ -49,6 +49,8 @@ class ManagerPath {
   static VOUCHER = '/admin/voucher';
   static PAYMENT_METHOD = '/admin/payment-method';
   static PROMOTION = '/admin/promotion';
+
+  static CHAT = '/admin/chat';
 }
 
 export default ManagerPath;

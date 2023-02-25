@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { ActionIcon, Affix, Anchor, Button, Card, Group, useMantineColorScheme } from '@mantine/core';
+import { ActionIcon, Affix, Anchor, Button, Card, Group, Tooltip, useMantineColorScheme } from '@mantine/core';
 import { ClientFooter, ClientHeader, LoadingMiddleware } from 'components';
-import { MoonStars, Sun } from 'tabler-icons-react';
+import { Messages, MoonStars, Sun } from 'tabler-icons-react';
 import { useDisclosure, useHotkeys } from '@mantine/hooks';
 import { useIsFetching } from 'react-query';
 import useAuthStore from 'stores/use-auth-store';
@@ -18,6 +18,7 @@ function Client() {
         <ClientFooter/>
       </LoadingMiddleware>
       <Shortcut/>
+      <ChatButton/>
     </>
   );
 }
@@ -35,7 +36,7 @@ function Shortcut() {
   const { resetAuthState } = useAuthStore();
 
   return (
-    <Affix position={{ bottom: 20, right: 20 }} sx={{ display: opened ? 'block' : 'none' }}>
+    <Affix position={{ bottom: 20, right: 100 }} sx={{ display: opened ? 'block' : 'none' }}>
       <Card shadow="sm" p="sm">
         <Group>
           <Anchor component={Link} to="/">Client</Anchor>
@@ -53,6 +54,32 @@ function Shortcut() {
             {dark ? <Sun size={14}/> : <MoonStars size={14}/>}
           </ActionIcon>
         </Group>
+      </Card>
+    </Affix>
+  );
+}
+
+function ChatButton() {
+  return (
+    <Affix position={{ bottom: 20, right: 20 }}>
+      <Card shadow="sm" p="xs" radius="xl">
+        <Tooltip
+          label="Yêu cầu tư vấn mua hàng"
+          position="left"
+          placement="center"
+          withArrow
+        >
+          <ActionIcon
+            component={Link}
+            to="/user/chat"
+            color="teal"
+            size="xl"
+            radius="xl"
+            variant="light"
+          >
+            <Messages/>
+          </ActionIcon>
+        </Tooltip>
       </Card>
     </Affix>
   );

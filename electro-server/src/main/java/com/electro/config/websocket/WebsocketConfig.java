@@ -14,7 +14,7 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
     // topic là nơi nhắn message với đường dẫn bắt đầu là /topic/...
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes("/chat/sent");
+        registry.setApplicationDestinationPrefixes("/chat/send");
         registry.enableSimpleBroker("/chat/receive");
     }
 
