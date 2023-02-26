@@ -25,6 +25,8 @@
         <io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
         <sockjs-client.version>1.0.2</sockjs-client.version>
         <stomp-websocket.version>2.3.3</stomp-websocket.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     <dependencies>
         <dependency>
@@ -148,6 +150,8 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
+
+
     </dependencies>
 
     <build>
@@ -156,6 +160,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${project.parent.version}</version>
+
                 <configuration>
                     <excludes>
                         <exclude>
@@ -190,6 +195,7 @@
                             <version>${org.mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
 

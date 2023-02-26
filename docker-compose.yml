@@ -1,0 +1,63 @@
+version: '3.0'
+services:
+  client:
+    build:
+      context: electro-client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    networks:
+      - network
+    restart: always
+    volumes:
+      - ./electro-client/src:/app/src
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: electro-server
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/electro?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 12345
+      SLEEP_LENGTH: 60
+
+    networks:
+      - network
+    restart: always
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    container_name: mysqldb
+    image: mysql:8.0
+    cap_add:
+      - SYS_NICE
+    restart: always
+#    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
+#      --init-file=/data/application/address.sql
+    networks:
+      - network
+    ports:
+      - "3308:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345
+      - MYSQL_DATABASE=electro
+      - LANG= en_US.utf8
+#      - LC_ALL= en_US.utf8
+    volumes:
+      - db:/var/lib/mysql
+      - ./electro-server/src/main/resources/address.sql:/docker-entrypoint-initdb.d/init.sql
+# Volumes
+volumes:
+  db:
+    driver: local
+
+networks:
+  network:
+    driver: bridge
