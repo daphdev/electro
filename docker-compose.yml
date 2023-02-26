@@ -1,61 +1,66 @@
-version: '3.0'
+version: '3.9'
+
 services:
-  client:
+  electro-client:
+    container_name: electro-client
+    image: electro-client
+    restart: always
+    depends_on:
+      - electro-server
     build:
       context: electro-client
       dockerfile: Dockerfile
     ports:
-      - "3000:80"
+      - 3000:80
     networks:
       - network
-    restart: always
-    volumes:
-      - ./electro-client/src:/app/src
-    depends_on:
-      - server
 
-  server:
+  electro-server:
+    container_name: electro-server
+    image: electro-server
+    restart: on-failure
+    depends_on:
+      electro-database:
+        condition: service_healthy
     build:
       context: electro-server
       dockerfile: Dockerfile
-    ports:
-      - "8085:8085"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/electro?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+      SPRING_DATASOURCE_URL: jdbc:mysql://electro-database:3306/electro
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 12345
-      SLEEP_LENGTH: 60
-
+    ports:
+      - 8085:8085
     networks:
       - network
-    restart: always
-    depends_on:
-      - mysqldb
 
-  mysqldb:
-    container_name: mysqldb
+  electro-database:
+    container_name: electro-database
     image: mysql:8.0
+    restart: unless-stopped
     cap_add:
       - SYS_NICE
-    restart: always
-#    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
-#      --init-file=/data/application/address.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: electro
+      LANG: C.UTF-8
+    ports:
+      - 3308:3306
     networks:
       - network
-    ports:
-      - "3308:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=12345
-      - MYSQL_DATABASE=electro
-      - LANG= en_US.utf8
-#      - LC_ALL= en_US.utf8
     volumes:
-      - db:/var/lib/mysql
+      - storage:/var/lib/mysql
       - ./electro-server/src/main/resources/address.sql:/docker-entrypoint-initdb.d/init.sql
-# Volumes
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --general-log=1 --general-log-file=/tmp/mysql-general-log.log
+    healthcheck:
+      # Reference: https://stackoverflow.com/a/74905088
+      test: 'cat /tmp/mysql-general-log.log | grep "Tcp port: 3306"'
+      interval: 5s
+      timeout: 30s
+      retries: 20
+
 volumes:
-  db:
+  storage:
     driver: local
 
 networks:

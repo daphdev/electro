@@ -199,10 +199,14 @@
                 </configuration>
             </plugin>
 
+            <!-- Reference: https://stackoverflow.com/a/65941154 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <argLine>-Dfile.encoding=UTF-8</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </build>

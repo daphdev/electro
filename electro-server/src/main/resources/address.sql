@@ -1,5 +1,4 @@
 -- CREATE TABLES
-ALTER DATABASE electro CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 CREATE TABLE province
 (
