@@ -1,6 +1,7 @@
 {
   "name": "electro-client",
   "version": "0.1.0",
+  "homepage": "/",
   "private": true,
   "dependencies": {
     "@mantine/core": "^4.2.12",
