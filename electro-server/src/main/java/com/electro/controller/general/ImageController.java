@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 @RestController
 @RequestMapping("/images")
 @AllArgsConstructor
-@CrossOrigin(AppConstants.DOMAIN)
+@CrossOrigin(AppConstants.FRONTEND_HOST)
 @Slf4j
 public class ImageController {
 
