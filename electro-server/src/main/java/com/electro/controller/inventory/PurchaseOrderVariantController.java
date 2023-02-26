@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/purchase-order-variants")
 @AllArgsConstructor
-@CrossOrigin(AppConstants.DOMAIN)
+@CrossOrigin(AppConstants.FRONTEND_HOST)
 public class PurchaseOrderVariantController {
 
     private PurchaseOrderVariantService purchaseOrderVariantService;

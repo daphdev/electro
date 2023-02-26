@@ -16,6 +16,7 @@ const titles: Record<string, string> = {
   '/cart': 'Giỏ hàng',
   '/order': 'Đơn hàng',
   '/order/detail/:code': 'Chi tiết đơn hàng',
+  '/user/chat': 'Yêu cầu tư vấn',
 
   '/admin': 'Admin',
 };

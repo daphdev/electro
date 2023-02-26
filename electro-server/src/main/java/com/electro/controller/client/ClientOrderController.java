@@ -39,7 +39,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/client-api/orders")
 @AllArgsConstructor
-@CrossOrigin(AppConstants.DOMAIN)
+@CrossOrigin(AppConstants.FRONTEND_HOST)
 public class ClientOrderController {
 
     private OrderRepository orderRepository;
@@ -88,7 +88,7 @@ public class ClientOrderController {
         orderService.captureTransactionPaypal(paypalOrderId, payerId);
 
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl(AppConstants.DOMAIN);
+        redirectView.setUrl(AppConstants.FRONTEND_HOST);
         return redirectView;
     }
 

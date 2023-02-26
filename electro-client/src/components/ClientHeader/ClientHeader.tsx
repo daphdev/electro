@@ -208,7 +208,7 @@ function ClientHeader() {
                       Đặt trước sản phẩm
                     </Menu.Item>
                     <Menu.Item icon={<MessageCircle size={14}/>} component={Link} to="/user/chat">
-                      Chat hỏi đáp
+                      Yêu cầu tư vấn
                     </Menu.Item>
                     <Menu.Item color="pink" icon={<Logout size={14}/>} onClick={handleSignoutMenu}>
                       Đăng xuất

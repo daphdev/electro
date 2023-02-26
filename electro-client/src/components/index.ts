@@ -50,6 +50,7 @@ import ElectroLogo from 'components/ElectroLogo/ElectroLogo';
 import FloatingCodeFrame from 'components/FloatingCodeFrame/FloatingCodeFrame';
 import LoadingMiddleware from 'components/LoadingMiddleware/LoadingMiddleware';
 import ScrollToTop from 'components/ScrollToTop/ScrollToTop';
+import EntityFinder from 'components/EntityFinder/EntityFinder';
 
 // Client
 import ClientHeader from 'components/ClientHeader/ClientHeader';
@@ -105,6 +106,7 @@ export {
   FloatingCodeFrame,
   LoadingMiddleware,
   ScrollToTop,
+  EntityFinder,
 
   ClientHeader,
   ClientFooter,

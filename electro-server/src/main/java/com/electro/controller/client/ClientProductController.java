@@ -34,7 +34,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/client-api/products")
 @AllArgsConstructor
-@CrossOrigin(AppConstants.DOMAIN)
+@CrossOrigin(AppConstants.FRONTEND_HOST)
 public class ClientProductController {
 
     private ProductRepository productRepository;
@@ -62,8 +62,6 @@ public class ClientProductController {
         List<Long> productIds = products.map(Product::getId).toList();
         List<SimpleProductInventory> productInventories = projectionRepository.findSimpleProductInventories(productIds);
 
-        // TODO: Load promotion
-
         List<ClientListedProductResponse> clientListedProductResponses = products
                 .map(product -> clientProductMapper.entityToListedResponse(product, productInventories)).toList();
 
@@ -84,7 +82,10 @@ public class ClientProductController {
         // Related Products
         Page<Product> relatedProducts = productRepository.findByParams(
                 String.format("category.id==%s;id!=%s",
-                        Optional.ofNullable(product.getCategory()).map(BaseEntity::getId).map(Object::toString).orElse("0"),
+                        Optional.ofNullable(product.getCategory())
+                                .map(BaseEntity::getId)
+                                .map(Object::toString)
+                                .orElse("0"),
                         product.getId()),
                 "random",
                 null,
@@ -93,7 +94,8 @@ public class ClientProductController {
                 PageRequest.of(0, 4));
 
         List<Long> relatedProductIds = relatedProducts.map(Product::getId).toList();
-        List<SimpleProductInventory> relatedProductInventories = projectionRepository.findSimpleProductInventories(relatedProductIds);
+        List<SimpleProductInventory> relatedProductInventories = projectionRepository
+                .findSimpleProductInventories(relatedProductIds);
 
         List<ClientListedProductResponse> relatedProductResponses = relatedProducts
                 .map(p -> clientProductMapper.entityToListedResponse(p, relatedProductInventories)).toList();

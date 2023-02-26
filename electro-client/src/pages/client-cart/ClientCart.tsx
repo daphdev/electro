@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Anchor,
+  Badge,
   Button,
   Card,
   Container,
@@ -94,7 +95,12 @@ function ClientCart() {
     }
 
     const totalAmount = cart.cartItems
-      .map(cartItem => cartItem.cartItemQuantity * cartItem.cartItemVariant.variantPrice)
+      .map(cartItem => cartItem.cartItemQuantity * MiscUtils.calculateDiscountedPrice(
+        cartItem.cartItemVariant.variantPrice,
+        cartItem.cartItemVariant.variantProduct.productPromotion
+          ? cartItem.cartItemVariant.variantProduct.productPromotion.promotionPercent
+          : 0
+      ))
       .reduce((partialSum, a) => partialSum + a, 0);
 
     const taxCost = Number((totalAmount * ApplicationConstants.DEFAULT_TAX).toFixed(0));
@@ -350,9 +356,28 @@ function CartItemTableRow({ cartItem }: { cartItem: ClientCartVariantResponse })
         </Group>
       </td>
       <td>
-        <Text weight={500} size="sm">
-          {MiscUtils.formatPrice(cartItem.cartItemVariant.variantPrice) + ' ₫'}
-        </Text>
+        <Stack spacing={2.5}>
+          <Text weight={500} size="sm">
+            {MiscUtils.formatPrice(
+              MiscUtils.calculateDiscountedPrice(
+                cartItem.cartItemVariant.variantPrice,
+                cartItem.cartItemVariant.variantProduct.productPromotion
+                  ? cartItem.cartItemVariant.variantProduct.productPromotion.promotionPercent
+                  : 0
+              )
+            )} ₫
+          </Text>
+          {cartItem.cartItemVariant.variantProduct.productPromotion && (
+            <Group spacing="xs">
+              <Text size="xs" color="dimmed" sx={{ textDecoration: 'line-through' }}>
+                {MiscUtils.formatPrice(cartItem.cartItemVariant.variantPrice)} ₫
+              </Text>
+              <Badge color="pink" variant="filled" size="sm">
+                -{cartItem.cartItemVariant.variantProduct.productPromotion.promotionPercent}%
+              </Badge>
+            </Group>
+          )}
+        </Stack>
       </td>
       <td>
         <Stack spacing={3.5}>
@@ -381,7 +406,13 @@ function CartItemTableRow({ cartItem }: { cartItem: ClientCartVariantResponse })
       </td>
       <td>
         <Text weight={500} size="sm" color="blue">
-          {MiscUtils.formatPrice(cartItem.cartItemQuantity * cartItem.cartItemVariant.variantPrice) + ' ₫'}
+          {MiscUtils.formatPrice(cartItem.cartItemQuantity *
+            MiscUtils.calculateDiscountedPrice(
+              cartItem.cartItemVariant.variantPrice,
+              cartItem.cartItemVariant.variantProduct.productPromotion
+                ? cartItem.cartItemVariant.variantProduct.productPromotion.promotionPercent
+                : 0
+            )) + ' ₫'}
         </Text>
       </td>
       <td>

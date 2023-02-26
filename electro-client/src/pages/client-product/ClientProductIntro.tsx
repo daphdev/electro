@@ -179,11 +179,11 @@ function ClientProductIntro({ product }: ClientProductIntroProps) {
                     <ReviewStarGroup ratingScore={product.productAverageRatingScore}/>
                     <Text size="sm">{product.productCountReviews} đánh giá</Text>
                   </Group>
-                  <Group spacing={5}>
-                    <ShoppingCart size={18} strokeWidth={1.5} color={theme.colors.teal[7]}/>
-                    {/* TODO */}
-                    <Text size="sm" color="teal">120 đã mua</Text>
-                  </Group>
+                  {/* TODO: Doanh số sản phẩm */}
+                  {/*<Group spacing={5}>*/}
+                  {/*  <ShoppingCart size={18} strokeWidth={1.5} color={theme.colors.teal[7]}/>*/}
+                  {/*  <Text size="sm" color="teal">120 đã mua</Text>*/}
+                  {/*</Group>*/}
                 </Group>
               </Stack>
 
@@ -196,17 +196,25 @@ function ClientProductIntro({ product }: ClientProductIntroProps) {
                   padding: '16px 20px',
                 }}
               >
-                {/* TODO */}
                 <Group>
                   <Text sx={{ fontSize: 24 }} weight={700} color="pink">
-                    {MiscUtils.formatPrice(product.productVariants[selectedVariantIndex]?.variantPrice)} ₫
+                    {MiscUtils.formatPrice(
+                      MiscUtils.calculateDiscountedPrice(
+                        product.productVariants[selectedVariantIndex]?.variantPrice,
+                        product.productPromotion ? product.productPromotion.promotionPercent : 0
+                      )
+                    )} ₫
                   </Text>
-                  <Text sx={{ textDecoration: 'line-through' }}>
-                    4.000.000 ₫
-                  </Text>
-                  <Badge color="pink" size="lg" variant="filled">
-                    -50%
-                  </Badge>
+                  {product.productPromotion && (
+                    <>
+                      <Text sx={{ textDecoration: 'line-through' }}>
+                        {MiscUtils.formatPrice(product.productVariants[selectedVariantIndex]?.variantPrice)} ₫
+                      </Text>
+                      <Badge color="pink" size="lg" variant="filled">
+                        -{product.productPromotion.promotionPercent}%
+                      </Badge>
+                    </>
+                  )}
                 </Group>
               </Box>
 
@@ -235,8 +243,8 @@ function ClientProductIntro({ product }: ClientProductIntroProps) {
                             onClick={() => handleSelectVariantButton(index)}
                             disabled={selectedVariantIndex === index || variant.variantInventory === 0}
                           >
-                            <Stack spacing={5}>
-                              <SimpleGrid cols={2} spacing={5}>
+                            <Stack spacing={2.5}>
+                              <SimpleGrid cols={2} spacing={2.5}>
                                 {variant.variantProperties?.content.map(property => (
                                   <React.Fragment key={property.id}>
                                     <Text size="sm">{property.name}</Text>
@@ -250,6 +258,12 @@ function ClientProductIntro({ product }: ClientProductIntroProps) {
                                 ))}
                               </SimpleGrid>
                               <Text size="xs" color="dimmed">Tồn kho: {variant.variantInventory}</Text>
+                              <Text size="xs" color="dimmed">Giá: {MiscUtils.formatPrice(
+                                MiscUtils.calculateDiscountedPrice(
+                                  variant.variantPrice,
+                                  product.productPromotion ? product.productPromotion.promotionPercent : 0
+                                )
+                              )} ₫</Text>
                             </Stack>
                           </UnstyledButton>
                         ))}

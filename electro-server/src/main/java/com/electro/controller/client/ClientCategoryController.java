@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/client-api/categories")
 @AllArgsConstructor
-@CrossOrigin(AppConstants.DOMAIN)
+@CrossOrigin(AppConstants.FRONTEND_HOST)
 public class ClientCategoryController {
 
     private CategoryRepository categoryRepository;

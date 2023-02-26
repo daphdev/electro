@@ -213,9 +213,9 @@ insert into product_tag (product_id, tag_id) values (3, 2);
 insert into product_tag (product_id, tag_id) values (4, 1);
 
 -- variant TABLE: 3 records
-insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2021-10-22 20:25:57', '2021-12-14 06:28:15', 1, '43063-210', 2568670, 5395497, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"S"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 2);
-insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2022-05-06 20:40:45', '2022-04-02 20:30:28', 1, '52125-433', 823716, 6459704, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"M"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 1);
-insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2021-07-17 02:36:19', '2021-12-14 10:10:42', 1, '48951-8009', 8298634, 9300059, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"L"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 1);
+insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2021-10-22 20:25:57', '2021-12-14 06:28:15', 1, '43063-210', 2000000, 2250000, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"S"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 2);
+insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2022-05-06 20:40:45', '2022-04-02 20:30:28', 1, '52125-433', 4000000, 4200000, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"M"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 1);
+insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2021-07-17 02:36:19', '2021-12-14 10:10:42', 1, '48951-8009', 500000, 550000, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"L"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 1);
 
 -- image TABLE: 3 records
 insert into image (created_at, updated_at, name, path, content_type, size, `group`, is_thumbnail, is_eliminated, product_id) values ('2021-10-22 20:25:57', '2021-12-14 06:28:15', '233x100.png', 'https://media-api-beta.thinkpro.vn/media/core/products/2022/5/9/xps%2013%20plus%209320%201.png?w=700&h=700', 'image/png', 300, 'P', 1, 0, 1);

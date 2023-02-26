@@ -20,7 +20,7 @@ import java.util.List;
 @Component
 @Setter
 @Scope("prototype")
-@CrossOrigin(AppConstants.DOMAIN)
+@CrossOrigin(AppConstants.FRONTEND_HOST)
 public class GenericController<I, O> {
 
     private CrudService<Long, I, O> crudService;

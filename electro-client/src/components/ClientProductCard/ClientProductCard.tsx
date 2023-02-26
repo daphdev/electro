@@ -185,8 +185,22 @@ function ClientProductCard({ product, search }: ClientProductCardProps) {
             {!product.productSaleable && <Badge size="xs" color="red" variant="filled">Hết hàng</Badge>}
           </Group>
           <Text weight={500} color="pink">
-            {product.productPriceRange.map(MiscUtils.formatPrice).join('–') + '\u00A0₫'}
+            {product.productPriceRange
+              .map(price => product.productPromotion
+                ? MiscUtils.calculateDiscountedPrice(price, product.productPromotion.promotionPercent)
+                : price)
+              .map(MiscUtils.formatPrice).join('–') + '\u00A0₫'}
           </Text>
+          {product.productPromotion && (
+            <Group spacing="xs">
+              <Text size="sm" sx={{ textDecoration: 'line-through' }}>
+                {product.productPriceRange.map(MiscUtils.formatPrice).join('–') + '\u00A0₫'}
+              </Text>
+              <Badge color="pink" variant="filled">
+                -{product.productPromotion.promotionPercent}%
+              </Badge>
+            </Group>
+          )}
           <Text size="sm" color="dimmed">
             {product.productVariants.length} phiên bản
           </Text>
