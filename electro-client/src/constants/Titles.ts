@@ -17,6 +17,8 @@ const titles: Record<string, string> = {
   '/order': 'Đơn hàng',
   '/order/detail/:code': 'Chi tiết đơn hàng',
   '/user/chat': 'Yêu cầu tư vấn',
+  '/payment/success': 'Thanh toán thành công',
+  '/payment/cancel': 'Hủy thanh toán',
 
   '/admin': 'Admin',
 };

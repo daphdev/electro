@@ -4,9 +4,11 @@ import com.electro.dto.client.ClientOrderDetailResponse;
 import com.electro.dto.client.ClientOrderRequest;
 import com.electro.dto.client.ClientOrderVariantResponse;
 import com.electro.dto.client.ClientSimpleOrderResponse;
+import com.electro.dto.client.ClientWaybillResponse;
 import com.electro.entity.general.Image;
 import com.electro.entity.order.Order;
 import com.electro.entity.order.OrderVariant;
+import com.electro.entity.waybill.WaybillLog;
 import com.electro.repository.review.ReviewRepository;
 import com.electro.utils.MapperUtils;
 import org.mapstruct.AfterMapping;
@@ -33,6 +35,7 @@ public abstract class ClientOrderMapper {
     @Mapping(source = "status", target = "orderStatus")
     @Mapping(source = "totalPay", target = "orderTotalPay")
     @Mapping(source = "orderVariants", target = "orderItems")
+    @Mapping(source = "paymentStatus", target = "orderPaymentStatus")
     public abstract ClientSimpleOrderResponse entityToResponse(Order order);
 
     @Mapping(source = "id", target = "orderId")
@@ -52,6 +55,10 @@ public abstract class ClientOrderMapper {
     @Mapping(source = "paymentMethodType", target = "orderPaymentMethodType")
     @Mapping(source = "paymentStatus", target = "orderPaymentStatus")
     @Mapping(source = "orderVariants", target = "orderItems")
+    @Mapping(source = "waybill", target = "orderWaybill")
+    @Mapping(source = "waybill.code", target = "orderWaybill.waybillCode")
+    @Mapping(source = "waybill.expectedDeliveryTime", target = "orderWaybill.waybillExpectedDeliveryTime")
+    @Mapping(source = "waybill.waybillLogs", target = "orderWaybill.waybillLogs")
     public abstract ClientOrderDetailResponse entityToDetailResponse(Order order);
 
     @Mapping(source = "variant.id", target = "orderItemVariant.variantId")
@@ -94,5 +101,11 @@ public abstract class ClientOrderMapper {
     @Mapping(source = "orderCancellationReasonId", target = "orderCancellationReason")
     @Mapping(source = "userId", target = "user")
     public abstract Order partialUpdate(@MappingTarget Order entity, ClientOrderRequest request);
+
+    @Mapping(source = "id", target = "waybillLogId")
+    @Mapping(source = "createdAt", target = "waybillLogCreatedAt")
+    @Mapping(source = "previousStatus", target = "waybillLogPreviousStatus")
+    @Mapping(source = "currentStatus", target = "waybillLogCurrentStatus")
+    public abstract ClientWaybillResponse.ClientWaybillLogResponse entityToResponse(WaybillLog waybillLog);
 
 }

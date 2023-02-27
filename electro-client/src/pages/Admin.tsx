@@ -4,9 +4,17 @@ import { DefaultHeader } from 'components/DefaultHeader/DefaultHeader';
 import { DefaultNavbar } from 'components/DefaultNavbar/DefaultNavbar';
 import { Outlet } from 'react-router-dom';
 import useTitle from 'hooks/use-title';
+import useAdminAuthStore from 'stores/use-admin-auth-store';
+import AdminSignin from 'pages/admin-signin';
 
 function Admin() {
   useTitle();
+
+  const { user } = useAdminAuthStore();
+
+  if (!user) {
+    return <AdminSignin/>;
+  }
 
   return (
     <AppShell

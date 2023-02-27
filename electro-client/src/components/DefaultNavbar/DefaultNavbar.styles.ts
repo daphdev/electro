@@ -45,6 +45,11 @@ const useDefaultNavbarStyles = createStyles((theme, _params, getRef) => {
       },
     },
 
+    linkDisabled: {
+      opacity: 0.5,
+      pointerEvents: 'none',
+    },
+
     childLinkActive: {
       backgroundColor:
         theme.colorScheme === 'dark'

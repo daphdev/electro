@@ -4,14 +4,19 @@ import com.electro.constant.AppConstants;
 import com.electro.constant.FieldName;
 import com.electro.constant.ResourceName;
 import com.electro.dto.ListResponse;
+import com.electro.dto.client.ClientConfirmedOrderResponse;
 import com.electro.dto.client.ClientOrderDetailResponse;
-import com.electro.dto.client.ClientOrderRequest;
+import com.electro.dto.client.ClientSimpleOrderRequest;
 import com.electro.dto.client.ClientSimpleOrderResponse;
-import com.electro.dto.payment.PaypalCheckoutResponse;
+import com.electro.entity.general.Notification;
+import com.electro.entity.general.NotificationType;
 import com.electro.entity.order.Order;
 import com.electro.exception.ResourceNotFoundException;
 import com.electro.mapper.client.ClientOrderMapper;
+import com.electro.mapper.general.NotificationMapper;
+import com.electro.repository.general.NotificationRepository;
 import com.electro.repository.order.OrderRepository;
+import com.electro.service.general.NotificationService;
 import com.electro.service.order.OrderService;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -45,6 +50,9 @@ public class ClientOrderController {
     private OrderRepository orderRepository;
     private ClientOrderMapper clientOrderMapper;
     private OrderService orderService;
+    private NotificationRepository notificationRepository;
+    private NotificationService notificationService;
+    private NotificationMapper notificationMapper;
 
     @GetMapping
     public ResponseEntity<ListResponse<ClientSimpleOrderResponse>> getAllOrders(
@@ -75,9 +83,8 @@ public class ClientOrderController {
     }
 
     @PostMapping
-    public ResponseEntity<PaypalCheckoutResponse> createClientOrder(@RequestBody ClientOrderRequest orderRequest) {
-        PaypalCheckoutResponse paypalCheckoutResponse = new PaypalCheckoutResponse(orderService.createClientOrder(orderRequest));
-        return ResponseEntity.status(HttpStatus.OK).body(paypalCheckoutResponse);
+    public ResponseEntity<ClientConfirmedOrderResponse> createClientOrder(@RequestBody ClientSimpleOrderRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createClientOrder(request));
     }
 
     @GetMapping(value = "/success")
@@ -88,7 +95,31 @@ public class ClientOrderController {
         orderService.captureTransactionPaypal(paypalOrderId, payerId);
 
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl(AppConstants.FRONTEND_HOST);
+        redirectView.setUrl(AppConstants.FRONTEND_HOST + "/payment/success");
+        return redirectView;
+    }
+
+    @GetMapping(value = "/cancel")
+    public RedirectView paymentCancel(HttpServletRequest request) {
+        String paypalOrderId = request.getParameter("token");
+
+        Order order = orderRepository.findByPaypalOrderId(paypalOrderId)
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceName.ORDER, FieldName.PAYPAL_ORDER_ID, paypalOrderId));
+
+        Notification notification = new Notification()
+                .setUser(order.getUser())
+                .setType(NotificationType.CHECKOUT_PAYPAL_CANCEL)
+                .setMessage(String.format("Bạn đã hủy thanh toán PayPal cho đơn hàng %s.", order.getCode()))
+                .setAnchor("/order/detail/" + order.getCode())
+                .setStatus(1);
+
+        notificationRepository.save(notification);
+
+        notificationService.pushNotification(order.getUser().getUsername(),
+                notificationMapper.entityToResponse(notification));
+
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl(AppConstants.FRONTEND_HOST + "/payment/cancel");
         return redirectView;
     }
 

@@ -51,6 +51,8 @@ class ManagerPath {
   static PROMOTION = '/admin/promotion';
 
   static CHAT = '/admin/chat';
+  static NOTIFICATION = '/admin/notification';
+  static ACCOUNT = '/admin/account';
 }
 
 export default ManagerPath;

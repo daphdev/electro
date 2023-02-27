@@ -232,6 +232,7 @@ export interface ClientSimpleOrderResponse {
   orderStatus: number;
   orderTotalPay: number;
   orderItems: ClientOrderVariantResponse[];
+  orderPaymentStatus: number;
 }
 
 export interface ClientOrderVariantResponse {
@@ -273,7 +274,24 @@ export interface ClientOrderDetailResponse {
   orderPaymentMethodType: PaymentMethodType;
   orderPaymentStatus: number;
   orderItems: ClientOrderVariantResponse[];
+  orderWaybill: ClientWaybillResponse | null;
 }
+
+// WAYBILL
+
+export interface ClientWaybillResponse {
+  waybillCode: string;
+  waybillExpectedDeliveryTime: string;
+  waybillLogs: ClientWaybillLogResponse[];
+}
+
+export interface ClientWaybillLogResponse {
+  waybillLogId: number;
+  waybillLogCreatedAt: string;
+  waybillLogPreviousStatus: number | null;
+  waybillLogCurrentStatus: number | null;
+}
+
 
 // PROMOTION
 
@@ -288,4 +306,16 @@ export interface ClientRoomExistenceResponse {
   roomExistence: boolean;
   roomResponse: RoomResponse;
   roomRecentMessages: MessageResponse[];
+}
+
+// ORDER 2
+
+export interface ClientSimpleOrderRequest {
+  paymentMethodType: PaymentMethodType;
+}
+
+export interface ClientConfirmedOrderResponse {
+  orderCode: string;
+  orderPaymentMethodType: PaymentMethodType;
+  orderPaypalCheckoutLink: string | null;
 }

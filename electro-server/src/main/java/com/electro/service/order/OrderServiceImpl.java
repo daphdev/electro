@@ -4,7 +4,8 @@ import com.electro.config.payment.paypal.PayPalHttpClient;
 import com.electro.constant.AppConstants;
 import com.electro.constant.FieldName;
 import com.electro.constant.ResourceName;
-import com.electro.dto.client.ClientOrderRequest;
+import com.electro.dto.client.ClientConfirmedOrderResponse;
+import com.electro.dto.client.ClientSimpleOrderRequest;
 import com.electro.dto.payment.OrderIntent;
 import com.electro.dto.payment.OrderStatus;
 import com.electro.dto.payment.PaymentLandingPage;
@@ -12,21 +13,37 @@ import com.electro.dto.payment.PaypalRequest;
 import com.electro.dto.payment.PaypalResponse;
 import com.electro.dto.waybill.GhnCancelOrderRequest;
 import com.electro.dto.waybill.GhnCancelOrderResponse;
+import com.electro.entity.authentication.User;
+import com.electro.entity.cart.Cart;
+import com.electro.entity.cashbook.PaymentMethodType;
+import com.electro.entity.general.Notification;
+import com.electro.entity.general.NotificationType;
 import com.electro.entity.order.Order;
+import com.electro.entity.order.OrderResource;
+import com.electro.entity.order.OrderVariant;
 import com.electro.entity.waybill.Waybill;
 import com.electro.entity.waybill.WaybillLog;
 import com.electro.exception.ResourceNotFoundException;
 import com.electro.mapper.client.ClientOrderMapper;
+import com.electro.mapper.general.NotificationMapper;
+import com.electro.repository.authentication.UserRepository;
+import com.electro.repository.cart.CartRepository;
+import com.electro.repository.general.NotificationRepository;
 import com.electro.repository.order.OrderRepository;
 import com.electro.repository.waybill.WaybillLogRepository;
 import com.electro.repository.waybill.WaybillRepository;
+import com.electro.service.general.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -34,6 +51,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -51,9 +69,15 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final WaybillRepository waybillRepository;
     private final WaybillLogRepository waybillLogRepository;
+    private final UserRepository userRepository;
+    private final CartRepository cartRepository;
 
     private final PayPalHttpClient payPalHttpClient;
     private final ClientOrderMapper clientOrderMapper;
+
+    private final NotificationRepository notificationRepository;
+    private final NotificationService notificationService;
+    private final NotificationMapper notificationMapper;
 
     private static final int USD_VND_RATE = 23_000;
 
@@ -87,6 +111,7 @@ public class OrderServiceImpl implements OrderService {
                     throw new RuntimeException("Error when calling Cancel Order GHN API");
                 }
 
+                // Integrated with GHN API
                 if (response.getBody() != null) {
                     for (var data : response.getBody().getData()) {
                         if (data.getResult()) {
@@ -109,49 +134,119 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String createClientOrder(ClientOrderRequest clientOrderRequest) {
-        // TODO: CHECK PAYMENT TYPE [CASH OR PAYPAL]
+    public ClientConfirmedOrderResponse createClientOrder(ClientSimpleOrderRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
 
-        try {
-            // TODO: NEED CHECK RATE AND ROUND NUMBER
-            // (0) Tính tổng tiền theo USD
-            BigDecimal totalPayUSD = clientOrderRequest.getTotalPay()
-                    .divide(BigDecimal.valueOf(USD_VND_RATE), 0, RoundingMode.HALF_UP);
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
 
-            // (1) Tạo một yêu cầu giao dịch PayPal
-            PaypalRequest paypalRequest = new PaypalRequest();
-            paypalRequest.setIntent(OrderIntent.CAPTURE);
-            paypalRequest.setPurchaseUnits(List.of(
-                    new PaypalRequest.PurchaseUnit(
-                            new PaypalRequest.PurchaseUnit.Money("USD", totalPayUSD.toString())
-                    )
-            ));
-            // TODO: UPDATE CANCEL AND SUCCESS URL
-            paypalRequest.setApplicationContext(new PaypalRequest.PayPalAppContext()
-                    .setReturnUrl(AppConstants.BACKEND_HOST + "/client-api/orders/success") // url backend
-                    .setCancelUrl(AppConstants.BACKEND_HOST + "/api/checkout/cancel") // url frontend
-                    .setBrandName("Electro")
-                    .setLandingPage(PaymentLandingPage.BILLING));
+        Cart cart = cartRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException(ResourceName.CART, FieldName.USERNAME, username));
 
-            PaypalResponse paypalResponse = payPalHttpClient.createPaypalTransaction(paypalRequest);
+        // (1) Tạo đơn hàng
+        Order order = new Order();
 
-            // (2) Lưu order
-            Order order = clientOrderMapper.requestToEntity(clientOrderRequest);
-            order.setPaypalOrderId(paypalResponse.getId());
-            order.setPaypalOrderStatus(paypalResponse.getStatus().toString());
+        order.setCode(RandomString.make(12).toUpperCase());
+        order.setStatus(1); // Status 1: Đơn hàng mới
+        order.setToName(user.getFullname());
+        order.setToPhone(user.getPhone());
+        order.setToAddress(user.getAddress().getLine());
+        order.setToWardName(user.getAddress().getWard().getName());
+        order.setToDistrictName(user.getAddress().getDistrict().getName());
+        order.setToProvinceName(user.getAddress().getProvince().getName());
+        order.setOrderResource((OrderResource) new OrderResource().setId(1L)); // Default OrderResource
+        order.setUser(user);
+
+        order.setOrderVariants(cart.getCartVariants().stream()
+                .map(cartVariant -> new OrderVariant()
+                        .setOrder(order)
+                        .setVariant(cartVariant.getVariant())
+                        .setPrice(BigDecimal.valueOf(cartVariant.getVariant().getPrice()))
+                        .setQuantity(cartVariant.getQuantity())
+                        .setAmount(
+                                BigDecimal.valueOf(cartVariant.getVariant().getPrice())
+                                        .multiply(BigDecimal.valueOf(cartVariant.getQuantity()))
+                        ))
+                .collect(Collectors.toSet()));
+
+        // Calculate price values
+        // TODO: Vấn đề khuyến mãi
+        BigDecimal totalAmount = BigDecimal.valueOf(cart.getCartVariants().stream()
+                .mapToDouble(cartVariant -> cartVariant.getVariant().getPrice() * cartVariant.getQuantity())
+                .sum());
+
+        BigDecimal tax = BigDecimal.valueOf(AppConstants.DEFAULT_TAX);
+
+        BigDecimal shippingCost = BigDecimal.ZERO;
+
+        BigDecimal totalPay = totalAmount
+                .add(totalAmount.multiply(tax).setScale(0, RoundingMode.HALF_UP))
+                .add(shippingCost);
+
+        order.setTotalAmount(totalAmount);
+        order.setTax(tax);
+        order.setShippingCost(shippingCost);
+        order.setTotalPay(totalPay);
+        order.setPaymentMethodType(request.getPaymentMethodType());
+        order.setPaymentStatus(1); // Status 1: Chưa thanh toán
+
+        // (2) Tạo response
+        ClientConfirmedOrderResponse response = new ClientConfirmedOrderResponse();
+
+        response.setOrderCode(order.getCode());
+        response.setOrderPaymentMethodType(order.getPaymentMethodType());
+
+        // (3) Kiểm tra hình thức thanh toán
+        if (request.getPaymentMethodType() == PaymentMethodType.CASH) {
             orderRepository.save(order);
+        } else if (request.getPaymentMethodType() == PaymentMethodType.PAYPAL) {
+            try {
+                // (3.2.1) Tính tổng tiền theo USD
+                BigDecimal totalPayUSD = order.getTotalPay()
+                        .divide(BigDecimal.valueOf(USD_VND_RATE), 0, RoundingMode.HALF_UP);
 
-            // (3) Trả về đường dẫn checkout cho user
-            for (PaypalResponse.Link link : paypalResponse.getLinks()) {
-                if (link.getRel().equals("approve")) {
-                    return link.getHref();
+                // (3.2.2) Tạo một yêu cầu giao dịch PayPal
+                PaypalRequest paypalRequest = new PaypalRequest();
+
+                paypalRequest.setIntent(OrderIntent.CAPTURE);
+                paypalRequest.setPurchaseUnits(List.of(
+                        new PaypalRequest.PurchaseUnit(
+                                new PaypalRequest.PurchaseUnit.Money("USD", totalPayUSD.toString())
+                        )
+                ));
+
+                paypalRequest.setApplicationContext(new PaypalRequest.PayPalAppContext()
+                        .setBrandName("Electro")
+                        .setLandingPage(PaymentLandingPage.BILLING)
+                        .setReturnUrl(AppConstants.BACKEND_HOST + "/client-api/orders/success")
+                        .setCancelUrl(AppConstants.BACKEND_HOST + "/client-api/orders/cancel"));
+
+                PaypalResponse paypalResponse = payPalHttpClient.createPaypalTransaction(paypalRequest);
+
+                // (3.2.3) Lưu order
+                order.setPaypalOrderId(paypalResponse.getId());
+                order.setPaypalOrderStatus(paypalResponse.getStatus().toString());
+
+                orderRepository.save(order);
+
+                // (3.2.4) Trả về đường dẫn checkout cho user
+                for (PaypalResponse.Link link : paypalResponse.getLinks()) {
+                    if ("approve".equals(link.getRel())) {
+                        response.setOrderPaypalCheckoutLink(link.getHref());
+                    }
                 }
+            } catch (Exception e) {
+                throw new RuntimeException("Cannot create PayPal transaction request!" + e);
             }
-        } catch (Exception e) {
-            throw new RuntimeException("Cannot create PayPal transaction request!" + e);
+        } else {
+            throw new RuntimeException("Cannot identify payment method");
         }
 
-        return "";
+        // (4) Vô hiệu cart
+        cart.setStatus(2); // Status 2: Vô hiệu lực
+        cartRepository.save(cart);
+
+        return response;
     }
 
     @Override
@@ -162,9 +257,25 @@ public class OrderServiceImpl implements OrderService {
         order.setPaypalOrderStatus(OrderStatus.APPROVED.toString());
 
         try {
+            // (1) Capture
             payPalHttpClient.capturePaypalTransaction(paypalOrderId, payerId);
+
+            // (2) Cập nhật order
             order.setPaypalOrderStatus(OrderStatus.COMPLETED.toString());
-            // TODO: Update order.paymentStatus = 2;
+            order.setPaymentStatus(2); // Status 2: Đã thanh toán
+
+            // (3) Gửi notification
+            Notification notification = new Notification()
+                    .setUser(order.getUser())
+                    .setType(NotificationType.CHECKOUT_PAYPAL_SUCCESS)
+                    .setMessage(String.format("Đơn hàng %s của bạn đã được thanh toán thành công bằng PayPal.", order.getCode()))
+                    .setAnchor("/order/detail/" + order.getCode())
+                    .setStatus(1);
+
+            notificationRepository.save(notification);
+
+            notificationService.pushNotification(order.getUser().getUsername(),
+                    notificationMapper.entityToResponse(notification));
         } catch (Exception e) {
             log.error("Cannot capture transaction: {0}", e);
         }

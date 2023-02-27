@@ -51,6 +51,7 @@ import FloatingCodeFrame from 'components/FloatingCodeFrame/FloatingCodeFrame';
 import LoadingMiddleware from 'components/LoadingMiddleware/LoadingMiddleware';
 import ScrollToTop from 'components/ScrollToTop/ScrollToTop';
 import EntityFinder from 'components/EntityFinder/EntityFinder';
+import AdminError from 'components/AdminError/AdminError';
 
 // Client
 import ClientHeader from 'components/ClientHeader/ClientHeader';
@@ -107,6 +108,7 @@ export {
   LoadingMiddleware,
   ScrollToTop,
   EntityFinder,
+  AdminError,
 
   ClientHeader,
   ClientFooter,

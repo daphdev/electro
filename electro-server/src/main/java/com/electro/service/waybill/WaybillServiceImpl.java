@@ -92,7 +92,7 @@ public class WaybillServiceImpl implements WaybillService {
         Order order = orderRepository.findById(waybillRequest.getOrderId())
                 .orElseThrow(() -> new ResourceNotFoundException(ResourceName.ORDER, FieldName.ID, waybillRequest.getOrderId()));
 
-        // Tạo Waybill khi Order.status == 1
+        // Tạo waybill khi order.status == 1
         if (order.getStatus() == 1) {
             String createGhnOrderApiPath = ghnApiPath + "/shipping-order/create";
 
@@ -121,7 +121,11 @@ public class WaybillServiceImpl implements WaybillService {
                 waybill.setOrder(order);
                 waybill.setExpectedDeliveryTime(ghnCreateOrderResponse.getData().getExpectedDeliveryTime());
                 waybill.setStatus(1); // Status 1: Đang đợi lấy hàng
-                waybill.setCodAmount(order.getTotalPay().intValue());
+                waybill.setCodAmount(
+                        order.getPaymentMethodType() == PaymentMethodType.CASH
+                                ? order.getTotalPay().intValue()
+                                : 0
+                );
                 waybill.setShippingFee(ghnCreateOrderResponse.getData().getTotalFee());
                 waybill.setGhnPaymentTypeId(chooseGhnPaymentTypeId(order.getPaymentMethodType()));
 
@@ -147,13 +151,17 @@ public class WaybillServiceImpl implements WaybillService {
                 Notification notification = new Notification()
                         .setUser(order.getUser())
                         .setType(NotificationType.ORDER)
-                        .setMessage(String.format(
-                                "Đơn hàng %s của bạn đã được duyệt. Phí vận chuyển là %s. Tổng tiền cần trả là %s.",
-                                order.getCode(),
-                                NumberFormat.getCurrencyInstance(new Locale("vi", "VN"))
-                                        .format(order.getShippingCost()),
-                                NumberFormat.getCurrencyInstance(new Locale("vi", "VN"))
-                                        .format(order.getTotalPay())))
+                        .setMessage(
+                                order.getPaymentMethodType() == PaymentMethodType.CASH
+                                        ? String.format(
+                                        "Đơn hàng %s của bạn đã được duyệt. Phí vận chuyển là %s. Tổng tiền cần trả là %s.",
+                                        order.getCode(),
+                                        NumberFormat.getCurrencyInstance(new Locale("vi", "VN"))
+                                                .format(order.getShippingCost()),
+                                        NumberFormat.getCurrencyInstance(new Locale("vi", "VN"))
+                                                .format(order.getTotalPay()))
+                                        : String.format("Đơn hàng %s của bạn đã được duyệt.", order.getCode())
+                        )
                         .setAnchor("/order/detail/" + order.getCode())
                         .setStatus(1);
 
@@ -223,7 +231,11 @@ public class WaybillServiceImpl implements WaybillService {
         ghnCreateOrderRequest.setToWardName(order.getToWardName());
         ghnCreateOrderRequest.setToDistrictName(order.getToDistrictName());
         ghnCreateOrderRequest.setToProvinceName(order.getToProvinceName());
-        ghnCreateOrderRequest.setCodAmount(order.getTotalPay().intValue()); // totalPay lúc này là tổng tiền tạm thời
+        ghnCreateOrderRequest.setCodAmount(
+                order.getPaymentMethodType() == PaymentMethodType.CASH
+                        ? order.getTotalPay().intValue() // totalPay lúc này là tổng tiền tạm thời
+                        : 0
+        );
         ghnCreateOrderRequest.setWeight(waybillRequest.getWeight());
         ghnCreateOrderRequest.setLength(waybillRequest.getLength());
         ghnCreateOrderRequest.setWidth(waybillRequest.getWidth());
@@ -306,41 +318,70 @@ public class WaybillServiceImpl implements WaybillService {
             int currentWaybillStatus = WaybillCallbackConstants.WAYBILL_STATUS_CODE
                     .get(ghnCallbackOrderRequest.getStatus());
 
-            switch (currentWaybillStatus) {
-                case WaybillCallbackConstants.WAITING:
-                    waybillLog.setCurrentStatus(1);
-                    waybill.setStatus(1);
-                    order.setStatus(2);
-                    break;
-                case WaybillCallbackConstants.SHIPPING:
-                    // TODO: CẦN THÔNG BÁO NOTIFICATION
-                    waybillLog.setCurrentStatus(2);
-                    waybill.setStatus(2);
-                    order.setStatus(3);
-                    break;
-                case WaybillCallbackConstants.SUCCESS:
-                    // TODO: KHI HOÀN THÀNH ĐƠN HÀNG CẦN GỬI MAIL CHO KHÁCH HÀNG
-                    waybillLog.setCurrentStatus(3);
-                    waybill.setStatus(3);
-                    order.setStatus(4);
-                    break;
-                case WaybillCallbackConstants.FAILED:
-                case WaybillCallbackConstants.RETURN:
-                    // TODO: CẦN THỐNG NHẤT VỀ CÁCH TRẢ HÀNG HOẶC HỦY ĐƠN HÀNG
-                    waybillLog.setCurrentStatus(4);
-                    waybill.setStatus(4);
-                    order.setStatus(5);
-                    break;
-                default:
-                    throw new RuntimeException("There is no waybill status corresponding to GHN status code");
-            }
+            if (!waybill.getStatus().equals(currentWaybillStatus)) {
+                switch (currentWaybillStatus) {
+                    case WaybillCallbackConstants.WAITING:
+                        waybillLog.setCurrentStatus(1);
+                        waybill.setStatus(1);
+                        order.setStatus(2);
+                        break;
+                    case WaybillCallbackConstants.SHIPPING:
+                        createNotification(new Notification()
+                                .setUser(order.getUser())
+                                .setType(NotificationType.ORDER)
+                                .setMessage(String.format("Đơn hàng %s của bạn đang được vận chuyển.", order.getCode()))
+                                .setAnchor("/order/detail/" + order.getCode())
+                                .setStatus(1));
+                        waybillLog.setCurrentStatus(2);
+                        waybill.setStatus(2);
+                        order.setStatus(3);
+                        break;
+                    case WaybillCallbackConstants.SUCCESS:
+                        createNotification(new Notification()
+                                .setUser(order.getUser())
+                                .setType(NotificationType.ORDER)
+                                .setMessage(String.format("Đơn hàng %s của bạn đã giao thành công!", order.getCode()))
+                                .setAnchor("/order/detail/" + order.getCode())
+                                .setStatus(1));
+                        // TODO: KHI HOÀN THÀNH ĐƠN HÀNG CẦN GỬI MAIL CHO KHÁCH HÀNG
+                        waybillLog.setCurrentStatus(3);
+                        waybill.setStatus(3);
+                        order.setStatus(4);
+                        // Status 2: Đã thanh toán (giả định giao thành công thì
+                        // cũng có nghĩa khách hàng đã thanh toán tiền mặt)
+                        order.setPaymentStatus(2);
+                        break;
+                    case WaybillCallbackConstants.FAILED:
+                    case WaybillCallbackConstants.RETURN:
+                        // TODO: CẦN THỐNG NHẤT VỀ CÁCH TRẢ HÀNG HOẶC HỦY ĐƠN HÀNG
+                        createNotification(new Notification()
+                                .setUser(order.getUser())
+                                .setType(NotificationType.ORDER)
+                                .setMessage(String.format("Đơn hàng %s của bạn đã bị hủy.", order.getCode()))
+                                .setAnchor("/order/detail/" + order.getCode())
+                                .setStatus(1));
+                        waybillLog.setCurrentStatus(4);
+                        waybill.setStatus(4);
+                        order.setStatus(5);
+                        break;
+                    default:
+                        throw new RuntimeException("There is no waybill status corresponding to GHN status code");
+                }
 
-            waybillRepository.save(waybill);
-            orderRepository.save(order);
-            waybillLogRepository.save(waybillLog);
+                waybillRepository.save(waybill);
+                orderRepository.save(order);
+                waybillLogRepository.save(waybillLog);
+            }
         } else {
             throw new RuntimeException("ShopId is not valid");
         }
+    }
+
+    private void createNotification(Notification notification) {
+        notificationRepository.save(notification);
+
+        notificationService.pushNotification(notification.getUser().getUsername(),
+                notificationMapper.entityToResponse(notification));
     }
 
 }

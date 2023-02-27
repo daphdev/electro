@@ -2,6 +2,7 @@ package com.electro.dto.client;
 
 import com.electro.entity.cashbook.PaymentMethodType;
 import lombok.Data;
+import org.springframework.lang.Nullable;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -26,4 +27,6 @@ public class ClientOrderDetailResponse {
     private PaymentMethodType orderPaymentMethodType;
     private Integer orderPaymentStatus;
     private Set<ClientOrderVariantResponse> orderItems;
+    @Nullable
+    private ClientWaybillResponse orderWaybill;
 }

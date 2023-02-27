@@ -93,6 +93,7 @@ class ResourceURL {
 
   // AUTHENTICATION
   static LOGIN = apiPath + '/auth/login';
+  static ADMIN_USER_INFO = apiPath + '/auth/info';
 }
 
 export default ResourceURL;
