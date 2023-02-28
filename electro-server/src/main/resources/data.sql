@@ -31,11 +31,11 @@ insert into address (created_at, updated_at, line, province_id, district_id) val
 insert into address (created_at, updated_at, line, province_id, district_id) values ('2021-10-06 19:21:11', '2022-05-03 08:50:28', '02 Moland Court', 9, 10);
 
 -- user TABLE: 20 records
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2021-10-05 07:30:07', '2021-06-03 16:38:23', 'dnucator0', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Dolly Nucator', 'dnucator0@prweb.com', '734-215-9112', 'M', 1, 'http://dummyimage.com/138x100.png/dddddd/000000', 1);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2022-01-07 17:51:29', '2022-02-24 10:37:18', 'jgratten1', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Jose Gratten', 'jgratten1@google.co.jp', '793-799-2738', 'F', 2, 'http://dummyimage.com/222x100.png/ff4444/ffffff', 1);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2021-11-30 21:45:42', '2022-03-05 17:40:25', 'ethuillier2', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Ermin Thuillier', 'ethuillier2@jimdo.com', '783-937-1723', 'M', 3, null, 1);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2022-01-27 04:22:37', '2022-05-04 02:25:59', 'dtreat3', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Danila Treat', 'dtreat3@nymag.com', '682-966-2575', 'F', 4, null, 1);
-insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2022-03-27 11:16:32', '2021-10-03 12:04:10', 'tkorting4', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Tanya Korting', 'tkorting4@livejournal.com', '691-138-7064', 'F', 5, null, 1);
+insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2021-10-05 07:30:07', '2021-06-03 16:38:23', 'dnucator0', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Dolly Nucator', 'dnucator0@prweb.com', '0919944705', 'M', 1, 'http://dummyimage.com/138x100.png/dddddd/000000', 1);
+insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2022-01-07 17:51:29', '2022-02-24 10:37:18', 'jgratten1', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Jose Gratten', 'jgratten1@google.co.jp', '0919944709', 'F', 2, 'http://dummyimage.com/222x100.png/ff4444/ffffff', 1);
+insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2021-11-30 21:45:42', '2022-03-05 17:40:25', 'ethuillier2', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Ermin Thuillier', 'ethuillier2@jimdo.com', '0919944305', 'M', 3, null, 1);
+insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2022-01-27 04:22:37', '2022-05-04 02:25:59', 'dtreat3', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Danila Treat', 'dtreat3@nymag.com', '0919944735', 'F', 4, null, 1);
+insert into user (created_at, updated_at, username, password, fullname, email, phone, gender, address_id, avatar, status) values ('2022-03-27 11:16:32', '2021-10-03 12:04:10', 'tkorting4', '$2a$10$VsJWsj.z4mu7hwgl24mbLO4kINGNU3NntESfPiZbnslKDts.RqEl6', 'Tanya Korting', 'tkorting4@livejournal.com', '0919944735', 'F', 5, null, 1);
 
 -- role TABLE: 3 records
 INSERT INTO `role` (`created_at`, `updated_at`, `code`, `name`, `status`) VALUES ('1971-04-11 07:45:46', '2006-04-26 03:05:23', 'ADMIN', 'Quản trị viên', 1);
@@ -213,9 +213,9 @@ insert into product_tag (product_id, tag_id) values (3, 2);
 insert into product_tag (product_id, tag_id) values (4, 1);
 
 -- variant TABLE: 3 records
-insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2021-10-22 20:25:57', '2021-12-14 06:28:15', 1, '43063-210', 2000000, 2250000, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"S"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 2);
-insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2022-05-06 20:40:45', '2022-04-02 20:30:28', 1, '52125-433', 4000000, 4200000, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"M"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 1);
-insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2021-07-17 02:36:19', '2021-12-14 10:10:42', 1, '48951-8009', 500000, 550000, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"L"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 1);
+insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2021-10-22 20:25:57', '2021-12-14 06:28:15', 1, '43063-210', 200000, 225000, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"S"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 2);
+insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2022-05-06 20:40:45', '2022-04-02 20:30:28', 1, '52125-433', 400000, 420000, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"M"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 1);
+insert into variant (created_at, updated_at, product_id, sku, cost, price, properties, images, status) values ('2021-07-17 02:36:19', '2021-12-14 10:10:42', 1, '48951-8009', 50000, 55000, '{"content":[{"id":1,"name":"Kích cỡ","code":"size","value":"L"},{"id":2,"name":"Màu sắc","code":"color","value":"Đỏ"}],"totalElements":2}', null, 1);
 
 -- image TABLE: 3 records
 insert into image (created_at, updated_at, name, path, content_type, size, `group`, is_thumbnail, is_eliminated, product_id) values ('2021-10-22 20:25:57', '2021-12-14 06:28:15', '233x100.png', 'https://media-api-beta.thinkpro.vn/media/core/products/2022/5/9/xps%2013%20plus%209320%201.png?w=700&h=700', 'image/png', 300, 'P', 1, 0, 1);
@@ -350,7 +350,7 @@ insert into cart_variant (cart_id, variant_id, created_at, quantity) values (1, 
 
 -- payment_method TABLE: 2 records
 insert into payment_method (created_at, updated_at, name, code, status) values ('2023-02-16 00:00:00', '2023-02-16 00:00:00', 'Tiền mặt', 'CASH', 1);
-insert into payment_method (created_at, updated_at, name, code, status) values ('2023-02-16 00:00:00', '2023-02-16 00:00:00', 'Paypal', 'PAYPAL', 1);
+insert into payment_method (created_at, updated_at, name, code, status) values ('2023-02-16 00:00:00', '2023-02-16 00:00:00', 'PayPal', 'PAYPAL', 1);
 
 -- waybill TABLE: 1 records
 insert into waybill (created_at, updated_at, code, order_id, shipping_date, expected_delivery_time, status,

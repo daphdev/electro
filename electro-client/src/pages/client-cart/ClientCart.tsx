@@ -8,6 +8,7 @@ import {
   Grid,
   Group,
   Image,
+  LoadingOverlay,
   NumberInput,
   NumberInputHandlers,
   Radio,
@@ -22,15 +23,17 @@ import {
   Tooltip,
   useMantineTheme
 } from '@mantine/core';
-import React, { useRef } from 'react';
-import { AlertTriangle, Home, InfoCircle, Marquee, ShoppingCart, Trash } from 'tabler-icons-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { AlertTriangle, Check, Home, InfoCircle, Marquee, ShoppingCart, Trash, X } from 'tabler-icons-react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
   ClientCartRequest,
   ClientCartResponse,
   ClientCartVariantKeyRequest,
   ClientCartVariantResponse,
+  ClientConfirmedOrderResponse,
   ClientPaymentMethodResponse,
+  ClientSimpleOrderRequest,
   CollectionWrapper,
   Empty,
   UpdateQuantityType
@@ -46,11 +49,15 @@ import { useModals } from '@mantine/modals';
 import ApplicationConstants from 'constants/ApplicationConstants';
 import useSaveCartApi from 'hooks/use-save-cart-api';
 import PageConfigs from 'pages/PageConfigs';
+import { PaymentMethodType } from 'models/PaymentMethod';
+import useClientSiteStore from 'stores/use-client-site-store';
+import { NotificationType } from 'models/Notification';
 
 function ClientCart() {
   useTitle();
 
   const theme = useMantineTheme();
+  const modals = useModals();
 
   const { user, currentPaymentMethod, updateCurrentPaymentMethod } = useAuthStore();
 
@@ -63,6 +70,45 @@ function ClientCart() {
 
   const isLoading = isLoadingCartResponse || isLoadingPaymentMethodResponses;
   const isError = isErrorCartResponse || isErrorPaymentMethodResponses;
+
+  const handleOrderButton = () => {
+    const PaymentMethodIcon = PageConfigs.paymentMethodIconMap[currentPaymentMethod];
+
+    modals.openConfirmModal({
+      size: 'md',
+      overlayColor: theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2],
+      overlayOpacity: 0.55,
+      overlayBlur: 0.5,
+      closeOnConfirm: false,
+      withCloseButton: false,
+      title: <strong>Thông báo xác nhận đặt mua</strong>,
+      children: (
+        <Stack>
+          <Text>Bạn có muốn đặt mua những sản phẩm đã chọn với hình thức thanh toán sau?</Text>
+          <Group spacing="xs">
+            <PaymentMethodIcon color={theme.colors.gray[5]}/>
+            <Text size="sm">{PageConfigs.paymentMethodNameMap[currentPaymentMethod]}</Text>
+          </Group>
+        </Stack>
+      ),
+      labels: {
+        cancel: 'Hủy',
+        confirm: 'Xác nhận đặt mua',
+      },
+      confirmProps: { color: 'blue' },
+      onConfirm: () =>
+        modals.openModal({
+          size: 'md',
+          overlayColor: theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2],
+          overlayOpacity: 0.55,
+          overlayBlur: 0.5,
+          closeOnClickOutside: false,
+          withCloseButton: false,
+          title: <strong>Thông báo xác nhận đặt mua</strong>,
+          children: <ConfirmedOrder/>,
+        }),
+    });
+  };
 
   let cartContentFragment;
 
@@ -244,6 +290,7 @@ function ClientCart() {
             <Button
               size="lg"
               leftIcon={<ShoppingCart/>}
+              onClick={handleOrderButton}
               disabled={cart.cartItems.length === 0}
             >
               Đặt mua
@@ -431,6 +478,157 @@ function CartItemTableRow({ cartItem }: { cartItem: ClientCartVariantResponse })
   );
 }
 
+function ConfirmedOrder() {
+  const theme = useMantineTheme();
+  const modals = useModals();
+
+  const {
+    mutate: createClientOrder,
+    data: clientConfirmedOrderResponse,
+    isLoading,
+    isError,
+  } = useCreateClientOrderApi();
+
+  const [checkoutPaypalStatus, setCheckoutPaypalStatus] = useState<'none' | 'success' | 'cancel'>('none');
+
+  const { currentPaymentMethod } = useAuthStore();
+
+  let contentFragment;
+
+  useEffect(() => {
+    if (checkoutPaypalStatus === 'none') {
+      const request: ClientSimpleOrderRequest = { paymentMethodType: currentPaymentMethod };
+      createClientOrder(request);
+    }
+  }, [checkoutPaypalStatus, createClientOrder, currentPaymentMethod]);
+
+  const { newNotifications } = useClientSiteStore();
+
+  useEffect(() => {
+    if (newNotifications.length > 0 && clientConfirmedOrderResponse) {
+      const lastNotification = newNotifications[newNotifications.length - 1];
+      if (lastNotification.message.includes(clientConfirmedOrderResponse.orderCode)) {
+        if (lastNotification.type === NotificationType.CHECKOUT_PAYPAL_SUCCESS) {
+          setCheckoutPaypalStatus('success');
+        }
+        if (lastNotification.type === NotificationType.CHECKOUT_PAYPAL_CANCEL) {
+          setCheckoutPaypalStatus('cancel');
+        }
+      }
+    }
+  }, [clientConfirmedOrderResponse, newNotifications, newNotifications.length]);
+
+  const handlePaypalCheckoutButton = (checkoutLink: string) => {
+    window.open(checkoutLink, 'mywin', 'width=500,height=800');
+  };
+
+  if (isError) {
+    contentFragment = (
+      <Stack justify="space-between" sx={{ height: '100%' }}>
+        <Stack align="center" sx={{ alignItems: 'center', color: theme.colors.pink[6] }}>
+          <AlertTriangle size={100} strokeWidth={1}/>
+          <Text weight={500}>Đã có lỗi xảy ra</Text>
+        </Stack>
+        <Button fullWidth variant="default" onClick={modals.closeAll} mt="md">
+          Đóng
+        </Button>
+      </Stack>
+    );
+  }
+
+  if (clientConfirmedOrderResponse && clientConfirmedOrderResponse.orderPaymentMethodType === PaymentMethodType.CASH) {
+    contentFragment = (
+      <Stack justify="space-between" sx={{ height: '100%' }}>
+        <Stack align="center" sx={{ alignItems: 'center', color: theme.colors.teal[6] }}>
+          <Check size={100} strokeWidth={1}/>
+          <Text>
+            <span>Đơn hàng </span>
+            <Anchor
+              component={Link}
+              to={'/order/detail/' + clientConfirmedOrderResponse.orderCode}
+              onClick={modals.closeAll}
+              weight={500}
+            >
+              {clientConfirmedOrderResponse.orderCode}
+            </Anchor>
+            <span> đã được tạo!</span>
+          </Text>
+        </Stack>
+        <Button fullWidth variant="default" onClick={modals.closeAll} mt="md">
+          Đóng
+        </Button>
+      </Stack>
+    );
+  }
+
+  if (clientConfirmedOrderResponse && clientConfirmedOrderResponse.orderPaymentMethodType === PaymentMethodType.PAYPAL) {
+    contentFragment = (
+      <Stack justify="space-between" sx={{ height: '100%' }}>
+        <Stack align="center" sx={{ alignItems: 'center', color: theme.colors.teal[6] }}>
+          <Check size={100} strokeWidth={1}/>
+          <Text sx={{ textAlign: 'center' }}>
+            <span>Đơn hàng </span>
+            <Text weight={500} component="span">
+              {clientConfirmedOrderResponse.orderCode}
+            </Text>
+            <span> đã được tạo!</span>
+          </Text>
+          <Text color="dimmed" size="sm">Hoàn tất thanh toán PayPal bằng cách bấm nút dưới</Text>
+        </Stack>
+        {checkoutPaypalStatus === 'none'
+          ? (
+            <Button
+              fullWidth
+              mt="md"
+              onClick={() => handlePaypalCheckoutButton(clientConfirmedOrderResponse.orderPaypalCheckoutLink || '')}
+            >
+              Thanh toán PayPal
+            </Button>
+          )
+          : (checkoutPaypalStatus === 'success')
+            ? (
+              <Button
+                fullWidth
+                mt="md"
+                color="teal"
+                leftIcon={<Check/>}
+                onClick={modals.closeAll}
+              >
+                Đã thanh toán thành công
+              </Button>
+            )
+            : (
+              <Stack spacing="sm">
+                <Button
+                  fullWidth
+                  mt="md"
+                  variant="outline"
+                  color="pink"
+                  leftIcon={<X size={16}/>}
+                  onClick={modals.closeAll}
+                >
+                  Đã hủy thanh toán. Đóng hộp thoại này.
+                </Button>
+                <Button
+                  fullWidth
+                  onClick={() => handlePaypalCheckoutButton(clientConfirmedOrderResponse.orderPaypalCheckoutLink || '')}
+                >
+                  Thanh toán PayPal lần nữa
+                </Button>
+              </Stack>
+            )}
+      </Stack>
+    );
+  }
+
+  return (
+    <Stack sx={{ minHeight: isLoading ? 200 : 'unset' }}>
+      <LoadingOverlay visible={isLoading}/>
+      {contentFragment}
+    </Stack>
+  );
+}
+
 function useGetCartApi() {
   const {
     data: cartResponse,
@@ -479,6 +677,23 @@ function useDeleteCartItemsApi() {
         updateCurrentTotalCartItems(currentTotalCartItems - requestBody.length);
       },
       onError: () => NotifyUtils.simpleFailed('Không xóa được mặt hàng khỏi giỏ hàng'),
+    }
+  );
+}
+
+function useCreateClientOrderApi() {
+  const queryClient = useQueryClient();
+
+  const { updateCurrentCartId, updateCurrentTotalCartItems } = useAuthStore();
+
+  return useMutation<ClientConfirmedOrderResponse, ErrorMessage, ClientSimpleOrderRequest>(
+    (requestBody) => FetchUtils.postWithToken(ResourceURL.CLIENT_ORDER, requestBody),
+    {
+      onSuccess: () => {
+        void queryClient.invalidateQueries(['client-api', 'carts', 'getCart']);
+        updateCurrentCartId(null);
+        updateCurrentTotalCartItems(0);
+      },
     }
   );
 }

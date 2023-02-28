@@ -10,7 +10,7 @@ import { ModalsProvider } from '@mantine/modals';
 import ManagerPath from 'constants/ManagerPath';
 import Client from 'pages/Client';
 import Admin from 'pages/Admin';
-import AdminDashboard from './pages/AdminDashboard';
+import AdminDashboard from 'pages/AdminDashboard';
 import AddressManage, { AddressCreate, AddressUpdate } from 'pages/address';
 import ProvinceManage, { ProvinceCreate, ProvinceUpdate } from 'pages/province';
 import DistrictManage, { DistrictCreate, DistrictUpdate } from 'pages/district';
@@ -55,7 +55,7 @@ import ClientCategory from 'pages/client-category';
 import ClientSearch from 'pages/client-search';
 import ClientSignin from 'pages/client-signin';
 import ClientUser from 'pages/client-user';
-import { ClientError, ProtectedRoute, ScrollToTop } from 'components';
+import { AdminError, ClientError, ProtectedRoute, ScrollToTop } from 'components';
 import ClientSetting from 'pages/client-setting';
 import ClientSettingPersonal from 'pages/client-setting-personal';
 import ClientSettingPhone from 'pages/client-setting-phone';
@@ -78,6 +78,14 @@ import ClientChat from 'pages/client-chat';
 import { StompSessionProvider } from 'react-stomp-hooks';
 import ApplicationConstants from 'constants/ApplicationConstants';
 import ChatDashboard from 'pages/chat';
+import ClientPaymentSuccess from 'pages/client-payment-success';
+import ClientPaymentCancel from 'pages/client-payment-cancel';
+import AdminNotification from 'pages/admin-notification';
+import AdminAccount from 'pages/admin-account';
+import RewardManage from 'pages/reward';
+import ClientReward from 'pages/client-reward';
+import ClientSignup from 'pages/client-signup';
+import ClientForgotPassword, { ClientChangePassword } from 'pages/client-forgot-password';
 
 const queryClient = new QueryClient();
 
@@ -173,8 +181,17 @@ function App() {
                         <ClientChat/>
                       </ProtectedRoute>
                     )}/>
+                    <Route path="/user/reward" element={(
+                      <ProtectedRoute>
+                        <ClientReward/>
+                      </ProtectedRoute>
+                    )}/>
+                    <Route path="/signup" element={<ClientSignup/>}/>
+                    <Route path="/forgot" element={<ClientForgotPassword/>}/>
+                    <Route path="/change-password" element={<ClientChangePassword/>}/>
                   </Route>
                   <Route path="/admin" element={<Admin/>}>
+                    <Route path="/admin/*" element={<AdminError/>}/>
                     <Route index element={<AdminDashboard/>}/>
                     {/* ADDRESS */}
                     <Route path={ManagerPath.ADDRESS} element={<AddressManage/>}/>
@@ -336,7 +353,15 @@ function App() {
                     <Route path={ManagerPath.PROMOTION + '/update/:id'} element={<PromotionUpdate/>}/>
                     {/* CHAT */}
                     <Route path={ManagerPath.CHAT} element={<ChatDashboard/>}/>
+                    {/* NOTIFICATION */}
+                    <Route path={ManagerPath.NOTIFICATION} element={<AdminNotification/>}/>
+                    {/* ACCOUNT */}
+                    <Route path={ManagerPath.ACCOUNT} element={<AdminAccount/>}/>
+                    {/* REWARD */}
+                    <Route path={ManagerPath.REWARD} element={<RewardManage/>}/>
                   </Route>
+                  <Route path="/payment/success" element={<ClientPaymentSuccess/>}/>
+                  <Route path="/payment/cancel" element={<ClientPaymentCancel/>}/>
                 </Routes>
               </StompSessionProvider>
             </ModalsProvider>

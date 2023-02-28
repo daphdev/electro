@@ -9,6 +9,7 @@ import {
   Grid,
   Group,
   Image,
+  MantineColor,
   ScrollArea,
   Skeleton,
   Stack,
@@ -27,6 +28,7 @@ import {
   ClientOrderVariantResponse,
   ClientReviewRequest,
   ClientReviewResponse,
+  ClientWaybillLogResponse,
   Empty
 } from 'types';
 import FetchUtils, { ErrorMessage } from 'utils/FetchUtils';
@@ -34,7 +36,7 @@ import ResourceURL from 'constants/ResourceURL';
 import NotifyUtils from 'utils/NotifyUtils';
 import { Link, useParams } from 'react-router-dom';
 import useTitle from 'hooks/use-title';
-import { AlertTriangle, InfoCircle } from 'tabler-icons-react';
+import { AlertTriangle, ArrowRight, Check, Circle, Icon, InfoCircle, Plus, X } from 'tabler-icons-react';
 import DateUtils from 'utils/DateUtils';
 import MiscUtils from 'utils/MiscUtils';
 import PageConfigs from 'pages/PageConfigs';
@@ -98,6 +100,44 @@ function ClientOrderDetail() {
     case 2:
       return <Badge color="green" variant="filled" size="sm">Đã thanh toán</Badge>;
     }
+  };
+
+  const getWaybillLogInfo = (waybillLog: ClientWaybillLogResponse) => {
+    type WaybillLogInfo = {
+      icon: Icon,
+      color: MantineColor,
+      text: string,
+    };
+
+    const waybillLogMap: Record<number, WaybillLogInfo> = {
+      0: {
+        icon: Circle,
+        color: 'gray',
+        text: 'Trạng thái vận đơn không rõ',
+      },
+      1: {
+        icon: Plus,
+        color: 'blue',
+        text: 'Đơn hàng được duyệt và vận đơn được tạo',
+      },
+      2: {
+        icon: ArrowRight,
+        color: 'orange',
+        text: 'Đang giao hàng',
+      },
+      3: {
+        icon: Check,
+        color: 'teal',
+        text: 'Giao hàng thành công',
+      },
+      4: {
+        icon: X,
+        color: 'pink',
+        text: 'Vận đơn bị hủy',
+      },
+    };
+
+    return waybillLogMap[waybillLog.waybillLogCurrentStatus || 0];
   };
 
   let orderContentFragment;
@@ -185,6 +225,62 @@ function ClientOrderDetail() {
             </Card>
           </Grid.Col>
         </Grid>
+
+        <Card p="md" radius="md" sx={cardStyles}>
+          <Stack spacing="xs">
+            <Text weight={500} color="dimmed">Theo dõi vận đơn</Text>
+            {order.orderWaybill
+              ? (
+                <Grid>
+                  <Grid.Col sm={3}>
+                    <Stack>
+                      <Stack align="flex-start" spacing={5}>
+                        <Text size="sm" weight={500}>Mã vận đơn</Text>
+                        <Badge radius="md" size="lg" variant="filled" color="grape">
+                          {order.orderWaybill.waybillCode}
+                        </Badge>
+                      </Stack>
+
+                      <Stack align="flex-start" spacing={5}>
+                        <Text size="sm" weight={500}>Dự kiến giao hàng</Text>
+                        <Text size="sm">
+                          {DateUtils.isoDateToString(order.orderWaybill.waybillExpectedDeliveryTime, 'DD/MM/YYYY')}
+                        </Text>
+                      </Stack>
+                    </Stack>
+                  </Grid.Col>
+
+                  <Grid.Col sm={9}>
+                    <Stack align="flex-start" spacing="xs">
+                      <Text size="sm" weight={500}>Lịch sử vận đơn</Text>
+                      <Stack spacing={5}>
+                        {[...order.orderWaybill.waybillLogs]
+                          .reverse()
+                          .map(waybillLog => {
+                            const waybillLogInfo = getWaybillLogInfo(waybillLog);
+
+                            return (
+                              <Group key={waybillLog.waybillLogId} spacing="sm" sx={{ flexWrap: 'nowrap' }}>
+                                <ThemeIcon color={waybillLogInfo.color} size="sm" variant="filled" radius="xl">
+                                  <waybillLogInfo.icon size={12}/>
+                                </ThemeIcon>
+                                <Text size="xs" color="dimmed">
+                                  {DateUtils.isoDateToString(waybillLog.waybillLogCreatedAt)}
+                                </Text>
+                                <Text size="xs">
+                                  {waybillLogInfo.text}
+                                </Text>
+                              </Group>
+                            );
+                          })}
+                      </Stack>
+                    </Stack>
+                  </Grid.Col>
+                </Grid>
+              )
+              : <Text size="sm">Hiện đơn hàng chưa có vận đơn</Text>}
+          </Stack>
+        </Card>
 
         <Card p={0} radius="md" sx={cardStyles}>
           <ScrollArea>
@@ -482,7 +578,6 @@ function useGetOrderApi(orderCode: string) {
     () => FetchUtils.getWithToken(ResourceURL.CLIENT_ORDER + '/' + orderCode),
     {
       onError: () => NotifyUtils.simpleFailed('Lấy dữ liệu không thành công'),
-      refetchOnWindowFocus: false,
       keepPreviousData: true,
     }
   );

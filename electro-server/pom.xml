@@ -150,17 +150,46 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
-
-
     </dependencies>
 
+    <!--
+        2 môi trường:
+        + dev: mvn clean install
+        + ci: mvn clean package -DskipTests -Pci
+
+        References: https://www.baeldung.com/spring-profiles
+    -->
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <spring.profiles.active>dev</spring.profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>ci</id>
+            <properties>
+                <spring.profiles.active>ci</spring.profiles.active>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${project.parent.version}</version>
-
                 <configuration>
                     <excludes>
                         <exclude>

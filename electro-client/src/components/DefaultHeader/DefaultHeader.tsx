@@ -1,19 +1,11 @@
 import React from 'react';
-import {
-  ActionIcon,
-  Autocomplete,
-  Box,
-  Burger,
-  createStyles,
-  Group,
-  Header,
-  MediaQuery,
-  useMantineColorScheme
-} from '@mantine/core';
-import { Bell, Browser, Icon, Messages, MoonStars, Search, Sun, User } from 'tabler-icons-react';
+import { ActionIcon, Box, Burger, createStyles, Group, Header, MediaQuery, useMantineColorScheme } from '@mantine/core';
+import { Bell, Browser, Icon, Logout, Messages, MoonStars, Search, Sun, User } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
 import useAppStore from 'stores/use-app-store';
 import { ElectroLogo } from 'components';
+import NotifyUtils from 'utils/NotifyUtils';
+import useAdminAuthStore from 'stores/use-admin-auth-store';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -101,6 +93,8 @@ export function DefaultHeader() {
   const { opened, toggleOpened } = useAppStore();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
+  const { user, resetAdminAuthState } = useAdminAuthStore();
+
   const dark = colorScheme === 'dark';
 
   const headerLinksFragment = headerLinks.map((headerLink) => (
@@ -114,6 +108,14 @@ export function DefaultHeader() {
       {headerLink.label}
     </Link>
   ));
+
+  const handleSignoutButton = () => {
+    if (user) {
+      resetAdminAuthState();
+      toggleColorScheme('light');
+      NotifyUtils.simpleSuccess('Đăng xuất thành công');
+    }
+  };
 
   return (
     <Header height={56} className={classes.header}>
@@ -131,20 +133,31 @@ export function DefaultHeader() {
           <Group ml={50} spacing={5} className={classes.links}>
             {headerLinksFragment}
           </Group>
-          <Autocomplete
-            className={classes.search}
-            icon={<Search size={16}/>}
-            placeholder="Tìm kiếm"
-            data={['Quản lý địa chỉ', 'Quản lý tỉnh thành', 'Quản lý quận huyện']}
-          />
-          <ActionIcon
-            variant="outline"
-            color={dark ? 'yellow' : 'blue'}
-            onClick={() => toggleColorScheme()}
-            title="Thay đổi chế độ màu"
-          >
-            {dark ? <Sun size={18}/> : <MoonStars size={18}/>}
-          </ActionIcon>
+          <Group spacing="xs">
+            <ActionIcon
+              variant="outline"
+              title="Tìm kiếm"
+              color="blue"
+            >
+              <Search size={18}/>
+            </ActionIcon>
+            <ActionIcon
+              variant="outline"
+              title="Thay đổi chế độ màu"
+              color={dark ? 'yellow' : 'blue'}
+              onClick={() => toggleColorScheme()}
+            >
+              {dark ? <Sun size={18}/> : <MoonStars size={18}/>}
+            </ActionIcon>
+            <ActionIcon
+              variant="outline"
+              title="Đăng xuất"
+              color="blue"
+              onClick={handleSignoutButton}
+            >
+              <Logout size={18}/>
+            </ActionIcon>
+          </Group>
         </Group>
       </div>
     </Header>

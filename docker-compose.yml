@@ -51,7 +51,7 @@ services:
     volumes:
       - storage:/var/lib/mysql
       - ./electro-server/src/main/resources/address.sql:/docker-entrypoint-initdb.d/init.sql
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --general-log=1 --general-log-file=/tmp/mysql-general-log.log
+    command: --sql_mode="STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION" --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --general-log=1 --general-log-file=/tmp/mysql-general-log.log
     healthcheck:
       # Reference: https://stackoverflow.com/a/74905088
       test: 'cat /tmp/mysql-general-log.log | grep "Tcp port: 3306"'

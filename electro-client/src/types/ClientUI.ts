@@ -6,6 +6,7 @@ import { SpecificationItem } from 'models/Product';
 import { PaymentMethodType } from 'models/PaymentMethod';
 import { RoomResponse } from 'models/Room';
 import { MessageResponse } from 'models/Message';
+import { RewardStrategyType } from 'models/RewardStrategy';
 
 // CATEGORY
 
@@ -232,6 +233,7 @@ export interface ClientSimpleOrderResponse {
   orderStatus: number;
   orderTotalPay: number;
   orderItems: ClientOrderVariantResponse[];
+  orderPaymentStatus: number;
 }
 
 export interface ClientOrderVariantResponse {
@@ -273,7 +275,24 @@ export interface ClientOrderDetailResponse {
   orderPaymentMethodType: PaymentMethodType;
   orderPaymentStatus: number;
   orderItems: ClientOrderVariantResponse[];
+  orderWaybill: ClientWaybillResponse | null;
 }
+
+// WAYBILL
+
+export interface ClientWaybillResponse {
+  waybillCode: string;
+  waybillExpectedDeliveryTime: string;
+  waybillLogs: ClientWaybillLogResponse[];
+}
+
+export interface ClientWaybillLogResponse {
+  waybillLogId: number;
+  waybillLogCreatedAt: string;
+  waybillLogPreviousStatus: number | null;
+  waybillLogCurrentStatus: number | null;
+}
+
 
 // PROMOTION
 
@@ -288,4 +307,48 @@ export interface ClientRoomExistenceResponse {
   roomExistence: boolean;
   roomResponse: RoomResponse;
   roomRecentMessages: MessageResponse[];
+}
+
+// ORDER 2
+
+export interface ClientSimpleOrderRequest {
+  paymentMethodType: PaymentMethodType;
+}
+
+export interface ClientConfirmedOrderResponse {
+  orderCode: string;
+  orderPaymentMethodType: PaymentMethodType;
+  orderPaypalCheckoutLink: string | null;
+}
+
+// REWARD
+
+export interface ClientRewardLogResponse {
+  rewardLogId: number;
+  rewardLogCreatedAt: string;
+  rewardLogScore: number;
+  rewardLogType: RewardStrategyType;
+  rewardLogNote: string;
+}
+
+export interface ClientRewardResponse {
+  rewardTotalScore: number;
+  rewardLogs: ClientRewardLogResponse[];
+}
+
+// REGISTRATION
+
+export interface RegistrationResponse {
+  userId: number;
+}
+
+export interface RegistrationRequest {
+  userId: number;
+  token: string;
+}
+
+export interface ResetPasswordRequest {
+  token: string;
+  email: string;
+  password: string;
 }

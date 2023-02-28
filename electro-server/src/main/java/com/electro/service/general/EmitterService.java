@@ -14,7 +14,7 @@ public class EmitterService {
     private final EmitterRepository emitterRepository;
 
     public void createEmitter(String uuid, String uniqueKey) {
-        long eventsTimeout = 24 * 60 * 60 * 1000L; // 24 hours
+        long eventsTimeout = 15 * 60 * 1000L; // 15 minutes
         SseEmitter emitter = new SseEmitter(eventsTimeout);
 
         emitter.onCompletion(() -> emitterRepository.remove(uniqueKey));

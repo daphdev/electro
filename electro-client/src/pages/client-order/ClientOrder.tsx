@@ -138,6 +138,15 @@ function ClientOrderCard({ order }: { order: ClientSimpleOrderResponse }) {
     }
   };
 
+  const orderPaymentStatusBadgeFragment = (paymentStatus: number) => {
+    switch (paymentStatus) {
+    case 1:
+      return <Badge color="gray" variant="filled" size="sm">Chưa thanh toán</Badge>;
+    case 2:
+      return <Badge color="green" variant="filled" size="sm">Đã thanh toán</Badge>;
+    }
+  };
+
   return (
     <Card
       p="md"
@@ -152,7 +161,10 @@ function ClientOrderCard({ order }: { order: ClientSimpleOrderResponse }) {
               Ngày tạo: {DateUtils.isoDateToString(order.orderCreatedAt, 'DD/MM/YYYY')}
             </Text>
           </Group>
-          {orderStatusBadgeFragment(order.orderStatus)}
+          <Group spacing="xs">
+            {orderStatusBadgeFragment(order.orderStatus)}
+            {orderPaymentStatusBadgeFragment(order.orderPaymentStatus)}
+          </Group>
         </Group>
 
         <Divider/>
@@ -234,7 +246,6 @@ function useGetAllOrdersApi(activePage: number) {
     () => FetchUtils.getWithToken(ResourceURL.CLIENT_ORDER, requestParams),
     {
       onError: () => NotifyUtils.simpleFailed('Lấy dữ liệu không thành công'),
-      refetchOnWindowFocus: false,
       keepPreviousData: true,
     }
   );

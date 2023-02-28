@@ -10,6 +10,7 @@ interface AuthState {
   currentCartId: number | null;
   currentTotalCartItems: number;
   currentPaymentMethod: PaymentMethodType;
+  currentSignupUserId: number | null;
 }
 
 interface AuthAction {
@@ -19,6 +20,7 @@ interface AuthAction {
   updateCurrentCartId: (value: number | null) => void;
   updateCurrentTotalCartItems: (value: number) => void;
   updateCurrentPaymentMethod: (value: PaymentMethodType) => void;
+  updateCurrentSignupUserId: (value: number | null) => void;
 }
 
 const initialAuthState: AuthState = {
@@ -27,6 +29,7 @@ const initialAuthState: AuthState = {
   currentCartId: null,
   currentTotalCartItems: 0,
   currentPaymentMethod: PaymentMethodType.CASH,
+  currentSignupUserId: null,
 };
 
 const useAuthStore = create<AuthState & AuthAction>()(
@@ -36,12 +39,22 @@ const useAuthStore = create<AuthState & AuthAction>()(
         ...initialAuthState,
         updateJwtToken: (value) => set(() => ({ jwtToken: value }), false, 'AuthStore/updateJwtToken'),
         updateUser: (value) => set(() => ({ user: value }), false, 'AuthStore/updateUser'),
-        resetAuthState: () => set(initialAuthState, false, 'AuthStore/resetAuthState'),
+        // Do not reset currentSignupUserId
+        resetAuthState: () => set(
+          () => ({
+            jwtToken: null,
+            user: null,
+            currentCartId: null,
+            currentTotalCartItems: 0,
+            currentPaymentMethod: PaymentMethodType.CASH,
+          }), false, 'AuthStore/resetAuthState'),
         updateCurrentCartId: (value) => set(() => ({ currentCartId: value }), false, 'AuthStore/updateCurrentCartId'),
         updateCurrentTotalCartItems: (value) => set(
           () => ({ currentTotalCartItems: value }), false, 'AuthStore/updateCurrentTotalCartItems'),
         updateCurrentPaymentMethod: (value) => set(
           () => ({ currentPaymentMethod: value }), false, 'AuthStore/updateCurrentPaymentMethod'),
+        updateCurrentSignupUserId: (value) => set(
+          () => ({ currentSignupUserId: value }), false, 'AuthStore/updateCurrentSignupUserId'),
       }),
       {
         name: 'electro-auth-store',

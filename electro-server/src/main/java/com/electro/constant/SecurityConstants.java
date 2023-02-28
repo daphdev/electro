@@ -1,7 +1,9 @@
 package com.electro.constant;
 
 public interface SecurityConstants {
-    String[] ADMIN_API_PATHS = {};
+    String[] ADMIN_API_PATHS = {
+            "/api/auth/info"
+    };
 
     String[] CLIENT_API_PATHS = {
             "/client-api/users/**",
@@ -16,7 +18,9 @@ public interface SecurityConstants {
 
     String[] IGNORING_API_PATHS = {
             "/client-api/notifications/events",
-            "/client-api/reviews/products/**"
+            "/client-api/reviews/products/**",
+            "/client-api/orders/success",
+            "/client-api/orders/cancel"
     };
 
     interface Role {

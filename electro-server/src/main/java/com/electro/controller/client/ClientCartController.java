@@ -61,6 +61,7 @@ public class ClientCartController {
     public ResponseEntity<ClientCartResponse> saveCart(@RequestBody ClientCartRequest request) {
         final Cart cartBeforeSave;
 
+        // TODO: Đôi khi cartId null nhưng thực tế user vẫn đang có cart trong DB
         if (request.getCartId() == null) {
             cartBeforeSave = clientCartMapper.requestToEntity(request);
         } else {

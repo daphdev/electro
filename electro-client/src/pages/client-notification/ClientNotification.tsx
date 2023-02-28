@@ -167,6 +167,10 @@ const notificationIconMap: Record<NotificationType, NotificationFigure> = {
     icon: BrandPaypal,
     color: 'cyan',
   },
+  [NotificationType.CHECKOUT_PAYPAL_CANCEL]: {
+    icon: BrandPaypal,
+    color: 'pink',
+  },
 };
 
 function ClientNotificationCard({ notification }: { notification: NotificationResponse }) {

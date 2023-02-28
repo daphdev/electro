@@ -14,4 +14,5 @@ public class ClientSimpleOrderResponse {
     private Integer orderStatus;
     private BigDecimal orderTotalPay;
     private Set<ClientOrderVariantResponse> orderItems;
+    private Integer orderPaymentStatus;
 }

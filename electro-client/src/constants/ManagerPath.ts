@@ -46,11 +46,15 @@ class ManagerPath {
 
   static REVIEW = '/admin/review';
 
+  static REWARD = '/admin/reward';
+
   static VOUCHER = '/admin/voucher';
   static PAYMENT_METHOD = '/admin/payment-method';
   static PROMOTION = '/admin/promotion';
 
   static CHAT = '/admin/chat';
+  static NOTIFICATION = '/admin/notification';
+  static ACCOUNT = '/admin/account';
 }
 
 export default ManagerPath;

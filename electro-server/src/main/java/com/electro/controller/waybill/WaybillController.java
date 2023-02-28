@@ -23,8 +23,8 @@ public class WaybillController {
     private WaybillService waybillService;
 
     @PutMapping("/callback-ghn")
-    public ResponseEntity<ObjectNode> callbackStatusWaybillFromGHN(@RequestBody GhnCallbackOrderRequest ghnCallbackRequest) {
-        waybillService.callbackStatusWaybillFromGHN(ghnCallbackRequest);
+    public ResponseEntity<ObjectNode> callbackStatusWaybillFromGHN(@RequestBody GhnCallbackOrderRequest ghnCallbackOrderRequest) {
+        waybillService.callbackStatusWaybillFromGHN(ghnCallbackOrderRequest);
         return ResponseEntity.status(HttpStatus.OK).body(new ObjectNode(JsonNodeFactory.instance));
     }
 

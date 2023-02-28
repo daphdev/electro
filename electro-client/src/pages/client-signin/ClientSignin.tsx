@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Alert,
   Anchor,
+  Box,
   Button,
   Card,
   Container,
@@ -170,6 +171,7 @@ function ClientSignin() {
             <form onSubmit={handleFormSubmit}>
               <TextInput
                 required
+                radius="md"
                 label="Tên tài khoản"
                 placeholder="Nhập tên tài khoản của bạn"
                 size="md"
@@ -179,12 +181,16 @@ function ClientSignin() {
               <PasswordInput
                 required
                 label="Mật khẩu"
+                radius="md"
                 placeholder="Nhập mật khẩu của bạn"
                 mt="md"
                 size="md"
                 disabled={!!user}
                 {...form.getInputProps('password')}
               />
+              <Box mt={5}>
+                <Anchor component={Link} to="/forgot" size="sm">Quên mật khẩu?</Anchor>
+              </Box>
               {/* TODO: Hoàn chỉnh checkbox */}
               {/*<Checkbox*/}
               {/*  label="Giữ trạng thái đăng nhập"*/}
@@ -192,7 +198,7 @@ function ClientSignin() {
               {/*  size="md"*/}
               {/*  disabled={!!user}*/}
               {/*/>*/}
-              <Button type="submit" fullWidth mt="xl" size="md" disabled={!!user}>
+              <Button type="submit" fullWidth mt="xl" size="md" disabled={!!user} radius="md">
                 Đăng nhập
               </Button>
             </form>

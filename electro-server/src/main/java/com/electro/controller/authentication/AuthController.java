@@ -9,17 +9,23 @@ import com.electro.dto.authentication.RegistrationRequest;
 import com.electro.dto.authentication.RegistrationResponse;
 import com.electro.dto.authentication.ResetPasswordRequest;
 import com.electro.dto.authentication.UserRequest;
+import com.electro.dto.authentication.UserResponse;
 import com.electro.entity.authentication.RefreshToken;
 import com.electro.entity.authentication.User;
 import com.electro.exception.RefreshTokenException;
+import com.electro.mapper.authentication.UserMapper;
+import com.electro.repository.authentication.UserRepository;
 import com.electro.service.auth.VerificationService;
 import com.electro.service.authetication.RefreshTokenService;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +48,8 @@ public class AuthController {
     private VerificationService verificationService;
     private RefreshTokenService refreshTokenService;
     private JwtUtils jwtUtils;
+    private UserRepository userRepository;
+    private UserMapper userMapper;
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
@@ -75,33 +83,42 @@ public class AuthController {
     }
 
     @GetMapping("/registration/{userId}/resend-token")
-    public ResponseEntity<Void> resendRegistrationToken(@PathVariable Long userId) {
+    public ResponseEntity<ObjectNode> resendRegistrationToken(@PathVariable Long userId) {
         verificationService.resendRegistrationToken(userId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(new ObjectNode(JsonNodeFactory.instance));
     }
 
     @PostMapping("/registration/confirm")
-    public ResponseEntity<Void> confirmRegistration(@RequestBody RegistrationRequest registration) {
+    public ResponseEntity<ObjectNode> confirmRegistration(@RequestBody RegistrationRequest registration) {
         verificationService.confirmRegistration(registration);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(new ObjectNode(JsonNodeFactory.instance));
     }
 
     @PutMapping("/registration/{userId}/change-email")
-    public ResponseEntity<Void> changeRegistrationEmail(@PathVariable Long userId, @RequestParam String email) {
+    public ResponseEntity<ObjectNode> changeRegistrationEmail(@PathVariable Long userId, @RequestParam String email) {
         verificationService.changeRegistrationEmail(userId, email);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(new ObjectNode(JsonNodeFactory.instance));
     }
 
     @GetMapping("/forgot-password")
-    public ResponseEntity<Void> forgotPassword(@RequestParam String email) {
+    public ResponseEntity<ObjectNode> forgotPassword(@RequestParam String email) {
         verificationService.forgetPassword(email);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.OK).body(new ObjectNode(JsonNodeFactory.instance));
     }
 
     @PutMapping("/reset-password")
-    public ResponseEntity<Void> resetPassword(@RequestBody ResetPasswordRequest resetPassword) {
+    public ResponseEntity<ObjectNode> resetPassword(@RequestBody ResetPasswordRequest resetPassword) {
         verificationService.resetPassword(resetPassword);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.OK).body(new ObjectNode(JsonNodeFactory.instance));
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<UserResponse> getAdminUserInfo(Authentication authentication) {
+        String username = authentication.getName();
+        UserResponse userResponse = userRepository.findByUsername(username)
+                .map(userMapper::entityToResponse)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+        return ResponseEntity.status(HttpStatus.OK).body(userResponse);
     }
 
 }

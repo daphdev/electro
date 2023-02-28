@@ -18,12 +18,14 @@ import {
 import { Link } from 'react-router-dom';
 import useAppStore from 'stores/use-app-store';
 import useDefaultNavbarStyles from 'components/DefaultNavbar/DefaultNavbar.styles';
+import useAdminAuthStore from 'stores/use-admin-auth-store';
 
 interface NavbarLink {
   link: string;
   label: string;
   icon: Icon;
   childLinks?: NavbarChildLink[];
+  disableForEmployee?: boolean;
 }
 
 interface NavbarChildLink {
@@ -51,6 +53,7 @@ const navbarLinks: NavbarLink[] = [
         label: 'Quận huyện',
       },
     ],
+    disableForEmployee: true,
   },
   {
     link: '/admin/user',
@@ -62,6 +65,7 @@ const navbarLinks: NavbarLink[] = [
         label: 'Quyền',
       },
     ],
+    disableForEmployee: true,
   },
   {
     link: '/admin/employee',
@@ -89,6 +93,7 @@ const navbarLinks: NavbarLink[] = [
         label: 'Chức danh công việc',
       },
     ],
+    disableForEmployee: true,
   },
   {
     link: '/admin/customer',
@@ -108,6 +113,7 @@ const navbarLinks: NavbarLink[] = [
         label: 'Nguồn khách hàng',
       },
     ],
+    disableForEmployee: true,
   },
   {
     link: '/admin/product',
@@ -147,6 +153,7 @@ const navbarLinks: NavbarLink[] = [
         label: 'Thông số sản phẩm',
       },
     ],
+    disableForEmployee: true,
   },
   {
     link: '/admin/inventory',
@@ -215,6 +222,7 @@ const navbarLinks: NavbarLink[] = [
     label: 'Điểm thưởng',
     icon: Award,
     childLinks: [],
+    disableForEmployee: true,
   },
   {
     link: '/admin/voucher',
@@ -230,6 +238,7 @@ const navbarLinks: NavbarLink[] = [
         label: 'Khuyến mãi',
       },
     ],
+    disableForEmployee: true,
   },
 ];
 
@@ -239,6 +248,8 @@ export function DefaultNavbar() {
   const { classes, cx } = useDefaultNavbarStyles();
   const [active, setActive] = useState('Trang chủ');
 
+  const { isOnlyEmployee } = useAdminAuthStore();
+
   const navbarLinksFragment = navbarLinks.map(navbarLink => (
     <Stack
       key={navbarLink.label}
@@ -247,7 +258,10 @@ export function DefaultNavbar() {
     >
       <Link
         to={navbarLink.link}
-        className={cx(classes.link, { [classes.linkActive]: navbarLink.label === active })}
+        className={cx(classes.link, {
+          [classes.linkActive]: navbarLink.label === active,
+          [classes.linkDisabled]: isOnlyEmployee() && navbarLink.disableForEmployee,
+        })}
         onClick={() => setActive(navbarLink.label)}
       >
         <navbarLink.icon className={classes.linkIcon}/>

@@ -73,12 +73,35 @@ class FetchUtils {
   }
 
   /**
+   * Hàm put cho các trường hợp thực hiện truy vấn PUT
+   * @param resourceUrl
+   * @param requestBody
+   * @param requestParams
+   */
+  static async put<I, O>(resourceUrl: string, requestBody: I, requestParams?: BasicRequestParams): Promise<O> {
+    const response = await fetch(FetchUtils.concatParams(resourceUrl, requestParams), {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    });
+    if (!response.ok) {
+      throw await response.json();
+    }
+    return await response.json();
+  }
+
+  /**
    * Hàm getWithToken
    * @param resourceUrl
    * @param requestParams
+   * @param isAdmin
    */
-  static async getWithToken<O>(resourceUrl: string, requestParams?: BasicRequestParams): Promise<O> {
-    const token = JSON.parse(localStorage.getItem('electro-auth-store') || '{}').state?.jwtToken;
+  static async getWithToken<O>(resourceUrl: string, requestParams?: BasicRequestParams, isAdmin?: boolean): Promise<O> {
+    const token = JSON.parse(localStorage
+      .getItem(isAdmin ? 'electro-admin-auth-store' : 'electro-auth-store') || '{}').state?.jwtToken;
 
     // Source: https://stackoverflow.com/a/70426220
     const response = await fetch(FetchUtils.concatParams(resourceUrl, requestParams), {
@@ -99,9 +122,11 @@ class FetchUtils {
    * Hàm postWithToken
    * @param resourceUrl
    * @param requestBody
+   * @param isAdmin
    */
-  static async postWithToken<I, O>(resourceUrl: string, requestBody: I): Promise<O> {
-    const token = JSON.parse(localStorage.getItem('electro-auth-store') || '{}').state?.jwtToken;
+  static async postWithToken<I, O>(resourceUrl: string, requestBody: I, isAdmin?: boolean): Promise<O> {
+    const token = JSON.parse(localStorage
+      .getItem(isAdmin ? 'electro-admin-auth-store' : 'electro-auth-store') || '{}').state?.jwtToken;
 
     const response = await fetch(resourceUrl, {
       method: 'POST',
@@ -123,9 +148,11 @@ class FetchUtils {
    * Hàm putWithToken
    * @param resourceUrl
    * @param requestBody
+   * @param isAdmin
    */
-  static async putWithToken<I, O>(resourceUrl: string, requestBody: I): Promise<O> {
-    const token = JSON.parse(localStorage.getItem('electro-auth-store') || '{}').state?.jwtToken;
+  static async putWithToken<I, O>(resourceUrl: string, requestBody: I, isAdmin?: boolean): Promise<O> {
+    const token = JSON.parse(localStorage
+      .getItem(isAdmin ? 'electro-admin-auth-store' : 'electro-auth-store') || '{}').state?.jwtToken;
 
     const response = await fetch(resourceUrl, {
       method: 'PUT',
@@ -147,9 +174,11 @@ class FetchUtils {
    * Hàm deleteWithToken
    * @param resourceUrl
    * @param entityIds
+   * @param isAdmin
    */
-  static async deleteWithToken<T>(resourceUrl: string, entityIds: T[]) {
-    const token = JSON.parse(localStorage.getItem('electro-auth-store') || '{}').state?.jwtToken;
+  static async deleteWithToken<T>(resourceUrl: string, entityIds: T[], isAdmin?: boolean) {
+    const token = JSON.parse(localStorage
+      .getItem(isAdmin ? 'electro-admin-auth-store' : 'electro-auth-store') || '{}').state?.jwtToken;
 
     const response = await fetch(resourceUrl, {
       method: 'DELETE',
