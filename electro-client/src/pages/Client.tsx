@@ -10,6 +10,8 @@ import useAuthStore from 'stores/use-auth-store';
 function Client() {
   const isLoading = useIsFetching();
 
+  const { user } = useAuthStore();
+
   return (
     <>
       <LoadingMiddleware isLoading={!!isLoading}>
@@ -17,17 +19,44 @@ function Client() {
         <Outlet/>
         <ClientFooter/>
       </LoadingMiddleware>
+      {user && <ChatButton/>}
       <Shortcut/>
-      <ChatButton/>
     </>
   );
 }
 
+function ChatButton() {
+  return (
+    <Affix position={{ bottom: 20, right: 20 }}>
+      <Card shadow="sm" p="xs" radius="xl">
+        <Tooltip
+          label="Yêu cầu tư vấn mua hàng"
+          position="left"
+          placement="center"
+          withArrow
+        >
+          <ActionIcon
+            component={Link}
+            to="/user/chat"
+            color="teal"
+            size="xl"
+            radius="xl"
+            variant="light"
+          >
+            <Messages/>
+          </ActionIcon>
+        </Tooltip>
+      </Card>
+    </Affix>
+  );
+}
+
+// Only for test
 function Shortcut() {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === 'dark';
 
-  const [opened, handlers] = useDisclosure(true);
+  const [opened, handlers] = useDisclosure(false);
 
   useHotkeys([
     ['alt+Q', () => handlers.toggle()],
@@ -54,32 +83,6 @@ function Shortcut() {
             {dark ? <Sun size={14}/> : <MoonStars size={14}/>}
           </ActionIcon>
         </Group>
-      </Card>
-    </Affix>
-  );
-}
-
-function ChatButton() {
-  return (
-    <Affix position={{ bottom: 20, right: 20 }}>
-      <Card shadow="sm" p="xs" radius="xl">
-        <Tooltip
-          label="Yêu cầu tư vấn mua hàng"
-          position="left"
-          placement="center"
-          withArrow
-        >
-          <ActionIcon
-            component={Link}
-            to="/user/chat"
-            color="teal"
-            size="xl"
-            radius="xl"
-            variant="light"
-          >
-            <Messages/>
-          </ActionIcon>
-        </Tooltip>
       </Card>
     </Affix>
   );
