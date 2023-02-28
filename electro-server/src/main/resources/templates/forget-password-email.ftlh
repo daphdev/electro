@@ -135,7 +135,7 @@
           <td align="left" bgcolor="#ffffff"
               style="padding: 36px 24px 0; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; border-top: 3px solid #d4dadf;">
             <h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;">
-              Quên mật khẩu
+              Yêu cầu cấp lại mật khẩu
             </h1>
           </td>
         </tr>
@@ -162,8 +162,8 @@
                   <table border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td align="center" bgcolor="#1a82e2" style="border-radius: 6px;">
-                        <div style="display: inline-block; padding: 16px 36px; font-family: Tahoma,sans-serif; font-size: 26px; color: black; font-weight: bold; text-decoration: none; border-radius: 6px;">
-                          <a href="${link}" target="_blank">Đổi mật khẩu</a>
+                        <div style="display: inline-block; padding: 16px 36px; font-family: Tahoma,sans-serif; font-size: 26px; color: white; font-weight: bold; text-decoration: none; border-radius: 6px;">
+                          <a href="${link}" target="_blank" style="color: white;">Đổi mật khẩu</a>
                         </div>
                       </td>
                     </tr>
@@ -188,7 +188,7 @@
         <tr>
           <td align="left" bgcolor="#ffffff"
               style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf">
-            <p style="margin: 0;">Trân thành cảm ơn, <br> Electro Shop </p>
+            <p style="margin: 0;">Chân thành cảm ơn, <br> Electro Shop </p>
           </td>
         </tr>
         <!-- end copy -->

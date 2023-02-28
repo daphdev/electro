@@ -150,7 +150,7 @@
           <td align="left" bgcolor="#ffffff"
               style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
             <p style="margin: 0;">
-              Cảm ơn bạn đã bắt đầu quy trình tạo tài khoản củaElectro Shop. Chúng tôi muốn chắc
+              Cảm ơn bạn đã bắt đầu quy trình tạo tài khoản của Electro Shop. Chúng tôi muốn chắc
               chắn rằng đây thực sự là bạn. Vui lòng nhập mã xác minh sau khi nhận thông báo này. Nếu không muốn tạo tài
               khoản, bạn có thể bỏ qua thông báo này. (Mã này có hiệu lực trong 10 phút).
             </p>
@@ -164,7 +164,7 @@
                   <table border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td align="center" bgcolor="#1a82e2" style="border-radius: 6px;">
-                        <div style="display: inline-block; padding: 16px 36px; font-family: Tahoma,sans-serif; font-size: 26px; color: black; font-weight: bold; text-decoration: none; border-radius: 6px;">
+                        <div style="display: inline-block; padding: 16px 36px; font-family: Tahoma,sans-serif; font-size: 26px; color: white; font-weight: bold; text-decoration: none; border-radius: 6px;">
                           <span>${token}</span>
                         </div>
                       </td>
@@ -181,6 +181,17 @@
           <td align="left" bgcolor="#ffffff"
               style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
             <p style="margin: 0;">
+              Nếu bạn không còn mở trang đăng ký, có thể nhấn <strong><a href="${link}" target="_blank">liên kết
+                  này</a></strong> để tiếp tục nhập mã xác nhận.
+            </p>
+          </td>
+        </tr>
+        <!-- end copy -->
+        <!-- start copy -->
+        <tr>
+          <td align="left" bgcolor="#ffffff"
+              style="padding: 0 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
+            <p style="margin: 0;">
               Electro Shop sẽ không bao giờ gửi email cho bạn và yêu cầu bạn tiết lộ hoặc xác minh mật khẩu của bạn.
             </p>
           </td>
@@ -190,7 +201,7 @@
         <tr>
           <td align="left" bgcolor="#ffffff"
               style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf">
-            <p style="margin: 0;">Trân thành cảm ơn, <br> Electro Shop </p>
+            <p style="margin: 0;">Chân thành cảm ơn, <br> Electro Shop </p>
           </td>
         </tr>
         <!-- end copy -->

@@ -17,6 +17,8 @@ import com.electro.mapper.authentication.UserMapper;
 import com.electro.repository.authentication.UserRepository;
 import com.electro.service.auth.VerificationService;
 import com.electro.service.authetication.RefreshTokenService;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -81,33 +83,33 @@ public class AuthController {
     }
 
     @GetMapping("/registration/{userId}/resend-token")
-    public ResponseEntity<Void> resendRegistrationToken(@PathVariable Long userId) {
+    public ResponseEntity<ObjectNode> resendRegistrationToken(@PathVariable Long userId) {
         verificationService.resendRegistrationToken(userId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(new ObjectNode(JsonNodeFactory.instance));
     }
 
     @PostMapping("/registration/confirm")
-    public ResponseEntity<Void> confirmRegistration(@RequestBody RegistrationRequest registration) {
+    public ResponseEntity<ObjectNode> confirmRegistration(@RequestBody RegistrationRequest registration) {
         verificationService.confirmRegistration(registration);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(new ObjectNode(JsonNodeFactory.instance));
     }
 
     @PutMapping("/registration/{userId}/change-email")
-    public ResponseEntity<Void> changeRegistrationEmail(@PathVariable Long userId, @RequestParam String email) {
+    public ResponseEntity<ObjectNode> changeRegistrationEmail(@PathVariable Long userId, @RequestParam String email) {
         verificationService.changeRegistrationEmail(userId, email);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(new ObjectNode(JsonNodeFactory.instance));
     }
 
     @GetMapping("/forgot-password")
-    public ResponseEntity<Void> forgotPassword(@RequestParam String email) {
+    public ResponseEntity<ObjectNode> forgotPassword(@RequestParam String email) {
         verificationService.forgetPassword(email);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.OK).body(new ObjectNode(JsonNodeFactory.instance));
     }
 
     @PutMapping("/reset-password")
-    public ResponseEntity<Void> resetPassword(@RequestBody ResetPasswordRequest resetPassword) {
+    public ResponseEntity<ObjectNode> resetPassword(@RequestBody ResetPasswordRequest resetPassword) {
         verificationService.resetPassword(resetPassword);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.OK).body(new ObjectNode(JsonNodeFactory.instance));
     }
 
     @GetMapping("/info")

@@ -21,15 +21,15 @@ public class EmailSenderServiceImpl implements EmailSenderService {
     private JavaMailSender javaMailSender;
 
     @Override
-    public void sendVerificationToken(String toEmail, String token) {
-        String text = getEmailContent("verify-email.ftlh", Map.of("token", token));
+    public void sendVerificationToken(String toEmail, Map<String, Object> attributes) {
+        String text = getEmailContent("verify-email.ftlh", attributes);
         sendEmail(toEmail, "[Electro Shop] Xác thực email", text);
     }
 
     @Override
-    public void sendForgetPasswordToken(String toEmail, String link) {
-        String text = getEmailContent("forget-password-email.ftlh", Map.of("link", link));
-        sendEmail(toEmail, "[Electro Shop] Quên mật khẩu", text);
+    public void sendForgetPasswordToken(String toEmail, Map<String, Object> attributes) {
+        String text = getEmailContent("forget-password-email.ftlh", attributes);
+        sendEmail(toEmail, "[Electro Shop] Yêu cầu cấp lại mật khẩu", text);
     }
 
     private String getEmailContent(String template, Map<String, Object> model) {

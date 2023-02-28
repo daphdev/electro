@@ -73,6 +73,27 @@ class FetchUtils {
   }
 
   /**
+   * Hàm put cho các trường hợp thực hiện truy vấn PUT
+   * @param resourceUrl
+   * @param requestBody
+   * @param requestParams
+   */
+  static async put<I, O>(resourceUrl: string, requestBody: I, requestParams?: BasicRequestParams): Promise<O> {
+    const response = await fetch(FetchUtils.concatParams(resourceUrl, requestParams), {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    });
+    if (!response.ok) {
+      throw await response.json();
+    }
+    return await response.json();
+  }
+
+  /**
    * Hàm getWithToken
    * @param resourceUrl
    * @param requestParams

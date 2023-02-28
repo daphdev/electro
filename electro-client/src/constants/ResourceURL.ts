@@ -59,6 +59,8 @@ class ResourceURL {
 
   static REVIEW = apiPath + '/reviews';
 
+  static REWARD = apiPath + '/rewards';
+
   static VOUCHER = apiPath + '/vouchers';
   static PAYMENT_METHOD = apiPath + '/payment-methods';
   static PROMOTION = apiPath + '/promotions';
@@ -94,6 +96,12 @@ class ResourceURL {
   // AUTHENTICATION
   static LOGIN = apiPath + '/auth/login';
   static ADMIN_USER_INFO = apiPath + '/auth/info';
+  static CLIENT_REGISTRATION = apiPath + '/auth/registration';
+  static CLIENT_REGISTRATION_RESEND_TOKEN = (userId: number) => apiPath + `/auth/registration/${userId}/resend-token`;
+  static CLIENT_REGISTRATION_CONFIRM = apiPath + '/auth/registration/confirm';
+  static CLIENT_REGISTRATION_CHANGE_EMAIL = (userId: number) => apiPath + `/auth/registration/${userId}/change-email`;
+  static CLIENT_FORGOT_PASSWORD = apiPath + '/auth/forgot-password';
+  static CLIENT_RESET_PASSWORD = apiPath + '/auth/reset-password';
 }
 
 export default ResourceURL;

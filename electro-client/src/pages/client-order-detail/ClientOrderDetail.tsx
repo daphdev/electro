@@ -258,6 +258,7 @@ function ClientOrderDetail() {
                           .reverse()
                           .map(waybillLog => {
                             const waybillLogInfo = getWaybillLogInfo(waybillLog);
+
                             return (
                               <Group key={waybillLog.waybillLogId} spacing="sm" sx={{ flexWrap: 'nowrap' }}>
                                 <ThemeIcon color={waybillLogInfo.color} size="sm" variant="filled" radius="xl">

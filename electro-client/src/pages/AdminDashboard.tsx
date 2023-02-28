@@ -68,7 +68,7 @@ function AdminDashboard() {
               <OverviewCard title="Tổng số khách hàng" number={8} color="blue" icon={Users}/>
             </Grid.Col>
             <Grid.Col span={3}>
-              <OverviewCard title="Tổng số sản phẩm" number={100} color="orange" icon={Box}/>
+              <OverviewCard title="Tổng số sản phẩm" number={50} color="orange" icon={Box}/>
             </Grid.Col>
             <Grid.Col span={3}>
               <OverviewCard title="Tổng số đơn hàng" number={10} color="teal" icon={FileBarcode}/>
