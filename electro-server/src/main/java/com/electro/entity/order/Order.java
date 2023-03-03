@@ -24,7 +24,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -83,17 +82,17 @@ public class Order extends BaseEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderVariant> orderVariants = new HashSet<>();
 
-    @Column(name = "total_amount", nullable = false, columnDefinition = "DECIMAL(15,5)")
-    private BigDecimal totalAmount;
+    @Column(name = "total_amount", nullable = false)
+    private Double totalAmount;
 
-    @Column(name = "tax", nullable = false, columnDefinition = "DECIMAL(15,5)")
-    private BigDecimal tax;
+    @Column(name = "tax", nullable = false)
+    private Double tax;
 
-    @Column(name = "shipping_cost", nullable = false, columnDefinition = "DECIMAL(15,5)")
-    private BigDecimal shippingCost;
+    @Column(name = "shipping_cost", nullable = false)
+    private Double shippingCost;
 
-    @Column(name = "total_pay", nullable = false, columnDefinition = "DECIMAL(15,5)")
-    private BigDecimal totalPay;
+    @Column(name = "total_pay", nullable = false)
+    private Double totalPay;
 
     @OneToOne(mappedBy = "order")
     private Waybill waybill;

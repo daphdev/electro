@@ -10,6 +10,7 @@ import com.electro.entity.client.Wish;
 import com.electro.entity.general.Notification;
 import com.electro.entity.order.Order;
 import com.electro.entity.review.Review;
+import com.electro.entity.reward.RewardLog;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -114,4 +115,7 @@ public class User extends BaseEntity {
 
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
+
+    @OneToMany(mappedBy = "user")
+    private List<RewardLog> rewardLogs = new ArrayList<>();
 }

@@ -14,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
-import java.math.BigDecimal;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,12 +36,12 @@ public class OrderVariant {
     @JoinColumn(name = "variant_id", nullable = false)
     private Variant variant;
 
-    @Column(name = "price", nullable = false, columnDefinition = "DECIMAL(15,5)")
-    private BigDecimal price;
+    @Column(name = "price", nullable = false)
+    private Double price;
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "amount", nullable = false, columnDefinition = "DECIMAL(15,5)")
-    private BigDecimal amount;
+    @Column(name = "amount", nullable = false)
+    private Double amount;
 }
