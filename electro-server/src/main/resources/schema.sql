@@ -60,53 +60,11 @@ DROP TABLE IF EXISTS
     message,
     verification,
     refresh_token,
-    waybill_log;
+    waybill_log,
+    reward_strategy,
+    reward_log;
 
 -- CREATE TABLES
-
-CREATE TABLE province
-(
-    id         BIGINT AUTO_INCREMENT NOT NULL,
-    created_at datetime              NOT NULL,
-    updated_at datetime              NOT NULL,
-    created_by BIGINT                NULL,
-    updated_by BIGINT                NULL,
-    name       VARCHAR(255)          NOT NULL,
-    code       VARCHAR(35)           NOT NULL,
-    CONSTRAINT pk_province PRIMARY KEY (id)
-);
-
-CREATE TABLE district
-(
-    id          BIGINT AUTO_INCREMENT NOT NULL,
-    created_at  datetime              NOT NULL,
-    updated_at  datetime              NOT NULL,
-    created_by  BIGINT                NULL,
-    updated_by  BIGINT                NULL,
-    name        VARCHAR(255)          NOT NULL,
-    code        VARCHAR(35)           NOT NULL,
-    province_id BIGINT                NOT NULL,
-    CONSTRAINT pk_district PRIMARY KEY (id)
-);
-
-ALTER TABLE district
-    ADD CONSTRAINT FK_DISTRICT_ON_PROVINCE FOREIGN KEY (province_id) REFERENCES province (id);
-
-CREATE TABLE ward
-(
-    id          BIGINT AUTO_INCREMENT NOT NULL,
-    created_at  datetime              NOT NULL,
-    updated_at  datetime              NOT NULL,
-    created_by  BIGINT                NULL,
-    updated_by  BIGINT                NULL,
-    name        VARCHAR(255)          NOT NULL,
-    code        VARCHAR(35)           NOT NULL,
-    district_id BIGINT                NOT NULL,
-    CONSTRAINT pk_ward PRIMARY KEY (id)
-);
-
-ALTER TABLE ward
-    ADD CONSTRAINT FK_WARD_ON_DISTRICT FOREIGN KEY (district_id) REFERENCES district (id);
 
 CREATE TABLE address
 (
@@ -535,7 +493,7 @@ CREATE TABLE product
     code              VARCHAR(255)          NOT NULL,
     slug              VARCHAR(255)          NOT NULL,
     short_description VARCHAR(255)          NULL,
-    `description`     TEXT          NULL,
+    `description`     TEXT                  NULL,
     status            TINYINT               NOT NULL,
     category_id       BIGINT                NULL,
     brand_id          BIGINT                NULL,
@@ -632,35 +590,35 @@ ALTER TABLE image
 ALTER TABLE image
     ADD CONSTRAINT FK_IMAGE_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
 
-# CREATE TABLE product_inventory_limit
-# (
-#     product_id    BIGINT   NOT NULL,
-#     created_at    datetime NOT NULL,
-#     updated_at    datetime NOT NULL,
-#     created_by    BIGINT   NULL,
-#     updated_by    BIGINT   NULL,
-#     minimum_limit INT      NULL,
-#     maximum_limit INT      NULL,
-#     CONSTRAINT pk_product_inventory_limit PRIMARY KEY (product_id)
-# );
-#
-# ALTER TABLE product_inventory_limit
-#     ADD CONSTRAINT FK_PRODUCT_INVENTORY_LIMIT_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
-#
-# CREATE TABLE variant_inventory_limit
-# (
-#     variant_id    BIGINT   NOT NULL,
-#     created_at    datetime NOT NULL,
-#     updated_at    datetime NOT NULL,
-#     created_by    BIGINT   NULL,
-#     updated_by    BIGINT   NULL,
-#     minimum_limit INT      NULL,
-#     maximum_limit INT      NULL,
-#     CONSTRAINT pk_variant_inventory_limit PRIMARY KEY (variant_id)
-# );
-#
-# ALTER TABLE variant_inventory_limit
-#     ADD CONSTRAINT FK_VARIANT_INVENTORY_LIMIT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+CREATE TABLE product_inventory_limit
+(
+    product_id    BIGINT   NOT NULL,
+    created_at    datetime NOT NULL,
+    updated_at    datetime NOT NULL,
+    created_by    BIGINT   NULL,
+    updated_by    BIGINT   NULL,
+    minimum_limit INT      NULL,
+    maximum_limit INT      NULL,
+    CONSTRAINT pk_product_inventory_limit PRIMARY KEY (product_id)
+);
+
+ALTER TABLE product_inventory_limit
+    ADD CONSTRAINT FK_PRODUCT_INVENTORY_LIMIT_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES product (id);
+
+CREATE TABLE variant_inventory_limit
+(
+    variant_id    BIGINT   NOT NULL,
+    created_at    datetime NOT NULL,
+    updated_at    datetime NOT NULL,
+    created_by    BIGINT   NULL,
+    updated_by    BIGINT   NULL,
+    minimum_limit INT      NULL,
+    maximum_limit INT      NULL,
+    CONSTRAINT pk_variant_inventory_limit PRIMARY KEY (variant_id)
+);
+
+ALTER TABLE variant_inventory_limit
+    ADD CONSTRAINT FK_VARIANT_INVENTORY_LIMIT_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
 
 CREATE TABLE warehouse
 (
@@ -753,23 +711,23 @@ CREATE TABLE docket_reason
     CONSTRAINT pk_docket_reason PRIMARY KEY (id)
 );
 
-# CREATE TABLE storage_location
-# (
-#     variant_id   BIGINT       NOT NULL,
-#     created_at   datetime     NOT NULL,
-#     updated_at   datetime     NOT NULL,
-#     created_by   BIGINT       NULL,
-#     updated_by   BIGINT       NULL,
-#     warehouse_id BIGINT       NOT NULL,
-#     name         VARCHAR(255) NOT NULL,
-#     CONSTRAINT pk_storage_location PRIMARY KEY (variant_id)
-# );
-#
-# ALTER TABLE storage_location
-#     ADD CONSTRAINT FK_STORAGE_LOCATION_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
-#
-# ALTER TABLE storage_location
-#     ADD CONSTRAINT FK_STORAGE_LOCATION_ON_WAREHOUSE FOREIGN KEY (warehouse_id) REFERENCES warehouse (id);
+CREATE TABLE storage_location
+(
+    variant_id   BIGINT       NOT NULL,
+    created_at   datetime     NOT NULL,
+    updated_at   datetime     NOT NULL,
+    created_by   BIGINT       NULL,
+    updated_by   BIGINT       NULL,
+    warehouse_id BIGINT       NOT NULL,
+    name         VARCHAR(255) NOT NULL,
+    CONSTRAINT pk_storage_location PRIMARY KEY (variant_id)
+);
+
+ALTER TABLE storage_location
+    ADD CONSTRAINT FK_STORAGE_LOCATION_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES variant (id);
+
+ALTER TABLE storage_location
+    ADD CONSTRAINT FK_STORAGE_LOCATION_ON_WAREHOUSE FOREIGN KEY (warehouse_id) REFERENCES warehouse (id);
 
 CREATE TABLE purchase_order
 (
@@ -938,10 +896,10 @@ CREATE TABLE `order`
     order_cancellation_reason_id BIGINT                NULL,
     note                         VARCHAR(255)          NULL,
     user_id                      BIGINT                NOT NULL,
-    total_amount                 DOUBLE        NOT NULL,
-    tax                          DOUBLE        NOT NULL,
-    shipping_cost                DOUBLE        NOT NULL,
-    total_pay                    DOUBLE        NOT NULL,
+    total_amount                 DECIMAL(15, 5)        NOT NULL,
+    tax                          DECIMAL(15, 5)        NOT NULL,
+    shipping_cost                DECIMAL(15, 5)        NOT NULL,
+    total_pay                    DECIMAL(15, 5)        NOT NULL,
     payment_method_type          VARCHAR(255)          NOT NULL,
     payment_status               TINYINT               NOT NULL,
     paypal_order_id              VARCHAR(255)          NULL,
@@ -968,9 +926,9 @@ CREATE TABLE order_variant
 (
     order_id   BIGINT         NOT NULL,
     variant_id BIGINT         NOT NULL,
-    price      DOUBLE NOT NULL,
+    price      DECIMAL(15, 5) NOT NULL,
     quantity   INT            NOT NULL,
-    amount     DOUBLE NOT NULL,
+    amount     DECIMAL(15, 5) NOT NULL,
     CONSTRAINT pk_order_variant PRIMARY KEY (order_id, variant_id)
 );
 
