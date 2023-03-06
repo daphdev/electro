@@ -18,4 +18,10 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 
     Optional<User> findByEmailAndResetPasswordToken(String email, String resetPasswordToken);
 
+//    @Query(value = "SELECT COUNT(id) AS numberOfRegistration, DATE(created_at) AS date FROM User GROUP BY DATE(created_at) ORDER BY DATE(created_at) ASC", nativeQuery = true)
+//    List<StatisticResource> getUserCountByCreateDate();
+
+//    @Query(value = "SELECT NEW com.electro.dto.statistic.StatisticResource(COUNT(u.id), DATE(u.created_at)) FROM User u GROUP BY DATE(u.created_at) ORDER BY DATE(u.created_at) ASC")
+//    List<StatisticResource> getUserCountByCreateDate();
+
 }

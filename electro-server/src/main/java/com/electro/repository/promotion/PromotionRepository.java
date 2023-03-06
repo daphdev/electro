@@ -38,4 +38,7 @@ public interface PromotionRepository extends JpaRepository<Promotion, Long>, Jpa
             "CURRENT_DATE BETWEEN pr.startDate AND pr.endDate")
     List<Promotion> findActivePromotionByProductId(@Param("productId") Long productId);
 
+    @Query("SELECT COUNT(pr.id) FROM Promotion pr WHERE pr.status = 1 AND CURRENT_DATE BETWEEN pr.startDate AND pr.endDate")
+    int countByPromotionId();
+
 }

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Join;
@@ -163,4 +164,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     Optional<Product> findBySlug(String slug);
 
+
+    @Query("SELECT COUNT(p.id) FROM Product p")
+    int countByProductId();
 }
