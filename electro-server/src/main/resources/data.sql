@@ -362,3 +362,18 @@ values ('2023-02-16 00:00:00', '2023-02-16 00:00:00', 'LL939X', 1, '2023-02-16 0
 -- room TABLE: 2 records
 insert into room (created_at, updated_at, name, user_id) values ('2021-12-16 17:41:03', '2021-08-05 17:16:06', 'Thang', 1);
 insert into room (created_at, updated_at, name, user_id) values ('2022-01-27 01:34:39', '2022-04-22 22:26:16', 'Dang', 2);
+
+-- reward_strategy TABLE: 2 records
+insert into reward_strategy (created_at, updated_at, name, code, formula, status)
+values ('2023-02-16 00:00:00', '2023-02-16 00:00:00', 'Đơn hàng thành công', 'SUCCESS_ORDER',
+        '{{ORDER_TOTAL_PAY}} / 1000', 1);
+insert into reward_strategy (created_at, updated_at, name, code, formula, status)
+values ('2023-02-16 00:00:00', '2023-02-16 00:00:00', 'Thêm đánh giá', 'ADD_REVIEW', '50', 1);
+
+-- reward_log TABLE: 2 records
+INSERT INTO reward_log (created_at, updated_at, user_id, type, score, note)
+VALUES ('2023-03-08 02:18:21', '2023-03-08 02:18:21', 4, 'ADD_REVIEW', 50,
+        'Bạn đã nhận được 50 điểm thưởng cho đánh giá ở sản phẩm Laptop Lenovo Gaming Legion 5.');
+INSERT INTO reward_log (created_at, updated_at, user_id, type, score, note)
+VALUES ('2023-03-08 02:19:54', '2023-03-08 02:19:54', 4, 'SUCCESS_ORDER', 988,
+        'Bạn đã nhận được 988 điểm thưởng cho đơn hàng YMIM6GQEKYER.');

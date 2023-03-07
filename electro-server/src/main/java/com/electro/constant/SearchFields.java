@@ -410,4 +410,10 @@ public interface SearchFields {
             "name",
             "user.id"
     );
+
+    List<String> REWARD_STRATEGY = List.of(
+            "name",
+            "code",
+            "formula"
+    );
 }

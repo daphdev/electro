@@ -27,6 +27,7 @@ import com.electro.repository.order.OrderRepository;
 import com.electro.repository.waybill.WaybillLogRepository;
 import com.electro.repository.waybill.WaybillRepository;
 import com.electro.service.general.NotificationService;
+import com.electro.utils.RewardUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -70,6 +71,7 @@ public class WaybillServiceImpl implements WaybillService {
     private final NotificationRepository notificationRepository;
     private final NotificationMapper notificationMapper;
     private final WaybillLogRepository waybillLogRepository;
+    private final RewardUtils rewardUtils;
 
     @Override
     public ListResponse<WaybillResponse> findAll(int page, int size, String sort, String filter, String search, boolean all) {
@@ -350,6 +352,9 @@ public class WaybillServiceImpl implements WaybillService {
                         // Status 2: Đã thanh toán (giả định giao thành công thì
                         // cũng có nghĩa khách hàng đã thanh toán tiền mặt)
                         order.setPaymentStatus(2);
+
+                        // Tích điểm
+                        rewardUtils.successOrderHook(order);
                         break;
                     case WaybillCallbackConstants.FAILED:
                     case WaybillCallbackConstants.RETURN:

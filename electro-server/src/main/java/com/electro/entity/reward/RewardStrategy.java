@@ -24,7 +24,7 @@ public class RewardStrategy extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "code", nullable = false)
+    @Column(name = "code", nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
     private RewardType code;
 

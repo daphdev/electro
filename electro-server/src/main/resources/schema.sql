@@ -1242,6 +1242,9 @@ CREATE TABLE reward_strategy
     CONSTRAINT pk_reward_strategy PRIMARY KEY (id)
 );
 
+ALTER TABLE reward_strategy
+    ADD CONSTRAINT uc_reward_strategy_code UNIQUE (code);
+
 CREATE TABLE reward_log
 (
     id         BIGINT AUTO_INCREMENT NOT NULL,

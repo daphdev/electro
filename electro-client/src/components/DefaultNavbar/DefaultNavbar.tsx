@@ -218,7 +218,7 @@ const navbarLinks: NavbarLink[] = [
     childLinks: [],
   },
   {
-    link: '/admin/reward',
+    link: '/admin/reward-strategy',
     label: 'Điểm thưởng',
     icon: Award,
     childLinks: [],
