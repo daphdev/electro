@@ -6,7 +6,7 @@ import { SpecificationItem } from 'models/Product';
 import { PaymentMethodType } from 'models/PaymentMethod';
 import { RoomResponse } from 'models/Room';
 import { MessageResponse } from 'models/Message';
-import { RewardStrategyType } from 'models/RewardStrategy';
+import { RewardType } from 'models/RewardStrategy';
 
 // CATEGORY
 
@@ -327,7 +327,7 @@ export interface ClientRewardLogResponse {
   rewardLogId: number;
   rewardLogCreatedAt: string;
   rewardLogScore: number;
-  rewardLogType: RewardStrategyType;
+  rewardLogType: RewardType;
   rewardLogNote: string;
 }
 

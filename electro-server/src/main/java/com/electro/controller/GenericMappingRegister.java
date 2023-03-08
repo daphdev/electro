@@ -90,6 +90,8 @@ import com.electro.dto.promotion.PromotionRequest;
 import com.electro.dto.promotion.PromotionResponse;
 import com.electro.dto.review.ReviewRequest;
 import com.electro.dto.review.ReviewResponse;
+import com.electro.dto.reward.RewardStrategyRequest;
+import com.electro.dto.reward.RewardStrategyResponse;
 import com.electro.dto.waybill.WaybillRequest;
 import com.electro.dto.waybill.WaybillResponse;
 import com.electro.entity.address.Address;
@@ -132,7 +134,7 @@ import com.electro.entity.product.Supplier;
 import com.electro.entity.product.Tag;
 import com.electro.entity.product.Unit;
 import com.electro.entity.product.Variant;
-import com.electro.entity.review.Review;
+import com.electro.entity.reward.RewardStrategy;
 import com.electro.mapper.address.AddressMapper;
 import com.electro.mapper.address.DistrictMapper;
 import com.electro.mapper.address.WardMapper;
@@ -173,7 +175,7 @@ import com.electro.mapper.product.SupplierMapper;
 import com.electro.mapper.product.TagMapper;
 import com.electro.mapper.product.UnitMapper;
 import com.electro.mapper.product.VariantMapper;
-import com.electro.mapper.review.ReviewMapper;
+import com.electro.mapper.reward.RewardStrategyMapper;
 import com.electro.repository.address.AddressRepository;
 import com.electro.repository.address.DistrictRepository;
 import com.electro.repository.address.WardRepository;
@@ -214,12 +216,13 @@ import com.electro.repository.product.SupplierRepository;
 import com.electro.repository.product.TagRepository;
 import com.electro.repository.product.UnitRepository;
 import com.electro.repository.product.VariantRepository;
-import com.electro.repository.review.ReviewRepository;
+import com.electro.repository.reward.RewardStrategyRepository;
 import com.electro.service.CrudService;
 import com.electro.service.GenericService;
 import com.electro.service.address.ProvinceService;
 import com.electro.service.inventory.DocketService;
 import com.electro.service.promotion.PromotionService;
+import com.electro.service.review.ReviewService;
 import com.electro.service.waybill.WaybillService;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
@@ -287,6 +290,7 @@ public class GenericMappingRegister {
     private GenericController<PaymentMethodRequest, PaymentMethodResponse> paymentMethodController;
     private GenericController<PromotionRequest, PromotionResponse> promotionController;
     private GenericController<RoomRequest, RoomResponse> roomController;
+    private GenericController<RewardStrategyRequest, RewardStrategyResponse> rewardStrategyController;
 
     // Services
     private GenericService<District, DistrictRequest, DistrictResponse> districtService;
@@ -327,9 +331,9 @@ public class GenericMappingRegister {
     private GenericService<OrderResource, OrderResourceRequest, OrderResourceResponse> orderResourceService;
     private GenericService<OrderCancellationReason, OrderCancellationReasonRequest, OrderCancellationReasonResponse> orderCancellationReasonService;
     private GenericService<Order, OrderRequest, OrderResponse> orderService;
-    private GenericService<Review, ReviewRequest, ReviewResponse> reviewService;
     private GenericService<PaymentMethod, PaymentMethodRequest, PaymentMethodResponse> paymentMethodService;
     private GenericService<Room, RoomRequest, RoomResponse> roomService;
+    private GenericService<RewardStrategy, RewardStrategyRequest, RewardStrategyResponse> rewardStrategyService;
 
     @PostConstruct
     public void registerControllers() throws NoSuchMethodException {
@@ -606,12 +610,7 @@ public class GenericMappingRegister {
 
         register("waybills", waybillController, context.getBean(WaybillService.class), WaybillRequest.class);
 
-        register("reviews", reviewController, reviewService.init(
-                context.getBean(ReviewRepository.class),
-                context.getBean(ReviewMapper.class),
-                SearchFields.REVIEW,
-                ResourceName.REVIEW
-        ), ReviewRequest.class);
+        register("reviews", reviewController, context.getBean(ReviewService.class), ReviewRequest.class);
 
         register("payment-methods", paymentMethodController, paymentMethodService.init(
                 context.getBean(PaymentMethodRepository.class),
@@ -628,6 +627,13 @@ public class GenericMappingRegister {
                 SearchFields.ROOM,
                 ResourceName.ROOM
         ), RoomRequest.class);
+
+        register("reward-strategies", rewardStrategyController, rewardStrategyService.init(
+                context.getBean(RewardStrategyRepository.class),
+                context.getBean(RewardStrategyMapper.class),
+                SearchFields.REWARD_STRATEGY,
+                ResourceName.REWARD_STRATEGY
+        ), RewardStrategyRequest.class);
 
     }
 

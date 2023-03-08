@@ -2,13 +2,17 @@ import React from 'react';
 import {
   ActionIcon,
   Anchor,
+  Box,
+  Center,
   Container,
   createStyles,
   Grid,
   Group,
+  SegmentedControl,
   Stack,
   Text,
   ThemeIcon,
+  useMantineColorScheme,
   useMantineTheme
 } from '@mantine/core';
 import { ElectroLogo } from 'components';
@@ -21,7 +25,9 @@ import {
   BrandYoutube,
   BuildingBank,
   CurrencyDong,
-  Headset
+  Headset,
+  Moon,
+  Sun
 } from 'tabler-icons-react';
 import { Link } from 'react-router-dom';
 
@@ -50,6 +56,8 @@ const useStyles = createStyles((theme) => ({
 function ClientFooter() {
   const theme = useMantineTheme();
   const { classes } = useStyles();
+
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
   return (
     <footer className={classes.footer}>
@@ -102,14 +110,43 @@ function ClientFooter() {
                 </Stack>
               </Grid.Col>
               <Grid.Col xs={6} className={classes.footerLinks}>
-                <Stack>
-                  <Text weight={500}>Giới thiệu</Text>
-                  <Stack spacing={theme.spacing.xs}>
-                    <Anchor component={Link} to="/">Về Công ty</Anchor>
-                    <Anchor component={Link} to="/">Tuyển dụng</Anchor>
-                    <Anchor component={Link} to="/">Hợp tác</Anchor>
-                    <Anchor component={Link} to="/">Liên hệ mua hàng</Anchor>
+                <Stack justify="space-between" sx={{ height: '100%' }}>
+                  <Stack>
+                    <Text weight={500}>Giới thiệu</Text>
+                    <Stack spacing={theme.spacing.xs}>
+                      <Anchor component={Link} to="/">Về Công ty</Anchor>
+                      <Anchor component={Link} to="/">Tuyển dụng</Anchor>
+                      <Anchor component={Link} to="/">Hợp tác</Anchor>
+                      <Anchor component={Link} to="/">Liên hệ mua hàng</Anchor>
+                    </Stack>
                   </Stack>
+                  <Group>
+                    <SegmentedControl
+                      size="xs"
+                      value={colorScheme}
+                      onChange={(value: 'light' | 'dark') => toggleColorScheme(value)}
+                      data={[
+                        {
+                          value: 'light',
+                          label: (
+                            <Center>
+                              <Sun size={14} strokeWidth={1.5}/>
+                              <Box ml={10}>Sáng</Box>
+                            </Center>
+                          ),
+                        },
+                        {
+                          value: 'dark',
+                          label: (
+                            <Center>
+                              <Moon size={14} strokeWidth={1.5}/>
+                              <Box ml={10}>Tối</Box>
+                            </Center>
+                          ),
+                        },
+                      ]}
+                    />
+                  </Group>
                 </Stack>
               </Grid.Col>
             </Grid>

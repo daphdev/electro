@@ -60,7 +60,9 @@ DROP TABLE IF EXISTS
     message,
     verification,
     refresh_token,
-    waybill_log;
+    waybill_log,
+    reward_strategy,
+    reward_log;
 
 -- CREATE TABLES
 
@@ -491,7 +493,7 @@ CREATE TABLE product
     code              VARCHAR(255)          NOT NULL,
     slug              VARCHAR(255)          NOT NULL,
     short_description VARCHAR(255)          NULL,
-    `description`     VARCHAR(255)          NULL,
+    `description`     TEXT                  NULL,
     status            TINYINT               NOT NULL,
     category_id       BIGINT                NULL,
     brand_id          BIGINT                NULL,
@@ -1225,3 +1227,37 @@ CREATE TABLE waybill_log
 
 ALTER TABLE waybill_log
     ADD CONSTRAINT FK_WAYBILL_LOG_ON_WAYBILL FOREIGN KEY (waybill_id) REFERENCES waybill (id);
+
+CREATE TABLE reward_strategy
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    name       VARCHAR(255)          NOT NULL,
+    code       VARCHAR(255)          NOT NULL,
+    formula    VARCHAR(255)          NOT NULL,
+    status     TINYINT               NOT NULL,
+    CONSTRAINT pk_reward_strategy PRIMARY KEY (id)
+);
+
+ALTER TABLE reward_strategy
+    ADD CONSTRAINT uc_reward_strategy_code UNIQUE (code);
+
+CREATE TABLE reward_log
+(
+    id         BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NOT NULL,
+    created_by BIGINT                NULL,
+    updated_by BIGINT                NULL,
+    user_id    BIGINT                NOT NULL,
+    type       VARCHAR(255)          NOT NULL,
+    score      INT                   NOT NULL,
+    note       VARCHAR(255)          NOT NULL,
+    CONSTRAINT pk_reward_log PRIMARY KEY (id)
+);
+
+ALTER TABLE reward_log
+    ADD CONSTRAINT FK_REWARD_LOG_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);

@@ -13,12 +13,15 @@ import DistrictConfigs from 'pages/district/DistrictConfigs';
 import { RoleResponse } from 'models/Role';
 import { SelectOption } from 'types';
 import RoleConfigs from 'pages/role/RoleConfigs';
+import useAdminAuthStore from 'stores/use-admin-auth-store';
 
 function useUserUpdateViewModel(id: number) {
   const form = useForm({
     initialValues: UserConfigs.initialCreateUpdateFormValues,
     schema: zodResolver(UserConfigs.createUpdateFormSchema),
   });
+
+  const { user: adminUser, updateUser: updateAdminUser } = useAdminAuthStore();
 
   const [user, setUser] = useState<UserResponse>();
   const [prevFormValues, setPrevFormValues] = useState<typeof form.values>();
@@ -81,25 +84,41 @@ function useUserUpdateViewModel(id: number) {
 
   const handleFormSubmit = form.onSubmit((formValues) => {
     setPrevFormValues(formValues);
-    if (!MiscUtils.isEquals(formValues, prevFormValues)) {
-      const requestBody: UserRequest = {
-        username: formValues.username,
-        password: formValues.password || null,
-        fullname: formValues.fullname,
-        email: formValues.email,
-        phone: formValues.phone,
-        gender: formValues.gender,
-        address: {
-          line: formValues['address.line'],
-          provinceId: Number(formValues['address.provinceId']),
-          districtId: Number(formValues['address.districtId']),
-          wardId: null,
-        },
-        avatar: formValues.avatar.trim() || null,
-        status: Number(formValues.status),
-        roles: formValues.roles.map((roleId) => ({ id: Number(roleId) })),
-      };
-      updateApi.mutate(requestBody);
+
+    // TODO: Bad code for check admin
+    const checkAdmin = adminUser && adminUser.roles.map(r => r.code).includes('ADMIN')
+      && formValues.username === adminUser.username
+      && !formValues.roles.includes('1');
+
+    if (!MiscUtils.isEquals(formValues, prevFormValues) && user) {
+      if (checkAdmin) {
+        form.setFieldError('roles', 'Người quản trị không được xóa quyền Người quản trị');
+      } else {
+        const requestBody: UserRequest = {
+          username: formValues.username,
+          password: formValues.password || null,
+          fullname: formValues.fullname,
+          email: formValues.email,
+          phone: formValues.phone,
+          gender: formValues.gender,
+          address: {
+            line: formValues['address.line'],
+            provinceId: Number(formValues['address.provinceId']),
+            districtId: Number(formValues['address.districtId']),
+            wardId: null,
+          },
+          avatar: formValues.avatar.trim() || null,
+          status: Number(formValues.status),
+          roles: formValues.roles.map((roleId) => ({ id: Number(roleId) })),
+        };
+        updateApi.mutate(requestBody, {
+          onSuccess: (userResponse) => {
+            if (adminUser && formValues.username === adminUser.username) {
+              updateAdminUser(userResponse);
+            }
+          },
+        });
+      }
     }
   });
 
@@ -125,6 +144,8 @@ function useUserUpdateViewModel(id: number) {
     },
   ];
 
+  const isDisabledUpdateButton = MiscUtils.isEquals(form.values, prevFormValues);
+
   return {
     user,
     form,
@@ -134,6 +155,7 @@ function useUserUpdateViewModel(id: number) {
     districtSelectList,
     statusSelectList,
     roleSelectList,
+    isDisabledUpdateButton,
   };
 }
 

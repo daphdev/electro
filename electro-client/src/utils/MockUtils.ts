@@ -9,18 +9,8 @@ class MockUtils {
       categoryChildren: [],
     },
     {
-      categoryName: 'Tablet',
-      categorySlug: 'tablet',
-      categoryChildren: [],
-    },
-    {
-      categoryName: 'SmartWatch',
-      categorySlug: 'smartwatch',
-      categoryChildren: [],
-    },
-    {
-      categoryName: 'Âm thanh',
-      categorySlug: 'am-thanh',
+      categoryName: 'Loa',
+      categorySlug: 'loa',
       categoryChildren: [],
     },
     {
@@ -29,18 +19,28 @@ class MockUtils {
       categoryChildren: [],
     },
     {
-      categoryName: 'Chuột',
-      categorySlug: 'chuot',
-      categoryChildren: [],
-    },
-    {
       categoryName: 'Máy chơi game',
       categorySlug: 'may-choi-game',
       categoryChildren: [],
     },
     {
+      categoryName: 'Chuột',
+      categorySlug: 'chuot',
+      categoryChildren: [],
+    },
+    {
       categoryName: 'CPU',
       categorySlug: 'cpu',
+      categoryChildren: [],
+    },
+    {
+      categoryName: 'PC',
+      categorySlug: 'pc',
+      categoryChildren: [],
+    },
+    {
+      categoryName: 'Balo',
+      categorySlug: 'balo',
       categoryChildren: [],
     },
   ];

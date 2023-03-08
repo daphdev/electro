@@ -65,19 +65,19 @@ function AdminDashboard() {
           <Text size="lg" weight={500} color="dimmed">Tổng quan</Text>
           <Grid>
             <Grid.Col span={3}>
-              <OverviewCard title="Tổng số khách hàng" number={8} color="blue" icon={Users}/>
+              <OverviewCard title="Tổng số khách hàng" number={2} color="blue" icon={Users}/>
             </Grid.Col>
             <Grid.Col span={3}>
-              <OverviewCard title="Tổng số sản phẩm" number={50} color="orange" icon={Box}/>
+              <OverviewCard title="Tổng số sản phẩm" number={13} color="orange" icon={Box}/>
             </Grid.Col>
             <Grid.Col span={3}>
-              <OverviewCard title="Tổng số đơn hàng" number={10} color="teal" icon={FileBarcode}/>
+              <OverviewCard title="Tổng số đơn hàng" number={2} color="teal" icon={FileBarcode}/>
             </Grid.Col>
             <Grid.Col span={3}>
-              <OverviewCard title="Tổng số vận đơn" number={10} color="grape" icon={Truck}/>
+              <OverviewCard title="Tổng số vận đơn" number={1} color="grape" icon={Truck}/>
             </Grid.Col>
             <Grid.Col span={3}>
-              <OverviewCard title="Tổng số đánh giá" number={5} color="yellow" icon={Star}/>
+              <OverviewCard title="Tổng số đánh giá" number={1} color="yellow" icon={Star}/>
             </Grid.Col>
             <Grid.Col span={3}>
               <OverviewCard title="Tổng số khuyến mãi hiện tại" number={1} color="pink" icon={Percentage}/>
@@ -86,7 +86,7 @@ function AdminDashboard() {
               <OverviewCard title="Tổng số nhà cung cấp" number={5} color="violet" icon={BuildingWarehouse}/>
             </Grid.Col>
             <Grid.Col span={3}>
-              <OverviewCard title="Tổng số thương hiệu" number={10} color="indigo" icon={BrandApple}/>
+              <OverviewCard title="Tổng số thương hiệu" number={50} color="indigo" icon={BrandApple}/>
             </Grid.Col>
           </Grid>
         </Stack>

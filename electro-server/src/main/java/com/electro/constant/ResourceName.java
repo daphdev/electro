@@ -54,4 +54,5 @@ public interface ResourceName {
     String PROMOTION = "Promotion";
     String ROOM = "Room";
     String MESSAGE = "Message";
+    String REWARD_STRATEGY = "RewardStrategy";
 }

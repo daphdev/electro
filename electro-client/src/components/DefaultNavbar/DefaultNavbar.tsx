@@ -52,6 +52,10 @@ const navbarLinks: NavbarLink[] = [
         link: '/admin/address/district',
         label: 'Quận huyện',
       },
+      {
+        link: '/admin/address/ward',
+        label: 'Phường xã',
+      },
     ],
     disableForEmployee: true,
   },
@@ -218,7 +222,7 @@ const navbarLinks: NavbarLink[] = [
     childLinks: [],
   },
   {
-    link: '/admin/reward',
+    link: '/admin/reward-strategy',
     label: 'Điểm thưởng',
     icon: Award,
     childLinks: [],

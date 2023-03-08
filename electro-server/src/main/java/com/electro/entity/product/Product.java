@@ -4,9 +4,8 @@ import com.electro.entity.BaseEntity;
 import com.electro.entity.client.Preorder;
 import com.electro.entity.client.Wish;
 import com.electro.entity.general.Image;
-import com.electro.entity.review.Review;
-import com.electro.entity.inventory.ProductInventoryLimit;
 import com.electro.entity.promotion.Promotion;
+import com.electro.entity.review.Review;
 import com.electro.utils.JsonNodeConverter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -53,7 +52,7 @@ public class Product extends BaseEntity {
     @Column(name = "short_description")
     private String shortDescription;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
