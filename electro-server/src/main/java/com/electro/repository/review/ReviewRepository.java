@@ -36,4 +36,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, JpaSpecif
             "FROM Review r JOIN r.user u WHERE r.product.id = :productId AND u.username = :username")
     boolean existsByProductIdAndUsername(@Param("productId") Long productId, @Param("username") String username);
 
+    @Query("SELECT COUNT(r.id) FROM Review r")
+    int countByReviewId();
+
 }

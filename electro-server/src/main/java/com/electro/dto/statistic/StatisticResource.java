@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.Instant;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public  class StatisticResource {
-    private Long numberOfRegistration;
-    private Date date;
+    private Long total;
+    private Instant date;
 }
