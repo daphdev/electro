@@ -21,6 +21,7 @@ import com.electro.entity.general.NotificationType;
 import com.electro.entity.order.Order;
 import com.electro.entity.order.OrderResource;
 import com.electro.entity.order.OrderVariant;
+import com.electro.entity.promotion.Promotion;
 import com.electro.entity.waybill.Waybill;
 import com.electro.entity.waybill.WaybillLog;
 import com.electro.exception.ResourceNotFoundException;
@@ -30,6 +31,7 @@ import com.electro.repository.authentication.UserRepository;
 import com.electro.repository.cart.CartRepository;
 import com.electro.repository.general.NotificationRepository;
 import com.electro.repository.order.OrderRepository;
+import com.electro.repository.promotion.PromotionRepository;
 import com.electro.repository.waybill.WaybillLogRepository;
 import com.electro.repository.waybill.WaybillRepository;
 import com.electro.service.general.NotificationService;
@@ -71,6 +73,7 @@ public class OrderServiceImpl implements OrderService {
     private final WaybillLogRepository waybillLogRepository;
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
+    private final PromotionRepository promotionRepository;
 
     private final PayPalHttpClient payPalHttpClient;
     private final ClientOrderMapper clientOrderMapper;
@@ -158,21 +161,29 @@ public class OrderServiceImpl implements OrderService {
         order.setUser(user);
 
         order.setOrderVariants(cart.getCartVariants().stream()
-                .map(cartVariant -> new OrderVariant()
-                        .setOrder(order)
-                        .setVariant(cartVariant.getVariant())
-                        .setPrice(BigDecimal.valueOf(cartVariant.getVariant().getPrice()))
-                        .setQuantity(cartVariant.getQuantity())
-                        .setAmount(
-                                BigDecimal.valueOf(cartVariant.getVariant().getPrice())
-                                        .multiply(BigDecimal.valueOf(cartVariant.getQuantity()))
-                        ))
+                .map(cartVariant -> {
+                    Promotion promotion = promotionRepository
+                            .findActivePromotionByProductId(cartVariant.getVariant().getProduct().getId())
+                            .stream()
+                            .findFirst()
+                            .orElse(null);
+
+                    double currentPrice = calculateDiscountedPrice(cartVariant.getVariant().getPrice(),
+                            promotion == null ? 0 : promotion.getPercent());
+
+                    return new OrderVariant()
+                            .setOrder(order)
+                            .setVariant(cartVariant.getVariant())
+                            .setPrice(BigDecimal.valueOf(currentPrice))
+                            .setQuantity(cartVariant.getQuantity())
+                            .setAmount(BigDecimal.valueOf(currentPrice).multiply(BigDecimal.valueOf(cartVariant.getQuantity())));
+                })
                 .collect(Collectors.toSet()));
 
         // Calculate price values
         // TODO: Vấn đề khuyến mãi
-        BigDecimal totalAmount = BigDecimal.valueOf(cart.getCartVariants().stream()
-                .mapToDouble(cartVariant -> cartVariant.getVariant().getPrice() * cartVariant.getQuantity())
+        BigDecimal totalAmount = BigDecimal.valueOf(order.getOrderVariants().stream()
+                .mapToDouble(orderVariant -> orderVariant.getAmount().doubleValue())
                 .sum());
 
         BigDecimal tax = BigDecimal.valueOf(AppConstants.DEFAULT_TAX);
@@ -281,6 +292,10 @@ public class OrderServiceImpl implements OrderService {
         }
 
         orderRepository.save(order);
+    }
+
+    private Double calculateDiscountedPrice(Double price, Integer discount) {
+        return price * (100 - discount) / 100;
     }
 
 }

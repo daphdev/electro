@@ -52,6 +52,10 @@ const navbarLinks: NavbarLink[] = [
         link: '/admin/address/district',
         label: 'Quận huyện',
       },
+      {
+        link: '/admin/address/ward',
+        label: 'Phường xã',
+      },
     ],
     disableForEmployee: true,
   },

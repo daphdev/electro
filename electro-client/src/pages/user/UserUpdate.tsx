@@ -27,6 +27,7 @@ function UserUpdate() {
     districtSelectList,
     statusSelectList,
     roleSelectList,
+    isDisabledUpdateButton,
   } = useUserUpdateViewModel(Number(id));
 
   if (!user) {
@@ -154,7 +155,7 @@ function UserUpdate() {
 
             <Group position="apart" p="sm">
               <Button variant="default" onClick={form.reset}>Mặc định</Button>
-              <Button type="submit">Cập nhật</Button>
+              <Button type="submit" disabled={isDisabledUpdateButton}>Cập nhật</Button>
             </Group>
           </Stack>
         </Paper>

@@ -3,10 +3,12 @@ import { ListResponse } from 'utils/FetchUtils';
 import {
   Box,
   BrandPaypal,
+  Briefcase,
   Cash,
   Cpu,
   DeviceGamepad2,
   DeviceLaptop,
+  DevicesPc,
   DeviceSpeaker,
   DeviceTablet,
   DeviceWatch,
@@ -79,13 +81,15 @@ class PageConfigs {
   static categorySlugIconMap: Record<string, Icon> = new Proxy(
     {
       'laptop': DeviceLaptop,
+      'loa': DeviceSpeaker,
+      'ban-phim': Keyboard,
+      'may-choi-game': DeviceGamepad2,
+      'chuot': Mouse,
+      'cpu': Cpu,
+      'pc': DevicesPc,
+      'balo': Briefcase,
       'tablet': DeviceTablet,
       'smartwatch': DeviceWatch,
-      'am-thanh': DeviceSpeaker,
-      'ban-phim': Keyboard,
-      'chuot': Mouse,
-      'may-choi-game': DeviceGamepad2,
-      'cpu': Cpu,
     },
     {
       get: function (target: Record<string, Icon>, name: string) {

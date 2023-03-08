@@ -36,18 +36,19 @@ function DefaultPropertyPanel({
             <Code color="blue">{DateUtils.isoDateToString(updatedAt)}</Code>
           </Text>
         </Stack>
-        <Stack spacing={5}>
-          <Text size="sm">Người tạo</Text>
-          <Text>
-            <Code color="blue">{createdBy}</Code>
-          </Text>
-        </Stack>
-        <Stack spacing={5}>
-          <Text size="sm">Người cập nhật</Text>
-          <Text>
-            <Code color="blue">{updatedBy}</Code>
-          </Text>
-        </Stack>
+        {/* TODO: Triển khai createdBy và updatedBy */}
+        {/*<Stack spacing={5}>*/}
+        {/*  <Text size="sm">Người tạo</Text>*/}
+        {/*  <Text>*/}
+        {/*    <Code color="blue">{createdBy}</Code>*/}
+        {/*  </Text>*/}
+        {/*</Stack>*/}
+        {/*<Stack spacing={5}>*/}
+        {/*  <Text size="sm">Người cập nhật</Text>*/}
+        {/*  <Text>*/}
+        {/*    <Code color="blue">{updatedBy}</Code>*/}
+        {/*  </Text>*/}
+        {/*</Stack>*/}
       </Group>
     </Paper>
   );
