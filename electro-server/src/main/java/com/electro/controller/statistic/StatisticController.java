@@ -21,6 +21,7 @@ public class StatisticController {
 
     @GetMapping
     public ResponseEntity<StatisticResponse> getStatistic() {
+        // TODO: [28-03-2023] Chưa rõ API này có lấy thống kê theo 7 ngày gần nhất?
         return ResponseEntity.status(HttpStatus.OK).body(statisticService.getStatistic());
     }
 

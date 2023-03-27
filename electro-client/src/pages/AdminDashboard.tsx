@@ -12,49 +12,23 @@ import {
   Users
 } from 'tabler-icons-react';
 import { Bar, BarChart, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { useQuery } from 'react-query';
+import FetchUtils, { ErrorMessage } from 'utils/FetchUtils';
+import ResourceURL from 'constants/ResourceURL';
+import NotifyUtils from 'utils/NotifyUtils';
+import { StatisticResource, StatisticResponse } from 'models/Statistic';
+import DateUtils from 'utils/DateUtils';
 
-const userData = [
-  { 'date': '20/02', 'numberOfRegistrations': 1 },
-  { 'date': '21/02', 'numberOfRegistrations': 2 },
-  { 'date': '22/02', 'numberOfRegistrations': 0 },
-  { 'date': '23/02', 'numberOfRegistrations': 1 },
-  { 'date': '24/02', 'numberOfRegistrations': 0 },
-  { 'date': '25/02', 'numberOfRegistrations': 1 },
-  { 'date': '26/02', 'numberOfRegistrations': 1 },
-];
-
-const orderData = [
-  { 'date': '20/02', 'numberOfOrders': 0 },
-  { 'date': '21/02', 'numberOfOrders': 0 },
-  { 'date': '22/02', 'numberOfOrders': 1 },
-  { 'date': '23/02', 'numberOfOrders': 0 },
-  { 'date': '24/02', 'numberOfOrders': 2 },
-  { 'date': '25/02', 'numberOfOrders': 1 },
-  { 'date': '26/02', 'numberOfOrders': 0 },
-];
-
-const waybillData = [
-  { 'date': '20/02', 'numberOfWaybills': 1 },
-  { 'date': '21/02', 'numberOfWaybills': 0 },
-  { 'date': '22/02', 'numberOfWaybills': 2 },
-  { 'date': '23/02', 'numberOfWaybills': 0 },
-  { 'date': '24/02', 'numberOfWaybills': 1 },
-  { 'date': '25/02', 'numberOfWaybills': 0 },
-  { 'date': '26/02', 'numberOfWaybills': 1 },
-];
-
-const reviewData = [
-  { 'date': '20/02', 'numberOfReviews': 0 },
-  { 'date': '21/02', 'numberOfReviews': 0 },
-  { 'date': '22/02', 'numberOfReviews': 1 },
-  { 'date': '23/02', 'numberOfReviews': 0 },
-  { 'date': '24/02', 'numberOfReviews': 2 },
-  { 'date': '25/02', 'numberOfReviews': 1 },
-  { 'date': '26/02', 'numberOfReviews': 0 },
-];
+const dateReducerForStatisticResources = (statisticResources: StatisticResource[]) => statisticResources.map((statisticResource) => ({
+  date: DateUtils.isoDateToString(statisticResource.date, 'DD/MM/YY'),
+  total: statisticResource.total,
+}));
 
 function AdminDashboard() {
   const theme = useMantineTheme();
+
+  const { statisticResponse } = useGetStatisticApi();
+  const statistic = statisticResponse as StatisticResponse;
 
   return (
     <Stack mb={30}>
@@ -65,28 +39,38 @@ function AdminDashboard() {
           <Text size="lg" weight={500} color="dimmed">Tổng quan</Text>
           <Grid>
             <Grid.Col span={3}>
-              <OverviewCard title="Tổng số khách hàng" number={2} color="blue" icon={Users}/>
+              <OverviewCard title="Tổng số khách hàng" number={statistic.totalCustomer} color="blue" icon={Users}/>
             </Grid.Col>
             <Grid.Col span={3}>
-              <OverviewCard title="Tổng số sản phẩm" number={100} color="orange" icon={Box}/>
+              <OverviewCard title="Tổng số sản phẩm" number={statistic.totalProduct} color="orange" icon={Box}/>
             </Grid.Col>
             <Grid.Col span={3}>
-              <OverviewCard title="Tổng số đơn hàng" number={2} color="teal" icon={FileBarcode}/>
+              <OverviewCard title="Tổng số đơn hàng" number={statistic.totalOrder} color="teal" icon={FileBarcode}/>
             </Grid.Col>
             <Grid.Col span={3}>
-              <OverviewCard title="Tổng số vận đơn" number={1} color="grape" icon={Truck}/>
+              <OverviewCard title="Tổng số vận đơn" number={statistic.totalWaybill} color="grape" icon={Truck}/>
             </Grid.Col>
             <Grid.Col span={3}>
-              <OverviewCard title="Tổng số đánh giá" number={1} color="yellow" icon={Star}/>
+              <OverviewCard title="Tổng số đánh giá" number={statistic.totalReview} color="yellow" icon={Star}/>
             </Grid.Col>
             <Grid.Col span={3}>
-              <OverviewCard title="Tổng số khuyến mãi hiện tại" number={1} color="pink" icon={Percentage}/>
+              <OverviewCard
+                title="Tổng số khuyến mãi hiện tại"
+                number={statistic.totalActivePromotion}
+                color="pink"
+                icon={Percentage}
+              />
             </Grid.Col>
             <Grid.Col span={3}>
-              <OverviewCard title="Tổng số nhà cung cấp" number={5} color="violet" icon={BuildingWarehouse}/>
+              <OverviewCard
+                title="Tổng số nhà cung cấp"
+                number={statistic.totalSupplier}
+                color="violet"
+                icon={BuildingWarehouse}
+              />
             </Grid.Col>
             <Grid.Col span={3}>
-              <OverviewCard title="Tổng số thương hiệu" number={50} color="indigo" icon={BrandApple}/>
+              <OverviewCard title="Tổng số thương hiệu" number={statistic.totalBrand} color="indigo" icon={BrandApple}/>
             </Grid.Col>
           </Grid>
         </Stack>
@@ -105,7 +89,7 @@ function AdminDashboard() {
                 <LineChart
                   width={650}
                   height={275}
-                  data={userData}
+                  data={dateReducerForStatisticResources(statistic.statisticRegistration)}
                   margin={{ top: 10, right: 5, bottom: 0, left: -10 }}
                 >
                   <XAxis dataKey="date"/>
@@ -114,7 +98,7 @@ function AdminDashboard() {
                   <Line
                     name="Số lượt đăng ký"
                     type="monotone"
-                    dataKey="numberOfRegistrations"
+                    dataKey="total"
                     stroke={theme.colors.blue[5]}
                   />
                 </LineChart>
@@ -131,7 +115,7 @@ function AdminDashboard() {
                 <LineChart
                   width={650}
                   height={275}
-                  data={reviewData}
+                  data={dateReducerForStatisticResources(statistic.statisticReview)}
                   margin={{ top: 10, right: 5, bottom: 0, left: -10 }}
                 >
                   <XAxis dataKey="date"/>
@@ -140,7 +124,7 @@ function AdminDashboard() {
                   <Line
                     name="Số lượt đánh giá"
                     type="monotone"
-                    dataKey="numberOfReviews"
+                    dataKey="total"
                     stroke={theme.colors.yellow[7]}
                   />
                 </LineChart>
@@ -160,7 +144,7 @@ function AdminDashboard() {
                 <BarChart
                   width={650}
                   height={275}
-                  data={orderData}
+                  data={dateReducerForStatisticResources(statistic.statisticOrder)}
                   margin={{ top: 10, right: 5, bottom: 0, left: -10 }}
                 >
                   <XAxis dataKey="date"/>
@@ -168,7 +152,7 @@ function AdminDashboard() {
                   <Tooltip/>
                   <Bar
                     name="Số lượt đặt hàng"
-                    dataKey="numberOfOrders"
+                    dataKey="total"
                     fill={theme.colors.teal[5]}
                   />
                 </BarChart>
@@ -185,7 +169,7 @@ function AdminDashboard() {
                 <BarChart
                   width={650}
                   height={275}
-                  data={waybillData}
+                  data={dateReducerForStatisticResources(statistic.statisticWaybill)}
                   margin={{ top: 10, right: 5, bottom: 0, left: -10 }}
                 >
                   <XAxis dataKey="date"/>
@@ -193,7 +177,7 @@ function AdminDashboard() {
                   <Tooltip/>
                   <Bar
                     name="Số lượt tạo vận đơn"
-                    dataKey="numberOfWaybills"
+                    dataKey="total"
                     fill={theme.colors.grape[5]}
                   />
                 </BarChart>
@@ -232,6 +216,39 @@ function OverviewCard({ title, number, color, icon }: OverviewCardProps) {
       </Group>
     </Card>
   );
+}
+
+const defaultStatisticResponse: StatisticResponse = {
+  totalCustomer: 0,
+  totalProduct: 0,
+  totalOrder: 0,
+  totalWaybill: 0,
+  totalReview: 0,
+  totalActivePromotion: 0,
+  totalSupplier: 0,
+  totalBrand: 0,
+  statisticRegistration: [],
+  statisticOrder: [],
+  statisticReview: [],
+  statisticWaybill: [],
+};
+
+function useGetStatisticApi() {
+  const {
+    data: statisticResponse,
+    isLoading: isLoadingStatisticResponse,
+    isError: isErrorStatisticResponse,
+  } = useQuery<StatisticResponse, ErrorMessage>(
+    ['api', 'stats', 'getStatistic'],
+    () => FetchUtils.get(ResourceURL.STATISTIC),
+    {
+      onError: () => NotifyUtils.simpleFailed('Lấy dữ liệu không thành công'),
+      keepPreviousData: true,
+      initialData: defaultStatisticResponse,
+    }
+  );
+
+  return { statisticResponse, isLoadingStatisticResponse, isErrorStatisticResponse };
 }
 
 export default AdminDashboard;

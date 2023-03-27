@@ -68,6 +68,8 @@ class ResourceURL {
   static ROOM = apiPath + '/rooms';
   static MESSAGE = apiPath + '/messages';
 
+  static STATISTIC = apiPath + '/stats';
+
   // CLIENT
   static CLIENT_CATEGORY = clientApiPath + '/categories';
   static CLIENT_PRODUCT = clientApiPath + '/products';

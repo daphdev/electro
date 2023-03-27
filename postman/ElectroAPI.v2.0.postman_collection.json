@@ -6,87 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "__uncategorized",
-			"item": [
-				{
-					"name": "New Request",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"code\": \"test\",\r\n    \"status\": 1,\r\n    \"countVariants\": [\r\n        {\r\n            \"variantId\": 1,\r\n            \"inventory\": 20,\r\n            \"actualInventory\": 30\r\n        }\r\n    ]\r\n\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{electro}}/counts",
-							"host": [
-								"{{electro}}"
-							],
-							"path": [
-								"counts"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "New Request",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{electro}}/counts?all=1",
-							"host": [
-								"{{electro}}"
-							],
-							"path": [
-								"counts"
-							],
-							"query": [
-								{
-									"key": "all",
-									"value": "1"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "New Request",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"status\": 2,\r\n    \"transferVariants\": [\r\n        {\r\n            \"variantId\": 2,\r\n            \"quantity\": 10\r\n        }\r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{electro}}/transfers",
-							"host": [
-								"{{electro}}"
-							],
-							"path": [
-								"transfers"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "images",
+			"name": "Image APIs",
 			"item": [
 				{
 					"name": "Upload Single Image",
@@ -6404,6 +6324,28 @@
 							"response": []
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "Statistic APIs",
+			"item": [
+				{
+					"name": "getStatistic",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{electro}}/stats",
+							"host": [
+								"{{electro}}"
+							],
+							"path": [
+								"stats"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
