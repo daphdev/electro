@@ -25,9 +25,7 @@ import { MessageResponse } from 'models/Message';
 import { FromMessage, MessageInput, ToMessage } from 'pages/client-chat/ClientChat';
 import { useSubscription } from 'react-stomp-hooks';
 import { Refresh } from 'tabler-icons-react';
-
-// TODO
-const adminUserId = 1;
+import useAdminAuthStore from 'stores/use-admin-auth-store';
 
 function ChatDashboard() {
   const [activeRoomId, setActiveRoomId] = useState(0);
@@ -86,13 +84,15 @@ function ChatDashboard() {
 function RoomCard({ roomResponse, active }: { roomResponse: RoomResponse, active: boolean }) {
   const theme = useMantineTheme();
 
+  const { user: adminUser } = useAdminAuthStore();
+
   const [newMessagesNumber, setNewMessagesNumber] = useState(0);
 
   useSubscription(
     ['/chat/receive/' + roomResponse.id],
     (message) => {
       const messageResponse: MessageResponse = JSON.parse(message.body);
-      if (messageResponse.user.id !== adminUserId) {
+      if (adminUser && messageResponse.user.id !== adminUser.id) {
         setNewMessagesNumber(newMessagesNumber + 1);
       }
     }
@@ -131,6 +131,8 @@ function RoomCard({ roomResponse, active }: { roomResponse: RoomResponse, active
 function ChatPanel({ roomId }: { roomId: number }) {
   const theme = useMantineTheme();
 
+  const { user: adminUser } = useAdminAuthStore();
+
   const viewport = useRef<HTMLDivElement | null>(null);
 
   const [messages, setMessages] = useState<MessageResponse[]>([]);
@@ -163,7 +165,7 @@ function ChatPanel({ roomId }: { roomId: number }) {
       >
         <Stack spacing={0} sx={{ paddingTop: theme.spacing.md }}>
           {messages.map((message: MessageResponse) => (
-            message.user.id === adminUserId
+            (adminUser && message.user.id === adminUser.id)
               ? <ToMessage key={message.id} message={message}/>
               : <FromMessage key={message.id} message={message}/>
           ))}
@@ -171,7 +173,7 @@ function ChatPanel({ roomId }: { roomId: number }) {
       </ScrollArea>
       <MessageInput
         roomId={roomId}
-        userId={adminUserId}
+        userId={adminUser?.id || 0}
       />
     </Stack>
   );
