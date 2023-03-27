@@ -11,13 +11,11 @@ public class StatisticResponse {
     private Integer totalOrder;
     private Integer totalWaybill;
     private Integer totalReview;
-    private Integer totalPromotionActive;
+    private Integer totalActivePromotion;
     private Integer totalSupplier;
     private Integer totalBrand;
-
     private List<StatisticResource> statisticRegistration;
     private List<StatisticResource> statisticOrder;
     private List<StatisticResource> statisticReview;
     private List<StatisticResource> statisticWaybill;
 }
-

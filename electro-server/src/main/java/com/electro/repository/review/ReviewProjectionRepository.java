@@ -16,15 +16,17 @@ import java.util.List;
 @AllArgsConstructor
 public class ReviewProjectionRepository {
 
-    EntityManager em;
+    private EntityManager em;
 
-    public List<StatisticResource> getReviewCountByCreateDate(){
+    public List<StatisticResource> getReviewCountByCreateDate() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<StatisticResource> query = cb.createQuery(StatisticResource.class);
-        Root<Review> waybill = query.from(Review.class);
-        query.select(cb.construct(StatisticResource.class, cb.count(waybill.get("id")), waybill.get("createdAt").as(Instant.class)));
-        query.groupBy(waybill.get("createdAt").as(Instant.class));
-        query.orderBy(cb.asc(waybill.get("createdAt")));
+
+        Root<Review> review = query.from(Review.class);
+        query.select(cb.construct(StatisticResource.class, review.get("createdAt").as(Instant.class), cb.count(review.get("id"))));
+        query.groupBy(review.get("createdAt").as(Instant.class));
+        query.orderBy(cb.asc(review.get("createdAt")));
+
         return em.createQuery(query).getResultList();
     }
 

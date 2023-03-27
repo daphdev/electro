@@ -16,13 +16,14 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderProjectionRepository {
 
-    EntityManager em;
+    private EntityManager em;
 
-    public List<StatisticResource> getOrderCountByCreateDate(){
+    public List<StatisticResource> getOrderCountByCreateDate() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<StatisticResource> query = cb.createQuery(StatisticResource.class);
+
         Root<Order> order = query.from(Order.class);
-        query.select(cb.construct(StatisticResource.class, cb.count(order.get("id")), order.get("createdAt").as(Instant.class)));
+        query.select(cb.construct(StatisticResource.class, order.get("createdAt").as(Instant.class), cb.count(order.get("id"))));
         query.groupBy(order.get("createdAt").as(Instant.class));
         query.orderBy(cb.asc(order.get("createdAt")));
 

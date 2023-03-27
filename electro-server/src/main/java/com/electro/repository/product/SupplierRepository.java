@@ -9,4 +9,5 @@ public interface SupplierRepository extends JpaRepository<Supplier, Long>, JpaSp
 
     @Query("SELECT COUNT(s.id) FROM Supplier s")
     int countBySupplierId();
+
 }

@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ProjectionRepository {
 
-    EntityManager em;
+    private EntityManager em;
 
     public List<SimpleProductInventory> findSimpleProductInventories(List<Long> productIds) {
         CriteriaBuilder cb = em.getCriteriaBuilder();

@@ -16,15 +16,17 @@ import java.util.List;
 @AllArgsConstructor
 public class WaybillProjectionRepository {
 
-    EntityManager em;
+    private EntityManager em;
 
-    public List<StatisticResource> getWaybillCountByCreateDate(){
+    public List<StatisticResource> getWaybillCountByCreateDate() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<StatisticResource> query = cb.createQuery(StatisticResource.class);
+
         Root<Waybill> waybill = query.from(Waybill.class);
-        query.select(cb.construct(StatisticResource.class, cb.count(waybill.get("id")), waybill.get("createdAt").as(Instant.class)));
+        query.select(cb.construct(StatisticResource.class, waybill.get("createdAt").as(Instant.class), cb.count(waybill.get("id"))));
         query.groupBy(waybill.get("createdAt").as(Instant.class));
         query.orderBy(cb.asc(waybill.get("createdAt")));
+
         return em.createQuery(query).getResultList();
     }
 

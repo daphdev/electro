@@ -21,7 +21,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class StatisticServiceImpl implements StatisticService{
+public class StatisticServiceImpl implements StatisticService {
 
     private CustomerRepository customerRepository;
     private ProductRepository productRepository;
@@ -35,38 +35,40 @@ public class StatisticServiceImpl implements StatisticService{
     private OrderProjectionRepository orderProjectionRepository;
     private WaybillProjectionRepository waybillProjectionRepository;
     private ReviewProjectionRepository reviewProjectionRepository;
+
     @Override
     public StatisticResponse getStatistic() {
         StatisticResponse statisticResponse = new StatisticResponse();
 
+        // TODO: Nên dùng tên hàm `count` hợp lý hơn, như `countAll()`
         int totalCustomer = customerRepository.countByCustomerId();
         int totalProduct = productRepository.countByProductId();
         int totalOrder = orderRepository.countByOrderId();
         int totalWaybill = waybillRepository.countByWaybillId();
-        int totalPromotion = promotionRepository.countByPromotionId();
+        int totalReview = reviewRepository.countByReviewId();
+        int totalActivePromotion = promotionRepository.countByPromotionId();
         int totalSupplier = supplierRepository.countBySupplierId();
         int totalBrand = brandRepository.countByBrandId();
-        int totalReview = reviewRepository.countByReviewId();
-        // TODO: MISSING VOTE (...)
 
         List<StatisticResource> statisticRegistration = userProjectionRepository.getUserCountByCreateDate();
-        List<StatisticResource>  statisticOrder = orderProjectionRepository.getOrderCountByCreateDate();
-        List<StatisticResource>  statisticWaybill = waybillProjectionRepository.getWaybillCountByCreateDate();
-        List<StatisticResource>  statisticReview = reviewProjectionRepository.getReviewCountByCreateDate();
+        List<StatisticResource> statisticOrder = orderProjectionRepository.getOrderCountByCreateDate();
+        List<StatisticResource> statisticReview = reviewProjectionRepository.getReviewCountByCreateDate();
+        List<StatisticResource> statisticWaybill = waybillProjectionRepository.getWaybillCountByCreateDate();
 
         statisticResponse.setTotalCustomer(totalCustomer);
         statisticResponse.setTotalProduct(totalProduct);
         statisticResponse.setTotalOrder(totalOrder);
         statisticResponse.setTotalWaybill(totalWaybill);
-        statisticResponse.setTotalPromotionActive(totalPromotion);
+        statisticResponse.setTotalReview(totalReview);
+        statisticResponse.setTotalActivePromotion(totalActivePromotion);
         statisticResponse.setTotalSupplier(totalSupplier);
         statisticResponse.setTotalBrand(totalBrand);
-        statisticResponse.setTotalReview(totalReview);
         statisticResponse.setStatisticRegistration(statisticRegistration);
         statisticResponse.setStatisticOrder(statisticOrder);
-        statisticResponse.setStatisticWaybill(statisticWaybill);
         statisticResponse.setStatisticReview(statisticReview);
+        statisticResponse.setStatisticWaybill(statisticWaybill);
 
         return statisticResponse;
     }
+
 }

@@ -167,4 +167,5 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     @Query("SELECT COUNT(p.id) FROM Product p")
     int countByProductId();
+
 }

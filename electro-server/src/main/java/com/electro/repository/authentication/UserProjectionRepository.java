@@ -16,13 +16,14 @@ import java.util.List;
 @AllArgsConstructor
 public class UserProjectionRepository {
 
-    EntityManager em;
+    private EntityManager em;
 
-    public List<StatisticResource> getUserCountByCreateDate(){
+    public List<StatisticResource> getUserCountByCreateDate() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<StatisticResource> query = cb.createQuery(StatisticResource.class);
+
         Root<User> user = query.from(User.class);
-        query.select(cb.construct(StatisticResource.class, cb.count(user.get("id")), user.get("createdAt").as(Instant.class)));
+        query.select(cb.construct(StatisticResource.class, user.get("createdAt").as(Instant.class), cb.count(user.get("id"))));
         query.groupBy(user.get("createdAt").as(Instant.class));
         query.orderBy(cb.asc(user.get("createdAt")));
 
