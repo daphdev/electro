@@ -15,4 +15,7 @@ public interface WaybillRepository extends JpaRepository<Waybill, Long>, JpaSpec
 
     Optional<Waybill> findByCode(String code);
 
+    @Query("SELECT COUNT(w.id) FROM Waybill w")
+    int countByWaybillId();
+
 }

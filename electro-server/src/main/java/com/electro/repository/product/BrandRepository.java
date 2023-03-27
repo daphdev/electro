@@ -8,6 +8,7 @@ import com.electro.entity.product.Variant;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.criteria.Join;
 import java.util.List;
@@ -50,5 +51,8 @@ public interface BrandRepository extends JpaRepository<Brand, Long>, JpaSpecific
 
         return findAll(spec);
     }
+
+    @Query("SELECT COUNT(b.id) FROM Brand b")
+    int countByBrandId();
 
 }
