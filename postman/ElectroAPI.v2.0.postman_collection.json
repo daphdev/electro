@@ -1,0 +1,6447 @@
+{
+	"info": {
+		"_postman_id": "87c7913f-002e-4938-8bf2-aa8eff89020b",
+		"name": "ElectroAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "__uncategorized",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"test\",\r\n    \"status\": 1,\r\n    \"countVariants\": [\r\n        {\r\n            \"variantId\": 1,\r\n            \"inventory\": 20,\r\n            \"actualInventory\": 30\r\n        }\r\n    ]\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{electro}}/counts",
+							"host": [
+								"{{electro}}"
+							],
+							"path": [
+								"counts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{electro}}/counts?all=1",
+							"host": [
+								"{{electro}}"
+							],
+							"path": [
+								"counts"
+							],
+							"query": [
+								{
+									"key": "all",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": 2,\r\n    \"transferVariants\": [\r\n        {\r\n            \"variantId\": 2,\r\n            \"quantity\": 10\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{electro}}/transfers",
+							"host": [
+								"{{electro}}"
+							],
+							"path": [
+								"transfers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "images",
+			"item": [
+				{
+					"name": "Upload Single Image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/User/Desktop/Wall/wallhaven-0jr6jw_1920x1080.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{electro-home}}/images/upload-single",
+							"host": [
+								"{{electro-home}}"
+							],
+							"path": [
+								"images",
+								"upload-single"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Multiple Images",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "images",
+									"type": "file",
+									"src": [
+										"/C:/Users/User/Desktop/Wall/test2.jpg",
+										"/C:/Users/User/Desktop/Wall/wallhaven-72w8ye_1920x1080.png"
+									]
+								}
+							]
+						},
+						"url": {
+							"raw": "{{electro-home}}/images/upload-multiple",
+							"host": [
+								"{{electro-home}}"
+							],
+							"path": [
+								"images",
+								"upload-multiple"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{electro-home}}/images/wallhaven-72w8ye_1920x1080.png",
+							"host": [
+								"{{electro-home}}"
+							],
+							"path": [
+								"images",
+								"wallhaven-72w8ye_1920x1080.png"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{electro-home}}/images/wallhaven-0jr6jw_1920x1080.png",
+							"host": [
+								"{{electro-home}}"
+							],
+							"path": [
+								"images",
+								"wallhaven-0jr6jw_1920x1080.png"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    \"test2.jpg\",\r\n    \"wallhaven-72w8ye_1920x1080.png\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{electro-home}}/images",
+							"host": [
+								"{{electro-home}}"
+							],
+							"path": [
+								"images"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{electro}}/images",
+							"host": [
+								"{{electro}}"
+							],
+							"path": [
+								"images"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "id,asc",
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": "id>2",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "all",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth APIs",
+			"item": [
+				{
+					"name": "login",
+					"item": [
+						{
+							"name": "Login",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdHJlYXQzIiwiaWF0IjoxNjc0ODM1MzgzLCJleHAiOjE2NzQ4NDU0NjN9.5Su1K4EgxrCgLFwqFXy5IGjXINopkiXEVDRpGKdnhUY1SUHEwxR_p-u_1TkM-Q9zcKVUuZaaU-s0VtsDZb0eJg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"dtreat3\",\r\n    \"password\": \"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/auth/login",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Address APIs",
+			"item": [
+				{
+					"name": "addresses",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/addresses",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"addresses"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/addresses/5",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"addresses",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"line\": \"63 Nguyễn Huệ Xin chào\",\r\n    \"provinceId\": 1,\r\n    \"districtId\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/addresses",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"addresses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"line\": \"63 Nguyễn Huệ\",\r\n    \"provinceId\": 1,\r\n    \"districtId\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/addresses/30",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"addresses",
+										"30"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/addresses/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"addresses",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY IDS",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[ 4, 5 ]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/addresses",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"addresses"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "districts",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/districts?filter=province.id==29&all=1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"districts"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "province.id==29"
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/districts/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"districts",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Orange\",\r\n    \"code\": \"112233\",\r\n    \"provinceId\": 5\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/districts",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"districts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Haill\",\r\n    \"code\": \"445533\",\r\n    \"provinceId\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/districts/30",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"districts",
+										"30"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/districts/27",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"districts",
+										"27"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY IDS",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[ 29, 30 ]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/districts",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"districts"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "provinces",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/provinces?all=1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"provinces"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/provinces/2",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"provinces",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Hanoi\",\r\n    \"code\": \"12345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/provinces",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"provinces"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"TPHCM\",\r\n    \"code\": \"11111\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/provinces/2",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"provinces",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/provinces/2",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"provinces",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY IDS",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[ 5, 6 ]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/provinces",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"provinces"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User APIs",
+			"item": [
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/users?filter=username==dnucator0",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "username==dnucator0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/users/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"users",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"ireis0\",\r\n    \"password\": \"exDmMVBE6Fw\",\r\n    \"fullname\": \"Izaak Reis\",\r\n    \"email\": \"ireis0@etsy.com\",\r\n    \"phone\": \"783-364-0929\",\r\n    \"gender\": \"F\",\r\n    \"address\": {\r\n        \"line\": \"63 John Street\",\r\n        \"provinceId\": 5,\r\n        \"districtId\": 10\r\n    },\r\n    \"avatar\": null,\r\n    \"status\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/users",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST WITH ROLES 1",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"ireis0\",\r\n    \"password\": \"exDmMVBE6Fw\",\r\n    \"fullname\": \"Izaak Reis\",\r\n    \"email\": \"ireis0@etsy.com\",\r\n    \"phone\": \"783-364-0929\",\r\n    \"gender\": \"F\",\r\n    \"address\": {\r\n        \"line\": \"63 John Street\",\r\n        \"provinceId\": 5,\r\n        \"districtId\": 10\r\n    },\r\n    \"avatar\": null,\r\n    \"status\": 2,\r\n    \"roles\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/users",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST WITH ROLES 2",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"ireis0\",\r\n    \"password\": \"exDmMVBE6Fw\",\r\n    \"fullname\": \"Izaak Reis\",\r\n    \"email\": \"ireis0@etsy.com\",\r\n    \"phone\": \"783-364-0929\",\r\n    \"gender\": \"F\",\r\n    \"address\": {\r\n        \"line\": \"63 John Street\",\r\n        \"provinceId\": 5,\r\n        \"districtId\": 10\r\n    },\r\n    \"avatar\": null,\r\n    \"status\": 2,\r\n    \"roles\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/users",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST WITH ROLES 3",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"ireis0\",\r\n    \"password\": \"exDmMVBE6Fw\",\r\n    \"fullname\": \"Izaak Reis\",\r\n    \"email\": \"ireis0@etsy.com\",\r\n    \"phone\": \"783-364-0929\",\r\n    \"gender\": \"F\",\r\n    \"address\": {\r\n        \"line\": \"63 John Street\",\r\n        \"provinceId\": 5,\r\n        \"districtId\": 10\r\n    },\r\n    \"avatar\": null,\r\n    \"status\": 2,\r\n    \"roles\": [\r\n        {\r\n            \"code\": \"USER\",\r\n            \"name\": \"Người dùng\",\r\n            \"status\": 1\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/users",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST WITH ROLES 4",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"ireis0\",\r\n    \"password\": \"exDmMVBE6Fw\",\r\n    \"fullname\": \"Izaak Reis\",\r\n    \"email\": \"ireis0@etsy.com\",\r\n    \"phone\": \"783-364-0929\",\r\n    \"gender\": \"F\",\r\n    \"address\": {\r\n        \"line\": \"63 John Street\",\r\n        \"provinceId\": 5,\r\n        \"districtId\": 10\r\n    },\r\n    \"avatar\": null,\r\n    \"status\": 2,\r\n    \"roles\": [\r\n        {\r\n            \"id\": 1\r\n        },\r\n        {\r\n            \"id\": 2\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/users",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST WITH ROLES 5",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"ireis0\",\r\n    \"password\": \"exDmMVBE6Fw\",\r\n    \"fullname\": \"Izaak Reis\",\r\n    \"email\": \"ireis0@etsy.com\",\r\n    \"phone\": \"783-364-0929\",\r\n    \"gender\": \"F\",\r\n    \"address\": {\r\n        \"line\": \"63 John Street\",\r\n        \"provinceId\": 5,\r\n        \"districtId\": 10\r\n    },\r\n    \"avatar\": null,\r\n    \"status\": 2,\r\n    \"roles\": [\r\n        {\r\n            \"id\": 1\r\n        },\r\n        {\r\n            \"id\": 2\r\n        },\r\n        {\r\n            \"code\": \"USER\",\r\n            \"name\": \"Người dùng\",\r\n            \"status\": 1\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/users",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"anothername\",\r\n    \"password\": \"exDmMVBE6Fw\",\r\n    \"fullname\": \"Izaak Reis\",\r\n    \"email\": \"anothername@etsy.com\",\r\n    \"phone\": \"783-364-0929\",\r\n    \"gender\": \"F\",\r\n    \"address\": {\r\n        \"line\": \"63 Another Street\",\r\n        \"provinceId\": 5,\r\n        \"districtId\": 12\r\n    },\r\n    \"avatar\": null,\r\n    \"status\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/users/21",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"users",
+										"21"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT WITH ROLES 1",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"anothername\",\r\n    \"password\": \"exDmMVBE6Fw\",\r\n    \"fullname\": \"Izaak Reis\",\r\n    \"email\": \"anothername@etsy.com\",\r\n    \"phone\": \"783-364-0929\",\r\n    \"gender\": \"F\",\r\n    \"address\": {\r\n        \"line\": \"63 Another Street\",\r\n        \"provinceId\": 5,\r\n        \"districtId\": 12\r\n    },\r\n    \"avatar\": null,\r\n    \"status\": 2,\r\n    \"roles\": [\r\n        {\r\n            \"id\": 1\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/users/21",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"users",
+										"21"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT WITH ROLES 2",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"anothername\",\r\n    \"password\": \"exDmMVBE6Fw\",\r\n    \"fullname\": \"Izaak Reis\",\r\n    \"email\": \"anothername@etsy.com\",\r\n    \"phone\": \"783-364-0929\",\r\n    \"gender\": \"F\",\r\n    \"address\": {\r\n        \"line\": \"63 Another Street\",\r\n        \"provinceId\": 5,\r\n        \"districtId\": 12\r\n    },\r\n    \"avatar\": null,\r\n    \"status\": 2,\r\n    \"roles\": [\r\n        {\r\n            \"code\": \"HELLO\",\r\n            \"name\": \"Hello\",\r\n            \"status\": 1\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/users/22",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"users",
+										"22"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/users/21",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"users",
+										"21"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY IDS",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[ 19, 20 ]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/users",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkbnVjYXRvcjAiLCJpYXQiOjE2NTU2NzQ2MzIsImV4cCI6MTY1NTY4NDcxMn0.x3qajq-IXCtuT6Fg5DUWoad-g517V-F7b67FobKHcn46rctPpPG-z5sKrzthDm78eel-gQLPVsP2sGvnrOyVWA",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "roles",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/roles",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"roles"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/roles/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"roles",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"code\": \"USER\",\r\n    \"name\": \"Người dùng\",\r\n    \"status\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/roles",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"roles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"code\": \"USER\",\r\n    \"name\": \"Người dùng 2\",\r\n    \"status\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/roles/4",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"roles",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/roles/4",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"roles",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY IDS",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[ 2, 3 ]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/roles",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"roles"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Employee APIs",
+			"item": [
+				{
+					"name": "_employees",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/employees",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"employees"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Customer APIs",
+			"item": [
+				{
+					"name": "_customers",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/customers",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"customers"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/customers/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"customers",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": {\r\n        \"username\": \"ireis0\",\r\n        \"password\": \"1\",\r\n        \"fullname\": \"Izaak Reis\",\r\n        \"email\": \"ireis0@etsy.com\",\r\n        \"phone\": \"783-364-0929\",\r\n        \"gender\": \"F\",\r\n        \"address\": {\r\n            \"line\": \"63 John Street\",\r\n            \"provinceId\": 5,\r\n            \"districtId\": 10\r\n        },\r\n        \"avatar\": null,\r\n        \"status\": 2,\r\n        \"roles\": [\r\n            {\r\n                \"id\": 1\r\n            },\r\n            {\r\n                \"id\": 2\r\n            }\r\n        ]\r\n    },\r\n    \"customerGroupId\": 5,\r\n    \"customerResourceId\": 5,\r\n    \"customerStatusId\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/customers",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"customers"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Product APIs",
+			"item": [
+				{
+					"name": "_products",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/products",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"products"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/products/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"products",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Laptop Dell Precision 7520\",\r\n    \"code\": \"DELL7520\",\r\n    \"slug\": \"dell-7520\",\r\n    \"status\": 2,\r\n    \"images\": [\r\n        {\r\n            \"name\": \"aaa\",\r\n            \"path\": \"aaa\",\r\n            \"contentType\": \"image/png\",\r\n            \"size\": 1000,\r\n            \"group\": \"P\",\r\n            \"isThumbnail\": true,\r\n            \"isEliminated\": false\r\n        },\r\n        {\r\n            \"name\": \"bbb\",\r\n            \"path\": \"bbb\",\r\n            \"contentType\": \"image/png\",\r\n            \"size\": 1000,\r\n            \"group\": \"P\",\r\n            \"isThumbnail\": false,\r\n            \"isEliminated\": false\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/products",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST with Variant(s)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Laptop Dell Precision 7520\",\r\n    \"code\": \"DELL7520\",\r\n    \"slug\": \"dell-7520\",\r\n    \"status\": 2,\r\n    \"images\": [],\r\n    \"variants\": [\r\n        {\r\n            \"sku\": \"AAA\",\r\n            \"cost\": 0,\r\n            \"price\": 0,\r\n            \"properties\": null,\r\n            \"images\": null,\r\n            \"status\": 1\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/products",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Laptop Dell Precision 7520\",\r\n    \"code\": \"DELL7520\",\r\n    \"slug\": \"dell-7520\",\r\n    \"status\": 3,\r\n    \"variants\": [],\r\n    \"imageList\": [\r\n        {\r\n            \"id\": 4,\r\n            \"name\": \"aaa\",\r\n            \"path\": \"aaa\",\r\n            \"contentType\": \"image/png\",\r\n            \"size\": 1000,\r\n            \"group\": \"P\",\r\n            \"isThumbnail\": false,\r\n            \"isEliminated\": false\r\n        },\r\n        {\r\n            \"id\": 5,\r\n            \"name\": \"bbb\",\r\n            \"path\": \"bbb\",\r\n            \"contentType\": \"image/png\",\r\n            \"size\": 1000,\r\n            \"group\": \"P\",\r\n            \"isThumbnail\": true,\r\n            \"isEliminated\": false\r\n        },\r\n        {\r\n            \"name\": \"ccc\",\r\n            \"path\": \"ccc\",\r\n            \"contentType\": \"image/png\",\r\n            \"size\": 1200,\r\n            \"group\": \"P\",\r\n            \"isThumbnail\": false,\r\n            \"isEliminated\": false\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/products/6",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"products",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT with Variant(s)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Laptop Dell Precision 7520\",\r\n    \"code\": \"DELL7520\",\r\n    \"slug\": \"dell-7520\",\r\n    \"status\": 3,\r\n    \"images\": [],\r\n    \"variants\": [\r\n        {\r\n            \"id\": 4,\r\n            \"sku\": \"AAA\",\r\n            \"cost\": 10000,\r\n            \"price\": 0,\r\n            \"properties\": null,\r\n            \"images\": null,\r\n            \"status\": 1\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/products/6",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"products",
+										"6"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "_categories",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/categories?filter=products.category.id=isnotnull=''",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"categories"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "products.category.id=isnotnull=''"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/categories/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"categories",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Desktop\",\r\n    \"slug\": \"desktop\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit\",\r\n    \"thumbnail\": null,\r\n    \"parentCategoryId\": 1,\r\n    \"status\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/categories",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Desktop\",\r\n    \"slug\": \"desktop-2\",\r\n    \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit\",\r\n    \"thumbnail\": null,\r\n    \"parentCategoryId\": 2,\r\n    \"status\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/categories/4",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"categories",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "brands",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/brands",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"brands"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/brands/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"brands",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Dell\",\r\n    \"code\": \"12345\",\r\n    \"description\": \"A short description\",\r\n    \"status\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/brands",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"brands"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Dell\",\r\n    \"code\": \"12345\",\r\n    \"description\": \"A short description\",\r\n    \"status\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/brands/2",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"brands",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/brands/2",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"brands",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY IDS",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[ 5, 6 ]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/brands",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"brands"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "_supplier",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/suppliers",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"suppliers"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"displayName\": \"Apple\",\r\n    \"code\": \"APL\",\r\n    \"status\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/suppliers",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"suppliers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"displayName\": \"Apple\",\r\n    \"code\": \"APL\",\r\n    \"address\": {\r\n        \"line\": \"null\",\r\n        \"provinceId\": null,\r\n        \"districtId\": null\r\n    },\r\n    \"status\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/suppliers/6",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"suppliers",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/suppliers/7",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"suppliers",
+										"7"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "_unit",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/units",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"units"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "_guarantees",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/guarantees",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"guarantees"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "_tags",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/tags",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"tags"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "_property",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/properties",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"properties"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "_specifications",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/specifications",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"specifications"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "_variants",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/variants",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"variants"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET ALL search",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/variants?search=063",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"variants"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "063"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/variants/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"variants",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Inventory APIs",
+			"item": [
+				{
+					"name": "destinations",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/destinations",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"destinations"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/destinations/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"destinations",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"contactFullname\": null,\r\n    \"contactEmail\": null,\r\n    \"contactPhone\": null,\r\n    \"address\": {\r\n        \"line\": \"Số 62 Đường Nguyễn Duy Trinh, Quận 2\",\r\n        \"provinceId\": 1,\r\n        \"districtId\": 1\r\n    },\r\n    \"status\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/destinations",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"destinations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"contactFullname\": \"Nick Abak\",\r\n    \"contactEmail\": \"nick123@gmail.com\",\r\n    \"contactPhone\": null,\r\n    \"address\": {\r\n        \"line\": \"Số 62 Đường Nguyễn Duy Trinh, Thủ Đức\",\r\n        \"provinceId\": 1,\r\n        \"districtId\": 1\r\n    },\r\n    \"status\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/destinations/5",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"destinations",
+										"5"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "docket-reasons",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/docket-reasons",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"docket-reasons"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/docket-reasons/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"docket-reasons",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Hàng thất thoát\",\r\n    \"status\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/docket-reasons",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"docket-reasons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Hàng thất thoát 2\",\r\n    \"status\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/docket-reasons/7",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"docket-reasons",
+										"7"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "warehouses",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/warehouses",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"warehouses"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/warehouses/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"warehouses",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"code\": \"WARE-D\",\r\n    \"name\": \"Kho D\",\r\n    \"address\": {\r\n        \"line\": \"Số 1 Nguyễn Huệ\",\r\n        \"provinceId\": 1,\r\n        \"districtId\": 1\r\n    },\r\n    \"status\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/warehouses",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"warehouses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"code\": \"WARE-D1\",\r\n    \"name\": \"Kho D1\",\r\n    \"address\": {\r\n        \"line\": \"Số 2 Nguyễn Huệ\",\r\n        \"provinceId\": 2,\r\n        \"districtId\": 1\r\n    },\r\n    \"status\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/warehouses/4",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"warehouses",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/warehouses/4",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"warehouses",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "storage-locations",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/storage-locations",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"storage-locations"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/storage-locations/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"storage-locations",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"warehouseId\": 3,\r\n    \"variantId\": 3,\r\n    \"name\": \"Kệ 3 Hàng 4\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/storage-locations",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"storage-locations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"warehouseId\": 1,\r\n    \"variantId\": 3,\r\n    \"name\": \"Kệ 3 Hàng 5\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/storage-locations/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"storage-locations",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/storage-locations/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"storage-locations",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "variant-inventory-limits",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/variant-inventory-limits",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"variant-inventory-limits"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/variant-inventory-limits/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"variant-inventory-limits",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"variantId\": 3,\r\n    \"minimumLimit\": null,\r\n    \"maximumLimit\": 30\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/variant-inventory-limits",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"variant-inventory-limits"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"variantId\": 3,\r\n    \"minimumLimit\": null,\r\n    \"maximumLimit\": 45\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/variant-inventory-limits/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"variant-inventory-limits",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/variant-inventory-limits/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"variant-inventory-limits",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "product-inventory-limits",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/product-inventory-limits",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"product-inventory-limits"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/product-inventory-limits/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"product-inventory-limits",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 3,\r\n    \"minimumLimit\": null,\r\n    \"maximumLimit\": 30\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/product-inventory-limits",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"product-inventory-limits"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 3,\r\n    \"minimumLimit\": null,\r\n    \"maximumLimit\": 45\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/product-inventory-limits/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"product-inventory-limits",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/product-inventory-limits/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"product-inventory-limits",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "counts",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/counts",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"counts"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/counts/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"counts",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"code\": \"DEF\",\r\n    \"warehouseId\": 1,\r\n    \"countVariants\": [\r\n        {\r\n            \"variantId\": 1,\r\n            \"inventory\": 10,\r\n            \"actualInventory\": 12\r\n        },\r\n        {\r\n            \"variantId\": 2,\r\n            \"inventory\": 10,\r\n            \"actualInventory\": 12\r\n        }\r\n    ],\r\n    \"note\": null,\r\n    \"status\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/counts",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"counts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"code\": \"DEFFFF\",\r\n    \"warehouseId\": 1,\r\n    \"countVariants\": [\r\n        {\r\n            \"variantId\": 1,\r\n            \"inventory\": 5,\r\n            \"actualInventory\": 25\r\n        },\r\n        {\r\n            \"variantId\": 2,\r\n            \"inventory\": 2,\r\n            \"actualInventory\": 1\r\n        },\r\n        {\r\n            \"variantId\": 3,\r\n            \"inventory\": 2,\r\n            \"actualInventory\": 33\r\n        }\r\n    ],\r\n    \"note\": null,\r\n    \"status\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/counts/6",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"counts",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/counts/6",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"counts",
+										"6"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "count-variants",
+					"item": [
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/count-variants/1/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"count-variants",
+										"1",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY IDS",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"countId\": 1,\r\n        \"variantId\": 2\r\n    },\r\n    {\r\n        \"countId\": 1,\r\n        \"variantId\": 3\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/count-variants",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"count-variants"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "purchase-orders",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/purchase-orders",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"purchase-orders"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/purchase-orders/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"purchase-orders",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"code\": \"DEF\",\r\n    \"supplierId\": 1,\r\n    \"purchaseOrderVariants\": [\r\n        {\r\n            \"variantId\": 1,\r\n            \"cost\": 50000,\r\n            \"quantity\": 1,\r\n            \"amount\": 50000\r\n        },\r\n        {\r\n            \"variantId\": 2,\r\n            \"cost\": 25000,\r\n            \"quantity\": 2,\r\n            \"amount\": 50000\r\n        }\r\n    ],\r\n    \"destinationId\": 1,\r\n    \"totalAmount\": 100000,\r\n    \"note\": null,\r\n    \"status\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/purchase-orders",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"purchase-orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"code\": \"DEF44\",\r\n    \"supplierId\": 2,\r\n    \"purchaseOrderVariants\": [\r\n        {\r\n            \"variantId\": 1,\r\n            \"cost\": 50000,\r\n            \"quantity\": 1,\r\n            \"amount\": 50000\r\n        },\r\n        {\r\n            \"variantId\": 2,\r\n            \"cost\": 25000,\r\n            \"quantity\": 4,\r\n            \"amount\": 100000\r\n        },\r\n        {\r\n            \"variantId\": 3,\r\n            \"cost\": 25000,\r\n            \"quantity\": 4,\r\n            \"amount\": 100000\r\n        }\r\n    ],\r\n    \"destinationId\": 1,\r\n    \"totalAmount\": 250000,\r\n    \"note\": \"Hello\",\r\n    \"status\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/purchase-orders/6",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"purchase-orders",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/purchase-orders/6",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"purchase-orders",
+										"6"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "purchase-order-variants",
+					"item": [
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/purchase-order-variants/6/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"purchase-order-variants",
+										"6",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY IDS",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"purchaseOrderId\": 6,\r\n        \"variantId\": 2\r\n    },\r\n    {\r\n        \"purchaseOrderId\": 6,\r\n        \"variantId\": 3\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/purchase-order-variants",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"purchase-order-variants"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "dockets",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/dockets",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"dockets"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/dockets/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"dockets",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\": 1,\r\n    \"code\": \"ABC\",\r\n    \"reasonId\": 1,\r\n    \"warehouseId\": 1,\r\n    \"docketVariants\": [\r\n        {\r\n            \"variantId\": 1,\r\n            \"quantity\": 10\r\n        },\r\n        {\r\n            \"variantId\": 2,\r\n            \"quantity\": 20\r\n        }\r\n    ],\r\n    \"purchaseOrderId\": null,\r\n    \"orderId\": null,\r\n    \"note\": null,\r\n    \"status\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/dockets",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"dockets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\": 1,\r\n    \"code\": \"ABCEF\",\r\n    \"reasonId\": 1,\r\n    \"warehouseId\": 1,\r\n    \"docketVariants\": [\r\n        {\r\n            \"variantId\": 1,\r\n            \"quantity\": 10\r\n        },\r\n        {\r\n            \"variantId\": 2,\r\n            \"quantity\": 25\r\n        },\r\n        {\r\n            \"variantId\": 3,\r\n            \"quantity\": 15\r\n        }\r\n    ],\r\n    \"purchaseOrderId\": null,\r\n    \"orderId\": null,\r\n    \"note\": \"Hello\",\r\n    \"status\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/dockets/7",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"dockets",
+										"7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/dockets/5",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"dockets",
+										"5"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "docket-variants",
+					"item": [
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/docket-variants/7/2",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"docket-variants",
+										"7",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY IDS",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"docketId\": 7,\r\n        \"variantId\": 1\r\n    },\r\n    {\r\n        \"docketId\": 7,\r\n        \"variantId\": 3\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/docket-variants",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"docket-variants"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "transfers",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/transfers",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"transfers"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/transfers/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"transfers",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"code\": \"ABC\",\r\n    \"exportDocket\": {\r\n        \"type\": 2,\r\n        \"code\": \"EXPORT-ABC\",\r\n        \"reasonId\": 2,\r\n        \"warehouseId\": 1,\r\n        \"docketVariants\": [\r\n            {\r\n                \"variantId\": 1,\r\n                \"quantity\": 10\r\n            },\r\n            {\r\n                \"variantId\": 2,\r\n                \"quantity\": 20\r\n            }\r\n        ],\r\n        \"purchaseOrderId\": null,\r\n        \"orderId\": null,\r\n        \"note\": null,\r\n        \"status\": 1\r\n    },\r\n    \"importDocket\": {\r\n        \"type\": 1,\r\n        \"code\": \"IMPORT-ABC\",\r\n        \"reasonId\": 1,\r\n        \"warehouseId\": 2,\r\n        \"docketVariants\": [\r\n            {\r\n                \"variantId\": 1,\r\n                \"quantity\": 10\r\n            },\r\n            {\r\n                \"variantId\": 2,\r\n                \"quantity\": 20\r\n            }\r\n        ],\r\n        \"purchaseOrderId\": null,\r\n        \"orderId\": null,\r\n        \"note\": null,\r\n        \"status\": 1\r\n    },\r\n    \"note\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/transfers",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"transfers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"code\": \"ABCDE\",\r\n    \"exportDocket\": {\r\n        \"type\": 2,\r\n        \"code\": \"EXPORT-ABC\",\r\n        \"reasonId\": 2,\r\n        \"warehouseId\": 1,\r\n        \"docketVariants\": [\r\n            {\r\n                \"variantId\": 1,\r\n                \"quantity\": 10\r\n            },\r\n            {\r\n                \"variantId\": 2,\r\n                \"quantity\": 15\r\n            },\r\n            {\r\n                \"variantId\": 3,\r\n                \"quantity\": 20\r\n            }\r\n        ],\r\n        \"purchaseOrderId\": null,\r\n        \"orderId\": null,\r\n        \"note\": null,\r\n        \"status\": 1\r\n    },\r\n    \"importDocket\": {\r\n        \"type\": 1,\r\n        \"code\": \"IMPORT-ABC\",\r\n        \"reasonId\": 1,\r\n        \"warehouseId\": 2,\r\n        \"docketVariants\": [\r\n            {\r\n                \"variantId\": 1,\r\n                \"quantity\": 10\r\n            },\r\n            {\r\n                \"variantId\": 2,\r\n                \"quantity\": 15\r\n            },\r\n            {\r\n                \"variantId\": 3,\r\n                \"quantity\": 20\r\n            }\r\n        ],\r\n        \"purchaseOrderId\": null,\r\n        \"orderId\": null,\r\n        \"note\": null,\r\n        \"status\": 1\r\n    },\r\n    \"note\": \"Hello\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/transfers/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"transfers",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/transfers/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"transfers",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "inventories",
+					"item": [
+						{
+							"name": "getProductInventories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/product-inventories",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"product-inventories"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "hello",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getVariantInventories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/variant-inventories",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"variant-inventories"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "hello",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getVariantInventory",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/variant-inventories/2",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"variant-inventories",
+										"2"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "hello",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Order APIs",
+			"item": [
+				{
+					"name": "order-resources",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/order-resources",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"order-resources"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/order-resources/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"order-resources",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"code\": \"TWT\",\r\n    \"name\": \"Twitter\",\r\n    \"color\": \"Lime\",\r\n    \"customerResourceId\": null,\r\n    \"status\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/order-resources",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"order-resources"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"code\": \"TWR\",\r\n    \"name\": \"Twitter\",\r\n    \"color\": \"Red\",\r\n    \"customerResourceId\": null,\r\n    \"status\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/order-resources/6",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"order-resources",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/order-resources/6",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"order-resources",
+										"6"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "order-cancellation-reasons",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/order-cancellation-reasons",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"order-cancellation-reasons"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/order-cancellation-reasons/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"order-cancellation-reasons",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Giao hàng có vấn đề\",\r\n    \"note\": null,\r\n    \"status\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/order-cancellation-reasons",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"order-cancellation-reasons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Giao hàng có vấn đề\",\r\n    \"note\": \"A short note.\",\r\n    \"status\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/order-cancellation-reasons/6",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"order-cancellation-reasons",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/order-cancellation-reasons/6",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"order-cancellation-reasons",
+										"6"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "orders",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/orders",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"orders"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/orders/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"orders",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"code\": \"ABC\",\r\n    \"status\": 1,\r\n    \"toName\": \"Đăng\",\r\n    \"toPhone\": \"0919944601\",\r\n    \"toAddress\": \"10 Nguyễn Huệ\",\r\n    \"toWardName\": \"Phường Đa Kao\",\r\n    \"toDistrictName\": \"Quận 1\",\r\n    \"toProvinceName\": \"Thành phố Hồ Chí Minh\",\r\n    \"orderResourceId\": 1,\r\n    \"orderCancellationReasonId\": null,\r\n    \"note\": null,\r\n    \"userId\": 1,\r\n    \"orderVariants\": [\r\n        {\r\n            \"variantId\": 1,\r\n            \"price\": 100000,\r\n            \"quantity\": 2,\r\n            \"amount\": 200000\r\n        },\r\n        {\r\n            \"variantId\": 2,\r\n            \"price\": 200000,\r\n            \"quantity\": 2,\r\n            \"amount\": 400000\r\n        }\r\n    ],\r\n    \"totalAmount\": 600000,\r\n    \"tax\": 0.1,\r\n    \"shippingCost\": 40000,\r\n    \"totalPay\": 700000,\r\n    \"paymentMethodType\": \"CASH\",\r\n    \"paymentStatus\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/orders",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"code\": \"ABCDE\",\r\n    \"status\": 2,\r\n    \"orderResourceId\": 1,\r\n    \"orderCancellationReasonId\": null,\r\n    \"note\": \"Hello\",\r\n    \"customerId\": 1,\r\n    \"orderVariants\": [\r\n        {\r\n            \"variantId\": 1,\r\n            \"price\": 100000,\r\n            \"quantity\": 2,\r\n            \"amount\": 200000\r\n        },\r\n        {\r\n            \"variantId\": 2,\r\n            \"price\": 200000,\r\n            \"quantity\": 1,\r\n            \"amount\": 200000\r\n        },\r\n        {\r\n            \"variantId\": 3,\r\n            \"price\": 200000,\r\n            \"quantity\": 1,\r\n            \"amount\": 200000\r\n        }\r\n    ],\r\n    \"totalAmount\": 600000,\r\n    \"tax\": 0.1,\r\n    \"shippingCost\": 40000,\r\n    \"totalPay\": 700000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/orders/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"orders",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/orders/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"orders",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "order-variants",
+					"item": [
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/order-variants/3/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"order-variants",
+										"3",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY IDS",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"orderId\": 3,\r\n        \"variantId\": 2\r\n    },\r\n    {\r\n        \"orderId\": 3,\r\n        \"variantId\": 3\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/order-variants",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"order-variants"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Review APIs",
+			"item": [
+				{
+					"name": "reviews",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/reviews",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"reviews"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/reviews/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"reviews",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 3,\r\n    \"productId\": 3,\r\n    \"ratingScore\": 4,\r\n    \"content\": \"Test comment review.\",\r\n    \"reply\": null,\r\n    \"status\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/reviews",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"reviews"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 4,\r\n    \"productId\": 2,\r\n    \"ratingScore\": 4,\r\n    \"content\": \"Test comment review. aaa\",\r\n    \"reply\": null,\r\n    \"status\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/reviews/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"reviews",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/reviews/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"reviews",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Client APIs",
+			"item": [
+				{
+					"name": "User APIs",
+					"item": [
+						{
+							"name": "getUserInfo",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdHJlYXQzIiwiaWF0IjoxNjczNjk5NDIxLCJleHAiOjE2NzM3MDk1MDF9.Aq6m4yreXw26TRC2PmgSfXwyoJbSEKhzPFzSRqterm8q72h1IAA5ZRfDLYroSX-ux5igL8Ggpg4dg-8e2Za6zg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/users/info",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"users",
+										"info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updatePersonalSetting",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdHJlYXQzIiwiaWF0IjoxNjc0Nzk3Njg3LCJleHAiOjE2NzQ4MDc3Njd9.qHqFru3aci33qy_KCnOZTDVXdY7mUNUXLXae0XrDcrtIyXVphq9lQU_Lqj51Ae9qXb1TsBkq_2kri3sJSCddGw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": null,\r\n    \"fullname\": \"Hello 123\",\r\n    \"gender\": null,\r\n    \"address\": {\r\n        \"line\": \"3918 Bashford Junctio\",\r\n        \"provinceId\": 1,\r\n        \"districtId\": 1\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro-home}}/client-api/users/personal",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"users",
+										"personal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updatePhoneSetting",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdHJlYXQzIiwiaWF0IjoxNjc0ODA5NDE3LCJleHAiOjE2NzQ4MTk0OTd9.Zw9zkqyoYZMj6wGkfoWjO_34lEpJ5PY7j_EEzbBKbODse3kUCtAi0YTREwMSToM1kalegg_QB7yLsM2-0dM35w",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"phone\": \"0919944601\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro-home}}/client-api/users/phone",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"users",
+										"phone"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateEmailSetting",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdHJlYXQzIiwiaWF0IjoxNjc0ODA5NDE3LCJleHAiOjE2NzQ4MTk0OTd9.Zw9zkqyoYZMj6wGkfoWjO_34lEpJ5PY7j_EEzbBKbODse3kUCtAi0YTREwMSToM1kalegg_QB7yLsM2-0dM35w",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"dtreat3@nymag.co\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro-home}}/client-api/users/email",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"users",
+										"email"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updatePasswordSetting",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdHJlYXQzIiwiaWF0IjoxNjc0ODM1MzgzLCJleHAiOjE2NzQ4NDU0NjN9.5Su1K4EgxrCgLFwqFXy5IGjXINopkiXEVDRpGKdnhUY1SUHEwxR_p-u_1TkM-Q9zcKVUuZaaU-s0VtsDZb0eJg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"oldPassword\": \"2\",\r\n    \"newPassword\": \"2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro-home}}/client-api/users/password",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"users",
+										"password"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Product APIs",
+					"item": [
+						{
+							"name": "getProduct",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/products/ealdus0",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"products",
+										"ealdus0"
+									],
+									"query": [
+										{
+											"key": "saleable",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "highest-price",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "sour",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "category.slug==tu-lanh;brand.id=in=(5,6)",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllProducts",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/products?newable=1&page=1&size=9",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"products"
+									],
+									"query": [
+										{
+											"key": "saleable",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "highest-price",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "sour",
+											"disabled": true
+										},
+										{
+											"key": "newable",
+											"value": "1"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "size",
+											"value": "9"
+										},
+										{
+											"key": "filter",
+											"value": "category.slug==tu-lanh;brand.id=in=(5,6)",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Category APIs",
+					"item": [
+						{
+							"name": "getAllCategories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/categories",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getCategory",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdHJlYXQzIiwiaWF0IjoxNjczNjk5NDIxLCJleHAiOjE2NzM3MDk1MDF9.Aq6m4yreXw26TRC2PmgSfXwyoJbSEKhzPFzSRqterm8q72h1IAA5ZRfDLYroSX-ux5igL8Ggpg4dg-8e2Za6zg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/categories/laptop",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"categories",
+										"laptop"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Filter APIs",
+					"item": [
+						{
+							"name": "getFilterByCategorySlug",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/filters/category?slug=tu-lanh",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"filters",
+										"category"
+									],
+									"query": [
+										{
+											"key": "slug",
+											"value": "tu-lanh"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getFilterBySearchQuery",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/filters/search?query=sour",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"filters",
+										"search"
+									],
+									"query": [
+										{
+											"key": "query",
+											"value": "sour"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Wish APIs",
+					"item": [
+						{
+							"name": "getAllWishes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdHJlYXQzIiwiaWF0IjoxNjc1MTc0NzA4LCJleHAiOjE2NzUxODQ3ODh9.Vy6AczPqa4QkergdBCCwLnPvmm_cl2klQWSy8mejy8lFuOlr3H5F7hSrol5MH0HIrTvmjeijZoP6broaqnbn-w",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/wishes",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"wishes"
+									],
+									"query": [
+										{
+											"key": "filter",
+											"value": "user.id==4",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createWish",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdHJlYXQzIiwiaWF0IjoxNjc1MTY0MjI0LCJleHAiOjE2NzUxNzQzMDR9.0ynSV6oZmC0Z3x8KQCCfkd5rfeInIgrMSzBWg4KRNowfqHUV4K-0uDCcb7JJLqk54EHIit6pTpZIayCchMJAfQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 4,\r\n    \"productId\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro-home}}/client-api/wishes",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"wishes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteWishes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdHJlYXQzIiwiaWF0IjoxNjc1MDkxODYwLCJleHAiOjE2NzUxMDE5NDB9.goj37nzIS6--2Z5l5xoyj9I4RbiE5YSoacIDAFkFg9dWvLD9AraEhYqbjcEF_f1o2hO8s3hUcRGv38RThEC8gw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[ 2 ]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro-home}}/client-api/wishes",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"wishes"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Preorder APIs",
+					"item": [
+						{
+							"name": "getAllPreorders",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdHJlYXQzIiwiaWF0IjoxNjc1MjY0NTgyLCJleHAiOjE2NzUyNzQ2NjJ9.l0NQw9fXm5gP-DfyEMAJYgH19oo_cyM4HEZrc8TozzZeYznzbar39dQZpu5ra8LMBUPnzOm_kqE3D3YE7RqvJw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/preorders",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"preorders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createPreorder",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdHJlYXQzIiwiaWF0IjoxNjc1MjY0NTgyLCJleHAiOjE2NzUyNzQ2NjJ9.l0NQw9fXm5gP-DfyEMAJYgH19oo_cyM4HEZrc8TozzZeYznzbar39dQZpu5ra8LMBUPnzOm_kqE3D3YE7RqvJw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 4,\r\n    \"productId\": 3,\r\n    \"status\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro-home}}/client-api/preorders",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"preorders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updatePreorder",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdHJlYXQzIiwiaWF0IjoxNjc1MjY0NTgyLCJleHAiOjE2NzUyNzQ2NjJ9.l0NQw9fXm5gP-DfyEMAJYgH19oo_cyM4HEZrc8TozzZeYznzbar39dQZpu5ra8LMBUPnzOm_kqE3D3YE7RqvJw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 4,\r\n    \"productId\": 3,\r\n    \"status\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro-home}}/client-api/preorders",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"preorders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deletePreorders",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdHJlYXQzIiwiaWF0IjoxNjc1MjY0NTgyLCJleHAiOjE2NzUyNzQ2NjJ9.l0NQw9fXm5gP-DfyEMAJYgH19oo_cyM4HEZrc8TozzZeYznzbar39dQZpu5ra8LMBUPnzOm_kqE3D3YE7RqvJw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[ 1 ]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro-home}}/client-api/preorders",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"preorders"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Notification APIs",
+					"item": [
+						{
+							"name": "getAllNotifications",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/notifications",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"notifications"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "initNotificationEvents",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/notifications/init-events",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"notifications",
+										"init-events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "subscribeNotificationEvents",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/notifications/events?eventSourceUuid=4cfe25b0-432e-4d05-b336-30c47e36453d",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"notifications",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventSourceUuid",
+											"value": "4cfe25b0-432e-4d05-b336-30c47e36453d"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateNotification",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 4,\r\n    \"type\": \"PREORDER\",\r\n    \"message\": \"Hello\",\r\n    \"anchor\": null,\r\n    \"status\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro-home}}/client-api/notifications/1",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"notifications",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pushNotification",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 4,\r\n    \"type\": \"CHECKOUT_PAYPAL_SUCCESS\",\r\n    \"message\": \"Hello\",\r\n    \"anchor\": \"sss\",\r\n    \"status\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro-home}}/client-api/notifications/push-events",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"notifications",
+										"push-events"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Review APIs",
+					"item": [
+						{
+							"name": "getAllReviewsByProduct",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/reviews/products/ealdus0?filter=status==2",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"reviews",
+										"products",
+										"ealdus0"
+									],
+									"query": [
+										{
+											"key": "filter",
+											"value": "status==2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllReviewsByUser",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/reviews",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"reviews"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createReview",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 3,\r\n    \"productId\": 1,\r\n    \"ratingScore\": 5,\r\n    \"content\": \"Good\",\r\n    \"status\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro-home}}/client-api/reviews",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"reviews"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateReview",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 4,\r\n    \"productId\": 2,\r\n    \"ratingScore\": 4,\r\n    \"content\": \"Goodkkk\",\r\n    \"status\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro-home}}/client-api/reviews/2",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"reviews",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteReviews",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[ 2 ]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro-home}}/client-api/reviews",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"reviews"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Cart APIs",
+					"item": [
+						{
+							"name": "getCart",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/carts",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"carts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "saveCart",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cartId\": 2,\r\n    \"userId\": 4,\r\n    \"cartItems\": [\r\n        {\r\n            \"variantId\": 1,\r\n            \"quantity\": 2\r\n        },\r\n        {\r\n            \"variantId\": 2,\r\n            \"quantity\": 1\r\n        }\r\n    ],\r\n    \"status\": 1,\r\n    \"updateQuantityType\": \"OVERRIDE\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro-home}}/client-api/carts",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"carts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteCartItems",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"cartId\": 1,\r\n        \"variantId\": 1\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro-home}}/client-api/carts",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"carts"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Order APIs",
+					"item": [
+						{
+							"name": "getAllOrders",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/orders",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getOrder",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/orders/68400-107",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"orders",
+										"68400-107"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Reward APIs",
+					"item": [
+						{
+							"name": "getReward",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt-token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro-home}}/client-api/rewards",
+									"host": [
+										"{{electro-home}}"
+									],
+									"path": [
+										"client-api",
+										"rewards"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Promotion APIs",
+			"item": [
+				{
+					"name": "promotions",
+					"item": [
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Khuyến mãi tháng 2\",\r\n    \"startDate\": \"2021-01-08T18:26:39.503189400Z\",\r\n    \"endDate\": \"2021-01-10T18:26:39.503189400Z\",\r\n    \"percent\": 10,\r\n    \"status\": 1,\r\n    \"productIds\": [\r\n        2\r\n    ],\r\n    \"categoryIds\": [ 2 ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/promotions",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"promotions"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Chat APIs",
+			"item": [
+				{
+					"name": "GET ALL message",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{electro}}/messages",
+							"host": [
+								"{{electro}}"
+							],
+							"path": [
+								"messages"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "id,asc",
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": "room.id==3",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "all",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL room",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{electro}}/rooms?sort=updatedAt,asc",
+							"host": [
+								"{{electro}}"
+							],
+							"path": [
+								"rooms"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "updatedAt,asc"
+								},
+								{
+									"key": "filter",
+									"value": "id>2",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "all",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Waybill APIs",
+			"item": [
+				{
+					"name": "callbackStatusWaybillFromGHN",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderCode\": \"LLVFYF\",\r\n    \"shopID\": 121327,\r\n    \"status\": \"delivered\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{electro}}/waybills/callback-ghn",
+							"host": [
+								"{{electro}}"
+							],
+							"path": [
+								"waybills",
+								"callback-ghn"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RewardStrategy APIs",
+			"item": [
+				{
+					"name": "reward-strategies",
+					"item": [
+						{
+							"name": "GET ALL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/reward-strategies",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"reward-strategies"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "sort",
+											"value": "id,asc",
+											"disabled": true
+										},
+										{
+											"key": "filter",
+											"value": "id>2",
+											"disabled": true
+										},
+										{
+											"key": "search",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "all",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BY ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/reviews/1",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"reviews",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 3,\r\n    \"productId\": 3,\r\n    \"ratingScore\": 4,\r\n    \"content\": \"Test comment review.\",\r\n    \"reply\": null,\r\n    \"status\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/reviews",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"reviews"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 4,\r\n    \"productId\": 2,\r\n    \"ratingScore\": 4,\r\n    \"content\": \"Test comment review. aaa\",\r\n    \"reply\": null,\r\n    \"status\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{electro}}/reviews/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"reviews",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE BY ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{electro}}/reviews/3",
+									"host": [
+										"{{electro}}"
+									],
+									"path": [
+										"reviews",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "electro",
+			"value": "http://localhost:8085/api",
+			"type": "default"
+		},
+		{
+			"key": "electro-home",
+			"value": "http://localhost:8085",
+			"type": "default"
+		},
+		{
+			"key": "jwt-token",
+			"value": ""
+		}
+	]
+}
