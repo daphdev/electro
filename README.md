@@ -13,7 +13,7 @@ Hệ thống được thiết kế để phục vụ nhu cầu sử dụng của
 Ngoài ra, hệ thống còn có sự tham gia của 2 actor phụ là dịch vụ của Giao Hàng Nhanh và PayPal để phục vụ các chức năng giao hàng và thanh toán.
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/60851390/228506277-f6f4311c-eb2a-4b8f-8d30-94b9c37b140e.png" alt="Actors" width="50%" />
+  <img src="https://user-images.githubusercontent.com/60851390/228506277-f6f4311c-eb2a-4b8f-8d30-94b9c37b140e.png" alt="Actors" width="650" />
   <br>
   <em>Actors</em>
 </p>
@@ -25,7 +25,7 @@ Hệ thống được xây dựng để giải quyết nhu cầu bán hàng tr�
 Yêu cầu của công ty là phải có một website phía khách hàng để họ có thể tương tác với hệ thống, thực hiện những chức năng cơ bản của thương mại điện tử như thêm sản phẩm vào giỏ hàng, đăng ký tài khoản, cập nhật hồ sơ cá nhân, v.v.; đồng thời cũng phải có một website quản trị để điều phối hoạt động của công ty một cách toàn diện, từ việc quản lý nhân viên, khách hàng, đến quản lý sản phẩm, sự lưu thông hàng hóa ở kho bãi, đơn hàng, vận đơn, kiểm duyệt đánh giá, thiết lập các chương trình khuyến mãi, v.v.
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/60851390/228513937-7f7c3233-ced4-4890-8a7c-b508321ac645.png" alt="Use Case Diagram" width="600" />
+  <img src="https://user-images.githubusercontent.com/60851390/228513937-7f7c3233-ced4-4890-8a7c-b508321ac645.png" alt="Use Case Diagram" width="750" />
   <br>
   <em>Use Case Diagram</em>
 </p>
@@ -77,3 +77,17 @@ Ngoài ra, hệ thống còn tương tác với các dịch vụ bên thứ ba, 
   <br>
   <em>System Architecture</em>
 </p>
+
+# Sản phẩm
+
+Một số trang của hệ thống.
+
+| (1)                                                                                                                                                              | (2)                                                                                                                                                             | (3)                                                                                                                                                   |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://user-images.githubusercontent.com/60851390/228552934-8c0a77ce-4173-4854-a69b-d268878754c2.png" alt="Home" width="200" />                       | <img src="https://user-images.githubusercontent.com/60851390/228553162-d6cc3a14-bc91-409c-ae1d-3aff0fad975f.png" alt="Signup" width="200" />                    | <img src="https://user-images.githubusercontent.com/60851390/228553270-7490017e-d50f-480e-b22e-9f22baced026.png" alt="Signin" width="200" />          |
+| <img src="https://user-images.githubusercontent.com/60851390/228553362-fddb775a-76b3-456a-b4d8-f1d177434ec5.png" alt="Category" width="200" />                   | <img src="https://user-images.githubusercontent.com/60851390/228553492-fd7edbd3-be27-4222-bd19-a4069601d9e6.png" alt="Product" width="200" />                   | <img src="https://user-images.githubusercontent.com/60851390/228553615-bd4a25a6-ab6b-45d0-8209-32b46dc9e0b3.png" alt="Cart" width="200" />            |
+| <img src="https://user-images.githubusercontent.com/60851390/228553691-cce482ef-882f-4266-89f1-882bbe8d1b90.png" alt="Order" width="200" />                      | <img src="https://user-images.githubusercontent.com/60851390/228553802-42dabbeb-99c6-4e6e-a1a2-ef57f3b8e42d.png" alt="Order Detail" width="200" />              | <img src="https://user-images.githubusercontent.com/60851390/228553894-18b8ff15-456f-43fa-9867-63ddac0885e5.png" alt="Review History" width="200" />  |
+| <img src="https://user-images.githubusercontent.com/60851390/228554010-b77b017e-fa90-4b1d-97b3-92ebb207b0df.png" alt="Wishlist" width="200" />                   | <img src="https://user-images.githubusercontent.com/60851390/228554079-e3135f4c-b47c-4c8d-963c-19b66add7f3c.png" alt="Preorder List" width="200" />             | <img src="https://user-images.githubusercontent.com/60851390/228554193-bca6c7ad-c91c-4f76-81f2-74878eae892b.png" alt="User Info" width="200" />       |
+| <img src="https://user-images.githubusercontent.com/60851390/228554293-4347900e-9f1c-4fc5-8553-c34cfd5e2a44.png" alt="Chat" width="200" />                       | <img src="https://user-images.githubusercontent.com/60851390/228554361-bb8bad88-785a-4fcf-9c40-b8ab7822bb8c.png" alt="Reward" width="200" />                    | <img src="https://user-images.githubusercontent.com/60851390/228554448-bd0370c4-7f47-43c6-8d66-fddd0f6edfe8.png" alt="Admin Dashboard" width="200" /> |
+| <img src="https://user-images.githubusercontent.com/60851390/228554679-1fc21a64-3c40-4e1c-af9a-18721858585f.png" alt="Product Management" width="200" />         | <img src="https://user-images.githubusercontent.com/60851390/228554808-1bfd19d8-ac8e-411d-b4fd-f9a5ada5abd0.png" alt="Create Product" width="200" />            | <img src="https://user-images.githubusercontent.com/60851390/228554912-a5cfb008-5a2b-4874-84ca-946b4af9a4e3.png" alt="Update Order" width="200" />    |
+| <img src="https://user-images.githubusercontent.com/60851390/228555024-989a3cf5-e9ba-4ee8-b41e-c65ba329769f.png" alt="Reward Strategy Management" width="200" /> | <img src="https://user-images.githubusercontent.com/60851390/228555174-a1ee47ac-1376-4fa5-bc49-0db6f3a38693.png" alt="Payment Method Management" width="200" /> | <img src="https://user-images.githubusercontent.com/60851390/228555319-ae53734c-32b3-417b-8054-1c4d55e41558.png" alt="Admin Chat" width="200" />      |
