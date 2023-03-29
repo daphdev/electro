@@ -53,7 +53,7 @@ Hệ thống gồm có 57 lớp chính, được chia thành 13 nhóm.
 Cơ sở dữ liệu của hệ thống gồm có 60 bảng.
 
 <p align="center" style="background-color: white;">
-  <img src="https://user-images.githubusercontent.com/60851390/228530802-146787fa-8d88-42e0-b95e-3452ddb1b40e.svg" alt="Database Diagram" />
+  <img src="https://user-images.githubusercontent.com/60851390/228535444-d4945691-af6d-4514-b8bb-ae670fac7618.svg" alt="Database Diagram" />
   <br>
   <em>Database Diagram</em>
 </p>
